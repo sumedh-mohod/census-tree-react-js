@@ -12,20 +12,27 @@ const navConfig = [
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
-    title: 'user',
+    title: 'users',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
   },
   {
-    title: 'product',
+    title: 'Master',
     path: '/dashboard/products',
     icon: getIcon('eva:shopping-bag-fill'),
-  },
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
-    icon: getIcon('eva:file-text-fill'),
-  },
+    // [
+    //   {
+    //     title: 'Master',
+    // path: '/dashboard/products',
+    // icon: getIcon('eva:shopping-bag-fill'),
+    //   },
+    //   {
+    //     title: 'Master',
+    // path: '/dashboard/products',
+    // icon: getIcon('eva:shopping-bag-fill'),
+    //   }
+    // ],
+},
   {
     title: 'login',
     path: '/login',
