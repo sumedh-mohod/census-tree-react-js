@@ -23,6 +23,8 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
+        { path: 'district', element: <User /> },
+        { path: 'taluka', element: <User /> },
       ],
     },
     {
