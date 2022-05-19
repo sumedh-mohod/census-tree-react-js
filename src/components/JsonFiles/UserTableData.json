@@ -1,0 +1,36 @@
+{
+    "userData": [
+        {
+        "srno" : "1",
+        "name" : "sandra keeling",
+        "email" : "rehan@gmail.com",
+        "mobile": 8765098234,
+        "role": "employee",
+        "status": "Active"
+        },
+        {
+            "srno" : "2",
+            "name" : "Marvin Fisher",
+            "email" : "Marvin@gmail.com",
+            "mobile": 8765098234,
+            "role": "employee",
+            "status": "InActive"
+            },
+            {
+                "srno" : "3",
+                "name" : "Kim little",
+                "email" : "Kim@gmail.com",
+                "mobile": 8765098234,
+                "role": "Admin",
+                "status": "InActive"
+                },
+                {
+                    "srno" : "4",
+                    "name" : "patty Schinner",
+                    "email" : "PattySch@gmail.com",
+                    "mobile": 8329420771,
+                    "role": "Manager",
+                    "status": "Active"
+                    }
+    ]
+}
