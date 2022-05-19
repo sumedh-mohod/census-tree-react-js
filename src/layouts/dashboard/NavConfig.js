@@ -20,19 +20,19 @@ const navConfig = [
     title: 'Master',
     path: '/dashboard/products',
     icon: getIcon('eva:shopping-bag-fill'),
-    dropdown: [
-      {
-        title: 'Master',
-    path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill'),
+    children:[
+        {
+        title: 'District',
+        path: '/dashboard/district',
+        icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Master',
-    path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill'),
+        title: 'Taluka',
+        path: '/dashboard/taluka',
+        icon: getIcon('eva:shopping-bag-fill'),
       }
-    ],
-    },
+    ]
+},
   {
     title: 'login',
     path: '/login',
