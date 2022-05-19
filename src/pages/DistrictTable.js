@@ -28,17 +28,13 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 // mock
 import USERLIST from '../_mock/user';
 import NewUserDialog from '../components/DialogBox/NewUserDialog';
-import UserTableData from  '../components/JsonFiles/UserTableData.json';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'email', label: 'Email', alignRight: false },
-  { id: 'mobile', label: 'Mobile', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'name', label: 'District Name', alignRight: false },
+  { id: 'state', label: 'State', alignRight: false },
   { id: 'action' },
 ];
 
@@ -73,7 +69,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function DistrictTable() {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -88,25 +84,10 @@ export default function User() {
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState()
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
   const handleNewUserClick = () => {
     console.log("hiiii")
     setOpen(!open)
   }
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -117,18 +98,11 @@ export default function User() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-  console.log(UserTableData.UserData);
-  console.log(UserTableData);
-
   return (
     <Page title="User">
       <Container>
@@ -153,43 +127,44 @@ export default function User() {
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
-                  // order={order}
-                  // orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  // rowCount={USERLIST.length}
-                  // numSelected={selected.length}
-                  // onRequestSort={handleRequestSort}
-                  // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                     { UserTableData.userData.map((option) => {
-                        return (
-                        <TableRow
-                        // hover
-                        // key={id}
-                        // tabIndex={-1}
+                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    const { id,srno, name, state } = row;
+                    const isItemSelected = selected.indexOf(name) !== -1;
+
+                    return (
+                      <TableRow
+                        hover
+                        key={id}
+                        tabIndex={-1}
                         // role="checkbox"
                         // selected={isItemSelected}
                         // aria-checked={isItemSelected}
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
+                        {/* <TableCell padding="checkbox"> */}
+                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} /> */}
+                        {/* </TableCell> */}
+{/* 
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}> */}
+                            {/* <Avatar alt={name}  /> */}
+                            <TableCell align="left">{srno}</TableCell>
+                            {/* <TableCell align="left">{company}</TableCell> */}
                             <TableCell align="left">
-                              {option.name}
+                              {name}
                             </TableCell>
-                        <TableCell align="left">{option.email}</TableCell>
-                        <TableCell align="left">{option.mobile}</TableCell>
-                        <TableCell align="left">{option.role}</TableCell>
-                        <TableCell align="left">
-                          {option.status}
-                        </TableCell>
+                          {/* </Stack>
+                        </TableCell> */}
+                        <TableCell align="left">Maharastra</TableCell>
 
                         <TableCell align="right">
                           <UserMoreMenu />
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
+                      </TableRow>
+                    );
+                  })}
 
                 </TableBody>
               </Table>
