@@ -1,8 +1,6 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-// material
 import {
   Card,
   Table,
@@ -18,16 +16,16 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-// components
+import DistrictDialog from '../components/DialogBox/DistrictDialog'
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
-// mock
 import USERLIST from '../_mock/user';
-import NewUserDialog from '../components/DialogBox/NewUserDialog';
+// import NewUserDialog from '../components/DialogBox/NewUserDialog';
+import UserTableData from  '../components/JsonFiles/UserTableData.json';
 
 // ----------------------------------------------------------------------
 
@@ -98,15 +96,10 @@ export default function DistrictTable() {
     setPage(0);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
-
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
-
-  const isUserNotFound = filteredUsers.length === 0;
   return (
     <Page title="User">
       <Container>
-        <NewUserDialog
+        <DistrictDialog
         isOpen={open}
         // isClose={}
         />
@@ -115,14 +108,12 @@ export default function DistrictTable() {
             Users
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            New User
+            Add District
 
           </Button>
         </Stack>
 
         <Card>
-          {/* <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} /> */}
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -130,41 +121,24 @@ export default function DistrictTable() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id,srno, name, state } = row;
-                    const isItemSelected = selected.indexOf(name) !== -1;
-
-                    return (
-                      <TableRow
+                     { UserTableData.districtData.map((option) => {
+                        return (
+                        <TableRow
                         hover
-                        key={id}
-                        tabIndex={-1}
-                        // role="checkbox"
-                        // selected={isItemSelected}
-                        // aria-checked={isItemSelected}
                       >
-                        {/* <TableCell padding="checkbox"> */}
-                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} /> */}
-                        {/* </TableCell> */}
-{/* 
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}> */}
-                            {/* <Avatar alt={name}  /> */}
-                            <TableCell align="left">{srno}</TableCell>
-                            {/* <TableCell align="left">{company}</TableCell> */}
+                            <TableCell align="left">{option.srno}</TableCell>
                             <TableCell align="left">
-                              {name}
+                              {option.distName}
                             </TableCell>
-                          {/* </Stack>
-                        </TableCell> */}
-                        <TableCell align="left">Maharastra</TableCell>
+                        <TableCell align="left">{option.state}</TableCell>
 
                         <TableCell align="right">
                           <UserMoreMenu />
                         </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                        </TableRow>
+                        )
+                  })
+                }
 
                 </TableBody>
               </Table>

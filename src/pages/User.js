@@ -1,8 +1,6 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-// material
 import {
   Card,
   Table,
@@ -18,14 +16,12 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-// components
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
-// mock
 import USERLIST from '../_mock/user';
 import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../components/JsonFiles/UserTableData.json';
@@ -88,25 +84,10 @@ export default function User() {
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState()
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
   const handleNewUserClick = () => {
     console.log("hiiii")
     setOpen(!open)
   }
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -116,18 +97,6 @@ export default function User() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
-
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
-
-  const isUserNotFound = filteredUsers.length === 0;
-  console.log(UserTableData.UserData);
-  console.log(UserTableData);
 
   return (
     <Page title="User">
@@ -147,30 +116,17 @@ export default function User() {
         </Stack>
 
         <Card>
-          {/* <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} /> */}
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
-                  // order={order}
-                  // orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  // rowCount={USERLIST.length}
-                  // numSelected={selected.length}
-                  // onRequestSort={handleRequestSort}
-                  // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                      { UserTableData.userData.map((option) => {
                         return (
                         <TableRow
-                        // hover
-                        // key={id}
-                        // tabIndex={-1}
-                        // role="checkbox"
-                        // selected={isItemSelected}
-                        // aria-checked={isItemSelected}
+                        hover
                       >
                             <TableCell align="left">{option.srno}</TableCell>
                             <TableCell align="left">

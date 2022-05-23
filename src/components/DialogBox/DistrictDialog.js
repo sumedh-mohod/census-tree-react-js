@@ -11,9 +11,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
-import DefaultInput from '../Inputs/DefaultInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -66,9 +66,9 @@ export default function DistrictDialog(props) {
   const { isOpen, isClose } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
- const[state, setState]=  React.useState(Nagpur);
+ const[state, setState]=  React.useState('Maharastra');
   const handleStateChange = (event) => {
-    Maharastra(event.target.value);
+    setState(event.target.value);
   };
 
 
@@ -106,10 +106,11 @@ export default function DistrictDialog(props) {
               name='State'
               value={state}
               style={{width:'80%'}}
+              placeholder="select State"
             
               onChange={handleStateChange}
             >
-              {StateValue.map((option) => (
+              {stateValue.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>

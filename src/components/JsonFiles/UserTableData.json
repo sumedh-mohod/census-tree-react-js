@@ -32,5 +32,38 @@
                     "role": "Manager",
                     "status": "Active"
                     }
+    ],
+    "districtData": [
+        {
+        "srno" : "1",
+        "distName": "Nagpur",
+        "state": "Maharashatra"
+        },
+        {
+            "srno" : "2",
+            "distName": "Nagpur",
+            "state": "Maharashatra"
+            }
+    ],
+    "talukaData": [
+        {
+            "srno" : "1",
+            "TalukaName": "kalmeshawar",
+            "district": "Nagpur",
+            "state": "Maharashatra"
+        },
+        {
+            "srno" : "2",
+            "TalukaName": "Sawali",
+            "district": "Chandrapur",
+            "state": "Maharashatra"
+        },
+        {
+            "srno" : "3",
+            "TalukaName": "Akot",
+            "district": "Akola",
+            "state": "Maharashatra"
+        }
     ]
+
 }

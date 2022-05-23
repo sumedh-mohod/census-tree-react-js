@@ -11,9 +11,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
-import DefaultInput from '../Inputs/DefaultInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -52,7 +52,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function DistrictDialog(props) {
+export default function TalukasDialog(props) {
   const stateValue = [
     {
       value: 'patna',
@@ -123,6 +123,7 @@ export default function DistrictDialog(props) {
               name='State'
               value={state}
               style={{width:'80%'}}
+              placeholder='Select State'
             
               onChange={handleStateChange}
             >
@@ -139,6 +140,7 @@ export default function DistrictDialog(props) {
               name='District'
               value={district}
               style={{width:'80%'}}
+              placeholder='Select District'
             
               onChange={handleDistrictChange}
             >
