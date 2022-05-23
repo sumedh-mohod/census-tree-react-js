@@ -16,23 +16,23 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-import DistrictDialog from '../components/DialogBox/DistrictDialog'
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
-import USERLIST from '../_mock/user';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import Iconify from '../../components/Iconify';
+import SearchNotFound from '../../components/SearchNotFound';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
+import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
-import UserTableData from  '../components/JsonFiles/UserTableData.json';
+import UserTableData from  '../../components/JsonFiles/UserTableData.json';
+import TypeOfTreeCuttingDialog from "../../components/DialogBox/TypeOfTreeCuttingDialog";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'name', label: 'District Name', alignRight: false },
-  { id: 'state', label: 'State', alignRight: false },
+  { id: 'TypeofTreeCuttinf', label: 'Type Of Tree Cutting', alignRight: false },
+  { id: 'Description', label: 'Description', alignRight: false },
   { id: 'action' },
 ];
 
@@ -67,17 +67,8 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function DistrictTable() {
+export default function TypeOfTree() {
   const [page, setPage] = useState(0);
-
-  const [order, setOrder] = useState('asc');
-
-  const [selected, setSelected] = useState([]);
-
-  const [orderBy, setOrderBy] = useState('Name');
-
-  const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState()
@@ -99,16 +90,16 @@ export default function DistrictTable() {
   return (
     <Page title="User">
       <Container>
-        <DistrictDialog
+        <TypeOfTreeCuttingDialog
         isOpen={open}
         // isClose={}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Users
+            Type Of Tree
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add District
+            Add Type Of Tree
 
           </Button>
         </Stack>
@@ -121,17 +112,14 @@ export default function DistrictTable() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.districtData.map((option) => {
+                     { UserTableData.TypeOfTreeCuttingData.map((option) => {
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{option.srno}</TableCell>
-                            <TableCell align="left">
-                              {option.distName}
-                            </TableCell>
-                        <TableCell align="left">{option.state}</TableCell>
-
+                        <TableCell align="left">{option.typeOfTreeCutting}</TableCell>
+                        <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu />
                         </TableCell>

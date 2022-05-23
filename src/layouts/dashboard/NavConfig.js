@@ -30,7 +30,53 @@ const navConfig = [
         title: 'Taluka',
         path: '/dashboard/taluka',
         icon: getIcon('eva:shopping-bag-fill'),
-      }
+      },
+      {
+        title: 'Create Designation',
+        path: '/dashboard/createDesignation',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Create Role',
+        path: '/dashboard/createRole',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Type Of Tree',
+        path: '/dashboard/typeOfTree',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Name Of Tree',
+        path: '/dashboard/nameOfTree',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Type Of Tree Cutting',
+        path: '/dashboard/typeOfTreeCutting',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Type Of Property',
+        path: '/dashboard/typeOfProperty',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Type Of House',
+        path: '/dashboard/typeOfHouse',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Zone',
+        path: '/dashboard/zone',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Ward',
+        path: '/dashboard/ward',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      
     ]
 },
   {

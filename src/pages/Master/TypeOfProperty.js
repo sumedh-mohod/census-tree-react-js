@@ -16,24 +16,24 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
-import USERLIST from '../_mock/user';
+import Page from '../../components/Page';
+import Label from '../../components/Label';
+import Scrollbar from '../../components/Scrollbar';
+import Iconify from '../../components/Iconify';
+import SearchNotFound from '../../components/SearchNotFound';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
+import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
-import UserTableData from  '../components/JsonFiles/UserTableData.json';
-import TalukasDialog from "../components/DialogBox/TalukasDialog";
+import UserTableData from  '../../components/JsonFiles/UserTableData.json';
+import TypeOfPropertyDialog from "../../components/DialogBox/TypeOfPropertyDialog";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'name', label: 'Taluka Name', alignRight: false },
-  { id: 'name', label: 'District Name', alignRight: false },
-  { id: 'state', label: 'State Name', alignRight: false },
+  { id: 'TypeofTree', label: 'Type Of Tree', alignRight: false },
+  { id: 'Description', label: 'Description', alignRight: false },
+  { id: 'Status', label: 'Status', alignRight: false },
   { id: 'action' },
 ];
 
@@ -68,20 +68,10 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function TalukasTable() {
+export default function TypeOfProperty() {
   const [page, setPage] = useState(0);
-
-  const [order, setOrder] = useState('asc');
-
-  const [selected, setSelected] = useState([]);
-
-  const [orderBy, setOrderBy] = useState('Name');
-
-  const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState()
 
   const handleNewUserClick = () => {
     console.log("hiiii")
@@ -100,16 +90,16 @@ export default function TalukasTable() {
   return (
     <Page title="User">
       <Container>
-        <TalukasDialog
+        <TypeOfPropertyDialog
         isOpen={open}
         // isClose={}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Users
+            Type Of Property
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Taluka
+            Add Type Of Property
 
           </Button>
         </Stack>
@@ -122,17 +112,14 @@ export default function TalukasTable() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.talukaData.map((option) => {
+                     { UserTableData.TypeOfPropertyData.map((option) => {
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{option.srno}</TableCell>
-                            <TableCell align="left">
-                              {option.TalukaName}
-                            </TableCell>
-                        <TableCell align="left">{option.district}</TableCell>
-                        <TableCell align="left">{option.state}</TableCell>
+                        <TableCell align="left">{option.typeOfProperty}</TableCell>
+                        <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu />
                         </TableCell>
