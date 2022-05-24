@@ -73,7 +73,7 @@ export default function TypeOfTreeDialog(props) {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    props.handleClose();
   };
 
   return (

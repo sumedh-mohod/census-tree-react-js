@@ -102,7 +102,7 @@ export default function Taluka() {
       <Container>
         <TalukasDialog
         isOpen={open}
-        // isClose={}
+        handleClose = {handleNewUserClick}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

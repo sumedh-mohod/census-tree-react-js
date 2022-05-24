@@ -80,10 +80,12 @@ export default function District() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState()
+   const [close, setClose] = useState();
+   const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     console.log("hiiii")
+    setDialogData(null);
     setOpen(!open)
   }
 
@@ -96,12 +98,18 @@ export default function District() {
     setPage(0);
   };
 
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
+
   return (
     <Page title="User">
       <Container>
         <DistrictDialog
         isOpen={open}
-        // isClose={}
+        handleClose = {handleNewUserClick}
+        data = {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -133,7 +141,7 @@ export default function District() {
                         <TableCell align="left">{option.state}</TableCell>
 
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)} />
                         </TableCell>
                         </TableRow>
                         )

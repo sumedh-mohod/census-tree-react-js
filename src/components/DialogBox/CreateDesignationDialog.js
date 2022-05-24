@@ -78,7 +78,7 @@ export default function CreateDesignation(props) {
     setOpen(true);
   };
   const handleClose = () => {
-    setOpen(false);
+    props.handleClose();
   };
 
   return (

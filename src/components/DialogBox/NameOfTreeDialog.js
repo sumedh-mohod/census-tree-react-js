@@ -73,7 +73,7 @@ export default function NameOfTreeDialog(props) {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    props.handleClose();
   };
 
   return (

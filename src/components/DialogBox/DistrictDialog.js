@@ -63,7 +63,7 @@ export default function DistrictDialog(props) {
       label: 'Maharastra',
     },
   ];
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
  const[state, setState]=  React.useState('Maharastra');
@@ -76,7 +76,7 @@ export default function DistrictDialog(props) {
     setOpen(true);
   };
   const handleClose = () => {
-    setOpen(false);
+    props.handleClose();
   };
 
   return (
@@ -96,6 +96,7 @@ export default function DistrictDialog(props) {
                 // type={showPassword ? 'text' : 'password'}
                 // label="Name"
                 placeholder="District Name"
+                defaultValue={data?data.distName:""}
                 name="name"
                 value="name"
               />

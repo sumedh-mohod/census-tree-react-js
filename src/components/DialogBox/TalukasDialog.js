@@ -93,7 +93,7 @@ export default function TalukasDialog(props) {
     setOpen(true);
   };
   const handleClose = () => {
-    setOpen(false);
+    props.handleClose();
   };
 
   return (
