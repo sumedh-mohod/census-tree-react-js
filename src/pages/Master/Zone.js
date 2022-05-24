@@ -71,10 +71,12 @@ export default function Zone() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
+  const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     console.log("hiiii")
-    setOpen(!open)
+    setDialogData(null);
+    setOpen(!open);
   }
 
   const handleChangePage = (event, newPage) => {
@@ -86,12 +88,18 @@ export default function Zone() {
     setPage(0);
   };
 
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
+
   return (
     <Page title="User">
       <Container>
         <ZoneDialog
         isOpen={open}
-        // isClose={}
+        handleClose = {handleNewUserClick}
+        data = {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -120,7 +128,7 @@ export default function Zone() {
                         <TableCell align="left">{option.Zone}</TableCell>
                         <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)} />
                         </TableCell>
                         </TableRow>
                         )

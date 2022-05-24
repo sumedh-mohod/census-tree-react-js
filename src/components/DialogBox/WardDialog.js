@@ -58,7 +58,7 @@ export default function WardDialog(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
-    setOpen(false);
+    props.handleClose();
   };
 
   return (

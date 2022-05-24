@@ -117,7 +117,7 @@ export default function NewUserDialog(props) {
     setOpen(true);
   };
   const handleClose = () => {
-    setOpen(false);
+    props.handleClose();
   };
 
   return (

@@ -93,7 +93,7 @@ export default function TypeOfTree() {
       <Container>
         <TypeOfTreeDialog
         isOpen={open}
-        // isClose={}
+        handleClose = {handleNewUserClick}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

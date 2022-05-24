@@ -149,7 +149,7 @@
             "description": "Townhomes are multifloor homes with their own entrance"
         },
         {
-            "srno" : "1",
+            "srno" : "2",
             "typeOfHouse": "Apartments  ",
             "description": "An apartment is a unit inside of a building structure comprised of similarly styled individual units.,"
         }
@@ -161,7 +161,7 @@
             "description": "Townhomes are multifloor homes with their own entrance"
         },
         {
-            "srno" : "1",
+            "srno" : "2",
             "Zone": "Dharampeth  ",
             "description": "Harne Mahila Samaj Bhawan Marg, Gokulpeth Nagpur"
         }
@@ -173,7 +173,7 @@
             "description": "Townhomes are multifloor homes with their own entrance"
         },
         {
-            "srno" : "1",
+            "srno" : "2",
             "ward": "Dharampeth  ",
             "description": "Harne Mahila Samaj Bhawan Marg, Gokulpeth Nagpur"
         }

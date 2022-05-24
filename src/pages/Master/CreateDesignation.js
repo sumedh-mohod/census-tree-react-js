@@ -84,7 +84,6 @@ export default function CreateDestination() {
    const [close, setClose] = useState()
 
   const handleNewUserClick = () => {
-    console.log("hiiii")
     setOpen(!open)
   }
 
@@ -102,7 +101,7 @@ export default function CreateDestination() {
       <Container>
         <CreateDesignationDialog
         isOpen={open}
-        // isClose={}
+        handleClose = {handleNewUserClick}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

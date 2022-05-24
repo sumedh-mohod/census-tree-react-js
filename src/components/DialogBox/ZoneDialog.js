@@ -53,12 +53,12 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function ZoneDialog(props) {
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
-    setOpen(false);
+    props.handleClose();
   };
 
   return (
@@ -76,6 +76,8 @@ export default function ZoneDialog(props) {
                 id="Zone"
                 // autoComplete="typeOfTree"
                 placeholder="Zone"
+                defaultValue={data?data.Zone:""}
+                
                 // name="typeOfTree"
                 // value="typeOfTree"
               />
@@ -87,6 +89,7 @@ export default function ZoneDialog(props) {
                 autoComplete="description"
                 multiline= {3}
                 placeholder="description"
+                defaultValue={data?data.description:""}
                 // name="description"
                 // value="description"
               />

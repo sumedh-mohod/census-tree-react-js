@@ -73,7 +73,7 @@ export default function CreateRole(props) {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    props.handleClose();
   };
 
   return (
