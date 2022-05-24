@@ -72,11 +72,16 @@ export default function TypeOfProperty() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
+  const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     console.log("hiiii")
     setOpen(!open)
   }
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -93,6 +98,7 @@ export default function TypeOfProperty() {
         <TypeOfPropertyDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
+        data = {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -121,7 +127,7 @@ export default function TypeOfProperty() {
                         <TableCell align="left">{option.typeOfProperty}</TableCell>
                         <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
                         </TableRow>
                         )

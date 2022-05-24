@@ -53,7 +53,7 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function NameOfTreeDialog(props) {
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
 
@@ -70,22 +70,24 @@ export default function NameOfTreeDialog(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="typeOfHouse"
+                defaultValue={data? data.typeOfHouse: ""}
                 // autoComplete="typeOfTree"
                 placeholder="Type Of House"
                 // name="typeOfTree"
                 // value="typeOfTree"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <DefaultInput
                 fullWidth
                 id="description"
                 autoComplete="description"
-                multiline= {3}
+                // multiline= {3}
+                defaultValue={data? data.description : ""}
                 placeholder="description"
                 // name="description"
                 // value="description"

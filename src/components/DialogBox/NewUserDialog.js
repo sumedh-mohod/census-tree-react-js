@@ -132,7 +132,7 @@ export default function NewUserDialog(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="name"
@@ -144,10 +144,10 @@ export default function NewUserDialog(props) {
                 value="name"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email" name="email" value="email" />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="contact"
@@ -157,7 +157,7 @@ export default function NewUserDialog(props) {
                 value="contact"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="aadhar"
@@ -167,7 +167,7 @@ export default function NewUserDialog(props) {
                 value="aadhar"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="address"
@@ -177,12 +177,12 @@ export default function NewUserDialog(props) {
                 value="address"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <Select
               id="gender"
               name='gender'
               value={gender}
-              style={{width:'80%'}}
+              style={{width:'83%', marginLeft: 40}}
             
               onChange={handleGenderChange}
             >
@@ -193,12 +193,12 @@ export default function NewUserDialog(props) {
               ))}
             </Select>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="role"
               name='role'
               value={role}
-              style={{width:'80%'}}
+              style={{width:'83%', marginLeft: 40}}
             
               onChange={handleRoleChange}
             >
@@ -209,12 +209,12 @@ export default function NewUserDialog(props) {
               ))}
             </Select>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="status"
               name='status'
               value={status}
-              style={{width:'80%'}}
+              style={{width:'83%', marginLeft: 40}}
             
               onChange={handleRoleChange}
             >

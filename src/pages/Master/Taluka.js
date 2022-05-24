@@ -70,23 +70,19 @@ function applySortFilter(array, comparator, query) {
 
 export default function Taluka() {
   const [page, setPage] = useState(0);
-
-  const [order, setOrder] = useState('asc');
-
-  const [selected, setSelected] = useState([]);
-
-  const [orderBy, setOrderBy] = useState('Name');
-
-  const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState()
+  const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     console.log("hiiii")
     setOpen(!open)
   }
+
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -103,6 +99,7 @@ export default function Taluka() {
         <TalukasDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
+        data= {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -134,7 +131,7 @@ export default function Taluka() {
                         <TableCell align="left">{option.district}</TableCell>
                         <TableCell align="left">{option.state}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
                         </TableRow>
                         )

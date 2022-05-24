@@ -63,7 +63,7 @@ export default function TypeOfTreeDialog(props) {
           label: 'InActive',
         },
       ];
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [status, setStatus] = React.useState('Status')
@@ -85,33 +85,35 @@ export default function TypeOfTreeDialog(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="typeOfTree"
                 // autoComplete="typeOfTree"
                 placeholder="Type Of Tree"
+                defaultValue={data?data.typeOfTree: ""}
                 // name="typeOfTree"
                 // value="typeOfTree"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <DefaultInput
                 fullWidth
                 id="description"
                 autoComplete="description"
-                multiline= {3}
+                // multiline= {3}
                 placeholder="Description"
+                defaultValue={data?data.description: ""}
                 // name="description"
                 // value="description"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="status"
             //   name='status'
               value={status}
-              style={{width:'90%'}}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Status'
             
               onChange={handleStatusChange}

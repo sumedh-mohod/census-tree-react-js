@@ -63,7 +63,7 @@ export default function NameOfTreeDialog(props) {
           label: 'Flower Tree',
         },
       ];
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [typeOfTree, SetTypeOfTree] = React.useState('fruitTree')
@@ -85,35 +85,36 @@ export default function NameOfTreeDialog(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="nameOfTree"
-                // autoComplete="typeOfTree"
+                defaultValue={data? data.nameOfTree : ""}
                 placeholder="Name Of Tree"
                 // name="typeOfTree"
                 // value="typeOfTree"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <DefaultInput
                 fullWidth
                 id="botanicalName"
                 autoComplete="botanicalName"
-                multiline= {3}
+                defaultValue={data? data.botanicalName : ""}
+                // multiline= {3}
                 placeholder="Botanical Name"
                 // name="description"
                 // value="description"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="status"
             //   name='status'
-              value={typeOfTree}
-              style={{width:'80%'}}
+              // value={typeOfTree}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Status'
-            
+              defaultValue={data? data.status : ""}
               onChange={handleStatusChange}
             >
               {typeOfTreeValue.map((option) => (
@@ -123,12 +124,12 @@ export default function NameOfTreeDialog(props) {
               ))}
             </Select>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <DefaultInput
                 fullWidth
                 id="description"
                 autoComplete="description"
-                multiline= {3}
+                defaultValue={data? data.description : ""}
                 placeholder="description"
                 // name="description"
                 // value="description"

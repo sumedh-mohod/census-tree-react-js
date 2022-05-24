@@ -50,6 +50,7 @@ export default function CreateCouncil() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
+  const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     console.log("hiiii")
@@ -58,6 +59,10 @@ export default function CreateCouncil() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+  };
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -70,6 +75,8 @@ export default function CreateCouncil() {
       <Container>
         <CreateCouncilDialog
         isOpen={open}
+        data = {dialogData}
+        handleClose = {handleNewUserClick}
         // isClose={}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -111,7 +118,7 @@ export default function CreateCouncil() {
                         <TableCell align="left">{option.password}</TableCell>
                         <TableCell align="left">{option.role}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
                         </TableRow>
                         )

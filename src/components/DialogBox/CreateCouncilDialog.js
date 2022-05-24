@@ -99,7 +99,7 @@ export default function CreateCouncilDialog(props) {
       label: 'InActive',
     },
   ];
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [gender, setGender] = React.useState('male');
@@ -132,57 +132,62 @@ export default function CreateCouncilDialog(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="name"
                 autoComplete="name"
+                defaultValue={data? data.name : ""}
                 // type={showPassword ? 'text' : 'password'}
                 // label="Name"
                 placeholder="Name"
-                name="name"
-                value="name"
+                // name="name"
+                // value="name"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email" name="email" value="email" />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="contact"
                 autoComplete="contact"
                 placeholder="Mobile No"
-                name="contact"
-                value="contact"
+                defaultValue={data? data.contact : ""}
+                // name="contact"
+                // value="contact"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="aadhar"
                 autoComplete="aadhar"
                 placeholder="Aadhar"
-                name="aadhar"
-                value="aadhar"
+                defaultValue={data? data.aadhar : ""}
+                // name="aadhar"
+                // value="aadhar"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="address"
                 autoComplete="address"
                 placeholder="Address"
-                name="address"
-                value="address"
+                defaultValue={data? data.address : ""}
+                // name="address"
+                // value="address"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <Select
               id="gender"
               name='gender'
               value={gender}
-              style={{width:'80%'}}
+              style={{width:'83%', marginLeft: 40}}
+              defaultValue={data? data.gender : ""}
             
               onChange={handleGenderChange}
             >
@@ -193,12 +198,13 @@ export default function CreateCouncilDialog(props) {
               ))}
             </Select>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="role"
               name='role'
               value={role}
-              style={{width:'80%'}}
+              style={{width:'83%', marginLeft: 40}}
+              defaultValue={data? data.role : ""}
             
               onChange={handleRoleChange}
             >
@@ -209,13 +215,13 @@ export default function CreateCouncilDialog(props) {
               ))}
             </Select>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="status"
               name='status'
               value={status}
-              style={{width:'80%'}}
-            
+              style={{width:'83%', marginLeft: 40}}
+              defaultValue={data? data.status : ""}
               onChange={handleRoleChange}
             >
               {statusValue.map((option) => (
