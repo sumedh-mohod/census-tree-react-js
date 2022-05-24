@@ -42,6 +42,11 @@ const navConfig = [
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
+        title: 'Create Council',
+        path: '/dashboard/createCouncil',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
         title: 'Type Of Tree',
         path: '/dashboard/typeOfTree',
         icon: getIcon('eva:shopping-bag-fill'),

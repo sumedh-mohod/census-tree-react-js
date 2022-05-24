@@ -14,6 +14,7 @@ import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import CreateDesignation from './pages/Master/CreateDesignation';
 import CreateRole from './pages/Master/CreateRole';
+import CreateCouncil from './pages/Master/CreateCouncil';
 import TypeOfTree from './pages/Master/TypeOfTree';
 import CreateNameOfTree from './pages/Master/CreateNameOfTree';
 import TypeOfCuttingTree from './pages/Master/TypeOfCuttingTree';
@@ -38,6 +39,7 @@ export default function Router() {
         { path: 'taluka', element: <Taluka /> },
         { path: 'createDesignation', element: <CreateDesignation /> },
         { path: 'createRole', element: <CreateRole /> },
+        { path: 'createCouncil', element: <CreateCouncil /> },
         { path: 'typeOfTree', element: <TypeOfTree /> },
         { path: 'nameOfTree', element: <CreateNameOfTree /> },
         { path: 'typeOfTreeCutting', element: <TypeOfCuttingTree /> }, 
