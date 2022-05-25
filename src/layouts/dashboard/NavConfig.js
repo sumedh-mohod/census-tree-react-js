@@ -79,6 +79,27 @@ const navConfig = [
       
     ]
 },
+{
+  title: 'Tree Data',
+  path: '/dashboard/tree-data',
+  icon: getIcon('eva:shopping-bag-fill'),
+  children:[
+    {
+      title: 'Base Color',
+      path: '/dashboard/base-color',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+    {
+      title: 'Census',
+      path: '/dashboard/census',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },{
+      title: 'Denied Entry',
+      path: '/dashboard/denied-entry',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+  ]
+},
   {
     title: 'login',
     path: '/login',

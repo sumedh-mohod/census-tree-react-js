@@ -1,0 +1,70 @@
+{
+    "baseColor": [
+        {
+            "srno" : "1",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "1234",
+            "ownerNumber":"98732716543",
+            "images": "View Image",
+            "addedBy": "Marvin Fisher",
+            "qcStatus": "Active"
+        },
+        {
+            "srno" : "2",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "3457",
+            "ownerNumber":"98732716543",
+            "images": "View Image",
+            "addedBy": "Kim little",
+            "qcStatus": "Active"
+        },
+        {
+            "srno" : "3",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "9865",
+            "ownerNumber":"98732716543",
+            "images": "View Image",
+            "addedBy": "Kim little",
+            "qcStatus": "Active"
+        }
+    ],
+
+    "deniedEntry": [
+        {
+            "srno" : "1",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "1234",
+            "ownerNumber":"98732716543",
+            "images": "View Image",
+            "reason": "Denied",
+            "deniedFor": "baseColor"
+        },
+        {
+            "srno" : "2",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "3232",
+            "ownerNumber":"98732716543",
+            "images": "View Image",
+            "reason": "locked",
+            "deniedFor": "census"
+        },
+        {
+            "srno" : "3",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "1234",
+            "ownerNumber":"98732716543",
+            "images": "View Image",
+            "reason": "Denied",
+            "deniedFor": "baseColor"
+        },
+        {
+            "srno" : "4",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "3232",
+            "ownerNumber":"98732716543",
+            "images": "View Image",
+            "reason": "locked",
+            "deniedFor": "census"
+        }
+    ]
+}

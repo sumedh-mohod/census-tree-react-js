@@ -21,6 +21,8 @@ import TypeOfProperty from './pages/Master/TypeOfProperty';
 import TypeOfHouse from './pages/Master/TypeOfHouse';
 import Zone from './pages/Master/Zone';
 import Ward from './pages/Master/Ward';
+import BaseColor from './pages/TreeData/BaseColor';
+import DeniedEntry from './pages/TreeData/DeniedEntry';
 
 // ----------------------------------------------------------------------
 
@@ -45,6 +47,8 @@ export default function Router() {
         { path: 'typeOfHouse', element: <TypeOfHouse /> },
         { path: 'zone', element: <Zone /> },
         { path: 'ward', element: <Ward /> },
+        { path: 'base-color', element: <BaseColor /> },
+        { path: 'denied-entry', element: <DeniedEntry /> },
       ],
     },
     {
