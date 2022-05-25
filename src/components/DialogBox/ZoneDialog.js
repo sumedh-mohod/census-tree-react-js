@@ -70,7 +70,7 @@ export default function ZoneDialog(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="Zone"
@@ -82,7 +82,7 @@ export default function ZoneDialog(props) {
                 // value="typeOfTree"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <DefaultInput
                 fullWidth
                 id="description"

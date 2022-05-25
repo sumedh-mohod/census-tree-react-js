@@ -177,6 +177,26 @@
             "ward": "Dharampeth  ",
             "description": "Harne Mahila Samaj Bhawan Marg, Gokulpeth Nagpur"
         }
+    ],
+    "CreateCouncilData": [
+        {
+            "srno" : "1",
+            "prefix": "Mr",
+            "uploadLogo": "logopng",
+            "councilName": "Giga",
+            "state": "Maharashatra",
+            "district": "Nagpur",
+            "contactPersonName": "Rehan",
+            "firstName": "rehan",
+            "MiddleName": "Sanjay",
+            "lastName": "Sheikh",
+            "mobileNumber": "768965456",
+            "emailId": "rehan@gmail.com",
+            "userName": "Rehan@29",
+            "password": "******",
+            "role": "Analiyst"
+        }
     ]
+
 
 }

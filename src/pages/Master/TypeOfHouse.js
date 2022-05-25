@@ -71,6 +71,12 @@ export default function TypeOfTree() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
+  const [dialogData,setDialogData] = useState(null);
+
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
 
   const handleNewUserClick = () => {
     console.log("hiiii")
@@ -92,6 +98,7 @@ export default function TypeOfTree() {
         <TypeOfHouseDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
+        data = {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -120,7 +127,7 @@ export default function TypeOfTree() {
                         <TableCell align="left">{option.typeOfHouse}</TableCell>
                         <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
                         </TableRow>
                         )

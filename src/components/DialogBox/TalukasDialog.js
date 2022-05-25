@@ -74,7 +74,7 @@ export default function TalukasDialog(props) {
       label: 'Amravati',
     },
   ];
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
  const[state, setState]=  React.useState('Maharastra');
@@ -105,27 +105,26 @@ export default function TalukasDialog(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="name"
                 autoComplete="name"
-                // type={showPassword ? 'text' : 'password'}
-                // label="Name"
                 placeholder="District Name"
-                name="name"
-                value="name"
+                defaultValue={data? data.name : ""}
+                // name="name"
+                // value="name"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="state"
-              name='State'
-              value={state}
-              style={{width:'80%'}}
+              // name='State'
+              // value={state}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Select State'
-            
               onChange={handleStateChange}
+              defaultValue={data? data.state : ""}
             >
               {stateValue.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -134,12 +133,13 @@ export default function TalukasDialog(props) {
               ))}
             </Select>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="district"
-              name='District'
-              value={district}
-              style={{width:'80%'}}
+              defaultValue={data? data.district : ""}
+              // name='District'
+              // value={district}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Select District'
             
               onChange={handleDistrictChange}

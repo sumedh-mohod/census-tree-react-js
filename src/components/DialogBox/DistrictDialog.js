@@ -59,14 +59,14 @@ export default function DistrictDialog(props) {
       label: 'patna',
     },
     {
-      value: 'maharastra',
-      label: 'Maharastra',
+      value: 'maharashtra',
+      label: 'Maharashtra',
     },
   ];
   const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
- const[state, setState]=  React.useState('Maharastra');
+ const[state, setState]=  React.useState('maharashtra');
   const handleStateChange = (event) => {
     setState(event.target.value);
   };
@@ -88,7 +88,7 @@ export default function DistrictDialog(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="name"
@@ -97,18 +97,17 @@ export default function DistrictDialog(props) {
                 // label="Name"
                 placeholder="District Name"
                 defaultValue={data?data.distName:""}
-                name="name"
-                value="name"
+                // name="name"
+                // value="name"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="state"
-              name='State'
-              value={state}
-              style={{width:'80%'}}
+              // name='State'
+              // value={state}
+              style={{width:'83%', marginLeft: 40}}
               placeholder="select State"
-            
               onChange={handleStateChange}
             >
               {stateValue.map((option) => (

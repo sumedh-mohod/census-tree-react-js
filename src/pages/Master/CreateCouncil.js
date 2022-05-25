@@ -17,75 +17,52 @@ import {
   TablePagination,
 } from '@mui/material';
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
-import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
-// import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import TypeOfTreeCuttingDialog from "../../components/DialogBox/TypeOfTreeCuttingDialog";
+import CreateCouncilDialog from "../../components/DialogBox/CreateCouncilDialog";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'TypeofTreeCuttinf', label: 'Type Of Tree Cutting', alignRight: false },
-  { id: 'Description', label: 'Description', alignRight: false },
+  { id: 'prefix', label: 'prefix', alignRight: false },
+  { id: 'uploadlogo', label: 'Upload Logo', alignRight: false },
+  { id: 'councilName', label: 'Council Name', alignRight: false },
+  { id: 'state', label: 'State', alignRight: false },
+  { id: 'district', label: 'District', alignRight: false },
+  { id: 'contact', label: 'Contact Person Name', alignRight: false },
+  { id: 'fName', label: 'First Name', alignRight: false },
+  { id: 'mName', label: 'Middle Name', alignRight: false },
+  { id: 'lName', label: 'Last Name', alignRight: false },
+  { id: 'MoNumber', label: 'Mobile Number', alignRight: false },
+  { id: 'emailId', label: 'Mobile Number', alignRight: false },
+  { id: 'userName', label: 'User Name', alignRight: false },
+  { id: 'password', label: 'Password', alignRight: false },
+  { id: 'role', label: 'Role', alignRight: false },
   { id: 'action' },
 ];
 
 // ----------------------------------------------------------------------
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
-
-export default function TypeOfTree() {
+export default function CreateCouncil() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState();
-   const [dialogData,setDialogData] = useState(null);
+  const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     console.log("hiiii")
     setOpen(!open)
   }
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -96,17 +73,18 @@ export default function TypeOfTree() {
   return (
     <Page title="User">
       <Container>
-        <TypeOfTreeCuttingDialog
+        <CreateCouncilDialog
         isOpen={open}
-        handleClose = {handleNewUserClick}
         data = {dialogData}
+        handleClose = {handleNewUserClick}
+        // isClose={}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Type Of Tree
+            Create Council
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Type Of Tree
+            Add Council
 
           </Button>
         </Stack>
@@ -119,16 +97,28 @@ export default function TypeOfTree() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.TypeOfTreeCuttingData.map((option) => {
+                     { UserTableData.CreateCouncilData.map((option) => {
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{option.srno}</TableCell>
-                        <TableCell align="left">{option.typeOfTreeCutting}</TableCell>
-                        <TableCell align="left">{option.description}</TableCell>
+                        <TableCell align="left">{option.prefix}</TableCell>
+                        <TableCell align="left">{option.uploadLogo}</TableCell>
+                        <TableCell align="left">{option.councilName}</TableCell>
+                        <TableCell align="left">{option.state}</TableCell>
+                        <TableCell align="left">{option.destrict}</TableCell>
+                        <TableCell align="left">{option.contactPersonName}</TableCell>
+                        <TableCell align="left">{option.firstName}</TableCell>
+                        <TableCell align="left">{option.MiddleName}</TableCell>
+                        <TableCell align="left">{option.lastName}</TableCell>
+                        <TableCell align="left">{option.mobileNumber}</TableCell>
+                        <TableCell align="left">{option.emailId}</TableCell>
+                        <TableCell align="left">{option.userName}</TableCell>
+                        <TableCell align="left">{option.password}</TableCell>
+                        <TableCell align="left">{option.role}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu  handleEdit={()=>handleEdit(option)}/>
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
                         </TableRow>
                         )

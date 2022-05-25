@@ -73,7 +73,7 @@ export default function CreateRole() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState()
-
+   const [dialogData,setDialogData] = useState(null);
   const handleNewUserClick = () => {
     console.log("hiiii")
     setOpen(!open)
@@ -81,6 +81,11 @@ export default function CreateRole() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+  };
+
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -94,6 +99,7 @@ export default function CreateRole() {
         <CreateRoleDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
+        data= {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -123,7 +129,7 @@ export default function CreateRole() {
                         <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="left">{option.status}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)} />
                         </TableCell>
                         </TableRow>
                         )

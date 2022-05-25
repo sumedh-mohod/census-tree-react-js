@@ -63,7 +63,7 @@ export default function CreateDesignation(props) {
           label: 'InActive',
         },
       ];
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [status, setStatus] = React.useState('Status')
@@ -90,34 +90,35 @@ export default function CreateDesignation(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="designation"
                 autoComplete="designation"
                 placeholder="Create Designation"
-                name="designation"
-                value="designation"
+                defaultValue={data? data.designation : ""}
+                // name="designation"
+                // value="designation"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <DefaultInput
                 fullWidth
                 id="description"
                 autoComplete="description"
-                multiline= {3}
                 placeholder="Description"
-                name="description"
-                value="description"
+                defaultValue={data? data.description : ""}
+                // name="description"
+                // value="description"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <Select
               id="status"
-              name='status'
-              value={status}
-              style={{width:'90%'}}
-            
+              // name='status'
+              // value={status}
+              style={{width:'83%', marginLeft: 40}}
+              defaultValue={data? data.status : ""}
               onChange={handleStatusChange}
             >
               {statusValue.map((option) => (

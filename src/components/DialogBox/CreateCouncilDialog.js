@@ -59,7 +59,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function NewUserDialog(props) {
+export default function CreateCouncilDialog(props) {
   const genderValue = [
     {
       value: 'male',
@@ -99,7 +99,7 @@ export default function NewUserDialog(props) {
       label: 'InActive',
     },
   ];
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [gender, setGender] = React.useState('male');
@@ -117,7 +117,7 @@ export default function NewUserDialog(props) {
     setOpen(true);
   };
   const handleClose = () => {
-    props.handleClose();
+    setOpen(false);
   };
 
   return (
@@ -127,7 +127,7 @@ export default function NewUserDialog(props) {
         </Button> */}
       <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          New User
+          New Council
         </BootstrapDialogTitle>
         <Divider />
         <DialogContent dividers>
@@ -137,11 +137,12 @@ export default function NewUserDialog(props) {
                 fullWidth
                 id="name"
                 autoComplete="name"
+                defaultValue={data? data.name : ""}
                 // type={showPassword ? 'text' : 'password'}
                 // label="Name"
                 placeholder="Name"
-                name="name"
-                value="name"
+                // name="name"
+                // value="name"
               />
             </Grid>
             <Grid item xs={12}>
@@ -153,8 +154,9 @@ export default function NewUserDialog(props) {
                 id="contact"
                 autoComplete="contact"
                 placeholder="Mobile No"
-                name="contact"
-                value="contact"
+                defaultValue={data? data.contact : ""}
+                // name="contact"
+                // value="contact"
               />
             </Grid>
             <Grid item xs={12}>
@@ -163,8 +165,9 @@ export default function NewUserDialog(props) {
                 id="aadhar"
                 autoComplete="aadhar"
                 placeholder="Aadhar"
-                name="aadhar"
-                value="aadhar"
+                defaultValue={data? data.aadhar : ""}
+                // name="aadhar"
+                // value="aadhar"
               />
             </Grid>
             <Grid item xs={12}>
@@ -173,8 +176,9 @@ export default function NewUserDialog(props) {
                 id="address"
                 autoComplete="address"
                 placeholder="Address"
-                name="address"
-                value="address"
+                defaultValue={data? data.address : ""}
+                // name="address"
+                // value="address"
               />
             </Grid>
             <Grid item xs={12}>
@@ -183,6 +187,7 @@ export default function NewUserDialog(props) {
               name='gender'
               value={gender}
               style={{width:'83%', marginLeft: 40}}
+              defaultValue={data? data.gender : ""}
             
               onChange={handleGenderChange}
             >
@@ -199,6 +204,7 @@ export default function NewUserDialog(props) {
               name='role'
               value={role}
               style={{width:'83%', marginLeft: 40}}
+              defaultValue={data? data.role : ""}
             
               onChange={handleRoleChange}
             >
@@ -215,7 +221,7 @@ export default function NewUserDialog(props) {
               name='status'
               value={status}
               style={{width:'83%', marginLeft: 40}}
-            
+              defaultValue={data? data.status : ""}
               onChange={handleRoleChange}
             >
               {statusValue.map((option) => (

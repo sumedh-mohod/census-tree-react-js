@@ -70,22 +70,19 @@ function applySortFilter(array, comparator, query) {
 
 export default function CreateDestination() {
   const [page, setPage] = useState(0);
-
-  const [order, setOrder] = useState('asc');
-
-  const [selected, setSelected] = useState([]);
-
-  const [orderBy, setOrderBy] = useState('Name');
-
-  const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState()
+  const [dialogData,setDialogData] = useState(null);
+
 
   const handleNewUserClick = () => {
     setOpen(!open)
   }
+
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -102,6 +99,7 @@ export default function CreateDestination() {
         <CreateDesignationDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
+        data= {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -131,7 +129,7 @@ export default function CreateDestination() {
                         <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="left">{option.status}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
                         </TableRow>
                         )

@@ -53,7 +53,7 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function WardDialog(props) {
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
 
@@ -70,23 +70,24 @@ export default function WardDialog(props) {
         <Divider />
         <DialogContent dividers>
         <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="ward"
                 // autoComplete="typeOfTree"
                 placeholder="Ward"
+                defaultValue={data?data.ward: ""}
                 // name="typeOfTree"
                 // value="typeOfTree"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <DefaultInput
                 fullWidth
                 id="description"
                 autoComplete="description"
-                multiline= {3}
                 placeholder="description"
+                defaultValue={data?data.description: ""}
                 // name="description"
                 // value="description"
               />
