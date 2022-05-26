@@ -27,6 +27,11 @@ const navConfig = [
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
+        title: 'State',
+        path: '/dashboard/state',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
         title: 'Taluka',
         path: '/dashboard/taluka',
         icon: getIcon('eva:shopping-bag-fill'),

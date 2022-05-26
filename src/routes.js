@@ -7,6 +7,7 @@ import Blog from './pages/Blog';
 import User from './pages/User';
 import Taluka from './pages/Master/Taluka';
 import District from './pages/Master/District'
+import StateListTable from './pages/Master/StateListTable'
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
@@ -39,6 +40,7 @@ export default function Router() {
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'district', element: <District /> },
+        { path: 'state', element: <StateListTable /> },
         { path: 'taluka', element: <Taluka /> },
         { path: 'createDesignation', element: <CreateDesignation /> },
         { path: 'createRole', element: <CreateRole /> },

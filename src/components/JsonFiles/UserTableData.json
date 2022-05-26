@@ -179,6 +179,18 @@
             "password": "******",
             "role": "Analiyst"
         }
+    ],
+    "StateData": [
+        {
+            "srno" : "1",
+            "state": "patana",
+            "status": "Active"
+        },
+        {
+            "srno" : "2",
+            "state": "Maharashtra",
+            "status": "InActive"
+        }
     ]
 
 

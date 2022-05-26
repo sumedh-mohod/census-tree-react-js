@@ -14,7 +14,38 @@ import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import PropTypes from 'prop-types';
 import DefaultInput from '../Inputs/DefaultInput';
+
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default function TalukasDialog(props) {
   const [open, setOpen] = React.useState(false);
@@ -83,7 +114,7 @@ export default function TalukasDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <DialogTitle onClose={handleClose}>Add Taluka</DialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Add Taluka</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
