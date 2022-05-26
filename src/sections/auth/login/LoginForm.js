@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
@@ -7,18 +7,39 @@ import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormContr
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginUser } from 'src/actions/AuthActions';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
+
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    isLogged
+  } = useSelector((state) => ({
+    isLogged:state.auth.isLogged
+  }));
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
+
+  const firstRun = useRef(true);
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    navigate('/dashboard/app', { replace: true });
+  }, [isLogged]);
+
 
   const formik = useFormik({
     initialValues: {
@@ -27,8 +48,12 @@ export default function LoginForm() {
       remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: (value) => {
+      dispatch(LoginUser({
+        "username": value.email,
+        "password": value.password
+      }))
+      // navigate('/dashboard', { replace: true });
     },
   });
 

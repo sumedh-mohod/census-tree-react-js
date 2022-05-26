@@ -7,6 +7,8 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
 import account from '../../_mock/account';
+import { useDispatch } from 'react-redux';
+import { Logout } from 'src/actions/AuthActions';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +34,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const anchorRef = useRef(null);
+  const dispatch = useDispatch();
 
   const [open, setOpen] = useState(null);
 
@@ -40,6 +43,7 @@ export default function AccountPopover() {
   };
 
   const handleClose = () => {
+    dispatch(Logout());
     setOpen(null);
   };
 

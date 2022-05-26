@@ -1,11 +1,13 @@
 import {
     LOGIN,
+    LOG_OUT,
     RESET_STATE,
   } from "../actions/Types";
   
   const INIT_STATE = {
     authLog: null,
     isLogged: false,
+    isLoggedOut:false,
     loggedUser: null,
     loggedUserId: null,
   };
@@ -18,8 +20,13 @@ import {
         return {
           ...state,
           loggedUser: payload.data,
-          isLogged: true,
+          isLogged: !state.isLogged,
         };
+        case LOG_OUT:
+          return {
+            ...state,
+            isLoggedOut: !state.isLoggedOut,
+          };
       case RESET_STATE:
         return { ...INIT_STATE };
       default:

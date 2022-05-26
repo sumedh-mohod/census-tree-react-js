@@ -1,6 +1,6 @@
 import { SET_ALERT, REMOVE_ALERT, RESET_STATE } from "../actions/Types";
 
-const INIT_STATE = [];
+const INIT_STATE = []
 
 export default (state = INIT_STATE, action) => {
   const { type, payload } = action;
