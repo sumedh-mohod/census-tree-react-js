@@ -32,9 +32,7 @@ import TypeOfPropertyDialog from "../../components/DialogBox/TypeOfPropertyDialo
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'TypeofTree', label: 'Type Of Tree', alignRight: false },
-  { id: 'Description', label: 'Description', alignRight: false },
-  { id: 'Status', label: 'Status', alignRight: false },
-  { id: 'action' },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -125,7 +123,6 @@ export default function TypeOfProperty() {
                       >
                             <TableCell align="left">{option.srno}</TableCell>
                         <TableCell align="left">{option.typeOfProperty}</TableCell>
-                        <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>

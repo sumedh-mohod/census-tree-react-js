@@ -32,9 +32,8 @@ import TypeOfTreeDialog from "../../components/DialogBox/TypeOfTreeDialog";
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'TypeofTree', label: 'Type Of Tree', alignRight: false },
-  { id: 'Description', label: 'Description', alignRight: false },
   { id: 'Status', label: 'Status', alignRight: false },
-  { id: 'action' },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -126,7 +125,6 @@ export default function TypeOfTree() {
                       >
                             <TableCell align="left">{option.srno}</TableCell>
                         <TableCell align="left">{option.typeOfTree}</TableCell>
-                        <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="left">{option.status}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu  handleEdit={()=>handleEdit(option)}/>

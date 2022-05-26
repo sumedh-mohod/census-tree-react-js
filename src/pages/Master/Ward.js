@@ -32,8 +32,7 @@ import WardDialog from "../../components/DialogBox/WardDialog";
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'ward', label: 'Ward', alignRight: false },
-  { id: 'Description', label: 'Description', alignRight: false },
-  { id: 'action' },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -123,7 +122,6 @@ export default function Zone() {
                       >
                             <TableCell align="left">{option.srno}</TableCell>
                         <TableCell align="left">{option.ward}</TableCell>
-                        <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>

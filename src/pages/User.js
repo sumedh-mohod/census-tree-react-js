@@ -82,12 +82,18 @@ export default function User() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState()
+   const [close, setClose] = useState();
+   const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     console.log("hiiii")
     setOpen(!open)
   }
+
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -103,6 +109,7 @@ export default function User() {
       <Container>
         <NewUserDialog
         isOpen={open}
+        data={dialogData}
         // isClose={}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -121,6 +128,8 @@ export default function User() {
               <Table>
                 <UserListHead
                   headLabel={TABLE_HEAD}
+                  data = {dialogData}
+                  handleClose = {handleNewUserClick}
                 />
                 <TableBody>
                      { UserTableData.userData.map((option) => {
@@ -140,7 +149,7 @@ export default function User() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu  handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
                         </TableRow>
                         )

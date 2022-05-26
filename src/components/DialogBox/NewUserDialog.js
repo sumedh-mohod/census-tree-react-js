@@ -99,19 +99,18 @@ export default function NewUserDialog(props) {
       label: 'InActive',
     },
   ];
-  const { isOpen, isClose } = props;
+  const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
-  const [gender, setGender] = React.useState('male');
-  const [role, setRole] = React.useState('male')
-  const [status, setStatus] = React.useState('active')
+  const [gender, setGender] = React.useState('');
+  const [role, setRole] = React.useState('')
+  const [status, setStatus] = React.useState('')
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -137,24 +136,28 @@ export default function NewUserDialog(props) {
                 fullWidth
                 id="name"
                 autoComplete="name"
+                defaultValue={data? data.name: ""}
                 // type={showPassword ? 'text' : 'password'}
                 // label="Name"
                 placeholder="Name"
-                name="name"
-                value="name"
+                // name="name"
+                // value="name"
               />
             </Grid>
             <Grid item xs={12}>
-              <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email" name="email" value="email" />
+              <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email" 
+               defaultValue={data? data.email: ""}
+               />
             </Grid>
             <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="contact"
                 autoComplete="contact"
-                placeholder="Mobile No"
-                name="contact"
-                value="contact"
+                placeholder="Mobile Number"
+                defaultValue={data? data.contact: ""}
+                // name="contact"
+                // value="contact"
               />
             </Grid>
             <Grid item xs={12}>
@@ -163,8 +166,9 @@ export default function NewUserDialog(props) {
                 id="aadhar"
                 autoComplete="aadhar"
                 placeholder="Aadhar"
-                name="aadhar"
-                value="aadhar"
+                defaultValue={data? data.aadhar: ""}
+                // name="aadhar"
+                // value="aadhar"
               />
             </Grid>
             <Grid item xs={12}>
@@ -173,8 +177,9 @@ export default function NewUserDialog(props) {
                 id="address"
                 autoComplete="address"
                 placeholder="Address"
-                name="address"
-                value="address"
+                defaultValue={data? data.address: ""}
+                // name="address"
+                // value="address"
               />
             </Grid>
             <Grid item xs={12}>
@@ -182,10 +187,21 @@ export default function NewUserDialog(props) {
               id="gender"
               name='gender'
               value={gender}
+              displayEmpty
+              defaultValue={data? data.gender: ""}
               style={{width:'83%', marginLeft: 40}}
-            
+              placeholder='Gender'
               onChange={handleGenderChange}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Gender</em>;
+                }
+                return selected
+              }}
             >
+               <MenuItem disabled value="">
+            <em>Gender</em>
+          </MenuItem>
               {genderValue.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
@@ -198,10 +214,22 @@ export default function NewUserDialog(props) {
               id="role"
               name='role'
               value={role}
+              displayEmpty
               style={{width:'83%', marginLeft: 40}}
             
               onChange={handleRoleChange}
+              placeholder='Role'
+              defaultValue={data? data.role: ""}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Role</em>;
+                }
+                return selected
+              }}
             >
+               <MenuItem disabled value="">
+            <em>Role</em>
+          </MenuItem>
               {roleValue.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
@@ -214,10 +242,20 @@ export default function NewUserDialog(props) {
               id="status"
               name='status'
               value={status}
+              displayEmpty
               style={{width:'83%', marginLeft: 40}}
-            
+              defaultValue={data? data.status: ""}
               onChange={handleRoleChange}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Status</em>;
+                }
+                return selected
+              }}
             >
+               <MenuItem disabled value="">
+            <em>Status</em>
+          </MenuItem>
               {statusValue.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}

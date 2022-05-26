@@ -34,7 +34,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Taluka Name', alignRight: false },
   { id: 'name', label: 'District Name', alignRight: false },
   { id: 'state', label: 'State Name', alignRight: false },
-  { id: 'action' },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------

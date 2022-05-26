@@ -69,13 +69,11 @@
         {
             "srno" : "1",
             "designation": "Business analyst",
-            "description": "Nagpur",
             "status": "Active"
         },
         {
             "srno" : "2",
             "designation": "Associate",
-            "description": "Chandrapur",
             "status": "InActive"
         }
     ],
@@ -83,13 +81,11 @@
         {
             "srno" : "1",
             "role": "super admin",
-            "description": "Nagpur",
             "status": "Active"
         },
         {
             "srno" : "2",
             "role": "tree counting",
-            "description": "Chandrapur",
             "status": "InActive"
         }
     ],
@@ -97,13 +93,11 @@
         {
             "srno" : "1",
             "typeOfTree": "fruit tree",
-            "description": "fruit tree",
             "status": "Active"
         },
         {
             "srno" : "2",
             "typeOfTree": "flower tree",
-            "description": "flower tree",
             "status": "InActive"
         }
     ],
@@ -112,70 +106,59 @@
             "srno" : "1",
             "nameOfTree": "Mango Tree",
             "botanicalName": "Mangifera indica",
-            "typeOfTree": "fruit tree",
-            "description": "root-promoting fertilizer to help root expansion"
+            "typeOfTree": "fruit tree"
         },
         {
             "srno" : "2",
             "nameOfTree": "Coral Jamine",
             "botanicalName": "Nyctanthes arbortristis",
-            "typeOfTree": "flower tree",
-            "description": "Verbenaceae"
+            "typeOfTree": "flower tree"
         }
     ],
     "TypeOfTreeCuttingData": [
         {
             "srno" : "1",
-            "typeOfTreeCutting": "Open-faced",
-            "description": "working with a chainsaw to cut the tree"
+            "typeOfTreeCutting": "Open-faced"
         },
         {
             "srno" : "2",
-            "typeOfTreeCutting": "Conventional",
-            "description": "It’s better if you follow the marks"
+            "typeOfTreeCutting": "Conventional"
         }
     ],
     "TypeOfPropertyData": [
         {
             "srno" : "1",
-            "typeOfProperty": "Commercial",
-            "description": "Commercial property includes office buildings, medical centers, hotels, malls,"
+            "typeOfProperty": "Commercial"
         }
     ],
     "TypeOfHouseData": [
         {
             "srno" : "1",
-            "typeOfHouse": "Townhomes",
-            "description": "Townhomes are multifloor homes with their own entrance"
+            "typeOfHouse": "Townhomes"
         },
         {
             "srno" : "2",
-            "typeOfHouse": "Apartments  ",
-            "description": "An apartment is a unit inside of a building structure comprised of similarly styled individual units.,"
+            "typeOfHouse": "Apartments  "
         }
     ],
     "ZoneData": [
         {
             "srno" : "1",
-            "Zone": "Laxminagar",
-            "description": "Townhomes are multifloor homes with their own entrance"
+            "Zone": "Laxminagar"
         },
         {
             "srno" : "2",
-            "Zone": "Dharampeth  ",
-            "description": "Harne Mahila Samaj Bhawan Marg, Gokulpeth Nagpur"
+            "Zone": "Dharampeth  "
         }
     ],
     "WardData": [
         {
             "srno" : "1",
-            "ward": "Laxminagar",
-            "description": "Townhomes are multifloor homes with their own entrance"
+            "ward": "Laxminagar"
         },
         {
             "srno" : "2",
-            "ward": "Dharampeth  ",
-            "description": "Harne Mahila Samaj Bhawan Marg, Gokulpeth Nagpur"
+            "ward": "Dharampeth  "
         }
     ],
     "CreateCouncilData": [

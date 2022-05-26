@@ -42,7 +42,7 @@ const TABLE_HEAD = [
   { id: 'userName', label: 'User Name', alignRight: false },
   { id: 'password', label: 'Password', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
-  { id: 'action' },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------

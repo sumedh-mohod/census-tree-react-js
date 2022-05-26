@@ -32,8 +32,7 @@ import TypeOfTreeCuttingDialog from "../../components/DialogBox/TypeOfTreeCuttin
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'TypeofTreeCuttinf', label: 'Type Of Tree Cutting', alignRight: false },
-  { id: 'Description', label: 'Description', alignRight: false },
-  { id: 'action' },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -126,7 +125,6 @@ export default function TypeOfTree() {
                       >
                             <TableCell align="left">{option.srno}</TableCell>
                         <TableCell align="left">{option.typeOfTreeCutting}</TableCell>
-                        <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu  handleEdit={()=>handleEdit(option)}/>
                         </TableCell>

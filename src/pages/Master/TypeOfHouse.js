@@ -32,8 +32,7 @@ import TypeOfHouseDialog from "../../components/DialogBox/TypeOfHouseDialog";
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'TypeofHouse', label: 'Type Of House', alignRight: false },
-  { id: 'Description', label: 'Description', alignRight: false },
-  { id: 'action' },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -125,7 +124,6 @@ export default function TypeOfTree() {
                       >
                             <TableCell align="left">{option.srno}</TableCell>
                         <TableCell align="left">{option.typeOfHouse}</TableCell>
-                        <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
