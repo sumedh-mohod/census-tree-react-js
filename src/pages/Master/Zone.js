@@ -32,8 +32,7 @@ import ZoneDialog from "../../components/DialogBox/ZoneDialog";
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'Zone', label: 'Zone', alignRight: false },
-  { id: 'Description', label: 'Description', alignRight: false },
-  { id: 'action' },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -126,7 +125,6 @@ export default function Zone() {
                       >
                             <TableCell align="left">{option.srno}</TableCell>
                         <TableCell align="left">{option.Zone}</TableCell>
-                        <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu handleEdit={()=>handleEdit(option)} />
                         </TableCell>

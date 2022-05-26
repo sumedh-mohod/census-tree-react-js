@@ -34,8 +34,7 @@ const TABLE_HEAD = [
   { id: 'nameOfTree', label: 'Name Of Tree', alignRight: false },
   { id: 'botanicalName', label: 'Botanical Name', alignRight: false },
   { id: 'typeOfTree', label: 'Type Of Tree', alignRight: false },
-  { id: 'description', label: 'Description', alignRight: false },
-  { id: 'action' },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -128,7 +127,6 @@ export default function CreateNameOfTree() {
                         <TableCell align="left">{option.nameOfTree}</TableCell>
                         <TableCell align="left">{option.botanicalName}</TableCell>
                         <TableCell align="left">{option.typeOfTree}</TableCell>
-                        <TableCell align="left">{option.description}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>

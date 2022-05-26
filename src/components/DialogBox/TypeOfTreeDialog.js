@@ -1,89 +1,74 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import * as React from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Switch from '@mui/material/Switch';
+import Grid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider';
 import DefaultInput from '../Inputs/DefaultInput';
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
-
-const BootstrapDialogTitle = (props) => {
-  const { children, onClose, ...other } = props;
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
-
-BootstrapDialogTitle.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
-};
-
-export default function TypeOfTreeDialog(props) {
-    const statusValue = [
-        {
-          value: 'active',
-          label: 'Active',
-        },
-        {
-          value: 'inactive',
-          label: 'InActive',
-        },
-      ];
-  const { isOpen, data } = props;
-  console.log(isOpen);
+export default function CreateRoleDialog(props) {
   const [open, setOpen] = React.useState(false);
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [maxWidth, setMaxWidth] = React.useState('sm');
   const [status, setStatus] = React.useState('Status')
+  const { isOpen, data } = props;
 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
   };
 
+  const statusValue = [
+    {
+      value: 'active',
+      label: 'Active',
+    },
+    {
+      value: 'inactive',
+      label: 'InActive',
+    },
+  ];
+
   const handleClose = () => {
     props.handleClose();
   };
 
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleMaxWidthChange = (event) => {
+    setMaxWidth(
+      // @ts-expect-error autofill of arbitrary value is not handled.
+      event.target.value,
+    );
+  };
+
   return (
     <div>
-      <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Type Of Tree
-        </BootstrapDialogTitle>
-        <Divider />
-        <DialogContent dividers>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
+        Open max-width dialog
+      </Button> */}
+      <Dialog
+        fullWidth={fullWidth}
+        maxWidth={maxWidth}
+        open={isOpen}
+        onClose={handleClose}
+        // onClose={handleClose}
+      >
+        <DialogTitle onClose={handleClose}>Add Type Of Tree</DialogTitle>
+        <Divider/>
+        <DialogContent>
         <Grid container spacing={1}>
         <Grid item xs={12}>
               <DefaultInput
@@ -97,18 +82,6 @@ export default function TypeOfTreeDialog(props) {
               />
             </Grid>
             <Grid item xs={12}>
-            <DefaultInput
-                fullWidth
-                id="description"
-                autoComplete="description"
-                // multiline= {3}
-                placeholder="Description"
-                defaultValue={data?data.description: ""}
-                // name="description"
-                // value="description"
-              />
-            </Grid>
-            <Grid item xs={12}>
             <Select
               id="status"
             //   name='status'
@@ -117,7 +90,16 @@ export default function TypeOfTreeDialog(props) {
               placeholder='Status'
             
               onChange={handleStatusChange}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Status</em>;
+                }
+                return selected
+              }}
             >
+               <MenuItem disabled value="">
+            <em>Status</em>
+          </MenuItem>
               {statusValue.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
@@ -127,13 +109,11 @@ export default function TypeOfTreeDialog(props) {
             </Grid>
           </Grid>
         </DialogContent>
-        
+        <Divider/>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save
-          </Button>
+          <Button onClick={handleClose}>Add</Button>
         </DialogActions>
-      </BootstrapDialog>
-    </div>
+      </Dialog>
+      </div>
   );
 }
