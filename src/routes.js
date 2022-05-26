@@ -24,6 +24,7 @@ import Zone from './pages/Master/Zone';
 import Ward from './pages/Master/Ward';
 import BaseColor from './pages/TreeData/BaseColor';
 import DeniedEntry from './pages/TreeData/DeniedEntry';
+import BaseColorHistory from './pages/TreeData/BaseColorHistory';
 
 // ----------------------------------------------------------------------
 
@@ -51,6 +52,7 @@ export default function Router() {
         { path: 'ward', element: <Ward /> },
         { path: 'base-color', element: <BaseColor /> },
         { path: 'denied-entry', element: <DeniedEntry /> },
+        { path: 'base-color/history', element: <BaseColorHistory /> },
       ],
     },
     {

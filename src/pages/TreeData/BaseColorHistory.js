@@ -1,13 +1,9 @@
 
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
   Table,
   Stack,
-  Avatar,
-  Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -21,7 +17,8 @@ import Scrollbar from '../../components/Scrollbar';
 import { UserListHead } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 import TreeData from  '../../components/JsonFiles/TreeData.json';
-import WardDialog from "../../components/DialogBox/WardDialog";
+import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialog";
+import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 
 // ----------------------------------------------------------------------
 
@@ -31,20 +28,25 @@ const TABLE_HEAD = [
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'images', label: 'images', alignRight: false },
-  { id: 'reasons', label: 'Reasons', alignRight: false },
-  { id: 'deniedFor', label: 'Denied For', alignRight: false },
+  { id: 'addedBy', label: 'Added By', alignRight: false },
+  { id: 'qcStatus', label: 'QC Status', alignRight: false },
+  { id: 'qcRemarks', label: 'QC Remark', alignRight: false },
+  { id: 'qcRemarksDate', label: 'QC Remark Date', alignRight: false },
+  { id: 'addedByDate', label: 'Added By Date', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function DeniedEntry() {
+export default function BaseColorHistory() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
+  const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     setOpen(!open)
   }
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -58,13 +60,9 @@ export default function DeniedEntry() {
   return (
     <Page title="User">
       <Container>
-        <WardDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Denied Entry
+            Base Color History
           </Typography>
         </Stack>
 
@@ -76,7 +74,7 @@ export default function DeniedEntry() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { TreeData.deniedEntry.map((option) => {
+                     { TreeData.baseColorHistory.map((option) => {
                         return (
                         <TableRow
                         hover
@@ -86,8 +84,12 @@ export default function DeniedEntry() {
                         <TableCell align="left">{option.propertyNumber}</TableCell>
                         <TableCell align="left">{option.ownerName}</TableCell>
                         <TableCell align="left">{option.images}</TableCell>
-                        <TableCell align="left">{option.reason}</TableCell>
-                        <TableCell align="left">{option.deniedFor}</TableCell>
+                        <TableCell align="left">{option.addedBy}</TableCell>
+                        <TableCell align="left">{option.qcStatus}</TableCell>
+                        <TableCell align="left">{option.qcRemarks}</TableCell>
+                        <TableCell align="left">{option.qcRemarksDate}</TableCell>
+                        <TableCell align="left">{option.addedByDate}</TableCell>
+                        
                         </TableRow>
                         )
                   })

@@ -87,7 +87,7 @@ const navConfig = [
 {
   title: 'Tree Data',
   path: '/dashboard/tree-data',
-  icon: getIcon('eva:shopping-bag-fill'),
+  icon: getIcon('bi:tree-fill'),
   children:[
     {
       title: 'Base Color',

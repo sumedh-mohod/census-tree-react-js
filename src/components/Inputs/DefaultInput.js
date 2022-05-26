@@ -16,7 +16,7 @@ function DefaultInput(props) {
             >
         <TextField
         id={id}
-        style={{width: '180%', marginLeft: 40}}
+        style={{width: '183%', marginLeft: 40}}
         label={label}
         variant={variant}
         autoFocus={autoFocus}

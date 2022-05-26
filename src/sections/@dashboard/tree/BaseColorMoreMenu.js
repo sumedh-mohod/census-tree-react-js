@@ -46,11 +46,11 @@ export default function BaseColorMoreMenu(props) {
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose}>
+        <MenuItem component={RouterLink} to="/dashboard/base-color/history" sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:eye-fill" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="View" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="View History" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

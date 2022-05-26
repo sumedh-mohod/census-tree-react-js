@@ -16,14 +16,14 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
 import { UserListHead } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 import TreeData from  '../../components/JsonFiles/TreeData.json';
-import WardDialog from "../../components/DialogBox/WardDialog";
+import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialog";
+import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 
 // ----------------------------------------------------------------------
 
@@ -31,9 +31,9 @@ const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'propertyType', label: 'Property Type', alignRight: false },
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
-  { id: 'ownerNumber', label: 'Owner Number', alignRight: false },
-  { id: 'addedBy', label: 'Added By', alignRight: false },
+  { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'images', label: 'images', alignRight: false },
+  { id: 'addedBy', label: 'Added By', alignRight: false },
   { id: 'qcStatus', label: 'QC Status', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
 ];
@@ -44,11 +44,17 @@ export default function BaseColor() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
+  const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
-    console.log("hiiii")
     setOpen(!open)
   }
+
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -62,9 +68,10 @@ export default function BaseColor() {
   return (
     <Page title="User">
       <Container>
-        <WardDialog
+        <BaseColorDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
+        data={dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -88,12 +95,12 @@ export default function BaseColor() {
                             <TableCell align="left">{option.srno}</TableCell>
                         <TableCell align="left">{option.propertyType}</TableCell>
                         <TableCell align="left">{option.propertyNumber}</TableCell>
-                        <TableCell align="left">{option.ownerNumber}</TableCell>
-                        <TableCell align="left">{option.addedBy}</TableCell>
+                        <TableCell align="left">{option.ownerName}</TableCell>
                         <TableCell align="left">{option.images}</TableCell>
+                        <TableCell align="left">{option.addedBy}</TableCell>
                         <TableCell align="left">{option.qcStatus}</TableCell>
                         <TableCell align="right">
-                          <BaseColorMoreMenu />
+                          <BaseColorMoreMenu handleEdit={()=>handleEdit(option)} />
                         </TableCell>
                         </TableRow>
                         )

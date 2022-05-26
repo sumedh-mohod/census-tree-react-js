@@ -1,0 +1,144 @@
+.alertpage {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 40vw;
+	height: max-content;
+	background-color: rgba(0, 0, 0, 0);
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	font-weight: bold;
+	z-index: 1000;
+	overflow: hidden;
+}
+
+.alertpage-alertnone {
+    position: relative;
+    min-width: 60%;
+    width: max-content;
+    padding: 0.9rem;
+    margin: 0.9rem 0 0.5rem 1.5rem;
+    opacity: 1;
+    background: #f4f4f4;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background: #ffffff;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.alertpage-alert {
+    position: relative;
+    min-width: 60%;
+    width: max-content;
+    padding: 0.9rem;
+    margin: 0.9rem 0 0.5rem 1.5rem;
+    opacity: 1;
+    background: #f4f4f4;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background: #ffffff;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+    transition: all ease-in-out;
+    transform: translateX(0%);
+    animation-name: transform-alerts;
+    animation-duration: 4s;
+    animation-delay: 2s;
+}
+
+.alertpage-alert-msg {
+    color: #666666;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.alertpage-alert-close {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #7c7c7c;
+}
+
+.alertpage-alert-alertspan {
+    position: relative;
+    width: 12%;
+}
+
+.alertpage-alert-alertspan-success {
+    background-image: url("../Resources/Alerts/success.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 25px;
+    height: 25px;
+}
+
+.alertpage-alert-alertspan-information {
+    background-image: url("../Resources/Alerts/info.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 25px;
+    height: 25px;
+}
+
+.alertpage-alert-alertspan-danger {
+    background-image: url("../Resources/Alerts/fail.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 25px;
+    height: 25px;
+}
+
+.alertpage-alert-alertspan-notify {
+    background-image: url("../Resources/Alerts/notify.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 25px;
+    height: 25px;
+}
+
+.alertpage-alert-alertspan-danger-stay {
+    background-image: url("../Resources/Alerts/fail.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 25px;
+    height: 25px;
+}
+
+@-webkit-keyframes transform-alerts {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+@-moz-keyframes transform-alerts {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+@keyframes transform-alerts {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
