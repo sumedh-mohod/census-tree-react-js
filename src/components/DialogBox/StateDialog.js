@@ -42,17 +42,33 @@ const BootstrapDialogTitle = (props) => {
     </DialogTitle>
   );
 };
+
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
 
-export default function TypeOfPropertyDialog(props) {
+export default function StateDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [status, setStatus] = React.useState('Status')
   const { isOpen, data } = props;
+
+  const statusValue = [
+    {
+      value: 'active',
+      label: 'Active',
+    },
+    {
+      value: 'inactive',
+      label: 'InActive',
+    },
+  ];
+
+const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+  };
 
   const handleClose = () => {
     props.handleClose();
@@ -62,6 +78,10 @@ export default function TypeOfPropertyDialog(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const handleMaxWidthChange = (event) => {
     setMaxWidth(
@@ -82,20 +102,46 @@ export default function TypeOfPropertyDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add Type Of Property</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Add State</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
         <Grid item xs={12}>
               <DefaultInput
                 fullWidth
-                id="typeOfProperty"
-                // autoComplete="typeOfTree"
-                defaultValue={data? data.typeOfProperty: ""}
-                placeholder="Type Of Property"
-                // name="typeOfTree"
-                // value="typeOfTree"
+                id="state"
+                autoComplete="state"
+                placeholder="State"
+                defaultValue={data? data.state : ""}
+                // name="designation"
+                // value="designation"
               />
+            </Grid>
+            <Grid item xs={12}>
+            <Select
+              id="status"
+              // name='status'
+              // value={status}
+              displayEmpty
+              style={{width:'83%', marginLeft: 40}}
+              defaultValue={data? data.status : ""}
+              onChange={handleStatusChange}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Status</em>;
+                }
+                return selected
+              }}
+            >
+               <MenuItem disabled value="">
+            <em>Status</em>
+          </MenuItem>
+              {statusValue.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
             </Grid>
           </Grid>
         </DialogContent>
