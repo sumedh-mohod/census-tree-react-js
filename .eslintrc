@@ -58,6 +58,7 @@
     "react/function-component-definition": 0,
     "react/jsx-no-constructed-context-values": 0,
     "default-param-last": 0,
+    "sort-imports": ["error", { "ignoreDeclarationSort": true }],
     "no-unused-vars": [
       1,
       {
