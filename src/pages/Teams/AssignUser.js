@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,8 +16,6 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { DeleteTreeConditions, GetTreeConditions } from '../../actions/TreeConditionAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -25,15 +23,18 @@ import Iconify from '../../components/Iconify';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
-import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import TypeOfTreeCuttingDialog from "../../components/DialogBox/TreeConditionDialog";
+import TeamsData from  '../../components/JsonFiles/TeamsData.json';
+import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'TypeofTreeCuttinf', label: 'Tree Condition', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'user', label: 'User', alignRight: false },
+  { id: 'role', label: 'Role', alignRight: false },
+  { id: 'fromdate', label: 'From Date', alignRight: false },
+  { id: 'todate', label: 'To Date', alignRight: false },
+  { id: 'status', label: 'status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -68,45 +69,19 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function TreeConditions() {
-  const dispatch = useDispatch();
+export default function AssignUser() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState();
-   const [dialogData,setDialogData] = useState(null);
-
-   const {
-    treeConditions,
-    addTreeConditionsLog,
-    editTreeConditionsLog,
-    deleteTreeConditionsLog
-  } = useSelector((state) => ({
-    treeConditions:state.treeConditions.treeConditions,
-    addTreeConditionsLog:state.treeConditions.addTreeConditionsLog,
-    editTreeConditionsLog:state.treeConditions.editTreeConditionsLog,
-    deleteTreeConditionsLog:state.treeConditions.deleteTreeConditionsLog
-  }));
-
-  console.log("TREE CONDITIONS",treeConditions)
-
-  useEffect(()=>{
-    dispatch(GetTreeConditions());
-  },[addTreeConditionsLog,editTreeConditionsLog,deleteTreeConditionsLog])
-
+  const [dialogData,setDialogData] = useState(null);
   const handleNewUserClick = () => {
-    setDialogData(null);
+    console.log("hiiii")
     setOpen(!open)
   }
 
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
-  };
-
-  const handleDelete = (data) => {
-    console.log("HANDLE DELETE",data);
-    dispatch(DeleteTreeConditions(data.id,data.status?0:1));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -120,18 +95,18 @@ export default function TreeConditions() {
 
   return (
     <Page title="User">
-      <Container>
-        <TypeOfTreeCuttingDialog
+    <Container>
+        <AssignUserDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
-        data = {dialogData}
+        data= {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Tree Condition
+          Assigned User
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Tree Condition
+          Assigned User
 
           </Button>
         </Stack>
@@ -144,16 +119,19 @@ export default function TreeConditions() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { treeConditions?.map((option,index) => {
+                     { TeamsData.AssignUser.map((option) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
-                        <TableCell align="left">{option.condition}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
+                            <TableCell align="left">{option.srno}</TableCell>
+                        <TableCell align="left">{option.user}</TableCell>
+                        <TableCell align="left">{option.role}</TableCell>
+                        <TableCell align="left">{option.fromdate}</TableCell>
+                        <TableCell align="left">{option.todate}</TableCell>
+                        <TableCell align="left">{option.status}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
                         </TableRow>
                         )

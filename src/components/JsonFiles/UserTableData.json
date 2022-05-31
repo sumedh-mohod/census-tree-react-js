@@ -183,12 +183,12 @@
     "StateData": [
         {
             "srno" : "1",
-            "state": "patana",
+            "statedata": "patana",
             "status": "Active"
         },
         {
             "srno" : "2",
-            "state": "Maharashtra",
+            "statedata": "Maharashtra",
             "status": "InActive"
         }
     ]

@@ -8,9 +8,6 @@ import User from './pages/User';
 import Taluka from './pages/Master/Taluka';
 import District from './pages/Master/District'
 import StateListTable from './pages/Master/StateListTable'
-import Login from './pages/Login';
-import NotFound from './pages/Page404';
-import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import CreateDesignation from './pages/Master/CreateDesignation';
@@ -26,6 +23,12 @@ import BaseColor from './pages/TreeData/BaseColor';
 import DeniedEntry from './pages/TreeData/DeniedEntry';
 import BaseColorHistory from './pages/TreeData/BaseColorHistory';
 import TreeConditions from './pages/Master/TreeConditions';
+import TeamsList from './pages/Teams/TeamsList'
+import AssignNewCouncilZoneWard from './pages/Teams/AssignNewCouncilZoneWard';
+import AssignUser from './pages/Teams/AssignUser';
+import Login from './pages/Login';
+import NotFound from './pages/Page404';
+import Register from './pages/Register';
 
 // ----------------------------------------------------------------------
 
@@ -55,6 +58,9 @@ export default function Router() {
         { path: 'base-color', element: <BaseColor /> },
         { path: 'denied-entry', element: <DeniedEntry /> },
         { path: 'base-color/history', element: <BaseColorHistory /> },
+        { path: 'teams', element: <TeamsList /> },
+        { path: 'assignNewCouncilZoneWard', element: <AssignNewCouncilZoneWard /> },
+        { path: 'assignUser', element: <AssignUser/> },
       ],
     },
     {
