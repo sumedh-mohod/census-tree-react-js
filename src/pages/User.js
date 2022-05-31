@@ -84,10 +84,7 @@ export default function User() {
    const [close, setClose] = useState();
    const [dialogData,setDialogData] = useState(null);
 
-  const handleNewUserClick = () => {
-    console.log("hiiii")
-    setOpen(!open)
-  }
+
 
   const handleEdit = (data) => {
     setDialogData(data);
@@ -106,16 +103,16 @@ export default function User() {
   return (
     <Page title="User">
       <Container>
-        <NewUserDialog
+        {/* <NewUserDialog
         isOpen={open}
         data={dialogData}
         // isClose={}
-        />
+        /> */}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Users
           </Typography>
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button variant="contained" component={RouterLink} to="/dashboard/newUserFrom" startIcon={<Iconify icon="eva:plus-fill"  />}>
             New User
 
           </Button>
@@ -128,7 +125,7 @@ export default function User() {
                 <UserListHead
                   headLabel={TABLE_HEAD}
                   data = {dialogData}
-                  handleClose = {handleNewUserClick}
+                  // handleClose = {handleNewUserClick}
                 />
                 <TableBody>
                      { UserTableData.userData.map((option) => {

@@ -17,6 +17,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import TextField from '@mui/material/TextField';
 // import Typography from '@mui/material/Typography';
 // import TextField from '@mui/material/TextField';
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -387,7 +388,7 @@ export default function NewUserDialog(props) {
               displayEmpty
               defaultValue={data? data.district : ""}
               value={district}
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Select District'
             
               onChange={handleDistrictChange}
@@ -436,6 +437,34 @@ export default function NewUserDialog(props) {
                 // value="aadhar"
               />
             </Grid>
+            <Grid item xs={12}>
+            <TextField
+    id="date"
+    // label="Date Of Birth"
+    type="date"
+    placeholder='Date Of Birth'
+    // defaultValue="2017-05-24"
+    style={{width: "83%", marginLeft: 40}}
+    // className={classes.textField}
+    InputLabelProps={{
+      shrink: true,
+    }}
+  />
+    </Grid>
+    <Grid item xs={12}>
+            <TextField
+    id="date"
+    // label="Date Of Birth"
+    type="date"
+    placeholder='Date Of Joining'
+    // defaultValue="2017-05-24"
+    style={{width: "83%", marginLeft: 40}}
+    // className={classes.textField}
+    InputLabelProps={{
+      shrink: true,
+    }}
+  />
+    </Grid>
             {/* <Grid item xs={12}>
             <Typography sx={{ mt: 2, mb: 1 }}>1 calendar </Typography>
         <DateRangePicker
@@ -460,7 +489,7 @@ export default function NewUserDialog(props) {
               value={religion}
               displayEmpty
               defaultValue={data? data.religion: ""}
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Religion'
               onChange={handleReligionChange}
               renderValue={(selected) => {
@@ -487,7 +516,7 @@ export default function NewUserDialog(props) {
               value={caste}
               displayEmpty
               defaultValue={data? data.caste: ""}
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='aste'
               onChange={handleCasteChange}
               renderValue={(selected) => {
@@ -514,7 +543,7 @@ export default function NewUserDialog(props) {
               value={caste}
               displayEmpty
               defaultValue={data? data.caste: ""}
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Caste'
               onChange={handleGenderChange}
               renderValue={(selected) => {
@@ -579,13 +608,27 @@ export default function NewUserDialog(props) {
               />
             </Grid>
             <Grid item xs={12}>
+            <TextField
+    id="date"
+    // label="Date Of Birth"
+    type="date"
+    placeholder='Last Day Of Work'
+    // defaultValue="2017-05-24"
+    style={{width: "83%", marginLeft: 40}}
+    // className={classes.textField}
+    InputLabelProps={{
+      shrink: true,
+    }}
+  />
+    </Grid>
+            <Grid item xs={12}>
               <Select
               id="agreementDone"
               name='agreementDone'
               value={agreementDone}
               displayEmpty
               defaultValue={data? data.agreementDone: ""}
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Agreement Done'
               onChange={handleAgreementChange}
               renderValue={(selected) => {
@@ -612,7 +655,7 @@ export default function NewUserDialog(props) {
               value={documentProvided}
               displayEmpty
               defaultValue={data? data.documentProvided: ""}
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Document Provided'
               onChange={handleDocumentProvidedChange}
               renderValue={(selected) => {
@@ -650,7 +693,7 @@ export default function NewUserDialog(props) {
               value={applicableDeducation}
               displayEmpty
               defaultValue={data? data.applicableDeducation: ""}
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Applicable Deducation'
               onChange={handleApplicableDeducationCange}
               renderValue={(selected) => {
@@ -688,7 +731,7 @@ export default function NewUserDialog(props) {
               value={bloodGrp}
               displayEmpty
               defaultValue={data? data.bloodgrp: ""}
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
               placeholder='Blood Group'
               onChange={handleBloodGrpChange}
               renderValue={(selected) => {
@@ -747,7 +790,7 @@ export default function NewUserDialog(props) {
               name='whoseReference'
               value={whoseReference}
               displayEmpty
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
             
               onChange={handleRoleChange}
               placeholder='Whose Reference'
@@ -786,7 +829,7 @@ export default function NewUserDialog(props) {
               name='noticedPeriods'
               value={status}
               displayEmpty
-              style={{width:'85%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40}}
               defaultValue={data? data.noticedPeriods: ""}
               onChange={handleRoleChange}
               renderValue={(selected) => {

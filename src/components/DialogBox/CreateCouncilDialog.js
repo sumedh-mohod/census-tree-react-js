@@ -63,6 +63,16 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CreateCouncilDialog(props) {
+  const stateValue = [
+    {
+      value: 'patna',
+      label: 'patna',
+    },
+    {
+      value: 'maharashtra',
+      label: 'Maharashtra',
+    },
+  ];
   const genderValue = [
     {
       value: 'male',
@@ -102,6 +112,28 @@ export default function CreateCouncilDialog(props) {
       label: 'InActive',
     },
   ];
+  const DistrictValue = [
+    {
+      value: 'akola',
+      label: 'Akola',
+    },
+    {
+      value: 'amravati',
+      label: 'Amravati',
+    },
+  ]
+
+  const TalukaValue = [
+    {
+      value: 'akola',
+      label: 'Akola',
+    },
+    {
+      value: 'amravati',
+      label: 'Amravati',
+    },
+  ];
+
   const names = [
     'Oliver Hansen',
     'Van Henry',
@@ -121,6 +153,9 @@ export default function CreateCouncilDialog(props) {
   const [gender, setGender] = React.useState('');
   const [role, setRole] = React.useState('');
   const [status, setStatus] = React.useState('');
+  const[district, setDistrict]=  React.useState('');
+  const [stateName, setStateName] = React.useState('');
+  const [taluka, setTaluka] = React.useState('');
   const [ZoneName, setZoneName] = React.useState([]);
   const [WardName, setWardName] = React.useState([]);
   const handleGenderChange = (event) => {
@@ -137,6 +172,13 @@ export default function CreateCouncilDialog(props) {
     props.handleClose();
   };
 
+  const handleDistrictChange = (event) => {
+    setDistrict(event.target.value);
+  };
+
+  const handleTalukaChange = (event) => {
+    setTaluka(event.target.value);
+  };
   const handleChange = (event) => {
     const {
       target: { value },
@@ -157,30 +199,22 @@ export default function CreateCouncilDialog(props) {
     );
   };
 
+  const handleStateChange = (event) => {
+    setStateName(event.target.value);
+  };
+
 
   return (
     <div>
       <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+      <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           New Council
         </BootstrapDialogTitle>
-        <Divider />
         <DialogContent dividers>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+        Council Details
+        </BootstrapDialogTitle>
           <Grid container spacing={1}>
-          <Grid item xs={12}>
-              <DefaultInput
-                fullWidth
-                id="prefix"
-                autoComplete="prefix"
-                defaultValue={data ? data.prefix : ''}
-                // type={showPassword ? 'text' : 'password'}
-                // label="Name"
-                placeholder="prefix"
-                // name="name"
-                // value="name"
-              />
-            </Grid>
-            {/* <UploadButtons/> */}
             <Grid item xs={12}>
               <DefaultInput
                 fullWidth
@@ -193,6 +227,125 @@ export default function CreateCouncilDialog(props) {
                 // name="name"
                 // value="name"
               />
+            </Grid>
+               {/* <UploadButtons/> */}
+               <Grid item xs={12}>
+              <Select
+                id="state"
+                displayEmpty
+                // name="gender"
+                value={stateName}
+                style={{ width: '81%', marginLeft: 40 }}
+                defaultValue={data ? data.state : ''}
+                onChange={handleStateChange}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>State</em>;
+                  }
+                  return selected
+                }}
+              >
+                 <MenuItem disabled value="">
+              <em>State</em>
+            </MenuItem>
+                {stateValue.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={12}>
+            <Select
+              id="district"
+              // name='District'
+              displayEmpty
+              defaultValue={data? data.district : ""}
+              value={district}
+              style={{width:'81%', marginLeft: 40}}
+              placeholder='Select District'
+            
+              onChange={handleDistrictChange}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>District</em>;
+                }
+                return selected
+              }}
+            >
+               <MenuItem disabled value="">
+            <em>District</em>
+          </MenuItem>
+              {DistrictValue.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+            </Grid>
+            <Grid item xs={12}>
+              <Select
+                id="taluka"
+                displayEmpty
+                // name="gender"
+                value={taluka}
+                style={{ width: '81%', marginLeft: 40 }}
+                defaultValue={data ? data.taluka : ''}
+                onChange={handleTalukaChange}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>Taluka</em>;
+                  }
+                  return selected
+                }}
+              >
+                 <MenuItem disabled value="">
+              <em>Taluka</em>
+            </MenuItem>
+                {stateValue.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Divider />
+            <BootstrapDialogTitle id="customized-dialog-title">
+            Contact Person
+        </BootstrapDialogTitle>
+        <Divider />
+            <Grid item xs={12}>
+              <DefaultInput
+               fullWidth
+                id="name"
+                 autoComplete="name"
+                  placeholder="Name"
+                  defaultValue={data ? data.name : ''}
+                  //  name="email"
+                  //   value="email" 
+                    />
+            </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
+               fullWidth
+                id="mName"
+                 autoComplete="mName"
+                  placeholder="Middle Name"
+                  defaultValue={data ? data.mName : ''}
+                  //  name="email"
+                  //   value="email" 
+                    />
+            </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
+               fullWidth
+                id="lName"
+                 autoComplete="lName"
+                  placeholder="Last Name"
+                  defaultValue={data ? data.lName : ''}
+                  //  name="email"
+                  //   value="email" 
+                    />
             </Grid>
             <Grid item xs={12}>
               <DefaultInput
@@ -219,153 +372,24 @@ export default function CreateCouncilDialog(props) {
             <Grid item xs={12}>
               <DefaultInput
                 fullWidth
-                id="address"
-                autoComplete="address"
-                placeholder="Address"
-                defaultValue={data ? data.address : ''}
+                id="username"
+                autoComplete="username"
+                placeholder="User Name"
+                defaultValue={data ? data.username : ''}
                 // name="address"
                 // value="address"
               />
             </Grid>
             <Grid item xs={12}>
-              <Select
-                id="gender"
-                displayEmpty
-                // name="gender"
-                value={gender}
-                style={{ width: '83%', marginLeft: 40 }}
-                defaultValue={data ? data.gender : ''}
-                onChange={handleGenderChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Gender</em>;
-                  }
-                  return selected
-                }}
-              >
-                 <MenuItem disabled value="">
-              <em>Gender</em>
-            </MenuItem>
-                {genderValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <Select
-                id="role"
-                displayEmpty
-                // name="role"
-                value={role}
-                style={{ width: '83%', marginLeft: 40 }}
-                defaultValue={data ? data.role : ''}
-                onChange={handleRoleChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Role</em>;
-                  }
-                  return selected
-                }}
-              >
-                 <MenuItem disabled value="">
-              <em>Role</em>
-            </MenuItem>
-                {roleValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <Select
-                id="status"
-                displayEmpty
-                // name="status"
-                value={status}
-                style={{ width: '83%', marginLeft: 40 }}
-                defaultValue={data ? data.status : ''}
-                onChange={handleRoleChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Status</em>;
-                  }
-                  return selected
-                }}
-              >
-                 <MenuItem disabled value="">
-              <em>Status</em>
-            </MenuItem>
-                {statusValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-            <Select
-          multiple
-          displayEmpty
-          value={ZoneName}
-          onChange={handleChange}
-          style={{ width: '83%', marginLeft: 40 }}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Zone</em>;
-            }
-
-            return selected.join(', ');
-          }}
-          // MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          <MenuItem disabled value="">
-            <em>Zone</em>
-          </MenuItem>
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              // style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-            </Grid>
-            <Grid item xs={12}>
-            <Select
-          multiple
-          displayEmpty
-          value={WardName}
-          onChange={handleWardChange}
-          style={{ width: '83%', marginLeft: 40 }}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Ward</em>;
-            }
-
-            return selected.join(', ');
-          }}
-          // MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          <MenuItem disabled value="">
-            <em>Ward</em>
-          </MenuItem>
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              // style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
+              <DefaultInput
+                fullWidth
+                id="password"
+                autoComplete="password"
+                placeholder="Password"
+                defaultValue={data ? data.password : ''}
+                // name="address"
+                // value="address"
+              />
             </Grid>
           </Grid>
         </DialogContent>

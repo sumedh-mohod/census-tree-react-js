@@ -29,6 +29,7 @@ import AssignUser from './pages/Teams/AssignUser';
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
+import NewUserForm from './pages/NewUserForm';
 
 // ----------------------------------------------------------------------
 
@@ -61,6 +62,7 @@ export default function Router() {
         { path: 'teams', element: <TeamsList /> },
         { path: 'assignNewCouncilZoneWard', element: <AssignNewCouncilZoneWard /> },
         { path: 'assignUser', element: <AssignUser/> },
+        { path: 'newUserFrom', element: <NewUserForm/> },
       ],
     },
     {
