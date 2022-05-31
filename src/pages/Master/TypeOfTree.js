@@ -144,7 +144,7 @@ export default function TypeOfTree() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     {treeType.map((option,index) => {
+                     {treeType?.map((option,index) => {
                         return (
                         <TableRow
                         hover

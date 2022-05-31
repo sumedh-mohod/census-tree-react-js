@@ -11,7 +11,8 @@ import {
     GET_TALUKAS,
     ADD_TALUKAS,
     EDIT_TALUKAS,
-    DELETE_TALUKAS
+    DELETE_TALUKAS,
+    GET_DISTRICTS_BY_STATE_ID
   } from "../actions/Types";
   
   const INIT_STATE = {
@@ -62,6 +63,12 @@ import {
               ...state,
               districts: payload.data,
         };
+
+        case GET_DISTRICTS_BY_STATE_ID:
+            return{
+                ...state,
+                districts: payload.data,
+          };
 
         case ADD_DISTRICTS:
             return{

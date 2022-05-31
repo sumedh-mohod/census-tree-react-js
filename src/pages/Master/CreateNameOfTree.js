@@ -154,7 +154,7 @@ export default function CreateNameOfTree() {
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.botanical_name}</TableCell>
-                        <TableCell align="left">{option.tree_type_id}</TableCell>
+                        <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />

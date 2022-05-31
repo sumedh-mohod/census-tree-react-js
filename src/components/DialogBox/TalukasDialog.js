@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -10,13 +11,16 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import { AddTalukas, EditTalukas, GetAllState, GetDistrictsByStateId } from '../../actions/MasterActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -48,19 +52,57 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function TalukasDialog(props) {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [status, setStatus] = React.useState('Status')
-  const[state, setState]=  React.useState('Maharastra');
-  const[district, setDistrict]=  React.useState('Nagpur');
+  const[state, setState]=  React.useState('State');
+  const[district, setDistrict]=  React.useState('District');
   const { isOpen, data } = props;
 
+  const {
+    addTalukasLog,
+    editTalukasLog,
+    states,
+    districts,
+  } = useSelector((state) => ({
+    addTalukasLog:state.master.addTalukasLog,
+    editTalukasLog:state.master.editTalukasLog,
+    states:state.master.states,
+    districts:state.master.districts,
+  }));
+
+  React.useEffect(()=>{
+    dispatch(GetAllState());
+  },[])
+
+  React.useEffect(()=>{
+    if(data){
+      setState(data.state_id);
+      setDistrict(data.district_id);
+    }
+    
+  },[data])
+
+  const firstRun = React.useRef(true);
+  React.useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose()
+  },[addTalukasLog,editTalukasLog])
  
+
    const handleStateChange = (event) => {
+     dispatch(GetDistrictsByStateId(event.target.value))
+     setDistrict("District")
      setState(event.target.value);
    };
+
    const handleDistrictChange = (event) => {
+     console.log("DISTRICT CHANGE CALLED");
      setDistrict(event.target.value);
    };
 
@@ -102,6 +144,44 @@ export default function TalukasDialog(props) {
     );
   };
 
+  const DistrictsSchema = Yup.object().shape({
+    talukas: Yup.string().required('Taluka is required'),
+    district: Yup.string().required('Districts is required'),
+    state: Yup.string().required('State is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      talukas:data? data.name : "",
+      state:data?data.state_id:"",
+      district:data?data.district_id:"",
+
+    },
+    validationSchema: DistrictsSchema,
+    onSubmit: (value) => {
+      if(data){
+        dispatch(EditTalukas({
+          "name":value.talukas,
+          "state_id":value.state,
+          "district_id":value.district
+        },data.id))
+      }
+      else {
+        dispatch(AddTalukas({
+          "name":value.talukas,
+          "state_id":value.state,
+          "district_id":value.district
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+
+
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -124,53 +204,53 @@ export default function TalukasDialog(props) {
                 id="name"
                 autoComplete="name"
                 placeholder="Enter Taluka Name"
-                defaultValue={data? data.name : ""}
-                // name="name"
-                // value="name"
+                error={Boolean(touched.talukas && errors.talukas)}
+                helperText={touched.talukas && errors.talukas}
+                {...getFieldProps("talukas")}
               />
             </Grid>
             <Grid item xs={12}>
             <Select
-              id="state"
+              id="taluka_state"
               displayEmpty
               // name='State'
               value={state}
               style={{width:'83%', marginLeft: 40}}
               placeholder='Select State'
               onChange={handleStateChange}
-              defaultValue={data? data.state : ""}
+              error={Boolean(touched.state && errors.state)}
+                helperText={touched.state && errors.state}
+                {...getFieldProps("state")}
             >
-              {stateValue.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              <MenuItem disabled value="">
+            <em>State</em>
+          </MenuItem>
+              {states?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
                 </MenuItem>
               ))}
             </Select>
             </Grid>
             <Grid item xs={12}>
             <Select
-              id="district"
+              id="taluka_district"
               // name='District'
               displayEmpty
-              defaultValue={data? data.district : ""}
               value={district}
               style={{width:'83%', marginLeft: 40}}
               placeholder='Select District'
-            
               onChange={handleDistrictChange}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>District</em>;
-                }
-                return selected
-              }}
+              error={Boolean(touched.district && errors.district)}
+                helperText={touched.district && errors.district}
+                {...getFieldProps("district")}
             >
                <MenuItem disabled value="">
             <em>District</em>
           </MenuItem>
-              {DistrictValue.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {districts?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
                 </MenuItem>
               ))}
             </Select>
@@ -179,7 +259,7 @@ export default function TalukasDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

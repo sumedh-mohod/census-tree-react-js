@@ -96,7 +96,7 @@ export default function CreateRoleDialog(props) {
   const handleStateChange = (event) => {
     // const states = {label:event.target.label,value:event.target.value}
     console.log("HANDLE STATE CHANGE",event.target.value)
-    setState(event.target.value);
+    // setState(event.target.value);
   };
 
   const findValue = (listOfObj,id) => {
