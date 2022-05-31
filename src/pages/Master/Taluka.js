@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { DeleteTalukas, GetAllTalukas } from 'src/actions/MasterActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -69,19 +71,42 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function Taluka() {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
+  const {
+    talukas,
+    addTalukasLog,
+    editTalukasLog,
+    deleteTalukasLog
+  } = useSelector((state) => ({
+    talukas:state.master.talukas,
+    addTalukasLog:state.master.addTalukasLog,
+    editTalukasLog:state.master.editTalukasLog,
+    deleteTalukasLog:state.master.deleteTalukasLog
+  }));
+
+  console.log("TALUKAS",talukas)
+
+  useEffect(()=>{
+    dispatch(GetAllTalukas());
+  },[addTalukasLog,editTalukasLog,deleteTalukasLog])
+
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    setDialogData(null);
     setOpen(!open)
   }
 
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
+  };
+
+  const handleDelete = (data) => {
+    dispatch(DeleteTalukas(data.id));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -131,7 +156,7 @@ export default function Taluka() {
                         <TableCell align="left">{option.district}</TableCell>
                         <TableCell align="left">{option.state}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

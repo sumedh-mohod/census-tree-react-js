@@ -1,4 +1,7 @@
-import * as React from 'react';
+import React, { useEffect, useRef } from 'react';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,7 +20,9 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import DefaultInput from '../Inputs/DefaultInput';
+import { AddState, EditState } from '../../actions/MasterActions';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -49,11 +54,31 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function StateDialog(props) {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [status, setStatus] = React.useState('Status')
   const { isOpen, data } = props;
+
+  const {
+    addStateLog,
+    editStateLog
+  } = useSelector((state) => ({
+    addStateLog:state.master.addStateLog,
+    editStateLog:state.master.editStateLog
+  }));
+
+  const firstRun = useRef(true);
+  useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose()
+  },[addStateLog,editStateLog])
+  
+
 
   const statusValue = [
     {
@@ -90,6 +115,35 @@ const handleStatusChange = (event) => {
     );
   };
 
+  const StateSchema = Yup.object().shape({
+    state: Yup.string().required('State is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      state:data? data.name : ""
+    },
+    validationSchema: StateSchema,
+    onSubmit: (value) => {
+
+      if(data){
+        dispatch(EditState({
+          "name":value.state
+        },data.id))
+      }
+      else {
+        dispatch(AddState({
+          "name":value.state
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+  console.log("values",values);
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -111,43 +165,20 @@ const handleStatusChange = (event) => {
                 fullWidth
                 id="state"
                 autoComplete="state"
-                placeholder="State"
-                defaultValue={data? data.state : ""}
-                // name="designation"
-                // value="designation"
+                placeholder="Enter State Name"
+                // defaultValue={values? values.state : ""}
+                // onChange = {(e)=>{console.log("Value",e.target.value)}}
+                error={Boolean(touched.state && errors.state)}
+                helperText={touched.state && errors.state}
+                {...getFieldProps("state")}
               />
             </Grid>
-            <Grid item xs={12}>
-            <Select
-              id="status"
-              // name='status'
-              // value={status}
-              displayEmpty
-              style={{width:'83%', marginLeft: 40}}
-              defaultValue={data? data.status : ""}
-              onChange={handleStatusChange}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>Status</em>;
-                }
-                return selected
-              }}
-            >
-               <MenuItem disabled value="">
-            <em>Status</em>
-          </MenuItem>
-              {statusValue.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-            </Grid>
+            
           </Grid>
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

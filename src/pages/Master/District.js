@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,6 +16,7 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import DistrictDialog from '../../components/DialogBox/DistrictDialog'
 import Page from '../../components/Page';
 import Label from '../../components/Label';
@@ -26,6 +27,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@das
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
+import { DeleteDistricts, GetAllDistricts} from '../../actions/MasterActions';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +35,7 @@ const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'name', label: 'District Name', alignRight: false },
   { id: 'state', label: 'State', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -68,14 +71,34 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function District() {
+
+  const dispatch = useDispatch();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState();
    const [dialogData,setDialogData] = useState(null);
 
+   const {
+    districts,
+    addDistrictsLog,
+    editDistrictsLog,
+    deleteDistrictsLog
+  } = useSelector((state) => ({
+    districts:state.master.districts,
+    addDistrictsLog:state.master.addDistrictsLog,
+    editDistrictsLog:state.master.editDistrictsLog,
+    deleteDistrictsLog:state.master.deleteDistrictsLog
+  }));
+
+  console.log("DISTRICTS",districts)
+
+  useEffect(()=>{
+    dispatch(GetAllDistricts());
+  },[addDistrictsLog,editDistrictsLog,deleteDistrictsLog])
+
   const handleNewUserClick = () => {
-    console.log("hiiii")
     setDialogData(null);
     setOpen(!open)
   }
@@ -92,6 +115,10 @@ export default function District() {
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
+  };
+
+  const handleDelete = (data) => {
+    dispatch(DeleteDistricts(data.id,data.status?0:1));
   };
 
   return (
@@ -120,19 +147,19 @@ export default function District() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.districtData.map((option) => {
+                     { districts?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                             <TableCell align="left">
-                              {option.distName}
+                              {option.name}
                             </TableCell>
-                        <TableCell align="left">{option.state}</TableCell>
-
+                        <TableCell align="left">{option.state_id}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={()=>handleEdit(option)} />
+                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { DeleteTreeName, GetTreeName } from '../../actions/TreeNameAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -34,6 +36,7 @@ const TABLE_HEAD = [
   { id: 'nameOfTree', label: 'Name Of Tree', alignRight: false },
   { id: 'botanicalName', label: 'Botanical Name', alignRight: false },
   { id: 'typeOfTree', label: 'Type Of Tree', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -69,18 +72,43 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function CreateNameOfTree() {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  
+  const {
+    treeName,
+    addTreeNameLog,
+    editTreeNameLog,
+    deleteTreeNameLog
+  } = useSelector((state) => ({
+    treeName:state.treeName.treeName,
+    addTreeNameLog:state.treeName.addTreeNameLog,
+    editTreeNameLog:state.treeName.editTreeNameLog,
+    deleteTreeNameLog:state.treeName.deleteTreeNameLog
+  }));
+
+  console.log("TREE NAME",treeName)
+
+  useEffect(()=>{
+    dispatch(GetTreeName());
+  },[addTreeNameLog,editTreeNameLog,deleteTreeNameLog])
+
+  
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    setDialogData(null);
     setOpen(!open)
   }
 
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
+  };
+
+  const handleDelete = (data) => {
+    dispatch(DeleteTreeName(data.id,data.status?0:1));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -118,17 +146,18 @@ export default function CreateNameOfTree() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.NameOfTreeData.map((option) => {
+                     { treeName?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
-                        <TableCell align="left">{option.nameOfTree}</TableCell>
-                        <TableCell align="left">{option.botanicalName}</TableCell>
-                        <TableCell align="left">{option.typeOfTree}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">{option.botanical_name}</TableCell>
+                        <TableCell align="left">{option.tree_type_id}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
+                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

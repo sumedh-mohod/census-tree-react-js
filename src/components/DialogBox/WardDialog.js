@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,6 +18,9 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import { AddWards, EditWards } from '../../actions/WardsActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -49,10 +53,30 @@ BootstrapDialogTitle.propTypes = {
 
 
 export default function WardDialog(props) {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const { isOpen, data } = props;
+
+  const {
+    wards,
+    addWardsLog,
+    editWardsLog,
+  } = useSelector((state) => ({
+    wards:state.wards.wards,
+    addWardsLog:state.wards.addWardsLog,
+    editWardsLog:state.wards.editWardsLog
+  }));
+
+  const firstRun = React.useRef(true);
+  React.useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose();
+  },[addWardsLog,editWardsLog])
 
   const handleClose = () => {
     props.handleClose();
@@ -69,6 +93,34 @@ export default function WardDialog(props) {
       event.target.value,
     );
   };
+
+  const DesignationsSchema = Yup.object().shape({
+    wards: Yup.string().required('Ward is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      wards:data? data.name : "",
+    },
+    validationSchema: DesignationsSchema,
+    onSubmit: (value) => {
+      if(data){
+        dispatch(EditWards({
+          "name":value.wards,
+        },data.id))
+      }
+      else {
+        dispatch(AddWards({
+          "name":value.wards,
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
 
   return (
     <div>
@@ -92,16 +144,16 @@ export default function WardDialog(props) {
                 id="ward"
                 // autoComplete="typeOfTree"
                 placeholder="Ward"
-                defaultValue={data?data.ward: ""}
-                // name="typeOfTree"
-                // value="typeOfTree"
+                error={Boolean(touched.wards && errors.wards)}
+                helperText={touched.wards && errors.wards}
+                {...getFieldProps("wards")}
               />
             </Grid>
           </Grid>
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

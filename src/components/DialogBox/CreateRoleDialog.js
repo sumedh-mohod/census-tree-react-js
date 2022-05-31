@@ -92,7 +92,7 @@ export default function CreateRoleDialog(props) {
                 fullWidth
                 id="role"
                 autoComplete="role"
-                placeholder="Create Role"
+                placeholder="Enter Role Name"
                 defaultValue={data? data.role : ""}
                 // name="role"
                 // value="role"

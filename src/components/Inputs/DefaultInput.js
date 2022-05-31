@@ -4,10 +4,11 @@ import { TextField ,FormControl, InputAdornment} from '@mui/material';
 
 function DefaultInput(props) {
   console.log(props)
+
 //   const classes = useStyles();
     // const textBoxClass = useStyles();
     const{id,label,variant, autoFocus, color, defaultValue, disabled, error, name,onChange,
-         placeholder, type, value, multiline,minRow,maxRow, inputProps, endAdornment, startAdornment,formControlProps}=props
+         placeholder, type, value, multiline,minRow,maxRow, inputProps, endAdornment, startAdornment,formControlProps,helperText}=props
   return (
     <div>
          <FormControl
@@ -32,6 +33,7 @@ function DefaultInput(props) {
         value={value}
         minRow={minRow}
         maxRow={maxRow}
+        helperText = {helperText}
         startAdornment={
             startAdornment && (
                 <InputAdornment position="start">

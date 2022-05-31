@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { DeleteDesignations, GetDesignations } from '../../actions/DesignationAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -32,7 +34,7 @@ import CreateDesignationDialog from "../../components/DialogBox/CreateDesignatio
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'Status', label: 'Status', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -68,19 +70,43 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function CreateDestination() {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
+  const {
+    designations,
+    addDesignationsLog,
+    editDesignationsLog,
+    deleteDesignationsLog
+  } = useSelector((state) => ({
+    designations:state.designations.designations,
+    addDesignationsLog:state.designations.addDesignationsLog,
+    editDesignationsLog:state.designations.editDesignationsLog,
+    deleteDesignationsLog:state.designations.deleteDesignationsLog
+  }));
+
+  console.log("DISTRICTS",designations)
+
+  useEffect(()=>{
+    dispatch(GetDesignations());
+  },[addDesignationsLog,editDesignationsLog,deleteDesignationsLog])
+
 
   const handleNewUserClick = () => {
+    setDialogData(null);
     setOpen(!open)
   }
 
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
+  };
+
+  const handleDelete = (data) => {
+    dispatch(DeleteDesignations(data.id,data.status?0:1));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -118,16 +144,16 @@ export default function CreateDestination() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.DesignationData.map((option) => {
+                     {designations?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
-                        <TableCell align="left">{option.designation}</TableCell>
-                        <TableCell align="left">{option.status}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
+                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

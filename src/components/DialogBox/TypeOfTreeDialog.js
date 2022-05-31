@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,7 +18,11 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useFormik } from 'formik';
 import DefaultInput from '../Inputs/DefaultInput';
+import { AddTreeType, EditTreeType } from '../../actions/TreeTypeActions';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -48,11 +53,29 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CreateRoleDialog(props) {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [status, setStatus] = React.useState('Status')
   const { isOpen, data } = props;
+
+  const {
+    addTreeTypeLog,
+    editTreeTypeLog
+  } = useSelector((state) => ({
+    addTreeTypeLog:state.treeType.addTreeTypeLog,
+    editTreeTypeLog:state.treeType.editTreeTypeLog,
+  }));
+
+  const firstRun = React.useRef(true);
+  useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose();
+  },[addTreeTypeLog,editTreeTypeLog])
 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
@@ -85,6 +108,34 @@ export default function CreateRoleDialog(props) {
     );
   };
 
+  const DesignationsSchema = Yup.object().shape({
+    treeType: Yup.string().required('Tree Type is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      treeType:data? data.tree_type : "",
+    },
+    validationSchema: DesignationsSchema,
+    onSubmit: (value) => {
+      if(data){
+        dispatch(EditTreeType({
+          "tree_type":value.treeType,
+        },data.id))
+      }
+      else {
+        dispatch(AddTreeType({
+          "tree_type":value.treeType,
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -107,42 +158,16 @@ export default function CreateRoleDialog(props) {
                 id="typeOfTree"
                 // autoComplete="typeOfTree"
                 placeholder="Type Of Tree"
-                defaultValue={data?data.typeOfTree: ""}
-                // name="typeOfTree"
-                // value="typeOfTree"
+                error={Boolean(touched.treeType && errors.treeType)}
+                helperText={touched.treeType && errors.treeType}
+                {...getFieldProps("treeType")}
               />
-            </Grid>
-            <Grid item xs={12}>
-            <Select
-              id="status"
-            //   name='status'
-              value={status}
-              style={{width:'83%', marginLeft: 40}}
-              placeholder='Status'
-            
-              onChange={handleStatusChange}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>Status</em>;
-                }
-                return selected
-              }}
-            >
-               <MenuItem disabled value="">
-            <em>Status</em>
-          </MenuItem>
-              {statusValue.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
             </Grid>
           </Grid>
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

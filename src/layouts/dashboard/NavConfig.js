@@ -62,8 +62,8 @@ const navConfig = [
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Type Of Tree Cutting',
-        path: '/dashboard/typeOfTreeCutting',
+        title: 'Tree Condition',
+        path: '/dashboard/treeCondition',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {

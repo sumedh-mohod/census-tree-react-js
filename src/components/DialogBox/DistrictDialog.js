@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,6 +18,10 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import { AddDistricts, EditDistricts, GetAllState } from '../../actions/MasterActions';
 import DefaultInput from '../Inputs/DefaultInput';
 import { LoginUser } from '../../actions/AuthActions';
 
@@ -50,15 +55,60 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CreateRoleDialog(props) {
+  const dispatch = useDispatch();
+  const { isOpen, data } = props;
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
-  const[state, setState]=  React.useState('');
-  const { isOpen, data } = props;
+  const [state, setState]=  React.useState("State");
+  
+  const {
+    addDistrictsLog,
+    editDistrictsLog,
+    states,
+  } = useSelector((state) => ({
+    addDistrictsLog:state.master.addDistrictsLog,
+    editDistrictsLog:state.master.editDistrictsLog,
+    states:state.master.states,
+  }));
+
+  useEffect(()=>{
+    dispatch(GetAllState());
+  },[])
+
+
+  useEffect(()=>{
+    if(data){
+      setState(data.state_id);
+    }
+    
+  },[data])
+
+  const firstRun = React.useRef(true);
+  useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose()
+  },[addDistrictsLog,editDistrictsLog])
 
   const handleStateChange = (event) => {
+    // const states = {label:event.target.label,value:event.target.value}
+    console.log("HANDLE STATE CHANGE",event.target.value)
     setState(event.target.value);
   };
+
+  const findValue = (listOfObj,id) => {
+    console.log("LIST OF OBJ",listOfObj);
+    console.log("ID",id);
+    const found = listOfObj.find(e => e.id === id);
+    console.log("FOUND",found);
+    if(found){
+      return found.name
+    }
+    
+  }
 
   const stateValue = [
     {
@@ -87,6 +137,39 @@ export default function CreateRoleDialog(props) {
     );
   };
 
+  const DistrictsSchema = Yup.object().shape({
+    districts: Yup.string().required('Districts is required'),
+    state: Yup.string().required('State is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      districts:data? data.name : "",
+      state:data?data.state_id:""
+    },
+    validationSchema: DistrictsSchema,
+    onSubmit: (value) => {
+      console.log("VALUE",value);
+      if(data){
+        dispatch(EditDistricts({
+          "name":value.districts,
+          "state_id":value.state
+        },data.id))
+      }
+      else {
+        dispatch(AddDistricts({
+          "name":value.districts,
+          "state_id":value.state
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -108,13 +191,10 @@ export default function CreateRoleDialog(props) {
                 fullWidth
                 id="name"
                 autoComplete="name"
-                // type={showPassword ? 'text' : 'password'}
-                // label="Name"
-                placeholder="District Name"
-                defaultValue={data?data.distName:""}
-              
-                // name="name"
-                // value="name"
+                placeholder="Enter District Name"
+                error={Boolean(touched.districts && errors.districts)}
+                helperText={touched.districts && errors.districts}
+                {...getFieldProps("districts")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -127,19 +207,24 @@ export default function CreateRoleDialog(props) {
               displayEmpty
               placeholder="select State"
               onChange={handleStateChange}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>State</em>;
-                }
-                return selected
-              }}
+              // renderValue={(selected) => {
+
+              //   console.log("SELECTED",state);
+              //   if (selected.length === 0) {
+              //     return <em>State</em>;
+              //   }
+              //   return findValue(states,state)
+              // }}
+              error={Boolean(touched.state && errors.state)}
+                helperText={touched.state && errors.state}
+                {...getFieldProps("state")}
             >
                <MenuItem disabled value="">
             <em>State</em>
           </MenuItem>
-              {stateValue.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {states?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
                 </MenuItem>
               ))}
             </Select>
@@ -149,7 +234,7 @@ export default function CreateRoleDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

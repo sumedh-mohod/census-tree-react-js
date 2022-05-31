@@ -18,7 +18,6 @@ import CreateRole from './pages/Master/CreateRole';
 import CreateCouncil from './pages/Master/CreateCouncil';
 import TypeOfTree from './pages/Master/TypeOfTree';
 import CreateNameOfTree from './pages/Master/CreateNameOfTree';
-import TypeOfCuttingTree from './pages/Master/TypeOfCuttingTree';
 import TypeOfProperty from './pages/Master/TypeOfProperty';
 import TypeOfHouse from './pages/Master/TypeOfHouse';
 import Zone from './pages/Master/Zone';
@@ -26,6 +25,7 @@ import Ward from './pages/Master/Ward';
 import BaseColor from './pages/TreeData/BaseColor';
 import DeniedEntry from './pages/TreeData/DeniedEntry';
 import BaseColorHistory from './pages/TreeData/BaseColorHistory';
+import TreeConditions from './pages/Master/TreeConditions';
 
 // ----------------------------------------------------------------------
 
@@ -47,7 +47,7 @@ export default function Router() {
         { path: 'createCouncil', element: <CreateCouncil /> },
         { path: 'typeOfTree', element: <TypeOfTree /> },
         { path: 'nameOfTree', element: <CreateNameOfTree /> },
-        { path: 'typeOfTreeCutting', element: <TypeOfCuttingTree /> }, 
+        { path: 'treeCondition', element: <TreeConditions /> }, 
         { path: 'typeOfProperty', element: <TypeOfProperty /> },    
         { path: 'typeOfHouse', element: <TypeOfHouse /> },
         { path: 'zone', element: <Zone /> },

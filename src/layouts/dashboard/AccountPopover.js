@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
@@ -7,7 +7,7 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
 import account from '../../_mock/account';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Logout } from 'src/actions/AuthActions';
 
 // ----------------------------------------------------------------------
@@ -34,9 +34,28 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const anchorRef = useRef(null);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
+
   const [open, setOpen] = useState(null);
+
+  const {
+    isLoggedOut
+  } = useSelector((state) => ({
+    isLoggedOut:state.auth.isLoggedOut
+  }));
+
+  const firstRun = useRef(true);
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    navigate('/login', { replace: true });
+  }, [isLoggedOut]);
+
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);

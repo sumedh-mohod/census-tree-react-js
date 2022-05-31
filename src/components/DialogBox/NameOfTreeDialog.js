@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,6 +18,11 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useFormik } from 'formik';
+import { AddTreeName, EditTreeName } from '../../actions/TreeNameAction';
+import { GetTreeType } from '../../actions/TreeTypeActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -49,11 +55,24 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function NameOfTreeDialog(props) {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
-  const [typeOfTree, SetTypeOfTree] = React.useState('')
+  const [typeOfTree, SetTypeOfTree] = React.useState('Tree Type')
   const { isOpen, data } = props;
+
+  const {
+    addTreeNameLog,
+    editTreeNameLog,
+    treeType
+
+  } = useSelector((state) => ({
+    addTreeNameLog:state.treeName.addTreeNameLog,
+    editTreeNameLog:state.treeName.editTreeNameLog,
+    treeType:state.treeType.treeType,
+  }));
+
   const typeOfTreeValue = [
     {
       value: 'fruitTree',
@@ -64,6 +83,26 @@ export default function NameOfTreeDialog(props) {
       label: 'Flower Tree',
     },
   ];
+
+  useEffect(()=>{
+    dispatch(GetTreeType());
+  },[])
+
+  useEffect(()=>{
+    if(data){
+      SetTypeOfTree(data.tree_type_id);
+    }
+    
+  },[data])
+
+  const firstRun = React.useRef(true);
+  useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose();
+  },[addTreeNameLog,editTreeNameLog])
 
 const handleStatusChange = (event) => {
 SetTypeOfTree(event.target.value);
@@ -85,6 +124,44 @@ SetTypeOfTree(event.target.value);
     );
   };
 
+  const DesignationsSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    botanicalName: Yup.string().required('botanical Name is required'),
+    treeType: Yup.string().required('Tree Type is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      name:data? data.name : "",
+      botanicalName: data? data.botanical_name:"",
+      treeType: data? data.tree_type_id:"",
+    },
+    validationSchema: DesignationsSchema,
+    onSubmit: (value) => {
+      console.log("VALUE",value);
+      if(data){
+        dispatch(EditTreeName({
+          "name":value.name,
+          "botanical_name":value.botanicalName,
+          "tree_type_id":value.treeType
+        },data.id))
+      }
+      else {
+        dispatch(AddTreeName({
+          "name":value.name,
+          "botanical_name":value.botanicalName,
+          "tree_type_id":value.treeType
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+  console.log("TREE TYPE IN NAME OF TREE",treeType)
+
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -105,10 +182,10 @@ SetTypeOfTree(event.target.value);
               <DefaultInput
                 fullWidth
                 id="nameOfTree"
-                defaultValue={data? data.nameOfTree : ""}
-                placeholder="Name Of Tree"
-                // name="typeOfTree"
-                // value="typeOfTree"
+                placeholder="Enter Tree Name"
+                error={Boolean(touched.name && errors.name)}
+                helperText={touched.name && errors.name}
+                {...getFieldProps("name")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -116,11 +193,10 @@ SetTypeOfTree(event.target.value);
                 fullWidth
                 id="botanicalName"
                 autoComplete="botanicalName"
-                defaultValue={data? data.botanicalName : ""}
-                // multiline= {3}
-                placeholder="Botanical Name"
-                // name="description"
-                // value="description"
+                placeholder="Enter Botanical Name"
+                error={Boolean(touched.botanicalName && errors.botanicalName)}
+                helperText={touched.botanicalName && errors.botanicalName}
+                {...getFieldProps("botanicalName")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -131,21 +207,17 @@ SetTypeOfTree(event.target.value);
               value={typeOfTree}
               style={{width:'83%', marginLeft: 40}}
               placeholder='Status'
-              defaultValue={data? data.typeOfTree : ""}
               onChange={handleStatusChange}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>Type Of Tree</em>;
-                }
-                return selected
-              }}
+              error={Boolean(touched.treeType && errors.treeType)}
+                helperText={touched.treeType && errors.treeType}
+                {...getFieldProps("treeType")}
             >
                <MenuItem disabled value="">
             <em>Type Of Tree</em>
           </MenuItem>
-              {typeOfTreeValue.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {treeType.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.tree_type}
                 </MenuItem>
               ))}
             </Select>
@@ -155,7 +227,7 @@ SetTypeOfTree(event.target.value);
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

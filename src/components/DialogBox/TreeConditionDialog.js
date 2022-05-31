@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,6 +18,9 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import { AddTreeConditions, EditTreeConditions } from '../../actions/TreeConditionAction';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -47,12 +51,32 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function TypeOfTreeCuttingDialog(props) {
+export default function TreeConditionDialog(props) {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [status, setStatus] = React.useState('Status')
   const { isOpen, data } = props;
+
+  const {
+    treeConditions,
+    addTreeConditionsLog,
+    editTreeConditionsLog
+  } = useSelector((state) => ({
+    treeConditions:state.treeConditions.treeConditions,
+    addTreeConditionsLog:state.treeConditions.addTreeConditionsLog,
+    editTreeConditionsLog:state.treeConditions.editTreeConditionsLog
+  }));
+
+  const firstRun = React.useRef(true);
+  React.useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose();
+  },[addTreeConditionsLog,editTreeConditionsLog])
 
   const handleClose = () => {
     props.handleClose();
@@ -70,6 +94,34 @@ export default function TypeOfTreeCuttingDialog(props) {
     );
   };
 
+  const DesignationsSchema = Yup.object().shape({
+    treeConditions: Yup.string().required('Tree Condition is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      treeConditions:data? data.condition : "",
+    },
+    validationSchema: DesignationsSchema,
+    onSubmit: (value) => {
+      if(data){
+        dispatch(EditTreeConditions({
+          "condition":value.treeConditions,
+        },data.id))
+      }
+      else {
+        dispatch(AddTreeConditions({
+          "condition":value.treeConditions,
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -82,7 +134,7 @@ export default function TypeOfTreeCuttingDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Type Of Tree Cutting</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Tree Condition</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
@@ -91,17 +143,17 @@ export default function TypeOfTreeCuttingDialog(props) {
                 fullWidth
                 id="typeOfTreeCutting"
                 // autoComplete="typeOfTree"
-                defaultValue={data? data.typeOfTreeCutting: ""}
-                placeholder="Type Of Tree Cutting"
-                // name="typeOfTree"
-                // value="typeOfTree"
+                placeholder="Tree Condition"
+                error={Boolean(touched.treeConditions && errors.treeConditions)}
+                helperText={touched.treeConditions && errors.treeConditions}
+                {...getFieldProps("treeConditions")}
               />
             </Grid>
           </Grid>
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

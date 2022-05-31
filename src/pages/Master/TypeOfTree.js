@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { DeleteTreeType, GetTreeType } from '../../actions/TreeTypeActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -32,7 +34,7 @@ import TypeOfTreeDialog from "../../components/DialogBox/TypeOfTreeDialog";
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'TypeofTree', label: 'Type Of Tree', alignRight: false },
-  { id: 'Status', label: 'Status', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -68,19 +70,43 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function TypeOfTree() {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
+  const {
+    treeType,
+    addTreeTypeLog,
+    editTreeTypeLog,
+    deleteTreeTypeLog
+  } = useSelector((state) => ({
+    treeType:state.treeType.treeType,
+    addTreeTypeLog:state.treeType.addTreeTypeLog,
+    editTreeTypeLog:state.treeType.editTreeTypeLog,
+    deleteTreeTypeLog:state.treeType.deleteTreeTypeLog
+  }));
+
+  console.log("TREE TYPE",treeType)
+
+  useEffect(()=>{
+    dispatch(GetTreeType());
+  },[addTreeTypeLog,editTreeTypeLog,deleteTreeTypeLog])
+
+
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    setDialogData(null);
     setOpen(!open)
   }
 
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
+  };
+
+  const handleDelete = (data) => {
+    dispatch(DeleteTreeType(data.id,data.status?0:1));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -118,16 +144,16 @@ export default function TypeOfTree() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.TypeOfTree.map((option) => {
+                     {treeType.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
-                        <TableCell align="left">{option.typeOfTree}</TableCell>
-                        <TableCell align="left">{option.status}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{option.tree_type}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu  handleEdit={()=>handleEdit(option)}/>
+                          <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )

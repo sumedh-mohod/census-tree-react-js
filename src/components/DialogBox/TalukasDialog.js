@@ -123,7 +123,7 @@ export default function TalukasDialog(props) {
                 fullWidth
                 id="name"
                 autoComplete="name"
-                placeholder="District Name"
+                placeholder="Enter Taluka Name"
                 defaultValue={data? data.name : ""}
                 // name="name"
                 // value="name"

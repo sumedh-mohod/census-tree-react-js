@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,6 +18,10 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useFormik } from 'formik';
+import { AddDesignations, EditDesignations } from '../../actions/DesignationAction';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -49,11 +54,23 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CreateDesignationDialog(props) {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [status, setStatus] = React.useState('Status')
   const { isOpen, data } = props;
+
+  const {
+    designations,
+    addDesignationsLog,
+    editDesignationsLog,
+
+  } = useSelector((state) => ({
+    designations:state.designations.designations,
+    addDesignationsLog:state.designations.addDesignationsLog,
+    editDesignationsLog:state.designations.editDesignationsLog,
+  }));
 
   const statusValue = [
     {
@@ -65,6 +82,15 @@ export default function CreateDesignationDialog(props) {
       label: 'InActive',
     },
   ];
+
+  const firstRun = React.useRef(true);
+  useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose();
+  },[addDesignationsLog,editDesignationsLog])
 
 const handleStatusChange = (event) => {
     setStatus(event.target.value);
@@ -90,6 +116,36 @@ const handleStatusChange = (event) => {
     );
   };
 
+  const DesignationsSchema = Yup.object().shape({
+    designations: Yup.string().required('Designations is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      designations:data? data.name : "",
+    },
+    validationSchema: DesignationsSchema,
+    onSubmit: (value) => {
+      console.log("VALUE",value);
+      if(data){
+        dispatch(EditDesignations({
+          "name":value.designations,
+        },data.id))
+      }
+      else {
+        dispatch(AddDesignations({
+          "name":value.designations,
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+
+
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -111,13 +167,13 @@ const handleStatusChange = (event) => {
                 fullWidth
                 id="designation"
                 autoComplete="designation"
-                placeholder="Create Designation"
-                defaultValue={data? data.designation : ""}
-                // name="designation"
-                // value="designation"
+                placeholder="Enter Designation Name"
+                error={Boolean(touched.designations && errors.designations)}
+                helperText={touched.designations && errors.designations}
+                {...getFieldProps("designations")}
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
             <Select
               id="status"
               // name='status'
@@ -142,12 +198,12 @@ const handleStatusChange = (event) => {
                 </MenuItem>
               ))}
             </Select>
-            </Grid>
+            </Grid> */}
           </Grid>
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>
