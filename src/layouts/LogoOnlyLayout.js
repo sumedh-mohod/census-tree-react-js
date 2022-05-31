@@ -2,7 +2,8 @@ import { Outlet } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 // components
-import Logo from '../components/Logo';
+// import Logo from '../components/Logo';
+import abell from '../Assets/abell.png';
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +25,7 @@ export default function LogoOnlyLayout() {
   return (
     <>
       <HeaderStyle>
-        <Logo />
+     <img src={abell} alt="Abell" style={{width: 80, height: 80}}/>
       </HeaderStyle>
       <Outlet />
     </>

@@ -160,9 +160,6 @@ export default function CreateCouncilDialog(props) {
 
   return (
     <div>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-          Open dialog
-        </Button> */}
       <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           New Council

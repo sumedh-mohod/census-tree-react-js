@@ -23,14 +23,18 @@ import Iconify from '../../components/Iconify';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
-import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import TypeOfTreeCuttingDialog from "../../components/DialogBox/TypeOfTreeCuttingDialog";
+import TeamsData from  '../../components/JsonFiles/TeamsData.json';
+import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'TypeofTreeCuttinf', label: 'Type Of Tree Cutting', alignRight: false },
+  { id: 'user', label: 'User', alignRight: false },
+  { id: 'role', label: 'Role', alignRight: false },
+  { id: 'fromdate', label: 'From Date', alignRight: false },
+  { id: 'todate', label: 'To Date', alignRight: false },
+  { id: 'status', label: 'status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -65,13 +69,11 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function TypeOfTree() {
+export default function AssignUser() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState();
-   const [dialogData,setDialogData] = useState(null);
-
+  const [dialogData,setDialogData] = useState(null);
   const handleNewUserClick = () => {
     console.log("hiiii")
     setOpen(!open)
@@ -93,18 +95,18 @@ export default function TypeOfTree() {
 
   return (
     <Page title="User">
-      <Container>
-        <TypeOfTreeCuttingDialog
+    <Container>
+        <AssignUserDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
-        data = {dialogData}
+        data= {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Type Of Tree
+          Assigned User
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Type Of Tree
+          Assigned User
 
           </Button>
         </Stack>
@@ -117,15 +119,19 @@ export default function TypeOfTree() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.TypeOfTreeCuttingData.map((option) => {
+                     { TeamsData.AssignUser.map((option) => {
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{option.srno}</TableCell>
-                        <TableCell align="left">{option.typeOfTreeCutting}</TableCell>
+                        <TableCell align="left">{option.user}</TableCell>
+                        <TableCell align="left">{option.role}</TableCell>
+                        <TableCell align="left">{option.fromdate}</TableCell>
+                        <TableCell align="left">{option.todate}</TableCell>
+                        <TableCell align="left">{option.status}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu  handleEdit={()=>handleEdit(option)}/>
+                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
                         </TableCell>
                         </TableRow>
                         )
