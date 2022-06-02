@@ -1,14 +1,6 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
@@ -18,30 +10,37 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
-// import Typography from '@mui/material/Typography';
-// import TextField from '@mui/material/TextField';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-// import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { green } from '@mui/material/colors';
+import Icon from '@mui/material/Icon';
+import {
+  Stack,
+  Avatar,
+  Checkbox,
+} from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DefaultInput from '../components/Inputs/DefaultInput';
 
 export default function NewUserForm(props) {
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
-    const [status, setStatus] = React.useState('Status')
     const [gender, setGender] = React.useState('');
     const [religion, setReligion] = React.useState('');
     const [caste, setCaste] = React.useState('');
     const [whoseReference, setWhoseReference] = React.useState('');
     const [bloodGrp, setBloodGrp] = React.useState('');
     const[district, setDistrict]=  React.useState('');
-    const[Role, setRole]=  React.useState('');
+    const[role, setRole]=  React.useState('');
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
+    const [designation, setDesignation] =  React.useState('');
     const [value, setValue] = React.useState(null);
+    const [referredBy, setReferredBy] = React.useState('');
+    const [noticePeriod, setNoticePeriod] = React.useState('');
+    const [formValues, setFormValues] = useState([{ deductionType: "", amount : ""}])
     const { isOpen, data } = props;
   
     const genderValue = [
@@ -202,9 +201,107 @@ export default function NewUserForm(props) {
         label: 'Property Deductions',
       },
     ]
+
+   const roleValue = [
+      {
+        value: 'Admin',
+        label: 'Admin',
+      },
+      {
+        value: 'Super Admin',
+        label: 'Super Admin',
+    },
+    ]
+
+    const designationValue = [
+      {
+        value: 'Admin',
+        label: 'Admin',
+      },
+      {
+        value: 'Super Admin',
+        label: 'Super Admin',
+    },
+    ]
+
+    const referredByValue = [
+      {
+        value: 'Admin',
+        label: 'Admin',
+      },
+      {
+        value: 'Super Admin',
+        label: 'Super Admin',
+    },
+    ]
+
+    const noticePeriodValue =[
+      {
+        value: 'yes',
+        label: 'Yes',
+      },
+      {
+        value: 'no',
+        label: 'No',
+    },
+    {
+      value: 'partially',
+      label: 'partially',
+  },
+    ]
+    const talukaValue =[
+      {
+        value: 'Kalameshwar',
+        label: 'Kalameshwar',
+      },
+      {
+        value: 'Ramtek',
+        label: 'Ramtek',
+      },
+      {
+        value: 'Katol',
+        label: 'Katol',
+      },
+    ]
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+
+    const array1 = [{ }];
+    const array2= [{ }];
+
+//   const addFormFields = () => {
+//     setFormValues([...formValues, { deductionType: "", amount : "" }])
+//  }
+
+//  const handleChange = (i, e) => {
+//   let newFormValues = [...formValues];
+//   newFormValues[i][e.target.name] = e.target.value;
+//   setFormValues(newFormValues);
+// }
+
+ const removeFormFields = (i) => {
+  const newFormValues = [...formValues];
+  newFormValues.splice(i, 1);
+  setFormValues(newFormValues)
+}
+    const handleNoticePeriodChange = (event) => {
+      setNoticePeriod(event.target.value);
+    };
+
+    const handleTalukaChange = (event) => {
+      setNoticePeriod(event.target.value);
+    };
   
     const handleRoleChange = (event) => {
       setRole(event.target.value);
+    };
+
+    const handleReferredChange = (event) => {
+      setReferredBy(event.target.value);
+    };
+
+    const handleDesignationChange = (event) => {
+      setDesignation(event.target.value);
     };
   
     const handleGenderChange = (event) => {
@@ -243,7 +340,7 @@ export default function NewUserForm(props) {
     };
   
     const handleAgreementChange = (event) => {
-      setAgreementDone(event.target.value);
+      setReferredBy(event.target.value);
     };
   
   
@@ -264,10 +361,52 @@ export default function NewUserForm(props) {
         {/* <Button variant="outlined" onClick={handleClickOpen}>
           Open max-width dialog
         </Button> */}
+         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+          Create Users
+          </Typography>
+          </Stack>
           <Grid container spacing={1}>
-          <Grid item xs={12}>
+          <Grid item sm={6}>
+            <Select
+              id="role"
+              name='role'
+              value={role}
+              displayEmpty
+              style={{width:'87.5%', marginLeft: 40}}
+            
+              onChange={handleRoleChange}
+              placeholder='Select Role'
+              defaultValue={data? data.role: ""}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Select Role</em>;
+                }
+                return selected
+              }}
+            >
+               <MenuItem disabled value="">
+            <em>Select Role</em>
+          </MenuItem>
+              {roleValue.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+            </Grid>
+            </Grid>
+            {/* <Typography variant="h5" style={{display: 'flex', justifyContent: "left", marginTop: 5}} gutterBottom>
+            Personal Details
+          </Typography> */}
+           <Typography variant="h5" style={{marginTop: 10, marginLeft: 40}} gutterBottom>
+           Personal Details
+          </Typography>
+            <Grid container spacing={1}>
+            <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
+                  // style={{width: '53%'}}
                   id="fName"
                   autoComplete="fName"
                   defaultValue={data? data.fname: ""}
@@ -278,7 +417,7 @@ export default function NewUserForm(props) {
                   // value="name"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="mName"
@@ -291,7 +430,9 @@ export default function NewUserForm(props) {
                   // value="name"
                 />
               </Grid>
-              <Grid item xs={12}>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="lName"
@@ -304,7 +445,7 @@ export default function NewUserForm(props) {
                   // value="name"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="contact"
@@ -315,7 +456,9 @@ export default function NewUserForm(props) {
                   // value="contact"
                 />
               </Grid>
-              <Grid item xs={12}>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="addressLine1"
@@ -326,7 +469,7 @@ export default function NewUserForm(props) {
                   // value="address"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="addressLine2"
@@ -337,19 +480,21 @@ export default function NewUserForm(props) {
                   // value="address"
                 />
               </Grid>
-              <Grid item xs={12}>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
                 <DefaultInput fullWidth id="village" autoComplete="village" placeholder="Village/City" 
                  defaultValue={data? data.village: ""}
                  />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
               <Select
                 id="district"
                 // name='District'
                 displayEmpty
                 defaultValue={data? data.district : ""}
                 value={district}
-                style={{width:'83%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40}}
                 placeholder='Select District'
               
                 onChange={handleDistrictChange}
@@ -370,13 +515,15 @@ export default function NewUserForm(props) {
                 ))}
               </Select>
               </Grid>
-              <Grid item xs={12}>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
                 <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email" 
                  defaultValue={data? data.email: ""}
                  />
               </Grid>
             
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="aadhar"
@@ -387,7 +534,9 @@ export default function NewUserForm(props) {
                   // value="aadhar"
                 />
               </Grid>
-              <Grid item xs={12}>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="education"
@@ -398,59 +547,30 @@ export default function NewUserForm(props) {
                   // value="aadhar"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
               <TextField
       id="date"
       // label="Date Of Birth"
       type="date"
       placeholder='Date Of Birth'
       // defaultValue="2017-05-24"
-      style={{width: "83%", marginLeft: 40}}
+      style={{width: '87.5%', marginLeft: 40}}
       // className={classes.textField}
       InputLabelProps={{
         shrink: true,
       }}
     />
       </Grid>
-      <Grid item xs={12}>
-              <TextField
-      id="date"
-      // label="Date Of Birth"
-      type="date"
-      placeholder='Date Of Joining'
-      // defaultValue="2017-05-24"
-      style={{width: "83%", marginLeft: 40}}
-      // className={classes.textField}
-      InputLabelProps={{
-        shrink: true,
-      }}
-    />
       </Grid>
-              {/* <Grid item xs={12}>
-              <Typography sx={{ mt: 2, mb: 1 }}>1 calendar </Typography>
-          <DateRangePicker
-            calendars={1}
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
-            renderInput={(startProps, endProps) => (
-              <React.Fragment>
-                <TextField {...startProps} />
-                <Box sx={{ mx: 2 }}> to </Box>
-                <TextField {...endProps} />
-              </React.Fragment>
-            )}
-          />
-          </Grid> */}
-              <Grid item xs={12}>
-                <Select
+      <Grid container spacing={1} style={{marginTop: 5}}>
+      <Grid item xs={6}>
+      <Select
                 id="religion"
                 name='religion'
                 value={religion}
                 displayEmpty
                 defaultValue={data? data.religion: ""}
-                style={{width:'83%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40}}
                 placeholder='Religion'
                 onChange={handleReligionChange}
                 renderValue={(selected) => {
@@ -469,15 +589,15 @@ export default function NewUserForm(props) {
                   </MenuItem>
                 ))}
               </Select>
-              </Grid>
-              <Grid item xs={12}>
+      </Grid>
+              <Grid item xs={6}>
                 <Select
                 id="caste"
                 name='caste'
                 value={caste}
                 displayEmpty
                 defaultValue={data? data.caste: ""}
-                style={{width:'83%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40}}
                 placeholder='aste'
                 onChange={handleCasteChange}
                 renderValue={(selected) => {
@@ -497,14 +617,16 @@ export default function NewUserForm(props) {
                 ))}
               </Select>
               </Grid>
-              <Grid item xs={12}>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
                 <Select
                 id="diffentlyAbled"
                 name='diffentlyAbled'
                 value={caste}
                 displayEmpty
                 defaultValue={data? data.caste: ""}
-                style={{width:'83%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40}}
                 placeholder='Caste'
                 onChange={handleGenderChange}
                 renderValue={(selected) => {
@@ -524,175 +646,14 @@ export default function NewUserForm(props) {
                 ))}
               </Select>
               </Grid>
-              <Grid item xs={12}>
-                <DefaultInput
-                  fullWidth
-                  id="panCard"
-                  autoComplete="panCard"
-                  placeholder="Pan Card"
-                  defaultValue={data? data.panCard: ""}
-                  // name="contact"
-                  // value="contact"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <DefaultInput
-                  fullWidth
-                  id="bankName"
-                  autoComplete="bankName"
-                  placeholder="Bank Name"
-                  defaultValue={data? data.bankName: ""}
-                  // name="contact"
-                  // value="contact"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <DefaultInput
-                  fullWidth
-                  id="account"
-                  autoComplete="account"
-                  placeholder="Account Number"
-                  defaultValue={data? data.account: ""}
-                  // name="contact"
-                  // value="contact"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <DefaultInput
-                  fullWidth
-                  id="IFSC"
-                  autoComplete="IFSC"
-                  placeholder="IFSC Code"
-                  defaultValue={data? data.IFSC: ""}
-                  // name="contact"
-                  // value="contact"
-                />
-              </Grid>
-              <Grid item xs={12}>
-              <TextField
-      id="date"
-      // label="Date Of Birth"
-      type="date"
-      placeholder='Last Day Of Work'
-      // defaultValue="2017-05-24"
-      style={{width: "83%", marginLeft: 40}}
-      // className={classes.textField}
-      InputLabelProps={{
-        shrink: true,
-      }}
-    />
-      </Grid>
-              <Grid item xs={12}>
-                <Select
-                id="agreementDone"
-                name='agreementDone'
-                value={agreementDone}
-                displayEmpty
-                defaultValue={data? data.agreementDone: ""}
-                style={{width:'83%', marginLeft: 40}}
-                placeholder='Agreement Done'
-                onChange={handleAgreementChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Agreement Done</em>;
-                  }
-                  return selected
-                }}
-              >
-                 <MenuItem disabled value="">
-              <em>Agreement Done</em>
-            </MenuItem>
-                {agreementValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={12}>
-                <Select
-                id="documentProvided"
-                name='documentProvided'
-                value={documentProvided}
-                displayEmpty
-                defaultValue={data? data.documentProvided: ""}
-                style={{width:'83%', marginLeft: 40}}
-                placeholder='Document Provided'
-                onChange={handleDocumentProvidedChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Document Provided</em>;
-                  }
-                  return selected
-                }}
-              >
-                 <MenuItem disabled value="">
-              <em>Document Provided</em>
-            </MenuItem>
-                {documentProvidedValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={12}>
-                <DefaultInput
-                  fullWidth
-                  id="commitedSalary"
-                  autoComplete="commitedSalary"
-                  placeholder="Commited Salary per Month"
-                  defaultValue={data? data.commitedSalary: ""}
-                  // name="contact"
-                  // value="contact"
-                />
-                </Grid>
-                <Grid item xs={12}>
-                <Select
-                id="applicableDeducation"
-                name='applicableDeducation'
-                value={applicableDeducation}
-                displayEmpty
-                defaultValue={data? data.applicableDeducation: ""}
-                style={{width:'83%', marginLeft: 40}}
-                placeholder='Applicable Deducation'
-                onChange={handleApplicableDeducationCange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Applicable Deducation</em>;
-                  }
-                  return selected
-                }}
-              >
-                 <MenuItem disabled value="">
-              <em>Applicable Deducation</em>
-            </MenuItem>
-                {applicableDeducationValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={12}>
-                <DefaultInput
-                  fullWidth
-                  id="designation"
-                  autoComplete="designation"
-                  placeholder="Designation"
-                  defaultValue={data? data.designation: ""}
-                  // name="contact"
-                  // value="contact"
-                />
-                 </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <Select
                 id="bloodgrp"
                 name='bloodgrp'
                 value={bloodGrp}
                 displayEmpty
                 defaultValue={data? data.bloodgrp: ""}
-                style={{width:'83%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40}}
                 placeholder='Blood Group'
                 onChange={handleBloodGrpChange}
                 renderValue={(selected) => {
@@ -712,7 +673,9 @@ export default function NewUserForm(props) {
                 ))}
               </Select>
               </Grid>
-              <Grid item xs={12}>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="emergencycontactName"
@@ -723,7 +686,7 @@ export default function NewUserForm(props) {
                   // value="contact"
                 />
             </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="emergencycontactMoNum"
@@ -734,65 +697,111 @@ export default function NewUserForm(props) {
                   // value="contact"
                 />
             </Grid>
-              <Grid item xs={12}>
-                <DefaultInput
-                  fullWidth
-                  id="emergencyNum"
-                  autoComplete="emergencyNum"
-                  placeholder="Emergency Number"
-                  defaultValue={data? data.emergencyNum: ""}
-                  // name="contact"
-                  // value="contact"
-                />
             </Grid>
-              <Grid item xs={12}>
-              <Select
-                id="whoseReference"
-                name='whoseReference'
-                value={whoseReference}
+            <Typography variant="h5" style={{marginTop: 10, marginLeft: 40}} gutterBottom>
+            Joining and Salary Details:
+          </Typography>
+          <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
+              <TextField
+      id="date"
+      type="date"
+      placeholder='Date Of Joining'
+      style={{width: '87.5%', marginLeft: 40}}
+      InputLabelProps={{
+        shrink: true,
+      }}
+    />
+    </Grid>
+    <Grid item xs={6}>
+    <Select
+                id="designation"
+                name='designation'
+                value={designation}
                 displayEmpty
-                style={{width:'83%', marginLeft: 40}}
-              
-                onChange={handleRoleChange}
-                placeholder='Whose Reference'
-                defaultValue={data? data.whoseReference: ""}
+                defaultValue={data? data.designation: ""}
+                style={{width: '87.5%', marginLeft: 40}}
+                placeholder='Blood Group'
+                onChange={handleDesignationChange}
                 renderValue={(selected) => {
                   if (selected.length === 0) {
-                    return <em>Whose Reference</em>;
+                    return <em>Designation</em>;
                   }
                   return selected
                 }}
               >
                  <MenuItem disabled value="">
-              <em>Whose Reference</em>
+              <em>Designation</em>
             </MenuItem>
-                {whoseReferenceValue.map((option) => (
+                {designationValue.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
                 ))}
               </Select>
               </Grid>
-              <Grid item xs={12}>
-                <DefaultInput
+                 </Grid>
+                 <Grid container spacing={1} style={{marginTop: 5}}>
+                   <Grid item xs={6}>
+                 <DefaultInput
                   fullWidth
-                  id="reference"
-                  autoComplete="reference"
-                  placeholder="Reference Name"
-                  defaultValue={data? data.reference: ""}
+                  id="commitedSalary"
+                  autoComplete="commitedSalary"
+                  placeholder="Commited Salary per Month"
+                  defaultValue={data? data.commitedSalary: ""}
                   // name="contact"
                   // value="contact"
                 />
-            </Grid>
-              <Grid item xs={12}>
+                </Grid>
+                 <Grid item xs={6}>
+                <Select
+                id="referredBy"
+                name='referredBy'
+                value={referredBy}
+                displayEmpty
+                defaultValue={data? data.referredBy: ""}
+                style={{width: '87.5%', marginLeft: 40}}
+                placeholder='Referred By'
+                onChange={handleReferredChange}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>Referred By</em>;
+                  }
+                  return selected
+                }}
+              >
+                 <MenuItem disabled value="">
+              <em>Referred By</em>
+            </MenuItem>
+                {referredByValue.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+                </Grid>
+                </Grid>
+                <Grid container spacing={1} style={{marginTop: 5}}>
+                   <Grid item xs={6}>
+                 <DefaultInput
+                  fullWidth
+                  id="lastDayOfWork"
+                  autoComplete="lastDayOfWork"
+                  placeholder="Last Day Of Work"
+                  defaultValue={data? data.lastDayOfWork: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+                </Grid>
+                <Grid item xs={6}>
               <Select
                 id="noticedperiods"
                 name='noticedPeriods'
-                value={status}
+                value={noticePeriod}
                 displayEmpty
-                style={{width:'83%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40}}
                 defaultValue={data? data.noticedPeriods: ""}
-                onChange={handleRoleChange}
+                onChange={handleNoticePeriodChange}
                 renderValue={(selected) => {
                   if (selected.length === 0) {
                     return <em>Noticed Periods</em>;
@@ -803,26 +812,289 @@ export default function NewUserForm(props) {
                  <MenuItem disabled value="">
               <em>Noticed Periods</em>
             </MenuItem>
-                {statusValue.map((option) => (
+                {noticePeriodValue.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
                 ))}
               </Select>
               </Grid>
-              <Grid item xs={12}>
-                <DefaultInput
+                </Grid>
+                <Grid container spacing={1} style={{marginTop: 5}}>
+                   <Grid item xs={6}>
+                 <DefaultInput
                   fullWidth
-                  id="notes"
-                  autoComplete="notes"
-                  placeholder="Notes"
-                  defaultValue={data? data.notes: ""}
+                  id="note"
+                  autoComplete="note"
+                  placeholder="Note"
+                  defaultValue={data? data.note: ""}
                   // name="contact"
                   // value="contact"
                 />
-            </Grid>
-           </Grid>
-            <Button onClick={handleClose}>Add</Button>
+                </Grid>
+                </Grid>
+                <Typography  style={{marginTop: 10, marginLeft: 40}} variant="h5" gutterBottom>
+            Bank Details
+          </Typography>
+          <Grid container spacing={1} style={{marginTop: 5}}>
+          <Grid item xs={6}>
+                <DefaultInput
+                  fullWidth
+                  id="bankName"
+                  autoComplete="bankName"
+                  placeholder="Bank Name"
+                  defaultValue={data? data.bankName: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DefaultInput
+                  fullWidth
+                  id="account"
+                  autoComplete="account"
+                  placeholder="Account Number"
+                  defaultValue={data? data.account: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+              </Grid>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
+                <DefaultInput
+                  fullWidth
+                  id="IFSC"
+                  autoComplete="IFSC"
+                  placeholder="IFSC Code"
+                  defaultValue={data? data.IFSC: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DefaultInput
+                  fullWidth
+                  id="panCard"
+                  autoComplete="panCard"
+                  placeholder="Pan Card"
+                  defaultValue={data? data.panCard: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+              </Grid>
+                </Grid>
+                <Typography variant="h5" style={{marginTop: 10, marginLeft: 40}} gutterBottom>
+           Login Details
+          </Typography>
+          <Grid container spacing={1} style={{marginTop: 5}}>
+          <Grid item xs={6}>
+              <DefaultInput
+                  fullWidth
+                  id="userName"
+                  autoComplete="userName"
+                  placeholder="User Name"
+                  // defaultValue={data? data.panCard: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+              </Grid>
+              <Grid item xs={6}>
+              <DefaultInput
+                  fullWidth
+                  id="password"
+                  autoComplete="password"
+                  placeholder="Password"
+                  // defaultValue={data? data.panCard: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+              </Grid>
+              </Grid>
+                <Typography variant="h5" style={{marginTop: 15, marginLeft: 40}} gutterBottom>
+                Applicable Deducation
+          </Typography>
+          <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={5}>
+              <Select
+                id="pf"
+                name='pf'
+                value={noticePeriod}
+                displayEmpty
+                style={{width: '87.5%', marginLeft: 40}}
+                defaultValue={data? data.noticedPeriods: ""}
+                onChange={handleNoticePeriodChange}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>PF</em>;
+                  }
+                  return selected
+                }}
+              >
+                 <MenuItem disabled value="">
+              <em>PF</em>
+            </MenuItem>
+                {noticePeriodValue.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+              </Grid>
+              <Grid item xs={5}>
+              <TextField
+                  fullWidth
+                  id="panCard"
+                  autoComplete="panCard"
+                  placeholder="12"
+                  // defaultValue={data? data.panCard: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+              </Grid>
+              <Grid item xs={2}>
+            
+                <IconButton color='error' aria-label="delete" size="large">
+                <CancelIcon fontSize="inherit" />
+              </IconButton>
+                
+       
+              </Grid>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+                    <Grid item xs={5}>
+                    <Select
+                      id="pf"
+                      name='pf'
+                      // value={ded}
+                      displayEmpty
+                      style={{ width: '87.5%', marginLeft: 40 }}
+                      defaultValue={data ? data.deductionType : ""}
+                      onChange={handleNoticePeriodChange}
+                      renderValue={(selected) => {
+                        if (selected.length === 0) {
+                          return <em>Deducation Type</em>;
+                        }
+                        return selected;
+                      } }
+                    >
+                      <MenuItem disabled value="">
+                        <em>Deducation Type</em>
+                      </MenuItem>
+                      {noticePeriodValue.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>))}
+                    </Select>
+                  </Grid>
+                  <Grid item xs={5}>
+                      <TextField
+                        fullWidth
+                        id="amount"
+                        autoComplete="amount"
+                        placeholder="Amount/Type" />
+                    </Grid>
+            
+              <Grid item xs={2}>
+        <IconButton color='success' aria-label="add" size="large">
+        <AddCircleIcon fontSize="inherit" />
+      </IconButton>
+              </Grid>
+              </Grid>
+              <Typography variant="h5" style={{marginTop: 10, marginLeft: 40}} gutterBottom>
+           Upload Document
+          </Typography>
+          <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={5}>
+              <Select
+                id="aadharCard"
+                name='aadharCard'
+                value={noticePeriod}
+                displayEmpty
+                style={{width: '87.5%', marginLeft: 40}}
+                defaultValue={data? data.noticedPeriods: ""}
+                onChange={handleNoticePeriodChange}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>Aadhar Card</em>;
+                  }
+                  return selected
+                }}
+              >
+                 <MenuItem disabled value="">
+              <em>Aadhar Card</em>
+            </MenuItem>
+                {noticePeriodValue.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+              </Grid>
+              <Grid item xs={5}>
+              <TextField
+                  fullWidth
+                  id="amount"
+                  autoComplete="amount"
+                  placeholder="Choose file"
+                  // defaultValue={data? data.panCard: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+              </Grid>
+              <Grid item xs={2}>
+              <IconButton color='error' aria-label="delete" size="large">
+        <CancelIcon fontSize="inherit" />
+      </IconButton>
+              </Grid>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={5}>
+              <Select
+                id="AadharCard"
+                name='AadharCard'
+                value={noticePeriod}
+                displayEmpty
+                style={{width: '87.5%', marginLeft: 40}}
+                defaultValue={data? data.noticedPeriods: ""}
+                onChange={handleNoticePeriodChange}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>Document Type</em>;
+                  }
+                  return selected
+                }}
+              >
+                 <MenuItem disabled value="">
+              <em>Document Type</em>
+            </MenuItem>
+                {noticePeriodValue.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+              </Grid>
+              <Grid item xs={5}>
+              <TextField
+                  fullWidth
+                  id="amount"
+                  autoComplete="amount"
+                  placeholder="Choose file"
+                  // defaultValue={data? data.panCard: ""}
+                  // name="contact"
+                  // value="contact"
+                />
+              </Grid>
+              <Grid item xs={2}>
+              <IconButton color='success' aria-label="add" size="large">
+        <AddCircleIcon fontSize="inherit" />
+      </IconButton>
+              </Grid>
+              </Grid>
+
+              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} onClick={handleClose}>Add</Button>    
+            {/* <Button >Add</Button> */}
         </div>
     );
   }

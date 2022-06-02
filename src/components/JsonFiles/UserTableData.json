@@ -5,32 +5,32 @@
         "name" : "sandra keeling",
         "email" : "rehan@gmail.com",
         "mobile": 8765098234,
-        "role": "employee",
-        "status": "Active"
+        "doj": "22/5/2020",
+        "designation": "Admin"
         },
         {
             "srno" : "2",
             "name" : "Marvin Fisher",
             "email" : "Marvin@gmail.com",
             "mobile": 8765098234,
-            "role": "employee",
-            "status": "InActive"
+            "doj": "22/5/2020",
+            "designation": "Admin"
             },
             {
                 "srno" : "3",
                 "name" : "Kim little",
                 "email" : "Kim@gmail.com",
                 "mobile": 8765098234,
-                "role": "Admin",
-                "status": "InActive"
+                "doj": "22/5/2020",
+                "designation": "Super Admin"
                 },
                 {
                     "srno" : "4",
                     "name" : "patty Schinner",
                     "email" : "PattySch@gmail.com",
                     "mobile": 8329420771,
-                    "role": "Manager",
-                    "status": "Active"
+                    "doj": "22/5/2020",
+                    "designation": "Super Admin"
                     }
     ],
     "districtData": [

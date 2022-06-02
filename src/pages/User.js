@@ -32,9 +32,9 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'mobile', label: 'Mobile', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: 'action' },
+  { id: 'doj', label: 'Date of Joining', alignRight: false },
+  { id: 'designation', label: 'Designation', alignRight: false },
+  { id: 'action',  label: 'Action', alignRight: true},
 ];
 
 // ----------------------------------------------------------------------
@@ -139,9 +139,9 @@ export default function User() {
                             </TableCell>
                         <TableCell align="left">{option.email}</TableCell>
                         <TableCell align="left">{option.mobile}</TableCell>
-                        <TableCell align="left">{option.role}</TableCell>
+                        <TableCell align="left">{option.doj}</TableCell>
                         <TableCell align="left">
-                          {option.status}
+                          {option.designation}
                         </TableCell>
 
                         <TableCell align="right">
