@@ -28,32 +28,32 @@ const navConfig = [
     icon: getIcon('eva:shopping-bag-fill'),
     children:[
         {
-        title: 'District',
+        title: 'Districts',
         path: '/dashboard/district',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'State',
+        title: 'States',
         path: '/dashboard/state',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Taluka',
+        title: 'Talukas',
         path: '/dashboard/taluka',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Create Designation',
+        title: 'Designations',
         path: '/dashboard/createDesignation',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Create Role',
+        title: 'Roles',
         path: '/dashboard/createRole',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Create Council',
+        title: 'Councils',
         path: '/dashboard/createCouncil',
         icon: getIcon('eva:shopping-bag-fill'),
       },
