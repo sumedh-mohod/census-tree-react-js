@@ -4,7 +4,8 @@ import { ADD_PROPERTY_TYPES, DELETE_PROPERTY_TYPES, EDIT_PROPERTY_TYPES, GET_PRO
     propertyTypes:null,
     addPropertyTypesLog:false,
     editPropertyTypesLog:false,
-    deletePropertyTypesLog:false
+    deletePropertyTypesLog:false,
+    pageInfo:{}
   };
   
   export default function PropertyTypeReducer (state = INIT_STATE, action)  {
@@ -14,7 +15,8 @@ import { ADD_PROPERTY_TYPES, DELETE_PROPERTY_TYPES, EDIT_PROPERTY_TYPES, GET_PRO
         case GET_PROPERTY_TYPES:
           return{
               ...state,
-              propertyTypes: payload.data,
+              propertyTypes: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ADD_PROPERTY_TYPES:

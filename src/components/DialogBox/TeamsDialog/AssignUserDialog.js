@@ -17,6 +17,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import AssignUserConfirmationDialog from './AssignUserConfirmationDialog';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -60,6 +61,9 @@ export default function AssignUserDialog(props) {
   const[state, setState]=  React.useState('');
   const [role, setRole] = React.useState([]);
   const { isOpen, data } = props;
+  const [topModalOpen, setTopModalOpen] = React.useState(false);
+  const [reqObj, setReqObj] = React.useState(null)
+  const [id, setId] = React.useState(null)
 
   const handleRoleChange = (event) => {
     const {
@@ -102,11 +106,31 @@ export default function AssignUserDialog(props) {
     );
   };
 
+  const handleTopModalClose = () => {
+    setTopModalOpen(!topModalOpen)
+  }
+
+  const handleTopModalAnswer = (answer) => {
+    if(answer){
+      if(data){
+          //  dispatch(AddCZWToTeam(reqObj,id))
+      }
+      else {
+        // dispatch(AddCZWToTeam(reqObj))
+      }
+    }
+    setTopModalOpen(!topModalOpen)
+  }
+
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Open max-width dialog
       </Button> */}
+      <AssignUserConfirmationDialog
+        isOpenConfirm={topModalOpen}
+        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+       />
       <Dialog
         fullWidth={fullWidth}
         maxWidth={maxWidth}
@@ -114,7 +138,7 @@ export default function AssignUserDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add District</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Assign User</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
@@ -130,13 +154,13 @@ export default function AssignUserDialog(props) {
                 onChange={handleRoleChange}
                 renderValue={(selected) => {
                   if (selected.length === 0) {
-                    return <em>Role</em>;
+                    return <em>User</em>;
                   }
                   return selected.join(', ');
                 }}
               >
            <MenuItem disabled value="">
-            <em>Role</em>
+            <em>User</em>
           </MenuItem>
           {roleName.map((name) => (
             <MenuItem

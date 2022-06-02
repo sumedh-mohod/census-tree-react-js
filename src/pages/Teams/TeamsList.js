@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { DeleteTeam, GetTeam } from '../../actions/TeamsAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -69,12 +71,42 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function TeamsList() {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  
+  const {
+    teams,
+    addTeamsLog,
+    editTeamsLog,
+    deleteTeamsLog,
+    pageInfo
+  } = useSelector((state) => ({
+    teams:state.teams.teams,
+    addTeamsLog:state.teams.addTeamsLog,
+    editTeamsLog:state.teams.editTeamsLog,
+    deleteTeamsLog:state.teams.deleteTeamsLog,
+    pageInfo : state.teams.pageInfo
+  }));
+
+  console.log("Teams",teams)
+
+  useEffect(()=>{
+    dispatch(GetTeam(page+1,rowsPerPage));
+  },[addTeamsLog,editTeamsLog,deleteTeamsLog])
+  
+
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
+
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    setDialogData(null);
     setOpen(!open)
   }
 
@@ -83,13 +115,19 @@ export default function TeamsList() {
     setOpen(!open);
   };
 
+  const handleDelete = (data) => {
+    dispatch(DeleteTeam(data.id,data.status?0:1));
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetTeam(newPage+1,rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetTeam(1,parseInt(event.target.value, 10)));
   };
 
   return (
@@ -110,6 +148,7 @@ export default function TeamsList() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search teams..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -117,18 +156,19 @@ export default function TeamsList() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { TeamsData.teamsTableData.map((option) => {
+                     { teams?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.SrNo}</TableCell>
-                        <TableCell align="left">{option.teamName}</TableCell>
-                        <TableCell align="left">{option.councilName}</TableCell>
-                        <TableCell align="left">{option.zone}</TableCell>
-                        <TableCell align="left">{option.ward}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">{option?.council}</TableCell>
+                        <TableCell align="left">{option?.zone}</TableCell>
+                        <TableCell align="left">{option?.ward}</TableCell>
+                        {/* <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell> */}
                         <TableCell align="right">
-                          <TeamsMenu handleEdit={()=>handleEdit(option)}/>
+                          <TeamsMenu id={option.id} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )
@@ -141,13 +181,14 @@ export default function TeamsList() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            render
           />
         </Card>
       </Container>

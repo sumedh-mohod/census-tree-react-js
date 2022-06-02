@@ -1,9 +1,12 @@
 import { combineReducers } from "redux";
 import AlertReducer from "./AlertReducer";
 import AuthReducer from "./AuthReducer";
+import CouncilReducer from "./CouncilReducer";
 import DesignationReducer from "./DesignationReducer";
 import MasterReducer from "./MasterReducer";
 import PropertyTypeReducer from "./PropertyTypeReducer";
+import RoleReducer from "./RoleReducer";
+import TeamReducer from "./TeamReducer";
 import TreeConditionReducer from "./TreeConditionReducer";
 import TreeNameReducer from "./TreeNameReducer";
 import TreeTypeReducer from "./TreeTypeReducer";
@@ -21,5 +24,8 @@ export default combineReducers({
   treeConditions:TreeConditionReducer,
   propertyTypes:PropertyTypeReducer,
   wards:WardsReducer,
-  zones:ZoneReducer
+  zones:ZoneReducer,
+  council:CouncilReducer,
+  teams:TeamReducer,
+  roles:RoleReducer
 });

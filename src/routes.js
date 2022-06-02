@@ -60,7 +60,7 @@ export default function Router() {
         { path: 'denied-entry', element: <DeniedEntry /> },
         { path: 'base-color/history', element: <BaseColorHistory /> },
         { path: 'teams', element: <TeamsList /> },
-        { path: 'assignNewCouncilZoneWard', element: <AssignNewCouncilZoneWard /> },
+        { path: 'assignNewCouncilZoneWard/:teamId', element: <AssignNewCouncilZoneWard /> },
         { path: 'assignUser', element: <AssignUser/> },
         { path: 'newUserFrom', element: <NewUserForm/> },
       ],

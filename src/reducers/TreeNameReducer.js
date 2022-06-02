@@ -4,7 +4,8 @@ import { ADD_TREE_NAME, DELETE_TREE_NAME, EDIT_TREE_NAME, GET_TREE_NAME, RESET_S
     treeName:null,
     addTreeNameLog:false,
     editTreeNameLog:false,
-    deleteTreeNameLog:false
+    deleteTreeNameLog:false,
+    pageInfo:{}
   };
   
   export default function TreeNameReducer (state = INIT_STATE, action)  {
@@ -14,7 +15,8 @@ import { ADD_TREE_NAME, DELETE_TREE_NAME, EDIT_TREE_NAME, GET_TREE_NAME, RESET_S
         case GET_TREE_NAME:
           return{
               ...state,
-              treeName: payload.data,
+              treeName: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ADD_TREE_NAME:

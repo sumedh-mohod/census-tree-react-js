@@ -72,7 +72,8 @@ function applySortFilter(array, comparator, query) {
 export default function Zone() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
@@ -80,19 +81,27 @@ export default function Zone() {
     wards,
     addWardsLog,
     editWardsLog,
-    deleteWardsLog
+    deleteWardsLog,
+    pageInfo
   } = useSelector((state) => ({
     wards:state.wards.wards,
     addWardsLog:state.wards.addWardsLog,
     editWardsLog:state.wards.editWardsLog,
-    deleteWardsLog:state.wards.deleteWardsLog
+    deleteWardsLog:state.wards.deleteWardsLog,
+    pageInfo : state.wards.pageInfo
   }));
 
   console.log("WARDS",wards)
 
   useEffect(()=>{
-    dispatch(GetWards());
+    dispatch(GetWards(page+1,rowsPerPage));
   },[addWardsLog,editWardsLog,deleteWardsLog])
+
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -109,11 +118,13 @@ export default function Zone() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetWards(newPage+1,rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetWards(1,parseInt(event.target.value, 10)));
   };
 
   return (
@@ -135,6 +146,8 @@ export default function Zone() {
         </Stack>
 
         <Card>
+
+        <UserListToolbar numSelected={0} placeHolder={"Search wards..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -149,7 +162,7 @@ export default function Zone() {
                       >
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
@@ -164,9 +177,9 @@ export default function Zone() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

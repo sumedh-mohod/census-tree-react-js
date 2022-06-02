@@ -31,7 +31,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   justifyContent: 'space-between',
   [theme.breakpoints.up('md')]: {
     alignItems: 'flex-start',
-    padding: theme.spacing(7, 5, 0, 7),
+    padding: theme.spacing(3, 5, 0, 7),
   },
 }));
 

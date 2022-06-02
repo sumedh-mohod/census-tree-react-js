@@ -74,7 +74,7 @@ export default function TalukasDialog(props) {
   }));
 
   React.useEffect(()=>{
-    dispatch(GetAllState());
+    dispatch(GetAllState(1,1000));
   },[])
 
   React.useEffect(()=>{

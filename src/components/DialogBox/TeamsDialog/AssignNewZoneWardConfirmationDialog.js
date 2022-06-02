@@ -17,7 +17,12 @@ export default function AssignNewZoneWardConfirmationDialog(props) {
 
   const handleClose = () => {
     setOpen(false);
+    props.handleClose(false);
   };
+
+  const handleTrueClose = () => {
+    props.handleClose(true);
+  }
 
   return (
     <div>
@@ -29,7 +34,7 @@ export default function AssignNewZoneWardConfirmationDialog(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {""}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -37,7 +42,7 @@ export default function AssignNewZoneWardConfirmationDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>yes</Button>
+          <Button onClick={handleTrueClose}>yes</Button>
           <Button onClick={handleClose} autoFocus>
             Cancel
           </Button>

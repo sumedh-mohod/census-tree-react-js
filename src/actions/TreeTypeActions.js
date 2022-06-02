@@ -2,9 +2,9 @@ import JWTServer from "../api/withJWTServer";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_TREE_TYPE, DELETE_TREE_TYPE, EDIT_TREE_TYPE, GET_TREE_TYPE } from "./Types";
 
-const GetTreeType = () => async (dispatch) => {
+const GetTreeType = (page,limit) => async (dispatch) => {
     try {
-      const response = await JWTServer.get("/api/tree-types");
+      const response = await JWTServer.get(`/api/tree-types?page=${page}&limit=${limit}`);
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_TREE_TYPE,

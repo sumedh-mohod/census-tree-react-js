@@ -74,7 +74,8 @@ function applySortFilter(array, comparator, query) {
 export default function Taluka() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
@@ -82,19 +83,27 @@ export default function Taluka() {
     talukas,
     addTalukasLog,
     editTalukasLog,
-    deleteTalukasLog
+    deleteTalukasLog,
+    pageInfo
   } = useSelector((state) => ({
     talukas:state.master.talukas,
     addTalukasLog:state.master.addTalukasLog,
     editTalukasLog:state.master.editTalukasLog,
-    deleteTalukasLog:state.master.deleteTalukasLog
+    deleteTalukasLog:state.master.deleteTalukasLog,
+    pageInfo : state.master.pageInfo
   }));
 
   console.log("TALUKAS",talukas)
 
   useEffect(()=>{
-    dispatch(GetAllTalukas());
+    dispatch(GetAllTalukas(page+1,rowsPerPage));
   },[addTalukasLog,editTalukasLog,deleteTalukasLog])
+
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -112,11 +121,13 @@ export default function Taluka() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetAllTalukas(newPage+1,rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetAllTalukas(1,parseInt(event.target.value, 10)));
   };
 
   return (
@@ -138,6 +149,7 @@ export default function Taluka() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search taluka..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -156,7 +168,7 @@ export default function Taluka() {
                             </TableCell>
                         <TableCell align="left">{option.district?.name}</TableCell>
                         <TableCell align="left">{option.district?.state?.name}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
@@ -171,9 +183,9 @@ export default function Taluka() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

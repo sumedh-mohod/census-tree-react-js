@@ -2,9 +2,9 @@ import JWTServer from "../api/withJWTServer";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_PROPERTY_TYPES, DELETE_PROPERTY_TYPES, EDIT_PROPERTY_TYPES, GET_PROPERTY_TYPES } from "./Types";
 
-const GetPropertyType = () => async (dispatch) => {
+const GetPropertyType = (page,limit) => async (dispatch) => {
     try {
-      const response = await JWTServer.get("/api/property-types");
+      const response = await JWTServer.get(`/api/property-types?page=${page}&limit=${limit}`);
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_PROPERTY_TYPES,

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,7 +18,10 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
 import DefaultInput from '../../Inputs/DefaultInput';
+import { AddTeam, EditTeam } from '../../../actions/TeamsAction';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -49,10 +53,29 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function TeamsTableDialog(props) {
+
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const { isOpen, data } = props;
+
+  const {
+    addTeamsLog,
+    editTeamsLog,
+  } = useSelector((state) => ({
+    addTeamsLog:state.teams.addTeamsLog,
+    editTeamsLog:state.teams.editTeamsLog,
+  }));
+
+  const firstRun = React.useRef(true);
+  React.useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose()
+  },[addTeamsLog,editTeamsLog])
 
   const handleClose = () => {
     props.handleClose();
@@ -69,6 +92,34 @@ export default function TeamsTableDialog(props) {
       event.target.value,
     );
   };
+
+  const DistrictsSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      name:data? data.name : ""
+    },
+    validationSchema: DistrictsSchema,
+    onSubmit: (value) => {
+      if(data){
+        dispatch(EditTeam({
+          "name":value.name,
+        },data.id))
+      }
+      else {
+        dispatch(AddTeam({
+          "name":value.name
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
 
   return (
     <div>
@@ -92,16 +143,16 @@ export default function TeamsTableDialog(props) {
                 id="teamName"
                 autoComplete="teamName"
                 placeholder="Team Name"
-                defaultValue={data? data.teamName : ""}
-                // name="role"
-                // value="role"
+                error={Boolean(touched.name && errors.name)}
+                helperText={touched.name && errors.name}
+                {...getFieldProps("name")}
               />
             </Grid>
           </Grid>
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

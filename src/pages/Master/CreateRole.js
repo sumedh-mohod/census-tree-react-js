@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { DeleteRole, GetRole } from '../../actions/RoleAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -68,18 +70,50 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function CreateRole() {
+
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState()
    const [dialogData,setDialogData] = useState(null);
-  const handleNewUserClick = () => {
-    console.log("hiiii")
+  
+   const {
+    roles,
+    addRolesLog,
+    editRolesLog,
+    deleteRolesLog,
+    pageInfo
+  } = useSelector((state) => ({
+    roles:state.roles.roles,
+    addRolesLog:state.roles.addRolesLog,
+    editRolesLog:state.roles.editRolesLog,
+    deleteRolesLog:state.roles.deleteRolesLog,
+    pageInfo : state.roles.pageInfo
+  }));
+
+  console.log("ROLES",roles);
+
+  useEffect(()=>{
+    dispatch(GetRole(page+1,rowsPerPage));
+  },[addRolesLog,editRolesLog,deleteRolesLog])
+
+  
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
+
+   const handleNewUserClick = () => {
+    setDialogData(null);
     setOpen(!open)
   }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetRole(newPage+1,rowsPerPage));
   };
 
   const handleEdit = (data) => {
@@ -87,9 +121,14 @@ export default function CreateRole() {
     setOpen(!open);
   };
 
+  const handleDelete = (data) => {
+    dispatch(DeleteRole(data.id,data.status?0:1));
+  };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetRole(1,parseInt(event.target.value, 10)));
   };
 
   return (
@@ -111,6 +150,7 @@ export default function CreateRole() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search role..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -118,16 +158,16 @@ export default function CreateRole() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.RoleData.map((option) => {
+                     { roles?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.role}</TableCell>
-                        <TableCell align="left">{option.status}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={()=>handleEdit(option)} />
+                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )
@@ -140,9 +180,9 @@ export default function CreateRole() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

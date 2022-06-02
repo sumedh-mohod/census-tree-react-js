@@ -72,7 +72,8 @@ function applySortFilter(array, comparator, query) {
 export default function TypeOfProperty() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
@@ -80,19 +81,27 @@ export default function TypeOfProperty() {
     propertyTypes,
     addPropertyTypesLog,
     editPropertyTypesLog,
-    deletePropertyTypesLog
+    deletePropertyTypesLog,
+    pageInfo
   } = useSelector((state) => ({
     propertyTypes:state.propertyTypes.propertyTypes,
     addPropertyTypesLog:state.propertyTypes.addPropertyTypesLog,
     editPropertyTypesLog:state.propertyTypes.editPropertyTypesLog,
-    deletePropertyTypesLog:state.propertyTypes.deletePropertyTypesLog
+    deletePropertyTypesLog:state.propertyTypes.deletePropertyTypesLog,
+    pageInfo : state.propertyTypes.pageInfo
   }));
 
   console.log("PROPERTY TYPES",propertyTypes)
 
   useEffect(()=>{
-    dispatch(GetPropertyType());
+    dispatch(GetPropertyType(page+1,rowsPerPage));
   },[addPropertyTypesLog,editPropertyTypesLog,deletePropertyTypesLog])
+
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -109,11 +118,13 @@ export default function TypeOfProperty() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetPropertyType(newPage+1,rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetPropertyType(1,parseInt(event.target.value, 10)));
   };
 
   return (
@@ -135,6 +146,7 @@ export default function TypeOfProperty() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search property type..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -149,7 +161,7 @@ export default function TypeOfProperty() {
                       >
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.property_type}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
@@ -164,9 +176,9 @@ export default function TypeOfProperty() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

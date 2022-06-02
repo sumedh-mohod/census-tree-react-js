@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -16,6 +16,11 @@ import {
   TablePagination,
   Stack,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetCouncil } from '../../actions/CouncilAction';
+import { GetZones } from '../../actions/ZonesAction';
+import { GetWards } from '../../actions/WardsActions';
+import { DeleteCZWFromTeam, GetCZWByTeam } from '../../actions/TeamsAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -33,9 +38,9 @@ const TABLE_HEAD = [
   { id: 'council', label: 'Council', alignRight: false },
   { id: 'zone', label: 'Zone', alignRight: false },
   { id: 'ward', label: 'Ward', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
   { id: 'fromDate', label: 'From Date', alignRight: false },
   { id: 'todate', label: 'To Date', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -71,18 +76,48 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function AssignNewCouncilZoneWard() {
+
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  
+  const {
+    cwzOfTeam,
+    assignCWZToTeamLog,
+    deleteCWZFromteamLog,
+  } = useSelector((state) => ({
+    cwzOfTeam:state.teams.cwzOfTeam,
+    assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
+    deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog
+  }));
+
+  console.log("CWZ of team",cwzOfTeam)
+  const { teamId } = useParams();
+  
+  useEffect(()=>{
+    dispatch(GetCZWByTeam(teamId));
+  },[assignCWZToTeamLog,deleteCWZFromteamLog])
+
+  useEffect(()=>{
+    dispatch(GetCouncil(1,1000));
+    dispatch(GetZones(1,1000))
+    dispatch(GetWards(1,1000));
+  },[])
+
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    setDialogData(null);
     setOpen(!open)
   }
 
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
+  };
+
+  const handleDelete = (data) => {
+    dispatch(DeleteCZWFromTeam(data.id,data.status?0:1));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -101,6 +136,7 @@ export default function AssignNewCouncilZoneWard() {
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
+        teamId={teamId}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -113,6 +149,7 @@ export default function AssignNewCouncilZoneWard() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search c-z-w..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -120,20 +157,20 @@ export default function AssignNewCouncilZoneWard() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { TeamsData.AssignNewCouncilZone.map((option) => {
+                     { cwzOfTeam?.map((option,index) => {
                         return (                                                                      
                         <TableRow
                         hover
                       >
-                        <TableCell align="left">{option.srno}</TableCell>
-                        <TableCell align="left">{option.council}</TableCell>
-                        <TableCell align="left">{option.zone}</TableCell>
-                        <TableCell align="left">{option.ward}</TableCell>
-                        <TableCell align="left">{option.status}</TableCell>
-                        <TableCell align="left">{option.fromDate}</TableCell>
-                        <TableCell align="left">{option.toDate}</TableCell>
+                        <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{option.council_name}</TableCell>
+                        <TableCell align="left">{option.zone_name}</TableCell>
+                        <TableCell align="left">{option.ward_name}</TableCell>
+                        <TableCell align="left">{option.form_date}</TableCell>
+                        <TableCell align="left">{option.to_date?option.to_date:"-"}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
+                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )

@@ -4,7 +4,8 @@ import {  ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, RESET_STATE } from "..
     wards:null,
     addWardsLog:false,
     editWardsLog:false,
-    deleteWardsLog:false
+    deleteWardsLog:false,
+    pageInfo:{}
   };
   
   export default function WardsReducer (state = INIT_STATE, action)  {
@@ -14,7 +15,8 @@ import {  ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, RESET_STATE } from "..
         case GET_WARDS:
           return{
               ...state,
-              wards: payload.data,
+              wards: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ADD_WARDS:

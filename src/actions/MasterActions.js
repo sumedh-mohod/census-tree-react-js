@@ -19,9 +19,9 @@ import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 
 
 
-const GetAllState = () => async (dispatch) => {
+const GetAllState = (page,limit) => async (dispatch) => {
       try {
-        const response = await JWTServer.get("/api/states");
+        const response = await JWTServer.get(`/api/states?page=${page}&limit=${limit}`);
         console.log("GET STATE RESPONSE",response.data);
         dispatch({
           type: GET_STATE,
@@ -73,9 +73,11 @@ const GetAllState = () => async (dispatch) => {
       }
     };
 
-    const GetAllDistricts = (params) => async (dispatch) => {
+    const GetAllDistricts = (page,limit) => async (dispatch) => {
+      console.log("PAGE",page);
+      console.log("LIMIT",limit);
       try {
-        const response = await JWTServer.get("/api/districts");
+        const response = await JWTServer.get(`/api/districts?page=${page}&limit=${limit}`);
         console.log("DISTRICTS RESPONSE",response.data);
         dispatch({
           type: GET_DISTRICTS,
@@ -138,9 +140,9 @@ const GetAllState = () => async (dispatch) => {
       }
     };
 
-    const GetAllTalukas = () => async (dispatch) => {
+    const GetAllTalukas = (page,limit) => async (dispatch) => {
       try {
-        const response = await JWTServer.get("/api/talukas");
+        const response = await JWTServer.get(`/api/talukas?page=${page}&limit=${limit}`);
         console.log("DISTRICTS RESPONSE",response.data);
         dispatch({
           type: GET_TALUKAS,

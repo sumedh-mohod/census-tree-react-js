@@ -85,7 +85,7 @@ export default function NameOfTreeDialog(props) {
   ];
 
   useEffect(()=>{
-    dispatch(GetTreeType());
+    dispatch(GetTreeType(1,1000));
   },[])
 
   useEffect(()=>{

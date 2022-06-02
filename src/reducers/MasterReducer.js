@@ -28,6 +28,7 @@ import {
     addTalukasLog:false,
     editTalukasLog:false,
     deleteTalukasLog:false,
+    pageInfo:{}
   };
   
   export default function MasterReducer (state = INIT_STATE, action)  {
@@ -37,7 +38,8 @@ import {
         case GET_STATE:
             return{
                 ...state,
-                states: payload.data,
+                states: payload.data.data,
+                pageInfo: payload.data
         };
 
         case ADD_STATE:
@@ -61,7 +63,8 @@ import {
         case GET_DISTRICTS:
           return{
               ...state,
-              districts: payload.data,
+              districts: payload.data.data,
+              pageInfo: payload.data
         };
 
         case GET_DISTRICTS_BY_STATE_ID:
@@ -91,7 +94,8 @@ import {
         case GET_TALUKAS:
           return{
               ...state,
-              talukas: payload.data,
+              talukas: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ADD_TALUKAS:

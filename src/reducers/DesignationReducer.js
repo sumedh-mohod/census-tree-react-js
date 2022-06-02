@@ -4,7 +4,8 @@ import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_DESIGNATI
     designations:null,
     addDesignationsLog:false,
     editDesignationsLog:false,
-    deleteDesignationsLog:false
+    deleteDesignationsLog:false,
+    pageInfo:{}
   };
   
   export default function DesignationReducer (state = INIT_STATE, action)  {
@@ -14,7 +15,8 @@ import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_DESIGNATI
         case GET_DESIGNATIONS:
           return{
               ...state,
-              designations: payload.data,
+              designations: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ADD_DESIGNATIONS:

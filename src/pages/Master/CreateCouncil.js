@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { DeleteCouncil, GetCouncil } from '../../actions/CouncilAction';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
@@ -28,47 +30,85 @@ import CreateCouncilDialog from "../../components/DialogBox/CreateCouncilDialog"
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'prefix', label: 'prefix', alignRight: false },
-  { id: 'uploadlogo', label: 'Upload Logo', alignRight: false },
+  // { id: 'uploadlogo', label: 'Upload Logo', alignRight: false },
   { id: 'councilName', label: 'Council Name', alignRight: false },
   { id: 'state', label: 'State', alignRight: false },
   { id: 'district', label: 'District', alignRight: false },
-  { id: 'contact', label: 'Contact Person Name', alignRight: false },
+  { id: 'taluka', label: 'Taluka', alignRight: false },
+  { id: 'baseColorTarget', label: 'Base Color Target', alignRight: false },
+  { id: 'censusTarget', label: 'Census Target', alignRight: false },
   { id: 'fName', label: 'First Name', alignRight: false },
   { id: 'mName', label: 'Middle Name', alignRight: false },
   { id: 'lName', label: 'Last Name', alignRight: false },
   { id: 'MoNumber', label: 'Mobile Number', alignRight: false },
-  { id: 'emailId', label: 'Mobile Number', alignRight: false },
+  { id: 'emailId', label: 'Email', alignRight: false },
   { id: 'userName', label: 'User Name', alignRight: false },
-  { id: 'password', label: 'Password', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
+  // { id: 'password', label: 'Password', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
 export default function CreateCouncil() {
+
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
+  const {
+    council,
+    addCouncilLog,
+    editCouncilLog,
+    deleteCouncilLog,
+    pageInfo
+  } = useSelector((state) => ({
+    council:state.council.council,
+    addCouncilLog:state.council.addCouncilLog,
+    editCouncilLog:state.council.editCouncilLog,
+    deleteCouncilLog:state.council.deleteCouncilLog,
+    pageInfo : state.council.pageInfo
+  }));
+
+  console.log("COUNCIL",council);
+
+  useEffect(()=>{
+    dispatch(GetCouncil(page+1,rowsPerPage));
+  },[addCouncilLog,editCouncilLog,deleteCouncilLog])
+
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
+
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    setDialogData(null);
     setOpen(!open)
   }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetCouncil(newPage+1,rowsPerPage));
   };
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
   };
 
+  const handleDelete = (data) => {
+    dispatch(DeleteCouncil(data.id,data.status?0:1));
+  };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetCouncil(1,parseInt(event.target.value, 10)));
   };
+
+  
 
   return (
     <Page title="User">
@@ -90,6 +130,7 @@ export default function CreateCouncil() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search councils..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -97,28 +138,29 @@ export default function CreateCouncil() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.CreateCouncilData.map((option) => {
+                     { council?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
-                        <TableCell align="left">{option.prefix}</TableCell>
-                        <TableCell align="left">{option.uploadLogo}</TableCell>
-                        <TableCell align="left">{option.councilName}</TableCell>
-                        <TableCell align="left">{option.state}</TableCell>
-                        <TableCell align="left">{option.destrict}</TableCell>
-                        <TableCell align="left">{option.contactPersonName}</TableCell>
-                        <TableCell align="left">{option.firstName}</TableCell>
-                        <TableCell align="left">{option.MiddleName}</TableCell>
-                        <TableCell align="left">{option.lastName}</TableCell>
-                        <TableCell align="left">{option.mobileNumber}</TableCell>
-                        <TableCell align="left">{option.emailId}</TableCell>
-                        <TableCell align="left">{option.userName}</TableCell>
-                        <TableCell align="left">{option.password}</TableCell>
-                        <TableCell align="left">{option.role}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
+                        {/* <TableCell align="left">{option.uploadLogo}</TableCell> */}
+                        <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">{option.state?.name}</TableCell>
+                        <TableCell align="left">{option.district?.name}</TableCell>
+                        <TableCell align="left">{option.taluka?.name}</TableCell>
+                        <TableCell align="left">{option.base_color_target}</TableCell>
+                        <TableCell align="left">{option.census_target}</TableCell>
+                        <TableCell align="left">{option.contact_person.first_name}</TableCell>
+                        <TableCell align="left">{option.contact_person.middle_name}</TableCell>
+                        <TableCell align="left">{option.contact_person.last_name}</TableCell>
+                        <TableCell align="left">{option.contact_person.mobile}</TableCell>
+                        <TableCell align="left">{option.contact_person.email}</TableCell>
+                        <TableCell align="left">{option.contact_person.username}</TableCell>
+                        {/* <TableCell align="left">{option.password}</TableCell> */}
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
+                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )
@@ -131,9 +173,9 @@ export default function CreateCouncil() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

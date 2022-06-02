@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import {  useEffect, useState } from 'react';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetUserByTeam } from '../../actions/TeamsAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -70,12 +72,32 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function AssignUser() {
+
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  
+  const {
+    userOfTeam,
+    assignUserToTeamLog,
+    deleteUserFromteamLog,
+  } = useSelector((state) => ({
+    userOfTeam:state.teams.userOfTeam,
+    assignUserToTeamLog:state.teams.assignUserToTeamLog,
+    deleteUserFromteamLog:state.teams.deleteUserFromteamLog
+  }));
+
+  console.log("USER of team",userOfTeam)
+  const { teamId } = useParams();
+  
+  useEffect(()=>{
+    dispatch(GetUserByTeam(teamId));
+  },[assignUserToTeamLog,deleteUserFromteamLog])
+
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    setDialogData(null);
     setOpen(!open)
   }
 
@@ -112,6 +134,7 @@ export default function AssignUser() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search user..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

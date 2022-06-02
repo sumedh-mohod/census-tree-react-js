@@ -6,8 +6,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function AssignUserConfirmationDialog() {
+export default function AssignUserConfirmationDialog(props) {
   const [open, setOpen] = React.useState(false);
+  const { isOpenConfirm } = props;
+  const [openConfirmation, setOpenConfirmation] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -15,7 +17,12 @@ export default function AssignUserConfirmationDialog() {
 
   const handleClose = () => {
     setOpen(false);
+    props.handleClose(false);
   };
+
+  const handleTrueClose = () => {
+    props.handleClose(true);
+  }
 
   return (
     <div>
@@ -26,7 +33,7 @@ export default function AssignUserConfirmationDialog() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {""}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -34,7 +41,7 @@ export default function AssignUserConfirmationDialog() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>yes</Button>
+          <Button onClick={handleTrueClose}>yes</Button>
           <Button onClick={handleClose} autoFocus>
             Cancel
           </Button>

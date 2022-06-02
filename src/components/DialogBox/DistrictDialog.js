@@ -73,7 +73,7 @@ export default function CreateRoleDialog(props) {
   }));
 
   useEffect(()=>{
-    dispatch(GetAllState());
+    dispatch(GetAllState(1,1000));
   },[])
 
 

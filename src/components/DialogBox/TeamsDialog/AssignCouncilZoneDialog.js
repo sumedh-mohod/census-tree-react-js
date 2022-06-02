@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -15,6 +16,9 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 // import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import { AddCZWToTeam } from '../../../actions/TeamsAction';
 import AssignNewZoneWardConfirmationDialog from './AssignNewZoneWardConfirmationDialog';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -59,6 +63,9 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function AssignCouncilZoneDialog(props) {
+  
+  const dispatch = useDispatch();
+  
   const CouncilNameValue = [
     {
       value: 'liberty Council',
@@ -86,13 +93,42 @@ export default function AssignCouncilZoneDialog(props) {
     'Kelly Snyder',
   ];
   
-  const { isOpen, data, isOpenConfirm } = props;
+  const { isOpen, data, isOpenConfirm,teamId } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [gender, setGender] = React.useState('');
   const [councilName, setCouncilName] = React.useState('');
   const [ZoneName, setZoneName] = React.useState([]);
   const [WardName, setWardName] = React.useState([]);
+  const [topModalOpen, setTopModalOpen] = React.useState(false);
+  const [reqObj, setReqObj] = React.useState(null)
+  const [id, setId] = React.useState(null)
+  
+  const {
+    council,
+    zones,
+    wards,
+    assignCWZToTeamLog,
+    deleteCWZFromteamLog
+
+  } = useSelector((state) => ({
+    council:state.council.council,
+    zones:state.zones.zones,
+    wards:state.wards.wards,
+    assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
+    deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog
+    
+  }));
+
+  const firstRun = React.useRef(true);
+  useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose()
+  },[assignCWZToTeamLog,deleteCWZFromteamLog])
+  
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
@@ -115,8 +151,86 @@ export default function AssignCouncilZoneDialog(props) {
     setWardName(event.target.value);
   };
 
+  const DistrictsSchema = Yup.object().shape({
+    council: Yup.string().required('Council is required'),
+    zones: Yup.string().required('Zone is required'),
+    wards: Yup.string().required('Ward is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      council:data? data.council_id : "",
+      zones:data?data.zone_id:"",
+      wards:data?data.ward_id:""
+    },
+    validationSchema: DistrictsSchema,
+    onSubmit: (value) => {
+      handleTopModalClose();
+
+      if(data){
+        setReqObj({
+          "name":value.districts,
+          "state_id":value.state
+        })
+  
+        setId(data.id);
+      }
+
+      else {
+
+        setReqObj({
+          "team_id": teamId,
+          "council_id": value.council,
+          "zone_id": value.zones,
+          "ward_id": value.wards
+        })
+      }
+      
+
+      // if(data){
+      //   dispatch(AddCZWToTeam({
+      //     "name":value.districts,
+      //     "state_id":value.state
+      //   },data.id))
+      // }
+      // else {
+      //   dispatch(AddCZWToTeam({
+      //     "team_id": teamId,
+      //     "council_id": value.council,
+      //     "zone_id": value.zones,
+      //     "ward_id": value.wards
+      //   }))
+      // }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+
+  const handleTopModalClose = () => {
+    setTopModalOpen(!topModalOpen)
+  }
+
+  const handleTopModalAnswer = (answer) => {
+    if(answer){
+      if(data){
+           dispatch(AddCZWToTeam(reqObj,id))
+      }
+      else {
+        dispatch(AddCZWToTeam(reqObj))
+      }
+    }
+    setTopModalOpen(!topModalOpen)
+  }
+
   return (
     <div>
+      <AssignNewZoneWardConfirmationDialog
+        isOpenConfirm={topModalOpen}
+        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+       />
       <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           New Council
@@ -133,19 +247,22 @@ export default function AssignCouncilZoneDialog(props) {
                 style={{ width: '83%', marginLeft: 40 }}
                 defaultValue={data ? data.councilName : ''}
                 onChange={handleCouncilName}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Select Council Name</em>;
-                  }
-                  return selected
-                }}
+                // renderValue={(selected) => {
+                //   if (selected.length === 0) {
+                //     return <em>Select Council Name</em>;
+                //   }
+                //   return selected
+                // }}
+                error={Boolean(touched.council && errors.council)}
+                helperText={touched.council && errors.council}
+                {...getFieldProps("council")}
               >
                  <MenuItem disabled value="">
               <em>Select Council Name</em>
             </MenuItem>
-                {CouncilNameValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {council?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -157,22 +274,18 @@ export default function AssignCouncilZoneDialog(props) {
           value={ZoneName}
           onChange={handleZoneChange}
           style={{ width: '83%', marginLeft: 40 }}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Select Zone</em>;
-            }
-
-            return selected
-          }}
+          error={Boolean(touched.zones && errors.zones)}
+          helperText={touched.zones && errors.zones}
+          {...getFieldProps("zones")}
           // MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
+          // inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem disabled value="">
             <em>Select Zone</em>
           </MenuItem>
-                {CouncilNameValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {zones?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
                   </MenuItem>
                 ))}
         </Select>
@@ -184,22 +297,18 @@ export default function AssignCouncilZoneDialog(props) {
           value={WardName}
           onChange={handleWardChange}
           style={{ width: '83%', marginLeft: 40 }}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Select Ward</em>;
-            }
-
-            return selected
-          }}
+          error={Boolean(touched.wards && errors.wards)}
+          helperText={touched.wards && errors.wards}
+          {...getFieldProps("wards")}
           // MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
+          // inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem disabled value="">
             <em>Select Ward</em>
           </MenuItem>
-          {CouncilNameValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+          {wards?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
                   </MenuItem>
                 ))}
         </Select>
@@ -216,7 +325,7 @@ export default function AssignCouncilZoneDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       />
-          <Button autoFocus open={handleConfirmationDialogClick  }>
+          <Button autoFocus onClick={handleSubmit }>
             Submit
           </Button>
         </DialogActions>

@@ -2,9 +2,9 @@ import JWTServer from "../api/withJWTServer";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_ZONES, DELETE_ZONES,  EDIT_ZONES, GET_ZONES } from "./Types";
 
-const GetZones = () => async (dispatch) => {
+const GetZones = (page,limit) => async (dispatch) => {
     try {
-      const response = await JWTServer.get("/api/zones");
+      const response = await JWTServer.get(`/api/zones?page=${page}&limit=${limit}`);
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_ZONES,

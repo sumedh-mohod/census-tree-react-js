@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -19,6 +20,12 @@ import { TextField } from '@mui/material';
 // import SelectInput from '../Inputs/SelectInput';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import { GetAllDistricts, GetAllState, GetAllTalukas } from '../../actions/MasterActions';
+import { AddCouncil, EditCouncil, GetCouncilById } from '../../actions/CouncilAction';
+import { GetZones } from '../../actions/ZonesAction';
+import { GetWards } from '../../actions/WardsActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -147,6 +154,8 @@ export default function CreateCouncilDialog(props) {
     'Kelly Snyder',
   ];
   
+  const dispatch = useDispatch();
+
   const { isOpen, data } = props;
   console.log(isOpen);
   const [open, setOpen] = React.useState(false);
@@ -156,8 +165,82 @@ export default function CreateCouncilDialog(props) {
   const[district, setDistrict]=  React.useState('');
   const [stateName, setStateName] = React.useState('');
   const [taluka, setTaluka] = React.useState('');
-  const [ZoneName, setZoneName] = React.useState([]);
-  const [WardName, setWardName] = React.useState([]);
+  const [zoneName, setZoneName] = React.useState([1]);
+  const [wardName, setWardName] = React.useState([1]);
+  
+  const {
+    addCouncilLog,
+    editCouncilLog,
+    zones,
+    wards,
+    states,
+    districts,
+    talukas,
+    councilById,
+  } = useSelector((state) => ({
+    addCouncilLog:state.council.addCouncilLog,
+    editCouncilLog:state.council.editCouncilLog,
+    zones:state.zones.zones,
+    wards:state.wards.wards,
+    states:state.master.states,
+    districts:state.master.districts,
+    talukas:state.master.talukas,
+    councilById:state.council.councilById,
+  }));
+
+  React.useEffect(()=>{
+    if(data && isOpen){
+      dispatch(GetCouncilById(data.id));
+    }
+  },[data])
+
+  useEffect(()=>{
+    dispatch(GetZones(1,1000));
+    dispatch(GetWards(1,1000));
+    dispatch(GetAllState(1,1000));
+    dispatch(GetAllDistricts(1,1000));
+    dispatch(GetAllTalukas(1,1000));
+  },[])
+
+  const firstRun = React.useRef(true);
+  useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose()
+  },[addCouncilLog,editCouncilLog])
+
+  const secondRun = React.useRef(true);
+  React.useEffect(()=>{
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    if(councilById){
+      separateId(councilById.zones,councilById.wards)
+    }
+    
+  },[councilById])
+
+  const separateId = (zones,wards) => {
+    const zoneArray = [];
+    zones.map((value,index)=>{
+
+      zoneArray.push(value.id);
+      return null;
+    })
+    setZoneName(zoneArray)
+
+    const wardArray = [];
+    wards.map((value,index)=>{
+
+      wardArray.push(value.id);
+      return null;
+    })
+    setWardName(wardArray)
+  }
+  
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
@@ -190,6 +273,7 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleWardChange = (event) => {
+    console.log("HANDLE WARD CHANGE CALLED");
     const {
       target: { value },
     } = event;
@@ -200,9 +284,135 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleStateChange = (event) => {
+    console.log("HANDLE STATE CHANGE");
     setStateName(event.target.value);
   };
 
+  const findValue = (listOfObj,id) => {
+    console.log("LIST OF OBJ",listOfObj);
+    console.log("ID",id);
+    const found = listOfObj.find(e => e.id === id);
+    console.log("FOUND",found);
+    if(found){
+      return found.name
+    }
+    
+  }
+
+
+  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
+  const DistrictsSchema = Yup.object().shape(
+    data?
+    {
+      name: Yup.string().required('Name is required'),
+      district: Yup.string().required('Districts is required'),
+      state: Yup.string().required('State is required'),
+      taluka: Yup.string().required('Taluka is required'),
+      baseColorTarget: Yup.string().required('Base Color Target is required'),
+      censusTarget: Yup.string().required('Census Target is required'),
+      zones: Yup.array().min(1,'Zone is required'),
+      wards: Yup.array().min(1,'Ward is required'),
+    }
+    :{
+    name: Yup.string().required('Name is required'),
+    district: Yup.string().required('Districts is required'),
+    state: Yup.string().required('State is required'),
+    taluka: Yup.string().required('Taluka is required'),
+    baseColorTarget: Yup.string().required('Base Color Target is required'),
+    censusTarget: Yup.string().required('Census Target is required'),
+    firstName: Yup.string().required('First Name is required'),
+    middleName: Yup.string().required('Middle Name is required'),
+    lastName: Yup.string().required('Last Name is required'),
+    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Email is required'),
+    username: Yup.string().required('Username is required'),
+    password: Yup.string().required('Password is required'),
+    zones: Yup.array().min(1,'Zone is required'),
+    wards: Yup.array().min(1,'Ward is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: data ? 
+    {
+      district:data? data.district_id : "",
+      state:data?data.state_id:"",
+      taluka:data?data.taluka_id:"",
+      name:data?data.name:"",
+      baseColorTarget:data?data.base_color_target:"",
+      censusTarget:data?data.census_target:"",
+      zones: data?zoneName:[],
+      wards: data?wardName:[],
+    }
+    :{
+      district:data? data.district_id : "",
+      state:data?data.state_id:"",
+      taluka:data?data.taluka_id:"",
+      name:data?data.name:"",
+      baseColorTarget:data?data.base_color_target:"",
+      censusTarget:data?data.census_target:"",
+      firstName: data?data.contact_person.first_name:"",
+      middleName: data?data.contact_person.middle_name:"",
+      lastName: data?data.contact_person.last_name:"",
+      email: data?data.contact_person.email:"",
+      mobile: data?data.contact_person.mobile:"",
+      username: data?data.contact_person.username:"",
+      password: data?data?.password:"",
+      zones: data?[]:[],
+      wards: data?[]:[],
+
+    },
+    validationSchema: DistrictsSchema,
+    onSubmit: (value) => {
+      console.log("VALUE",value);
+      if(data){
+        dispatch(EditCouncil({
+          "council" : {
+            "name": value.name,
+            "logo" : "xyz",
+            "state_id" : value.state,
+            "district_id" : value.district,
+            "taluka_id" : value.taluka,
+            "base_color_target" : value.baseColorTarget,
+            "census_target" : value.censusTarget
+            },
+            "zones":value.zones,
+            "wards": value.wards
+        },data.id))
+      }
+      else {
+        dispatch(AddCouncil({
+          "council" : {
+            "name": value.name,
+            "logo" : "xyz",
+            "state_id" : value.state,
+            "district_id" : value.district,
+            "taluka_id" : value.taluka,
+            "base_color_target" : value.baseColorTarget,
+            "census_target" : value.censusTarget
+            },
+            "contact_person" : {
+              "first_name" : value.firstName,
+              "middle_name" : value.middleName,
+              "last_name" : value.lastName,
+              "email" : value.email,
+              "mobile" :value.mobile,
+              "username" : value.username,
+              "password" : value.password
+          },
+          "zones":value.zones,
+          "wards": value.wards
+        }))
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+
+  console.log("SELECTED WARD NAME",stateName)
 
   return (
     <div>
@@ -220,12 +430,10 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="name"
                 autoComplete="name"
-                defaultValue={data ? data.name : ''}
-                // type={showPassword ? 'text' : 'password'}
-                // label="Name"
                 placeholder="Name"
-                // name="name"
-                // value="name"
+                error={Boolean(touched.name && errors.name)}
+                helperText={touched.name && errors.name}
+                {...getFieldProps("name")}
               />
             </Grid>
                {/* <UploadButtons/> */}
@@ -236,21 +444,17 @@ export default function CreateCouncilDialog(props) {
                 // name="gender"
                 value={stateName}
                 style={{ width: '81%', marginLeft: 40 }}
-                defaultValue={data ? data.state : ''}
                 onChange={handleStateChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>State</em>;
-                  }
-                  return selected
-                }}
+                error={Boolean(touched.state && errors.state)}
+                helperText={touched.state && errors.state}
+                {...getFieldProps("state")}
               >
                  <MenuItem disabled value="">
               <em>State</em>
             </MenuItem>
-                {stateValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {states?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -266,19 +470,16 @@ export default function CreateCouncilDialog(props) {
               placeholder='Select District'
             
               onChange={handleDistrictChange}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>District</em>;
-                }
-                return selected
-              }}
+              error={Boolean(touched.district && errors.district)}
+                helperText={touched.district && errors.district}
+                {...getFieldProps("district")}
             >
                <MenuItem disabled value="">
             <em>District</em>
           </MenuItem>
-              {DistrictValue.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {districts?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
                 </MenuItem>
               ))}
             </Select>
@@ -292,48 +493,69 @@ export default function CreateCouncilDialog(props) {
                 style={{ width: '81%', marginLeft: 40 }}
                 defaultValue={data ? data.taluka : ''}
                 onChange={handleTalukaChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Taluka</em>;
-                  }
-                  return selected
-                }}
+                error={Boolean(touched.taluka && errors.taluka)}
+                helperText={touched.taluka && errors.taluka}
+                {...getFieldProps("taluka")}
               >
                  <MenuItem disabled value="">
               <em>Taluka</em>
             </MenuItem>
-                {stateValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {talukas?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
                   </MenuItem>
                 ))}
               </Select>
             </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="baseColorTarget"
+                autoComplete="name"
+                placeholder="Enter Base Color Target"
+                error={Boolean(touched.baseColorTarget && errors.baseColorTarget)}
+                helperText={touched.baseColorTarget && errors.baseColorTarget}
+                {...getFieldProps("baseColorTarget")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="censusTarget"
+                autoComplete="name"
+                placeholder="Enter Census Target"
+                error={Boolean(touched.censusTarget && errors.censusTarget)}
+                helperText={touched.censusTarget && errors.censusTarget}
+                {...getFieldProps("censusTarget")}
+              />
+            </Grid>
             <Divider />
-            <BootstrapDialogTitle id="customized-dialog-title">
+            {!data?
+            <>
+          <BootstrapDialogTitle id="customized-dialog-title" style={{ marginLeft: 10 }}>
             Contact Person
         </BootstrapDialogTitle>
         <Divider />
             <Grid item xs={12}>
               <DefaultInput
                fullWidth
-                id="name"
-                 autoComplete="name"
-                  placeholder="Name"
-                  defaultValue={data ? data.name : ''}
-                  //  name="email"
-                  //   value="email" 
+                id="firstName"
+                 autoComplete="firstName"
+                  placeholder="Enter First Name"
+                  error={Boolean(touched.firstName && errors.firstName)}
+                helperText={touched.firstName && errors.firstName}
+                {...getFieldProps("firstName")}
                     />
             </Grid>
             <Grid item xs={12}>
               <DefaultInput
                fullWidth
-                id="mName"
-                 autoComplete="mName"
-                  placeholder="Middle Name"
-                  defaultValue={data ? data.mName : ''}
-                  //  name="email"
-                  //   value="email" 
+                id="middleName"
+                 autoComplete="middleName"
+                  placeholder="Enter Middle Name"
+                  error={Boolean(touched.middleName && errors.middleName)}
+                helperText={touched.middleName && errors.middleName}
+                {...getFieldProps("middleName")}
                     />
             </Grid>
             <Grid item xs={12}>
@@ -341,10 +563,10 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="lName"
                  autoComplete="lName"
-                  placeholder="Last Name"
-                  defaultValue={data ? data.lName : ''}
-                  //  name="email"
-                  //   value="email" 
+                  placeholder="Enter Last Name"
+                  error={Boolean(touched.lastName && errors.lastName)}
+                helperText={touched.lastName && errors.lastName}
+                {...getFieldProps("lastName")} 
                     />
             </Grid>
             <Grid item xs={12}>
@@ -352,10 +574,10 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="email"
                  autoComplete="email"
-                  placeholder="Email"
-                  defaultValue={data ? data.email : ''}
-                  //  name="email"
-                  //   value="email" 
+                  placeholder="Enter Email"
+                  error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+                {...getFieldProps("email")}
                     />
             </Grid>
             <Grid item xs={12}>
@@ -363,10 +585,10 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="contact"
                 autoComplete="contact"
-                placeholder="Mobile No"
-                defaultValue={data ? data.contact : ''}
-                // name="contact"
-                // value="contact"
+                placeholder="Enter Mobile No"
+                error={Boolean(touched.mobile && errors.mobile)}
+                helperText={touched.mobile && errors.mobile}
+                {...getFieldProps("mobile")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -374,10 +596,10 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="username"
                 autoComplete="username"
-                placeholder="User Name"
-                defaultValue={data ? data.username : ''}
-                // name="address"
-                // value="address"
+                placeholder="Enter UserName"
+                error={Boolean(touched.username && errors.username)}
+                helperText={touched.username && errors.username}
+                {...getFieldProps("username")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -386,16 +608,103 @@ export default function CreateCouncilDialog(props) {
                 id="password"
                 autoComplete="password"
                 placeholder="Password"
-                defaultValue={data ? data.password : ''}
-                // name="address"
-                // value="address"
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+                {...getFieldProps("password")}
               />
             </Grid>
-          </Grid>
+
+            
+            </>
+            :null
+            }
+            <Grid item xs={12}>
+            <Select
+              multiple
+              displayEmpty
+              value={zoneName}
+              onChange={handleChange}
+              style={{ width: '81%', marginLeft: 40 }}
+              renderValue={(selected) => {
+                console.log("SELECTED",selected);
+                if (selected.length === 0) {
+                  return <em>Zone</em>;
+                }
+                const result = [];
+                selected.map((value)=>{
+                  const found = findValue(zones,value);
+                  result.push(found);
+                  return null;
+                })
+                
+
+                return result.join(",");
+              }}
+              error={Boolean(touched.zones && errors.zones)}
+                helperText={touched.zones && errors.zones}
+              // MenuProps={MenuProps}
+              {...getFieldProps("zones")}
+              // inputProps={{ 'aria-label': 'Without label' }}
+            >
+          <MenuItem disabled value="">
+            <em>Zone</em>
+          </MenuItem>
+          {zones?.map((option) => (
+            <MenuItem
+              key={option.id}
+              value={option.id}
+              // style={getStyles(name, personName, theme)}
+            >
+              {option.name}
+            </MenuItem>
+          ))}
+        </Select>
+            </Grid>
+            <Grid item xs={12}>
+            <Select
+              multiple
+              displayEmpty
+              value={wardName}
+              onChange={handleWardChange}
+              style={{ width: '81%', marginLeft: 40 }}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Ward</em>;
+                }
+                const result = [];
+                selected.map((value)=>{
+                  const found = findValue(wards,value);
+                  result.push(found);
+                  return null;
+                })
+
+                return result.join(",");
+              }}
+              error={Boolean(touched.wards && errors.wards)}
+                helperText={touched.wards && errors.wards}
+              // MenuProps={MenuProps}
+              {...getFieldProps("wards")}
+              // inputProps={{ 'aria-label': 'Without label' }}
+            >
+          <MenuItem disabled value="">
+            <em>Ward</em>
+          </MenuItem>
+          {wards?.map((option) => (
+            <MenuItem
+              key={option.id}
+              value={option.id}
+              // style={getStyles(name, personName, theme)}
+            >
+              {option.name}
+            </MenuItem>
+          ))}
+        </Select>
+            </Grid>
+            </Grid>
         </DialogContent>
 
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button autoFocus onClick={handleSubmit}>
             Save changes
           </Button>
         </DialogActions>

@@ -2,9 +2,9 @@ import JWTServer from "../api/withJWTServer";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_DESIGNATIONS } from "./Types";
 
-const GetDesignations = () => async (dispatch) => {
+const GetDesignations = (page,limit) => async (dispatch) => {
     try {
-      const response = await JWTServer.get("/api/designations");
+      const response = await JWTServer.get(`/api/designations?page=${page}&limit=${limit}`);
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_DESIGNATIONS,

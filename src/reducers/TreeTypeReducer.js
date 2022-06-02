@@ -4,7 +4,8 @@ import { ADD_TREE_TYPE, DELETE_TREE_TYPE, EDIT_TREE_TYPE, GET_TREE_TYPE, RESET_S
     treeType:null,
     addTreeTypeLog:false,
     editTreeTypeLog:false,
-    deleteTreeTypeLog:false
+    deleteTreeTypeLog:false,
+    pageInfo:{}
   };
   
   export default function TreeTypeReducer (state = INIT_STATE, action)  {
@@ -14,7 +15,8 @@ import { ADD_TREE_TYPE, DELETE_TREE_TYPE, EDIT_TREE_TYPE, GET_TREE_TYPE, RESET_S
         case GET_TREE_TYPE:
           return{
               ...state,
-              treeType: payload.data,
+              treeType: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ADD_TREE_TYPE:

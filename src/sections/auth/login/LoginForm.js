@@ -6,9 +6,9 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormControlLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
-import Iconify from '../../../components/Iconify';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoginUser } from 'src/actions/AuthActions';
+import { LoginUser } from '../../../actions/AuthActions';
+import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
@@ -98,9 +98,9 @@ export default function LoginForm() {
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
+          {/* <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
             Forgot password?
-          </Link>
+          </Link> */}
         </Stack>
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>

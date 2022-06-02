@@ -72,7 +72,8 @@ function applySortFilter(array, comparator, query) {
 export default function CreateDestination() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
@@ -80,20 +81,28 @@ export default function CreateDestination() {
     designations,
     addDesignationsLog,
     editDesignationsLog,
-    deleteDesignationsLog
+    deleteDesignationsLog,
+    pageInfo
   } = useSelector((state) => ({
     designations:state.designations.designations,
     addDesignationsLog:state.designations.addDesignationsLog,
     editDesignationsLog:state.designations.editDesignationsLog,
-    deleteDesignationsLog:state.designations.deleteDesignationsLog
+    deleteDesignationsLog:state.designations.deleteDesignationsLog,
+    pageInfo : state.designations.pageInfo
   }));
 
   console.log("DISTRICTS",designations)
 
   useEffect(()=>{
-    dispatch(GetDesignations());
+    dispatch(GetDesignations(page+1,rowsPerPage));
   },[addDesignationsLog,editDesignationsLog,deleteDesignationsLog])
 
+
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -111,11 +120,13 @@ export default function CreateDestination() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetDesignations(newPage+1,rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetDesignations(1,parseInt(event.target.value, 10)));
   };
 
   return (
@@ -137,6 +148,7 @@ export default function CreateDestination() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search designations..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -151,7 +163,7 @@ export default function CreateDestination() {
                       >
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
@@ -166,9 +178,9 @@ export default function CreateDestination() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

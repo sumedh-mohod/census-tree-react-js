@@ -59,3 +59,29 @@ export const GET_WARDS = "get-wards";
 export const EDIT_WARDS = "edit-wards";
 export const ADD_WARDS = "add-wards";
 export const DELETE_WARDS = "delete-wards";
+
+export const GET_COUNCIL = "get-council";
+export const GET_COUNCIL_BY_ID = "get-council-by-id";
+export const EDIT_COUNCIL = "edit-council";
+export const ADD_COUNCIL = "add-council";
+export const DELETE_COUNCIL = "delete-council";
+
+export const GET_TEAM = "get-team";
+export const EDIT_TEAM = "edit-team";
+export const ADD_TEAM = "add-team";
+export const DELETE_TEAM = "delete-team";
+
+export const GET_CZW_BY_TEAM = "get-czw-by-team";
+export const ASSIGN_CZW_TO_TEAM = "assign-czw-to-team";
+export const DELETE_ASSIGNED_CZW = "delete-assigned-czw";
+
+export const GET_USERS_BY_TEAM = "get-czw-by-team";
+export const ASSIGN_USERS_TO_TEAM = "assign-czw-to-team";
+export const DELETE_ASSIGNED_USER = "delete-assigned-czw";
+
+export const GET_ROLE = "get-role";
+export const GET_ROLE_BY_ID = "get-role-by-id";
+export const EDIT_ROLE = "edit-role";
+export const ADD_ROLE = "add-role";
+export const DELETE_ROLE = "delete-role";
+export const GET_PERMISSION = "get-permission";

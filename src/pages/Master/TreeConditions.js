@@ -71,7 +71,8 @@ function applySortFilter(array, comparator, query) {
 export default function TreeConditions() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState();
    const [dialogData,setDialogData] = useState(null);
@@ -80,20 +81,28 @@ export default function TreeConditions() {
     treeConditions,
     addTreeConditionsLog,
     editTreeConditionsLog,
-    deleteTreeConditionsLog
+    deleteTreeConditionsLog,
+    pageInfo
   } = useSelector((state) => ({
     treeConditions:state.treeConditions.treeConditions,
     addTreeConditionsLog:state.treeConditions.addTreeConditionsLog,
     editTreeConditionsLog:state.treeConditions.editTreeConditionsLog,
-    deleteTreeConditionsLog:state.treeConditions.deleteTreeConditionsLog
+    deleteTreeConditionsLog:state.treeConditions.deleteTreeConditionsLog,
+    pageInfo : state.treeConditions.pageInfo
   }));
 
   console.log("TREE CONDITIONS",treeConditions)
 
   useEffect(()=>{
-    dispatch(GetTreeConditions());
+    dispatch(GetTreeConditions(page+1,rowsPerPage));
   },[addTreeConditionsLog,editTreeConditionsLog,deleteTreeConditionsLog])
 
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
+  
   const handleNewUserClick = () => {
     setDialogData(null);
     setOpen(!open)
@@ -111,11 +120,13 @@ export default function TreeConditions() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetTreeConditions(newPage+1,rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetTreeConditions(1,parseInt(event.target.value, 10)));
   };
 
   return (
@@ -137,6 +148,7 @@ export default function TreeConditions() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search tree conditions..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -151,7 +163,7 @@ export default function TreeConditions() {
                       >
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.condition}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
@@ -166,7 +178,7 @@ export default function TreeConditions() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={USERLIST.length}
             rowsPerPage={rowsPerPage}

@@ -2,9 +2,9 @@ import JWTServer from "../api/withJWTServer";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS } from "./Types";
 
-const GetWards = () => async (dispatch) => {
+const GetWards = (page,limit) => async (dispatch) => {
     try {
-      const response = await JWTServer.get("/api/wards");
+      const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}`);
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_WARDS,

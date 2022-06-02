@@ -4,7 +4,8 @@ import { ADD_TREE_CONDITIONS, DELETE_TREE_CONDITIONS, EDIT_TREE_CONDITIONS, GET_
     treeConditions:null,
     addTreeConditionsLog:false,
     editTreeConditionsLog:false,
-    deleteTreeConditionsLog:false
+    deleteTreeConditionsLog:false,
+    pageInfo:{}
   };
   
   export default function TreeConditionReducer (state = INIT_STATE, action)  {
@@ -14,7 +15,8 @@ import { ADD_TREE_CONDITIONS, DELETE_TREE_CONDITIONS, EDIT_TREE_CONDITIONS, GET_
         case GET_TREE_CONDITIONS:
           return{
               ...state,
-              treeConditions: payload.data,
+              treeConditions: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ADD_TREE_CONDITIONS:

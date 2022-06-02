@@ -43,7 +43,8 @@ export default function StateListTable() {
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
@@ -51,19 +52,27 @@ export default function StateListTable() {
     states,
     addStateLog,
     editStateLog,
-    deleteStateLog
+    deleteStateLog,
+    pageInfo
   } = useSelector((state) => ({
     states:state.master.states,
     addStateLog:state.master.addStateLog,
     editStateLog:state.master.editStateLog,
-    deleteStateLog:state.master.deleteStateLog
+    deleteStateLog:state.master.deleteStateLog,
+    pageInfo : state.master.pageInfo
   }));
 
   console.log("STATES",states)
 
   useEffect(()=>{
-    dispatch(GetAllState());
+    dispatch(GetAllState(page+1,rowsPerPage));
   },[addStateLog,editStateLog,deleteStateLog])
+
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -81,11 +90,13 @@ export default function StateListTable() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetAllState(newPage+1,rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetAllState(1,parseInt(event.target.value, 10)));
   };
 
   return (
@@ -107,6 +118,7 @@ export default function StateListTable() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search states..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -121,7 +133,7 @@ export default function StateListTable() {
                       >
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
@@ -136,9 +148,9 @@ export default function StateListTable() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

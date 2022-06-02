@@ -4,7 +4,8 @@ import { ADD_ZONES, DELETE_ZONES, EDIT_ZONES, GET_ZONES, RESET_STATE } from "../
     zones:null,
     addZonesLog:false,
     editZonesLog:false,
-    deleteZonesLog:false
+    deleteZonesLog:false,
+    pageInfo:{}
   };
   
   export default function ZoneReducer (state = INIT_STATE, action)  {
@@ -14,7 +15,8 @@ import { ADD_ZONES, DELETE_ZONES, EDIT_ZONES, GET_ZONES, RESET_STATE } from "../
         case GET_ZONES:
           return{
               ...state,
-              zones: payload.data,
+              zones: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ADD_ZONES:

@@ -74,7 +74,8 @@ function applySortFilter(array, comparator, query) {
 export default function CreateNameOfTree() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   
@@ -82,20 +83,27 @@ export default function CreateNameOfTree() {
     treeName,
     addTreeNameLog,
     editTreeNameLog,
-    deleteTreeNameLog
+    deleteTreeNameLog,
+    pageInfo
   } = useSelector((state) => ({
     treeName:state.treeName.treeName,
     addTreeNameLog:state.treeName.addTreeNameLog,
     editTreeNameLog:state.treeName.editTreeNameLog,
-    deleteTreeNameLog:state.treeName.deleteTreeNameLog
+    deleteTreeNameLog:state.treeName.deleteTreeNameLog,
+    pageInfo : state.treeName.pageInfo
   }));
 
   console.log("TREE NAME",treeName)
 
   useEffect(()=>{
-    dispatch(GetTreeName());
+    dispatch(GetTreeName(page+1,rowsPerPage));
   },[addTreeNameLog,editTreeNameLog,deleteTreeNameLog])
 
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
   
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -113,11 +121,13 @@ export default function CreateNameOfTree() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(GetTreeName(newPage+1,rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(GetTreeName(1,parseInt(event.target.value, 10)));
   };
 
   return (
@@ -139,6 +149,8 @@ export default function CreateNameOfTree() {
         </Stack>
 
         <Card>
+
+        <UserListToolbar numSelected={0} placeHolder={"Search tree..."}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -155,7 +167,7 @@ export default function CreateNameOfTree() {
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.botanical_name}</TableCell>
                         <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
@@ -170,9 +182,9 @@ export default function CreateNameOfTree() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
