@@ -77,11 +77,11 @@ const navConfig = [
         path: '/dashboard/typeOfProperty',
         icon: getIcon('eva:shopping-bag-fill'),
       },
-      {
-        title: 'Type Of House',
-        path: '/dashboard/typeOfHouse',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
+      // {
+      //   title: 'Type Of House',
+      //   path: '/dashboard/typeOfHouse',
+      //   icon: getIcon('eva:shopping-bag-fill'),
+      // },
       {
         title: 'Zone',
         path: '/dashboard/zone',

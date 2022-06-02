@@ -86,14 +86,15 @@ const GetAllState = () => async (dispatch) => {
       }
     };
 
-    const GetDistrictsById = (params) => async (dispatch) => {
+    const GetDistrictsByStateId = (params) => async (dispatch) => {
+      console.log("GET DISTRICT BY STATE ID",params);
       try {
-        const response = await JWTServer.get("/api/districts/2");
+        const response = await JWTServer.get(`/api/districts?state_id=${params}`);
         console.log("DISTRICTS BY ID RESPONSE",response.data);
-        // dispatch({
-        //   type: GET_DISTRICTS,
-        //   payload: response.data,
-        // });
+        dispatch({
+          type: GET_DISTRICTS,
+          payload: response.data,
+        });
       } catch (e) {
         dispatch(HandleExceptionWithSecureCatch(e));
       }
@@ -197,7 +198,7 @@ export {
   EditState,
   DeleteState,
   GetAllDistricts,
-  GetDistrictsById,
+  GetDistrictsByStateId,
   AddDistricts,
   EditDistricts,
   DeleteDistricts,

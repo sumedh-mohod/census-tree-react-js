@@ -33,7 +33,7 @@ import TypeOfPropertyDialog from "../../components/DialogBox/TypeOfPropertyDialo
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'TypeofTree', label: 'Type Of Tree', alignRight: false },
+  { id: 'TypeofTree', label: 'Type Of Property', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
@@ -142,7 +142,7 @@ export default function TypeOfProperty() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { propertyTypes.map((option,index) => {
+                     { propertyTypes?.map((option,index) => {
                         return (
                         <TableRow
                         hover

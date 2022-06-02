@@ -17,7 +17,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteTalukas, GetAllTalukas } from 'src/actions/MasterActions';
+import { DeleteTalukas, GetAllTalukas } from '../../actions/MasterActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -36,6 +36,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Taluka Name', alignRight: false },
   { id: 'name', label: 'District Name', alignRight: false },
   { id: 'state', label: 'State Name', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -106,7 +107,7 @@ export default function Taluka() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteTalukas(data.id));
+    dispatch(DeleteTalukas(data.id,data.status?0:1));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -144,19 +145,20 @@ export default function Taluka() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { UserTableData.talukaData.map((option) => {
+                     { talukas?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                             <TableCell align="left">
-                              {option.TalukaName}
+                              {option.name}
                             </TableCell>
-                        <TableCell align="left">{option.district}</TableCell>
-                        <TableCell align="left">{option.state}</TableCell>
+                        <TableCell align="left">{option.district?.name}</TableCell>
+                        <TableCell align="left">{option.district?.state?.name}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

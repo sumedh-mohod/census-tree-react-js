@@ -156,7 +156,7 @@ export default function District() {
                             <TableCell align="left">
                               {option.name}
                             </TableCell>
-                        <TableCell align="left">{option.state_id}</TableCell>
+                        <TableCell align="left">{option.state?.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"InActive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />

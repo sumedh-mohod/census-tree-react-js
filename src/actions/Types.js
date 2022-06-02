@@ -17,6 +17,7 @@ export const GET_DISTRICTS = "get-districts";
 export const EDIT_DISTRICTS = "edit-districts";
 export const ADD_DISTRICTS = "add-districts";
 export const DELETE_DISTRICTS = "delete-districts";
+export const GET_DISTRICTS_BY_STATE_ID = "get-districts-by-state-id";
 
 export const GET_TALUKAS = "get-talukas";
 export const EDIT_TALUKAS = "edit-talukas";
