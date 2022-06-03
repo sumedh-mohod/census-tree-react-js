@@ -22,7 +22,7 @@ import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
-import { UserListHead, UserListToolbar, TeamsMenu } from '../../sections/@dashboard/user';
+import { UserListSortableHead, UserListToolbar, TeamsMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
@@ -144,7 +144,7 @@ export default function TeamsList() {
 
   let timer = null;
   const filterByName = (event) => {
-    const value = event.currentTarget.value;
+    const {value} = event.currentTarget;
     clearTimeout(timer);
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
@@ -187,12 +187,12 @@ export default function TeamsList() {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
+                <UserListSortableHead
                   headLabel={TABLE_HEAD}
+
                 />
                 <TableBody>
-                     { teams?.map((option,index) => {
-                        return (
+                     { teams?.map((option,index) => (
                         <TableRow
                         hover
                       >
@@ -206,8 +206,7 @@ export default function TeamsList() {
                           <TeamsMenu id={option.id} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
-                        )
-                  })
+                        ))
                 }
 
                 </TableBody>

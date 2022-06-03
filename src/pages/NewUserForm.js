@@ -412,7 +412,7 @@ export default function NewUserForm(props) {
                   defaultValue={data? data.fname: ""}
                   // type={showPassword ? 'text' : 'password'}
                   // label="Name"
-                  placeholder="*First Name"
+                  placeholder="First Name*"
                   // name="name"
                   // value="name"
                 />
@@ -425,7 +425,7 @@ export default function NewUserForm(props) {
                   defaultValue={data? data.mName: ""}
                   // type={showPassword ? 'text' : 'password'}
                   // label="Name"
-                  placeholder="*Middle Name"
+                  placeholder="Middle Name*"
                   // name="name"
                   // value="name"
                 />
@@ -440,7 +440,7 @@ export default function NewUserForm(props) {
                   defaultValue={data? data.lName: ""}
                   // type={showPassword ? 'text' : 'password'}
                   // label="Name"
-                  placeholder="*Last Name"
+                  placeholder="Last Name*"
                   // name="name"
                   // value="name"
                 />
@@ -450,7 +450,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="contact"
                   autoComplete="contact"
-                  placeholder="*Mobile Number"
+                  placeholder="Mobile Number*"
                   defaultValue={data? data.contact: ""}
                   // name="contact"
                   // value="contact"
@@ -463,7 +463,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="addressLine1"
                   autoComplete="addressLine1"
-                  placeholder="*Address Line 1"
+                  placeholder="Address Line 1*"
                   defaultValue={data? data.addressLine1: ""}
                   // name="address"
                   // value="address"
@@ -483,7 +483,7 @@ export default function NewUserForm(props) {
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="village" autoComplete="village" placeholder="Village/City" 
+                <DefaultInput fullWidth id="village" autoComplete="village" placeholder="Village/City*" 
                  defaultValue={data? data.village: ""}
                  />
               </Grid>
@@ -495,12 +495,12 @@ export default function NewUserForm(props) {
                 defaultValue={data? data.district : ""}
                 value={district}
                 style={{width: '87.5%', marginLeft: 40}}
-                placeholder='*Select District'
+                placeholder='Select District*'
               
                 onChange={handleDistrictChange}
                 renderValue={(selected) => {
                   if (selected.length === 0) {
-                    return <em>*District</em>;
+                    return <em>District*</em>;
                   }
                   return selected
                 }}
@@ -518,7 +518,7 @@ export default function NewUserForm(props) {
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email" 
+                <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email Id*" 
                  defaultValue={data? data.email: ""}
                  />
               </Grid>
@@ -528,7 +528,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="aadhar"
                   autoComplete="aadhar"
-                  placeholder="*Aadhar Number"
+                  placeholder="Aadhar Number*"
                   defaultValue={data? data.aadhar: ""}
                   // name="aadhar"
                   // value="aadhar"
@@ -541,7 +541,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="education"
                   autoComplete="education"
-                  placeholder="*Education"
+                  placeholder="Education*"
                   defaultValue={data? data.education: ""}
                   // name="aadhar"
                   // value="aadhar"
@@ -552,7 +552,7 @@ export default function NewUserForm(props) {
       id="date"
       // label="Date Of Birth"
       type="date"
-      placeholder='*Date Of Birth'
+      placeholder='Date Of Birth*'
       // defaultValue="2017-05-24"
       style={{width: '87.5%', marginLeft: 40}}
       // className={classes.textField}
@@ -575,7 +575,7 @@ export default function NewUserForm(props) {
                 onChange={handleReligionChange}
                 renderValue={(selected) => {
                   if (selected.length === 0) {
-                    return <em>*Religion</em>;
+                    return <em>Religion*</em>;
                   }
                   return selected
                 }}
@@ -602,7 +602,7 @@ export default function NewUserForm(props) {
                 onChange={handleCasteChange}
                 renderValue={(selected) => {
                   if (selected.length === 0) {
-                    return <em>*Caste</em>;
+                    return <em>Caste*</em>;
                   }
                   return selected
                 }}
@@ -631,7 +631,7 @@ export default function NewUserForm(props) {
                 onChange={handleGenderChange}
                 renderValue={(selected) => {
                   if (selected.length === 0) {
-                    return <em>*Diffently Abled</em>;
+                    return <em>Diffently Abled*</em>;
                   }
                   return selected
                 }}
@@ -680,7 +680,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="emergencycontactName"
                   autoComplete="emergencycontactName"
-                  placeholder="*Emergency Contact Name"
+                  placeholder="Emergency Contact Name*"
                   defaultValue={data? data.emergencycontactName: ""}
                   // name="contact"
                   // value="contact"
@@ -691,7 +691,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="emergencycontactMoNum"
                   autoComplete="emergencycontactMoNum"
-                  placeholder="*Emergency Contact Mobile Number"
+                  placeholder="Emergency Contact Mobile Number*"
                   defaultValue={data? data.emergencyNum: ""}
                   // name="contact"
                   // value="contact"
@@ -706,7 +706,7 @@ export default function NewUserForm(props) {
               <TextField
       id="date"
       type="date"
-      placeholder='*Date Of Joining'
+      placeholder='Date Of Joining*'
       style={{width: '87.5%', marginLeft: 40}}
       InputLabelProps={{
         shrink: true,
@@ -721,11 +721,11 @@ export default function NewUserForm(props) {
                 displayEmpty
                 defaultValue={data? data.designation: ""}
                 style={{width: '87.5%', marginLeft: 40}}
-                placeholder='Blood Group'
+                placeholder='Designation'
                 onChange={handleDesignationChange}
                 renderValue={(selected) => {
                   if (selected.length === 0) {
-                    return <em>*Designation</em>;
+                    return <em>Designation*</em>;
                   }
                   return selected
                 }}
@@ -747,7 +747,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="commitedSalary"
                   autoComplete="commitedSalary"
-                  placeholder="*Commited Salary per Month"
+                  placeholder="Commited Salary per Month*"
                   defaultValue={data? data.commitedSalary: ""}
                   // name="contact"
                   // value="contact"
@@ -842,7 +842,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="bankName"
                   autoComplete="bankName"
-                  placeholder="*Bank Name"
+                  placeholder="Bank Name*"
                   defaultValue={data? data.bankName: ""}
                   // name="contact"
                   // value="contact"
@@ -853,7 +853,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="account"
                   autoComplete="account"
-                  placeholder="*Account Number"
+                  placeholder="Account Number*"
                   defaultValue={data? data.account: ""}
                   // name="contact"
                   // value="contact"
@@ -866,7 +866,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="IFSC"
                   autoComplete="IFSC"
-                  placeholder="*IFSC Code"
+                  placeholder="IFSC Code*"
                   defaultValue={data? data.IFSC: ""}
                   // name="contact"
                   // value="contact"
@@ -893,7 +893,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="userName"
                   autoComplete="userName"
-                  placeholder="*User Name"
+                  placeholder="User Name*"
                   // defaultValue={data? data.panCard: ""}
                   // name="contact"
                   // value="contact"
@@ -904,7 +904,7 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="password"
                   autoComplete="password"
-                  placeholder="*Password"
+                  placeholder="Password*"
                   // defaultValue={data? data.panCard: ""}
                   // name="contact"
                   // value="contact"

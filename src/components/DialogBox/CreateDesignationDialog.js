@@ -167,7 +167,7 @@ const handleStatusChange = (event) => {
                 fullWidth
                 id="designation"
                 autoComplete="designation"
-                placeholder="*Enter Designation Name"
+                placeholder="Enter Designation Name*"
                 error={Boolean(touched.designations && errors.designations)}
                 helperText={touched.designations && errors.designations}
                 {...getFieldProps("designations")}
