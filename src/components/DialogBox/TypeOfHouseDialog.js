@@ -92,7 +92,7 @@ export default function TypeOfHouseDialog(props) {
                 id="typeOfHouse"
                 defaultValue={data? data.typeOfHouse: ""}
                 // autoComplete="typeOfTree"
-                placeholder="Type Of House"
+                placeholder="*Type Of House"
                 // name="typeOfTree"
                 // value="typeOfTree"
               />

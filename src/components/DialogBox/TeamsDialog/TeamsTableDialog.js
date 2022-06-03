@@ -142,7 +142,7 @@ export default function TeamsTableDialog(props) {
                 fullWidth
                 id="teamName"
                 autoComplete="teamName"
-                placeholder="Team Name"
+                placeholder="*Team Name"
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
                 {...getFieldProps("name")}

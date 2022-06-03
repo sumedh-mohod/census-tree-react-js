@@ -143,7 +143,7 @@ export default function TreeConditionDialog(props) {
                 fullWidth
                 id="typeOfTreeCutting"
                 // autoComplete="typeOfTree"
-                placeholder="Tree Condition"
+                placeholder="*Tree Condition"
                 error={Boolean(touched.treeConditions && errors.treeConditions)}
                 helperText={touched.treeConditions && errors.treeConditions}
                 {...getFieldProps("treeConditions")}

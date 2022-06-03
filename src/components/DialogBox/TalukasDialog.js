@@ -208,7 +208,7 @@ export default function TalukasDialog(props) {
                 fullWidth
                 id="name"
                 autoComplete="name"
-                placeholder="Enter Taluka Name"
+                placeholder="*Enter Taluka Name"
                 error={Boolean(touched.talukas && errors.talukas)}
                 helperText={touched.talukas && errors.talukas}
                 {...getFieldProps("talukas")}
@@ -221,14 +221,14 @@ export default function TalukasDialog(props) {
               // name='State'
               value={state}
               style={{width:'83%', marginLeft: 40}}
-              placeholder='Select State'
+              placeholder='*Select State'
               onChange={handleStateChange}
               error={Boolean(touched.state && errors.state)}
                 helperText={touched.state && errors.state}
                 {...getFieldProps("state")}
             >
               <MenuItem disabled value="">
-            <em>State</em>
+            <em>*Select State</em>
           </MenuItem>
               {states?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
@@ -251,7 +251,7 @@ export default function TalukasDialog(props) {
                 {...getFieldProps("district")}
             >
                <MenuItem disabled value="">
-            <em>District</em>
+            <em>*Select District</em>
           </MenuItem>
               {districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>

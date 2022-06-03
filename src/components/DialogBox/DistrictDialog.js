@@ -191,7 +191,7 @@ export default function CreateRoleDialog(props) {
                 fullWidth
                 id="name"
                 autoComplete="name"
-                placeholder="Enter District Name"
+                placeholder="*Enter District Name"
                 error={Boolean(touched.districts && errors.districts)}
                 helperText={touched.districts && errors.districts}
                 {...getFieldProps("districts")}
@@ -205,7 +205,7 @@ export default function CreateRoleDialog(props) {
               value={state}
               style={{width:'83%', marginLeft: 40}}
               displayEmpty
-              placeholder="select State"
+              placeholder="*select State"
               onChange={handleStateChange}
               // renderValue={(selected) => {
 
@@ -220,7 +220,7 @@ export default function CreateRoleDialog(props) {
                 {...getFieldProps("state")}
             >
                <MenuItem disabled value="">
-            <em>State</em>
+            <em>*State</em>
           </MenuItem>
               {states?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>

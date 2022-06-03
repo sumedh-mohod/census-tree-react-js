@@ -37,34 +37,25 @@ export default function UserMoreMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-          {props.disable?
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} disabled >
-          <ListItemIcon>
-            <Iconify icon="eva:activity-outline" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
-        : <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} >
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} >
         <ListItemIcon>
           <Iconify icon="eva:activity-outline" width={24} height={24} />
         </ListItemIcon>
         <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />
       </MenuItem>
-}
-
-        {props.disable?
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose} disabled >
-          <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>:
            <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose} >
            <ListItemIcon>
              <Iconify icon="eva:edit-fill" width={24} height={24} />
            </ListItemIcon>
            <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-         </MenuItem>}
+         </MenuItem>
+
+        <MenuItem component={RouterLink} to="/dashboard/newUserFrom" sx={{ color: 'text.secondary' }} onClick={handleClose}>
+          <ListItemIcon>
+            <Iconify icon="ep:view" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="view" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
       </Menu>
     </>
   );

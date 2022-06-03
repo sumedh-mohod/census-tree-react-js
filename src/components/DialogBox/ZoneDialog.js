@@ -142,7 +142,7 @@ export default function WardDialog(props) {
                 fullWidth
                 id="Zone"
                 // autoComplete="typeOfTree"
-                placeholder="Zone"
+                placeholder="*Zone"
                 error={Boolean(touched.zones && errors.zones)}
                 helperText={touched.zones && errors.zones}
                 {...getFieldProps("zones")}
