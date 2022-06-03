@@ -58,22 +58,22 @@ const navConfig = [
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Type Of Tree',
+        title: 'Type Of Trees',
         path: '/dashboard/typeOfTree',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Name Of Tree',
+        title: 'Name Of Trees',
         path: '/dashboard/nameOfTree',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Tree Condition',
+        title: 'Tree Conditions',
         path: '/dashboard/treeCondition',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Type Of Property',
+        title: 'Type Of Properties',
         path: '/dashboard/typeOfProperty',
         icon: getIcon('eva:shopping-bag-fill'),
       },
@@ -83,12 +83,12 @@ const navConfig = [
       //   icon: getIcon('eva:shopping-bag-fill'),
       // },
       {
-        title: 'Zone',
+        title: 'Zones',
         path: '/dashboard/zone',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Ward',
+        title: 'Wards',
         path: '/dashboard/ward',
         icon: getIcon('eva:shopping-bag-fill'),
       },

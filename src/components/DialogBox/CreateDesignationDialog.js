@@ -167,38 +167,12 @@ const handleStatusChange = (event) => {
                 fullWidth
                 id="designation"
                 autoComplete="designation"
-                placeholder="Enter Designation Name"
+                placeholder="*Enter Designation Name"
                 error={Boolean(touched.designations && errors.designations)}
                 helperText={touched.designations && errors.designations}
                 {...getFieldProps("designations")}
               />
             </Grid>
-            {/* <Grid item xs={12}>
-            <Select
-              id="status"
-              // name='status'
-              // value={status}
-              displayEmpty
-              style={{width:'83%', marginLeft: 40}}
-              defaultValue={data? data.status : ""}
-              onChange={handleStatusChange}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>Status</em>;
-                }
-                return selected
-              }}
-            >
-               <MenuItem disabled value="">
-            <em>Status</em>
-          </MenuItem>
-              {statusValue.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-            </Grid> */}
           </Grid>
         </DialogContent>
         <Divider/>

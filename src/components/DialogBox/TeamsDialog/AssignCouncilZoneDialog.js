@@ -258,7 +258,7 @@ export default function AssignCouncilZoneDialog(props) {
                 {...getFieldProps("council")}
               >
                  <MenuItem disabled value="">
-              <em>Select Council Name</em>
+              <em>*Select Council Name</em>
             </MenuItem>
                 {council?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
@@ -281,7 +281,7 @@ export default function AssignCouncilZoneDialog(props) {
           // inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem disabled value="">
-            <em>Select Zone</em>
+            <em>*Select Zone</em>
           </MenuItem>
                 {zones?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
@@ -304,7 +304,7 @@ export default function AssignCouncilZoneDialog(props) {
           // inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem disabled value="">
-            <em>Select Ward</em>
+            <em>*Select Ward</em>
           </MenuItem>
           {wards?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>

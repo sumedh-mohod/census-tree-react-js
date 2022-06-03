@@ -430,7 +430,7 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="name"
                 autoComplete="name"
-                placeholder="Name"
+                placeholder="*Name"
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
                 {...getFieldProps("name")}
@@ -450,7 +450,7 @@ export default function CreateCouncilDialog(props) {
                 {...getFieldProps("state")}
               >
                  <MenuItem disabled value="">
-              <em>State</em>
+              <em>*State</em>
             </MenuItem>
                 {states?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
@@ -467,7 +467,7 @@ export default function CreateCouncilDialog(props) {
               defaultValue={data? data.district : ""}
               value={district}
               style={{width:'81%', marginLeft: 40}}
-              placeholder='Select District'
+              placeholder='*Select District'
             
               onChange={handleDistrictChange}
               error={Boolean(touched.district && errors.district)}
@@ -475,7 +475,7 @@ export default function CreateCouncilDialog(props) {
                 {...getFieldProps("district")}
             >
                <MenuItem disabled value="">
-            <em>District</em>
+            <em>*Select District</em>
           </MenuItem>
               {districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
@@ -498,7 +498,7 @@ export default function CreateCouncilDialog(props) {
                 {...getFieldProps("taluka")}
               >
                  <MenuItem disabled value="">
-              <em>Taluka</em>
+              <em>*Select Taluka</em>
             </MenuItem>
                 {talukas?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
@@ -512,7 +512,7 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="baseColorTarget"
                 autoComplete="name"
-                placeholder="Enter Base Color Target"
+                placeholder="*Enter Base Color Target"
                 error={Boolean(touched.baseColorTarget && errors.baseColorTarget)}
                 helperText={touched.baseColorTarget && errors.baseColorTarget}
                 {...getFieldProps("baseColorTarget")}
@@ -523,7 +523,7 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="censusTarget"
                 autoComplete="name"
-                placeholder="Enter Census Target"
+                placeholder="*Enter Census Target"
                 error={Boolean(touched.censusTarget && errors.censusTarget)}
                 helperText={touched.censusTarget && errors.censusTarget}
                 {...getFieldProps("censusTarget")}
@@ -541,7 +541,7 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="firstName"
                  autoComplete="firstName"
-                  placeholder="Enter First Name"
+                  placeholder="*Enter First Name"
                   error={Boolean(touched.firstName && errors.firstName)}
                 helperText={touched.firstName && errors.firstName}
                 {...getFieldProps("firstName")}
@@ -552,7 +552,7 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="middleName"
                  autoComplete="middleName"
-                  placeholder="Enter Middle Name"
+                  placeholder="*Enter Middle Name"
                   error={Boolean(touched.middleName && errors.middleName)}
                 helperText={touched.middleName && errors.middleName}
                 {...getFieldProps("middleName")}
@@ -563,7 +563,7 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="lName"
                  autoComplete="lName"
-                  placeholder="Enter Last Name"
+                  placeholder="*Enter Last Name"
                   error={Boolean(touched.lastName && errors.lastName)}
                 helperText={touched.lastName && errors.lastName}
                 {...getFieldProps("lastName")} 
@@ -574,7 +574,7 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="email"
                  autoComplete="email"
-                  placeholder="Enter Email"
+                  placeholder="*Enter Email"
                   error={Boolean(touched.email && errors.email)}
                 helperText={touched.email && errors.email}
                 {...getFieldProps("email")}
@@ -585,7 +585,7 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="contact"
                 autoComplete="contact"
-                placeholder="Enter Mobile No"
+                placeholder="*Enter Mobile No"
                 error={Boolean(touched.mobile && errors.mobile)}
                 helperText={touched.mobile && errors.mobile}
                 {...getFieldProps("mobile")}
@@ -596,7 +596,7 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="username"
                 autoComplete="username"
-                placeholder="Enter UserName"
+                placeholder="*Enter UserName"
                 error={Boolean(touched.username && errors.username)}
                 helperText={touched.username && errors.username}
                 {...getFieldProps("username")}
@@ -607,7 +607,7 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="password"
                 autoComplete="password"
-                placeholder="Password"
+                placeholder="*Password"
                 error={Boolean(touched.password && errors.password)}
                 helperText={touched.password && errors.password}
                 {...getFieldProps("password")}
@@ -628,7 +628,7 @@ export default function CreateCouncilDialog(props) {
               renderValue={(selected) => {
                 console.log("SELECTED",selected);
                 if (selected.length === 0) {
-                  return <em>Zone</em>;
+                  return <em>*Zone</em>;
                 }
                 const result = [];
                 selected.map((value)=>{
@@ -647,7 +647,7 @@ export default function CreateCouncilDialog(props) {
               // inputProps={{ 'aria-label': 'Without label' }}
             >
           <MenuItem disabled value="">
-            <em>Zone</em>
+            <em>*Zone</em>
           </MenuItem>
           {zones?.map((option) => (
             <MenuItem
@@ -669,7 +669,7 @@ export default function CreateCouncilDialog(props) {
               style={{ width: '81%', marginLeft: 40 }}
               renderValue={(selected) => {
                 if (selected.length === 0) {
-                  return <em>Ward</em>;
+                  return <em>*Ward</em>;
                 }
                 const result = [];
                 selected.map((value)=>{

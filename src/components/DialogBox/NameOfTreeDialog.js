@@ -182,7 +182,7 @@ SetTypeOfTree(event.target.value);
               <DefaultInput
                 fullWidth
                 id="nameOfTree"
-                placeholder="Enter Tree Name"
+                placeholder="*Enter Tree Name"
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
                 {...getFieldProps("name")}
@@ -193,7 +193,7 @@ SetTypeOfTree(event.target.value);
                 fullWidth
                 id="botanicalName"
                 autoComplete="botanicalName"
-                placeholder="Enter Botanical Name"
+                placeholder="*Enter Botanical Name"
                 error={Boolean(touched.botanicalName && errors.botanicalName)}
                 helperText={touched.botanicalName && errors.botanicalName}
                 {...getFieldProps("botanicalName")}
@@ -206,14 +206,14 @@ SetTypeOfTree(event.target.value);
             displayEmpty
               value={typeOfTree}
               style={{width:'83%', marginLeft: 40}}
-              placeholder='Status'
+              // placeholder='*Status'
               onChange={handleStatusChange}
               error={Boolean(touched.treeType && errors.treeType)}
                 helperText={touched.treeType && errors.treeType}
                 {...getFieldProps("treeType")}
             >
                <MenuItem disabled value="">
-            <em>Type Of Tree</em>
+            <em>*Type Of Tree</em>
           </MenuItem>
               {treeType.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
