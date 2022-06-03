@@ -1,10 +1,24 @@
 import JWTServer from "../api/withJWTServer";
+import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_TREE_NAME, DELETE_TREE_NAME, EDIT_TREE_NAME, GET_TREE_NAME } from "./Types";
 
 const GetTreeName = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/tree-names?page=${page}&limit=${limit}`);
+      console.log("DESIGNATIONS RESPONSE",response.data);
+      dispatch({
+        type: GET_TREE_NAME,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const SearchTreeName = (page,limit,searchValue) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/tree-names?page=${page}&limit=${limit}&search=${searchValue}`);
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_TREE_NAME,
@@ -23,6 +37,10 @@ const GetTreeName = (page,limit) => async (dispatch) => {
         type: ADD_TREE_NAME,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -36,6 +54,10 @@ const GetTreeName = (page,limit) => async (dispatch) => {
         type: EDIT_TREE_NAME,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -56,6 +78,7 @@ const GetTreeName = (page,limit) => async (dispatch) => {
 
   export {
       GetTreeName,
+      SearchTreeName,
       AddTreeName,
       EditTreeName,
       DeleteTreeName

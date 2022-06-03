@@ -17,7 +17,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteCouncil, GetCouncil } from '../../actions/CouncilAction';
+import { DeleteCouncil, GetCouncil, SearchCouncil } from '../../actions/CouncilAction';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
@@ -57,6 +57,8 @@ export default function CreateCouncil() {
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  const [search,setSearch] = useState(false);
+  const [searchValue,setSearchValue] = useState("");
 
   const {
     council,
@@ -91,7 +93,12 @@ export default function CreateCouncil() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(GetCouncil(newPage+1,rowsPerPage));
+    if(search){
+      dispatch(SearchCouncil(newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetCouncil(newPage+1,rowsPerPage));
+    }
   };
   const handleEdit = (data) => {
     setDialogData(data);
@@ -105,10 +112,36 @@ export default function CreateCouncil() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(GetCouncil(1,parseInt(event.target.value, 10)));
+    if(search){
+      dispatch(SearchCouncil(1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetCouncil(1,parseInt(event.target.value, 10)));
+    }
   };
 
-  
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchCouncil(1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetCouncil(1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
 
   return (
     <Page title="User">
@@ -130,7 +163,7 @@ export default function CreateCouncil() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search councils..."}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search councils..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

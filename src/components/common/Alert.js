@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DeleteAlert } from '../../actions/AlertActions';
 import './alert.css';
 
@@ -8,6 +8,10 @@ import './alert.css';
 export default function Alert() {
 
     const dispatch = useDispatch();
+
+    const handleClick = () => {
+        dispatch(DeleteAlert(alert))
+    }
 
     const {alerts } = useSelector((state) => ({
           alerts: state.alerts
@@ -29,12 +33,14 @@ export default function Alert() {
                     >
                     <span className={`alertpage-alert-alertspan-${alert.alertType}`} />
                     <span className="alertpage-alert-msg">{alert.msg}</span>
-                    <span
+                    <div
+                        aria-hidden
                         className="alertpage-alert-close"
-                        onClick={(e) => dispatch(DeleteAlert(alert))}
+                        onClick={handleClick}
+                       
                     >
                         X
-                    </span>
+                    </div>
                     </div>
                 ))}
             </div>

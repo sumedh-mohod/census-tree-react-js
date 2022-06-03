@@ -10,7 +10,7 @@
 	justify-content: flex-start;
 	align-items: flex-start;
 	font-weight: bold;
-	z-index: 1000;
+	z-index: 2000;
 	overflow: hidden;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .alertpage-alert-alertspan-success {
-    background-image: url("../Resources/Alerts/success.svg");
+    background-image: url("../../Assets/success.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -83,7 +83,7 @@
 }
 
 .alertpage-alert-alertspan-information {
-    background-image: url("../Resources/Alerts/info.svg");
+    background-image: url("../../Assets/info.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -92,7 +92,7 @@
 }
 
 .alertpage-alert-alertspan-danger {
-    background-image: url("../Resources/Alerts/fail.svg");
+    background-image: url("../../Assets/fail.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -101,7 +101,7 @@
 }
 
 .alertpage-alert-alertspan-notify {
-    background-image: url("../Resources/Alerts/notify.svg");
+    background-image: url("../../Assets/notify.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -110,7 +110,7 @@
 }
 
 .alertpage-alert-alertspan-danger-stay {
-    background-image: url("../Resources/Alerts/fail.svg");
+    background-image: url("../../Assets/fail.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;

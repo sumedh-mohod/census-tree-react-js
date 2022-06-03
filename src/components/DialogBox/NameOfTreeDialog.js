@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { AddTreeName, EditTreeName } from '../../actions/TreeNameAction';
-import { GetTreeType } from '../../actions/TreeTypeActions';
+import { GetActiveTreeType } from '../../actions/TreeTypeActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -85,7 +85,7 @@ export default function NameOfTreeDialog(props) {
   ];
 
   useEffect(()=>{
-    dispatch(GetTreeType(1,1000));
+    dispatch(GetActiveTreeType(1,1000,1));
   },[])
 
   useEffect(()=>{

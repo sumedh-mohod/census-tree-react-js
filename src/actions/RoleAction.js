@@ -1,4 +1,5 @@
 import JWTServer from "../api/withJWTServer";
+import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_ROLE, DELETE_ROLE, EDIT_ROLE, GET_PERMISSION, GET_ROLE, GET_ROLE_BY_ID } from "./Types";
 
@@ -6,6 +7,18 @@ const GetRole = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/roles?page=${page}&limit=${limit}`);
       console.log("DESIGNATIONS RESPONSE",response.data);
+      dispatch({
+        type: GET_ROLE,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const SearchRole = (page,limit,searchValue) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/roles?page=${page}&limit=${limit}&search=${searchValue}`);
       dispatch({
         type: GET_ROLE,
         payload: response.data,
@@ -36,6 +49,10 @@ const GetRole = (page,limit) => async (dispatch) => {
         type: ADD_ROLE,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -48,6 +65,10 @@ const GetRole = (page,limit) => async (dispatch) => {
         type: EDIT_ROLE,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -80,6 +101,7 @@ const GetRole = (page,limit) => async (dispatch) => {
 
   export {
       GetRole,
+      SearchRole,
       AddRole,
       EditRole,
       DeleteRole,

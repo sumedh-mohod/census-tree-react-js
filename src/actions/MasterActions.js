@@ -15,6 +15,7 @@ import {
 } from "./Types";
 
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
+import { SetNewAlert } from "./AlertActions";
 
 
 
@@ -34,18 +35,51 @@ const GetAllState = (page,limit) => async (dispatch) => {
       }
     };
 
-  const AddState = (params) => async (dispatch) => {
-      try {
-        const response = await JWTServer.post("/api/states",params);
-        console.log("ADD STATE RESPONSE",response.data);
-        dispatch({
-          type: ADD_STATE,
-          payload: response.data,
-        });
-      } catch (e) {
-        dispatch(HandleExceptionWithSecureCatch(e));
-      }
-    };
+const GetActiveState = (page,limit,status) => async (dispatch) => {
+  try {
+    const response = await JWTServer.get(`/api/states?page=${page}&limit=${limit}&status=${status}`);
+    console.log("GET STATE RESPONSE",response.data);
+    dispatch({
+      type: GET_STATE,
+      payload: response.data,
+    });
+  } catch (e) {
+
+      console.log("CATCH GET ALL STATE",e.response);
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
+const SearchState = (page,limit,searchValue) => async (dispatch) => {
+  try {
+    const response = await JWTServer.get(`/api/states?page=${page}&limit=${limit}&search=${searchValue}`);
+    dispatch({
+      type: GET_STATE,
+      payload: response.data,
+    });
+  } catch (e) {
+
+      console.log("CATCH GET ALL STATE",e.response);
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
+const AddState = (params) => async (dispatch) => {
+    try {
+      const response = await JWTServer.post("/api/states",params);
+      console.log("ADD STATE RESPONSE",response.data);
+      dispatch({
+        type: ADD_STATE,
+        payload: response.data,
+      });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
 
     const EditState = (params,stateId) => async (dispatch) => {
       try {
@@ -55,6 +89,10 @@ const GetAllState = (page,limit) => async (dispatch) => {
           type: EDIT_STATE,
           payload: response.data,
         });
+        dispatch(SetNewAlert({
+          msg: response.data.message,
+          alertType: "success",
+        }));
       } catch (e) {
         dispatch(HandleExceptionWithSecureCatch(e));
       }
@@ -63,22 +101,45 @@ const GetAllState = (page,limit) => async (dispatch) => {
     const DeleteState = (params,status) => async (dispatch) => {
       try {
         const response = await JWTServer.delete(`/api/states/${params}?status=${status}`);
-        console.log("DELETE STATE RESPONSE",response.data);
+        console.log("DELETE STATE RESPONSE",response);
         dispatch({
           type: DELETE_STATE,
           payload: response.data,
         });
+
       } catch (e) {
         dispatch(HandleExceptionWithSecureCatch(e));
       }
     };
 
-    const GetAllDistricts = (page,limit) => async (dispatch) => {
-      console.log("PAGE",page);
-      console.log("LIMIT",limit);
+const GetAllDistricts = (page,limit) => async (dispatch) => {
+  try {
+    const response = await JWTServer.get(`/api/districts?page=${page}&limit=${limit}`);
+    console.log("DISTRICTS RESPONSE",response.data);
+    dispatch({
+      type: GET_DISTRICTS,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
+const GetActiveDistricts = (page,limit,status) => async (dispatch) => {
+  try {
+    const response = await JWTServer.get(`/api/districts?page=${page}&limit=${limit}&status=${status}`);
+    dispatch({
+      type: GET_DISTRICTS,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
+    const SearchDistricts = (page,limit,searchValue) => async (dispatch) => {
       try {
-        const response = await JWTServer.get(`/api/districts?page=${page}&limit=${limit}`);
-        console.log("DISTRICTS RESPONSE",response.data);
+        const response = await JWTServer.get(`/api/districts?page=${page}&limit=${limit}&search=${searchValue}`);
         dispatch({
           type: GET_DISTRICTS,
           payload: response.data,
@@ -88,10 +149,24 @@ const GetAllState = (page,limit) => async (dispatch) => {
       }
     };
 
-    const GetDistrictsByStateId = (params) => async (dispatch) => {
+    const GetDistrictsByStateId = (params,page,limit) => async (dispatch) => {
       console.log("GET DISTRICT BY STATE ID",params);
       try {
-        const response = await JWTServer.get(`/api/districts?state_id=${params}`);
+        const response = await JWTServer.get(`/api/districts?state_id=${params}&page=${page}&limit=${limit}`);
+        console.log("DISTRICTS BY ID RESPONSE",response.data);
+        dispatch({
+          type: GET_DISTRICTS,
+          payload: response.data,
+        });
+      } catch (e) {
+        dispatch(HandleExceptionWithSecureCatch(e));
+      }
+    };
+
+    const GetActiveDistrictsByStateId = (params,page,limit,status) => async (dispatch) => {
+      console.log("GET DISTRICT BY STATE ID",params);
+      try {
+        const response = await JWTServer.get(`/api/districts?state_id=${params}&page=${page}&limit=${limit}&status=${status}`);
         console.log("DISTRICTS BY ID RESPONSE",response.data);
         dispatch({
           type: GET_DISTRICTS,
@@ -109,6 +184,10 @@ const GetAllState = (page,limit) => async (dispatch) => {
           type: ADD_DISTRICTS,
           payload: response.data,
         });
+        dispatch(SetNewAlert({
+          msg: response.data.message,
+          alertType: "success",
+        }));
       } catch (e) {
         dispatch(HandleExceptionWithSecureCatch(e));
       }
@@ -122,6 +201,10 @@ const GetAllState = (page,limit) => async (dispatch) => {
           type: EDIT_DISTRICTS,
           payload: response.data,
         });
+        dispatch(SetNewAlert({
+          msg: response.data.message,
+          alertType: "success",
+        }));
       } catch (e) {
         dispatch(HandleExceptionWithSecureCatch(e));
       }
@@ -140,9 +223,34 @@ const GetAllState = (page,limit) => async (dispatch) => {
       }
     };
 
-    const GetAllTalukas = (page,limit) => async (dispatch) => {
+const GetAllTalukas = (page,limit) => async (dispatch) => {
+  try {
+    const response = await JWTServer.get(`/api/talukas?page=${page}&limit=${limit}`);
+    console.log("DISTRICTS RESPONSE",response.data);
+    dispatch({
+      type: GET_TALUKAS,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
+const GetActiveTalukas = (page,limit,status) => async (dispatch) => {
+  try {
+    const response = await JWTServer.get(`/api/talukas?page=${page}&limit=${limit}&status=${status}`);
+    dispatch({
+      type: GET_TALUKAS,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
+    const SearchTalukas = (page,limit,searchValue) => async (dispatch) => {
       try {
-        const response = await JWTServer.get(`/api/talukas?page=${page}&limit=${limit}`);
+        const response = await JWTServer.get(`/api/talukas?page=${page}&limit=${limit}&search=${searchValue}`);
         console.log("DISTRICTS RESPONSE",response.data);
         dispatch({
           type: GET_TALUKAS,
@@ -160,6 +268,10 @@ const GetAllState = (page,limit) => async (dispatch) => {
           type: ADD_TALUKAS,
           payload: response.data,
         });
+        dispatch(SetNewAlert({
+          msg: response.data.message,
+          alertType: "success",
+        }));
       } catch (e) {
         dispatch(HandleExceptionWithSecureCatch(e));
       }
@@ -173,6 +285,10 @@ const GetAllState = (page,limit) => async (dispatch) => {
           type: EDIT_TALUKAS,
           payload: response.data,
         });
+        dispatch(SetNewAlert({
+          msg: response.data.message,
+          alertType: "success",
+        }));
       } catch (e) {
         dispatch(HandleExceptionWithSecureCatch(e));
       }
@@ -196,15 +312,22 @@ const GetAllState = (page,limit) => async (dispatch) => {
 
 export {
   GetAllState,
+  GetActiveState,
+  SearchState,
   AddState,
   EditState,
   DeleteState,
   GetAllDistricts,
+  GetActiveDistricts,
+  SearchDistricts,
   GetDistrictsByStateId,
+  GetActiveDistrictsByStateId,
   AddDistricts,
   EditDistricts,
   DeleteDistricts,
   GetAllTalukas,
+  GetActiveTalukas,
+  SearchTalukas,
   AddTalukas,
   EditTalukas,
   DeleteTalukas,

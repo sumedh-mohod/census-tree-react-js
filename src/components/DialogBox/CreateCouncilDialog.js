@@ -22,10 +22,10 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { GetAllDistricts, GetAllState, GetAllTalukas } from '../../actions/MasterActions';
+import { GetActiveDistricts, GetActiveState, GetActiveTalukas } from '../../actions/MasterActions';
 import { AddCouncil, EditCouncil, GetCouncilById } from '../../actions/CouncilAction';
-import { GetZones } from '../../actions/ZonesAction';
-import { GetWards } from '../../actions/WardsActions';
+import { GetActiveZones } from '../../actions/ZonesAction';
+import { GetActiveWards } from '../../actions/WardsActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -195,11 +195,11 @@ export default function CreateCouncilDialog(props) {
   },[data])
 
   useEffect(()=>{
-    dispatch(GetZones(1,1000));
-    dispatch(GetWards(1,1000));
-    dispatch(GetAllState(1,1000));
-    dispatch(GetAllDistricts(1,1000));
-    dispatch(GetAllTalukas(1,1000));
+    dispatch(GetActiveZones(1,1000,1));
+    dispatch(GetActiveWards(1,1000,1));
+    dispatch(GetActiveState(1,1000,1));
+    dispatch(GetActiveDistricts(1,1000,1));
+    dispatch(GetActiveTalukas(1,1000,1));
   },[])
 
   const firstRun = React.useRef(true);

@@ -1,4 +1,5 @@
 import JWTServer from "../api/withJWTServer";
+import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS } from "./Types";
 
@@ -15,6 +16,30 @@ const GetWards = (page,limit) => async (dispatch) => {
     }
   };
 
+  const GetActiveWards = (page,limit,status) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}&status=${status}`);
+      dispatch({
+        type: GET_WARDS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const SearchWards = (page,limit,searchValue) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}&search=${searchValue}`);
+      dispatch({
+        type: GET_WARDS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const AddWards = (params) => async (dispatch) => {
     try {
       const response = await JWTServer.post("/api/wards",params);
@@ -22,6 +47,10 @@ const GetWards = (page,limit) => async (dispatch) => {
         type: ADD_WARDS,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -35,6 +64,10 @@ const GetWards = (page,limit) => async (dispatch) => {
         type: EDIT_WARDS,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -55,6 +88,8 @@ const GetWards = (page,limit) => async (dispatch) => {
 
   export {
       GetWards,
+      GetActiveWards,
+      SearchWards,
       AddWards,
       EditWards,
       DeleteWards

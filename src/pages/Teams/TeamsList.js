@@ -17,7 +17,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteTeam, GetTeam } from '../../actions/TeamsAction';
+import { DeleteTeam, GetTeam, SearchTeam } from '../../actions/TeamsAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -77,6 +77,8 @@ export default function TeamsList() {
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  const [search,setSearch] = useState(false);
+   const [searchValue,setSearchValue] = useState("");
   
   const {
     teams,
@@ -121,14 +123,47 @@ export default function TeamsList() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(GetTeam(newPage+1,rowsPerPage));
+    if(search){
+      dispatch(SearchTeam(newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetTeam(newPage+1,rowsPerPage));
+    }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(GetTeam(1,parseInt(event.target.value, 10)));
+    if(search){
+      dispatch(SearchTeam(1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetTeam(1,parseInt(event.target.value, 10)));
+    }
   };
+
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchTeam(1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetTeam(1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
 
   return (
     <Page title="User">
@@ -148,7 +183,7 @@ export default function TeamsList() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search teams..."}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search teams..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

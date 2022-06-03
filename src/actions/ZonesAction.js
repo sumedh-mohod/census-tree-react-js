@@ -1,4 +1,5 @@
 import JWTServer from "../api/withJWTServer";
+import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_ZONES, DELETE_ZONES,  EDIT_ZONES, GET_ZONES } from "./Types";
 
@@ -15,6 +16,30 @@ const GetZones = (page,limit) => async (dispatch) => {
     }
   };
 
+  const GetActiveZones = (page,limit,status) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/zones?page=${page}&limit=${limit}&status=${status}`);
+      dispatch({
+        type: GET_ZONES,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const SearchZones = (page,limit,searchValue) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/zones?page=${page}&limit=${limit}&search=${searchValue}`);
+      dispatch({
+        type: GET_ZONES,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const AddZones = (params) => async (dispatch) => {
     try {
       const response = await JWTServer.post("/api/zones",params);
@@ -22,6 +47,10 @@ const GetZones = (page,limit) => async (dispatch) => {
         type: ADD_ZONES,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -36,6 +65,10 @@ const GetZones = (page,limit) => async (dispatch) => {
         type: EDIT_ZONES,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -56,6 +89,8 @@ const GetZones = (page,limit) => async (dispatch) => {
 
   export {
       GetZones,
+      GetActiveZones,
+      SearchZones,
       AddZones,
       EditZones,
       DeleteZones

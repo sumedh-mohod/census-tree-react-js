@@ -12,6 +12,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
 import dataStore from './createStore';
+import Alert from './components/common/Alert';
 
 
 // ----------------------------------------------------------------------
@@ -20,6 +21,7 @@ ReactDOM.render(
   <Provider store={dataStore}>
     <HelmetProvider>
     <BrowserRouter>
+      <Alert />
       <App />
     </BrowserRouter>
   </HelmetProvider>

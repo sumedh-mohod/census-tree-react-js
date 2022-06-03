@@ -53,7 +53,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
       ) : (
         <SearchStyle
           value={filterName}
-          onChange={onFilterName}
+          onKeyUp={onFilterName}
           placeholder={placeHolder}
           startAdornment={
             <InputAdornment position="start">

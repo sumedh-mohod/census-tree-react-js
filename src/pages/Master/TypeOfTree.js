@@ -17,7 +17,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteTreeType, GetTreeType } from '../../actions/TreeTypeActions';
+import { DeleteTreeType, GetTreeType, SearchTreeType } from '../../actions/TreeTypeActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -76,6 +76,8 @@ export default function TypeOfTree() {
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  const [search,setSearch] = useState(false);
+   const [searchValue,setSearchValue] = useState("");
 
   const {
     treeType,
@@ -119,14 +121,47 @@ export default function TypeOfTree() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(GetTreeType(newPage+1,rowsPerPage));
+    if(search){
+      dispatch(SearchTreeType(newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetTreeType(newPage+1,rowsPerPage));
+    }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(GetTreeType(1,parseInt(event.target.value, 10)));
+    if(search){
+      dispatch(SearchTreeType(1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetTreeType(1,parseInt(event.target.value, 10)));
+    }
   };
+
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchTreeType(1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetTreeType(1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
 
   return (
     <Page title="User">
@@ -148,7 +183,7 @@ export default function TypeOfTree() {
 
         <Card>
 
-        <UserListToolbar numSelected={0} placeHolder={"Search type of tree..."}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search type of tree..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

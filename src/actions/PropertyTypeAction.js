@@ -1,4 +1,5 @@
 import JWTServer from "../api/withJWTServer";
+import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_PROPERTY_TYPES, DELETE_PROPERTY_TYPES, EDIT_PROPERTY_TYPES, GET_PROPERTY_TYPES } from "./Types";
 
@@ -15,6 +16,19 @@ const GetPropertyType = (page,limit) => async (dispatch) => {
     }
   };
 
+
+  const SearchPropertyType = (page,limit,searchValue) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/property-types?page=${page}&limit=${limit}&search=${searchValue}`);
+      dispatch({
+        type: GET_PROPERTY_TYPES,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const AddPropertyType = (params) => async (dispatch) => {
     try {
       const response = await JWTServer.post("/api/property-types",params);
@@ -22,6 +36,10 @@ const GetPropertyType = (page,limit) => async (dispatch) => {
         type: ADD_PROPERTY_TYPES,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -35,6 +53,10 @@ const GetPropertyType = (page,limit) => async (dispatch) => {
         type: EDIT_PROPERTY_TYPES,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -56,6 +78,7 @@ const GetPropertyType = (page,limit) => async (dispatch) => {
 
   export {
       GetPropertyType,
+      SearchPropertyType,
       AddPropertyType,
       EditPropertyType,
       DeletePropertyType

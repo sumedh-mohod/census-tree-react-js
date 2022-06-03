@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { AddDistricts, EditDistricts, GetAllState } from '../../actions/MasterActions';
+import { AddDistricts, EditDistricts, GetActiveState } from '../../actions/MasterActions';
 import DefaultInput from '../Inputs/DefaultInput';
 import { LoginUser } from '../../actions/AuthActions';
 
@@ -73,7 +73,7 @@ export default function CreateRoleDialog(props) {
   }));
 
   useEffect(()=>{
-    dispatch(GetAllState(1,1000));
+    dispatch(GetActiveState(1,1000,1));
   },[])
 
 

@@ -8,16 +8,14 @@ import {
 } from "./Types";
 
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
+import { SetNewAlert } from "./AlertActions";
 
-const ResetState = () => {
-  return {
+const ResetState = () => ({
     type: RESET_STATE,
     payload: null,
-  };
-};
+  });
 
-const LoginUser = (params) => {
-  return async (dispatch) => {
+const LoginUser = (params) => async (dispatch) => {
     try {
       const response = await Server.post("/api/login", params);
       console.log("RESPONSE LOGIN",response.data);
@@ -27,18 +25,11 @@ const LoginUser = (params) => {
         payload: response.data,
       });
     } catch (e) {
-    //   dispatch({
-      console.log("INSIDE CATCH",e);
-    //     type: LOADER,
-    //     payload: null,
-    //   });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
-};
 
-const Logout = () => {
-  return async (dispatch) => {
+const Logout = () => async (dispatch) => {
     try {
       const response = await JWTServer.post("/api/logout");
       console.log("RESPONSE LOGOUT",response.data);
@@ -52,16 +43,14 @@ const Logout = () => {
         type: RESET_STATE,
         payload: null,
       });
+      dispatch(SetNewAlert({
+        msg: "Logged out successfully",
+        alertType: "success",
+      }));
     } catch (e) {
-    //   dispatch({
-      console.log("INSIDE LOGOUT CATCH",e);
-    //     type: LOADER,
-    //     payload: null,
-    //   });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
-};
 
 
 

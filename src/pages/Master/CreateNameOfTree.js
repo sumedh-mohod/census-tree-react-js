@@ -17,7 +17,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteTreeName, GetTreeName } from '../../actions/TreeNameAction';
+import { DeleteTreeName, GetTreeName, SearchTreeName } from '../../actions/TreeNameAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -78,7 +78,9 @@ export default function CreateNameOfTree() {
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
-  
+  const [search,setSearch] = useState(false);
+  const [searchValue,setSearchValue] = useState("");
+
   const {
     treeName,
     addTreeNameLog,
@@ -121,14 +123,47 @@ export default function CreateNameOfTree() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(GetTreeName(newPage+1,rowsPerPage));
+    if(search){
+      dispatch(SearchTreeName(newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetTreeName(newPage+1,rowsPerPage));
+    }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(GetTreeName(1,parseInt(event.target.value, 10)));
+    if(search){
+      dispatch(SearchTreeName(1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetTreeName(1,parseInt(event.target.value, 10)));
+    }
   };
+
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchTreeName(1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetTreeName(1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
 
   return (
     <Page title="User">
@@ -150,7 +185,7 @@ export default function CreateNameOfTree() {
 
         <Card>
 
-        <UserListToolbar numSelected={0} placeHolder={"Search tree..."}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search tree..."} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

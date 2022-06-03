@@ -1,4 +1,5 @@
 import JWTServer from "../api/withJWTServer";
+import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_DESIGNATIONS } from "./Types";
 
@@ -15,6 +16,18 @@ const GetDesignations = (page,limit) => async (dispatch) => {
     }
   };
 
+  const SearchDesignations = (page,limit,searchValue) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/designations?page=${page}&limit=${limit}&search=${searchValue}`);
+      dispatch({
+        type: GET_DESIGNATIONS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const AddDesignations = (params) => async (dispatch) => {
     try {
       const response = await JWTServer.post("/api/designations",params);
@@ -22,6 +35,10 @@ const GetDesignations = (page,limit) => async (dispatch) => {
         type: ADD_DESIGNATIONS,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -35,6 +52,10 @@ const GetDesignations = (page,limit) => async (dispatch) => {
         type: EDIT_DESIGNATIONS,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -55,6 +76,7 @@ const GetDesignations = (page,limit) => async (dispatch) => {
 
   export {
       GetDesignations,
+      SearchDesignations,
       AddDesignations,
       EditDesignations,
       DeleteDesignations

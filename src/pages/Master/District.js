@@ -27,7 +27,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@das
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import { DeleteDistricts, GetAllDistricts} from '../../actions/MasterActions';
+import { DeleteDistricts, GetAllDistricts, SearchDistricts} from '../../actions/MasterActions';
 
 // ----------------------------------------------------------------------
 
@@ -80,6 +80,8 @@ export default function District() {
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState();
    const [dialogData,setDialogData] = useState(null);
+   const [search,setSearch] = useState(false);
+   const [searchValue,setSearchValue] = useState("");
 
    const {
     districts,
@@ -114,13 +116,25 @@ export default function District() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(GetAllDistricts(newPage+1,rowsPerPage));
+    if(search){
+      dispatch(SearchDistricts(newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetAllDistricts(newPage+1,rowsPerPage));
+    }
+    
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(GetAllDistricts(1,parseInt(event.target.value, 10)));
+    if(search){
+      dispatch(SearchDistricts(1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetAllDistricts(1,parseInt(event.target.value, 10)));
+    }
+    
   };
 
   const handleEdit = (data) => {
@@ -131,6 +145,29 @@ export default function District() {
   const handleDelete = (data) => {
     dispatch(DeleteDistricts(data.id,data.status?0:1));
   };
+
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchDistricts(1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetAllDistricts(1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
 
   return (
     <Page title="User">
@@ -151,7 +188,7 @@ export default function District() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search districts..."}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search districts..."} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

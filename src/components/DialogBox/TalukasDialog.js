@@ -20,7 +20,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { AddTalukas, EditTalukas, GetAllState, GetDistrictsByStateId } from '../../actions/MasterActions';
+import { AddTalukas, EditTalukas, GetActiveDistricts, GetActiveDistrictsByStateId, GetActiveState } from '../../actions/MasterActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -74,12 +74,14 @@ export default function TalukasDialog(props) {
   }));
 
   React.useEffect(()=>{
-    dispatch(GetAllState(1,1000));
+    dispatch(GetActiveState(1,1000,1));
+    dispatch(GetActiveDistricts(1,1000,1));
   },[])
 
   React.useEffect(()=>{
     if(data){
-      setState(data.state_id);
+      console.log("DATA",data);
+      setState(data.district.state_id);
       setDistrict(data.district_id);
     }
     
@@ -96,7 +98,9 @@ export default function TalukasDialog(props) {
  
 
    const handleStateChange = (event) => {
-     dispatch(GetDistrictsByStateId(event.target.value))
+
+     console.log("HANDLE STATE CHANGE CALLED");
+     dispatch(GetActiveDistrictsByStateId(event.target.value,1,1000,1))
      setDistrict("District")
      setState(event.target.value);
    };
@@ -155,7 +159,7 @@ export default function TalukasDialog(props) {
     enableReinitialize: true,
     initialValues: {
       talukas:data? data.name : "",
-      state:data?data.state_id:"",
+      state:data?data.district.state_id:"",
       district:data?data.district_id:"",
 
     },
@@ -177,6 +181,7 @@ export default function TalukasDialog(props) {
       }
     },
   });
+
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 

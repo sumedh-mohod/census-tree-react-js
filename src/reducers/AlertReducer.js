@@ -2,7 +2,7 @@ import { SET_ALERT, REMOVE_ALERT, RESET_STATE } from "../actions/Types";
 
 const INIT_STATE = []
 
-export default (state = INIT_STATE, action) => {
+export default function AlertReducer (state = INIT_STATE, action)  {
   const { type, payload } = action;
 
   switch (type) {

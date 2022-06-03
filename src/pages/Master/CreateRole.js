@@ -17,7 +17,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteRole, GetRole } from '../../actions/RoleAction';
+import { DeleteRole, GetRole, SearchRole } from '../../actions/RoleAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -78,7 +78,9 @@ export default function CreateRole() {
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState()
    const [dialogData,setDialogData] = useState(null);
-  
+   const [search,setSearch] = useState(false);
+   const [searchValue,setSearchValue] = useState("");
+
    const {
     roles,
     addRolesLog,
@@ -113,7 +115,12 @@ export default function CreateRole() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(GetRole(newPage+1,rowsPerPage));
+    if(search){
+      dispatch(SearchRole(newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetRole(newPage+1,rowsPerPage));
+    }
   };
 
   const handleEdit = (data) => {
@@ -128,8 +135,36 @@ export default function CreateRole() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(GetRole(1,parseInt(event.target.value, 10)));
+    if(search){
+      dispatch(SearchRole(1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetRole(1,parseInt(event.target.value, 10)));
+    }
   };
+
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchRole(1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetRole(1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
 
   return (
     <Page title="User">
@@ -150,7 +185,7 @@ export default function CreateRole() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search role..."}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search role..."} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

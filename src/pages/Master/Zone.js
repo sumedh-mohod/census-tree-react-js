@@ -17,7 +17,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteZones, GetZones } from '../../actions/ZonesAction';
+import { DeleteZones, GetZones, SearchZones } from '../../actions/ZonesAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -76,6 +76,8 @@ export default function Zone() {
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  const [search,setSearch] = useState(false);
+   const [searchValue,setSearchValue] = useState("");
 
   const {
     zones,
@@ -110,13 +112,23 @@ export default function Zone() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(GetZones(newPage+1,rowsPerPage));
+    if(search){
+      dispatch(SearchZones(newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetZones(newPage+1,rowsPerPage));
+    }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(GetZones(1,parseInt(event.target.value, 10)));
+    if(search){
+      dispatch(SearchZones(1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetZones(1,parseInt(event.target.value, 10)));
+    }
   };
 
   const handleEdit = (data) => {
@@ -127,6 +139,29 @@ export default function Zone() {
   const handleDelete = (data) => {
     dispatch(DeleteZones(data.id,data.status?0:1));
   };
+
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchZones(1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetZones(1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
 
   return (
     <Page title="User">
@@ -147,7 +182,7 @@ export default function Zone() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search zone..."}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search zone..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
