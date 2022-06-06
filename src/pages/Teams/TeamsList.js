@@ -5,6 +5,7 @@ import {
   Card,
   Table,
   Stack,
+  Grid,
   Avatar,
   Button,
   Checkbox,
@@ -16,13 +17,15 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteTeam, GetTeam, SearchTeam } from '../../actions/TeamsAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
-import { UserListSortableHead, UserListToolbar, TeamsMenu } from '../../sections/@dashboard/user';
+import {UserListHead, UserListToolbar, TeamsMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
@@ -79,7 +82,7 @@ export default function TeamsList() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
-  
+   const [stateName, setStateName] = useState('');
   const {
     teams,
     addTeamsLog,
@@ -107,10 +110,25 @@ export default function TeamsList() {
     }
   },[pageInfo])
 
+  const StateValue = [
+    {
+      value: 'Maharastra',
+      label: 'Maharastra',
+    },
+    {
+      value: 'Patana',
+      label: 'Patana',
+    },
+  ];
+
   const handleNewUserClick = () => {
     setDialogData(null);
     setOpen(!open)
   }
+
+  const handleStateChange = (event) => {
+    setStateName(event.target.value);
+  };
 
   const handleEdit = (data) => {
     setDialogData(data);
@@ -166,7 +184,7 @@ export default function TeamsList() {
   }
 
   return (
-    <Page title="User">
+    <Page title="TeamList">
       <Container>
         <TeamsTableDialog
         isOpen={open}
@@ -186,8 +204,78 @@ export default function TeamsList() {
         <UserListToolbar numSelected={0} placeHolder={"Search teams..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
+            <Grid container spacing={1} >
+            <Grid item xs={3} />
+                <Grid item xs={2}>
+            <Select
+                id="state"
+                displayEmpty
+                // name="gender"
+                value={stateName}
+                style={{ width: '70%', marginLeft: 70, height: 45}}
+                onChange={handleStateChange}
+                // error={Boolean(touched.state && errors.state)}
+                // helperText={touched.state && errors.state}
+                // {...getFieldProps("state")}
+              >
+                 <MenuItem disabled value="">
+              <em>Council Name</em>
+            </MenuItem>
+                {StateValue?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              </Grid>
+              <Grid item xs={2}>
+              <Select
+                id="state"
+                displayEmpty
+                // name="gender"
+                value={stateName}
+                style={{ width: '70%', marginLeft: 150, height: 45 }}
+                onChange={handleStateChange}
+                // error={Boolean(touched.state && errors.state)}
+                // helperText={touched.state && errors.state}
+                // {...getFieldProps("state")}
+              >
+                 <MenuItem disabled value="">
+              <em>Zone</em>
+            </MenuItem>
+                {StateValue?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              </Grid>
+              <Grid item xs={2}>
+              <Select
+                id="state"
+                displayEmpty
+                // name="gender"
+                value={stateName}
+                style={{ width: '70%',  marginLeft: 130, height: 45}}
+                onChange={handleStateChange}
+                // error={Boolean(touched.state && errors.state)}
+                // helperText={touched.state && errors.state}
+                // {...getFieldProps("state")}
+              >
+                 <MenuItem disabled value="">
+              <em>Ward</em>
+            </MenuItem>
+                {StateValue?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              </Grid>
+                <Grid item xs={3} />
+              </Grid>
               <Table>
-                <UserListSortableHead
+                <UserListHead
                   headLabel={TABLE_HEAD}
 
                 />
@@ -199,7 +287,7 @@ export default function TeamsList() {
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>
-                        <TableCell align="left">{option?.zone}</TableCell>
+                        <TableCell >{option?.zone}</TableCell>
                         <TableCell align="left">{option?.ward}</TableCell>
                         {/* <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell> */}
                         <TableCell align="right">
