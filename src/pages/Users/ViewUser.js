@@ -23,12 +23,13 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { GetActiveRole } from '../../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../../actions/UserAction';
 import { UploadFile, UploadImage } from '../../actions/UploadActions';
 import DefaultInput from '../../components/Inputs/DefaultInput';
 import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveDesignations, GetDesignations } from '../../actions/DesignationAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../../actions/MasterActions';
 
 export default function ViewUser(props) {
@@ -90,6 +91,7 @@ export default function ViewUser(props) {
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
       dispatch(GetCouncil(1,1000));
+      dispatch(GetDesignations(1,1000));
       dispatch(GetActiveDistricts(1,1000,1));
       dispatch(GetActiveTalukas(1,1000,1));
     },[])
@@ -123,10 +125,21 @@ export default function ViewUser(props) {
         if(value.slug==="council"){
           setShowCouncil(true);
         }
-        roleArray.push(value.id);
+        roleArray.push(value.role);
         return null;
       })
       setRole(roleArray)
+    }
+
+    const getNameById = (listOfObj,id,valueToSeparate) => {
+      if(listOfObj && listOfObj.length!==0){
+        const found = listOfObj.find(e => e.id === id);
+        if(found){
+          return found[valueToSeparate]
+        }
+      }
+      
+
     }
 
     const seprateDeduction = (deduction) => {
@@ -144,8 +157,9 @@ export default function ViewUser(props) {
 
       else {
         deduction.map((value,index)=>{
+          const deductionName = getNameById(salaryDeductionType,value.salary_deduction_type_id,"type")
           const infoToAdd = {
-            'deductionName':value.salary_deduction_type_id,
+            'deductionName':deductionName,
             'deductionValue':value.value,
             'errorName':"",
             'errorValue':"",
@@ -172,9 +186,10 @@ export default function ViewUser(props) {
 
       else {
         document.map((value,index)=>{
+          const documentName = getNameById(userDocumentType,value.user_document_type_id,"type")
           const infoToAdd = {
-            'documentName':value.user_document_type_id,
-            'documentValue':"",
+            'documentName':documentName,
+            'documentValue':value.document_path,
             'errorName':"",
             'errorValue':"",
           }
@@ -466,7 +481,6 @@ const validateRole = () => {
       let validated = true;
       // eslint-disable-next-line array-callback-return
       deductionList.map((value,index)=>{
-        console.log("VALUE IN VALIDATIONm",value);
         const conditionName = `deductionName`;
         const conditionValue = `deductionValue`;
         if(value[conditionName]===""){
@@ -610,15 +624,15 @@ const validateRole = () => {
       addressLine1: userById.address_line1,
       addressLine2: userById?.address_line2,
       city: userById?.city,
-      district: userById.district_id,
-      taluka: userById.taluka_id,
-      council: userById?.council_id,
+      district: getNameById(districts, userById.district_id,"name"),
+      taluka: getNameById(talukas,userById.taluka_id, "name"),
+      council: getNameById(council, userById?.council_id,"name"),
       username: userById.username,
       password: userById.password,
       aadhaarNumber: userById?.personal_details?.aadhaar_number,
       education: userById?.personal_details?.education,
       dob: userById?.personal_details?.date_of_birth,
-      religion: userById?.personal_details?.religion_id,
+      religion: getNameById(religions,userById?.personal_details?.religion_id,"religion"),
       caste: userById?.personal_details?.caste,
       differentlyAbled: userById?.personal_details?.is_differently_abled,
       bloodGroup: userById?.personal_details?.blood_group,
@@ -628,7 +642,7 @@ const validateRole = () => {
       lastDayOfWork: userById?.joining_details?.last_day_of_work,
       isAgreementDone: userById?.joining_details?.is_agreement_done,
       salaryPerMonth: userById?.joining_details?.committed_salary_per_month,
-      designation: userById?.joining_details?.designation_id,
+      designation: getNameById(designations, userById?.joining_details?.designation_id,"name"),
       noticePeriod: userById?.joining_details?.is_notice_period_served,
       note: userById?.joining_details?.note,
       panCardNumber: userById?.bank_details?.pan_card_number,
@@ -789,10 +803,6 @@ const validateRole = () => {
   
     const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,resetForm } = formik;
   
-  
-
-    console.log("ERROR STATE",errorState);
-  
     return (
       <div>
         {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -800,7 +810,7 @@ const validateRole = () => {
         </Button> */}
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          {editUser?"Edit Users":"View Users"}
+          User Details
           </Typography>
           </Stack>
           <Grid container spacing={1}>
@@ -1311,63 +1321,40 @@ const validateRole = () => {
           </Typography>
           {documentList?.map((value,index)=>(
             <Grid container spacing={1} style={{marginTop: 5}} key={index}>
-            <Grid item xs={5}>
-            <Select
-              id="aadharCard"
-              name='aadharCard'
-              value={value.documentName}
-              displayEmpty
-              style={{width: '87.5%', marginLeft: 40}}
-              onChange={(e)=>handleDocumentNameChange(e,index)}
-              error={Boolean(value.errorName)}
-              helperText={value.errorName}
-              // renderValue={(selected) => {
-              //   if (selected?.length === 0) {
-              //     return <em>Aadhar Card</em>;
-              //   }
-              //   return selected
-              // }}
-            >
-               <MenuItem disabled value="">
-            <em>Document Type*</em>
-          </MenuItem>
-              {userDocumentType?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.type}
-                </MenuItem>
-              ))}
-            </Select>
-            </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={6}>
             <TextField
-                fullWidth
-                id="amount"
-                type={"file"}
-                autoComplete="amount"
-                placeholder="Choose file"
-                value={value.documentValue}
-                error={Boolean(value.errorValue)}
-                helperText={value.errorValue}
-                onChange={(e)=>handleDocumentValueChange(e,index)}
-              />
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="documentValue"
+                  label="Document Type"
+                  value={value.documentName}
+                />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={6}>
+            <Link fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined' target="_blank" rel="noopener" to={`${value.documentName}`} >
+              {value.documentValue}
+          </Link>
+            </Grid>
+            {/* <Grid item xs={2}>
             <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>
                 {index+1===documentLength?
                 <AddCircleIcon fontSize="inherit" />:
                 <CancelIcon fontSize="inherit" />
                 }
               </IconButton>
-            </Grid>
+            </Grid> */}
             </Grid>
           )
           )}
 
           </>
           }
-          
-              
-              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} onClick={handleSubmit}>{editUser?"Update":"Add"}</Button>    
             {/* <Button >Add</Button> */}
         </div>
     );

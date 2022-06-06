@@ -14,19 +14,21 @@ import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 // import MenuItem from '@mui/material/MenuItem';
 import MenuItem from '@mui/material/MenuItem';
+import CancelIcon from '@mui/icons-material/Cancel';
 // import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { TextField } from '@mui/material';
+import { Link, TextField } from '@mui/material';
 // import SelectInput from '../Inputs/SelectInput';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { GetActiveDistricts, GetActiveState, GetActiveTalukas } from '../../actions/MasterActions';
-import { AddCouncil, EditCouncil, GetCouncilById } from '../../actions/CouncilAction';
+import { AddCouncil, AddCouncilWithLogo, EditCouncil, EditCouncilWithLogo, GetCouncilById } from '../../actions/CouncilAction';
 import { GetActiveZones } from '../../actions/ZonesAction';
 import { GetActiveWards } from '../../actions/WardsActions';
 import DefaultInput from '../Inputs/DefaultInput';
+import { UploadImage } from '../../actions/UploadActions';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -167,6 +169,13 @@ export default function CreateCouncilDialog(props) {
   const [taluka, setTaluka] = React.useState('');
   const [zoneName, setZoneName] = React.useState([1]);
   const [wardName, setWardName] = React.useState([1]);
+  const [logoValue, setLogoValue] = React.useState("");
+  const [logoPath, setLogoPath] = React.useState("");
+  const [files, setFiles] = React.useState("");
+  const [logoError, setLogoError] = React.useState("");
+  const [isEditable, setIsEditable] = React.useState(false);
+  const [isImageRemoved, setIsImageRemoved] = React.useState(false);
+
   
   const {
     addCouncilLog,
@@ -177,6 +186,8 @@ export default function CreateCouncilDialog(props) {
     districts,
     talukas,
     councilById,
+    uploadImage,
+    uploadImageLog
   } = useSelector((state) => ({
     addCouncilLog:state.council.addCouncilLog,
     editCouncilLog:state.council.editCouncilLog,
@@ -186,11 +197,14 @@ export default function CreateCouncilDialog(props) {
     districts:state.master.districts,
     talukas:state.master.talukas,
     councilById:state.council.councilById,
+    uploadImage:state.upload.uploadImage,
+    uploadImageLog:state.upload.uploadImageLog,
   }));
 
   React.useEffect(()=>{
     if(data && isOpen){
       dispatch(GetCouncilById(data.id));
+      setIsEditable(true);
     }
   },[data])
 
@@ -219,9 +233,11 @@ export default function CreateCouncilDialog(props) {
     }
     if(councilById){
       separateId(councilById.zones,councilById.wards)
+      setLogoValue(councilById.logo?councilById.logo:"")
     }
     
   },[councilById])
+
 
   const separateId = (zones,wards) => {
     const zoneArray = [];
@@ -252,6 +268,7 @@ export default function CreateCouncilDialog(props) {
   // };
 
   const handleClose = () => {
+    setLogoValue("");
     props.handleClose();
   };
 
@@ -297,6 +314,34 @@ export default function CreateCouncilDialog(props) {
       return found.name
     }
     
+  }
+
+  const handleLogoChange = (e) => {
+    // const formData = new FormData();
+    // formData.append('upload_for', 'councils');
+    // formData.append('image', e.target.files[0]);
+    // dispatch(UploadImage(formData));
+    setLogoValue(e.target.value); 
+    setFiles(e.target.files[0])
+  }
+
+  const handleImageRemove = (e) => {
+    setLogoValue("");
+    setFiles("");
+  }
+
+  
+  const validateLogo = () => {
+    let validated = true;
+
+    if(!logoValue){
+      validated = false;
+      setLogoError("Upload Logo")
+    }
+    else {
+      setLogoError("")
+    }
+    return validated;
   }
 
 
@@ -368,43 +413,67 @@ export default function CreateCouncilDialog(props) {
     onSubmit: (value) => {
       console.log("VALUE",value);
       if(data){
-        dispatch(EditCouncil({
-          "council" : {
-            "name": value.name,
-            "logo" : "xyz",
-            "state_id" : value.state,
-            "district_id" : value.district,
-            "taluka_id" : value.taluka,
-            "base_color_target" : value.baseColorTarget,
-            "census_target" : value.censusTarget
-            },
-            "zones":value.zones,
-            "wards": value.wards
-        },data.id))
+        if(validateLogo() && isImageRemoved){
+          const formData = new FormData();
+            formData.append('upload_for', 'councils');
+            formData.append('image', files);
+          dispatch(EditCouncilWithLogo(formData,{
+            "council" : {
+              "name": value.name,
+              "state_id" : value.state,
+              "district_id" : value.district,
+              "taluka_id" : value.taluka,
+              "base_color_target" : value.baseColorTarget,
+              "census_target" : value.censusTarget
+              },
+              "zones":value.zones,
+              "wards": value.wards
+          },data.id))
+        }
+
+        else if(validateLogo()){
+          dispatch(EditCouncil({
+            "council" : {
+              "name": value.name,
+              "logo": logoValue,
+              "state_id" : value.state,
+              "district_id" : value.district,
+              "taluka_id" : value.taluka,
+              "base_color_target" : value.baseColorTarget,
+              "census_target" : value.censusTarget
+              },
+              "zones":value.zones,
+              "wards": value.wards
+          },data.id))
+        }
+        
       }
-      else {
-        dispatch(AddCouncil({
-          "council" : {
-            "name": value.name,
-            "logo" : "xyz",
-            "state_id" : value.state,
-            "district_id" : value.district,
-            "taluka_id" : value.taluka,
-            "base_color_target" : value.baseColorTarget,
-            "census_target" : value.censusTarget
-            },
-            "contact_person" : {
-              "first_name" : value.firstName,
-              "middle_name" : value.middleName,
-              "last_name" : value.lastName,
-              "email" : value.email,
-              "mobile" :value.mobile,
-              "username" : value.username,
-              "password" : value.password
-          },
-          "zones":value.zones,
-          "wards": value.wards
-        }))
+      else if(validateLogo()){
+          
+            const formData = new FormData();
+            formData.append('upload_for', 'councils');
+            formData.append('image', files);
+            dispatch(AddCouncilWithLogo(formData,{
+              "council" : {
+                "name": value.name,
+                "state_id" : value.state,
+                "district_id" : value.district,
+                "taluka_id" : value.taluka,
+                "base_color_target" : value.baseColorTarget,
+                "census_target" : value.censusTarget
+                },
+                "contact_person" : {
+                  "first_name" : value.firstName,
+                  "middle_name" : value.middleName,
+                  "last_name" : value.lastName,
+                  "email" : value.email,
+                  "mobile" :value.mobile,
+                  "username" : value.username,
+                  "password" : value.password
+              },
+              "zones":value.zones,
+              "wards": value.wards
+            }))
       }
     },
   });
@@ -700,6 +769,46 @@ export default function CreateCouncilDialog(props) {
           ))}
         </Select>
             </Grid>
+            <BootstrapDialogTitle id="customized-dialog-title">
+          Upload Logo
+        </BootstrapDialogTitle>
+            {(isEditable && logoValue)?
+
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <Link fullWidth
+                  style={{width: '88%', marginLeft: 40}} variant='outlined' target="_blank" rel="noopener" to={`${logoValue}`}>
+                    {logoValue}
+                  </Link>
+
+                  <IconButton color={'error'} aria-label={'delete'} size="large" onClick={()=>handleImageRemove(logoValue)}>
+                <CancelIcon fontSize="inherit" />
+              </IconButton>
+
+                </Grid>
+               
+            
+            
+              </Grid>:
+              <Grid item xs={12}>
+              
+              <TextField
+                  fullWidth
+                  style={{width: '81%', marginLeft: 40}}
+                  id="logo"
+                  type={"file"}
+                  autoComplete="amount"
+                  // placeholder="Upload Logo"
+                  value={logoValue}
+                  error={Boolean(logoError)}
+                  helperText={logoError}
+                  onChange={(e)=>handleLogoChange(e)}
+                />
+                {/* <label htmlFor="logo">Click me to upload image</label> */}
+              </Grid>
+
+            }
+            
             </Grid>
         </DialogContent>
 

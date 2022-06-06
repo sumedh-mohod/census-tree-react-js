@@ -1,8 +1,10 @@
-import { RESET_STATE, UPLOAD_FILE } from "../actions/Types";
+import { RESET_STATE, UPLOAD_FILE, UPLOAD_IMAGE } from "../actions/Types";
   
   const INIT_STATE = {
     uploadFileLog:false,
-    uploadFile:{}
+    uploadFile:{},
+    uploadImage:{},
+    uploadImageLog:false
   };
   
   export default function UploadReducer (state = INIT_STATE, action)  {
@@ -14,6 +16,13 @@ import { RESET_STATE, UPLOAD_FILE } from "../actions/Types";
               ...state,
               uploadFile: payload.data,
               uploadFileLog: !state.uploadFileLog
+        };
+
+        case UPLOAD_IMAGE:
+          return{
+              ...state,
+              uploadImage: payload.data,
+              uploadImageLog: !state.uploadImageLog
         };
 
         case RESET_STATE:
