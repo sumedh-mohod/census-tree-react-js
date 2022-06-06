@@ -37,11 +37,9 @@ const TABLE_HEAD = [
   { id: 'taluka', label: 'Taluka', alignRight: false },
   { id: 'baseColorTarget', label: 'Base Color Target', alignRight: false },
   { id: 'censusTarget', label: 'Census Target', alignRight: false },
-  { id: 'fName', label: 'First Name', alignRight: false },
-  { id: 'mName', label: 'Middle Name', alignRight: false },
-  { id: 'lName', label: 'Last Name', alignRight: false },
-  { id: 'MoNumber', label: 'Mobile Number', alignRight: false },
-  { id: 'emailId', label: 'Email', alignRight: false },
+  { id: 'contactPersonName', label: 'Contact Person Name', alignRight: false },
+  { id: 'contactPersonMoNumber', label: 'Contact Person Mobile Number', alignRight: false },
+  { id: 'contactPersonEmail', label: 'Contact Person Email', alignRight: false },
   { id: 'userName', label: 'User Name', alignRight: false },
   // { id: 'password', label: 'Password', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
@@ -184,9 +182,7 @@ export default function CreateCouncil() {
                         <TableCell align="left">{option.taluka?.name}</TableCell>
                         <TableCell align="left">{option.base_color_target}</TableCell>
                         <TableCell align="left">{option.census_target}</TableCell>
-                        <TableCell align="left">{option.contact_person.first_name}</TableCell>
-                        <TableCell align="left">{option.contact_person.middle_name}</TableCell>
-                        <TableCell align="left">{option.contact_person.last_name}</TableCell>
+                        <TableCell align="left">{option.contact_person.first_name} {option.contact_person.last_name}</TableCell>
                         <TableCell align="left">{option.contact_person.mobile}</TableCell>
                         <TableCell align="left">{option.contact_person.email}</TableCell>
                         <TableCell align="left">{option.contact_person.username}</TableCell>

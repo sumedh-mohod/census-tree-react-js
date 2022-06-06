@@ -142,7 +142,7 @@ export default function TypeOfPropertyDialog(props) {
               <DefaultInput
                 fullWidth
                 id="typeOfProperty"
-                placeholder="*Type Of Property"
+                placeholder="Type Of Property*"
                 error={Boolean(touched.propertyTypes && errors.propertyTypes)}
                 helperText={touched.propertyTypes && errors.propertyTypes}
                 {...getFieldProps("propertyTypes")}

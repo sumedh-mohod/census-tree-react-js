@@ -206,7 +206,7 @@ export default function CreateRoleDialog(props) {
                 fullWidth
                 id="role"
                 autoComplete="role"
-                placeholder="*Enter Role Name"
+                placeholder="Enter Role Name*"
                 error={Boolean(touched.roles && errors.roles)}
                 helperText={touched.roles && errors.roles}
                 {...getFieldProps("roles")}
@@ -222,7 +222,7 @@ export default function CreateRoleDialog(props) {
               style={{ width: '82.5%', marginLeft: 40 }}
               renderValue={(selected) => {
                 if (selected.length === 0) {
-                  return <em>*Permission</em>;
+                  return <em>Permission*</em>;
                 }
                 const result = [];
                 selected.map((value)=>{
