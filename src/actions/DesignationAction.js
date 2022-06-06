@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_DESIGNATIONS } from "./Types";
+import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_ACTIVE_DESIGNATIONS, GET_DESIGNATIONS } from "./Types";
 
 const GetDesignations = (page,limit) => async (dispatch) => {
     try {
@@ -9,6 +9,18 @@ const GetDesignations = (page,limit) => async (dispatch) => {
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_DESIGNATIONS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetActiveDesignations = (status) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/designations?status=${status}`);
+      dispatch({
+        type: GET_ACTIVE_DESIGNATIONS,
         payload: response.data,
       });
     } catch (e) {
@@ -76,6 +88,7 @@ const GetDesignations = (page,limit) => async (dispatch) => {
 
   export {
       GetDesignations,
+      GetActiveDesignations,
       SearchDesignations,
       AddDesignations,
       EditDesignations,

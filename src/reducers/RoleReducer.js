@@ -1,4 +1,4 @@
-import { ADD_ROLE, DELETE_ROLE, EDIT_ROLE, GET_PERMISSION, GET_ROLE, GET_ROLE_BY_ID, RESET_STATE } from "../actions/Types";
+import { ADD_ROLE, DELETE_ROLE, EDIT_ROLE, GET_ACTVE_ROLE, GET_PERMISSION, GET_ROLE, GET_ROLE_BY_ID, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     roles:null,
@@ -19,6 +19,11 @@ import { ADD_ROLE, DELETE_ROLE, EDIT_ROLE, GET_PERMISSION, GET_ROLE, GET_ROLE_BY
               ...state,
               roles: payload.data.data,
               pageInfo: payload.data
+        };
+        case GET_ACTVE_ROLE:
+          return{
+              ...state,
+              roles: payload.data,
         };
         case GET_ROLE_BY_ID:
           return{

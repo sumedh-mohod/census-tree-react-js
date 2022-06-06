@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,9 +21,20 @@ import {
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { GetActiveRole } from '../actions/RoleAction';
+import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../actions/UserAction';
+import { UploadFile, UploadImage } from '../actions/UploadActions';
 import DefaultInput from '../components/Inputs/DefaultInput';
+import { GetCouncil } from '../actions/CouncilAction';
+import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
 
 export default function NewUserForm(props) {
+
+    const dispatch = useDispatch();
+
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
@@ -32,7 +44,7 @@ export default function NewUserForm(props) {
     const [whoseReference, setWhoseReference] = React.useState('');
     const [bloodGrp, setBloodGrp] = React.useState('');
     const[district, setDistrict]=  React.useState('');
-    const[role, setRole]=  React.useState('');
+    const[role, setRole]=  React.useState([]);
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
@@ -42,104 +54,165 @@ export default function NewUserForm(props) {
     const [noticePeriod, setNoticePeriod] = React.useState('');
     const [formValues, setFormValues] = useState([{ deductionType: "", amount : ""}])
     const { isOpen, data } = props;
-  
-    const genderValue = [
+    const [deductionList,setDeductionList] = useState([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
+    const [documentList,setDocumentList] = useState([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
+    const [errorState,setErrorState] = useState({});
+    const [showCouncil,setShowCouncil] = useState(false);
+    const [editUser,setEditUser] = useState(false);  
+    const [roleError,setRoleError] = useState("");
+    const {
+      salaryDeductionType,
+      userDocumentType,
+      roles,
+      religions,
+      council,
+      districts,
+      talukas,
+      userById,
+      designations,
+      addUsersLog
+    } = useSelector((state) => ({
+      salaryDeductionType:state.users.salaryDeductionType,
+      userDocumentType:state.users.userDocumentType,
+      roles:state.roles.roles,
+      religions:state.users.religions,
+      council:state.council.council,
+      districts:state.master.districts,
+      talukas:state.master.talukas,
+      userById:state.users.userById,
+      designations:state.designations.designations,
+      addUsersLog:state.users.addUsersLog,
+    }));
+
+    useEffect(()=>{
+      dispatch(GetDeductionType());
+      dispatch(GetUserDocumentType());
+      dispatch(GetActiveRole(1));
+      dispatch(GetReligions())
+      dispatch(GetCouncil(1,1000));
+      dispatch(GetActiveDistricts(1,1000,1));
+      dispatch(GetActiveTalukas(1,1000,1));
+    },[])
+
+    const { userId } = useParams();
+    useEffect(()=>{
+      
+      if(userId){
+        dispatch(GetUsersById(userId))
+        
+      }
+    },[])
+
+    const secondRun = React.useRef(true);
+    useEffect(()=>{ 
+      if (secondRun.current) {
+        secondRun.current = false;
+        return;
+      }
+      if(userById){
+        separateId(userById.roles)
+        seprateDeduction(userById.applicable_deductions)
+        separateDocument(userById.documents)
+        setEditUser(true);
+      }
+    },[userById])
+
+    const separateId = (roles) => {
+      const roleArray = [];
+      roles.map((value,index)=>{
+        if(value.slug==="council"){
+          setShowCouncil(true);
+        }
+        roleArray.push(value.id);
+        return null;
+      })
+      setRole(roleArray)
+    }
+
+    const seprateDeduction = (deduction) => {
+      const deductionList = [];
+
+      if(deduction.length===0){
+        const infoToAdd = {
+          'deductionName':"",
+          'deductionValue':"",
+          'errorName':"",
+          'errorValue':"",
+        }
+        deductionList.push(infoToAdd)
+      }
+
+      else {
+        deduction.map((value,index)=>{
+          const infoToAdd = {
+            'deductionName':value.salary_deduction_type_id,
+            'deductionValue':value.value,
+            'errorName':"",
+            'errorValue':"",
+          }
+          deductionList.push(infoToAdd)
+          return null;
+        })
+      }
+      setDeductionList(deductionList)
+    }
+
+    const separateDocument = (document) => {
+      const documentList = [];
+
+      if(document.length===0){
+        const infoToAdd = {
+          'documentName':"",
+          'documentValue':"",
+          'errorName':"",
+          'errorValue':"",
+        }
+        documentList.push(infoToAdd)
+      }
+
+      else {
+        document.map((value,index)=>{
+          const infoToAdd = {
+            'documentName':value.user_document_type_id,
+            'documentValue':"",
+            'errorName':"",
+            'errorValue':"",
+          }
+          documentList.push(infoToAdd)
+          return null;
+        })
+      }
+      setDocumentList(documentList)
+    }
+
+
+    const firstRun = React.useRef(true);
+    useEffect(()=>{
+      if (firstRun.current) {
+        firstRun.current = false;
+        return;
+      }
+      resetForm();
+      setRole([])
+      setRoleError("")
+      setDeductionList([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
+      setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
+    },[addUsersLog])
+
+    console.log("RELIGIONS",religions);
+
+    const diffentlyAbled = [
       {
-        value: 'male',
-        label: 'Male',
+        value:"1",
+        label:"Yes"
       },
       {
-        value: 'female',
-        label: 'Female',
-      },
-      {
-        value: 'other',
-        label: 'Other',
-      },
-    ];
-  
-    const whoseReferenceValue = [
-      {
-        value: 'nikhil',
-        label: 'Nikhil',
-      },
-      {
-        value: 'rehan',
-        label: 'Rehan',
-      },
-      {
-        value: 'ashwin',
-        label: 'Ashwin',
-      },
-    ];
-    const statusValue = [
-      {
-        value: 'active',
-        label: 'Active',
-      },
-      {
-        value: 'inactive',
-        label: 'InActive',
-      },
-    ];
-    const DistrictValue = [
-      {
-        value: 'akola',
-        label: 'Akola',
-      },
-      {
-        value: 'amravati',
-        label: 'Amravati',
-      },
-    ];
-    const religionValue = [
-      {
-        value: 'hinduism',
-        label: 'Hinduism',
-      },
-      {
-        value: 'islam',
-        label: 'Islam',
-      },
-      {
-        value: 'buddhism',
-        label: 'Buddhism',
-      },
-      {
-        value: 'christianity',
-        label: 'Christianity',
-      },
+        value:"0",
+        label:"No"
+      }
     ]
-  
-    const CasteValue = [
-      {
-        value: 'st',
-        label: 'ST',
-      },
-      {
-        value: 'OBC',
-        label: 'OBC',
-      },
-      {
-        value: 'Brahmins',
-        label: 'Brahmins',
-      },
-      {
-        value: 'Dalit',
-        label: 'Dalit',
-      },
-    ]
-  
-    const agreementValue =[ 
-      {
-        value: 'yes',
-        label: 'Yes',
-      },
-      {
-        value: 'no',
-        label: 'No',
-      },
-    ]
+
+    
   
     const BloodGroupValue = [
       {
@@ -172,112 +245,32 @@ export default function NewUserForm(props) {
       },
     ]
   
-    const documentProvidedValue = [
-      {
-        value: 'sample1',
-        label: 'Sample1',
-      },
-      {
-        value: 'sample2',
-        label: 'Sample2',
-      },
-      {
-        value: 'sample3',
-        label: 'Sample3',
-      },
-    ]
-  
-    const applicableDeducationValue = [
-      {
-        value: 'Property Taxes',
-        label: 'Property Taxes',
-      },
-      {
-        value: 'Mortgage Interest',
-        label: 'Mortgage Interest',
-      },
-      {
-        value: 'Property Deductions',
-        label: 'Property Deductions',
-      },
-    ]
+    
 
-   const roleValue = [
+    const agreement = [
       {
-        value: 'Admin',
-        label: 'Admin',
+        value: '1',
+        label: 'Yes',
       },
       {
-        value: 'Super Admin',
-        label: 'Super Admin',
-    },
-    ]
-
-    const designationValue = [
-      {
-        value: 'Admin',
-        label: 'Admin',
-      },
-      {
-        value: 'Super Admin',
-        label: 'Super Admin',
-    },
-    ]
-
-    const referredByValue = [
-      {
-        value: 'Admin',
-        label: 'Admin',
-      },
-      {
-        value: 'Super Admin',
-        label: 'Super Admin',
+        value: '0',
+        label: 'No',
     },
     ]
 
     const noticePeriodValue =[
       {
-        value: 'yes',
+        value: '1',
         label: 'Yes',
       },
       {
-        value: 'no',
+        value: '0',
         label: 'No',
     },
-    {
-      value: 'partially',
-      label: 'partially',
-  },
     ]
-    const talukaValue =[
-      {
-        value: 'Kalameshwar',
-        label: 'Kalameshwar',
-      },
-      {
-        value: 'Ramtek',
-        label: 'Ramtek',
-      },
-      {
-        value: 'Katol',
-        label: 'Katol',
-      },
-    ]
+   
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-
-    const array1 = [{ }];
-    const array2= [{ }];
-
-//   const addFormFields = () => {
-//     setFormValues([...formValues, { deductionType: "", amount : "" }])
-//  }
-
-//  const handleChange = (i, e) => {
-//   let newFormValues = [...formValues];
-//   newFormValues[i][e.target.name] = e.target.value;
-//   setFormValues(newFormValues);
-// }
 
  const removeFormFields = (i) => {
   const newFormValues = [...formValues];
@@ -293,7 +286,25 @@ export default function NewUserForm(props) {
     };
   
     const handleRoleChange = (event) => {
-      setRole(event.target.value);
+      console.log("EVENT VALUE",event.target.value);
+      const {
+        target: { value },
+      } = event;
+      setRole(
+        // On autofill we get a stringified value.
+        typeof value === 'string' ? value.split(',') : value,
+      );
+
+      const roleValue = event.target.value;
+
+      if(roleValue.indexOf(9)!==-1){
+        setShowCouncil(true);
+      }
+      else {
+        setShowCouncil(false);
+      }
+
+      // setRole(event.target.value);
     };
 
     const handleReferredChange = (event) => {
@@ -355,6 +366,432 @@ export default function NewUserForm(props) {
         event.target.value,
       );
     };
+
+    const deductionLength = deductionList.length;
+    const documentLength = documentList.length;
+
+    const handleDeductionButtonClick = (value,index) => {
+      if(value==='add'){
+        const newDeductionList = [...deductionList];
+        const infoToAdd = {
+          'deductionName':"",
+          'deductionValue':"",
+          'errorName':"",
+          'errorValue':"",
+        }
+        newDeductionList.push(infoToAdd)
+        setDeductionList(newDeductionList)
+      }
+      else if(value==='delete') {
+        const newDeductionList = [...deductionList];
+        newDeductionList.splice(index,1)
+        setDeductionList(newDeductionList)
+      }
+    }
+
+    const handleDeductionNameChange = (e,index) => {
+        const newDeductionList = [...deductionList];
+        const value = newDeductionList[index];
+        value.deductionName = e.target.value;
+        newDeductionList[index] = value;
+        setDeductionList(newDeductionList); 
+       
+    }
+
+    const handleDeductionValueChange = (e,index) => {
+      const newDeductionList = [...deductionList];
+      const value = newDeductionList[index];
+      value.deductionValue = e.target.value;
+      newDeductionList[index] = value;
+      setDeductionList(newDeductionList); 
+     
+  }
+
+    const handleDocumentButtonClick = (value,index) => {
+      console.log("HANDLE DOCUMENT BUTTONVCLICKED CALLED");
+      if(value==='add'){
+        const newDocumentList = [...documentList];
+        const infoToAdd = {
+          'documentName':"",
+          'documentValue':"",
+          'errorName':"",
+          'errorValue':"",
+        }
+        newDocumentList.push(infoToAdd)
+        setDocumentList(newDocumentList)
+      }
+      else if(value==='delete') {
+        const newDocumentList = [...documentList];
+        newDocumentList.splice(index,1)
+        setDocumentList(newDocumentList)
+      }
+    }
+
+    const handleDocumentNameChange = (e,index) => {
+      const newDocumentList = [...documentList];
+      const value = newDocumentList[index];
+      value.documentName = e.target.value;
+      newDocumentList[index] = value;
+      setDocumentList(newDocumentList); 
+     
+  }
+
+  const handleDocumentValueChange = (e,index) => {
+    console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+    const formData = new FormData();
+    formData.append('upload_for', 'users');
+    formData.append('file', e.target.files[0]);
+    dispatch(UploadFile(formData));
+    const newDocumentList = [...documentList];
+    const value =  newDocumentList[index];
+    value.documentValue = e.target.value;
+    newDocumentList[index] = value;
+    setDocumentList(newDocumentList); 
+   
+}
+
+const validateRole = () => {
+  let validated = true;
+  if(role.length===0){
+    validated = false;
+    setRoleError("Role is required")
+  }
+  else {
+    setRoleError("Role is required")
+  }
+  return validated;
+}
+
+    const validateDropDown = () => {
+      let validated = true;
+      // eslint-disable-next-line array-callback-return
+      deductionList.map((value,index)=>{
+        console.log("VALUE IN VALIDATIONm",value);
+        const conditionName = `deductionName`;
+        const conditionValue = `deductionValue`;
+        if(value[conditionName]===""){
+          validated = false;
+          const newDeductionList = [...deductionList];
+          const value = newDeductionList[index];
+          value.errorName = "error found";
+          newDeductionList[index] = value;
+          setDeductionList(newDeductionList); 
+        }
+        else{
+          const newDeductionList = [...deductionList];
+          const value = newDeductionList[index];
+          value.errorName = "";
+          newDeductionList[index] = value;
+          setDeductionList(newDeductionList); 
+        }
+        if(value[conditionValue]===""){
+          validated = false;
+          const newDeductionList = [...deductionList];
+          const value = newDeductionList[index];
+          value.errorValue = "error found";
+          newDeductionList[index] = value;
+          setDeductionList(newDeductionList);
+        }
+        else {
+          const newDeductionList = [...deductionList];
+          const value = newDeductionList[index];
+          value.errorValue = "";
+          newDeductionList[index] = value;
+          setDeductionList(newDeductionList);
+        }
+      })
+
+
+
+      // eslint-disable-next-line array-callback-return
+      documentList.map((value,index)=>{
+        const conditionName = `documentName`;
+        const conditionValue = `documentValue`;
+        if(value[conditionName]===""){
+          validated = false;
+          const newDocumentList = [...documentList];
+          const value = newDocumentList[index];
+          value.errorName = "Error found";
+          newDocumentList[index] = value;
+          setDocumentList(newDocumentList); 
+        }
+        else {
+          const newDocumentList = [...documentList];
+          const value = newDocumentList[index];
+          value.errorName = "";
+          newDocumentList[index] = value;
+          setDocumentList(newDocumentList);
+        }
+        if(value[conditionValue]===""){
+          validated = false;
+          const newDocumentList = [...documentList];
+          const value = newDocumentList[index];
+          value.errorValue = "Error found";
+          newDocumentList[index] = value;
+          setDocumentList(newDocumentList); 
+        }
+        else {
+          const newDocumentList = [...documentList];
+          const value = newDocumentList[index];
+          value.errorValue = "";
+          newDocumentList[index] = value;
+          setDocumentList(newDocumentList); 
+        }
+      })
+
+      return validated;
+    }
+
+
+    // eslint-disable-next-line consistent-return
+    const findRole = (listOfObj,id) => {
+      const found = listOfObj.find(e => e.id === id);
+      console.log("FOUND",found);
+      if(found){
+        return found.role
+      }
+      
+    }
+
+    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+    const DistrictsSchema = Yup.object().shape(
+      showCouncil?{
+      firstName: Yup.string().required('First Name is required'),
+      middleName: Yup.string().required('Middle Name is required'),
+      lastName: Yup.string().required('Last Name is required'),
+      email:Yup.string().email('Email must be a valid email address').required('Email is required'),
+      mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Email is required'),
+      addressLine1: Yup.string().required('Address Line 1 is required'),
+      city: Yup.string().required('City is required'),
+      district: Yup.string().required('Districts is required'),
+      taluka: Yup.string().required('Taluka is required'),
+      council: Yup.string().required('Council is required'),
+      username: Yup.string().required('Username is required'),
+      password: Yup.string().required('Password is required'),
+    }:{
+      firstName: Yup.string().required('First Name is required'),
+      middleName: Yup.string().required('Middle Name is required'),
+      lastName: Yup.string().required('Last Name is required'),
+      email:Yup.string().email('Email must be a valid email address').required('Email is required'),
+      mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Email is required'),
+      addressLine1: Yup.string().required('Address Line 1 is required'),
+      city: Yup.string().required('City is required'),
+      district: Yup.string().required('Districts is required'),
+      taluka: Yup.string().required('Taluka is required'),
+      username: Yup.string().required('Username is required'),
+      password: Yup.string().required('Password is required'),
+      aadhaarNumber: Yup.string().required('Aadhar Number is required'),
+      education: Yup.string().required('Education is required'),
+      dob: Yup.string().required('DOB is required'),
+      religion: Yup.string().required('Religion is required'),
+      caste: Yup.string().required('Caste is required'),
+      differentlyAbled: Yup.string().required('DifferentlyAbled is required'),
+      emergencyContactName: Yup.string().required('Emergency Contact Name is required'),
+      emergencyContactNumber: Yup.string().required('Emergency Contact Number is required'),
+      dateOfJoining: Yup.string().required('DateOfJoining is required'),
+      lastDayOfWork: Yup.string().required('Last Day of work is required'),
+      salaryPerMonth: Yup.string().required('Commited salary per month is required'),
+      designation: Yup.string().required('Designation is required'),
+      panCardNumber: Yup.string().required('Pancard is required'),
+      bankName: Yup.string().required('BankName is required'),
+      accountNumber: Yup.string().required('Account number is required'),
+      ifscCode: Yup.string().required('IFSC is required')
+    }
+    );
+
+    const formik = useFormik({
+      enableReinitialize: true,
+      initialValues: editUser ? {
+        firstName: userById.first_name,
+      middleName: userById.middle_name,
+      lastName: userById.last_name,
+      email:userById.email,
+      mobile: userById.mobile,
+      addressLine1: userById.address_line1,
+      addressLine2: userById?.address_line2,
+      city: userById?.city,
+      district: userById.district_id,
+      taluka: userById.taluka_id,
+      council: userById?.council_id,
+      username: userById.username,
+      password: userById.password,
+      aadhaarNumber: userById?.personal_details?.aadhaar_number,
+      education: userById?.personal_details?.education,
+      dob: userById?.personal_details?.date_of_birth,
+      religion: userById?.personal_details?.religion_id,
+      caste: userById?.personal_details?.caste,
+      differentlyAbled: userById?.personal_details?.is_differently_abled,
+      bloodGroup: userById?.personal_details?.blood_group,
+      emergencyContactName: userById?.personal_details?.emergency_contact_name,
+      emergencyContactNumber: userById?.personal_details?.emergency_contact_number,
+      dateOfJoining: userById?.joining_details?.date_of_joining,
+      lastDayOfWork: userById?.joining_details?.last_day_of_work,
+      isAgreementDone: userById?.joining_details?.is_agreement_done,
+      salaryPerMonth: userById?.joining_details?.committed_salary_per_month,
+      designation: userById?.joining_details?.designation_id,
+      noticePeriod: userById?.joining_details?.is_notice_period_served,
+      note: userById?.joining_details?.note,
+      panCardNumber: userById?.bank_details?.pan_card_number,
+      bankName: userById?.bank_details?.bank_name,
+      accountNumber: userById?.bank_details?.account_number,
+      ifscCode: userById?.bank_details?.ifsc_code
+      }:{
+        firstName: "",
+      middleName: "",
+      lastName: "",
+      email:"",
+      mobile: "",
+      addressLine1: "",
+      addressLine2: "",
+      city: "",
+      district: "",
+      taluka: "",
+      council: "",
+      username: "",
+      password: "",
+      aadhaarNumber: "",
+      education: "",
+      dob: "",
+      religion: "",
+      caste: "",
+      differentlyAbled: "",
+      bloodGroup: "",
+      emergencyContactName: "",
+      emergencyContactNumber: "",
+      dateOfJoining: "",
+      lastDayOfWork: "",
+      isAgreementDone:"",
+      salaryPerMonth: "",
+      designation: "",
+      noticePeriod: "",
+      note: "",
+      panCardNumber: "",
+      bankName: "",
+      accountNumber: "",
+      ifscCode: ""
+      }
+      ,
+      validationSchema: DistrictsSchema,
+      onSubmit: (value) => {
+        if(validateRole()){
+          if(showCouncil){
+            const obj = {
+              "basic_info" : {
+                first_name:value.firstName,
+                middle_name:value.middleName,
+                last_name:value.lastName,
+                email:value.email,
+                mobile: value.mobile,
+                address_line1:value.addressLine1,
+                address_line2:value.addressLine2,
+                city: value.city,
+                district_id:value.district,
+                taluka_id:value.taluka,
+                council_id: value.council,
+                username: value.username,
+                password: value.password,
+              },
+              "roles":role,
+            }
+
+            if(editUser){
+              dispatch(EditUsers(obj,userById.id))
+            }
+            else {
+              dispatch(AddUsers(obj));
+            }
+
+            
+            
+          }
+          else if(validateDropDown()){
+            const aaplicableDeduction = [];
+            deductionList.map((value,index)=>{
+              const conditionName = `deductionName`;
+              const conditionValue = `deductionValue`;
+              const obj = {
+                "salary_deduction_type_id": value[conditionName],
+                "value": value[conditionValue]
+              }
+              aaplicableDeduction.push(obj);
+              return null;
+            })
+
+            const aaplicableDocument = [];
+            documentList.map((value,index)=>{
+              const conditionName = `documentName`;
+              const conditionValue = `documentValue`;
+              const obj = {
+                "user_document_type_id": value[conditionName],
+                "document_path": value[conditionValue]
+              }
+              aaplicableDocument.push(obj);
+              return null;
+            })
+
+            const obj = {
+              "basic_info" : {
+                first_name:value.firstName,
+                middle_name:value.middleName,
+                last_name:value.lastName,
+                email:value.email,
+                mobile: value.mobile,
+                address_line1:value.addressLine1,
+                address_line2:value.addressLine2,
+                city: value.city,
+                district_id:value.district,
+                taluka_id:value.taluka,
+                username: value.username,
+                password: value.password,
+              },
+              "roles":role,
+              "personal_details":{
+                aadhaar_number:value.aadhaarNumber,
+                education: value.education,
+                date_of_birth:value.dob,
+                religion_id: value.religion,
+                caste: value.caste,
+                is_differently_abled:value.differentlyAbled,
+                blood_group: value.bloodGroup,
+                emergency_contact_name: value.emergencyContactName,
+                emergency_contact_number: value.emergencyContactNumber
+              },
+              "joining_details":{
+                date_of_joining: value.dateOfJoining,
+                last_day_of_work: value.lastDayOfWork,
+                is_agreement_done: value.isAgreementDone,
+                committed_salary_per_month: value.salaryPerMonth,
+                designation_id: value.designation,
+                is_notice_period_served: value.noticePeriod,
+                note: value.note
+              },
+              "bank_details": {
+                pan_card_number: value.panCardNumber,
+                bank_name: value.bankName,
+                account_number: value.accountNumber,
+                ifsc_code: value.ifscCode
+              },
+              "applicable_deductions": aaplicableDeduction,
+              "documents": aaplicableDocument
+            }
+            if(editUser){
+              dispatch(EditUsers(obj,userById.id))
+            }
+            else {
+              dispatch(AddUsers(obj));
+            }
+            
+            // resetForm();
+          }
+        }
+      },
+    });
+  
+    const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,resetForm } = formik;
+  
+  
+
+    console.log("ERROR STATE",errorState);
   
     return (
       <div>
@@ -363,34 +800,41 @@ export default function NewUserForm(props) {
         </Button> */}
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          Create Users
+          {editUser?"Edit Users":"Create Users"}
           </Typography>
           </Stack>
           <Grid container spacing={1}>
           <Grid item sm={6}>
             <Select
+              multiple
               id="role"
               name='role'
               value={role}
               displayEmpty
               style={{width:'87.5%', marginLeft: 40}}
-            
               onChange={handleRoleChange}
               placeholder='Select Role'
               defaultValue={data? data.role: ""}
               renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>*Select Role</em>;
+                if (selected?.length === 0) {
+                  return <em>Select Role*</em>;
                 }
-                return selected
+                console.log("SELECTED",selected);
+                const result = [];
+                selected?.map((value)=>{
+                  const found = findRole(roles,value);
+                  result.push(found);
+                  return null;
+                })
+                return result.join(",");
               }}
             >
                <MenuItem disabled value="">
             <em>Select Role</em>
           </MenuItem>
-              {roleValue.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {roles?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.role}
                 </MenuItem>
               ))}
             </Select>
@@ -399,8 +843,8 @@ export default function NewUserForm(props) {
             {/* <Typography variant="h5" style={{display: 'flex', justifyContent: "left", marginTop: 5}} gutterBottom>
             Personal Details
           </Typography> */}
-           <Typography variant="h5" style={{marginTop: 10, marginLeft: 40}} gutterBottom>
-           Personal Details
+           <Typography variant="h5" style={{marginTop: 20,marginBottom: 20, marginLeft: 40}} gutterBottom>
+           Basic Details
           </Typography>
             <Grid container spacing={1}>
             <Grid item xs={6}>
@@ -409,12 +853,10 @@ export default function NewUserForm(props) {
                   // style={{width: '53%'}}
                   id="fName"
                   autoComplete="fName"
-                  defaultValue={data? data.fname: ""}
-                  // type={showPassword ? 'text' : 'password'}
-                  // label="Name"
-                  placeholder="*First Name"
-                  // name="name"
-                  // value="name"
+                  placeholder="First Name*"
+                  error={Boolean(touched.firstName && errors.firstName)}
+                helperText={touched.firstName && errors.firstName}
+                {...getFieldProps("firstName")}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -422,12 +864,10 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="mName"
                   autoComplete="mName"
-                  defaultValue={data? data.mName: ""}
-                  // type={showPassword ? 'text' : 'password'}
-                  // label="Name"
-                  placeholder="*Middle Name"
-                  // name="name"
-                  // value="name"
+                  placeholder="Middle Name*"
+                  error={Boolean(touched.middleName && errors.middleName)}
+                helperText={touched.middleName && errors.middleName}
+                {...getFieldProps("middleName")}
                 />
               </Grid>
               </Grid>
@@ -437,12 +877,10 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="lName"
                   autoComplete="lName"
-                  defaultValue={data? data.lName: ""}
-                  // type={showPassword ? 'text' : 'password'}
-                  // label="Name"
-                  placeholder="*Last Name"
-                  // name="name"
-                  // value="name"
+                  placeholder="Last Name*"
+                  error={Boolean(touched.lastName && errors.lastName)}
+                helperText={touched.lastName && errors.lastName}
+                {...getFieldProps("lastName")}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -450,43 +888,56 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="contact"
                   autoComplete="contact"
-                  placeholder="*Mobile Number"
-                  defaultValue={data? data.contact: ""}
-                  // name="contact"
-                  // value="contact"
+                  placeholder="Mobile Number*"
+                  error={Boolean(touched.mobile && errors.mobile)}
+                helperText={touched.mobile && errors.mobile}
+                {...getFieldProps("mobile")}
                 />
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
+                <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email*" 
+                 error={Boolean(touched.email && errors.email)}
+                 helperText={touched.email && errors.email}
+                 {...getFieldProps("email")}
+                 />
+              </Grid>
+
+              <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="addressLine1"
                   autoComplete="addressLine1"
-                  placeholder="*Address Line 1"
-                  defaultValue={data? data.addressLine1: ""}
-                  // name="address"
-                  // value="address"
+                  placeholder="*Address Line 1*"
+                  error={Boolean(touched.addressLine1 && errors.addressLine1)}
+                helperText={touched.addressLine1 && errors.addressLine1}
+                {...getFieldProps("addressLine1")}
                 />
               </Grid>
+              
+              
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="addressLine2"
                   autoComplete="addressLine2"
                   placeholder="Address Line 2"
-                  defaultValue={data? data.addressLine2: ""}
-                  // name="address"
-                  // value="address"
+                  error={Boolean(touched.addressLine2 && errors.addressLine2)}
+                helperText={touched.addressLine2 && errors.addressLine2}
+                {...getFieldProps("addressLine2")}
                 />
               </Grid>
-              </Grid>
-              <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="village" autoComplete="village" placeholder="Village/City" 
-                 defaultValue={data? data.village: ""}
+                <DefaultInput fullWidth id="village" autoComplete="village" placeholder="City*" 
+                 error={Boolean(touched.city && errors.city)}
+                 helperText={touched.city && errors.city}
+                 {...getFieldProps("city")}
                  />
               </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <Select
                 id="district"
@@ -494,123 +945,183 @@ export default function NewUserForm(props) {
                 displayEmpty
                 defaultValue={data? data.district : ""}
                 value={district}
-                style={{width: '87.5%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 45}}
                 placeholder='*Select District'
               
-                onChange={handleDistrictChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>*District</em>;
-                  }
-                  return selected
-                }}
+                error={Boolean(touched.district && errors.district)}
+                helperText={touched.district && errors.district}
+                {...getFieldProps("district")}
               >
                  <MenuItem disabled value="">
-              <em>District</em>
+              <em>District*</em>
             </MenuItem>
-                {DistrictValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {districts?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
                   </MenuItem>
                 ))}
               </Select>
               </Grid>
-              </Grid>
-              <Grid container spacing={1} style={{marginTop: 5}}>
+
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email" 
-                 defaultValue={data? data.email: ""}
-                 />
+              <Select
+                id="taluka"
+                // name='District'
+                displayEmpty
+                
+                style={{width: '87%', marginLeft: 45}}
+                placeholder='*Select District'
+              
+                error={Boolean(touched.taluka && errors.taluka)}
+                helperText={touched.taluka && errors.taluka}
+                {...getFieldProps("taluka")}
+              >
+                 <MenuItem disabled value="">
+              <em>Taluka*</em>
+            </MenuItem>
+                {talukas?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
               </Grid>
+
+              </Grid>
+              
+              </Grid>
+                {showCouncil?
+                <Grid container spacing={1} style={{marginTop: 5}}>
+                <Grid item xs={6}>
+                <Select
+                  id="council"
+                  // name='District'
+                  displayEmpty
+                  defaultValue={data? data.district : ""}
+                  value={district}
+                  style={{width: '87.5%', marginLeft: 40}}
+                  placeholder='*Select Council'
+                
+                  error={Boolean(touched.council && errors.council)}
+                helperText={touched.council && errors.council}
+                {...getFieldProps("council")}
+                >
+                   <MenuItem disabled value="">
+                <em>Council*</em>
+              </MenuItem>
+                  {council?.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                </Grid>
+                </Grid>:null
+                }
+              
+                {showCouncil?null:
+               <>
+              <Typography variant="h5" style={{marginTop: 20, marginBottom: 20, marginLeft: 40}} gutterBottom>
+            Personal Details:
+          </Typography>
+              <Grid container spacing={1} style={{marginTop: 5}}>
             
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="aadhar"
                   autoComplete="aadhar"
-                  placeholder="*Aadhar Number"
-                  defaultValue={data? data.aadhar: ""}
+                  placeholder="*Aadhar Number*"
+                  error={Boolean(touched.aadhaarNumber && errors.aadhaarNumber)}
+                helperText={touched.aadhaarNumber && errors.aadhaarNumber}
+                {...getFieldProps("aadhaarNumber")}
                   // name="aadhar"
                   // value="aadhar"
                 />
               </Grid>
-              </Grid>
-              <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
                   id="education"
                   autoComplete="education"
-                  placeholder="*Education"
-                  defaultValue={data? data.education: ""}
-                  // name="aadhar"
-                  // value="aadhar"
+                  placeholder="Education*"
+                  error={Boolean(touched.education && errors.education)}
+                helperText={touched.education && errors.education}
+                {...getFieldProps("education")}
                 />
               </Grid>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <TextField
-      id="date"
-      // label="Date Of Birth"
-      type="date"
-      placeholder='*Date Of Birth'
-      // defaultValue="2017-05-24"
-      style={{width: '87.5%', marginLeft: 40}}
-      // className={classes.textField}
-      InputLabelProps={{
-        shrink: true,
-      }}
-    />
-      </Grid>
-      </Grid>
-      <Grid container spacing={1} style={{marginTop: 5}}>
-      <Grid item xs={6}>
-      <Select
+                id="date"
+                // label="Date Of Birth"
+                type="date"
+                placeholder='*Date Of Birth*'
+                // defaultValue="2017-05-24"
+                style={{width: '87.5%', marginLeft: 40}}
+                // className={classes.textField}
+                error={Boolean(touched.dob && errors.dob)}
+                helperText={touched.dob && errors.dob}
+                {...getFieldProps("dob")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              </Grid>
+              <Grid item xs={6}>
+              <Select
                 id="religion"
                 name='religion'
                 value={religion}
                 displayEmpty
                 defaultValue={data? data.religion: ""}
                 style={{width: '87.5%', marginLeft: 40}}
-                placeholder='*Religion'
+                placeholder='Religion*'
                 onChange={handleReligionChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>*Religion</em>;
-                  }
-                  return selected
-                }}
+                error={Boolean(touched.religion && errors.religion)}
+                helperText={touched.religion && errors.religion}
+                {...getFieldProps("religion")}
               >
                  <MenuItem disabled value="">
-              <em>Religion</em>
+              <em>Religion*</em>
             </MenuItem>
-                {religionValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {religions?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.religion}
                   </MenuItem>
                 ))}
               </Select>
       </Grid>
+      </Grid>
+      <Grid container spacing={1} style={{marginTop: 5}}>
+      <Grid item xs={6}>
+          <DefaultInput
+                  fullWidth
+                  id="caste"
+                  autoComplete="caste"
+                  placeholder="Caste*"
+                  error={Boolean(touched.caste && errors.caste)}
+                helperText={touched.caste && errors.caste}
+                {...getFieldProps("caste")}
+                />
+      </Grid>
               <Grid item xs={6}>
-                <Select
-                id="caste"
-                name='caste'
-                value={caste}
+              <Select
+                id="diffentlyAbled"
+                name='diffentlyAbled'
                 displayEmpty
                 defaultValue={data? data.caste: ""}
                 style={{width: '87.5%', marginLeft: 40}}
-                placeholder='*Caste'
-                onChange={handleCasteChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>*Caste</em>;
-                  }
-                  return selected
-                }}
+                onChange={handleGenderChange}
+                error={Boolean(touched.differentlyAbled && errors.differentlyAbled)}
+                helperText={touched.differentlyAbled && errors.differentlyAbled}
+                {...getFieldProps("differentlyAbled")}
               >
                  <MenuItem disabled value="">
-              <em>Caste</em>
+              <em>Differently Abled*</em>
             </MenuItem>
-                {CasteValue.map((option) => (
+                {diffentlyAbled.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -620,48 +1131,17 @@ export default function NewUserForm(props) {
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <Select
-                id="diffentlyAbled"
-                name='diffentlyAbled'
-                value={caste}
-                displayEmpty
-                defaultValue={data? data.caste: ""}
-                style={{width: '87.5%', marginLeft: 40}}
-                placeholder='Caste'
-                onChange={handleGenderChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>*Diffently Abled</em>;
-                  }
-                  return selected
-                }}
-              >
-                 <MenuItem disabled value="">
-              <em>Diffently Abled</em>
-            </MenuItem>
-                {CasteValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={6}>
-                <Select
+              <Select
                 id="bloodgrp"
                 name='bloodgrp'
                 value={bloodGrp}
                 displayEmpty
-                defaultValue={data? data.bloodgrp: ""}
                 style={{width: '87.5%', marginLeft: 40}}
                 placeholder='Blood Group'
                 onChange={handleBloodGrpChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Blood Group</em>;
-                  }
-                  return selected
-                }}
+                error={Boolean(touched.bloodGroup && errors.bloodGroup)}
+                helperText={touched.bloodGroup && errors.bloodGroup}
+                {...getFieldProps("bloodGroup")}
               >
                  <MenuItem disabled value="">
               <em>Blood Group</em>
@@ -673,32 +1153,33 @@ export default function NewUserForm(props) {
                 ))}
               </Select>
               </Grid>
-              </Grid>
-              <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput
+              <DefaultInput
                   fullWidth
                   id="emergencycontactName"
                   autoComplete="emergencycontactName"
-                  placeholder="*Emergency Contact Name"
-                  defaultValue={data? data.emergencycontactName: ""}
-                  // name="contact"
-                  // value="contact"
+                  placeholder="*Emergency Contact Name*"
+                  error={Boolean(touched.emergencyContactName && errors.emergencyContactName)}
+                helperText={touched.emergencyContactName && errors.emergencyContactName}
+                {...getFieldProps("emergencyContactName")}
                 />
-            </Grid>
+              </Grid>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput
+              <DefaultInput
                   fullWidth
                   id="emergencycontactMoNum"
                   autoComplete="emergencycontactMoNum"
-                  placeholder="*Emergency Contact Mobile Number"
-                  defaultValue={data? data.emergencyNum: ""}
-                  // name="contact"
-                  // value="contact"
+                  placeholder="*Emergency Contact Mobile Number*"
+                  error={Boolean(touched.emergencyContactNumber && errors.emergencyContactNumber)}
+                helperText={touched.emergencyContactNumber && errors.emergencyContactNumber}
+                {...getFieldProps("emergencyContactNumber")}
                 />
             </Grid>
             </Grid>
-            <Typography variant="h5" style={{marginTop: 10, marginLeft: 40}} gutterBottom>
+            
+            <Typography variant="h5" style={{marginTop: 20, marginBottom: 20, marginLeft: 40}} gutterBottom>
             Joining and Salary Details:
           </Typography>
           <Grid container spacing={1} style={{marginTop: 5}}>
@@ -706,8 +1187,11 @@ export default function NewUserForm(props) {
               <TextField
       id="date"
       type="date"
-      placeholder='*Date Of Joining'
+      placeholder='Date Of Joining*'
       style={{width: '87.5%', marginLeft: 40}}
+      error={Boolean(touched.dateOfJoining && errors.dateOfJoining)}
+      helperText={touched.dateOfJoining && errors.dateOfJoining}
+      {...getFieldProps("dateOfJoining")}
       InputLabelProps={{
         shrink: true,
       }}
@@ -721,21 +1205,18 @@ export default function NewUserForm(props) {
                 displayEmpty
                 defaultValue={data? data.designation: ""}
                 style={{width: '87.5%', marginLeft: 40}}
-                placeholder='Blood Group'
+                
                 onChange={handleDesignationChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>*Designation</em>;
-                  }
-                  return selected
-                }}
+                error={Boolean(touched.designation && errors.designation)}
+                helperText={touched.designation && errors.designation}
+                {...getFieldProps("designation")}
               >
                  <MenuItem disabled value="">
-              <em>Designation</em>
+              <em>Designation*</em>
             </MenuItem>
-                {designationValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {designations?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -747,8 +1228,10 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="commitedSalary"
                   autoComplete="commitedSalary"
-                  placeholder="*Commited Salary per Month"
-                  defaultValue={data? data.commitedSalary: ""}
+                  placeholder="Commited Salary per Month*"
+                  error={Boolean(touched.salaryPerMonth && errors.salaryPerMonth)}
+                helperText={touched.salaryPerMonth && errors.salaryPerMonth}
+                {...getFieldProps("salaryPerMonth")}
                   // name="contact"
                   // value="contact"
                 />
@@ -763,17 +1246,14 @@ export default function NewUserForm(props) {
                 style={{width: '87.5%', marginLeft: 40}}
                 placeholder='Referred By'
                 onChange={handleReferredChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Referred By</em>;
-                  }
-                  return selected
-                }}
+                error={Boolean(touched.isAgreementDone && errors.isAgreementDone)}
+                helperText={touched.isAgreementDone && errors.isAgreementDone}
+                {...getFieldProps("isAgreementDone")}
               >
                  <MenuItem disabled value="">
-              <em>Referred By</em>
+              <em>Agreement* </em>
             </MenuItem>
-                {referredByValue.map((option) => (
+                {agreement.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -783,7 +1263,7 @@ export default function NewUserForm(props) {
                 </Grid>
                 <Grid container spacing={1} style={{marginTop: 5}}>
                    <Grid item xs={6}>
-                 <DefaultInput
+                 {/* <DefaultInput
                   fullWidth
                   id="lastDayOfWork"
                   autoComplete="lastDayOfWork"
@@ -791,6 +1271,18 @@ export default function NewUserForm(props) {
                   defaultValue={data? data.lastDayOfWork: ""}
                   // name="contact"
                   // value="contact"
+                /> */}
+                <TextField
+                  id="lastdayOfWork"
+                  type="date"
+                  placeholder='*Last Day Of work'
+                  style={{width: '87.5%', marginLeft: 40}}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  error={Boolean(touched.lastDayOfWork && errors.lastDayOfWork)}
+                  helperText={touched.lastDayOfWork && errors.lastDayOfWork}
+                  {...getFieldProps("lastDayOfWork")}
                 />
                 </Grid>
                 <Grid item xs={6}>
@@ -802,12 +1294,15 @@ export default function NewUserForm(props) {
                 style={{width: '87.5%', marginLeft: 40}}
                 defaultValue={data? data.noticedPeriods: ""}
                 onChange={handleNoticePeriodChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Noticed Periods</em>;
-                  }
-                  return selected
-                }}
+                // renderValue={(selected) => {
+                //   if (selected.length === 0) {
+                //     return <em>Noticed Periods</em>;
+                //   }
+                //   return selected
+                // }}
+                error={Boolean(touched.noticePeriod && errors.noticePeriod)}
+                helperText={touched.noticePeriod && errors.noticePeriod}
+                {...getFieldProps("noticePeriod")}
               >
                  <MenuItem disabled value="">
               <em>Noticed Periods</em>
@@ -827,13 +1322,13 @@ export default function NewUserForm(props) {
                   id="note"
                   autoComplete="note"
                   placeholder="Note"
-                  defaultValue={data? data.note: ""}
-                  // name="contact"
-                  // value="contact"
+                  error={Boolean(touched.note && errors.note)}
+                  helperText={touched.note && errors.note}
+                  {...getFieldProps("note")}
                 />
                 </Grid>
                 </Grid>
-                <Typography  style={{marginTop: 10, marginLeft: 40}} variant="h5" gutterBottom>
+                <Typography  style={{marginTop: 20, marginBottom: 20, marginLeft: 40}} variant="h5" gutterBottom>
             Bank Details
           </Typography>
           <Grid container spacing={1} style={{marginTop: 5}}>
@@ -842,10 +1337,10 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="bankName"
                   autoComplete="bankName"
-                  placeholder="*Bank Name"
-                  defaultValue={data? data.bankName: ""}
-                  // name="contact"
-                  // value="contact"
+                  placeholder="Bank Name*"
+                  error={Boolean(touched.bankName && errors.bankName)}
+                  helperText={touched.bankName && errors.bankName}
+                  {...getFieldProps("bankName")}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -853,10 +1348,10 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="account"
                   autoComplete="account"
-                  placeholder="*Account Number"
-                  defaultValue={data? data.account: ""}
-                  // name="contact"
-                  // value="contact"
+                  placeholder="Account Number*"
+                  error={Boolean(touched.accountNumber && errors.accountNumber)}
+                  helperText={touched.accountNumber && errors.accountNumber}
+                  {...getFieldProps("accountNumber")}
                 />
               </Grid>
               </Grid>
@@ -866,10 +1361,10 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="IFSC"
                   autoComplete="IFSC"
-                  placeholder="*IFSC Code"
-                  defaultValue={data? data.IFSC: ""}
-                  // name="contact"
-                  // value="contact"
+                  placeholder="IFSC Code*"
+                  error={Boolean(touched.ifscCode && errors.ifscCode)}
+                  helperText={touched.ifscCode && errors.ifscCode}
+                  {...getFieldProps("ifscCode")}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -877,14 +1372,16 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="panCard"
                   autoComplete="panCard"
-                  placeholder="Pan Card"
-                  defaultValue={data? data.panCard: ""}
-                  // name="contact"
-                  // value="contact"
+                  placeholder="Pan Card*"
+                  error={Boolean(touched.panCardNumber && errors.panCardNumber)}
+                  helperText={touched.panCardNumber && errors.panCardNumber}
+                  {...getFieldProps("panCardNumber")}
                 />
               </Grid>
                 </Grid>
-                <Typography variant="h5" style={{marginTop: 10, marginLeft: 40}} gutterBottom>
+                </>
+            }
+                <Typography variant="h5" style={{marginTop: 20, marginBottom: 20, marginLeft: 40}} gutterBottom>
            Login Details
           </Typography>
           <Grid container spacing={1} style={{marginTop: 5}}>
@@ -893,10 +1390,10 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="userName"
                   autoComplete="userName"
-                  placeholder="*User Name"
-                  // defaultValue={data? data.panCard: ""}
-                  // name="contact"
-                  // value="contact"
+                  placeholder="Username*"
+                  error={Boolean(touched.username && errors.username)}
+                  helperText={touched.username && errors.username}
+                  {...getFieldProps("username")}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -904,39 +1401,45 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="password"
                   autoComplete="password"
-                  placeholder="*Password"
-                  // defaultValue={data? data.panCard: ""}
-                  // name="contact"
-                  // value="contact"
+                  placeholder="Password*"
+                  error={Boolean(touched.password && errors.password)}
+                  helperText={touched.password && errors.password}
+                  {...getFieldProps("password")}
                 />
               </Grid>
               </Grid>
-                <Typography variant="h5" style={{marginTop: 15, marginLeft: 40}} gutterBottom>
+              {showCouncil?null:
+              <>
+                <Typography variant="h5" style={{marginTop: 20, marginBottom: 20, marginLeft: 40}} gutterBottom>
                 Applicable Deducation
           </Typography>
-          <Grid container spacing={1} style={{marginTop: 5}}>
+
+          {deductionList?.map((value,index)=>(
+              <Grid container spacing={1} style={{marginTop: 5}} key={index} >
               <Grid item xs={5}>
               <Select
                 id="pf"
                 name='pf'
-                value={noticePeriod}
                 displayEmpty
                 style={{width: '87.5%', marginLeft: 40}}
                 defaultValue={data? data.noticedPeriods: ""}
-                onChange={handleNoticePeriodChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>PF</em>;
-                  }
-                  return selected
-                }}
+                onChange={(e)=>handleDeductionNameChange(e,index)}
+                value={value.deductionName}
+                error={Boolean(value.errorName)}
+                helperText={value.errorName}
+                // renderValue={(selected) => {
+                //   if (selected.length === 0) {
+                //     return <em>PF</em>;
+                //   }
+                //   return selected
+                // }}
               >
                  <MenuItem disabled value="">
-              <em>PF</em>
+              <em>Deduction Type*</em>
             </MenuItem>
-                {noticePeriodValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {salaryDeductionType.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.type}
                   </MenuItem>
                 ))}
               </Select>
@@ -946,7 +1449,11 @@ export default function NewUserForm(props) {
                   fullWidth
                   id="panCard"
                   autoComplete="panCard"
-                  placeholder="12"
+                  placeholder="Enter Value"
+                  value={value.deductionValue}
+                  error={Boolean(value.errorValue)}
+                  helperText={value.errorValue}
+                  onChange={(e)=>handleDeductionValueChange(e,index)}
                   // defaultValue={data? data.panCard: ""}
                   // name="contact"
                   // value="contact"
@@ -954,146 +1461,81 @@ export default function NewUserForm(props) {
               </Grid>
               <Grid item xs={2}>
             
-                <IconButton color='error' aria-label="delete" size="large">
+                <IconButton color={index+1===deductionLength?'success':'error'} aria-label={index+1===deductionLength?'add':'delete'} size="large" onClick={()=>handleDeductionButtonClick(index+1===deductionLength?'add':'delete',index)}>
+                {index+1===deductionLength?
+                <AddCircleIcon fontSize="inherit" />:
                 <CancelIcon fontSize="inherit" />
+                }
+                
               </IconButton>
                 
        
               </Grid>
               </Grid>
-              <Grid container spacing={1} style={{marginTop: 5}}>
-                    <Grid item xs={5}>
-                    <Select
-                      id="pf"
-                      name='pf'
-                      // value={ded}
-                      displayEmpty
-                      style={{ width: '87.5%', marginLeft: 40 }}
-                      defaultValue={data ? data.deductionType : ""}
-                      onChange={handleNoticePeriodChange}
-                      renderValue={(selected) => {
-                        if (selected.length === 0) {
-                          return <em>Deducation Type</em>;
-                        }
-                        return selected;
-                      } }
-                    >
-                      <MenuItem disabled value="">
-                        <em>Deducation Type</em>
-                      </MenuItem>
-                      {noticePeriodValue.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>))}
-                    </Select>
-                  </Grid>
-                  <Grid item xs={5}>
-                      <TextField
-                        fullWidth
-                        id="amount"
-                        autoComplete="amount"
-                        placeholder="Amount/Type" />
-                    </Grid>
-            
-              <Grid item xs={2}>
-        <IconButton color='success' aria-label="add" size="large">
-        <AddCircleIcon fontSize="inherit" />
-      </IconButton>
-              </Grid>
-              </Grid>
-              <Typography variant="h5" style={{marginTop: 10, marginLeft: 40}} gutterBottom>
+            ))}
+          
+              <Typography variant="h5" style={{marginTop: 20, marginBottom: 20, marginLeft: 40}} gutterBottom>
            Upload Document
           </Typography>
-          <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={5}>
-              <Select
-                id="aadharCard"
-                name='aadharCard'
-                value={noticePeriod}
-                displayEmpty
-                style={{width: '87.5%', marginLeft: 40}}
-                defaultValue={data? data.noticedPeriods: ""}
-                onChange={handleNoticePeriodChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Aadhar Card</em>;
-                  }
-                  return selected
-                }}
-              >
-                 <MenuItem disabled value="">
-              <em>Aadhar Card</em>
-            </MenuItem>
-                {noticePeriodValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={5}>
-              <TextField
-                  fullWidth
-                  id="amount"
-                  autoComplete="amount"
-                  placeholder="Choose file"
-                  // defaultValue={data? data.panCard: ""}
-                  // name="contact"
-                  // value="contact"
-                />
-              </Grid>
-              <Grid item xs={2}>
-              <IconButton color='error' aria-label="delete" size="large">
-        <CancelIcon fontSize="inherit" />
-      </IconButton>
-              </Grid>
-              </Grid>
-              <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={5}>
-              <Select
-                id="AadharCard"
-                name='AadharCard'
-                value={noticePeriod}
-                displayEmpty
-                style={{width: '87.5%', marginLeft: 40}}
-                defaultValue={data? data.noticedPeriods: ""}
-                onChange={handleNoticePeriodChange}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Document Type</em>;
-                  }
-                  return selected
-                }}
-              >
-                 <MenuItem disabled value="">
-              <em>Document Type</em>
-            </MenuItem>
-                {noticePeriodValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={5}>
-              <TextField
-                  fullWidth
-                  id="amount"
-                  autoComplete="amount"
-                  placeholder="Choose file"
-                  // defaultValue={data? data.panCard: ""}
-                  // name="contact"
-                  // value="contact"
-                />
-              </Grid>
-              <Grid item xs={2}>
-              <IconButton color='success' aria-label="add" size="large">
-        <AddCircleIcon fontSize="inherit" />
-      </IconButton>
-              </Grid>
-              </Grid>
+          {documentList?.map((value,index)=>(
+            <Grid container spacing={1} style={{marginTop: 5}} key={index}>
+            <Grid item xs={5}>
+            <Select
+              id="aadharCard"
+              name='aadharCard'
+              value={value.documentName}
+              displayEmpty
+              style={{width: '87.5%', marginLeft: 40}}
+              onChange={(e)=>handleDocumentNameChange(e,index)}
+              error={Boolean(value.errorName)}
+              helperText={value.errorName}
+              // renderValue={(selected) => {
+              //   if (selected?.length === 0) {
+              //     return <em>Aadhar Card</em>;
+              //   }
+              //   return selected
+              // }}
+            >
+               <MenuItem disabled value="">
+            <em>Document Type*</em>
+          </MenuItem>
+              {userDocumentType?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.type}
+                </MenuItem>
+              ))}
+            </Select>
+            </Grid>
+            <Grid item xs={5}>
+            <TextField
+                fullWidth
+                id="amount"
+                type={"file"}
+                autoComplete="amount"
+                placeholder="Choose file"
+                value={value.documentValue}
+                error={Boolean(value.errorValue)}
+                helperText={value.errorValue}
+                onChange={(e)=>handleDocumentValueChange(e,index)}
+              />
+            </Grid>
+            <Grid item xs={2}>
+            <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>
+                {index+1===documentLength?
+                <AddCircleIcon fontSize="inherit" />:
+                <CancelIcon fontSize="inherit" />
+                }
+              </IconButton>
+            </Grid>
+            </Grid>
+          )
+          )}
 
-              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} onClick={handleClose}>Add</Button>    
+          </>
+          }
+          
+              
+              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} onClick={handleSubmit}>{editUser?"Update":"Add"}</Button>    
             {/* <Button >Add</Button> */}
         </div>
     );

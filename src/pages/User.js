@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -16,6 +16,7 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -25,6 +26,7 @@ import { UserListHead, UserListToolbar, UserFormListMenu } from '../sections/@da
 import USERLIST from '../_mock/user';
 import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../components/JsonFiles/UserTableData.json';
+import { DeleteUsers, GetUsers, SearchUsers } from '../actions/UserAction';
 
 // ----------------------------------------------------------------------
 
@@ -33,8 +35,9 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'mobile', label: 'Mobile', alignRight: false },
-  { id: 'doj', label: 'Date of Joining', alignRight: false },
-  { id: 'designation', label: 'Designation', alignRight: false },
+  { id: 'role', label: 'Role', alignRight: false },
+  { id: 'username', label: 'Username', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action',  label: 'Action', alignRight: true},
 ];
 
@@ -70,21 +73,44 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
+
+  const dispatch = useDispatch();
+
   const [page, setPage] = useState(0);
-
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState('Name');
-
   const [filterName, setFilterName] = useState('');
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
    const [close, setClose] = useState();
    const [dialogData,setDialogData] = useState(null);
+   const [search,setSearch] = useState(false);
+  const [searchValue,setSearchValue] = useState("");
 
+
+   const {
+    users,
+    pageInfo,
+    deleteUsersLog
+  } = useSelector((state) => ({
+    users:state.users.users,
+    pageInfo : state.users.pageInfo,
+    deleteUsersLog:state.users.deleteUsersLog
+  }));
+
+
+
+  useEffect(()=>{
+    dispatch(GetUsers(page+1,rowsPerPage));
+  },[deleteUsersLog])
+
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
 
 
   const handleEdit = (data) => {
@@ -94,12 +120,51 @@ export default function User() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    if(search){
+      dispatch(SearchUsers(newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetUsers(newPage+1,rowsPerPage));
+    }
+  };
+
+  const handleDelete = (data) => {
+    dispatch(DeleteUsers(data.id,data.status?0:1));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    if(search){
+      dispatch(SearchUsers(1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetUsers(1,parseInt(event.target.value, 10)));
+    }
   };
+
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchUsers(1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetUsers(1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
 
   return (
     <Page title="User">
@@ -120,6 +185,7 @@ export default function User() {
         </Stack>
 
         <Card>
+        <UserListToolbar numSelected={0} placeHolder={"Search users..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -129,24 +195,23 @@ export default function User() {
                   // handleClose = {handleNewUserClick}
                 />
                 <TableBody>
-                     { UserTableData.userData.map((option) => {
+                     { users?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                             <TableCell align="left">
-                              {option.name}
+                              {option.first_name}
                             </TableCell>
                         <TableCell align="left">{option.email}</TableCell>
                         <TableCell align="left">{option.mobile}</TableCell>
-                        <TableCell align="left">{option.doj}</TableCell>
-                        <TableCell align="left">
-                          {option.designation}
-                        </TableCell>
+                        <TableCell align="left">{option.assigned_roles}</TableCell>
+                        <TableCell align="left">{option.username}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
 
                         <TableCell align="right">
-                          <UserFormListMenu  handleEdit={()=>handleEdit(option)}/>
+                          <UserFormListMenu status={option.status} userId={option.id} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )
@@ -161,7 +226,7 @@ export default function User() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

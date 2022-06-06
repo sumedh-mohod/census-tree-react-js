@@ -1,4 +1,4 @@
-import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_DESIGNATIONS, RESET_STATE } from "../actions/Types";
+import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_ACTIVE_DESIGNATIONS, GET_DESIGNATIONS, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     designations:null,
@@ -17,6 +17,12 @@ import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_DESIGNATI
               ...state,
               designations: payload.data.data,
               pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_DESIGNATIONS:
+          return{
+              ...state,
+              designations: payload.data
         };
 
         case ADD_DESIGNATIONS:

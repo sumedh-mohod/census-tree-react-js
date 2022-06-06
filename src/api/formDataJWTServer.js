@@ -3,8 +3,7 @@ import axios from "axios";
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
-    "Content-Type": "application/json",
-    "Content-Language": "browser",
+    "Content-Type": "application/pdf",
   },
 });
 

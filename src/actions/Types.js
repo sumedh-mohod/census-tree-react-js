@@ -25,6 +25,7 @@ export const ADD_TALUKAS = "add-talukas";
 export const DELETE_TALUKAS = "delete-talukas";
 
 export const GET_DESIGNATIONS = "get-designations";
+export const GET_ACTIVE_DESIGNATIONS = "get-active-designations";
 export const EDIT_DESIGNATIONS = "edit-designations";
 export const ADD_DESIGNATIONS = "add-designations";
 export const DELETE_DESIGNATIONS = "delete-designations";
@@ -80,8 +81,24 @@ export const ASSIGN_USERS_TO_TEAM = "assign-czw-to-team";
 export const DELETE_ASSIGNED_USER = "delete-assigned-czw";
 
 export const GET_ROLE = "get-role";
+export const GET_ACTVE_ROLE = "get-active-role";
 export const GET_ROLE_BY_ID = "get-role-by-id";
 export const EDIT_ROLE = "edit-role";
 export const ADD_ROLE = "add-role";
 export const DELETE_ROLE = "delete-role";
 export const GET_PERMISSION = "get-permission";
+
+export const UPLOAD_FILE = "upload-file";
+export const UPLOAD_IMAGE = "upload-image";
+export const DELETE_FILE = "delete-file";
+
+export const GET_SALARY_DEDUCTION_TYPES = "get-salary-deduction-types";
+export const GET_USER_DOCUMENT_TYPES = "get-user-document-types";
+export const ADD_USER = "add-user";
+export const EDIT_USER = "edit-user";
+export const GET_USER = "get-users";
+export const GET_USER_BY_ID = "get-users-by-id";
+export const SEARCH_USER = "search-user";
+export const DELETE_USER = "delete-user";
+
+export const GET_RELIGIONS = "get-religions";

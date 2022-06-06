@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_ROLE, DELETE_ROLE, EDIT_ROLE, GET_PERMISSION, GET_ROLE, GET_ROLE_BY_ID } from "./Types";
+import { ADD_ROLE, DELETE_ROLE, EDIT_ROLE, GET_ACTVE_ROLE, GET_PERMISSION, GET_ROLE, GET_ROLE_BY_ID } from "./Types";
 
 const GetRole = (page,limit) => async (dispatch) => {
     try {
@@ -12,6 +12,19 @@ const GetRole = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetActiveRole = (status) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/roles?status=${status}`);
+      dispatch({
+        type: GET_ACTVE_ROLE,
+        payload: response.data,
+      });
+    } catch (e) {
+  
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -101,6 +114,7 @@ const GetRole = (page,limit) => async (dispatch) => {
 
   export {
       GetRole,
+      GetActiveRole,
       SearchRole,
       AddRole,
       EditRole,

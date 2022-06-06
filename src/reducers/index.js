@@ -10,6 +10,8 @@ import TeamReducer from "./TeamReducer";
 import TreeConditionReducer from "./TreeConditionReducer";
 import TreeNameReducer from "./TreeNameReducer";
 import TreeTypeReducer from "./TreeTypeReducer";
+import UploadReducer from "./UploadReducer";
+import UserReducer from "./UserReducer";
 import WardsReducer from "./WardsReducer";
 import ZoneReducer from "./ZoneReducer";
 
@@ -27,5 +29,7 @@ export default combineReducers({
   zones:ZoneReducer,
   council:CouncilReducer,
   teams:TeamReducer,
-  roles:RoleReducer
+  roles:RoleReducer,
+  users:UserReducer,
+  upload:UploadReducer
 });
