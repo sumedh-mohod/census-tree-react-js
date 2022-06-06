@@ -4,11 +4,11 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
 // components
+import { useDispatch, useSelector } from 'react-redux';
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
 import account from '../../_mock/account';
-import { useDispatch, useSelector } from 'react-redux';
-import { Logout } from 'src/actions/AuthActions';
+import { Logout } from '../../actions/AuthActions';
 
 // ----------------------------------------------------------------------
 

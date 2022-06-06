@@ -30,6 +30,7 @@ import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import NewUserForm from './pages/NewUserForm';
+import ViewUser from './pages/Users/ViewUser';
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'user/edit-user/:userId', element: <NewUserForm /> },
+        { path: 'user/view-user/:userId', element: <ViewUser /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'district', element: <District /> },
