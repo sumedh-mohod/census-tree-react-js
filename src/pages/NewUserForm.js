@@ -553,7 +553,8 @@ const validateRole = () => {
       
     }
 
-    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+    const phoneRegExp = /^[789]\d{9}$/;
+    const aadharRegExp = /^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}$/;
     const DistrictsSchema = Yup.object().shape(
       showCouncil?{
       firstName: Yup.string().required('First Name is required'),
@@ -580,7 +581,7 @@ const validateRole = () => {
       taluka: Yup.string().required('Taluka is required'),
       username: Yup.string().required('Username is required'),
       password: Yup.string().required('Password is required'),
-      aadhaarNumber: Yup.string().required('Aadhar Number is required'),
+      aadhaarNumber: Yup.string().matches(aadharRegExp, 'Enter valid aadhar number').required('Aadhar Number is required'),
       education: Yup.string().required('Education is required'),
       dob: Yup.string().required('DOB is required'),
       religion: Yup.string().required('Religion is required'),
