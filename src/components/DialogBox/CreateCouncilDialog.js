@@ -515,6 +515,88 @@ export default function CreateCouncilDialog(props) {
                 {...getFieldProps("censusTarget")}
               />
             </Grid>
+            <Grid item xs={12}>
+            <Select
+              multiple
+              displayEmpty
+              value={zoneName}
+              onChange={handleChange}
+              style={{ width: '81%', marginLeft: 40 }}
+              renderValue={(selected) => {
+                console.log("SELECTED",selected);
+                if (selected.length === 0) {
+                  return <em>Zone*</em>;
+                }
+                const result = [];
+                selected.map((value)=>{
+                  const found = findValue(zones,value);
+                  result.push(found);
+                  return null;
+                })
+                
+
+                return result.join(",");
+              }}
+              error={Boolean(touched.zones && errors.zones)}
+                helperText={touched.zones && errors.zones}
+              // MenuProps={MenuProps}
+              {...getFieldProps("zones")}
+              // inputProps={{ 'aria-label': 'Without label' }}
+            >
+          <MenuItem disabled value="">
+            <em>Zone*</em>
+          </MenuItem>
+          {zones?.map((option) => (
+            <MenuItem
+              key={option.id}
+              value={option.id}
+              // style={getStyles(name, personName, theme)}
+            >
+              {option.name}
+            </MenuItem>
+          ))}
+        </Select>
+            </Grid>
+            <Grid item xs={12}>
+            <Select
+              multiple
+              displayEmpty
+              value={wardName}
+              onChange={handleWardChange}
+              style={{ width: '81%', marginLeft: 40 }}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Ward*</em>;
+                }
+                const result = [];
+                selected.map((value)=>{
+                  const found = findValue(wards,value);
+                  result.push(found);
+                  return null;
+                })
+
+                return result.join(",");
+              }}
+              error={Boolean(touched.wards && errors.wards)}
+                helperText={touched.wards && errors.wards}
+              // MenuProps={MenuProps}
+              {...getFieldProps("wards")}
+              // inputProps={{ 'aria-label': 'Without label' }}
+            >
+          <MenuItem disabled value="">
+            <em>Ward</em>
+          </MenuItem>
+          {wards?.map((option) => (
+            <MenuItem
+              key={option.id}
+              value={option.id}
+              // style={getStyles(name, personName, theme)}
+            >
+              {option.name}
+            </MenuItem>
+          ))}
+        </Select>
+            </Grid>
             <Divider />
             {!data?
             <>
@@ -599,93 +681,9 @@ export default function CreateCouncilDialog(props) {
                 {...getFieldProps("password")}
               />
             </Grid>
-
-            
             </>
             :null
             }
-            <Grid item xs={12}>
-            <Select
-              multiple
-              displayEmpty
-              value={zoneName}
-              onChange={handleChange}
-              style={{ width: '81%', marginLeft: 40 }}
-              renderValue={(selected) => {
-                console.log("SELECTED",selected);
-                if (selected.length === 0) {
-                  return <em>Zone*</em>;
-                }
-                const result = [];
-                selected.map((value)=>{
-                  const found = findValue(zones,value);
-                  result.push(found);
-                  return null;
-                })
-                
-
-                return result.join(",");
-              }}
-              error={Boolean(touched.zones && errors.zones)}
-                helperText={touched.zones && errors.zones}
-              // MenuProps={MenuProps}
-              {...getFieldProps("zones")}
-              // inputProps={{ 'aria-label': 'Without label' }}
-            >
-          <MenuItem disabled value="">
-            <em>Zone*</em>
-          </MenuItem>
-          {zones?.map((option) => (
-            <MenuItem
-              key={option.id}
-              value={option.id}
-              // style={getStyles(name, personName, theme)}
-            >
-              {option.name}
-            </MenuItem>
-          ))}
-        </Select>
-            </Grid>
-            <Grid item xs={12}>
-            <Select
-              multiple
-              displayEmpty
-              value={wardName}
-              onChange={handleWardChange}
-              style={{ width: '81%', marginLeft: 40 }}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>Ward*</em>;
-                }
-                const result = [];
-                selected.map((value)=>{
-                  const found = findValue(wards,value);
-                  result.push(found);
-                  return null;
-                })
-
-                return result.join(",");
-              }}
-              error={Boolean(touched.wards && errors.wards)}
-                helperText={touched.wards && errors.wards}
-              // MenuProps={MenuProps}
-              {...getFieldProps("wards")}
-              // inputProps={{ 'aria-label': 'Without label' }}
-            >
-          <MenuItem disabled value="">
-            <em>Ward</em>
-          </MenuItem>
-          {wards?.map((option) => (
-            <MenuItem
-              key={option.id}
-              value={option.id}
-              // style={getStyles(name, personName, theme)}
-            >
-              {option.name}
-            </MenuItem>
-          ))}
-        </Select>
-            </Grid>
             <BootstrapDialogTitle id="customized-dialog-title">
           Upload Logo
         </BootstrapDialogTitle>
