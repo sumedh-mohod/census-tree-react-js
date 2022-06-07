@@ -422,7 +422,6 @@ export default function NewUserDialog(props) {
                 autoComplete="aadhar"
                 placeholder="Aadhar Number"
                 defaultValue={data? data.aadhar: ""}
-                maxLength={12}
                 // name="aadhar"
                 // value="aadhar"
               />

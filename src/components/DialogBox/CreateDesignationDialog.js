@@ -158,7 +158,7 @@ const handleStatusChange = (event) => {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Create Designation</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data? `Edit Designation` : `create Designation`}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
