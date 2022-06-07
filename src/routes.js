@@ -30,6 +30,8 @@ import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import NewUserForm from './pages/NewUserForm';
+import LocationType from './pages/Master/LocationType';
+import TreeDensity from './pages/Master/TreeDensity';
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +55,9 @@ export default function Router() {
         { path: 'typeOfTree', element: <TypeOfTree /> },
         { path: 'nameOfTree', element: <CreateNameOfTree /> },
         { path: 'treeCondition', element: <TreeConditions /> }, 
-        { path: 'typeOfProperty', element: <TypeOfProperty /> },    
+        { path: 'typeOfProperty', element: <TypeOfProperty /> },   
+        { path: 'locationType', element: <LocationType /> }, 
+        { path: 'TreeDensity', element: <TreeDensity /> },
         { path: 'typeOfHouse', element: <TypeOfHouse /> },
         { path: 'zone', element: <Zone /> },
         { path: 'ward', element: <Ward /> },
