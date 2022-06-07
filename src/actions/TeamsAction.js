@@ -16,6 +16,29 @@ const GetTeam = (page,limit) => async (dispatch) => {
     }
   };
 
+  const GetTeamByFilter = (page,limit,council,zone,ward) => async (dispatch) => {
+    let url = `/api/teams?page=${page}&limit=${limit}`
+    if(council){
+      url = `${url}&council_id=${council}`;
+    }
+    if(zone){
+      url = `${url}&zone_id=${zone}`;
+    }
+    if(ward){
+      url = `${url}&ward_id=${ward}`
+    }
+    try {
+      const response = await JWTServer.get(`${url}`);
+      console.log("DESIGNATIONS RESPONSE",response.data);
+      dispatch({
+        type: GET_TEAM,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const SearchTeam = (page,limit,searchValue) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/teams?page=${page}&limit=${limit}&search=${searchValue}`);
@@ -165,6 +188,7 @@ const DeleteUserFromTeam = (params,status) => async (dispatch) => {
 
   export {
       GetTeam,
+      GetTeamByFilter,
       SearchTeam,
       AddTeam,
       EditTeam,

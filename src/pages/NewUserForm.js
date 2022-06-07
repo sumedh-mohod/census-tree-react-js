@@ -30,7 +30,6 @@ import { UploadFile, UploadImage } from '../actions/UploadActions';
 import DefaultInput from '../components/Inputs/DefaultInput';
 import { GetCouncil } from '../actions/CouncilAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
-import { GetActiveDesignations } from '../actions/DesignationAction';
 
 export default function NewUserForm(props) {
 
@@ -92,7 +91,6 @@ export default function NewUserForm(props) {
       dispatch(GetReligions())
       dispatch(GetCouncil(1,1000));
       dispatch(GetActiveDistricts(1,1000,1));
-      dispatch(GetActiveDesignations(1));
       dispatch(GetActiveTalukas(1,1000,1));
     },[])
 

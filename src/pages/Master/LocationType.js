@@ -181,7 +181,7 @@ export default function LocationType() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search property type..."} onFilterName={filterByName}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search location type..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

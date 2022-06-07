@@ -20,7 +20,10 @@ import {
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteTeam, GetTeam, SearchTeam } from '../../actions/TeamsAction';
+import { DeleteTeam, GetTeam, SearchTeam,GetTeamByFilter } from '../../actions/TeamsAction';
+import { GetCouncil } from '../../actions/CouncilAction';
+import { GetZones } from '../../actions/ZonesAction';
+import { GetWards } from '../../actions/WardsActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -83,18 +86,29 @@ export default function TeamsList() {
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
    const [stateName, setStateName] = useState('');
+   const [zoneId,setZoneId] = useState('');
+   const [wardId,setWardId] = useState('');
+   const [coucilId,setCouncilId] = useState('');
+
+
   const {
     teams,
     addTeamsLog,
     editTeamsLog,
     deleteTeamsLog,
-    pageInfo
+    pageInfo,
+    council,
+    zones,
+    wards,
   } = useSelector((state) => ({
     teams:state.teams.teams,
     addTeamsLog:state.teams.addTeamsLog,
     editTeamsLog:state.teams.editTeamsLog,
     deleteTeamsLog:state.teams.deleteTeamsLog,
-    pageInfo : state.teams.pageInfo
+    pageInfo : state.teams.pageInfo,
+    council:state.council.council,
+    zones:state.zones.zones,
+    wards:state.wards.wards,
   }));
 
   console.log("Teams",teams)
@@ -105,6 +119,12 @@ export default function TeamsList() {
   
 
   useEffect(()=>{
+    dispatch(GetCouncil(1,1000));
+    dispatch(GetWards(1,1000));
+    dispatch(GetZones(1,1000));
+  },[])
+
+  useEffect(()=>{
     if(pageInfo){
       setCount(pageInfo?.total)
     }
@@ -112,12 +132,12 @@ export default function TeamsList() {
 
   const StateValue = [
     {
-      value: 'Maharastra',
-      label: 'Maharastra',
+      id: 'Maharastra',
+      name: 'Maharastra',
     },
     {
-      value: 'Patana',
-      label: 'Patana',
+      id: 'Patana',
+      name: 'Patana',
     },
   ];
 
@@ -183,6 +203,25 @@ export default function TeamsList() {
 
   }
 
+
+  const handleCoucilChange = (e) => {
+    setCouncilId(e.target.value);
+    setPage(0);
+    dispatch(GetTeamByFilter(1,rowsPerPage,e.target.value,zoneId,wardId))
+  }
+
+  const handleWardChange = (e) => {
+    setWardId(e.target.value);
+    setPage(0);
+    dispatch(GetTeamByFilter(1,rowsPerPage,coucilId,zoneId,e.target.value))
+  }
+
+  const handleZoneChange = (e) => {
+    setZoneId(e.target.value);
+    setPage(0);
+    dispatch(GetTeamByFilter(1,rowsPerPage,coucilId,e.target.value,wardId))
+  }
+
   return (
     <Page title="TeamList">
       <Container>
@@ -211,9 +250,9 @@ export default function TeamsList() {
                 id="state"
                 displayEmpty
                 // name="gender"
-                value={stateName}
-                style={{ width: '85%', marginLeft: 70, height: 45}}
-                onChange={handleStateChange}
+                value={coucilId}
+                style={{ width: '70%', marginLeft: 70, height: 45}}
+                onChange={handleCoucilChange}
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
@@ -221,7 +260,7 @@ export default function TeamsList() {
                  <MenuItem disabled value="">
               <em>Council Name</em>
             </MenuItem>
-                {StateValue?.map((option) => (
+                {council?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
@@ -233,9 +272,9 @@ export default function TeamsList() {
                 id="state"
                 displayEmpty
                 // name="gender"
-                value={stateName}
+                value={zoneId}
                 style={{ width: '70%', marginLeft: 150, height: 45 }}
-                onChange={handleStateChange}
+                onChange={handleZoneChange}
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
@@ -243,7 +282,7 @@ export default function TeamsList() {
                  <MenuItem disabled value="">
               <em>Zone</em>
             </MenuItem>
-                {StateValue?.map((option) => (
+                {zones?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
@@ -255,9 +294,9 @@ export default function TeamsList() {
                 id="state"
                 displayEmpty
                 // name="gender"
-                value={stateName}
+                value={wardId}
                 style={{ width: '70%',  marginLeft: 130, height: 45}}
-                onChange={handleStateChange}
+                onChange={handleWardChange}
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
@@ -265,7 +304,7 @@ export default function TeamsList() {
                  <MenuItem disabled value="">
               <em>Ward</em>
             </MenuItem>
-                {StateValue?.map((option) => (
+                {wards?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
