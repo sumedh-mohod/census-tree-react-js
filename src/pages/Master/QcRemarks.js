@@ -17,7 +17,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import TreeDensityDialog from '../../components/DialogBox/TreeDensityDialog'
+import QcRemarksDialog from '../../components/DialogBox/QcRemarksDialog'
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -33,10 +33,8 @@ import { DeleteDistricts, GetAllDistricts, SearchDistricts} from '../../actions/
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'locationType', label: 'Location Type', alignRight: false },
-  { id: 'width', label: 'Width', alignRight: false },
-  { id: 'interval', label: 'Interval', alignRight: false },
-  { id: 'minimumNumOfTree', label: 'Minimum Number Of Tree', alignRight: false },
+  { id: 'remark', label: 'Remark', alignRight: false },
+  { id: 'remarkFor', label: 'Remark For', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -71,7 +69,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function TreeDensity() {
+export default function District() {
 
   const dispatch = useDispatch();
 
@@ -173,14 +171,14 @@ export default function TreeDensity() {
   return (
     <Page title="User">
       <Container>
-        <TreeDensityDialog
+        <QcRemarksDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data = {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-        Tree Density
+          QC Remarks
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add New
@@ -207,8 +205,6 @@ export default function TreeDensity() {
                               {option.name}
                             </TableCell>
                         <TableCell align="left">{option.state?.name}</TableCell>
-                        <TableCell align="left">{option.state?.name}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>

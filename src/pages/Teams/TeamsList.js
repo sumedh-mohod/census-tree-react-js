@@ -212,7 +212,7 @@ export default function TeamsList() {
                 displayEmpty
                 // name="gender"
                 value={stateName}
-                style={{ width: '70%', marginLeft: 70, height: 45}}
+                style={{ width: '85%', marginLeft: 70, height: 45}}
                 onChange={handleStateChange}
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
