@@ -32,6 +32,7 @@ import Register from './pages/Register';
 import NewUserForm from './pages/NewUserForm';
 import LocationType from './pages/Master/LocationType';
 import TreeDensity from './pages/Master/TreeDensity';
+import ViewUser from './pages/Users/ViewUser';
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +45,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'user/edit-user/:userId', element: <NewUserForm /> },
+        { path: 'user/view-user/:userId', element: <ViewUser /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'district', element: <District /> },

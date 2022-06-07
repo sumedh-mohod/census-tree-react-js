@@ -23,16 +23,16 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { GetActiveRole } from '../actions/RoleAction';
-import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../actions/UserAction';
-import { UploadFile, UploadImage } from '../actions/UploadActions';
-import DefaultInput from '../components/Inputs/DefaultInput';
-import { GetCouncil } from '../actions/CouncilAction';
-import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
-import { GetActiveDesignations } from '../actions/DesignationAction';
+import { Link, useParams } from 'react-router-dom';
+import { GetActiveRole } from '../../actions/RoleAction';
+import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../../actions/UserAction';
+import { UploadFile, UploadImage } from '../../actions/UploadActions';
+import DefaultInput from '../../components/Inputs/DefaultInput';
+import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveDesignations, GetDesignations } from '../../actions/DesignationAction';
+import { GetActiveDistricts,GetActiveTalukas } from '../../actions/MasterActions';
 
-export default function NewUserForm(props) {
+export default function ViewUser(props) {
 
     const dispatch = useDispatch();
 
@@ -91,8 +91,8 @@ export default function NewUserForm(props) {
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
       dispatch(GetCouncil(1,1000));
+      dispatch(GetDesignations(1,1000));
       dispatch(GetActiveDistricts(1,1000,1));
-      dispatch(GetActiveDesignations(1));
       dispatch(GetActiveTalukas(1,1000,1));
     },[])
 
@@ -125,10 +125,21 @@ export default function NewUserForm(props) {
         if(value.slug==="council"){
           setShowCouncil(true);
         }
-        roleArray.push(value.id);
+        roleArray.push(value.role);
         return null;
       })
       setRole(roleArray)
+    }
+
+    const getNameById = (listOfObj,id,valueToSeparate) => {
+      if(listOfObj && listOfObj.length!==0){
+        const found = listOfObj.find(e => e.id === id);
+        if(found){
+          return found[valueToSeparate]
+        }
+      }
+      
+
     }
 
     const seprateDeduction = (deduction) => {
@@ -146,8 +157,9 @@ export default function NewUserForm(props) {
 
       else {
         deduction.map((value,index)=>{
+          const deductionName = getNameById(salaryDeductionType,value.salary_deduction_type_id,"type")
           const infoToAdd = {
-            'deductionName':value.salary_deduction_type_id,
+            'deductionName':deductionName,
             'deductionValue':value.value,
             'errorName':"",
             'errorValue':"",
@@ -174,9 +186,10 @@ export default function NewUserForm(props) {
 
       else {
         document.map((value,index)=>{
+          const documentName = getNameById(userDocumentType,value.user_document_type_id,"type")
           const infoToAdd = {
-            'documentName':value.user_document_type_id,
-            'documentValue':"",
+            'documentName':documentName,
+            'documentValue':value.document_path,
             'errorName':"",
             'errorValue':"",
           }
@@ -468,7 +481,6 @@ const validateRole = () => {
       let validated = true;
       // eslint-disable-next-line array-callback-return
       deductionList.map((value,index)=>{
-        console.log("VALUE IN VALIDATIONm",value);
         const conditionName = `deductionName`;
         const conditionValue = `deductionValue`;
         if(value[conditionName]===""){
@@ -612,15 +624,15 @@ const validateRole = () => {
       addressLine1: userById.address_line1,
       addressLine2: userById?.address_line2,
       city: userById?.city,
-      district: userById.district_id,
-      taluka: userById.taluka_id,
-      council: userById?.council_id,
+      district: getNameById(districts, userById.district_id,"name"),
+      taluka: getNameById(talukas,userById.taluka_id, "name"),
+      council: getNameById(council, userById?.council_id,"name"),
       username: userById.username,
       password: userById.password,
       aadhaarNumber: userById?.personal_details?.aadhaar_number,
       education: userById?.personal_details?.education,
       dob: userById?.personal_details?.date_of_birth,
-      religion: userById?.personal_details?.religion_id,
+      religion: getNameById(religions,userById?.personal_details?.religion_id,"religion"),
       caste: userById?.personal_details?.caste,
       differentlyAbled: userById?.personal_details?.is_differently_abled,
       bloodGroup: userById?.personal_details?.blood_group,
@@ -630,7 +642,7 @@ const validateRole = () => {
       lastDayOfWork: userById?.joining_details?.last_day_of_work,
       isAgreementDone: userById?.joining_details?.is_agreement_done,
       salaryPerMonth: userById?.joining_details?.committed_salary_per_month,
-      designation: userById?.joining_details?.designation_id,
+      designation: getNameById(designations, userById?.joining_details?.designation_id,"name"),
       noticePeriod: userById?.joining_details?.is_notice_period_served,
       note: userById?.joining_details?.note,
       panCardNumber: userById?.bank_details?.pan_card_number,
@@ -791,10 +803,6 @@ const validateRole = () => {
   
     const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,resetForm } = formik;
   
-  
-
-    console.log("ERROR STATE",errorState);
-  
     return (
       <div>
         {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -802,44 +810,23 @@ const validateRole = () => {
         </Button> */}
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          {editUser?"Edit Users":"Create Users"}
+          User Details
           </Typography>
           </Stack>
           <Grid container spacing={1}>
           <Grid item sm={6}>
-            <Select
-              multiple
-              id="role"
-              name='role'
-              value={role}
-              displayEmpty
-              style={{width:'87.5%', marginLeft: 40}}
-              onChange={handleRoleChange}
-              placeholder='Select Role'
-              defaultValue={data? data.role: ""}
-              renderValue={(selected) => {
-                if (selected?.length === 0) {
-                  return <em>Select Role*</em>;
-                }
-                console.log("SELECTED",selected);
-                const result = [];
-                selected?.map((value)=>{
-                  const found = findRole(roles,value);
-                  result.push(found);
-                  return null;
-                })
-                return result.join(",");
-              }}
-            >
-               <MenuItem disabled value="">
-            <em>Select Role</em>
-          </MenuItem>
-              {roles?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.role}
-                </MenuItem>
-              ))}
-            </Select>
+          <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="role"
+                  autoComplete="role"
+                  label="Role"
+                  value={role}
+                />
             </Grid>
             </Grid>
             {/* <Typography variant="h5" style={{display: 'flex', justifyContent: "left", marginTop: 5}} gutterBottom>
@@ -850,143 +837,90 @@ const validateRole = () => {
           </Typography>
             <Grid container spacing={1}>
             <Grid item xs={6}>
-                <DefaultInput
+                <TextField
                   fullWidth
-                  // style={{width: '53%'}}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
                   id="fName"
                   autoComplete="fName"
-                  placeholder="First Name*"
-                  error={Boolean(touched.firstName && errors.firstName)}
-                helperText={touched.firstName && errors.firstName}
-                {...getFieldProps("firstName")}
+                  label="Full Name"
+                  value={`${values.firstName} ${ values.middleName} ${ values.lastName}`}
                 />
               </Grid>
               <Grid item xs={6}>
-                <DefaultInput
+              <TextField
                   fullWidth
-                  id="mName"
-                  autoComplete="mName"
-                  placeholder="Middle Name*"
-                  error={Boolean(touched.middleName && errors.middleName)}
-                helperText={touched.middleName && errors.middleName}
-                {...getFieldProps("middleName")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="mobile"
+                  label="Mobile Number"
+                  value={values.mobile}
                 />
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput
+              <TextField
                   fullWidth
-                  id="lName"
-                  autoComplete="lName"
-                  placeholder="Last Name*"
-                  error={Boolean(touched.lastName && errors.lastName)}
-                helperText={touched.lastName && errors.lastName}
-                {...getFieldProps("lastName")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="email"
+                  label="Email"
+                  value={values.email}
                 />
-              </Grid>
-              <Grid item xs={6}>
-                <DefaultInput
-                  fullWidth
-                  id="contact"
-                  autoComplete="contact"
-                  placeholder="Mobile Number*"
-                  error={Boolean(touched.mobile && errors.mobile)}
-                helperText={touched.mobile && errors.mobile}
-                {...getFieldProps("mobile")}
-                />
-              </Grid>
-              </Grid>
-              <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
-                <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email*" 
-                 error={Boolean(touched.email && errors.email)}
-                 helperText={touched.email && errors.email}
-                 {...getFieldProps("email")}
-                 />
               </Grid>
 
               <Grid item xs={6}>
-                <DefaultInput
+              <TextField
                   fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
                   id="addressLine1"
-                  autoComplete="addressLine1"
-                  placeholder="*Address Line 1*"
-                  error={Boolean(touched.addressLine1 && errors.addressLine1)}
-                helperText={touched.addressLine1 && errors.addressLine1}
-                {...getFieldProps("addressLine1")}
+                  label="Address"
+                  value={`${values.addressLine1 } ${ values.addressLine2 } ${ values.city}`}
                 />
               </Grid>
-              
-              
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput
+              <TextField
                   fullWidth
-                  id="addressLine2"
-                  autoComplete="addressLine2"
-                  placeholder="Address Line 2"
-                  error={Boolean(touched.addressLine2 && errors.addressLine2)}
-                helperText={touched.addressLine2 && errors.addressLine2}
-                {...getFieldProps("addressLine2")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="district"
+                  label="District"
+                  value={values.district}
                 />
-              </Grid>
-              <Grid item xs={6}>
-                <DefaultInput fullWidth id="village" autoComplete="village" placeholder="City*" 
-                 error={Boolean(touched.city && errors.city)}
-                 helperText={touched.city && errors.city}
-                 {...getFieldProps("city")}
-                 />
-              </Grid>
-              <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
-              <Select
-                id="district"
-                // name='District'
-                displayEmpty
-                defaultValue={data? data.district : ""}
-                value={district}
-                style={{width: '87.5%', marginLeft: 45}}
-                placeholder='*Select District'
-              
-                error={Boolean(touched.district && errors.district)}
-                helperText={touched.district && errors.district}
-                {...getFieldProps("district")}
-              >
-                 <MenuItem disabled value="">
-              <em>District*</em>
-            </MenuItem>
-                {districts?.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
               </Grid>
 
               <Grid item xs={6}>
-              <Select
-                id="taluka"
-                // name='District'
-                displayEmpty
-                
-                style={{width: '87%', marginLeft: 45}}
-                placeholder='*Select District'
-              
-                error={Boolean(touched.taluka && errors.taluka)}
-                helperText={touched.taluka && errors.taluka}
-                {...getFieldProps("taluka")}
-              >
-                 <MenuItem disabled value="">
-              <em>Taluka*</em>
-            </MenuItem>
-                {talukas?.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="taluka"
+                  label="Taluka"
+                  value={values.taluka}
+                />
               </Grid>
 
               </Grid>
@@ -995,28 +929,17 @@ const validateRole = () => {
                 {showCouncil?
                 <Grid container spacing={1} style={{marginTop: 5}}>
                 <Grid item xs={6}>
-                <Select
+                <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
                   id="council"
-                  // name='District'
-                  displayEmpty
-                  defaultValue={data? data.district : ""}
-                  value={district}
-                  style={{width: '87.5%', marginLeft: 40}}
-                  placeholder='*Select Council'
-                
-                  error={Boolean(touched.council && errors.council)}
-                helperText={touched.council && errors.council}
-                {...getFieldProps("council")}
-                >
-                   <MenuItem disabled value="">
-                <em>Council*</em>
-              </MenuItem>
-                  {council?.map((option) => (
-                    <MenuItem key={option.id} value={option.id}>
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  label="Council"
+                  value={values.council}
+                />
                 </Grid>
                 </Grid>:null
                 }
@@ -1029,154 +952,128 @@ const validateRole = () => {
               <Grid container spacing={1} style={{marginTop: 5}}>
             
               <Grid item xs={6}>
-                <DefaultInput
+              <TextField
                   fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
                   id="aadhar"
-                  autoComplete="aadhar"
-                  placeholder="*Aadhar Number*"
-                  error={Boolean(touched.aadhaarNumber && errors.aadhaarNumber)}
-                helperText={touched.aadhaarNumber && errors.aadhaarNumber}
-                {...getFieldProps("aadhaarNumber")}
-                  // name="aadhar"
-                  // value="aadhar"
+                  label="Aadhar"
+                  value={values.aadhaarNumber}
                 />
               </Grid>
               <Grid item xs={6}>
-                <DefaultInput
+              <TextField
                   fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
                   id="education"
-                  autoComplete="education"
-                  placeholder="Education*"
-                  error={Boolean(touched.education && errors.education)}
-                helperText={touched.education && errors.education}
-                {...getFieldProps("education")}
+                  label="Education"
+                  value={values.education}
                 />
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <TextField
-                id="date"
-                // label="Date Of Birth"
-                type="date"
-                placeholder='*Date Of Birth*'
-                // defaultValue="2017-05-24"
-                style={{width: '87.5%', marginLeft: 40}}
-                // className={classes.textField}
-                error={Boolean(touched.dob && errors.dob)}
-                helperText={touched.dob && errors.dob}
-                {...getFieldProps("dob")}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="dob"
+                  label="Date of birth"
+                  value={values.dob}
+                />
               </Grid>
               <Grid item xs={6}>
-              <Select
-                id="religion"
-                name='religion'
-                value={religion}
-                displayEmpty
-                defaultValue={data? data.religion: ""}
-                style={{width: '87.5%', marginLeft: 40}}
-                placeholder='Religion*'
-                onChange={handleReligionChange}
-                error={Boolean(touched.religion && errors.religion)}
-                helperText={touched.religion && errors.religion}
-                {...getFieldProps("religion")}
-              >
-                 <MenuItem disabled value="">
-              <em>Religion*</em>
-            </MenuItem>
-                {religions?.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.religion}
-                  </MenuItem>
-                ))}
-              </Select>
+              <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="religion"
+                  label="Religion"
+                  value={values.religion}
+                />
       </Grid>
       </Grid>
       <Grid container spacing={1} style={{marginTop: 5}}>
       <Grid item xs={6}>
-          <DefaultInput
+            <TextField
                   fullWidth
-                  id="caste"
-                  autoComplete="caste"
-                  placeholder="Caste*"
-                  error={Boolean(touched.caste && errors.caste)}
-                helperText={touched.caste && errors.caste}
-                {...getFieldProps("caste")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="catse"
+                  label="Caste"
+                  value={values.caste}
                 />
       </Grid>
               <Grid item xs={6}>
-              <Select
-                id="diffentlyAbled"
-                name='diffentlyAbled'
-                displayEmpty
-                defaultValue={data? data.caste: ""}
-                style={{width: '87.5%', marginLeft: 40}}
-                onChange={handleGenderChange}
-                error={Boolean(touched.differentlyAbled && errors.differentlyAbled)}
-                helperText={touched.differentlyAbled && errors.differentlyAbled}
-                {...getFieldProps("differentlyAbled")}
-              >
-                 <MenuItem disabled value="">
-              <em>Differently Abled*</em>
-            </MenuItem>
-                {diffentlyAbled.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              </Grid>
-              <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
-              <Select
-                id="bloodgrp"
-                name='bloodgrp'
-                value={bloodGrp}
-                displayEmpty
-                style={{width: '87.5%', marginLeft: 40}}
-                placeholder='Blood Group'
-                onChange={handleBloodGrpChange}
-                error={Boolean(touched.bloodGroup && errors.bloodGroup)}
-                helperText={touched.bloodGroup && errors.bloodGroup}
-                {...getFieldProps("bloodGroup")}
-              >
-                 <MenuItem disabled value="">
-              <em>Blood Group</em>
-            </MenuItem>
-                {BloodGroupValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={6}>
-              <DefaultInput
+              <TextField
                   fullWidth
-                  id="emergencycontactName"
-                  autoComplete="emergencycontactName"
-                  placeholder="*Emergency Contact Name*"
-                  error={Boolean(touched.emergencyContactName && errors.emergencyContactName)}
-                helperText={touched.emergencyContactName && errors.emergencyContactName}
-                {...getFieldProps("emergencyContactName")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="differentlyAbled"
+                  label="Differently Abled"
+                  value={values.differentlyAbled?"Yes":"No"}
                 />
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-              <DefaultInput
+              <TextField
                   fullWidth
-                  id="emergencycontactMoNum"
-                  autoComplete="emergencycontactMoNum"
-                  placeholder="*Emergency Contact Mobile Number*"
-                  error={Boolean(touched.emergencyContactNumber && errors.emergencyContactNumber)}
-                helperText={touched.emergencyContactNumber && errors.emergencyContactNumber}
-                {...getFieldProps("emergencyContactNumber")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="bloodGroup"
+                  label="Blood group"
+                  value={values.bloodGroup}
+                />
+              </Grid>
+              <Grid item xs={6}>
+              <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="emergencyContactname"
+                  label="Emergency Contact Name"
+                  value={values.emergencyContactName}
+                />
+              </Grid>
+              </Grid>
+              <Grid container spacing={1} style={{marginTop: 5}}>
+              <Grid item xs={6}>
+              <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="emergencyContactNumber"
+                  label="Emergency Contact Number"
+                  value={values.emergencyContactNumber}
                 />
             </Grid>
             </Grid>
@@ -1187,80 +1084,57 @@ const validateRole = () => {
           <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <TextField
-      id="date"
-      type="date"
-      placeholder='Date Of Joining*'
-      style={{width: '87.5%', marginLeft: 40}}
-      error={Boolean(touched.dateOfJoining && errors.dateOfJoining)}
-      helperText={touched.dateOfJoining && errors.dateOfJoining}
-      {...getFieldProps("dateOfJoining")}
-      InputLabelProps={{
-        shrink: true,
-      }}
-    />
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="dateOfJoining"
+                  label="Date of joining"
+                  value={values.dateOfJoining}
+                />
     </Grid>
     <Grid item xs={6}>
-    <Select
-                id="designation"
-                name='designation'
-                value={designation}
-                displayEmpty
-                defaultValue={data? data.designation: ""}
-                style={{width: '87.5%', marginLeft: 40}}
-                
-                onChange={handleDesignationChange}
-                error={Boolean(touched.designation && errors.designation)}
-                helperText={touched.designation && errors.designation}
-                {...getFieldProps("designation")}
-              >
-                 <MenuItem disabled value="">
-              <em>Designation*</em>
-            </MenuItem>
-                {designations?.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
+            <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="designation"
+                  label="Designation"
+                  value={values.designation}
+                />
               </Grid>
                  </Grid>
                  <Grid container spacing={1} style={{marginTop: 5}}>
                    <Grid item xs={6}>
-                 <DefaultInput
+                   <TextField
                   fullWidth
-                  id="commitedSalary"
-                  autoComplete="commitedSalary"
-                  placeholder="Commited Salary per Month*"
-                  error={Boolean(touched.salaryPerMonth && errors.salaryPerMonth)}
-                helperText={touched.salaryPerMonth && errors.salaryPerMonth}
-                {...getFieldProps("salaryPerMonth")}
-                  // name="contact"
-                  // value="contact"
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="commitedSalaryPerMonth"
+                  label="Commited Salary Per Month"
+                  value={values.salaryPerMonth}
                 />
                 </Grid>
                  <Grid item xs={6}>
-                <Select
-                id="referredBy"
-                name='referredBy'
-                value={referredBy}
-                displayEmpty
-                defaultValue={data? data.referredBy: ""}
-                style={{width: '87.5%', marginLeft: 40}}
-                placeholder='Referred By'
-                onChange={handleReferredChange}
-                error={Boolean(touched.isAgreementDone && errors.isAgreementDone)}
-                helperText={touched.isAgreementDone && errors.isAgreementDone}
-                {...getFieldProps("isAgreementDone")}
-              >
-                 <MenuItem disabled value="">
-              <em>Agreement* </em>
-            </MenuItem>
-                {agreement.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
+                 <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="isAgreementDone"
+                  label="Agreement Done"
+                  value={values.isAgreementDone?"Yes":"No"}
+                />
                 </Grid>
                 </Grid>
                 <Grid container spacing={1} style={{marginTop: 5}}>
@@ -1275,58 +1149,43 @@ const validateRole = () => {
                   // value="contact"
                 /> */}
                 <TextField
-                  id="lastdayOfWork"
-                  type="date"
-                  placeholder='*Last Day Of work'
-                  style={{width: '87.5%', marginLeft: 40}}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  error={Boolean(touched.lastDayOfWork && errors.lastDayOfWork)}
-                  helperText={touched.lastDayOfWork && errors.lastDayOfWork}
-                  {...getFieldProps("lastDayOfWork")}
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="lastDayOfWork"
+                  label="Last day of work"
+                  value={values.lastDayOfWork}
                 />
                 </Grid>
                 <Grid item xs={6}>
-              <Select
-                id="noticedperiods"
-                name='noticedPeriods'
-                value={noticePeriod}
-                displayEmpty
-                style={{width: '87.5%', marginLeft: 40}}
-                defaultValue={data? data.noticedPeriods: ""}
-                onChange={handleNoticePeriodChange}
-                // renderValue={(selected) => {
-                //   if (selected.length === 0) {
-                //     return <em>Noticed Periods</em>;
-                //   }
-                //   return selected
-                // }}
-                error={Boolean(touched.noticePeriod && errors.noticePeriod)}
-                helperText={touched.noticePeriod && errors.noticePeriod}
-                {...getFieldProps("noticePeriod")}
-              >
-                 <MenuItem disabled value="">
-              <em>Noticed Periods</em>
-            </MenuItem>
-                {noticePeriodValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
+                <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="noticePeriod"
+                  label="Notice Period"
+                  value={values.noticePeriod?"Yes":"No"}
+                />
               </Grid>
                 </Grid>
                 <Grid container spacing={1} style={{marginTop: 5}}>
                    <Grid item xs={6}>
-                 <DefaultInput
+                   <TextField
                   fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
                   id="note"
-                  autoComplete="note"
-                  placeholder="Note"
-                  error={Boolean(touched.note && errors.note)}
-                  helperText={touched.note && errors.note}
-                  {...getFieldProps("note")}
+                  label="Notes"
+                  value={values.note}
                 />
                 </Grid>
                 </Grid>
@@ -1335,49 +1194,57 @@ const validateRole = () => {
           </Typography>
           <Grid container spacing={1} style={{marginTop: 5}}>
           <Grid item xs={6}>
-                <DefaultInput
+            <TextField
                   fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
                   id="bankName"
-                  autoComplete="bankName"
-                  placeholder="Bank Name*"
-                  error={Boolean(touched.bankName && errors.bankName)}
-                  helperText={touched.bankName && errors.bankName}
-                  {...getFieldProps("bankName")}
+                  label="Bank Name"
+                  value={values.bankName}
                 />
               </Grid>
               <Grid item xs={6}>
-                <DefaultInput
+              <TextField
                   fullWidth
-                  id="account"
-                  autoComplete="account"
-                  placeholder="Account Number*"
-                  error={Boolean(touched.accountNumber && errors.accountNumber)}
-                  helperText={touched.accountNumber && errors.accountNumber}
-                  {...getFieldProps("accountNumber")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="accountNumber"
+                  label="Account Number"
+                  value={values.accountNumber}
                 />
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput
+              <TextField
                   fullWidth
-                  id="IFSC"
-                  autoComplete="IFSC"
-                  placeholder="IFSC Code*"
-                  error={Boolean(touched.ifscCode && errors.ifscCode)}
-                  helperText={touched.ifscCode && errors.ifscCode}
-                  {...getFieldProps("ifscCode")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="ifscCode"
+                  label="IFSC Code"
+                  value={values.ifscCode}
                 />
               </Grid>
               <Grid item xs={6}>
-                <DefaultInput
+              <TextField
                   fullWidth
-                  id="panCard"
-                  autoComplete="panCard"
-                  placeholder="Pan Card*"
-                  error={Boolean(touched.panCardNumber && errors.panCardNumber)}
-                  helperText={touched.panCardNumber && errors.panCardNumber}
-                  {...getFieldProps("panCardNumber")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="pancardNumber"
+                  label="Pancard Number"
+                  value={values.panCardNumber}
                 />
               </Grid>
                 </Grid>
@@ -1388,17 +1255,19 @@ const validateRole = () => {
           </Typography>
           <Grid container spacing={1} style={{marginTop: 5}}>
           <Grid item xs={6}>
-              <DefaultInput
+            <TextField
                   fullWidth
-                  id="userName"
-                  autoComplete="userName"
-                  placeholder="Username*"
-                  error={Boolean(touched.username && errors.username)}
-                  helperText={touched.username && errors.username}
-                  {...getFieldProps("username")}
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="username"
+                  label="Username"
+                  value={values.username}
                 />
               </Grid>
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
               <DefaultInput
                   fullWidth
                   id="password"
@@ -1408,7 +1277,7 @@ const validateRole = () => {
                   helperText={touched.password && errors.password}
                   {...getFieldProps("password")}
                 />
-              </Grid>
+              </Grid> */}
               </Grid>
               {showCouncil?null:
               <>
@@ -1418,60 +1287,31 @@ const validateRole = () => {
 
           {deductionList?.map((value,index)=>(
               <Grid container spacing={1} style={{marginTop: 5}} key={index} >
-              <Grid item xs={5}>
-              <Select
-                id="pf"
-                name='pf'
-                displayEmpty
-                style={{width: '87.5%', marginLeft: 40}}
-                defaultValue={data? data.noticedPeriods: ""}
-                onChange={(e)=>handleDeductionNameChange(e,index)}
-                value={value.deductionName}
-                error={Boolean(value.errorName)}
-                helperText={value.errorName}
-                // renderValue={(selected) => {
-                //   if (selected.length === 0) {
-                //     return <em>PF</em>;
-                //   }
-                //   return selected
-                // }}
-              >
-                 <MenuItem disabled value="">
-              <em>Deduction Type*</em>
-            </MenuItem>
-                {salaryDeductionType.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.type}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={6}>
               <TextField
                   fullWidth
-                  id="panCard"
-                  autoComplete="panCard"
-                  placeholder="Enter Value"
-                  value={value.deductionValue}
-                  error={Boolean(value.errorValue)}
-                  helperText={value.errorValue}
-                  onChange={(e)=>handleDeductionValueChange(e,index)}
-                  // defaultValue={data? data.panCard: ""}
-                  // name="contact"
-                  // value="contact"
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="deductionType"
+                  label="Deduction Type"
+                  value={value.deductionName}
                 />
               </Grid>
-              <Grid item xs={2}>
-            
-                <IconButton color={index+1===deductionLength?'success':'error'} aria-label={index+1===deductionLength?'add':'delete'} size="large" onClick={()=>handleDeductionButtonClick(index+1===deductionLength?'add':'delete',index)}>
-                {index+1===deductionLength?
-                <AddCircleIcon fontSize="inherit" />:
-                <CancelIcon fontSize="inherit" />
-                }
-                
-              </IconButton>
-                
-       
+              <Grid item xs={6}>
+              <TextField
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="deductionValue"
+                  label="Value"
+                  value={value.deductionValue}
+                />
               </Grid>
               </Grid>
             ))}
@@ -1481,63 +1321,40 @@ const validateRole = () => {
           </Typography>
           {documentList?.map((value,index)=>(
             <Grid container spacing={1} style={{marginTop: 5}} key={index}>
-            <Grid item xs={5}>
-            <Select
-              id="aadharCard"
-              name='aadharCard'
-              value={value.documentName}
-              displayEmpty
-              style={{width: '87.5%', marginLeft: 40}}
-              onChange={(e)=>handleDocumentNameChange(e,index)}
-              error={Boolean(value.errorName)}
-              helperText={value.errorName}
-              // renderValue={(selected) => {
-              //   if (selected?.length === 0) {
-              //     return <em>Aadhar Card</em>;
-              //   }
-              //   return selected
-              // }}
-            >
-               <MenuItem disabled value="">
-            <em>Document Type*</em>
-          </MenuItem>
-              {userDocumentType?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.type}
-                </MenuItem>
-              ))}
-            </Select>
-            </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={6}>
             <TextField
-                fullWidth
-                id="amount"
-                type={"file"}
-                autoComplete="amount"
-                placeholder="Choose file"
-                value={value.documentValue}
-                error={Boolean(value.errorValue)}
-                helperText={value.errorValue}
-                onChange={(e)=>handleDocumentValueChange(e,index)}
-              />
+                  fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined'
+                  inputProps={
+					{ readOnly: true, }
+				    }
+                  id="documentValue"
+                  label="Document Type"
+                  value={value.documentName}
+                />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={6}>
+            <Link fullWidth
+                  style={{width: '88%', marginLeft: 40}}
+                  variant='outlined' target="_blank" rel="noopener" to={`${value.documentName}`} >
+              {value.documentValue}
+          </Link>
+            </Grid>
+            {/* <Grid item xs={2}>
             <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>
                 {index+1===documentLength?
                 <AddCircleIcon fontSize="inherit" />:
                 <CancelIcon fontSize="inherit" />
                 }
               </IconButton>
-            </Grid>
+            </Grid> */}
             </Grid>
           )
           )}
 
           </>
           }
-          
-              
-              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} onClick={handleSubmit}>{editUser?"Update":"Add"}</Button>    
             {/* <Button >Add</Button> */}
         </div>
     );

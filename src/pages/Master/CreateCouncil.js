@@ -144,12 +144,15 @@ export default function CreateCouncil() {
   return (
     <Page title="User">
       <Container>
+        {open?
         <CreateCouncilDialog
         isOpen={open}
         data = {dialogData}
         handleClose = {handleNewUserClick}
         // isClose={}
-        />
+        />:null
+        }
+        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Councils
