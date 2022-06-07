@@ -56,6 +56,17 @@ export const EDIT_PROPERTY_TYPES = "edit-property-types";
 export const ADD_PROPERTY_TYPES = "add-property-types";
 export const DELETE_PROPERTY_TYPES = "delete-property-types";
 
+export const GET_LOCATION_TYPES = "get-location-types";
+export const EDIT_LOCATION_TYPES = "edit-location-types";
+export const ADD_LOCATION_TYPES = "add-location-types";
+export const DELETE_LOCATION_TYPES = "delete-location-types";
+
+export const GET_TREEDENSITY = "get-treedensity";
+export const EDIT_TREEDENSITY = "edit-treedensity";
+export const ADD_TREEDENSITY = "add-treedensity";
+export const DELETE_TREEDENSITY = "delete-treedensity";
+// export const GET_TREEDENSITY_BY_STATE_ID = "get-districts-by-state-id";
+
 export const GET_WARDS = "get-wards";
 export const EDIT_WARDS = "edit-wards";
 export const ADD_WARDS = "add-wards";

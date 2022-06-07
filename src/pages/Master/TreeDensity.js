@@ -17,66 +17,92 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteCouncil, GetCouncil, SearchCouncil } from '../../actions/CouncilAction';
+import TreeDensityDialog from '../../components/DialogBox/TreeDensityDialog'
 import Page from '../../components/Page';
+import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
+import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
+// import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import CreateCouncilDialog from "../../components/DialogBox/CreateCouncilDialog";
+import { DeleteDistricts, GetAllDistricts, SearchDistricts} from '../../actions/MasterActions';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  // { id: 'uploadlogo', label: 'Upload Logo', alignRight: false },
-  { id: 'councilName', label: 'Council Name', alignRight: false },
-  { id: 'state', label: 'State', alignRight: false },
-  { id: 'district', label: 'District', alignRight: false },
-  { id: 'taluka', label: 'Taluka', alignRight: false },
-  { id: 'baseColorTarget', label: 'Base Color Target', alignRight: false },
-  { id: 'censusTarget', label: 'Census Target', alignRight: false },
-  { id: 'contactPersonName', label: 'Contact Person Name', alignRight: false },
-  { id: 'contactPersonMoNumber', label: 'Contact Person Mobile Number', alignRight: false },
-  { id: 'contactPersonEmail', label: 'Contact Person Email', alignRight: false },
-  { id: 'userName', label: 'User Name', alignRight: false },
-  // { id: 'password', label: 'Password', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'locationType', label: 'Location Type', alignRight: false },
+  { id: 'width', label: 'Width', alignRight: false },
+  { id: 'interval', label: 'Interval', alignRight: false },
+  { id: 'minimumNumOfTree', label: 'Minimum Number Of Tree', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
-export default function CreateCouncil() {
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function applySortFilter(array, comparator, query) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  if (query) {
+    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  }
+  return stabilizedThis.map((el) => el[0]);
+}
+
+export default function TreeDensity() {
 
   const dispatch = useDispatch();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
-  const [dialogData,setDialogData] = useState(null);
-  const [search,setSearch] = useState(false);
-  const [searchValue,setSearchValue] = useState("");
+   const [close, setClose] = useState();
+   const [dialogData,setDialogData] = useState(null);
+   const [search,setSearch] = useState(false);
+   const [searchValue,setSearchValue] = useState("");
 
-  const {
-    council,
-    addCouncilLog,
-    editCouncilLog,
-    deleteCouncilLog,
+   const {
+    districts,
+    addDistrictsLog,
+    editDistrictsLog,
+    deleteDistrictsLog,
     pageInfo
   } = useSelector((state) => ({
-    council:state.council.council,
-    addCouncilLog:state.council.addCouncilLog,
-    editCouncilLog:state.council.editCouncilLog,
-    deleteCouncilLog:state.council.deleteCouncilLog,
-    pageInfo : state.council.pageInfo
+    districts:state.master.districts,
+    addDistrictsLog:state.master.addDistrictsLog,
+    editDistrictsLog:state.master.editDistrictsLog,
+    deleteDistrictsLog:state.master.deleteDistrictsLog,
+    pageInfo : state.master.pageInfo
   }));
 
-  console.log("COUNCIL",council);
+  console.log("DISTRICTS",districts)
 
   useEffect(()=>{
-    dispatch(GetCouncil(page+1,rowsPerPage));
-  },[addCouncilLog,editCouncilLog,deleteCouncilLog])
+    dispatch(GetAllDistricts(page+1,rowsPerPage));
+  },[addDistrictsLog,editDistrictsLog,deleteDistrictsLog])
 
   useEffect(()=>{
     if(pageInfo){
@@ -92,30 +118,33 @@ export default function CreateCouncil() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchCouncil(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchDistricts(newPage+1,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetCouncil(newPage+1,rowsPerPage));
+      dispatch(GetAllDistricts(newPage+1,rowsPerPage));
     }
-  };
-  const handleEdit = (data) => {
-    setDialogData(data);
-    setOpen(!open);
-  };
-
-  const handleDelete = (data) => {
-    dispatch(DeleteCouncil(data.id,data.status?0:1));
+    
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
     if(search){
-      dispatch(SearchCouncil(1,parseInt(event.target.value, 10),searchValue));
+      dispatch(SearchDistricts(1,parseInt(event.target.value, 10),searchValue));
     }
     else {
-      dispatch(GetCouncil(1,parseInt(event.target.value, 10)));
+      dispatch(GetAllDistricts(1,parseInt(event.target.value, 10)));
     }
+    
+  };
+
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
+
+  const handleDelete = (data) => {
+    dispatch(DeleteDistricts(data.id,data.status?0:1));
   };
 
   let timer = null;
@@ -125,14 +154,14 @@ export default function CreateCouncil() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
-          dispatch(SearchCouncil(1,rowsPerPage,value))
+          dispatch(SearchDistricts(1,rowsPerPage,value))
           setSearch(true)
           setPage(0)
           setSearchValue(value);
 
         }
         else{
-          dispatch(GetCouncil(1,rowsPerPage));
+          dispatch(GetAllDistricts(1,rowsPerPage));
           setSearch(false);
           setPage(0);
           setSearchValue("")
@@ -144,27 +173,23 @@ export default function CreateCouncil() {
   return (
     <Page title="User">
       <Container>
-        {open?
-        <CreateCouncilDialog
+        <TreeDensityDialog
         isOpen={open}
-        data = {dialogData}
         handleClose = {handleNewUserClick}
-        // isClose={}
-        />:null
-        }
-        
+        data = {dialogData}
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Councils
+        Tree Density
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Council
+            Add Tree Density
 
           </Button>
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search councils..."} onFilterName={filterByName}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search districts..."} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -172,24 +197,17 @@ export default function CreateCouncil() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { council?.map((option,index) => {
+                     { districts?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{index+1}</TableCell>
-                        {/* <TableCell align="left">{option.uploadLogo}</TableCell> */}
-                        <TableCell align="left">{option.name}</TableCell>
+                            <TableCell align="left">
+                              {option.name}
+                            </TableCell>
                         <TableCell align="left">{option.state?.name}</TableCell>
-                        <TableCell align="left">{option.district?.name}</TableCell>
-                        <TableCell align="left">{option.taluka?.name}</TableCell>
-                        <TableCell align="left">{option.base_color_target}</TableCell>
-                        <TableCell align="left">{option.census_target}</TableCell>
-                        <TableCell align="left">{option.contact_person.first_name} {option.contact_person.last_name}</TableCell>
-                        <TableCell align="left">{option.contact_person.mobile}</TableCell>
-                        <TableCell align="left">{option.contact_person.email}</TableCell>
-                        <TableCell align="left">{option.contact_person.username}</TableCell>
-                        {/* <TableCell align="left">{option.password}</TableCell> */}
+                        <TableCell align="left">{option.state?.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />

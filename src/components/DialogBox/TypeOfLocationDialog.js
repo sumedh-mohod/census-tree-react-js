@@ -18,12 +18,10 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { AddDistricts, EditDistricts, GetActiveState } from '../../actions/MasterActions';
+import { AddLocationType, EditLocationType } from '../../actions/LocationTypeAction';
 import DefaultInput from '../Inputs/DefaultInput';
-import { LoginUser } from '../../actions/AuthActions';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -48,78 +46,42 @@ const BootstrapDialogTitle = (props) => {
     </DialogTitle>
   );
 };
-
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
 
-export default function DistrictDialog(props) {
+export default function TypeOfLocationDialog(props) {
   const dispatch = useDispatch();
-  const { isOpen, data } = props;
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
-  const [state, setState]=  React.useState("State");
-  
+  const [status, setStatus] = React.useState('Status')
+  const { isOpen, data } = props;
+
   const {
-    addDistrictsLog,
-    editDistrictsLog,
-    states,
+    locationTypes,
+    addLocationTypesLog,
+    editLocationTypesLog,
   } = useSelector((state) => ({
-    addDistrictsLog:state.master.addDistrictsLog,
-    editDistrictsLog:state.master.editDistrictsLog,
-    states:state.master.states,
+    locationTypes:state.locationTypes.locationTypes,
+    addLocationTypesLog:state.locationTypes.addLocationTypesLog,
+    editLocationTypesLog:state.locationTypes.editLocationTypesLog
   }));
 
-  useEffect(()=>{
-    dispatch(GetActiveState(1,1000,1));
-  },[])
-
-
-  useEffect(()=>{
-    if(data){
-      setState(data.state_id);
-    }
-    
-  },[data])
+  console.log("addLocationTypesLog" , addLocationTypesLog)
 
   const firstRun = React.useRef(true);
-  useEffect(()=>{
+  React.useEffect(()=>{
     if (firstRun.current) {
       firstRun.current = false;
       return;
     }
-    props.handleClose()
-  },[addDistrictsLog,editDistrictsLog])
+    props.handleClose();
+  },[addLocationTypesLog,editLocationTypesLog])
 
-  const handleStateChange = (event) => {
-    // const states = {label:event.target.label,value:event.target.value}
-    console.log("HANDLE STATE CHANGE",event.target.value)
-    // setState(event.target.value);
-  };
 
-  const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
-    const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
-    if(found){
-      return found.name
-    }
-    
-  }
-
-  const stateValue = [
-    {
-      value: 'patna',
-      label: 'patna',
-    },
-    {
-      value: 'maharashtra',
-      label: 'Maharashtra',
-    },
-  ];
+  console.log("addLocationTypesLog" , addLocationTypesLog)
 
   const handleClose = () => {
     props.handleClose();
@@ -137,31 +99,26 @@ export default function DistrictDialog(props) {
     );
   };
 
-  const DistrictsSchema = Yup.object().shape({
-    districts: Yup.string().required('Districts is required'),
-    state: Yup.string().required('State is required'),
+  const DesignationsSchema = Yup.object().shape({
+    locationTypes: Yup.string().required('Location Type is required'),
   });
 
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      districts:data? data.name : "",
-      state:data?data.state_id:""
+      locationTypes:data? data.location_type : "",
     },
-    validationSchema: DistrictsSchema,
+    validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
-        dispatch(EditDistricts({
-          "name":value.districts,
-          "state_id":value.state
+        dispatch(EditLocationType({
+          "location_type":value.locationTypes,
         },data.id))
       }
       else {
-        dispatch(AddDistricts({
-          "name":value.districts,
-          "state_id":value.state
+        dispatch(AddLocationType({
+          "location_type":value.locationTypes,
         }))
       }
     },
@@ -182,53 +139,19 @@ export default function DistrictDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add District</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Add Type Of Location</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
         <Grid item xs={12}>
               <DefaultInput
                 fullWidth
-                id="name"
-                autoComplete="name"
-                placeholder="name*"
-                error={Boolean(touched.districts && errors.districts)}
-                helperText={touched.districts && errors.districts}
-                {...getFieldProps("districts")}
+                id="typeOfLocation"
+                placeholder="Type Of Location*"
+                error={Boolean(touched.locationTypes && errors.locationTypes)}
+                helperText={touched.locationTypes && errors.locationTypes}
+                {...getFieldProps("locationTypes")}
               />
-            </Grid>
-            <Grid item xs={12}>
-             
-              <Select
-              id="state"
-              // name='State'
-              value={state}
-              style={{width:'83%', marginLeft: 40}}
-              displayEmpty
-              placeholder="select State*"
-              onChange={handleStateChange}
-              // renderValue={(selected) => {
-
-              //   console.log("SELECTED",state);
-              //   if (selected.length === 0) {
-              //     return <em>State</em>;
-              //   }
-              //   return findValue(states,state)
-              // }}
-              error={Boolean(touched.state && errors.state)}
-                helperText={touched.state && errors.state}
-                {...getFieldProps("state")}
-            >
-               <MenuItem disabled value="">
-            <em>State*</em>
-          </MenuItem>
-              {states?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </Select>
-            
             </Grid>
           </Grid>
         </DialogContent>

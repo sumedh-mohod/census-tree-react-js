@@ -54,7 +54,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function DistrictDialog(props) {
+export default function TreeDensityDialog(props) {
   const dispatch = useDispatch();
   const { isOpen, data } = props;
   const [open, setOpen] = React.useState(false);
@@ -182,21 +182,10 @@ export default function DistrictDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add District</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Add Tree Density</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-        <Grid item xs={12}>
-              <DefaultInput
-                fullWidth
-                id="name"
-                autoComplete="name"
-                placeholder="name*"
-                error={Boolean(touched.districts && errors.districts)}
-                helperText={touched.districts && errors.districts}
-                {...getFieldProps("districts")}
-              />
-            </Grid>
             <Grid item xs={12}>
              
               <Select
@@ -205,7 +194,7 @@ export default function DistrictDialog(props) {
               value={state}
               style={{width:'83%', marginLeft: 40}}
               displayEmpty
-              placeholder="select State*"
+              placeholder="Location Type*"
               onChange={handleStateChange}
               // renderValue={(selected) => {
 
@@ -220,7 +209,7 @@ export default function DistrictDialog(props) {
                 {...getFieldProps("state")}
             >
                <MenuItem disabled value="">
-            <em>State*</em>
+            <em>Location Type*</em>
           </MenuItem>
               {states?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
@@ -230,6 +219,62 @@ export default function DistrictDialog(props) {
             </Select>
             
             </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="interval"
+                autoComplete="interval"
+                placeholder="Interval*"
+                error={Boolean(touched.districts && errors.districts)}
+                helperText={touched.districts && errors.districts}
+                {...getFieldProps("districts")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+             
+             <Select
+             id="state"
+             // name='State'
+             value={state}
+             style={{width:'83%', marginLeft: 40}}
+             displayEmpty
+             placeholder="Interval Unit*"
+             onChange={handleStateChange}
+             // renderValue={(selected) => {
+
+             //   console.log("SELECTED",state);
+             //   if (selected.length === 0) {
+             //     return <em>State</em>;
+             //   }
+             //   return findValue(states,state)
+             // }}
+             error={Boolean(touched.state && errors.state)}
+               helperText={touched.state && errors.state}
+               {...getFieldProps("state")}
+           >
+              <MenuItem disabled value="">
+           <em>Interval Unit*</em>
+         </MenuItem>
+             {states?.map((option) => (
+               <MenuItem key={option.id} value={option.id}>
+                 {option.name}
+               </MenuItem>
+             ))}
+           </Select>
+           
+           </Grid>
+           <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="minimumNoOfTrees"
+                autoComplete="minimumNoOfTrees"
+                placeholder="Minimum Mumber Of Trees*"
+                error={Boolean(touched.districts && errors.districts)}
+                helperText={touched.districts && errors.districts}
+                {...getFieldProps("districts")}
+              />
+            </Grid>
+
           </Grid>
         </DialogContent>
         <Divider/>

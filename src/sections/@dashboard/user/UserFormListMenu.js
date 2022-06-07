@@ -50,7 +50,7 @@ export default function UserMoreMenu(props) {
            <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
          </MenuItem>
 
-        <MenuItem component={RouterLink} to={`/dashboard/user/edit-user/${props.userId}`} sx={{ color: 'text.secondary' }} onClick={handleClose}>
+        <MenuItem component={RouterLink} to={`/dashboard/user/view-user/${props.userId}`} sx={{ color: 'text.secondary' }} onClick={handleClose}>
           <ListItemIcon>
             <Iconify icon="ep:view" width={24} height={24} />
           </ListItemIcon>
