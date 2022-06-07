@@ -5,6 +5,7 @@ import CouncilReducer from "./CouncilReducer";
 import DesignationReducer from "./DesignationReducer";
 import MasterReducer from "./MasterReducer";
 import PropertyTypeReducer from "./PropertyTypeReducer";
+import LocationTypeReducer from './LocationTypeReducer';
 import RoleReducer from "./RoleReducer";
 import TeamReducer from "./TeamReducer";
 import TreeConditionReducer from "./TreeConditionReducer";
@@ -25,6 +26,7 @@ export default combineReducers({
   treeName:TreeNameReducer,
   treeConditions:TreeConditionReducer,
   propertyTypes:PropertyTypeReducer,
+  locationTypes:LocationTypeReducer,
   wards:WardsReducer,
   zones:ZoneReducer,
   council:CouncilReducer,
