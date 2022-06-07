@@ -19,7 +19,7 @@ const navConfig = [
   {
       title: 'Teams',
       path: '/dashboard/teams',
-      icon: getIcon('eva:shopping-bag-fill'),
+      icon: getIcon('bxl:microsoft-teams'),
 
   },
   {
