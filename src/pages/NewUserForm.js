@@ -910,7 +910,7 @@ const validateRole = () => {
                   fullWidth
                   id="addressLine1"
                   autoComplete="addressLine1"
-                  placeholder="*Address Line 1*"
+                  placeholder="Address Line 1*"
                   error={Boolean(touched.addressLine1 && errors.addressLine1)}
                 helperText={touched.addressLine1 && errors.addressLine1}
                 {...getFieldProps("addressLine1")}
@@ -1032,7 +1032,7 @@ const validateRole = () => {
                   fullWidth
                   id="aadhar"
                   autoComplete="aadhar"
-                  placeholder="*Aadhar Number*"
+                  placeholder="Aadhar Number*"
                   error={Boolean(touched.aadhaarNumber && errors.aadhaarNumber)}
                 helperText={touched.aadhaarNumber && errors.aadhaarNumber}
                 {...getFieldProps("aadhaarNumber")}
@@ -1159,7 +1159,7 @@ const validateRole = () => {
                   fullWidth
                   id="emergencycontactName"
                   autoComplete="emergencycontactName"
-                  placeholder="*Emergency Contact Name*"
+                  placeholder="Emergency Contact Name*"
                   error={Boolean(touched.emergencyContactName && errors.emergencyContactName)}
                 helperText={touched.emergencyContactName && errors.emergencyContactName}
                 {...getFieldProps("emergencyContactName")}
