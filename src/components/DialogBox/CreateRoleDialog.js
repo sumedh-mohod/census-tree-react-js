@@ -197,7 +197,7 @@ export default function CreateRoleDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Create Role</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data? `Edit Role` : `Create Role`}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
