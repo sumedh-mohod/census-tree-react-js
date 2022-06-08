@@ -20,6 +20,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { TextField } from '@mui/material';
 import AssignUserConfirmationDialog from './AssignUserConfirmationDialog';
 import { GetUsers } from '../../../actions/UserAction';
 import { AddUserToTeam } from '../../../actions/TeamsAction';
@@ -223,13 +224,18 @@ export default function AssignUserDialog(props) {
         <DialogContent>
         <Grid container spacing={1}>
             <Grid item xs={12}>
-              <Select
+              <TextField
+              select
+              SelectProps={{
+                multiple:true
+              }}
+              label="User*"
                 id="role"
                 multiple
                 displayEmpty
                 // name="role"
                 value={role}
-                style={{ width: '83%', marginLeft: 40 }}
+                style={{ width: '83%', marginLeft: 40, marginTop:5 }}
                 defaultValue={data ? data.role : ''}
                 renderValue={(selected) => {
                   console.log("SELECTED",selected);
@@ -263,7 +269,7 @@ export default function AssignUserDialog(props) {
               {option.first_name}
             </MenuItem>
           ))}
-              </Select>
+              </TextField>
             </Grid>
           </Grid>
         </DialogContent>

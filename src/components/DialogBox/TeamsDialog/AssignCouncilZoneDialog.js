@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { TextField } from '@mui/material';
 import { AddCZWToTeam } from '../../../actions/TeamsAction';
 import AssignNewZoneWardConfirmationDialog from './AssignNewZoneWardConfirmationDialog';
 import { GetCouncil } from '../../../actions/CouncilAction';
@@ -266,13 +267,14 @@ export default function AssignCouncilZoneDialog(props) {
         <DialogContent dividers>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <Select
+              <TextField
+                select
                 id="council"
                 name="council"
                 displayEmpty
-                // name="role"
+                label="Coucil*"
                 value={values.council}
-                style={{ width: '83%', marginLeft: 40 }}
+                style={{ width: '83%', marginLeft: 40,marginTop:5 }}
                 defaultValue={data ? data.councilName : ''}
                 onChange={(e) => {
                   handleCouncilName(e)
@@ -296,12 +298,14 @@ export default function AssignCouncilZoneDialog(props) {
                     {option.name}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
             </Grid>
             <Grid item xs={12}>
-            <Select
+            <TextField
+            select
           // multiple
           displayEmpty
+          label="Zone*"
           value={ZoneName}
           onChange={handleZoneChange}
           style={{ width: '83%', marginLeft: 40 }}
@@ -319,12 +323,13 @@ export default function AssignCouncilZoneDialog(props) {
                     {option.name}
                   </MenuItem>
                 )):null}
-        </Select>
+        </TextField>
             </Grid>
             <Grid item xs={12}>
-            <Select
-          // multiple
+            <TextField
+          select
           displayEmpty
+          label="Ward*"
           value={WardName}
           onChange={handleWardChange}
           style={{ width: '83%', marginLeft: 40 }}
@@ -342,7 +347,7 @@ export default function AssignCouncilZoneDialog(props) {
                     {option.name}
                   </MenuItem>
                 )):null}
-        </Select>
+        </TextField>
             </Grid>
           </Grid>
         </DialogContent>

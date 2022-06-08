@@ -806,15 +806,19 @@ const validateRole = () => {
           </Stack>
           <Grid container spacing={1}>
           <Grid item sm={6}>
-            <Select
-              multiple
+            <TextField
+              select
+              SelectProps={{
+                multiple:true
+              }}
               id="role"
               name='role'
+              label="Role*"
               value={role}
               displayEmpty
-              style={{width:'87.5%', marginLeft: 40}}
+              style={{width:'87.5%', marginLeft: 40,marginTop:5}}
               onChange={handleRoleChange}
-              placeholder='Select Role'
+              placeholder='Select Role*'
               defaultValue={data? data.role: ""}
               renderValue={(selected) => {
                 if (selected?.length === 0) {
@@ -838,7 +842,7 @@ const validateRole = () => {
                   {option.role}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             </Grid>
             {/* <Typography variant="h5" style={{display: 'flex', justifyContent: "left", marginTop: 5}} gutterBottom>
@@ -854,6 +858,7 @@ const validateRole = () => {
                   // style={{width: '53%'}}
                   id="fName"
                   autoComplete="fName"
+                  label="First Name*"
                   placeholder="First Name*"
                   error={Boolean(touched.firstName && errors.firstName)}
                 helperText={touched.firstName && errors.firstName}
@@ -865,6 +870,7 @@ const validateRole = () => {
                   fullWidth
                   id="mName"
                   autoComplete="mName"
+                  label="Middle Name*"
                   placeholder="Middle Name*"
                   error={Boolean(touched.middleName && errors.middleName)}
                 helperText={touched.middleName && errors.middleName}
@@ -878,6 +884,7 @@ const validateRole = () => {
                   fullWidth
                   id="lName"
                   autoComplete="lName"
+                  label="Last Name*"
                   placeholder="Last Name*"
                   error={Boolean(touched.lastName && errors.lastName)}
                 helperText={touched.lastName && errors.lastName}
@@ -889,6 +896,7 @@ const validateRole = () => {
                   fullWidth
                   id="contact"
                   autoComplete="contact"
+                  label="Mobile Number*"
                   placeholder="Mobile Number*"
                   error={Boolean(touched.mobile && errors.mobile)}
                 helperText={touched.mobile && errors.mobile}
@@ -898,7 +906,7 @@ const validateRole = () => {
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="Email" autoComplete="email" placeholder="Email*" 
+                <DefaultInput fullWidth id="Email" label="Email*" autoComplete="email" placeholder="Email*" 
                  error={Boolean(touched.email && errors.email)}
                  helperText={touched.email && errors.email}
                  {...getFieldProps("email")}
@@ -911,6 +919,7 @@ const validateRole = () => {
                   id="addressLine1"
                   autoComplete="addressLine1"
                   placeholder="*Address Line 1*"
+                  label="*Address Line 1*"
                   error={Boolean(touched.addressLine1 && errors.addressLine1)}
                 helperText={touched.addressLine1 && errors.addressLine1}
                 {...getFieldProps("addressLine1")}
@@ -925,6 +934,7 @@ const validateRole = () => {
                   fullWidth
                   id="addressLine2"
                   autoComplete="addressLine2"
+                  label="Address Line 2"
                   placeholder="Address Line 2"
                   error={Boolean(touched.addressLine2 && errors.addressLine2)}
                 helperText={touched.addressLine2 && errors.addressLine2}
@@ -932,7 +942,7 @@ const validateRole = () => {
                 />
               </Grid>
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="village" autoComplete="village" placeholder="City*" 
+                <DefaultInput fullWidth id="village" autoComplete="village" label="City*" placeholder="City*" 
                  error={Boolean(touched.city && errors.city)}
                  helperText={touched.city && errors.city}
                  {...getFieldProps("city")}
@@ -940,13 +950,14 @@ const validateRole = () => {
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-              <Select
+              <TextField
+                select
                 id="district"
-                // name='District'
+                label="District*"
                 displayEmpty
                 defaultValue={data? data.district : ""}
                 value={district}
-                style={{width: '87.5%', marginLeft: 45}}
+                style={{width: '87.5%', marginLeft: 45,marginTop:5}}
                 placeholder='*Select District'
               
                 error={Boolean(touched.district && errors.district)}
@@ -961,16 +972,17 @@ const validateRole = () => {
                     {option.name}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
               </Grid>
 
               <Grid item xs={6}>
-              <Select
+              <TextField
+                select
                 id="taluka"
                 // name='District'
                 displayEmpty
-                
-                style={{width: '87%', marginLeft: 45}}
+                label="Taluka*"
+                style={{width: '87%', marginLeft: 45,marginTop:5}}
                 placeholder='*Select District'
               
                 error={Boolean(touched.taluka && errors.taluka)}
@@ -985,7 +997,7 @@ const validateRole = () => {
                     {option.name}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
               </Grid>
 
               </Grid>
@@ -994,13 +1006,15 @@ const validateRole = () => {
                 {showCouncil?
                 <Grid container spacing={1} style={{marginTop: 5}}>
                 <Grid item xs={6}>
-                <Select
+                <TextField
+                  select
                   id="council"
                   // name='District'
+                  label="Council*"
                   displayEmpty
                   defaultValue={data? data.district : ""}
                   value={district}
-                  style={{width: '87.5%', marginLeft: 40}}
+                  style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                   placeholder='*Select Council'
                 
                   error={Boolean(touched.council && errors.council)}
@@ -1015,7 +1029,7 @@ const validateRole = () => {
                       {option.name}
                     </MenuItem>
                   ))}
-                </Select>
+                </TextField>
                 </Grid>
                 </Grid>:null
                 }
@@ -1032,7 +1046,8 @@ const validateRole = () => {
                   fullWidth
                   id="aadhar"
                   autoComplete="aadhar"
-                  placeholder="*Aadhar Number*"
+                  label="Aadhar Number*"
+                  placeholder="Aadhar Number*"
                   error={Boolean(touched.aadhaarNumber && errors.aadhaarNumber)}
                 helperText={touched.aadhaarNumber && errors.aadhaarNumber}
                 {...getFieldProps("aadhaarNumber")}
@@ -1046,6 +1061,7 @@ const validateRole = () => {
                   id="education"
                   autoComplete="education"
                   placeholder="Education*"
+                  label="Education*"
                   error={Boolean(touched.education && errors.education)}
                 helperText={touched.education && errors.education}
                 {...getFieldProps("education")}
@@ -1058,9 +1074,10 @@ const validateRole = () => {
                 id="date"
                 // label="Date Of Birth"
                 type="date"
-                placeholder='*Date Of Birth*'
+                label="Date of Birth*"
+                placeholder='Date Of Birth*'
                 // defaultValue="2017-05-24"
-                style={{width: '87.5%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
                 error={Boolean(touched.dob && errors.dob)}
                 helperText={touched.dob && errors.dob}
@@ -1071,13 +1088,15 @@ const validateRole = () => {
               />
               </Grid>
               <Grid item xs={6}>
-              <Select
+              <TextField
+                select
                 id="religion"
                 name='religion'
+                label="Religion*"
                 value={religion}
                 displayEmpty
                 defaultValue={data? data.religion: ""}
-                style={{width: '87.5%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 placeholder='Religion*'
                 onChange={handleReligionChange}
                 error={Boolean(touched.religion && errors.religion)}
@@ -1092,7 +1111,7 @@ const validateRole = () => {
                     {option.religion}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
       </Grid>
       </Grid>
       <Grid container spacing={1} style={{marginTop: 5}}>
@@ -1101,6 +1120,7 @@ const validateRole = () => {
                   fullWidth
                   id="caste"
                   autoComplete="caste"
+                  label="Caste*"
                   placeholder="Caste*"
                   error={Boolean(touched.caste && errors.caste)}
                 helperText={touched.caste && errors.caste}
@@ -1108,12 +1128,14 @@ const validateRole = () => {
                 />
       </Grid>
               <Grid item xs={6}>
-              <Select
+              <TextField
+                select
                 id="diffentlyAbled"
+                label="Differently Abled*"
                 name='diffentlyAbled'
                 displayEmpty
                 defaultValue={data? data.caste: ""}
-                style={{width: '87.5%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 onChange={handleGenderChange}
                 error={Boolean(touched.differentlyAbled && errors.differentlyAbled)}
                 helperText={touched.differentlyAbled && errors.differentlyAbled}
@@ -1127,17 +1149,19 @@ const validateRole = () => {
                     {option.label}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-              <Select
+              <TextField
+                select
                 id="bloodgrp"
                 name='bloodgrp'
+                label="Blood Group"
                 value={bloodGrp}
                 displayEmpty
-                style={{width: '87.5%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 placeholder='Blood Group'
                 onChange={handleBloodGrpChange}
                 error={Boolean(touched.bloodGroup && errors.bloodGroup)}
@@ -1152,14 +1176,15 @@ const validateRole = () => {
                     {option.label}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
               </Grid>
               <Grid item xs={6}>
               <DefaultInput
                   fullWidth
                   id="emergencycontactName"
                   autoComplete="emergencycontactName"
-                  placeholder="*Emergency Contact Name*"
+                  label="Emergency Contact Name*"
+                  placeholder="Emergency Contact Name*"
                   error={Boolean(touched.emergencyContactName && errors.emergencyContactName)}
                 helperText={touched.emergencyContactName && errors.emergencyContactName}
                 {...getFieldProps("emergencyContactName")}
@@ -1172,7 +1197,8 @@ const validateRole = () => {
                   fullWidth
                   id="emergencycontactMoNum"
                   autoComplete="emergencycontactMoNum"
-                  placeholder="*Emergency Contact Mobile Number*"
+                  label="Emergency Contact Mobile Number*"
+                  placeholder="Emergency Contact Mobile Number*"
                   error={Boolean(touched.emergencyContactNumber && errors.emergencyContactNumber)}
                 helperText={touched.emergencyContactNumber && errors.emergencyContactNumber}
                 {...getFieldProps("emergencyContactNumber")}
@@ -1188,8 +1214,9 @@ const validateRole = () => {
               <TextField
       id="date"
       type="date"
+      label="Date Of Joining*"
       placeholder='Date Of Joining*'
-      style={{width: '87.5%', marginLeft: 40}}
+      style={{width: '87.5%', marginLeft: 40,marginTop:5}}
       error={Boolean(touched.dateOfJoining && errors.dateOfJoining)}
       helperText={touched.dateOfJoining && errors.dateOfJoining}
       {...getFieldProps("dateOfJoining")}
@@ -1199,13 +1226,15 @@ const validateRole = () => {
     />
     </Grid>
     <Grid item xs={6}>
-    <Select
+    <TextField
+                select
                 id="designation"
                 name='designation'
+                label="Designation*"
                 value={designation}
                 displayEmpty
                 defaultValue={data? data.designation: ""}
-                style={{width: '87.5%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 
                 onChange={handleDesignationChange}
                 error={Boolean(touched.designation && errors.designation)}
@@ -1220,7 +1249,7 @@ const validateRole = () => {
                     {option.name}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
               </Grid>
                  </Grid>
                  <Grid container spacing={1} style={{marginTop: 5}}>
@@ -1229,6 +1258,7 @@ const validateRole = () => {
                   fullWidth
                   id="commitedSalary"
                   autoComplete="commitedSalary"
+                  label="Commited Salary per Month*"
                   placeholder="Commited Salary per Month*"
                   error={Boolean(touched.salaryPerMonth && errors.salaryPerMonth)}
                 helperText={touched.salaryPerMonth && errors.salaryPerMonth}
@@ -1238,13 +1268,15 @@ const validateRole = () => {
                 />
                 </Grid>
                  <Grid item xs={6}>
-                <Select
+                <TextField
+                select
                 id="referredBy"
                 name='referredBy'
+                label="Agreement"
                 value={referredBy}
                 displayEmpty
                 defaultValue={data? data.referredBy: ""}
-                style={{width: '87.5%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 placeholder='Referred By'
                 onChange={handleReferredChange}
                 error={Boolean(touched.isAgreementDone && errors.isAgreementDone)}
@@ -1259,7 +1291,7 @@ const validateRole = () => {
                     {option.label}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
                 </Grid>
                 </Grid>
                 <Grid container spacing={1} style={{marginTop: 5}}>
@@ -1276,8 +1308,9 @@ const validateRole = () => {
                 <TextField
                   id="lastdayOfWork"
                   type="date"
+                  label="Last Day Of work*"
                   placeholder='*Last Day Of work'
-                  style={{width: '87.5%', marginLeft: 40}}
+                  style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -1287,12 +1320,14 @@ const validateRole = () => {
                 />
                 </Grid>
                 <Grid item xs={6}>
-              <Select
+              <TextField
+                select
                 id="noticedperiods"
+                label="Notice Period"
                 name='noticedPeriods'
                 value={noticePeriod}
                 displayEmpty
-                style={{width: '87.5%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 defaultValue={data? data.noticedPeriods: ""}
                 onChange={handleNoticePeriodChange}
                 // renderValue={(selected) => {
@@ -1306,14 +1341,14 @@ const validateRole = () => {
                 {...getFieldProps("noticePeriod")}
               >
                  <MenuItem disabled value="">
-              <em>Noticed Periods</em>
+              <em>Notice Period</em>
             </MenuItem>
                 {noticePeriodValue.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
               </Grid>
                 </Grid>
                 <Grid container spacing={1} style={{marginTop: 5}}>
@@ -1322,6 +1357,7 @@ const validateRole = () => {
                   fullWidth
                   id="note"
                   autoComplete="note"
+                  label="Note"
                   placeholder="Note"
                   error={Boolean(touched.note && errors.note)}
                   helperText={touched.note && errors.note}
@@ -1338,6 +1374,7 @@ const validateRole = () => {
                   fullWidth
                   id="bankName"
                   autoComplete="bankName"
+                  label="Bank Name*"
                   placeholder="Bank Name*"
                   error={Boolean(touched.bankName && errors.bankName)}
                   helperText={touched.bankName && errors.bankName}
@@ -1349,6 +1386,7 @@ const validateRole = () => {
                   fullWidth
                   id="account"
                   autoComplete="account"
+                  label="Account Number*"
                   placeholder="Account Number*"
                   error={Boolean(touched.accountNumber && errors.accountNumber)}
                   helperText={touched.accountNumber && errors.accountNumber}
@@ -1362,6 +1400,7 @@ const validateRole = () => {
                   fullWidth
                   id="IFSC"
                   autoComplete="IFSC"
+                  label="IFSC Code*"
                   placeholder="IFSC Code*"
                   error={Boolean(touched.ifscCode && errors.ifscCode)}
                   helperText={touched.ifscCode && errors.ifscCode}
@@ -1373,6 +1412,7 @@ const validateRole = () => {
                   fullWidth
                   id="panCard"
                   autoComplete="panCard"
+                  label="Pan Card*"
                   placeholder="Pan Card*"
                   error={Boolean(touched.panCardNumber && errors.panCardNumber)}
                   helperText={touched.panCardNumber && errors.panCardNumber}
@@ -1391,6 +1431,7 @@ const validateRole = () => {
                   fullWidth
                   id="userName"
                   autoComplete="userName"
+                  label="Username*"
                   placeholder="Username*"
                   error={Boolean(touched.username && errors.username)}
                   helperText={touched.username && errors.username}
@@ -1402,6 +1443,7 @@ const validateRole = () => {
                   fullWidth
                   id="password"
                   autoComplete="password"
+                  label="Password*"
                   placeholder="Password*"
                   error={Boolean(touched.password && errors.password)}
                   helperText={touched.password && errors.password}
@@ -1418,11 +1460,13 @@ const validateRole = () => {
           {deductionList?.map((value,index)=>(
               <Grid container spacing={1} style={{marginTop: 5}} key={index} >
               <Grid item xs={5}>
-              <Select
+              <TextField
+                select
                 id="pf"
                 name='pf'
+                label="Deduction Type*"
                 displayEmpty
-                style={{width: '87.5%', marginLeft: 40}}
+                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 defaultValue={data? data.noticedPeriods: ""}
                 onChange={(e)=>handleDeductionNameChange(e,index)}
                 value={value.deductionName}
@@ -1443,13 +1487,14 @@ const validateRole = () => {
                     {option.type}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
               </Grid>
               <Grid item xs={5}>
               <TextField
                   fullWidth
                   id="panCard"
                   autoComplete="panCard"
+                  label="Value"
                   placeholder="Enter Value"
                   value={value.deductionValue}
                   error={Boolean(value.errorValue)}
@@ -1481,12 +1526,14 @@ const validateRole = () => {
           {documentList?.map((value,index)=>(
             <Grid container spacing={1} style={{marginTop: 5}} key={index}>
             <Grid item xs={5}>
-            <Select
+            <TextField
+              select
+              label="Document Type*"
               id="aadharCard"
               name='aadharCard'
               value={value.documentName}
               displayEmpty
-              style={{width: '87.5%', marginLeft: 40}}
+              style={{width: '87.5%', marginLeft: 40,marginTop:5}}
               onChange={(e)=>handleDocumentNameChange(e,index)}
               error={Boolean(value.errorName)}
               helperText={value.errorName}
@@ -1505,7 +1552,7 @@ const validateRole = () => {
                   {option.type}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={5}>
             <TextField

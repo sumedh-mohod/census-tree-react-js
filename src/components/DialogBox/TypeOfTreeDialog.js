@@ -157,6 +157,7 @@ export default function CreateRoleDialog(props) {
                 fullWidth
                 id="typeOfTree"
                 // autoComplete="typeOfTree"
+                label="Type Of Tree*"
                 placeholder="Type Of Tree*"
                 error={Boolean(touched.treeType && errors.treeType)}
                 helperText={touched.treeType && errors.treeType}

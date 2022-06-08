@@ -166,6 +166,7 @@ const handleStatusChange = (event) => {
               <DefaultInput
                 fullWidth
                 id="designation"
+                label="Designation Name*"
                 autoComplete="designation"
                 placeholder="Enter Designation Name*"
                 error={Boolean(touched.designations && errors.designations)}

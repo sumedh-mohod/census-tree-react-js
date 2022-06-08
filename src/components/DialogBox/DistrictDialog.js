@@ -11,6 +11,8 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+
+import {TextField} from '@mui/material';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
@@ -191,6 +193,7 @@ export default function DistrictDialog(props) {
                 fullWidth
                 id="name"
                 autoComplete="name"
+                label="Name*"
                 placeholder="name*"
                 error={Boolean(touched.districts && errors.districts)}
                 helperText={touched.districts && errors.districts}
@@ -199,11 +202,13 @@ export default function DistrictDialog(props) {
             </Grid>
             <Grid item xs={12}>
              
-              <Select
+              <TextField
+              select
               id="state"
+              label="State*"
               // name='State'
               value={state}
-              style={{width:'83%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40,marginTop:5}}
               displayEmpty
               placeholder="select State*"
               onChange={handleStateChange}
@@ -227,7 +232,7 @@ export default function DistrictDialog(props) {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             
             </Grid>
           </Grid>

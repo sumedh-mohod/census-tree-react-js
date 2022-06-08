@@ -417,6 +417,7 @@ export default function CreateCouncilDialog(props) {
                 id="name"
                 autoComplete="name"
                 placeholder="Name*"
+                label="Name*"
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
                 {...getFieldProps("name")}
@@ -424,12 +425,14 @@ export default function CreateCouncilDialog(props) {
             </Grid>
                {/* <UploadButtons/> */}
                <Grid item xs={12}>
-              <Select
+              <TextField
+                select
                 id="state"
                 displayEmpty
                 // name="gender"
+                label="State*"
                 value={stateName}
-                style={{ width: '81%', marginLeft: 40 }}
+                style={{ width: '81%', marginLeft: 40,marginTop:5 }}
                 onChange={handleStateChange}
                 error={Boolean(touched.state && errors.state)}
                 helperText={touched.state && errors.state}
@@ -443,16 +446,18 @@ export default function CreateCouncilDialog(props) {
                     {option.name}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
             </Grid>
             <Grid item xs={12}>
-            <Select
+            <TextField
+              select
               id="district"
               // name='District'
+              label="District*"
               displayEmpty
               defaultValue={data? data.district : ""}
               value={district}
-              style={{width:'81%', marginLeft: 40}}
+              style={{width:'81%', marginLeft: 40,marginTop:5}}
               placeholder='*Select District'
             
               onChange={handleDistrictChange}
@@ -468,15 +473,17 @@ export default function CreateCouncilDialog(props) {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
-              <Select
+              <TextField
+                select
                 id="taluka"
                 displayEmpty
+                label="Taluka*"
                 // name="gender"
                 value={taluka}
-                style={{ width: '81%', marginLeft: 40 }}
+                style={{ width: '81%', marginLeft: 40,marginTop:5 }}
                 defaultValue={data ? data.taluka : ''}
                 onChange={handleTalukaChange}
                 error={Boolean(touched.taluka && errors.taluka)}
@@ -491,13 +498,14 @@ export default function CreateCouncilDialog(props) {
                     {option.name}
                   </MenuItem>
                 ))}
-              </Select>
+              </TextField>
             </Grid>
             <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="baseColorTarget"
                 autoComplete="name"
+                label="Base Color Target*"
                 placeholder="Enter Base Color Target*"
                 error={Boolean(touched.baseColorTarget && errors.baseColorTarget)}
                 helperText={touched.baseColorTarget && errors.baseColorTarget}
@@ -509,6 +517,7 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="censusTarget"
                 autoComplete="name"
+                label="Census Target*"
                 placeholder="Enter Census Target*"
                 error={Boolean(touched.censusTarget && errors.censusTarget)}
                 helperText={touched.censusTarget && errors.censusTarget}
@@ -516,12 +525,16 @@ export default function CreateCouncilDialog(props) {
               />
             </Grid>
             <Grid item xs={12}>
-            <Select
-              multiple
+            <TextField
+              select
+              SelectProps={{
+                multiple:true
+              }}
+              label="Zone*"
               displayEmpty
               value={zoneName}
               onChange={handleChange}
-              style={{ width: '81%', marginLeft: 40 }}
+              style={{ width: '81%', marginLeft: 40 , marginTop:5}}
               renderValue={(selected) => {
                 console.log("SELECTED",selected);
                 if (selected.length === 0) {
@@ -555,15 +568,19 @@ export default function CreateCouncilDialog(props) {
               {option.name}
             </MenuItem>
           ))}
-        </Select>
+        </TextField>
             </Grid>
             <Grid item xs={12}>
-            <Select
-              multiple
+            <TextField
+              select
+              SelectProps={{
+                multiple:true
+              }}
+              label="Ward*"
               displayEmpty
               value={wardName}
               onChange={handleWardChange}
-              style={{ width: '81%', marginLeft: 40 }}
+              style={{ width: '81%', marginLeft: 40, marginTop:5 }}
               renderValue={(selected) => {
                 if (selected.length === 0) {
                   return <em>Ward*</em>;
@@ -595,7 +612,7 @@ export default function CreateCouncilDialog(props) {
               {option.name}
             </MenuItem>
           ))}
-        </Select>
+        </TextField>
             </Grid>
             <Divider />
             {!data?
@@ -609,6 +626,7 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="firstName"
                  autoComplete="firstName"
+                 label="First Name*"
                   placeholder="Enter First Name*"
                   error={Boolean(touched.firstName && errors.firstName)}
                 helperText={touched.firstName && errors.firstName}
@@ -620,6 +638,7 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="middleName"
                  autoComplete="middleName"
+                 label="Middle Name*"
                   placeholder="Enter Middle Name*"
                   error={Boolean(touched.middleName && errors.middleName)}
                 helperText={touched.middleName && errors.middleName}
@@ -631,6 +650,7 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="lName"
                  autoComplete="lName"
+                 label="Last Name*"
                   placeholder="Enter Last Name*"
                   error={Boolean(touched.lastName && errors.lastName)}
                 helperText={touched.lastName && errors.lastName}
@@ -642,6 +662,7 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="email"
                  autoComplete="email"
+                 label="Email*"
                   placeholder="Enter Email*"
                   error={Boolean(touched.email && errors.email)}
                 helperText={touched.email && errors.email}
@@ -653,6 +674,7 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="contact"
                 autoComplete="contact"
+                label="Mobile Number*"
                 placeholder="Enter Mobile No*"
                 error={Boolean(touched.mobile && errors.mobile)}
                 helperText={touched.mobile && errors.mobile}
@@ -665,6 +687,7 @@ export default function CreateCouncilDialog(props) {
                 id="username"
                 autoComplete="username"
                 placeholder="Enter UserName*"
+                label="Username*"
                 error={Boolean(touched.username && errors.username)}
                 helperText={touched.username && errors.username}
                 {...getFieldProps("username")}
@@ -675,6 +698,7 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="password"
                 autoComplete="password"
+                label="Password*"
                 placeholder="Password*"
                 error={Boolean(touched.password && errors.password)}
                 helperText={touched.password && errors.password}
@@ -709,7 +733,7 @@ export default function CreateCouncilDialog(props) {
               
               <TextField
                   fullWidth
-                  style={{width: '81%', marginLeft: 40}}
+                  style={{width: '81%', marginLeft: 40,marginTop:5}}
                   id="logo"
                   type={"file"}
                   autoComplete="amount"

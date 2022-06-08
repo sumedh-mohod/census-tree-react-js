@@ -166,6 +166,7 @@ const handleStatusChange = (event) => {
                 id="state"
                 autoComplete="state"
                 placeholder="Enter State Name*"
+                label="State Name*"
                 // defaultValue={values? values.state : ""}
                 // onChange = {(e)=>{console.log("Value",e.target.value)}}
                 error={Boolean(touched.state && errors.state)}
