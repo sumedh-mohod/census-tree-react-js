@@ -194,7 +194,7 @@ export default function DistrictDialog(props) {
                 id="name"
                 autoComplete="name"
                 label="Name*"
-                placeholder="name*"
+                placeholder="Name*"
                 error={Boolean(touched.districts && errors.districts)}
                 helperText={touched.districts && errors.districts}
                 {...getFieldProps("districts")}

@@ -133,7 +133,7 @@ export default function TeamsTableDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add Teams</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Add Team</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>

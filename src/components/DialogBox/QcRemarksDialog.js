@@ -63,15 +63,15 @@ export default function DistrictDialog(props) {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [state, setState]=  React.useState("State");
-  const [remarkFor, setRemarkFor]=  React.useState("Census");
+  const [remarkFor, setRemarkFor]=  React.useState("");
 
   const RemarkForValue = [
       {
-      id : "baseColor",
+      id : "Base Color",
       name: "Base Color"
       },
       {
-        id : "census",
+        id : "Census",
         name: "Census"
         },
   ]
@@ -218,6 +218,11 @@ export default function DistrictDialog(props) {
               onChange={handleRemarksForChange}
               //   return findValue(states,state)
               // }}
+              renderValue={(selected) => {
+                //   console.log("SELECTED",state);
+                //   if (selected.length === 0) {
+                    return  <em>Remark For*</em>;
+                  }}
               // error={Boolean(touched.state && errors.state)}
               //   helperText={touched.state && errors.state}
                 {...getFieldProps("remarkFor")}

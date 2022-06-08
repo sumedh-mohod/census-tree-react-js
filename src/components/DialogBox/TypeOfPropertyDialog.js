@@ -57,7 +57,28 @@ export default function TypeOfPropertyDialog(props) {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [status, setStatus] = React.useState('Status')
+  const [locationType, setLocationType] = React.useState('')
+
   const { isOpen, data } = props;
+
+  const locationTypeValue = [
+     {
+      value: "Rice Field",
+      label: "Rice Field"
+     },
+     {
+      value: "Seashore",
+      label: "Seashore"
+     },
+     {
+      value: "Mountainside",
+      label: "Mountainside"
+     },
+     {
+      value: "Garbage dump",
+      label: "Garbage dump"
+     },
+  ]
 
   const {
     propertyTypes,
@@ -92,6 +113,11 @@ export default function TypeOfPropertyDialog(props) {
       // @ts-expect-error autofill of arbitrary value is not handled.
       event.target.value,
     );
+  };
+  const handleLocationTypeChange = (event) => {
+    // const states = {label:event.target.label,value:event.target.value}
+    setLocationType(event.target.value)
+    // setState(event.target.value);
   };
 
   const DesignationsSchema = Yup.object().shape({
@@ -138,6 +164,38 @@ export default function TypeOfPropertyDialog(props) {
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
+        <Grid item xs={12}>
+             
+             <Select
+             id="locationType"
+             // name='State'
+             value={locationType}
+             style={{width:'83%', marginLeft: 40}}
+             displayEmpty
+             placeholder="Location Type*"
+             onChange={handleLocationTypeChange}
+                renderValue={(selected) => {
+              //   console.log("SELECTED",state);
+              //   if (selected.length === 0) {
+                  return  <em>Location Type*</em>;
+                }}
+             //   return findValue(states,state)
+             // }}
+             // error={Boolean(touched.state && errors.state)}
+             //   helperText={touched.state && errors.state}
+               {...getFieldProps("remarkFor")}
+           >
+              <MenuItem >
+           <em>Location Type*</em>
+         </MenuItem>
+             {locationTypeValue.map((option) => (
+               <MenuItem >
+                 {option.label}
+               </MenuItem>
+             ))}
+           </Select>
+           
+           </Grid>
         <Grid item xs={12}>
               <DefaultInput
                 fullWidth
