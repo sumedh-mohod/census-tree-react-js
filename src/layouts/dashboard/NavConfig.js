@@ -19,7 +19,7 @@ const navConfig = [
   {
       title: 'Teams',
       path: '/dashboard/teams',
-      icon: getIcon('eva:shopping-bag-fill'),
+      icon: getIcon('bxl:microsoft-teams'),
 
   },
   {
@@ -85,6 +85,11 @@ const navConfig = [
       {
         title: 'Tree Density',
         path: '/dashboard/treeDensity',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Qc Remaks',
+        path: '/dashboard/qcRemarks',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {

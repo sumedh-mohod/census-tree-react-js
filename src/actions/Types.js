@@ -67,6 +67,12 @@ export const ADD_TREEDENSITY = "add-treedensity";
 export const DELETE_TREEDENSITY = "delete-treedensity";
 // export const GET_TREEDENSITY_BY_STATE_ID = "get-districts-by-state-id";
 
+export const GET_QCREMARKS = "get-qcremarks";
+export const EDIT_QCREMARKS = "edit-qcremarks";
+export const ADD_QCREMARKS = "add-qcremarks";
+export const DELETE_QCREMARKS = "delete-qcremarks";
+// export const GET_DISTRICTS_BY_STATE_ID = "get-districts-by-state-id";
+
 export const GET_WARDS = "get-wards";
 export const EDIT_WARDS = "edit-wards";
 export const ADD_WARDS = "add-wards";

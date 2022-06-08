@@ -18,11 +18,13 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { AddDesignations, EditDesignations } from '../../actions/DesignationAction';
+import { AddQcRemarks, EditQcRemarks, GetQcRemarks } from '../../actions/QcRemarksAction';
 import DefaultInput from '../Inputs/DefaultInput';
+import { LoginUser } from '../../actions/AuthActions';
+
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -53,35 +55,51 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CreateDesignationDialog(props) {
+export default function DistrictDialog(props) {
   const dispatch = useDispatch();
+  const { isOpen, data } = props;
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
-  const [status, setStatus] = React.useState('Status')
-  const { isOpen, data } = props;
+  const [state, setState]=  React.useState("State");
+  const [remarkFor, setRemarkFor]=  React.useState("Census");
 
+  const RemarkForValue = [
+      {
+      id : "baseColor",
+      name: "Base Color"
+      },
+      {
+        id : "census",
+        name: "Census"
+        },
+  ]
+  
   const {
-    designations,
-    addDesignationsLog,
-    editDesignationsLog,
-
-  } = useSelector((state) => ({
-    designations:state.designations.designations,
-    addDesignationsLog:state.designations.addDesignationsLog,
-    editDesignationsLog:state.designations.editDesignationsLog,
+    addQcRemarksLog,
+    editQcRemarksLog,
+    qcremarks,
+    // states,
+  } = useSelector((remark) => ({
+    addQcRemarksLog:remark.qcRemarksTypes.addQcRemarksLog,
+    editQcRemarksLog:remark.qcRemarksTypes.editQcRemarksLog,
+    qcremarks:remark.qcRemarksTypes.qcremarks,
   }));
 
-  const statusValue = [
-    {
-      value: 'active',
-      label: 'Active',
-    },
-    {
-      value: 'inactive',
-      label: 'InActive',
-    },
-  ];
+  console.log('qcremarks', qcremarks)
+
+  useEffect(()=>{
+    dispatch(GetQcRemarks(1,1000,1));
+    console.log('qcremarks', qcremarks)
+  },[])
+
+
+  useEffect(()=>{
+    if(data){
+      setState(data.qcremarks_id);
+    }
+    
+  },[data])
 
   const firstRun = React.useRef(true);
   useEffect(()=>{
@@ -89,12 +107,25 @@ export default function CreateDesignationDialog(props) {
       firstRun.current = false;
       return;
     }
-    props.handleClose();
-  },[addDesignationsLog,editDesignationsLog])
+    props.handleClose()
+  },[addQcRemarksLog,editQcRemarksLog])
 
-const handleStatusChange = (event) => {
-    setStatus(event.target.value);
+  const handleRemarksForChange = (event) => {
+    // const states = {label:event.target.label,value:event.target.value}
+    setRemarkFor(event.target.value)
+    // setState(event.target.value);
   };
+
+  const findValue = (listOfObj,id) => {
+    console.log("LIST OF OBJ",listOfObj);
+    console.log("ID",id);
+    const found = listOfObj.find(e => e.id === id);
+    console.log("FOUND",found);
+    if(found){
+      return found.name
+    }
+    
+  }
 
   const handleClose = () => {
     props.handleClose();
@@ -105,10 +136,6 @@ const handleStatusChange = (event) => {
     setOpen(true);
   };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
   const handleMaxWidthChange = (event) => {
     setMaxWidth(
       // @ts-expect-error autofill of arbitrary value is not handled.
@@ -116,34 +143,37 @@ const handleStatusChange = (event) => {
     );
   };
 
-  const DesignationsSchema = Yup.object().shape({
-    designations: Yup.string().required('Designations is required'),
+  const QcRemarksSchema = Yup.object().shape({
+    remarks: Yup.string().required('Remarks is required'),
+    remarkFor: Yup.string().required('RemarkFor is required'),
   });
 
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      designations:data? data.name : "",
+      remarks:data? data.remark : "",
+      remarkFor:data?data.remark_for:""
     },
-    validationSchema: DesignationsSchema,
+    validationSchema: QcRemarksSchema,
     onSubmit: (value) => {
       console.log("VALUE",value);
       if(data){
-        dispatch(EditDesignations({
-          "name":value.designations,
+        dispatch(EditQcRemarks({
+          "remark":value.remarks,
+          "remark_for":value.remarkFor
         },data.id))
       }
       else {
-        dispatch(AddDesignations({
-          "name":value.designations,
+        dispatch(AddQcRemarks({
+          "remark":value.remarks,
+          "remark_for":value.remarkFor
         }))
       }
     },
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
 
 
   return (
@@ -158,20 +188,47 @@ const handleStatusChange = (event) => {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>{data? `Edit Designation` : `create Designation`}</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Add QC Remarks</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
         <Grid item xs={12}>
               <DefaultInput
                 fullWidth
-                id="designation"
-                autoComplete="designation"
-                placeholder="Enter Designation Name*"
-                error={Boolean(touched.designations && errors.designations)}
-                helperText={touched.designations && errors.designations}
-                {...getFieldProps("designations")}
+                id="remark"
+                autoComplete="remark"
+                placeholder="Remark*"
+                error={Boolean(touched.remarks && errors.remarks)}
+                helperText={touched.remarks && errors.remarks}
+                {...getFieldProps("remarks")}
               />
+            </Grid>
+            <Grid item xs={12}>
+             
+              <Select
+              id="remarkFor"
+              // name='State'
+              value={remarkFor}
+              style={{width:'83%', marginLeft: 40}}
+              displayEmpty
+              placeholder="Remark for*"
+              onChange={handleRemarksForChange}
+              //   return findValue(states,state)
+              // }}
+              // error={Boolean(touched.state && errors.state)}
+              //   helperText={touched.state && errors.state}
+                {...getFieldProps("remarkFor")}
+            >
+               <MenuItem >
+            <em>Remark For*</em>
+          </MenuItem>
+              {RemarkForValue?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
+                </MenuItem>
+              ))}
+            </Select>
+            
             </Grid>
           </Grid>
         </DialogContent>
