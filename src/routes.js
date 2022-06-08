@@ -33,6 +33,7 @@ import NewUserForm from './pages/NewUserForm';
 import LocationType from './pages/Master/LocationType';
 import TreeDensity from './pages/Master/TreeDensity';
 import ViewUser from './pages/Users/ViewUser';
+import QcRemarks from './pages/Master/QcRemarks';
 
 // ----------------------------------------------------------------------
 
@@ -60,6 +61,7 @@ export default function Router() {
         { path: 'typeOfProperty', element: <TypeOfProperty /> },   
         { path: 'locationType', element: <LocationType /> }, 
         { path: 'TreeDensity', element: <TreeDensity /> },
+        { path: 'qcRemarks', element: <QcRemarks /> },
         { path: 'typeOfHouse', element: <TypeOfHouse /> },
         { path: 'zone', element: <Zone /> },
         { path: 'ward', element: <Ward /> },
@@ -67,8 +69,8 @@ export default function Router() {
         { path: 'denied-entry', element: <DeniedEntry /> },
         { path: 'base-color/history', element: <BaseColorHistory /> },
         { path: 'teams', element: <TeamsList /> },
-        { path: 'assignNewCouncilZoneWard/:teamId', element: <AssignNewCouncilZoneWard /> },
-        { path: 'assignUser', element: <AssignUser/> },
+        { path: 'assignNewCouncilZoneWard/:teamId/:teamName', element: <AssignNewCouncilZoneWard /> },
+        { path: 'assignUser/:teamId/:teamName', element: <AssignUser/> },
         { path: 'newUserFrom', element: <NewUserForm/> },
       ],
     },

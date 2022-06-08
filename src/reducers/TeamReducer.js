@@ -46,7 +46,8 @@ import {  ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZ
         case GET_CZW_BY_TEAM:
           return{
               ...state,
-              cwzOfTeam: payload.data,
+              cwzOfTeam: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ASSIGN_CZW_TO_TEAM:
@@ -63,7 +64,8 @@ import {  ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZ
         case GET_USERS_BY_TEAM:
           return{
               ...state,
-              userOfTeam: payload.data,
+              userOfTeam: payload.data.data,
+              pageInfo: payload.data
         };
 
         case ASSIGN_USERS_TO_TEAM:

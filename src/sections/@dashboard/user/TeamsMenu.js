@@ -44,13 +44,13 @@ export default function TeamsMenu(props) {
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        <MenuItem component={RouterLink}  to={`/dashboard/assignNewCouncilZoneWard/${props.id}`} sx={{ color: 'text.secondary' }} onClick={handleClose}>
+        <MenuItem component={RouterLink}  to={`/dashboard/assignNewCouncilZoneWard/${props.id}/${props.name}`} sx={{ color: 'text.secondary' }} onClick={handleClose}>
           <ListItemIcon>
             <Iconify icon="ic:round-assignment-turned-in" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Assigned C-Z-W" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        <MenuItem component={RouterLink} to="/dashboard/assignUser" sx={{ color: 'text.secondary' }} onClick={handleClose}>
+        <MenuItem component={RouterLink} to={`/dashboard/assignUser/${props.id}/${props.name}`} sx={{ color: 'text.secondary' }} onClick={handleClose}>
           <ListItemIcon>
             <Iconify icon="clarity:assign-user-solid" width={24} height={24} />
           </ListItemIcon>

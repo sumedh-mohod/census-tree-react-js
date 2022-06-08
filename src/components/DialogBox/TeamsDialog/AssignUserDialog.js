@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,7 +18,11 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
 import AssignUserConfirmationDialog from './AssignUserConfirmationDialog';
+import { GetUsers } from '../../../actions/UserAction';
+import { AddUserToTeam } from '../../../actions/TeamsAction';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -49,21 +54,47 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function AssignUserDialog(props) {
+
+  const dispatch = useDispatch();
+
     const roleName = [
         'analyst',
         'Admin',
         'Super Admin',
         'Tree Counting',
       ];
+  const { isOpen, data, isOpenConfirm,teamId } = props;
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const[state, setState]=  React.useState('');
   const [role, setRole] = React.useState([]);
-  const { isOpen, data } = props;
   const [topModalOpen, setTopModalOpen] = React.useState(false);
   const [reqObj, setReqObj] = React.useState(null)
   const [id, setId] = React.useState(null)
+
+  const {
+    users,
+    assignUserToTeamLog,
+  } = useSelector((state) => ({
+    users:state.users.users,
+    assignUserToTeamLog:state.teams.assignUserToTeamLog,
+  }));
+
+  React.useEffect(()=>{
+    dispatch(GetUsers(1,1000));
+  },[])
+
+  const firstRun = React.useRef(true);
+  React.useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    props.handleClose()
+  },[assignUserToTeamLog])
+
+
 
   const handleRoleChange = (event) => {
     const {
@@ -106,20 +137,69 @@ export default function AssignUserDialog(props) {
     );
   };
 
+
+  const DistrictsSchema = Yup.object().shape({
+    user: Yup.array().min(1,'User is required'),
+  });
+
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      user:data? data.user_id : [],
+      
+    },
+    validationSchema: DistrictsSchema,
+    onSubmit: (value) => {
+      handleTopModalClose();
+
+      if(data){
+        setReqObj({
+          "team_id": teamId,
+          "users":value.user,
+        })
+  
+        setId(data.id);
+      }
+
+      else {
+
+        setReqObj({
+          "team_id": teamId,
+          "users": value.user
+        })
+      }
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
+
+
+
   const handleTopModalClose = () => {
     setTopModalOpen(!topModalOpen)
   }
 
   const handleTopModalAnswer = (answer) => {
     if(answer){
+      console.log("REQ OBJ",reqObj);
       if(data){
-          //  dispatch(AddCZWToTeam(reqObj,id))
+           dispatch(AddUserToTeam(reqObj))
       }
       else {
-        // dispatch(AddCZWToTeam(reqObj))
+        dispatch(AddUserToTeam(reqObj))
       }
     }
     setTopModalOpen(!topModalOpen)
+  }
+
+  const findValue = (listOfObj,id) => {
+    const found = listOfObj.find(e => e.id === id);
+    console.log("FOUND",found);
+    if(found){
+      return found.first_name
+    }
+    
   }
 
   return (
@@ -151,24 +231,36 @@ export default function AssignUserDialog(props) {
                 value={role}
                 style={{ width: '83%', marginLeft: 40 }}
                 defaultValue={data ? data.role : ''}
-                onChange={handleRoleChange}
                 renderValue={(selected) => {
+                  console.log("SELECTED",selected);
                   if (selected.length === 0) {
-                    return <em>User</em>;
+                    return <em>User*</em>;
                   }
-                  return selected.join(', ');
+                  const result = [];
+                  selected.map((value)=>{
+                    const found = findValue(users,value);
+                    result.push(found);
+                    return null;
+                  })
+                  
+  
+                  return result.join(",");
                 }}
+                error={Boolean(touched.user && errors.user)}
+                  helperText={touched.user && errors.user}
+                // MenuProps={MenuProps}
+                {...getFieldProps("user")}
               >
            <MenuItem disabled value="">
-            <em>User</em>
+            <em>User*</em>
           </MenuItem>
-          {roleName.map((name) => (
+          {users?.map((option) => (
             <MenuItem
-              key={name}
-              value={name}
+              key={option.id}
+              value={option.id}
               // style={getStyles(name, personName, theme)}
             >
-              {name}
+              {option.first_name}
             </MenuItem>
           ))}
               </Select>
@@ -177,7 +269,7 @@ export default function AssignUserDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

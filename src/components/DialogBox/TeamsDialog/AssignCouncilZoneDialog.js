@@ -20,6 +20,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { AddCZWToTeam } from '../../../actions/TeamsAction';
 import AssignNewZoneWardConfirmationDialog from './AssignNewZoneWardConfirmationDialog';
+import { GetCouncil } from '../../../actions/CouncilAction';
+import { GetZones, GetZonesByCouncilId } from '../../../actions/ZonesAction';
+import { GetWards, GetWardsByCouncilId } from '../../../actions/WardsActions';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -103,6 +106,8 @@ export default function AssignCouncilZoneDialog(props) {
   const [topModalOpen, setTopModalOpen] = React.useState(false);
   const [reqObj, setReqObj] = React.useState(null)
   const [id, setId] = React.useState(null)
+  const [showSubMenu, setShowSubMenu] = React.useState(false)
+  const [showInitial, setShowInitial] = React.useState(false)
   
   const {
     council,
@@ -120,26 +125,46 @@ export default function AssignCouncilZoneDialog(props) {
     
   }));
 
+  useEffect(()=>{
+    dispatch(GetCouncil(1,1000));
+    
+  },[])
+
+  useEffect(()=>{
+    if(data){
+      setShowSubMenu(true);
+      dispatch(GetZones(1,1000));
+      dispatch(GetWards(1,1000));
+    }
+  },[data])
+
+
   const firstRun = React.useRef(true);
   useEffect(()=>{
     if (firstRun.current) {
       firstRun.current = false;
       return;
     }
+    setShowInitial(false);
     props.handleClose()
-  },[assignCWZToTeamLog,deleteCWZFromteamLog])
+  },[assignCWZToTeamLog])
   
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
   const handleCouncilName = (event) => {
+    dispatch(GetZonesByCouncilId(1,1000,event.target.value))
+    dispatch(GetWardsByCouncilId(1,1000,event.target.value))
+    setShowSubMenu(true);
     setCouncilName(event.target.value);
+    setShowInitial(true)
   };
   const handleConfirmationDialogClick = () => {
     console.log("hiiii")
     setOpen(open)
   }
   const handleClose = () => {
+    setShowInitial(false);
     props.handleClose();
   };
 
@@ -162,8 +187,10 @@ export default function AssignCouncilZoneDialog(props) {
     enableReinitialize: true,
     initialValues: {
       council:data? data.council_id : "",
-      zones:data?data.zone_id:"",
-      wards:data?data.ward_id:""
+      // eslint-disable-next-line no-nested-ternary
+      zones:data?showInitial?"":data.zone_id:"",
+      // eslint-disable-next-line no-nested-ternary
+      wards:data?showInitial?"": data.ward_id:""
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
@@ -206,7 +233,7 @@ export default function AssignCouncilZoneDialog(props) {
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
 
 
   const handleTopModalClose = () => {
@@ -240,13 +267,17 @@ export default function AssignCouncilZoneDialog(props) {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <Select
-                id="councilName"
+                id="council"
+                name="council"
                 displayEmpty
                 // name="role"
-                value={councilName}
+                value={values.council}
                 style={{ width: '83%', marginLeft: 40 }}
                 defaultValue={data ? data.councilName : ''}
-                onChange={handleCouncilName}
+                onChange={(e) => {
+                  handleCouncilName(e)
+                  formik.handleChange(e);
+                }}
                 // renderValue={(selected) => {
                 //   if (selected.length === 0) {
                 //     return <em>Select Council Name</em>;
@@ -255,7 +286,7 @@ export default function AssignCouncilZoneDialog(props) {
                 // }}
                 error={Boolean(touched.council && errors.council)}
                 helperText={touched.council && errors.council}
-                {...getFieldProps("council")}
+                
               >
                  <MenuItem disabled value="">
               <em>*Select Council Name</em>
@@ -283,11 +314,11 @@ export default function AssignCouncilZoneDialog(props) {
           <MenuItem disabled value="">
             <em>*Select Zone</em>
           </MenuItem>
-                {zones?.map((option) => (
+                {showSubMenu?zones?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
-                ))}
+                )):null}
         </Select>
             </Grid>
             <Grid item xs={12}>
@@ -306,11 +337,11 @@ export default function AssignCouncilZoneDialog(props) {
           <MenuItem disabled value="">
             <em>*Select Ward</em>
           </MenuItem>
-          {wards?.map((option) => (
+          {showSubMenu?wards?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
-                ))}
+                )):null}
         </Select>
             </Grid>
           </Grid>

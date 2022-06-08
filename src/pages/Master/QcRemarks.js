@@ -1,11 +1,12 @@
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import {
-  Avatar,
-  Button,
   Card,
   Table,
+  Stack,
+  Avatar,
+  Button,
   Checkbox,
   TableRow,
   TableBody,
@@ -14,33 +15,26 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  Stack,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetCouncil } from '../../actions/CouncilAction';
-import { GetZones } from '../../actions/ZonesAction';
-import { GetWards } from '../../actions/WardsActions';
-import { DeleteCZWFromTeam, GetCZWByTeam, SearchCZWByTeam } from '../../actions/TeamsAction';
+import QcRemarksDialog from '../../components/DialogBox/QcRemarksDialog'
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
-import { UserListHead, UserListToolbar, TeamsAssignedMenu } from '../../sections/@dashboard/user';
+import SearchNotFound from '../../components/SearchNotFound';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
-import TeamsData from  '../../components/JsonFiles/TeamsData.json';
-import AssignCouncilZoneDialog from "../../components/DialogBox/TeamsDialog/AssignCouncilZoneDialog";
+import UserTableData from  '../../components/JsonFiles/UserTableData.json';
+import { DeleteQcRemarks, GetQcRemarks, SearchQcRemarks} from '../../actions/QcRemarksAction';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'council', label: 'Council', alignRight: false },
-  { id: 'zone', label: 'Zone', alignRight: false },
-  { id: 'ward', label: 'Ward', alignRight: false },
-  { id: 'fromDate', label: 'From Date', alignRight: false },
-  { id: 'todate', label: 'To Date', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'remark', label: 'Remark', alignRight: false },
+  { id: 'remarkFor', label: 'Remark For', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -75,36 +69,38 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function AssignNewCouncilZoneWard() {
+export default function District() {
 
   const dispatch = useDispatch();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
-  const [dialogData,setDialogData] = useState(null);
-  const [search,setSearch] = useState(false);
+   const [close, setClose] = useState();
+   const [dialogData,setDialogData] = useState(null);
+   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
-  
-  const {
-    cwzOfTeam,
-    assignCWZToTeamLog,
-    deleteCWZFromteamLog,
+
+   const {
+    qcremarks,
+    addQcRemarksLog,
+    editQcRemarksLog,
+    deleteQcRemarksLog,
     pageInfo
   } = useSelector((state) => ({
-    cwzOfTeam:state.teams.cwzOfTeam,
-    assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
-    deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog,
-    pageInfo : state.teams.pageInfo
+    qcremarks:state.qcRemarksTypes.districts,
+    addQcRemarksLog:state.qcRemarksTypes.addQcRemarksLog,
+    editQcRemarksLog:state.qcRemarksTypes.editQcRemarksLog,
+    deleteQcRemarksLog:state.qcRemarksTypes.deleteQcRemarksLog,
+    pageInfo : state.qcRemarksTypes.pageInfo
   }));
 
-  console.log("CWZ of team",cwzOfTeam)
-  const { teamId,teamName } = useParams();
-  
-  useEffect(()=>{
-    dispatch(GetCZWByTeam(teamId,page+1,rowsPerPage));
-  },[assignCWZToTeamLog,deleteCWZFromteamLog])
+  console.log("QCREMARKS",qcremarks)
 
+  useEffect(()=>{
+    dispatch(GetQcRemarks(page+1,rowsPerPage));
+  },[addQcRemarksLog,editQcRemarksLog,deleteQcRemarksLog])
 
   useEffect(()=>{
     if(pageInfo){
@@ -117,34 +113,36 @@ export default function AssignNewCouncilZoneWard() {
     setOpen(!open)
   }
 
-  const handleEdit = (data) => {
-    setDialogData(data);
-    setOpen(!open);
-  };
-
-  const handleDelete = (data) => {
-    dispatch(DeleteCZWFromTeam(data.id,data.status?0:1));
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchCZWByTeam(teamId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchQcRemarks(newPage+1,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetCZWByTeam(teamId,newPage+1,rowsPerPage));
+      dispatch(GetQcRemarks(newPage+1,rowsPerPage));
     }
+    
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
     if(search){
-      dispatch(SearchCZWByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
+      dispatch(SearchQcRemarks(1,parseInt(event.target.value, 10),searchValue));
     }
     else {
-      dispatch(GetCZWByTeam(teamId,1,parseInt(event.target.value, 10)));
+      dispatch(GetQcRemarks(1,parseInt(event.target.value, 10)));
     }
+    
+  };
+
+  const handleEdit = (data) => {
+    setDialogData(data);
+    setOpen(!open);
+  };
+
+  const handleDelete = (data) => {
+    dispatch(DeleteQcRemarks(data.id,data.status?0:1));
   };
 
   let timer = null;
@@ -154,14 +152,14 @@ export default function AssignNewCouncilZoneWard() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
-          dispatch(SearchCZWByTeam(teamId,1,rowsPerPage,value))
+          dispatch(SearchQcRemarks(1,rowsPerPage,value))
           setSearch(true)
           setPage(0)
           setSearchValue(value);
 
         }
         else{
-          dispatch(GetCZWByTeam(teamId,1,rowsPerPage));
+          dispatch(GetQcRemarks(1,rowsPerPage));
           setSearch(false);
           setPage(0);
           setSearchValue("")
@@ -173,24 +171,23 @@ export default function AssignNewCouncilZoneWard() {
   return (
     <Page title="User">
       <Container>
-      <AssignCouncilZoneDialog
+        <QcRemarksDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
-        data= {dialogData}
-        teamId={teamId}
+        data = {dialogData}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          Assigned C-Z-W({teamName})
+          QC Remarks
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-          Assigned C-Z-W
+            Add New
 
           </Button>
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search c-z-w..."} onFilterName={filterByName}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search QcRemarks..."} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -198,20 +195,18 @@ export default function AssignNewCouncilZoneWard() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { cwzOfTeam?.map((option,index) => {
-                        return (                                                                      
+                     { qcremarks?.map((option,index) => {
+                        return (
                         <TableRow
                         hover
                       >
-                        <TableCell align="left">{index+1}</TableCell>
-                        <TableCell align="left">{option.council_name}</TableCell>
-                        <TableCell align="left">{option.zone_name}</TableCell>
-                        <TableCell align="left">{option.ward_name}</TableCell>
-                        <TableCell align="left">{option.form_date}</TableCell>
-                        <TableCell align="left">{option.to_date?option.to_date:"-"}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">
+                              {option.remark}
+                            </TableCell>
+                        <TableCell align="left">{option.remark_for?.name}</TableCell>
                         <TableCell align="right">
-                          <TeamsAssignedMenu status={option.status}  handleDelete={()=>handleDelete(option)}/>
+                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )
