@@ -27,7 +27,7 @@ export default function AssignUserConfirmationDialog(props) {
   return (
     <div>
       <Dialog
-        open={open}
+        open={isOpenConfirm}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

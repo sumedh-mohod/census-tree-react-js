@@ -22,8 +22,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteTeam, GetTeam, SearchTeam,GetTeamByFilter } from '../../actions/TeamsAction';
 import { GetCouncil } from '../../actions/CouncilAction';
-import { GetZones } from '../../actions/ZonesAction';
-import { GetWards } from '../../actions/WardsActions';
+import { GetZones, GetZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetWards, GetWardsByCouncilId } from '../../actions/WardsActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -206,8 +206,12 @@ export default function TeamsList() {
 
   const handleCoucilChange = (e) => {
     setCouncilId(e.target.value);
+    setZoneId("")
+    setWardId("")
     setPage(0);
-    dispatch(GetTeamByFilter(1,rowsPerPage,e.target.value,zoneId,wardId))
+    dispatch(GetTeamByFilter(1,rowsPerPage,e.target.value,null,null))
+    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
+    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
   }
 
   const handleWardChange = (e) => {
@@ -251,7 +255,7 @@ export default function TeamsList() {
                 displayEmpty
                 // name="gender"
                 value={coucilId}
-                style={{ width: '70%', marginLeft: 70, height: 45}}
+                style={{ width: '95%', marginLeft: 70, height: 45}}
                 onChange={handleCoucilChange}
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
@@ -330,7 +334,7 @@ export default function TeamsList() {
                         <TableCell align="left">{option?.ward}</TableCell>
                         {/* <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell> */}
                         <TableCell align="right">
-                          <TeamsMenu id={option.id} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <TeamsMenu id={option.id} name={option.name} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         ))
