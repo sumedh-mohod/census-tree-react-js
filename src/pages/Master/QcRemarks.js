@@ -27,7 +27,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@das
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import { DeleteDistricts, GetAllDistricts, SearchDistricts} from '../../actions/MasterActions';
+import { DeleteQcRemarks, GetQcRemarks, SearchQcRemarks} from '../../actions/QcRemarksAction';
 
 // ----------------------------------------------------------------------
 
@@ -83,24 +83,24 @@ export default function District() {
    const [searchValue,setSearchValue] = useState("");
 
    const {
-    districts,
-    addDistrictsLog,
-    editDistrictsLog,
-    deleteDistrictsLog,
+    qcremarks,
+    addQcRemarksLog,
+    editQcRemarksLog,
+    deleteQcRemarksLog,
     pageInfo
   } = useSelector((state) => ({
-    districts:state.master.districts,
-    addDistrictsLog:state.master.addDistrictsLog,
-    editDistrictsLog:state.master.editDistrictsLog,
-    deleteDistrictsLog:state.master.deleteDistrictsLog,
-    pageInfo : state.master.pageInfo
+    qcremarks:state.qcRemarksTypes.districts,
+    addQcRemarksLog:state.qcRemarksTypes.addQcRemarksLog,
+    editQcRemarksLog:state.qcRemarksTypes.editQcRemarksLog,
+    deleteQcRemarksLog:state.qcRemarksTypes.deleteQcRemarksLog,
+    pageInfo : state.qcRemarksTypes.pageInfo
   }));
 
-  console.log("DISTRICTS",districts)
+  console.log("QCREMARKS",qcremarks)
 
   useEffect(()=>{
-    dispatch(GetAllDistricts(page+1,rowsPerPage));
-  },[addDistrictsLog,editDistrictsLog,deleteDistrictsLog])
+    dispatch(GetQcRemarks(page+1,rowsPerPage));
+  },[addQcRemarksLog,editQcRemarksLog,deleteQcRemarksLog])
 
   useEffect(()=>{
     if(pageInfo){
@@ -116,10 +116,10 @@ export default function District() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchDistricts(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchQcRemarks(newPage+1,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetAllDistricts(newPage+1,rowsPerPage));
+      dispatch(GetQcRemarks(newPage+1,rowsPerPage));
     }
     
   };
@@ -128,10 +128,10 @@ export default function District() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
     if(search){
-      dispatch(SearchDistricts(1,parseInt(event.target.value, 10),searchValue));
+      dispatch(SearchQcRemarks(1,parseInt(event.target.value, 10),searchValue));
     }
     else {
-      dispatch(GetAllDistricts(1,parseInt(event.target.value, 10)));
+      dispatch(GetQcRemarks(1,parseInt(event.target.value, 10)));
     }
     
   };
@@ -142,7 +142,7 @@ export default function District() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteDistricts(data.id,data.status?0:1));
+    dispatch(DeleteQcRemarks(data.id,data.status?0:1));
   };
 
   let timer = null;
@@ -152,14 +152,14 @@ export default function District() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
-          dispatch(SearchDistricts(1,rowsPerPage,value))
+          dispatch(SearchQcRemarks(1,rowsPerPage,value))
           setSearch(true)
           setPage(0)
           setSearchValue(value);
 
         }
         else{
-          dispatch(GetAllDistricts(1,rowsPerPage));
+          dispatch(GetQcRemarks(1,rowsPerPage));
           setSearch(false);
           setPage(0);
           setSearchValue("")
@@ -187,7 +187,7 @@ export default function District() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search districts..."} onFilterName={filterByName} />
+        <UserListToolbar numSelected={0} placeHolder={"Search QcRemarks..."} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -195,16 +195,16 @@ export default function District() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { districts?.map((option,index) => {
+                     { qcremarks?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{index+1}</TableCell>
                             <TableCell align="left">
-                              {option.name}
+                              {option.remark}
                             </TableCell>
-                        <TableCell align="left">{option.state?.name}</TableCell>
+                        <TableCell align="left">{option.remark_for?.name}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>

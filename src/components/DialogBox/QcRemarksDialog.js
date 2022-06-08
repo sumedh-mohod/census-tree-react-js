@@ -21,9 +21,10 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { AddDistricts, EditDistricts, GetActiveState } from '../../actions/MasterActions';
+import { AddQcRemarks, EditQcRemarks, GetQcRemarks } from '../../actions/QcRemarksAction';
 import DefaultInput from '../Inputs/DefaultInput';
 import { LoginUser } from '../../actions/AuthActions';
+
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -61,36 +62,41 @@ export default function DistrictDialog(props) {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [state, setState]=  React.useState("State");
+  const [remarkFor, setRemarkFor]=  React.useState("Census");
 
-  const RemarkFor = [
+  const RemarkForValue = [
       {
-      Value : "baseColor",
-      Label: "Base Color"
+      id : "baseColor",
+      name: "Base Color"
       },
       {
-        Value : "census",
-        Label: "Census"
+        id : "census",
+        name: "Census"
         },
   ]
   
   const {
-    addDistrictsLog,
-    editDistrictsLog,
-    states,
-  } = useSelector((state) => ({
-    addDistrictsLog:state.master.addDistrictsLog,
-    editDistrictsLog:state.master.editDistrictsLog,
-    states:state.master.states,
+    addQcRemarksLog,
+    editQcRemarksLog,
+    qcremarks,
+    // states,
+  } = useSelector((remark) => ({
+    addQcRemarksLog:remark.qcRemarksTypes.addQcRemarksLog,
+    editQcRemarksLog:remark.qcRemarksTypes.editQcRemarksLog,
+    qcremarks:remark.qcRemarksTypes.qcremarks,
   }));
 
+  console.log('qcremarks', qcremarks)
+
   useEffect(()=>{
-    dispatch(GetActiveState(1,1000,1));
+    dispatch(GetQcRemarks(1,1000,1));
+    console.log('qcremarks', qcremarks)
   },[])
 
 
   useEffect(()=>{
     if(data){
-      setState(data.state_id);
+      setState(data.qcremarks_id);
     }
     
   },[data])
@@ -102,11 +108,11 @@ export default function DistrictDialog(props) {
       return;
     }
     props.handleClose()
-  },[addDistrictsLog,editDistrictsLog])
+  },[addQcRemarksLog,editQcRemarksLog])
 
-  const handleStateChange = (event) => {
+  const handleRemarksForChange = (event) => {
     // const states = {label:event.target.label,value:event.target.value}
-    console.log("HANDLE STATE CHANGE",event.target.value)
+    setRemarkFor(event.target.value)
     // setState(event.target.value);
   };
 
@@ -120,17 +126,6 @@ export default function DistrictDialog(props) {
     }
     
   }
-
-  const stateValue = [
-    {
-      value: 'patna',
-      label: 'patna',
-    },
-    {
-      value: 'maharashtra',
-      label: 'Maharashtra',
-    },
-  ];
 
   const handleClose = () => {
     props.handleClose();
@@ -148,31 +143,31 @@ export default function DistrictDialog(props) {
     );
   };
 
-  const DistrictsSchema = Yup.object().shape({
-    districts: Yup.string().required('Districts is required'),
-    state: Yup.string().required('State is required'),
+  const QcRemarksSchema = Yup.object().shape({
+    remarks: Yup.string().required('Remarks is required'),
+    remarkFor: Yup.string().required('RemarkFor is required'),
   });
 
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      districts:data? data.name : "",
-      state:data?data.state_id:""
+      remarks:data? data.remark : "",
+      remarkFor:data?data.remark_for:""
     },
-    validationSchema: DistrictsSchema,
+    validationSchema: QcRemarksSchema,
     onSubmit: (value) => {
       console.log("VALUE",value);
       if(data){
-        dispatch(EditDistricts({
-          "name":value.districts,
-          "state_id":value.state
+        dispatch(EditQcRemarks({
+          "remark":value.remarks,
+          "remark_for":value.remarkFor
         },data.id))
       }
       else {
-        dispatch(AddDistricts({
-          "name":value.districts,
-          "state_id":value.state
+        dispatch(AddQcRemarks({
+          "remark":value.remarks,
+          "remark_for":value.remarkFor
         }))
       }
     },
@@ -203,9 +198,9 @@ export default function DistrictDialog(props) {
                 id="remark"
                 autoComplete="remark"
                 placeholder="Remark*"
-                // error={Boolean(touched.districts && errors.districts)}
-                // helperText={touched.districts && errors.districts}
-                // {...getFieldProps("districts")}
+                error={Boolean(touched.remarks && errors.remarks)}
+                helperText={touched.remarks && errors.remarks}
+                {...getFieldProps("remarks")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -213,30 +208,23 @@ export default function DistrictDialog(props) {
               <Select
               id="remarkFor"
               // name='State'
-              value={state}
+              value={remarkFor}
               style={{width:'83%', marginLeft: 40}}
               displayEmpty
               placeholder="Remark for*"
-              onChange={handleStateChange}
-              renderValue={(selected) => {
-
-                // console.log("SELECTED",state);
-                // if (selected.length === 0) {
-                  return <em>Remark For*</em>;
-                // }
-            }}
+              onChange={handleRemarksForChange}
               //   return findValue(states,state)
               // }}
-            //   error={Boolean(touched.state && errors.state)}
-            //     helperText={touched.state && errors.state}
-            //     {...getFieldProps("state")}
+              // error={Boolean(touched.state && errors.state)}
+              //   helperText={touched.state && errors.state}
+                {...getFieldProps("remarkFor")}
             >
                <MenuItem >
             <em>Remark For*</em>
           </MenuItem>
-              {RemarkFor?.map((option) => (
+              {RemarkForValue?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
-                  {option.Label}
+                  {option.name}
                 </MenuItem>
               ))}
             </Select>
