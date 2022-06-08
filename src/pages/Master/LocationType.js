@@ -94,6 +94,7 @@ export default function LocationType() {
   }));
 
   console.log("Location TYPES", addLocationTypesLog)
+  console.log("locationTypes", locationTypes)
 
   useEffect(()=>{
     dispatch(GetLocationType(page+1,rowsPerPage));
