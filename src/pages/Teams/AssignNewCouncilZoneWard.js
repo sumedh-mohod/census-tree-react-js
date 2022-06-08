@@ -20,12 +20,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetCouncil } from '../../actions/CouncilAction';
 import { GetZones } from '../../actions/ZonesAction';
 import { GetWards } from '../../actions/WardsActions';
-import { DeleteCZWFromTeam, GetCZWByTeam } from '../../actions/TeamsAction';
+import { DeleteCZWFromTeam, GetCZWByTeam, SearchCZWByTeam } from '../../actions/TeamsAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, TeamsAssignedMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
@@ -79,32 +79,38 @@ export default function AssignNewCouncilZoneWard() {
 
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  const [search,setSearch] = useState(false);
+   const [searchValue,setSearchValue] = useState("");
   
   const {
     cwzOfTeam,
     assignCWZToTeamLog,
     deleteCWZFromteamLog,
+    pageInfo
   } = useSelector((state) => ({
     cwzOfTeam:state.teams.cwzOfTeam,
     assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
-    deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog
+    deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog,
+    pageInfo : state.teams.pageInfo
   }));
 
   console.log("CWZ of team",cwzOfTeam)
-  const { teamId } = useParams();
+  const { teamId,teamName } = useParams();
   
   useEffect(()=>{
-    dispatch(GetCZWByTeam(teamId));
+    dispatch(GetCZWByTeam(teamId,page+1,rowsPerPage));
   },[assignCWZToTeamLog,deleteCWZFromteamLog])
 
+
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
-    dispatch(GetZones(1,1000))
-    dispatch(GetWards(1,1000));
-  },[])
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -122,12 +128,47 @@ export default function AssignNewCouncilZoneWard() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    if(search){
+      dispatch(SearchCZWByTeam(teamId,newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetCZWByTeam(teamId,newPage+1,rowsPerPage));
+    }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    if(search){
+      dispatch(SearchCZWByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetCZWByTeam(teamId,1,parseInt(event.target.value, 10)));
+    }
   };
+
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchCZWByTeam(teamId,1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetCZWByTeam(teamId,1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
 
   return (
     <Page title="User">
@@ -140,7 +181,7 @@ export default function AssignNewCouncilZoneWard() {
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          Assigned C-Z-W
+          Assigned C-Z-W({teamName})
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
           Assigned C-Z-W
@@ -149,7 +190,7 @@ export default function AssignNewCouncilZoneWard() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search c-z-w..."}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search c-z-w..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -170,7 +211,7 @@ export default function AssignNewCouncilZoneWard() {
                         <TableCell align="left">{option.to_date?option.to_date:"-"}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <TeamsAssignedMenu status={option.status}  handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )
@@ -183,9 +224,9 @@ export default function AssignNewCouncilZoneWard() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

@@ -99,10 +99,24 @@ const GetTeam = (page,limit) => async (dispatch) => {
     }
   };
 
-  const GetCZWByTeam = (teamId) => async (dispatch) => {
+  const GetCZWByTeam = (teamId,page,limit) => async (dispatch) => {
     console.log("TEAM ID",teamId);
     try {
-      const response = await JWTServer.get(`/api/teams/assigned-czw/${teamId}`);
+      const response = await JWTServer.get(`/api/teams/assigned-czw/${teamId}?page=${page}&limit=${limit}`);
+      console.log("DESIGNATIONS RESPONSE",response.data);
+      dispatch({
+        type: GET_CZW_BY_TEAM,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const SearchCZWByTeam = (teamId,page,limit,searchValue) => async (dispatch) => {
+    console.log("TEAM ID",teamId);
+    try {
+      const response = await JWTServer.get(`/api/teams/assigned-czw/${teamId}?page=${page}&limit=${limit}&search=${searchValue}`);
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_CZW_BY_TEAM,
@@ -143,9 +157,22 @@ const GetTeam = (page,limit) => async (dispatch) => {
     }
 };
 
-const GetUserByTeam = (teamId) => async (dispatch) => {
+const GetUserByTeam = (teamId,page,limit) => async (dispatch) => {
   try {
-    const response = await JWTServer.get(`/api/teams/assigned-users/${teamId}`);
+    const response = await JWTServer.get(`/api/teams/assigned-users/${teamId}?page=${page}&limit=${limit}`);
+    console.log("DESIGNATIONS RESPONSE",response.data);
+    dispatch({
+      type: GET_USERS_BY_TEAM,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
+const SearchUserByTeam = (teamId,page,limit,search) => async (dispatch) => {
+  try {
+    const response = await JWTServer.get(`/api/teams/assigned-users/${teamId}?page=${page}&limit=${limit}&search=${search}`);
     console.log("DESIGNATIONS RESPONSE",response.data);
     dispatch({
       type: GET_USERS_BY_TEAM,
@@ -175,7 +202,7 @@ const AddUserToTeam = (params) => async (dispatch) => {
 
 const DeleteUserFromTeam = (params,status) => async (dispatch) => {
   try {
-      const response = await JWTServer.delete(`/api/teams/assign-users/${params}?status=${status}`);
+      const response = await JWTServer.delete(`/api/teams/assigned-users/${params}?status=${status}`);
       console.log("DELETE STATE RESPONSE",response.data);
       dispatch({
       type: DELETE_ASSIGNED_USER,
@@ -194,9 +221,11 @@ const DeleteUserFromTeam = (params,status) => async (dispatch) => {
       EditTeam,
       DeleteTeam,
       GetCZWByTeam,
+      SearchCZWByTeam,
       AddCZWToTeam,
       DeleteCZWFromTeam,
       GetUserByTeam,
+      SearchUserByTeam,
       AddUserToTeam,
       DeleteUserFromTeam
   }

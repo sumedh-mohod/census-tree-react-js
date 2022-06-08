@@ -87,9 +87,9 @@ export const GET_CZW_BY_TEAM = "get-czw-by-team";
 export const ASSIGN_CZW_TO_TEAM = "assign-czw-to-team";
 export const DELETE_ASSIGNED_CZW = "delete-assigned-czw";
 
-export const GET_USERS_BY_TEAM = "get-czw-by-team";
-export const ASSIGN_USERS_TO_TEAM = "assign-czw-to-team";
-export const DELETE_ASSIGNED_USER = "delete-assigned-czw";
+export const GET_USERS_BY_TEAM = "get-user-by-team";
+export const ASSIGN_USERS_TO_TEAM = "assign-user-to-team";
+export const DELETE_ASSIGNED_USER = "delete-assigned-user";
 
 export const GET_ROLE = "get-role";
 export const GET_ACTVE_ROLE = "get-active-role";

@@ -17,12 +17,12 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetUserByTeam } from '../../actions/TeamsAction';
+import { DeleteUserFromTeam, GetUserByTeam, SearchUserByTeam } from '../../actions/TeamsAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, TeamsAssignedMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
@@ -75,26 +75,37 @@ export default function AssignUser() {
 
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
+  const [search,setSearch] = useState(false);
+   const [searchValue,setSearchValue] = useState("");
   
   const {
     userOfTeam,
     assignUserToTeamLog,
     deleteUserFromteamLog,
+    pageInfo
   } = useSelector((state) => ({
     userOfTeam:state.teams.userOfTeam,
     assignUserToTeamLog:state.teams.assignUserToTeamLog,
-    deleteUserFromteamLog:state.teams.deleteUserFromteamLog
+    deleteUserFromteamLog:state.teams.deleteUserFromteamLog,
+    pageInfo : state.teams.pageInfo
   }));
 
   console.log("USER of team",userOfTeam)
-  const { teamId } = useParams();
+  const { teamId, teamName } = useParams();
   
   useEffect(()=>{
-    dispatch(GetUserByTeam(teamId));
+    dispatch(GetUserByTeam(teamId,page+1,rowsPerPage));
   },[assignUserToTeamLog,deleteUserFromteamLog])
+
+  useEffect(()=>{
+    if(pageInfo){
+      setCount(pageInfo?.total)
+    }
+  },[pageInfo])
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -106,14 +117,55 @@ export default function AssignUser() {
     setOpen(!open);
   };
 
+  const handleDelete = (data) => {
+    dispatch(DeleteUserFromTeam(data.id,data.status?0:1));
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    if(search){
+      dispatch(SearchUserByTeam(teamId,newPage+1,rowsPerPage,searchValue));
+    }
+    else {
+      dispatch(GetUserByTeam(teamId,newPage+1,rowsPerPage));
+    }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    if(search){
+      dispatch(SearchUserByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
+    }
+    else {
+      dispatch(GetUserByTeam(teamId,1,parseInt(event.target.value, 10)));
+    }
   };
+
+  let timer = null;
+  const filterByName = (event) => {
+    const value = event.currentTarget.value;
+    clearTimeout(timer);
+    // Wait for X ms and then process the request
+    timer = setTimeout(() => {
+        if(value){
+          dispatch(SearchUserByTeam(teamId,1,rowsPerPage,value))
+          setSearch(true)
+          setPage(0)
+          setSearchValue(value);
+
+        }
+        else{
+          dispatch(GetUserByTeam(teamId,1,rowsPerPage));
+          setSearch(false);
+          setPage(0);
+          setSearchValue("")
+        }
+    }, 1000);
+
+  }
+
+  console.log("USERS OF TEAM",userOfTeam);
 
   return (
     <Page title="User">
@@ -122,10 +174,11 @@ export default function AssignUser() {
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
+        teamId={teamId}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          Assigned User
+          Assigned User({teamName})
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
           Assigned User
@@ -134,7 +187,7 @@ export default function AssignUser() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search user..."}/>
+        <UserListToolbar numSelected={0} placeHolder={"Search user..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -142,19 +195,19 @@ export default function AssignUser() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { TeamsData.AssignUser.map((option) => {
+                     { userOfTeam?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
-                        <TableCell align="left">{option.user}</TableCell>
-                        <TableCell align="left">{option.role}</TableCell>
-                        <TableCell align="left">{option.fromdate}</TableCell>
-                        <TableCell align="left">{option.todate}</TableCell>
-                        <TableCell align="left">{option.status}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">{option.roles}</TableCell>
+                        <TableCell align="left">{option.form_date}</TableCell>
+                        <TableCell align="left">{option.to_date}</TableCell>
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu handleEdit={()=>handleEdit(option)}/>
+                        <TeamsAssignedMenu status={option.status}  handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )
@@ -167,9 +220,9 @@ export default function AssignUser() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
-            count={USERLIST.length}
+            count={count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

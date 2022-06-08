@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Link,
 } from '@mui/material';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
@@ -24,6 +25,7 @@ import USERLIST from '../../_mock/user';
 import TreeData from  '../../components/JsonFiles/TreeData.json';
 import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialog";
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
+import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 
 // ----------------------------------------------------------------------
 
@@ -44,10 +46,15 @@ export default function BaseColor() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
+  const [viewOpen, setViewOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     setOpen(!open)
+  }
+
+  const handleViewOpen = () => {
+    setViewOpen(!viewOpen)
   }
 
   const handleEdit = (data) => {
@@ -73,6 +80,11 @@ export default function BaseColor() {
         handleClose = {handleNewUserClick}
         data={dialogData}
         />
+        <ViewImageDialog
+        isOpen={viewOpen}
+        handleClose = {handleViewOpen}
+        data={dialogData}
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Base Color
@@ -96,7 +108,7 @@ export default function BaseColor() {
                         <TableCell align="left">{option.propertyType}</TableCell>
                         <TableCell align="left">{option.propertyNumber}</TableCell>
                         <TableCell align="left">{option.ownerName}</TableCell>
-                        <TableCell align="left">{option.images}</TableCell>
+                        <TableCell align="left"><Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View Image</Link></TableCell>
                         <TableCell align="left">{option.addedBy}</TableCell>
                         <TableCell align="left">{option.qcStatus}</TableCell>
                         <TableCell align="right">
