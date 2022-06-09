@@ -23,7 +23,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { GetActiveDistricts, GetActiveState, GetActiveTalukas } from '../../actions/MasterActions';
+import { GetActiveDistricts, GetActiveDistrictsByStateId, GetActiveState, GetActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
 import { AddCouncil, AddCouncilWithLogo, EditCouncil, EditCouncilWithLogo, GetCouncilById } from '../../actions/CouncilAction';
 import { GetActiveZones } from '../../actions/ZonesAction';
 import { GetActiveWards } from '../../actions/WardsActions';
@@ -190,21 +190,23 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleDistrictChange = (event) => {
+    dispatch(GetActiveTalukaByDistrictId(event.target.value,1,1000,1))
     setDistrict(event.target.value);
+    setTaluka("Taluka")
   };
 
   const handleTalukaChange = (event) => {
     setTaluka(event.target.value);
   };
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setZoneName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
+  // const handleChange = (event) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   setZoneName(
+  //     // On autofill we get a stringified value.
+  //     typeof value === 'string' ? value.split(',') : value,
+  //   );
+  // };
 
   const handleWardChange = (event) => {
     console.log("HANDLE WARD CHANGE CALLED");
@@ -219,6 +221,9 @@ export default function CreateCouncilDialog(props) {
 
   const handleStateChange = (event) => {
     console.log("HANDLE STATE CHANGE");
+    dispatch(GetActiveDistrictsByStateId(event.target.value,1,1000,1))
+    setDistrict("District")
+    setTaluka("Taluka")
     setStateName(event.target.value);
   };
 
@@ -245,6 +250,7 @@ export default function CreateCouncilDialog(props) {
   const handleImageRemove = (e) => {
     setLogoValue("");
     setFiles("");
+    setIsImageRemoved(true);
   }
 
   
@@ -331,6 +337,7 @@ export default function CreateCouncilDialog(props) {
       console.log("VALUE",value);
       if(data){
         if(validateLogo() && isImageRemoved){
+          console.log("INSIDE IS IMAGE REMOVED");
           const formData = new FormData();
             formData.append('upload_for', 'councils');
             formData.append('image', files);
@@ -395,10 +402,10 @@ export default function CreateCouncilDialog(props) {
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
 
 
-  console.log("SELECTED WARD NAME",stateName)
+  console.log("VALUES",values)
 
   return (
     <div>
@@ -428,15 +435,18 @@ export default function CreateCouncilDialog(props) {
               <TextField
                 select
                 id="state"
+                name="state"
                 displayEmpty
-                // name="gender"
                 label="State*"
-                value={stateName}
+                value={values.state}
                 style={{ width: '81%', marginLeft: 40,marginTop:5 }}
-                onChange={handleStateChange}
+                onChange={(e)=> {
+                  handleStateChange(e);
+                  formik.handleChange(e);
+                }}
                 error={Boolean(touched.state && errors.state)}
                 helperText={touched.state && errors.state}
-                {...getFieldProps("state")}
+                // {...getFieldProps("state")}
               >
                  <MenuItem disabled value="">
               <em>State*</em>
@@ -452,18 +462,19 @@ export default function CreateCouncilDialog(props) {
             <TextField
               select
               id="district"
-              // name='District'
+              name='district'
               label="District*"
               displayEmpty
-              defaultValue={data? data.district : ""}
-              value={district}
+              value={values.district}
               style={{width:'81%', marginLeft: 40,marginTop:5}}
               placeholder='*Select District'
-            
-              onChange={handleDistrictChange}
+              onChange={(e) => {
+                handleDistrictChange(e)
+                formik.handleChange(e);
+              }}
               error={Boolean(touched.district && errors.district)}
                 helperText={touched.district && errors.district}
-                {...getFieldProps("district")}
+                // {...getFieldProps("district")}
             >
                <MenuItem disabled value="">
             <em>Select District*</em>
@@ -479,6 +490,7 @@ export default function CreateCouncilDialog(props) {
               <TextField
                 select
                 id="taluka"
+                name="taluka"
                 displayEmpty
                 label="Taluka*"
                 // name="gender"
@@ -533,7 +545,7 @@ export default function CreateCouncilDialog(props) {
               label="Zone*"
               displayEmpty
               value={zoneName}
-              onChange={handleChange}
+              // onChange={handleChange}
               style={{ width: '81%', marginLeft: 40 , marginTop:5}}
               renderValue={(selected) => {
                 console.log("SELECTED",selected);
@@ -709,15 +721,15 @@ export default function CreateCouncilDialog(props) {
             :null
             }
             <BootstrapDialogTitle id="customized-dialog-title">
-          Upload Logo
+          {logoValue?"Uploaded Logo":"Upload Logo"}
         </BootstrapDialogTitle>
             {(isEditable && logoValue)?
 
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <Link fullWidth
-                  style={{width: '88%', marginLeft: 40}} variant='outlined' target="_blank" rel="noopener" to={`${logoValue}`}>
-                    {logoValue}
+                  style={{width: '88%', marginLeft: 55}}  target="_blank" rel="noopener" href={`${logoValue}`}>
+                    View Uploaded Image
                   </Link>
 
                   <IconButton color={'error'} aria-label={'delete'} size="large" onClick={()=>handleImageRemove(logoValue)}>

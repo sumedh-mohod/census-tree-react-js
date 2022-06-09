@@ -178,7 +178,7 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             Users
           </Typography>
-          <Button variant="contained" component={RouterLink} to="/dashboard/newUserFrom" startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button variant="contained" component={RouterLink} to="/dashboard/new-user-From" startIcon={<Iconify icon="eva:plus-fill"  />}>
             New User
 
           </Button>

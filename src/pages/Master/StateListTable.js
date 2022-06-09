@@ -136,11 +136,14 @@ export default function StateListTable() {
   return (
     <Page title="User">
       <Container>
+        {open?
         <StateDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
-        />
+        />:null
+        }
+        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
            States

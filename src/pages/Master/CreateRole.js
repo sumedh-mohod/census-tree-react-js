@@ -169,11 +169,14 @@ export default function CreateRole() {
   return (
     <Page title="User">
       <Container>
+        {open?
         <CreateRoleDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
-        />
+        />:null
+        }
+        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           Roles

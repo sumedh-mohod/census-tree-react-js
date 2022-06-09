@@ -18,12 +18,13 @@ import {
   Stack,
   Avatar,
   Checkbox,
+  Link,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { GetActiveRole } from '../../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../../actions/UserAction';
 import { UploadFile, UploadImage } from '../../actions/UploadActions';
@@ -187,6 +188,7 @@ export default function ViewUser(props) {
       else {
         document.map((value,index)=>{
           const documentName = getNameById(userDocumentType,value.user_document_type_id,"type")
+          console.log("DOCUMENT PATH",value.document_path);
           const infoToAdd = {
             'documentName':documentName,
             'documentValue':value.document_path,
@@ -197,6 +199,7 @@ export default function ViewUser(props) {
           return null;
         })
       }
+      console.log("DOCUMENT LIST",documentList);
       setDocumentList(documentList)
     }
 
@@ -1337,8 +1340,12 @@ const validateRole = () => {
             <Grid item xs={6}>
             <Link fullWidth
                   style={{width: '88%', marginLeft: 40}}
-                  variant='outlined' target="_blank" rel="noopener" to={`${value.documentName}`} >
-              {value.documentValue}
+                  variant='outlined' target="_blank" rel="noopener" href={`${value.documentName}`} >
+              {/* View Uploaded File */}
+              <IconButton   size="large">
+                View Uploaded File
+                
+              </IconButton>
           </Link>
             </Grid>
             {/* <Grid item xs={2}>

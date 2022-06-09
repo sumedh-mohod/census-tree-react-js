@@ -167,11 +167,14 @@ export default function Taluka() {
   return (
     <Page title="User">
       <Container>
+        {open?
         <TalukasDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
-        />
+        />:null
+        }
+        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Talukas

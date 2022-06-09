@@ -107,7 +107,7 @@ export default function AccountPopover() {
           },
         }}
       >
-        {/* <Box sx={{ my: 1.5, px: 2.5 }}>
+        <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
             {account.displayName}
           </Typography>
@@ -115,7 +115,7 @@ export default function AccountPopover() {
             {account.email}
           </Typography>
         </Box>
-        <Divider sx={{ borderStyle: 'dashed' }} /> */}
+        <Divider sx={{ borderStyle: 'dashed' }} />
 
         <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout

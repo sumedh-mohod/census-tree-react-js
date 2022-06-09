@@ -30,6 +30,7 @@ import { UploadFile, UploadImage } from '../actions/UploadActions';
 import DefaultInput from '../components/Inputs/DefaultInput';
 import { GetCouncil } from '../actions/CouncilAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
+import { GetActiveDesignations } from '../actions/DesignationAction';
 
 export default function NewUserForm(props) {
 
@@ -92,6 +93,7 @@ export default function NewUserForm(props) {
       dispatch(GetCouncil(1,1000));
       dispatch(GetActiveDistricts(1,1000,1));
       dispatch(GetActiveTalukas(1,1000,1));
+      dispatch(GetActiveDesignations(1,1000,1));
     },[])
 
     const { userId } = useParams();
@@ -554,7 +556,7 @@ const validateRole = () => {
     }
 
     const phoneRegExp = /^[789]\d{9}$/;
-    const aadharRegExp = /^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}$/;
+    const aadharRegExp = /^\d{12}$/;
     const DistrictsSchema = Yup.object().shape(
       showCouncil?{
       firstName: Yup.string().required('First Name is required'),
@@ -568,7 +570,7 @@ const validateRole = () => {
       taluka: Yup.string().required('Taluka is required'),
       council: Yup.string().required('Council is required'),
       username: Yup.string().required('Username is required'),
-      password: Yup.string().required('Password is required'),
+      password: editUser?null:Yup.string().required('Password is required'),
     }:{
       firstName: Yup.string().required('First Name is required'),
       middleName: Yup.string().required('Middle Name is required'),
@@ -580,7 +582,7 @@ const validateRole = () => {
       district: Yup.string().required('Districts is required'),
       taluka: Yup.string().required('Taluka is required'),
       username: Yup.string().required('Username is required'),
-      password: Yup.string().required('Password is required'),
+      password: editUser?null:Yup.string().required('Password is required'),
       aadhaarNumber: Yup.string().matches(aadharRegExp, 'Enter valid aadhar number').required('Aadhar Number is required'),
       education: Yup.string().required('Education is required'),
       dob: Yup.string().required('DOB is required'),
@@ -1437,7 +1439,9 @@ const validateRole = () => {
                   helperText={touched.username && errors.username}
                   {...getFieldProps("username")}
                 />
-              </Grid>
+              </Grid>{
+                editUser?null:
+             
               <Grid item xs={6}>
               <DefaultInput
                   fullWidth
@@ -1450,6 +1454,7 @@ const validateRole = () => {
                   {...getFieldProps("password")}
                 />
               </Grid>
+               }
               </Grid>
               {showCouncil?null:
               <>

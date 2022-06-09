@@ -8,7 +8,7 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 const navConfig = [
   {
     title: 'dashboard',
-    path: '/dashboard/app',
+    path: '/dashboard/home',
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
@@ -44,52 +44,52 @@ const navConfig = [
       },
       {
         title: 'Designations',
-        path: '/dashboard/createDesignation',
+        path: '/dashboard/designation',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
         title: 'Roles',
-        path: '/dashboard/createRole',
+        path: '/dashboard/role',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
         title: 'Councils',
-        path: '/dashboard/createCouncil',
+        path: '/dashboard/council',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
         title: 'Type Of Trees',
-        path: '/dashboard/typeOfTree',
+        path: '/dashboard/type-of-tree',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
         title: 'Name Of Trees',
-        path: '/dashboard/nameOfTree',
+        path: '/dashboard/name-of-tree',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
         title: 'Tree Conditions',
-        path: '/dashboard/treeCondition',
+        path: '/dashboard/tree-condition',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
         title: 'Type Of Properties',
-        path: '/dashboard/typeOfProperty',
+        path: '/dashboard/type-of-property',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
         title: 'Location Types',
-        path: '/dashboard/locationType',
+        path: '/dashboard/location-type',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
         title: 'Tree Density',
-        path: '/dashboard/treeDensity',
+        path: '/dashboard/tree-density',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
         title: 'Qc Remaks',
-        path: '/dashboard/qcRemarks',
+        path: '/dashboard/qc-remarks',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {

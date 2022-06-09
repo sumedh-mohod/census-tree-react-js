@@ -171,11 +171,15 @@ export default function District() {
   return (
     <Page title="User">
       <Container>
-        <QcRemarksDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data = {dialogData}
-        />
+
+        {open?
+         <QcRemarksDialog
+         isOpen={open}
+         handleClose = {handleNewUserClick}
+         data = {dialogData}
+         />:null
+        }
+       
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           QC Remarks
