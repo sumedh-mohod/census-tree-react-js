@@ -920,8 +920,8 @@ const validateRole = () => {
                   fullWidth
                   id="addressLine1"
                   autoComplete="addressLine1"
-                  placeholder="*Address Line 1*"
-                  label="*Address Line 1*"
+                  placeholder="Address Line 1*"
+                  label="Address Line 1*"
                   error={Boolean(touched.addressLine1 && errors.addressLine1)}
                 helperText={touched.addressLine1 && errors.addressLine1}
                 {...getFieldProps("addressLine1")}
@@ -960,7 +960,7 @@ const validateRole = () => {
                 defaultValue={data? data.district : ""}
                 value={district}
                 style={{width: '87.5%', marginLeft: 45,marginTop:5}}
-                placeholder='*Select District'
+                // placeholder='*Select District'
               
                 error={Boolean(touched.district && errors.district)}
                 helperText={touched.district && errors.district}
@@ -1017,7 +1017,7 @@ const validateRole = () => {
                   defaultValue={data? data.district : ""}
                   value={district}
                   style={{width: '87.5%', marginLeft: 40,marginTop:5}}
-                  placeholder='*Select Council'
+                  placeholder='Select Council*'
                 
                   error={Boolean(touched.council && errors.council)}
                 helperText={touched.council && errors.council}
