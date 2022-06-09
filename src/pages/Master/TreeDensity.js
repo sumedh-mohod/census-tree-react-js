@@ -173,11 +173,14 @@ export default function TreeDensity() {
   return (
     <Page title="User">
       <Container>
+        {open?
         <TreeDensityDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data = {dialogData}
-        />
+        />:null
+        }
+        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
         Tree Density

@@ -147,6 +147,7 @@ export default function TypeOfLocationDialog(props) {
               <DefaultInput
                 fullWidth
                 id="typeOfLocation"
+                label="Type of Location*"
                 placeholder="Type Of Location*"
                 error={Boolean(touched.locationTypes && errors.locationTypes)}
                 helperText={touched.locationTypes && errors.locationTypes}

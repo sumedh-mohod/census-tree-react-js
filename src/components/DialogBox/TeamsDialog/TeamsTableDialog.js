@@ -133,7 +133,7 @@ export default function TeamsTableDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add Teams</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Add Team</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
@@ -142,6 +142,7 @@ export default function TeamsTableDialog(props) {
                 fullWidth
                 id="teamName"
                 autoComplete="teamName"
+                label="Team Name*"
                 placeholder="*Team Name"
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}

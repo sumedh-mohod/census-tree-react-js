@@ -117,7 +117,7 @@ const handleStatusChange = (event) => {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    designations: Yup.string().required('Designations is required'),
+    designations: Yup.string().max(30,"Maximum length 30 character only").required('Designations is required'),
   });
 
 
@@ -166,6 +166,7 @@ const handleStatusChange = (event) => {
               <DefaultInput
                 fullWidth
                 id="designation"
+                label="Designation Name*"
                 autoComplete="designation"
                 placeholder="Enter Designation Name*"
                 error={Boolean(touched.designations && errors.designations)}

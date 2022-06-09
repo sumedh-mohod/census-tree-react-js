@@ -181,7 +181,7 @@ export default function AssignNewCouncilZoneWard() {
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          Assigned C-Z-W({teamName})
+          Assigned Councils- Zones- Wards({teamName})
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
           Assigned C-Z-W

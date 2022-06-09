@@ -143,6 +143,7 @@ export default function WardDialog(props) {
                 fullWidth
                 id="ward"
                 // autoComplete="typeOfTree"
+                label="Ward*"
                 placeholder="Ward*"
                 error={Boolean(touched.wards && errors.wards)}
                 helperText={touched.wards && errors.wards}

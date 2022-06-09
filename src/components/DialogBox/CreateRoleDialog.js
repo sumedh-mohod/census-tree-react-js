@@ -20,6 +20,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { TextField } from '@mui/material';
 import { AddRole, EditRole, GetPermission, GetRoleById } from '../../actions/RoleAction';
 import DefaultInput from '../Inputs/DefaultInput';
 
@@ -197,7 +198,7 @@ export default function CreateRoleDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Create Role</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data? `Edit Role` : `Create Role`}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
@@ -206,6 +207,7 @@ export default function CreateRoleDialog(props) {
                 fullWidth
                 id="role"
                 autoComplete="role"
+                label="Role Name*"
                 placeholder="Enter Role Name*"
                 error={Boolean(touched.roles && errors.roles)}
                 helperText={touched.roles && errors.roles}
@@ -214,12 +216,16 @@ export default function CreateRoleDialog(props) {
             </Grid>
 
             <Grid item xs={12}>
-            <Select
-              multiple
+            <TextField
+              select
+              SelectProps={{
+                multiple:true
+              }}
               displayEmpty
               value={permissionArray}
+              label="Permission*"
               onChange={handleChange}
-              style={{ width: '82.5%', marginLeft: 40 }}
+              style={{ width: '82.5%', marginLeft: 40, marginTop:5 }}
               renderValue={(selected) => {
                 if (selected.length === 0) {
                   return <em>Permission*</em>;
@@ -252,7 +258,7 @@ export default function CreateRoleDialog(props) {
               {option.display_name}
             </MenuItem>
           ))}
-        </Select>
+        </TextField>
             </Grid>
 
           </Grid>

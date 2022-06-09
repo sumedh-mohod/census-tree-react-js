@@ -94,7 +94,8 @@ export default function BaseColorDialog(props) {
                 fullWidth
                 id="propertyType"
                 autoComplete="propertyType"
-                placeholder="Property Type"
+                placeholder="Property Type*"
+                label="Property Type*"
                 defaultValue={data? data.propertyType : ""}
                 // name="designation"
                 // value="designation"
@@ -105,7 +106,8 @@ export default function BaseColorDialog(props) {
                 fullWidth
                 id="propertyNumber"
                 autoComplete="propertyNumber"
-                placeholder="Property Number"
+                label="Property Number*"
+                placeholder="Property Number*"
                 defaultValue={data? data.propertyNumber : ""}
                 // name="description"
                 // value="description"
@@ -116,7 +118,8 @@ export default function BaseColorDialog(props) {
                 fullWidth
                 id="ownerName"
                 autoComplete="ownerName"
-                placeholder="Owner Name"
+                label="Owner Name*"
+                placeholder="Owner Name*"
                 defaultValue={data? data.ownerName : ""}
                 // name="description"
                 // value="description"
@@ -127,7 +130,8 @@ export default function BaseColorDialog(props) {
                 fullWidth
                 id="addedBy"
                 autoComplete="addedBy"
-                placeholder="Added By"
+                placeholder="Added By*"
+                label="Added By*"
                 defaultValue={data? data.addedBy : ""}
               />
             </Grid>

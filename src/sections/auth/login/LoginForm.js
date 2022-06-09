@@ -37,7 +37,7 @@ export default function LoginForm() {
       firstRun.current = false;
       return;
     }
-    navigate('/dashboard/app', { replace: true });
+    navigate('/dashboard/home', { replace: true });
   }, [isLogged]);
 
 

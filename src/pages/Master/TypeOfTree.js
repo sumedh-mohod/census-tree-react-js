@@ -166,11 +166,14 @@ export default function TypeOfTree() {
   return (
     <Page title="User">
       <Container>
+        {open?
         <TypeOfTreeDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
-        />
+        />:null
+        }
+        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Type Of Trees

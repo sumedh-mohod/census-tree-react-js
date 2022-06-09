@@ -21,6 +21,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { TextField } from '@mui/material';
 import { AddDistricts, EditDistricts, GetActiveState } from '../../actions/MasterActions';
 import DefaultInput from '../Inputs/DefaultInput';
 import { LoginUser } from '../../actions/AuthActions';
@@ -188,11 +189,13 @@ export default function TreeDensityDialog(props) {
         <Grid container spacing={1}>
             <Grid item xs={12}>
              
-              <Select
+              <TextField
+              select
               id="state"
+              label="State*"
               // name='State'
               value={state}
-              style={{width:'83%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40,marginTop:5}}
               displayEmpty
               placeholder="Location Type*"
               onChange={handleStateChange}
@@ -216,7 +219,7 @@ export default function TreeDensityDialog(props) {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             
             </Grid>
             <Grid item xs={12}>
@@ -225,6 +228,7 @@ export default function TreeDensityDialog(props) {
                 id="interval"
                 autoComplete="interval"
                 placeholder="Interval*"
+                label="Interval*"
                 error={Boolean(touched.districts && errors.districts)}
                 helperText={touched.districts && errors.districts}
                 {...getFieldProps("districts")}
@@ -232,11 +236,12 @@ export default function TreeDensityDialog(props) {
             </Grid>
             <Grid item xs={12}>
              
-             <Select
+             <TextField
+             select
              id="state"
-             // name='State'
+             label="Interval Unit*"
              value={state}
-             style={{width:'83%', marginLeft: 40}}
+             style={{width:'83%', marginLeft: 40, marginTop:5}}
              displayEmpty
              placeholder="Interval Unit*"
              onChange={handleStateChange}
@@ -260,7 +265,7 @@ export default function TreeDensityDialog(props) {
                  {option.name}
                </MenuItem>
              ))}
-           </Select>
+           </TextField>
            
            </Grid>
            <Grid item xs={12}>
@@ -268,7 +273,8 @@ export default function TreeDensityDialog(props) {
                 fullWidth
                 id="minimumNoOfTrees"
                 autoComplete="minimumNoOfTrees"
-                placeholder="Minimum Mumber Of Trees*"
+                label="Minimum Number of Trees*"
+                placeholder="Minimum Number Of Trees*"
                 error={Boolean(touched.districts && errors.districts)}
                 helperText={touched.districts && errors.districts}
                 {...getFieldProps("districts")}

@@ -33,7 +33,7 @@ const GetUsers = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/users?page=${page}&limit=${limit}&search=${searchValue}`);
       dispatch({
-        type: SEARCH_USER,
+        type: GET_USER,
         payload: response.data,
       });
     } catch (e) {

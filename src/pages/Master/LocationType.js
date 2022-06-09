@@ -94,6 +94,7 @@ export default function LocationType() {
   }));
 
   console.log("Location TYPES", addLocationTypesLog)
+  console.log("locationTypes", locationTypes)
 
   useEffect(()=>{
     dispatch(GetLocationType(page+1,rowsPerPage));
@@ -165,11 +166,14 @@ export default function LocationType() {
   return (
     <Page title="User">
       <Container>
-        <TypeOfLocationDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data = {dialogData}
-        />
+        {open?
+         <TypeOfLocationDialog
+         isOpen={open}
+         handleClose = {handleNewUserClick}
+         data = {dialogData}
+         />:null
+        }
+       
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
         Location Types

@@ -17,6 +17,21 @@ const GetLocationType = (page,limit) => async (dispatch) => {
   };
 
 
+  const GetActiveLocationType = (page,limit,status) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/location-types?page=${page}&limit=${limit}&status=${status}`);
+      console.log("DESIGNATIONS RESPONSE",response.data);
+      dispatch({
+        type: GET_LOCATION_TYPES,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+
+
   const SearchLocationType = (page,limit,searchValue) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/location-types?page=${page}&limit=${limit}&search=${searchValue}`);
@@ -81,5 +96,6 @@ const GetLocationType = (page,limit) => async (dispatch) => {
       SearchLocationType,
       AddLocationType,
       EditLocationType,
-      DeleteLocationType
+      DeleteLocationType,
+      GetActiveLocationType,
   }

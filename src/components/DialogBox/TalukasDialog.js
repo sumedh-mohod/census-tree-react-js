@@ -20,6 +20,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { TextField } from '@mui/material';
 import { AddTalukas, EditTalukas, GetActiveDistricts, GetActiveDistrictsByStateId, GetActiveState } from '../../actions/MasterActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
@@ -207,6 +208,7 @@ export default function TalukasDialog(props) {
               <DefaultInput
                 fullWidth
                 id="name"
+                label="Taluka Name*"
                 autoComplete="name"
                 placeholder="Enter Taluka Name*"
                 error={Boolean(touched.talukas && errors.talukas)}
@@ -215,10 +217,11 @@ export default function TalukasDialog(props) {
               />
             </Grid>
             <Grid item xs={12}>
-            <Select
+            <TextField
+              select
               id="taluka_state"
               displayEmpty
-              // name='State'
+              label="State*"
               value={state}
               style={{width:'83%', marginLeft: 40}}
               placeholder='*Select State'
@@ -235,12 +238,13 @@ export default function TalukasDialog(props) {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
-            <Select
+            <TextField
+              select
               id="taluka_district"
-              // name='District'
+              label="District*"
               displayEmpty
               value={district}
               style={{width:'83%', marginLeft: 40}}
@@ -258,7 +262,7 @@ export default function TalukasDialog(props) {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
           </Grid>
         </DialogContent>

@@ -43,10 +43,6 @@ const Logout = () => async (dispatch) => {
         type: RESET_STATE,
         payload: null,
       });
-      dispatch(SetNewAlert({
-        msg: "Logged out successfully",
-        alertType: "success",
-      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }

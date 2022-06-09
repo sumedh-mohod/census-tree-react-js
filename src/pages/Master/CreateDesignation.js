@@ -167,11 +167,13 @@ export default function CreateDestination() {
   return (
     <Page title="User">
       <Container>
+      {open?
         <CreateDesignationDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
-        />
+        />:null
+      } 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           Designations

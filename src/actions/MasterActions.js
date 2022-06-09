@@ -248,6 +248,21 @@ const GetActiveTalukas = (page,limit,status) => async (dispatch) => {
   }
 };
 
+const GetActiveTalukaByDistrictId = (params,page,limit,status) => async (dispatch) => {
+  console.log("GET DISTRICT BY STATE ID",params);
+  try {
+    const response = await JWTServer.get(`/api/talukas?district_id=${params}&page=${page}&limit=${limit}&status=${status}`);
+    console.log("DISTRICTS BY ID RESPONSE",response.data);
+    dispatch({
+      type: GET_TALUKAS,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
+
     const SearchTalukas = (page,limit,searchValue) => async (dispatch) => {
       try {
         const response = await JWTServer.get(`/api/talukas?page=${page}&limit=${limit}&search=${searchValue}`);
@@ -327,6 +342,7 @@ export {
   DeleteDistricts,
   GetAllTalukas,
   GetActiveTalukas,
+  GetActiveTalukaByDistrictId,
   SearchTalukas,
   AddTalukas,
   EditTalukas,

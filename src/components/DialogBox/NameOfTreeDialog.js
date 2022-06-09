@@ -21,6 +21,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
+import { TextField } from '@mui/material';
 import { AddTreeName, EditTreeName } from '../../actions/TreeNameAction';
 import { GetActiveTreeType } from '../../actions/TreeTypeActions';
 import DefaultInput from '../Inputs/DefaultInput';
@@ -183,6 +184,7 @@ SetTypeOfTree(event.target.value);
                 fullWidth
                 id="nameOfTree"
                 placeholder="Enter Tree Name*"
+                label="Tree Name*"
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
                 {...getFieldProps("name")}
@@ -193,6 +195,7 @@ SetTypeOfTree(event.target.value);
                 fullWidth
                 id="botanicalName"
                 autoComplete="botanicalName"
+                label="Botanical Name*"
                 placeholder="Enter Botanical Name*"
                 error={Boolean(touched.botanicalName && errors.botanicalName)}
                 helperText={touched.botanicalName && errors.botanicalName}
@@ -200,8 +203,13 @@ SetTypeOfTree(event.target.value);
               />
             </Grid>
             <Grid item xs={12}>
-            <Select
+            <TextField
+              select
+              SelectProps={{
+                multiple:true
+              }}
               id="typeOfTree"
+              label="Tree Type*"
             //   name='status'
             displayEmpty
               value={typeOfTree}
@@ -220,7 +228,7 @@ SetTypeOfTree(event.target.value);
                   {option.tree_type}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
           </Grid>
 

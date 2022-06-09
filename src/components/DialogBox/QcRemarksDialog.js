@@ -21,6 +21,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { TextField } from '@mui/material';
 import { AddQcRemarks, EditQcRemarks, GetQcRemarks } from '../../actions/QcRemarksAction';
 import DefaultInput from '../Inputs/DefaultInput';
 import { LoginUser } from '../../actions/AuthActions';
@@ -62,15 +63,15 @@ export default function DistrictDialog(props) {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [state, setState]=  React.useState("State");
-  const [remarkFor, setRemarkFor]=  React.useState("Census");
+  const [remarkFor, setRemarkFor]=  React.useState("");
 
   const RemarkForValue = [
       {
-      id : "baseColor",
+      id : "Base Color",
       name: "Base Color"
       },
       {
-        id : "census",
+        id : "Census",
         name: "Census"
         },
   ]
@@ -198,6 +199,7 @@ export default function DistrictDialog(props) {
                 id="remark"
                 autoComplete="remark"
                 placeholder="Remark*"
+                label="Remark*"
                 error={Boolean(touched.remarks && errors.remarks)}
                 helperText={touched.remarks && errors.remarks}
                 {...getFieldProps("remarks")}
@@ -205,16 +207,22 @@ export default function DistrictDialog(props) {
             </Grid>
             <Grid item xs={12}>
              
-              <Select
+              <TextField
+              select
               id="remarkFor"
-              // name='State'
+              label="Remark for*"
               value={remarkFor}
-              style={{width:'83%', marginLeft: 40}}
+              style={{width:'83%', marginLeft: 40, marginTop:5}}
               displayEmpty
               placeholder="Remark for*"
               onChange={handleRemarksForChange}
               //   return findValue(states,state)
               // }}
+              renderValue={(selected) => {
+                //   console.log("SELECTED",state);
+                //   if (selected.length === 0) {
+                    return  <em>Remark For*</em>;
+                  }}
               // error={Boolean(touched.state && errors.state)}
               //   helperText={touched.state && errors.state}
                 {...getFieldProps("remarkFor")}
@@ -227,7 +235,7 @@ export default function DistrictDialog(props) {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             
             </Grid>
           </Grid>

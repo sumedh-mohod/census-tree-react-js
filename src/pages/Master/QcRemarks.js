@@ -83,21 +83,20 @@ export default function District() {
    const [searchValue,setSearchValue] = useState("");
 
    const {
-    qcremarks,
+  qcremarks,
     addQcRemarksLog,
     editQcRemarksLog,
     deleteQcRemarksLog,
     pageInfo
-  } = useSelector((state) => ({
-    qcremarks:state.qcRemarksTypes.districts,
-    addQcRemarksLog:state.qcRemarksTypes.addQcRemarksLog,
-    editQcRemarksLog:state.qcRemarksTypes.editQcRemarksLog,
-    deleteQcRemarksLog:state.qcRemarksTypes.deleteQcRemarksLog,
-    pageInfo : state.qcRemarksTypes.pageInfo
+  } = useSelector((qcremark) => ({
+    qcremarks:qcremark.qcRemarksTypes.qcremarks,
+    addQcRemarksLog:qcremark.qcRemarksTypes.addQcRemarksLog,
+    editQcRemarksLog:qcremark.qcRemarksTypes.editQcRemarksLog,
+    deleteQcRemarksLog:qcremark.qcRemarksTypes.deleteQcRemarksLog,
+    pageInfo : qcremark.qcRemarksTypes.pageInfo
   }));
 
-  console.log("QCREMARKS",qcremarks)
-
+  // qcremarks:remark.qcRemarksTypes.qcremarks,
   useEffect(()=>{
     dispatch(GetQcRemarks(page+1,rowsPerPage));
   },[addQcRemarksLog,editQcRemarksLog,deleteQcRemarksLog])
@@ -107,7 +106,8 @@ export default function District() {
       setCount(pageInfo?.total)
     }
   },[pageInfo])
-
+  
+  console.log("qcremarks---",qcremarks)
   const handleNewUserClick = () => {
     setDialogData(null);
     setOpen(!open)
@@ -171,11 +171,15 @@ export default function District() {
   return (
     <Page title="User">
       <Container>
-        <QcRemarksDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data = {dialogData}
-        />
+
+        {open?
+         <QcRemarksDialog
+         isOpen={open}
+         handleClose = {handleNewUserClick}
+         data = {dialogData}
+         />:null
+        }
+       
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           QC Remarks
@@ -204,7 +208,7 @@ export default function District() {
                             <TableCell align="left">
                               {option.remark}
                             </TableCell>
-                        <TableCell align="left">{option.remark_for?.name}</TableCell>
+                        <TableCell align="left">{option.remark_for}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
