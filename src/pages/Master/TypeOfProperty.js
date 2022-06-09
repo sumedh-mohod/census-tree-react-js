@@ -33,7 +33,8 @@ import TypeOfPropertyDialog from "../../components/DialogBox/TypeOfPropertyDialo
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'TypeofTree', label: 'Type Of Property', alignRight: false },
+  { id: 'TypeofProperty', label: 'Type Of Property', alignRight: false },
+  { id: 'locationType', label: 'Location Type', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
@@ -175,7 +176,7 @@ export default function TypeOfProperty() {
             Type Of Properties
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Type Of Property
+            Add New
 
           </Button>
         </Stack>
@@ -196,6 +197,7 @@ export default function TypeOfProperty() {
                       >
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.property_type}</TableCell>
+                        <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
