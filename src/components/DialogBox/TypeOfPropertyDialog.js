@@ -21,6 +21,8 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { AddPropertyType, EditPropertyType } from '../../actions/PropertyTypeAction';
+import {GetActiveLocationType} from '../../actions/LocationTypeAction'
+
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -61,34 +63,22 @@ export default function TypeOfPropertyDialog(props) {
 
   const { isOpen, data } = props;
 
-  const locationTypeValue = [
-     {
-      value: "Rice Field",
-      label: "Rice Field"
-     },
-     {
-      value: "Seashore",
-      label: "Seashore"
-     },
-     {
-      value: "Mountainside",
-      label: "Mountainside"
-     },
-     {
-      value: "Garbage dump",
-      label: "Garbage dump"
-     },
-  ]
-
   const {
     propertyTypes,
     addPropertyTypesLog,
     editPropertyTypesLog,
+    locationTypes,
+
   } = useSelector((state) => ({
     propertyTypes:state.propertyTypes.propertyTypes,
     addPropertyTypesLog:state.propertyTypes.addPropertyTypesLog,
-    editPropertyTypesLog:state.propertyTypes.editPropertyTypesLog
+    editPropertyTypesLog:state.propertyTypes.editPropertyTypesLog,
+    locationTypes:state.locationTypes.locationTypes,
   }));
+
+  React.useEffect(()=>{
+    dispatch(GetActiveLocationType(1,1000,1));
+  },[])
 
   const firstRun = React.useRef(true);
   React.useEffect(()=>{
@@ -121,6 +111,7 @@ export default function TypeOfPropertyDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
+    location_type: Yup.string().required('Location Type Type is required'),
     propertyTypes: Yup.string().required('Property Type is required'),
   });
 
@@ -128,6 +119,7 @@ export default function TypeOfPropertyDialog(props) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      location_type:data?data.location_type_id: "",
       propertyTypes:data? data.property_type : "",
     },
     validationSchema: DesignationsSchema,
@@ -135,11 +127,13 @@ export default function TypeOfPropertyDialog(props) {
       if(data){
         dispatch(EditPropertyType({
           "property_type":value.propertyTypes,
+          "location_type_id":value.location_type,
         },data.id))
       }
       else {
         dispatch(AddPropertyType({
           "property_type":value.propertyTypes,
+          "location_type_id":value.location_type,
         }))
       }
     },
@@ -174,26 +168,23 @@ export default function TypeOfPropertyDialog(props) {
              displayEmpty
              placeholder="Location Type*"
              onChange={handleLocationTypeChange}
-                renderValue={(selected) => {
-              //   console.log("SELECTED",state);
-              //   if (selected.length === 0) {
-                  return  <em>Location Type*</em>;
-                }}
              //   return findValue(states,state)
              // }}
+             error={Boolean(touched.location_type && errors.location_type)}
+             helperText={touched.location_type && errors.location_type}
+             {...getFieldProps("location_type")}
              // error={Boolean(touched.state && errors.state)}
              //   helperText={touched.state && errors.state}
-               {...getFieldProps("remarkFor")}
            >
               <MenuItem >
            <em>Location Type*</em>
          </MenuItem>
-             {locationTypeValue.map((option) => (
-               <MenuItem >
-                 {option.label}
-               </MenuItem>
+             {locationTypes?.map((option) => (
+              <MenuItem key={option.id} value={option.id}>
+              {option.location_type}
+            </MenuItem>
              ))}
-           </Select>
+          </Select>
            
            </Grid>
         <Grid item xs={12}>

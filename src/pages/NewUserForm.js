@@ -554,7 +554,7 @@ const validateRole = () => {
     }
 
     const phoneRegExp = /^[789]\d{9}$/;
-    const aadharRegExp = /^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}$/;
+    const aadharRegExp = /^[01]\d{3}[\s-]?\d{4}[\s-]?\d{4}$/;
     const DistrictsSchema = Yup.object().shape(
       showCouncil?{
       firstName: Yup.string().required('First Name is required'),
