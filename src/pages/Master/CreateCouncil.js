@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteCouncil, GetCouncil, SearchCouncil } from '../../actions/CouncilAction';
 import Page from '../../components/Page';
@@ -141,8 +143,32 @@ export default function CreateCouncil() {
 
   }
 
+  function handleClick(event) {
+    event.preventDefault();
+  }
+
   return (
     <Page title="User">
+            <div role="presentation" style={{marginBottom: 20}} onClick={handleClick}>
+      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/"
+        >
+          Master
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/material-ui/getting-started/installation/"
+        >
+          Councils
+        </Link>
+      </Breadcrumbs>
+    </div>
       <Container>
         {open?
         <CreateCouncilDialog

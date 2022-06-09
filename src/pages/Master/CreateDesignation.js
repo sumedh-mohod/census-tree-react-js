@@ -167,7 +167,6 @@ export default function CreateDestination() {
   }
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
   }
 
 
