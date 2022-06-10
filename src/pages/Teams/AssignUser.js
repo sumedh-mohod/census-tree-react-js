@@ -37,7 +37,6 @@ const TABLE_HEAD = [
   { id: 'fromdate', label: 'From Date', alignRight: false },
   { id: 'todate', label: 'To Date', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
-  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -220,9 +219,6 @@ export default function AssignUser() {
                         <TableCell align="left">{option.form_date}</TableCell>
                         <TableCell align="left">{option.to_date}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
-                        <TableCell align="right">
-                        <TeamsAssignedMenu status={option.status}  handleDelete={()=>handleDelete(option)}/>
-                        </TableCell>
                         </TableRow>
                         )
                   }):null

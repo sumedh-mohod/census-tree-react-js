@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Visibility } from '@mui/icons-material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
@@ -187,6 +188,10 @@ export default function BaseColor() {
       dispatch(GetBaseColorTrees(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId));
     }
   };
+  function handleClick(event) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+  }
 
   let timer = null;
   const filterByName = (event) => {
@@ -241,6 +246,26 @@ export default function BaseColor() {
 
   return (
     <Page title="User">
+            <div role="presentation" style={{marginBottom: 20}} onClick={handleClick}>
+      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/"
+        >
+          Tree Data
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/material-ui/getting-started/installation/"
+        >
+          Base Color
+        </Link>
+      </Breadcrumbs>
+    </div>
       <Container>
         {open?
         <BaseColorDialog

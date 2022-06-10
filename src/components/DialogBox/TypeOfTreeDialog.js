@@ -109,7 +109,7 @@ export default function CreateRoleDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    treeType: Yup.string().required('Tree Type is required'),
+    treeType: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Tree Type is required'),
   });
 
 

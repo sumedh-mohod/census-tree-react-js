@@ -41,7 +41,6 @@ const TABLE_HEAD = [
   { id: 'fromDate', label: 'From Date', alignRight: false },
   { id: 'todate', label: 'To Date', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -224,9 +223,6 @@ export default function AssignNewCouncilZoneWard() {
                         <TableCell align="left">{option.form_date}</TableCell>
                         <TableCell align="left">{option.to_date?option.to_date:"-"}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
-                        <TableCell align="right">
-                          <TeamsAssignedMenu status={option.status}  handleDelete={()=>handleDelete(option)}/>
-                        </TableCell>
                         </TableRow>
                         )
                   }):null

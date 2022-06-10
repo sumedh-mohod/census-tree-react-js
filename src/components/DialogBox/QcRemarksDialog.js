@@ -223,8 +223,8 @@ export default function DistrictDialog(props) {
                 //   if (selected.length === 0) {
                     return  <em>Remark For*</em>;
                   }}
-              // error={Boolean(touched.state && errors.state)}
-              //   helperText={touched.state && errors.state}
+              error={Boolean(touched.remarkFor && errors.remarkFor)}
+                helperText={touched.remarkFor && errors.remarkFor}
                 {...getFieldProps("remarkFor")}
             >
                <MenuItem >
