@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import {
   Avatar,
@@ -85,6 +85,7 @@ export default function AssignNewCouncilZoneWard() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [showList,setShowList] = useState(false);
   
   const {
     cwzOfTeam,
@@ -104,6 +105,15 @@ export default function AssignNewCouncilZoneWard() {
   useEffect(()=>{
     dispatch(GetCZWByTeam(teamId,page+1,rowsPerPage));
   },[assignCWZToTeamLog,deleteCWZFromteamLog])
+
+  const firstRun = useRef(true);
+  useEffect(()=>{
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    setShowList(true);
+  },[cwzOfTeam])
 
 
   useEffect(()=>{
@@ -128,6 +138,7 @@ export default function AssignNewCouncilZoneWard() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    setShowList(false);
     if(search){
       dispatch(SearchCZWByTeam(teamId,newPage+1,rowsPerPage,searchValue));
     }
@@ -138,6 +149,7 @@ export default function AssignNewCouncilZoneWard() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
+    setShowList(false);
     setPage(0);
     if(search){
       dispatch(SearchCZWByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
@@ -154,6 +166,7 @@ export default function AssignNewCouncilZoneWard() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
+          setShowList(false);
           dispatch(SearchCZWByTeam(teamId,1,rowsPerPage,value))
           setSearch(true)
           setPage(0)
@@ -161,6 +174,7 @@ export default function AssignNewCouncilZoneWard() {
 
         }
         else{
+          setShowList(false);
           dispatch(GetCZWByTeam(teamId,1,rowsPerPage));
           setSearch(false);
           setPage(0);
@@ -198,7 +212,7 @@ export default function AssignNewCouncilZoneWard() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { cwzOfTeam?.map((option,index) => {
+                     {showList ? cwzOfTeam?.map((option,index) => {
                         return (                                                                      
                         <TableRow
                         hover
@@ -215,7 +229,7 @@ export default function AssignNewCouncilZoneWard() {
                         </TableCell>
                         </TableRow>
                         )
-                  })
+                  }):null
                 }
 
                 </TableBody>

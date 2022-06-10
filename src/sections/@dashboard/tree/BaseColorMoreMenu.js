@@ -16,6 +16,21 @@ export default function BaseColorMoreMenu(props) {
     props.handleEdit();
   };
 
+  const handleApprove = () => {
+    setIsOpen(false);
+    props.handleApprove();
+  }
+
+  const handleQcDialog = () => {
+    setIsOpen(false);
+    props.handleQcDialog();
+  }
+
+  const handleDeletes = () => {
+    setIsOpen(false);
+    props.handleDelete();
+  }
+
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -32,7 +47,19 @@ export default function BaseColorMoreMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }}>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleApprove}>
+          <ListItemIcon>
+            <Iconify icon="eva:checkmark-circle-outline" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Approve" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleQcDialog}>
+          <ListItemIcon>
+            <Iconify icon="eva:close-circle-outline" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Unapprove" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
           <ListItemIcon>
             <Iconify icon="eva:trash-2-outline" width={24} height={24} />
           </ListItemIcon>

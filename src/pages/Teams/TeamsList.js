@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -33,6 +33,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import TeamsTableDialog from "../../components/DialogBox/TeamsDialog/TeamsTableDialog";
+import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 
 // ----------------------------------------------------------------------
 
@@ -89,6 +90,7 @@ export default function TeamsList() {
    const [zoneId,setZoneId] = useState('');
    const [wardId,setWardId] = useState('');
    const [coucilId,setCouncilId] = useState('');
+   const [showList,setShowList] = useState(false);
 
 
   const {
@@ -116,6 +118,15 @@ export default function TeamsList() {
   useEffect(()=>{
     dispatch(GetTeam(page+1,rowsPerPage));
   },[addTeamsLog,editTeamsLog,deleteTeamsLog])
+
+  const fetchRun = useRef(true);
+  useEffect(()=>{
+    if (fetchRun.current) {
+      fetchRun.current = false;
+      return;
+    }
+    setShowList(true);
+  },[teams])
   
 
   useEffect(()=>{
@@ -161,6 +172,7 @@ export default function TeamsList() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    setShowList(false);
     if(search){
       dispatch(SearchTeam(newPage+1,rowsPerPage,searchValue));
     }
@@ -172,6 +184,7 @@ export default function TeamsList() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    setShowList(false);
     if(search){
       dispatch(SearchTeam(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -187,6 +200,7 @@ export default function TeamsList() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
+          setShowList(false);
           dispatch(SearchTeam(1,rowsPerPage,value))
           setSearch(true)
           setPage(0)
@@ -194,6 +208,7 @@ export default function TeamsList() {
 
         }
         else{
+          setShowList(false);
           dispatch(GetTeam(1,rowsPerPage));
           setSearch(false);
           setPage(0);
@@ -209,6 +224,7 @@ export default function TeamsList() {
     setZoneId("")
     setWardId("")
     setPage(0);
+    setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,e.target.value,null,null))
     dispatch(GetZonesByCouncilId(1,1000,e.target.value))
     dispatch(GetWardsByCouncilId(1,1000,e.target.value))
@@ -217,12 +233,14 @@ export default function TeamsList() {
   const handleWardChange = (e) => {
     setWardId(e.target.value);
     setPage(0);
+    setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
 
   const handleZoneChange = (e) => {
     setZoneId(e.target.value);
     setPage(0);
+    setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
@@ -244,79 +262,17 @@ export default function TeamsList() {
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search teams..."} onFilterName={filterByName}/>
+        <TeamListToolbar numSelected={0} placeHolder={"Search teams..."} 
+        onFilterName={filterByName} 
+        handleCoucilChange={(e)=>handleCoucilChange(e)} 
+        handleWardChange={(e)=>handleWardChange(e)}
+        handleZoneChange={(e)=>handleZoneChange(e)}
+        coucilId={coucilId}
+        zoneId={zoneId}
+        wardId={wardId}
+        />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-            <Grid container spacing={1} >
-            <Grid item xs={3} />
-                <Grid item xs={2}>
-            <Select
-                id="state"
-                displayEmpty
-                // name="gender"
-                value={coucilId}
-                style={{ width: '95%', marginLeft: 70, height: 45}}
-                onChange={handleCoucilChange}
-                // error={Boolean(touched.state && errors.state)}
-                // helperText={touched.state && errors.state}
-                // {...getFieldProps("state")}
-              >
-                 <MenuItem disabled value="">
-              <em>Council Name</em>
-            </MenuItem>
-                {council?.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={2}>
-              <Select
-                id="state"
-                displayEmpty
-                // name="gender"
-                value={zoneId}
-                style={{ width: '70%', marginLeft: 150, height: 45 }}
-                onChange={handleZoneChange}
-                // error={Boolean(touched.state && errors.state)}
-                // helperText={touched.state && errors.state}
-                // {...getFieldProps("state")}
-              >
-                 <MenuItem disabled value="">
-              <em>Zone</em>
-            </MenuItem>
-                {zones?.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-              <Grid item xs={2}>
-              <Select
-                id="state"
-                displayEmpty
-                // name="gender"
-                value={wardId}
-                style={{ width: '70%',  marginLeft: 130, height: 45}}
-                onChange={handleWardChange}
-                // error={Boolean(touched.state && errors.state)}
-                // helperText={touched.state && errors.state}
-                // {...getFieldProps("state")}
-              >
-                 <MenuItem disabled value="">
-              <em>Ward</em>
-            </MenuItem>
-                {wards?.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
-                <Grid item xs={3} />
-              </Grid>
               <Table>
                 <UserListHead
                   headLabel={TABLE_HEAD}

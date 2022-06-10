@@ -119,3 +119,9 @@ export const SEARCH_USER = "search-user";
 export const DELETE_USER = "delete-user";
 
 export const GET_RELIGIONS = "get-religions";
+
+export const GET_BASE_COLOR_TREES = "get-base-color-trees";
+export const EDIT_BASE_COLOR_TREES = "edit-base-color-trees";
+export const DELETE_BASE_COLOR_TREES = "delete-base-color-trees";
+export const UPDATE_QC_STATUS_BASE_COLOR_TREES = "update-qc-status-base-color-trees";
+export const GET_QC_REMARKS_FOR_BASE_COLOR = "get-qc-remark-for-base-color";

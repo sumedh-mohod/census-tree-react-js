@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import {  useEffect, useState } from 'react';
+import {  useEffect, useRef, useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import {
   Card,
@@ -81,6 +81,7 @@ export default function AssignUser() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [showList,setShowList] = useState(false);
   
   const {
     userOfTeam,
@@ -107,6 +108,15 @@ export default function AssignUser() {
     }
   },[pageInfo])
 
+  const fetchRun = useRef(true);
+  useEffect(()=>{
+    if (fetchRun.current) {
+      fetchRun.current = false;
+      return;
+    }
+    setShowList(true);
+  },[userOfTeam])
+
   const handleNewUserClick = () => {
     setDialogData(null);
     setOpen(!open)
@@ -123,6 +133,7 @@ export default function AssignUser() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    setShowList(false);
     if(search){
       dispatch(SearchUserByTeam(teamId,newPage+1,rowsPerPage,searchValue));
     }
@@ -133,6 +144,7 @@ export default function AssignUser() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
+    setShowList(false);
     setPage(0);
     if(search){
       dispatch(SearchUserByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
@@ -149,6 +161,7 @@ export default function AssignUser() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
+          setShowList(false);
           dispatch(SearchUserByTeam(teamId,1,rowsPerPage,value))
           setSearch(true)
           setPage(0)
@@ -156,6 +169,7 @@ export default function AssignUser() {
 
         }
         else{
+          setShowList(false);
           dispatch(GetUserByTeam(teamId,1,rowsPerPage));
           setSearch(false);
           setPage(0);
@@ -195,7 +209,7 @@ export default function AssignUser() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { userOfTeam?.map((option,index) => {
+                     { showList? userOfTeam?.map((option,index) => {
                         return (
                         <TableRow
                         hover
@@ -211,7 +225,7 @@ export default function AssignUser() {
                         </TableCell>
                         </TableRow>
                         )
-                  })
+                  }):null
                 }
 
                 </TableBody>
