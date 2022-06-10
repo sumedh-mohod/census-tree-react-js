@@ -589,7 +589,7 @@ const validateRole = () => {
       caste: Yup.string().required('Caste is required'),
       differentlyAbled: Yup.string().required('DifferentlyAbled is required'),
       emergencyContactName: Yup.string().required('Emergency Contact Name is required'),
-      emergencyContactNumber: Yup.string().required('Emergency Contact Number is required'),
+      emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emergency Contact Number is required'),
       dateOfJoining: Yup.string().required('DateOfJoining is required'),
       lastDayOfWork: Yup.string().required('Last Day of work is required'),
       salaryPerMonth: Yup.string().required('Commited salary per month is required'),
