@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead } from '../../sections/@dashboard/user';
@@ -54,9 +56,33 @@ export default function DeniedEntry() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  function handleClick(event) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+  }
 
   return (
     <Page title="User">
+            <div role="presentation" style={{marginBottom: 20}} onClick={handleClick}>
+      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/"
+        >
+          Tree Data
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/material-ui/getting-started/installation/"
+        >
+          Cencus
+        </Link>
+      </Breadcrumbs>
+    </div>
       <Container>
         <WardDialog
         isOpen={open}

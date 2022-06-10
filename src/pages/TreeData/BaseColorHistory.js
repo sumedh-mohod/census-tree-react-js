@@ -11,7 +11,10 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Link,
+  IconButton,
 } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead } from '../../sections/@dashboard/user';
@@ -24,15 +27,17 @@ import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu'
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
+  { id: 'locationType', label: 'Location Type', alignRight: false },
   { id: 'propertyType', label: 'Property Type', alignRight: false },
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
+  { id: 'tenantName', label: 'Tenant Name', alignRight: false },
   { id: 'images', label: 'images', alignRight: false },
   { id: 'addedBy', label: 'Added By', alignRight: false },
+  { id: 'addedOn', label: 'Added On', alignRight: false },
   { id: 'qcStatus', label: 'QC Status', alignRight: false },
-  { id: 'qcRemarks', label: 'QC Remark', alignRight: false },
-  { id: 'qcRemarksDate', label: 'QC Remark Date', alignRight: false },
-  { id: 'addedByDate', label: 'Added By Date', alignRight: false },
+  { id: 'qcRemarks', label: 'QC Remarks', alignRight: false },
+  { id: 'qcDate', label: 'QC Date', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -41,10 +46,16 @@ export default function BaseColorHistory() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen ] = useState(false);
+  const [viewOpen, setViewOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
 
   const handleNewUserClick = () => {
     setOpen(!open)
+  }
+
+  const handleViewOpen = (images) => {
+    setViewOpen(false)
+    // setImageList(images || []);
   }
 
 
@@ -80,16 +91,21 @@ export default function BaseColorHistory() {
                         hover
                       >
                             <TableCell align="left">{option.srno}</TableCell>
+                            <TableCell align="left">{option.locationType}</TableCell>
                         <TableCell align="left">{option.propertyType}</TableCell>
                         <TableCell align="left">{option.propertyNumber}</TableCell>
                         <TableCell align="left">{option.ownerName}</TableCell>
-                        <TableCell align="left">{option.images}</TableCell>
+                        <TableCell align="left">{option.tenantName}</TableCell>
+                        <TableCell align="left">
+                        <IconButton aria-label="delete" size="large" onClick={handleViewOpen} color="success">
+                            <Visibility />
+                          </IconButton>
+                          </TableCell>
                         <TableCell align="left">{option.addedBy}</TableCell>
+                        <TableCell align="left">{option.addedOn}</TableCell>
                         <TableCell align="left">{option.qcStatus}</TableCell>
                         <TableCell align="left">{option.qcRemarks}</TableCell>
-                        <TableCell align="left">{option.qcRemarksDate}</TableCell>
-                        <TableCell align="left">{option.addedByDate}</TableCell>
-                        
+                        <TableCell align="left">{option.qcDate}</TableCell>
                         </TableRow>
                         )
                   })

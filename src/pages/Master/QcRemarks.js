@@ -16,6 +16,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 import { useDispatch, useSelector } from 'react-redux';
 import QcRemarksDialog from '../../components/DialogBox/QcRemarksDialog'
 import Page from '../../components/Page';
@@ -167,9 +169,34 @@ export default function District() {
     }, 1000);
 
   }
+  function handleClick(event) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+  }
+
 
   return (
     <Page title="User">
+        <div role="presentation" style={{marginBottom: 20}} onClick={handleClick}>
+      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/"
+        >
+          Master
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/material-ui/getting-started/installation/"
+        >
+        QC Remarks
+        </Link>
+      </Breadcrumbs>
+    </div>
       <Container>
 
         {open?

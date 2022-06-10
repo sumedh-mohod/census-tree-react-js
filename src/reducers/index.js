@@ -16,6 +16,7 @@ import UploadReducer from "./UploadReducer";
 import UserReducer from "./UserReducer";
 import WardsReducer from "./WardsReducer";
 import ZoneReducer from "./ZoneReducer";
+import BaseColorReducer from "./BaseColorReducer";
 
 
 export default combineReducers({
@@ -35,5 +36,6 @@ export default combineReducers({
   teams:TeamReducer,
   roles:RoleReducer,
   users:UserReducer,
-  upload:UploadReducer
+  upload:UploadReducer,
+  baseColor:BaseColorReducer
 });

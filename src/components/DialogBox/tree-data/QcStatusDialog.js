@@ -19,10 +19,11 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { useFormik } from 'formik';
-import DefaultInput from '../Inputs/DefaultInput';
-import { AddTreeType, EditTreeType } from '../../actions/TreeTypeActions';
+import { TextField } from '@mui/material';
+import { GetUsers } from '../../../actions/UserAction';
+import { AddUserToTeam } from '../../../actions/TeamsAction';
+import { GetQcRemarksForBaseColor } from '../../../actions/BaseColorAction';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -47,59 +48,52 @@ const BootstrapDialogTitle = (props) => {
     </DialogTitle>
   );
 };
+
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CreateRoleDialog(props) {
+export default function QcStatusDialog(props) {
+
   const dispatch = useDispatch();
+  const { isOpen, data, isOpenConfirm,teamId } = props;
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
-  const [status, setStatus] = React.useState('Status')
-  const { isOpen, data } = props;
+  const[state, setState]=  React.useState('');
+  const [role, setRole] = React.useState([]);
+  const [topModalOpen, setTopModalOpen] = React.useState(false);
+  const [reqObj, setReqObj] = React.useState(null)
+  const [id, setId] = React.useState(null)
 
   const {
-    addTreeTypeLog,
-    editTreeTypeLog
+    baseColorRemarks,
+    updateQCStatusLog
   } = useSelector((state) => ({
-    addTreeTypeLog:state.treeType.addTreeTypeLog,
-    editTreeTypeLog:state.treeType.editTreeTypeLog,
+    baseColorRemarks:state.baseColor.baseColorRemarks,
+    updateQCStatusLog:state.baseColor.updateQCStatusLog,
   }));
 
   const firstRun = React.useRef(true);
-  useEffect(()=>{
+  React.useEffect(()=>{
     if (firstRun.current) {
       firstRun.current = false;
       return;
     }
-    props.handleClose();
-  },[addTreeTypeLog,editTreeTypeLog])
+    console.log("INSIDE USEEFFECT");
+    props.handleClose()
+  },[updateQCStatusLog])
 
-  const handleStatusChange = (event) => {
-    setStatus(event.target.value);
-  };
+  React.useEffect(()=>{
+    dispatch(GetQcRemarksForBaseColor("Base Color"))
+  },[])
 
-  const statusValue = [
-    {
-      value: 'active',
-      label: 'Active',
-    },
-    {
-      value: 'inactive',
-      label: 'InActive',
-    },
-  ];
 
   const handleClose = () => {
     props.handleClose();
   };
 
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleMaxWidthChange = (event) => {
     setMaxWidth(
@@ -108,32 +102,25 @@ export default function CreateRoleDialog(props) {
     );
   };
 
-  const DesignationsSchema = Yup.object().shape({
-    treeType: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Tree Type is required'),
+
+  const DistrictsSchema = Yup.object().shape({
+    remark: Yup.string().required("Remark is required"),
   });
 
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      treeType:data? data.tree_type : "",
+      remark:"",
+      
     },
-    validationSchema: DesignationsSchema,
+    validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      if(data){
-        dispatch(EditTreeType({
-          "tree_type":value.treeType,
-        },data.id))
-      }
-      else {
-        dispatch(AddTreeType({
-          "tree_type":value.treeType,
-        }))
-      }
+        props.handleSubmit(value.remark,props.baseColorId)
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, handleSubmit,getFieldProps} = formik;
 
 
   return (
@@ -148,27 +135,43 @@ export default function CreateRoleDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add Type Of Tree</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Qc Remarks</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-        <Grid item xs={12}>
-              <DefaultInput
-                fullWidth
-                id="typeOfTree"
-                // autoComplete="typeOfTree"
-                label="Type Of Tree*"
-                placeholder="Type Of Tree*"
-                error={Boolean(touched.treeType && errors.treeType)}
-                helperText={touched.treeType && errors.treeType}
-                {...getFieldProps("treeType")}
-              />
+            <Grid item xs={12}>
+              <TextField
+                select
+                label="Remark*"
+                id="remark"
+                name="remark"
+                displayEmpty
+                value={values.remark}
+            
+                style={{ width: '83%', marginLeft: 40, marginTop:5 }}
+                error={Boolean(touched.remark && errors.remark)}
+                  helperText={touched.remark && errors.remark}
+                  {...getFieldProps("remark")}
+              >
+           <MenuItem disabled value="">
+            <em>Remark*</em>
+          </MenuItem>
+          {baseColorRemarks?.map((option) => (
+            <MenuItem
+              key={option.id}
+              value={option.id}
+              // style={getStyles(name, personName, theme)}
+            >
+              {option.remark}
+            </MenuItem>
+          ))}
+              </TextField>
             </Grid>
           </Grid>
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
       </div>

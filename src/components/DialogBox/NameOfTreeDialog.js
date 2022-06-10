@@ -126,8 +126,8 @@ SetTypeOfTree(event.target.value);
   };
 
   const DesignationsSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    botanicalName: Yup.string().required('botanical Name is required'),
+    name: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Name is required'),
+    botanicalName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('botanical Name is required'),
     treeType: Yup.string().required('Tree Type is required'),
   });
 
@@ -203,11 +203,10 @@ SetTypeOfTree(event.target.value);
               />
             </Grid>
             <Grid item xs={12}>
-            <TextField
-              select
-              SelectProps={{
-                multiple:true
-              }}
+            <Select
+              // SelectProps={{
+              //   multiple:true
+              // }}
               id="typeOfTree"
               label="Tree Type*"
             //   name='status'
@@ -228,7 +227,7 @@ SetTypeOfTree(event.target.value);
                   {option.tree_type}
                 </MenuItem>
               ))}
-            </TextField>
+            </Select>
             </Grid>
           </Grid>
 

@@ -16,6 +16,11 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
+import HomeIcon from '@mui/icons-material/Home';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import GrainIcon from '@mui/icons-material/Grain';
 import { useDispatch, useSelector } from 'react-redux';
 import DistrictDialog from '../../components/DialogBox/DistrictDialog'
 import Page from '../../components/Page';
@@ -168,9 +173,33 @@ export default function District() {
     }, 1000);
 
   }
+  function handleClick(event) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+  }
 
   return (
     <Page title="User">
+       <div role="presentation" style={{marginBottom: 20}} onClick={handleClick}>
+      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/"
+        >
+          Master
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center' }}
+          color="inherit"
+          href="/material-ui/getting-started/installation/"
+        >
+          Districts
+        </Link>
+      </Breadcrumbs>
+    </div>
       <Container>
         {open?
         <DistrictDialog
