@@ -23,7 +23,7 @@ import { DeleteCouncil, GetCouncil, SearchCouncil } from '../../actions/CouncilA
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
+import { CouncilMenu, UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import CreateCouncilDialog from "../../components/DialogBox/CreateCouncilDialog";
@@ -172,7 +172,7 @@ export default function CreateCouncil() {
         </Link>
         <Link
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 30, color: "#000000", fontStyle: 'bold' }}
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
           href="#"
         >
@@ -215,7 +215,7 @@ export default function CreateCouncil() {
                         {/* <TableCell align="left">{option.password}</TableCell> */}
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <CouncilMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} councilId={option.id} councilName={option.name} />
                         </TableCell>
                         </TableRow>
                         )

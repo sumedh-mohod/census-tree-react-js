@@ -10,13 +10,16 @@ import { SetNewAlert } from "./AlertActions";
 
 
 
-const UploadFile = (params) => async (dispatch) => {
+const UploadFile = (params,index) => async (dispatch) => {
     try {
       const response = await formDataJWTServer.post("/api/upload-file", params);
       console.log("UPLOAD FILE RESPONSE",response.data);
+      const uploadFile = response.data.data;
+
+      uploadFile.index = index;
       dispatch({
         type: UPLOAD_FILE,
-        payload: response.data,
+        payload: uploadFile,
       });
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));

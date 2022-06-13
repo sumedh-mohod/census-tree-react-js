@@ -202,7 +202,7 @@ export default function User() {
                       >
                             <TableCell align="left">{index+1}</TableCell>
                             <TableCell align="left">
-                              {option.first_name}
+                              {option.first_name}  {option.last_name}
                             </TableCell>
                         <TableCell align="left">{option.email}</TableCell>
                         <TableCell align="left">{option.mobile}</TableCell>

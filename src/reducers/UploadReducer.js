@@ -14,7 +14,7 @@ import { RESET_STATE, UPLOAD_FILE, UPLOAD_IMAGE } from "../actions/Types";
         case UPLOAD_FILE:
           return{
               ...state,
-              uploadFile: payload.data,
+              uploadFile: payload,
               uploadFileLog: !state.uploadFileLog
         };
 

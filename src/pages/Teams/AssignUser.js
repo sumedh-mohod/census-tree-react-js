@@ -208,11 +208,21 @@ export default function AssignUser() {
         </Link>
         <Link
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 30, color: "#000000", fontStyle: 'bold' }}
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-              Assigned User({teamName})
+          {teamName}
+              
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="#"
+        >
+           Assigned User
+              
         </Link>
       </Breadcrumbs>
     </div>
@@ -239,7 +249,7 @@ export default function AssignUser() {
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.roles}</TableCell>
-                        <TableCell align="left">{option.form_date}</TableCell>
+                        <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         </TableRow>

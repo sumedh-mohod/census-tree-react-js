@@ -34,6 +34,7 @@ import LocationType from './pages/Master/LocationType';
 import TreeDensity from './pages/Master/TreeDensity';
 import ViewUser from './pages/Users/ViewUser';
 import QcRemarks from './pages/Master/QcRemarks';
+import ViewProperties from './pages/Master/ViewProperties';
 
 // ----------------------------------------------------------------------
 
@@ -55,6 +56,7 @@ export default function Router() {
         { path: 'designation', element: <CreateDesignation /> },
         { path: 'role', element: <CreateRole /> },
         { path: 'council', element: <CreateCouncil /> },
+        { path: 'council/properties/:councilId/:councilName', element: <ViewProperties /> },
         { path: 'type-of-tree', element: <TypeOfTree /> },
         { path: 'name-of-tree', element: <CreateNameOfTree /> },
         { path: 'tree-condition', element: <TreeConditions /> }, 

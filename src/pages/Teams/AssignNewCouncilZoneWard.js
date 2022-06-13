@@ -211,11 +211,19 @@ export default function AssignNewCouncilZoneWard() {
         </Link>
         <Link
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 30, color: "#000000", fontStyle: 'bold' }}
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-             Assigned Councils- Zones- Wards({teamName})
+        {teamName}
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="#"
+        >
+             Assigned Councils- Zones- Wards
         </Link>
       </Breadcrumbs>
     </div>
@@ -243,7 +251,7 @@ export default function AssignNewCouncilZoneWard() {
                         <TableCell align="left">{option.council_name}</TableCell>
                         <TableCell align="left">{option.zone_name}</TableCell>
                         <TableCell align="left">{option.ward_name}</TableCell>
-                        <TableCell align="left">{option.form_date}</TableCell>
+                        <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date?option.to_date:"-"}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         </TableRow>

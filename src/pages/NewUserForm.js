@@ -71,7 +71,9 @@ export default function NewUserForm(props) {
       talukas,
       userById,
       designations,
-      addUsersLog
+      addUsersLog,
+      uploadFile,
+      uploadFileLog
     } = useSelector((state) => ({
       salaryDeductionType:state.users.salaryDeductionType,
       userDocumentType:state.users.userDocumentType,
@@ -83,6 +85,8 @@ export default function NewUserForm(props) {
       userById:state.users.userById,
       designations:state.designations.designations,
       addUsersLog:state.users.addUsersLog,
+      uploadFile:state.upload.uploadFile,
+      uploadFileLog:state.upload.uploadFileLog,
     }));
 
     useEffect(()=>{
@@ -118,6 +122,21 @@ export default function NewUserForm(props) {
         setEditUser(true);
       }
     },[userById])
+
+    const thirdRun = React.useRef(true);
+    useEffect(()=>{ 
+      if (thirdRun.current) {
+        thirdRun.current = false;
+        return;
+      }
+      if(uploadFile){
+        const newDocumentList = [...documentList];
+        const value =  newDocumentList[uploadFile.index];
+        value.documentValue = uploadFile.url;
+        newDocumentList[uploadFile.index] = value;
+        setDocumentList(newDocumentList); 
+      }
+    },[uploadFileLog])
 
     const separateId = (roles) => {
       const roleArray = [];
@@ -176,7 +195,7 @@ export default function NewUserForm(props) {
         document.map((value,index)=>{
           const infoToAdd = {
             'documentName':value.user_document_type_id,
-            'documentValue':"",
+            'documentValue':value.document_path,
             'errorName':"",
             'errorValue':"",
           }
@@ -443,7 +462,7 @@ export default function NewUserForm(props) {
     const formData = new FormData();
     formData.append('upload_for', 'users');
     formData.append('file', e.target.files[0]);
-    dispatch(UploadFile(formData));
+    dispatch(UploadFile(formData,index));
     const newDocumentList = [...documentList];
     const value =  newDocumentList[index];
     value.documentValue = e.target.value;
@@ -581,7 +600,7 @@ const validateRole = () => {
       district: Yup.string().required('Districts is required'),
       taluka: Yup.string().required('Taluka is required'),
       username: Yup.string().required('Username is required'),
-      password: editUser?null:Yup.string().required('Password is required'),
+      password: editUser?null:Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
       aadhaarNumber: Yup.string().matches(aadharRegExp, 'Enter valid aadhar number').required('Aadhar Number is required'),
       education: Yup.string().required('Education is required'),
       dob: Yup.string().required('DOB is required'),
@@ -793,7 +812,7 @@ const validateRole = () => {
   
   
 
-    console.log("ERROR STATE",errorState);
+    console.log("DOCUMENT LIST",documentList);
   
     return (
       <div>
@@ -1140,7 +1159,7 @@ const validateRole = () => {
               <TextField
                 select
                 id="diffentlyAbled"
-                label="Differently Abled*"
+                label="Differently Abled ?*"
                 name='diffentlyAbled'
                 displayEmpty
                 defaultValue={data? data.caste: ""}
@@ -1151,7 +1170,7 @@ const validateRole = () => {
                 {...getFieldProps("differentlyAbled")}
               >
                  <MenuItem disabled value="">
-              <em>Differently Abled*</em>
+              <em>Differently Abled ?*</em>
             </MenuItem>
                 {diffentlyAbled.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -1566,18 +1585,24 @@ const validateRole = () => {
               ))}
             </TextField>
             </Grid>
-            <Grid item xs={5}>
-            <TextField
-                fullWidth
-                id="amount"
-                type={"file"}
-                autoComplete="amount"
-                placeholder="Choose file"
-                value={value.documentValue}
-                error={Boolean(value.errorValue)}
-                helperText={value.errorValue}
-                onChange={(e)=>handleDocumentValueChange(e,index)}
-              />
+            <Grid container item xs={5}>
+              {value.documentValue?
+              <Button variant="outlined" target="_blank" rel="noopener" href={`${value.documentValue}`}>
+              View Document
+            </Button>:
+             <TextField
+             fullWidth
+             id="amount"
+             type={"file"}
+             autoComplete="amount"
+             placeholder="Choose file"
+             value={value.documentValue}
+             error={Boolean(value.errorValue)}
+             helperText={value.errorValue}
+             onChange={(e)=>handleDocumentValueChange(e,index)}
+           />
+              }
+           
             </Grid>
             <Grid item xs={2}>
             <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>

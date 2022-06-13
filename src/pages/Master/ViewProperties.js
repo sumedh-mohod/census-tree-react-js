@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
-import { useState,useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import {  useEffect, useRef, useState } from 'react';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -15,31 +15,30 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Link,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteTreeName, GetTreeName, SearchTreeName } from '../../actions/TreeNameAction';
+import { GetPropertyByCouncilId, SearchPropertyByCouncilId } from '../../actions/PropertyAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
-import SearchNotFound from '../../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
+import { UserListHead, UserListToolbar} from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
-import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import NameOfTreeDialog from "../../components/DialogBox/NameOfTreeDialog";
+import TeamsData from  '../../components/JsonFiles/TeamsData.json';
+import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'nameOfTree', label: 'Name Of Tree', alignRight: false },
-  { id: 'botanicalName', label: 'Botanical Name', alignRight: false },
-  { id: 'typeOfTree', label: 'Type Of Tree', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: 'action', label: 'Action', alignRight: true },
+  { id: 'zone', label: 'Zone', alignRight: false },
+  { id: 'ward', label: 'Ward', alignRight: false },
+  { id: 'propertyNumber', label: 'Property Number', alignRight: false },
+  { id: 'propertyOwner', label: 'Property Owner', alignRight: false },
+  { id: 'tenantName', label: 'Tenant Name', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -73,7 +72,8 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function CreateNameOfTree() {
+export default function ViewProperties() {
+
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -81,66 +81,63 @@ export default function CreateNameOfTree() {
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
-  const [searchValue,setSearchValue] = useState("");
-
+   const [searchValue,setSearchValue] = useState("");
+   const [showList,setShowList] = useState(false);
+  
   const {
-    treeName,
-    addTreeNameLog,
-    editTreeNameLog,
-    deleteTreeNameLog,
+    properties,
     pageInfo
   } = useSelector((state) => ({
-    treeName:state.treeName.treeName,
-    addTreeNameLog:state.treeName.addTreeNameLog,
-    editTreeNameLog:state.treeName.editTreeNameLog,
-    deleteTreeNameLog:state.treeName.deleteTreeNameLog,
-    pageInfo : state.treeName.pageInfo
+    properties:state.properties.properties,
+    pageInfo : state.properties.pageInfo
   }));
 
-  console.log("TREE NAME",treeName)
-
+  const { councilId, councilName } = useParams();
+  
   useEffect(()=>{
-    dispatch(GetTreeName(page+1,rowsPerPage));
-  },[addTreeNameLog,editTreeNameLog,deleteTreeNameLog])
+    dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage));
+  },[])
 
   useEffect(()=>{
     if(pageInfo){
       setCount(pageInfo?.total)
     }
   },[pageInfo])
-  
+
+  const fetchRun = useRef(true);
+  useEffect(()=>{
+    if (fetchRun.current) {
+      fetchRun.current = false;
+      return;
+    }
+    setShowList(true);
+  },[properties])
+
   const handleNewUserClick = () => {
     setDialogData(null);
     setOpen(!open)
   }
 
-  const handleEdit = (data) => {
-    setDialogData(data);
-    setOpen(!open);
-  };
-
-  const handleDelete = (data) => {
-    dispatch(DeleteTreeName(data.id,data.status?0:1));
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    setShowList(false);
     if(search){
-      dispatch(SearchTreeName(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchPropertyByCouncilId(councilId,newPage+1,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetTreeName(newPage+1,rowsPerPage));
+      dispatch(GetPropertyByCouncilId(councilId,newPage+1,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
+    setShowList(false);
     setPage(0);
     if(search){
-      dispatch(SearchTreeName(1,parseInt(event.target.value, 10),searchValue));
+      dispatch(SearchPropertyByCouncilId(councilId,1,parseInt(event.target.value, 10),searchValue));
     }
     else {
-      dispatch(GetTreeName(1,parseInt(event.target.value, 10)));
+      dispatch(GetPropertyByCouncilId(councilId,1,parseInt(event.target.value, 10)));
     }
   };
 
@@ -151,14 +148,16 @@ export default function CreateNameOfTree() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
-          dispatch(SearchTreeName(1,rowsPerPage,value))
+          setShowList(false);
+          dispatch(SearchPropertyByCouncilId(councilId,1,rowsPerPage,value))
           setSearch(true)
           setPage(0)
           setSearchValue(value);
 
         }
         else{
-          dispatch(GetTreeName(1,rowsPerPage));
+          setShowList(false);
+          dispatch(GetPropertyByCouncilId(councilId,1,rowsPerPage));
           setSearch(false);
           setPage(0);
           setSearchValue("")
@@ -171,48 +170,50 @@ export default function CreateNameOfTree() {
     console.info('You clicked a breadcrumb.');
   }
 
+
   return (
     <Page title="User">
-      <Container>
-        {open?
-        <NameOfTreeDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data={dialogData}
-        />:null
-        }
-        
-       
+    <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Master
+          Council
         </Link>
         <Link
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Name Of Trees
+          {councilName}
+              
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="#"
+        >
+           Properties
+              
         </Link>
       </Breadcrumbs>
+
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Name Of Tree
+          Import Properties
 
           </Button>
         </Stack>
 
         <Card>
-
-        <UserListToolbar numSelected={0} placeHolder={"Search tree..."} onFilterName={filterByName} />
+        <UserListToolbar numSelected={0} placeHolder={"Search user..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -220,22 +221,20 @@ export default function CreateNameOfTree() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { treeName?.map((option,index) => {
+                     { showList? properties?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{index+1}</TableCell>
-                        <TableCell align="left">{option.name}</TableCell>
-                        <TableCell align="left">{option.botanical_name}</TableCell>
-                        <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
-                        <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
-                        </TableCell>
+                        <TableCell align="left">{option?.zone?.name}</TableCell>
+                        <TableCell align="left">{option?.ward?.name}</TableCell>
+                        <TableCell align="left">{option.property_number}</TableCell>
+                        <TableCell align="left">{option.owner_name}</TableCell>
+                        <TableCell align="left">{option.tenant_name?option.tenant_name:"-"}</TableCell>
                         </TableRow>
                         )
-                  })
+                  }):null
                 }
 
                 </TableBody>
