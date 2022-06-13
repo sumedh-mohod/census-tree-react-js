@@ -103,6 +103,7 @@ export default function BaseColor() {
       return;
     }
     setShowList(true);
+    console.log("BEFORE FETCHING");
     dispatch(GetBaseColorTrees(page+1,rowsPerPage,coucilId,zoneId,wardId));
   },[editBaseColorTreesLog,deleteBaseColorTreesLog,updateQCStatusLog])
 
@@ -117,7 +118,7 @@ export default function BaseColor() {
 
   useEffect(()=>{
     dispatch(GetCouncil(1,1000));
-    dispatch(GetBaseColorTreeById(1));
+    // dispatch(GetBaseColorTreeById(1));
   },[])
 
   useEffect(()=>{
@@ -279,7 +280,7 @@ export default function BaseColor() {
         <ViewImageDialog
         isOpen={viewOpen}
         handleClose = {handleViewOpen}
-        data={dialogData}
+        data={imageList}
         />:null
         }
         
@@ -328,7 +329,7 @@ export default function BaseColor() {
                         <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
                         <TableCell align="left">
                           {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
-                          <IconButton aria-label="delete" size="large" onClick={handleViewOpen} color="success">
+                          <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
                             <Visibility />
                           </IconButton>
                           </TableCell>

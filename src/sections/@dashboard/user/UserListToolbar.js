@@ -54,7 +54,8 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
         <SearchStyle
           value={filterName}
           onKeyUp={onFilterName}
-          placeholder={placeHolder}
+          // placeholder={placeHolder}
+          placeholder="Search here"
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />

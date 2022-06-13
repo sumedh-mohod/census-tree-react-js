@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -78,7 +78,6 @@ export default function ViewImageDialog(props) {
         },
       ];
   const { isOpen, data } = props;
-  console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [status, setStatus] = React.useState('Status')
 
@@ -95,20 +94,23 @@ export default function ViewImageDialog(props) {
     props.handleClose();
   };
 
+
+
   const images = [
-    {
-      original: 'https://picsum.photos/id/1018/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1018/250/150/',
-    },
-    {
-      original: 'https://picsum.photos/id/1015/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1015/250/150/',
-    },
-    {
-      original: 'https://picsum.photos/id/1019/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1019/250/150/',
-    }
   ];
+
+  useEffect(()=>{
+    props.data.map((value,index)=>{
+      const obj = {
+        original:value,
+        thumbnail:value,
+      }
+      images.push(obj);
+      return null;
+    })
+  },[data])
+
+  
 
   return (
     
