@@ -46,7 +46,7 @@ const TABLE_HEAD = [
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
-  { id: 'images', label: 'images', alignRight: false },
+  { id: 'images', label: 'Images', alignRight: false },
   { id: 'addedBy', label: 'Added By', alignRight: false },
   { id: 'addedOn', label: 'Added On', alignRight: false },
   { id: 'qcStatus', label: 'QC Status', alignRight: false },
@@ -331,10 +331,10 @@ export default function BaseColor() {
                           </IconButton>
                           </TableCell>
                         <TableCell align="left">{option.added_by?.first_name}</TableCell>
-                        <TableCell align="left">{option.added_on_date}</TableCell>
+                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.added_on_date}</TableCell>
                         <TableCell align="left">{option.qc_status?option.qc_status:"-"}</TableCell>
                         <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>
-                        <TableCell align="left">{option.qc_date?option.qc_date:"-"}</TableCell>
+                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.qc_date?option.qc_date:"-"}</TableCell>
                         <TableCell align="right">
                           <BaseColorMoreMenu handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>

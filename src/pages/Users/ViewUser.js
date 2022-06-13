@@ -25,6 +25,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Visibility } from '@mui/icons-material';
 import { GetActiveRole } from '../../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../../actions/UserAction';
 import { UploadFile, UploadImage } from '../../actions/UploadActions';
@@ -1032,7 +1033,7 @@ const validateRole = () => {
 					{ readOnly: true, }
 				    }
                   id="differentlyAbled"
-                  label="Differently Abled"
+                  label="Differently Abled ?"
                   value={values.differentlyAbled?"Yes":"No"}
                 />
               </Grid>
@@ -1320,7 +1321,7 @@ const validateRole = () => {
             ))}
           
               <Typography variant="h5" style={{marginTop: 20, marginBottom: 20, marginLeft: 40}} gutterBottom>
-           Upload Document
+           Uploaded Document
           </Typography>
           {documentList?.map((value,index)=>(
             <Grid container spacing={1} style={{marginTop: 5}} key={index}>
@@ -1338,15 +1339,18 @@ const validateRole = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-            <Link fullWidth
+            {/* <Link fullWidth
                   style={{width: '88%', marginLeft: 40}}
                   variant='outlined' target="_blank" rel="noopener" href={`${value.documentName}`} >
-              {/* View Uploaded File */}
+             
               <IconButton   size="large">
                 View Uploaded File
                 
               </IconButton>
-          </Link>
+          </Link> */}
+          <IconButton aria-label="delete" target="_blank" rel="noopener" size="large" href={`${value.documentValue}`} color="success">
+                            <Visibility />
+              </IconButton>
             </Grid>
             {/* <Grid item xs={2}>
             <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>

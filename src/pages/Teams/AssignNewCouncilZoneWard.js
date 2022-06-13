@@ -243,7 +243,7 @@ export default function AssignNewCouncilZoneWard() {
                         <TableCell align="left">{option.council_name}</TableCell>
                         <TableCell align="left">{option.zone_name}</TableCell>
                         <TableCell align="left">{option.ward_name}</TableCell>
-                        <TableCell align="left">{option.form_date}</TableCell>
+                        <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date?option.to_date:"-"}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         </TableRow>

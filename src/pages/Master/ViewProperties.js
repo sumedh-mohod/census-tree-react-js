@@ -19,12 +19,12 @@ import {
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteUserFromTeam, GetUserByTeam, SearchUserByTeam } from '../../actions/TeamsAction';
+import { GetPropertyByCouncilId, SearchPropertyByCouncilId } from '../../actions/PropertyAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
-import { UserListHead, UserListToolbar, TeamsAssignedMenu } from '../../sections/@dashboard/user';
+import { UserListHead, UserListToolbar} from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
@@ -34,11 +34,11 @@ import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserD
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'user', label: 'User', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'fromdate', label: 'From Date', alignRight: false },
-  { id: 'todate', label: 'To Date', alignRight: false },
-  { id: 'status', label: 'status', alignRight: false },
+  { id: 'zone', label: 'Zone', alignRight: false },
+  { id: 'ward', label: 'Ward', alignRight: false },
+  { id: 'propertyNumber', label: 'Property Number', alignRight: false },
+  { id: 'propertyOwner', label: 'Property Owner', alignRight: false },
+  { id: 'tenantName', label: 'Tenant Name', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -72,7 +72,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function AssignUser() {
+export default function ViewProperties() {
 
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
@@ -85,23 +85,18 @@ export default function AssignUser() {
    const [showList,setShowList] = useState(false);
   
   const {
-    userOfTeam,
-    assignUserToTeamLog,
-    deleteUserFromteamLog,
+    properties,
     pageInfo
   } = useSelector((state) => ({
-    userOfTeam:state.teams.userOfTeam,
-    assignUserToTeamLog:state.teams.assignUserToTeamLog,
-    deleteUserFromteamLog:state.teams.deleteUserFromteamLog,
-    pageInfo : state.teams.pageInfo
+    properties:state.properties.properties,
+    pageInfo : state.properties.pageInfo
   }));
 
-  console.log("USER of team",userOfTeam)
-  const { teamId, teamName } = useParams();
+  const { councilId, councilName } = useParams();
   
   useEffect(()=>{
-    dispatch(GetUserByTeam(teamId,page+1,rowsPerPage));
-  },[assignUserToTeamLog,deleteUserFromteamLog])
+    dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage));
+  },[])
 
   useEffect(()=>{
     if(pageInfo){
@@ -116,30 +111,21 @@ export default function AssignUser() {
       return;
     }
     setShowList(true);
-  },[userOfTeam])
+  },[properties])
 
   const handleNewUserClick = () => {
     setDialogData(null);
     setOpen(!open)
   }
 
-  const handleEdit = (data) => {
-    setDialogData(data);
-    setOpen(!open);
-  };
-
-  const handleDelete = (data) => {
-    dispatch(DeleteUserFromTeam(data.id,data.status?0:1));
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchUserByTeam(teamId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchPropertyByCouncilId(councilId,newPage+1,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetUserByTeam(teamId,newPage+1,rowsPerPage));
+      dispatch(GetPropertyByCouncilId(councilId,newPage+1,rowsPerPage));
     }
   };
 
@@ -148,10 +134,10 @@ export default function AssignUser() {
     setShowList(false);
     setPage(0);
     if(search){
-      dispatch(SearchUserByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
+      dispatch(SearchPropertyByCouncilId(councilId,1,parseInt(event.target.value, 10),searchValue));
     }
     else {
-      dispatch(GetUserByTeam(teamId,1,parseInt(event.target.value, 10)));
+      dispatch(GetPropertyByCouncilId(councilId,1,parseInt(event.target.value, 10)));
     }
   };
 
@@ -163,7 +149,7 @@ export default function AssignUser() {
     timer = setTimeout(() => {
         if(value){
           setShowList(false);
-          dispatch(SearchUserByTeam(teamId,1,rowsPerPage,value))
+          dispatch(SearchPropertyByCouncilId(councilId,1,rowsPerPage,value))
           setSearch(true)
           setPage(0)
           setSearchValue(value);
@@ -171,7 +157,7 @@ export default function AssignUser() {
         }
         else{
           setShowList(false);
-          dispatch(GetUserByTeam(teamId,1,rowsPerPage));
+          dispatch(GetPropertyByCouncilId(councilId,1,rowsPerPage));
           setSearch(false);
           setPage(0);
           setSearchValue("")
@@ -184,40 +170,44 @@ export default function AssignUser() {
     console.info('You clicked a breadcrumb.');
   }
 
-  console.log("USERS OF TEAM",userOfTeam);
 
   return (
     <Page title="User">
     <Container>
-        <AssignUserDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data= {dialogData}
-        teamId={teamId}
-        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Teams
+          Council
         </Link>
         <Link
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 30, color: "#000000", fontStyle: 'bold' }}
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-              Assigned User({teamName})
+          {councilName}
+              
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="#"
+        >
+           Properties
+              
         </Link>
       </Breadcrumbs>
+
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-          Assigned User
+          Import Properties
 
           </Button>
         </Stack>
@@ -231,17 +221,17 @@ export default function AssignUser() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { showList? userOfTeam?.map((option,index) => {
+                     { showList? properties?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{index+1}</TableCell>
-                        <TableCell align="left">{option.name}</TableCell>
-                        <TableCell align="left">{option.roles}</TableCell>
-                        <TableCell align="left">{option.from_date}</TableCell>
-                        <TableCell align="left">{option.to_date}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
+                        <TableCell align="left">{option?.zone?.name}</TableCell>
+                        <TableCell align="left">{option?.ward?.name}</TableCell>
+                        <TableCell align="left">{option.property_number}</TableCell>
+                        <TableCell align="left">{option.owner_name}</TableCell>
+                        <TableCell align="left">{option.tenant_name?option.tenant_name:"-"}</TableCell>
                         </TableRow>
                         )
                   }):null
