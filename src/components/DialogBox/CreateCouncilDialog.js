@@ -295,7 +295,7 @@ export default function CreateCouncilDialog(props) {
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Email is required'),
     username: Yup.string().required('Username is required'),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     zones: Yup.array().min(1,'Zone is required'),
     wards: Yup.array().min(1,'Ward is required'),
   });

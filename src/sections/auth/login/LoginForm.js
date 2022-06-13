@@ -9,7 +9,6 @@ import { LoadingButton } from '@mui/lab';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginUser } from '../../../actions/AuthActions';
 import Iconify from '../../../components/Iconify';
-
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -28,7 +27,7 @@ export default function LoginForm() {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
   });
 
   const firstRun = useRef(true);

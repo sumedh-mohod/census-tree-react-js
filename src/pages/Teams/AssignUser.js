@@ -208,11 +208,21 @@ export default function AssignUser() {
         </Link>
         <Link
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 30, color: "#000000", fontStyle: 'bold' }}
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-              Assigned User({teamName})
+          {teamName}
+              
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="#"
+        >
+           Assigned User
+              
         </Link>
       </Breadcrumbs>
     </div>
