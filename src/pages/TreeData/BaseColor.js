@@ -246,26 +246,6 @@ export default function BaseColor() {
 
   return (
     <Page title="User">
-            <div role="presentation" style={{marginBottom: 20}} onClick={handleClick}>
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center' }}
-          color="inherit"
-          href="/"
-        >
-          Tree Data
-        </Link>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center' }}
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-          Base Color
-        </Link>
-      </Breadcrumbs>
-    </div>
       <Container>
         {open?
         <BaseColorDialog
@@ -293,9 +273,26 @@ export default function BaseColor() {
         }
          
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Base Color
-          </Typography>
+        <div role="presentation" onClick={handleClick} >
+      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          href="#"
+        >
+          Tree Data
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 30, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="#"
+        >
+        Base Color
+        </Link>
+      </Breadcrumbs>
+    </div>
         </Stack>
 
         <Card>

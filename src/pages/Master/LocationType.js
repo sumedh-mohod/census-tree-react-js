@@ -171,26 +171,6 @@ export default function LocationType() {
 
   return (
     <Page title="User">
-       <div role="presentation" style={{marginBottom: 20}} onClick={handleClick}>
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center' }}
-          color="inherit"
-          href="/"
-        >
-          Master
-        </Link>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center' }}
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-       Location Types
-        </Link>
-      </Breadcrumbs>
-    </div>
       <Container>
         {open?
          <TypeOfLocationDialog
@@ -201,9 +181,26 @@ export default function LocationType() {
         }
        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-        Location Types
-          </Typography>
+        <div role="presentation" onClick={handleClick} >
+      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          href="#"
+        >
+          Master
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 30, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="#"
+        >
+          Location Types
+        </Link>
+      </Breadcrumbs>
+    </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
            Add New
 
