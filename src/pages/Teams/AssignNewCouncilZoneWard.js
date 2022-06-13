@@ -15,7 +15,9 @@ import {
   TableContainer,
   TablePagination,
   Stack,
+  Link,
 } from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCouncil } from '../../actions/CouncilAction';
 import { GetZones } from '../../actions/ZonesAction';
@@ -182,6 +184,10 @@ export default function AssignNewCouncilZoneWard() {
     }, 1000);
 
   }
+  function handleClick(event) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+  }
 
   return (
     <Page title="User">
@@ -193,9 +199,26 @@ export default function AssignNewCouncilZoneWard() {
         teamId={teamId}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Assigned Councils- Zones- Wards({teamName})
-          </Typography>
+        <div role="presentation" onClick={handleClick} >
+      <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          href="#"
+        >
+          Teams
+        </Link>
+        <Link
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 30, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="#"
+        >
+             Assigned Councils- Zones- Wards({teamName})
+        </Link>
+      </Breadcrumbs>
+    </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
           Assigned C-Z-W
 

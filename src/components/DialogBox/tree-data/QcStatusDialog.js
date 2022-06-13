@@ -135,7 +135,7 @@ export default function QcStatusDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Qc Remarks</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>QC Remarks</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
@@ -171,7 +171,7 @@ export default function QcStatusDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button onClick={handleSubmit}>Unapprove</Button>
         </DialogActions>
       </Dialog>
       </div>

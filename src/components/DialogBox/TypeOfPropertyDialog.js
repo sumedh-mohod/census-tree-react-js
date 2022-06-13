@@ -176,7 +176,7 @@ export default function TypeOfPropertyDialog(props) {
              // error={Boolean(touched.state && errors.state)}
              //   helperText={touched.state && errors.state}
            >
-              <MenuItem >
+              <MenuItem disabled value="" >
            <em>Location Type*</em>
          </MenuItem>
              {locationTypes?.map((option) => (

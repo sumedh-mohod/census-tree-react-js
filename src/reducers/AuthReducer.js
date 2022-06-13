@@ -17,9 +17,11 @@ import {
   
     switch (type) {
       case LOGIN:
+        console.log("LOGIN CALLED");
+        console.log("PAYLOAD DATA",payload.data);
         return {
           ...state,
-          loggedUser: payload.data,
+          loggedUser: payload,
           isLogged: !state.isLogged,
         };
         case LOG_OUT:

@@ -288,25 +288,25 @@ export default function NewUserForm(props) {
     };
   
     const handleRoleChange = (event) => {
-      console.log("EVENT VALUE",event.target.value);
-      const {
-        target: { value },
-      } = event;
-      setRole(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
-      );
+      // console.log("EVENT VALUE",event.target.value);
+      // const {
+      //   target: { value },
+      // } = event;
+      // setRole(
+      //   // On autofill we get a stringified value.
+      //   typeof value === 'string' ? value.split(',') : value,
+      // );
 
-      const roleValue = event.target.value;
+      // const roleValue = event.target.value;
 
-      if(roleValue.indexOf(9)!==-1){
+      if(event.target.value===9){
         setShowCouncil(true);
       }
       else {
         setShowCouncil(false);
       }
 
-      // setRole(event.target.value);
+      setRole(event.target.value);
     };
 
     const handleReferredChange = (event) => {
@@ -693,7 +693,7 @@ const validateRole = () => {
                 username: value.username,
                 password: value.password,
               },
-              "roles":role,
+              "roles":[role],
             }
 
             if(editUser){
@@ -746,7 +746,7 @@ const validateRole = () => {
                 username: value.username,
                 password: value.password,
               },
-              "roles":role,
+              "roles":[role],
               "personal_details":{
                 aadhaar_number:value.aadhaarNumber,
                 education: value.education,
@@ -809,9 +809,9 @@ const validateRole = () => {
           <Grid item sm={6}>
             <TextField
               select
-              SelectProps={{
-                multiple:true
-              }}
+              // SelectProps={{
+              //   multiple:true
+              // }}
               id="role"
               name='role'
               label="Role*"
@@ -821,19 +821,27 @@ const validateRole = () => {
               onChange={handleRoleChange}
               placeholder='Select Role*'
               defaultValue={data? data.role: ""}
+              // renderValue={(selected) => {
+              //   if (selected?.length === 0) {
+              //     return <em>Select Role*</em>;
+              //   }
+              //   const result = [];
+              //   selected?.map((value)=>{
+              //     const found = findRole(roles,value);
+              //     result.push(found);
+              //     return null;
+              //   })
+              //   return result.join(",");
+              // }}
+
               renderValue={(selected) => {
                 if (selected?.length === 0) {
                   return <em>Select Role*</em>;
                 }
-                console.log("SELECTED",selected);
-                const result = [];
-                selected?.map((value)=>{
-                  const found = findRole(roles,value);
-                  result.push(found);
-                  return null;
-                })
-                return result.join(",");
+                  const found = findRole(roles,role);
+                return found;
               }}
+
             >
                <MenuItem disabled value="">
             <em>Select Role</em>
@@ -1587,7 +1595,7 @@ const validateRole = () => {
           }
           
               
-              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} onClick={handleSubmit}>{editUser?"Update":"Add"}</Button>    
+              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} onClick={handleSubmit}>{editUser?"Update":"Save"}</Button>    
             {/* <Button >Add</Button> */}
         </div>
     );
