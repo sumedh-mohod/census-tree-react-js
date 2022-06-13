@@ -27,9 +27,9 @@ const navConfig = [
     path: '/dashboard/products',
     icon: getIcon('eva:shopping-bag-fill'),
     children:[
-        {
-        title: 'Districts',
-        path: '/dashboard/district',
+      {
+        title: 'Roles',
+        path: '/dashboard/role',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
@@ -37,59 +37,14 @@ const navConfig = [
         path: '/dashboard/state',
         icon: getIcon('eva:shopping-bag-fill'),
       },
+        {
+        title: 'Districts',
+        path: '/dashboard/district',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
       {
         title: 'Talukas',
         path: '/dashboard/taluka',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Designations',
-        path: '/dashboard/designation',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Roles',
-        path: '/dashboard/role',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Councils',
-        path: '/dashboard/council',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Type Of Trees',
-        path: '/dashboard/type-of-tree',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Name Of Trees',
-        path: '/dashboard/name-of-tree',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Tree Conditions',
-        path: '/dashboard/tree-condition',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Type Of Properties',
-        path: '/dashboard/type-of-property',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Location Types',
-        path: '/dashboard/location-type',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Tree Density',
-        path: '/dashboard/tree-density',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Qc Remaks',
-        path: '/dashboard/qc-remarks',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
@@ -100,6 +55,51 @@ const navConfig = [
       {
         title: 'Wards',
         path: '/dashboard/ward',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Councils',
+        path: '/dashboard/council',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Tree Types',
+        path: '/dashboard/type-of-tree',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Tree Conditions',
+        path: '/dashboard/tree-condition',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Tree Names',
+        path: '/dashboard/name-of-tree',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Location Types',
+        path: '/dashboard/location-type',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Property Types',
+        path: '/dashboard/type-of-property',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Qc Remaks',
+        path: '/dashboard/qc-remarks',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Designations',
+        path: '/dashboard/designation',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Tree Density',
+        path: '/dashboard/tree-density',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       

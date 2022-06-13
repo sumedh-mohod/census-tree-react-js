@@ -266,7 +266,7 @@ export default function AssignUserDialog(props) {
               value={option.id}
               // style={getStyles(name, personName, theme)}
             >
-              {option.first_name}
+              {option.first_name} {option.last_name}
             </MenuItem>
           ))}
               </TextField>

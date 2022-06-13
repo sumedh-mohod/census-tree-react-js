@@ -600,7 +600,7 @@ const validateRole = () => {
       district: Yup.string().required('Districts is required'),
       taluka: Yup.string().required('Taluka is required'),
       username: Yup.string().required('Username is required'),
-      password: editUser?null:Yup.string().required('Password is required'),
+      password: editUser?null:Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
       aadhaarNumber: Yup.string().matches(aadharRegExp, 'Enter valid aadhar number').required('Aadhar Number is required'),
       education: Yup.string().required('Education is required'),
       dob: Yup.string().required('DOB is required'),
