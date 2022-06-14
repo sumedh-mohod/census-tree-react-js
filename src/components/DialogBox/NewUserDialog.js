@@ -698,13 +698,13 @@ export default function NewUserDialog(props) {
               onChange={handleApplicableDeducationCange}
               renderValue={(selected) => {
                 if (selected.length === 0) {
-                  return <em>Applicable Deducation</em>;
+                  return <em>Applicable Deduction</em>;
                 }
                 return selected
               }}
             >
                <MenuItem disabled value="">
-            <em>Applicable Deducation</em>
+            <em>Applicable Deduction</em>
           </MenuItem>
               {applicableDeducationValue.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
