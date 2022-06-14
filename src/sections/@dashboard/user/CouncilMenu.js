@@ -68,9 +68,9 @@ export default function CouncilMenu(props) {
 
          <MenuItem component={RouterLink} to={`/dashboard/council/properties/${props.councilId}/${props.councilName}`} sx={{ color: 'text.secondary' }} onClick={handleClose} >
             <ListItemIcon>
-                <Iconify icon="eva:eye-fill" width={24} height={24} />
+                <Iconify icon="bi:building" width={24} height={24} />
             </ListItemIcon>
-            <ListItemText primary="View Properties" primaryTypographyProps={{ variant: 'body2' }} />
+            <ListItemText primary="View Property" primaryTypographyProps={{ variant: 'body2' }} />
          </MenuItem>
 
       </Menu>

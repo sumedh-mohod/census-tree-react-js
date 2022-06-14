@@ -103,6 +103,8 @@ export default function AssignCouncilZoneDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [gender, setGender] = React.useState('');
   const [councilName, setCouncilName] = React.useState('');
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [maxWidth, setMaxWidth] = React.useState('sm');
   const [ZoneName, setZoneName] = React.useState([]);
   const [WardName, setWardName] = React.useState([]);
   const [topModalOpen, setTopModalOpen] = React.useState(false);
@@ -256,17 +258,24 @@ export default function AssignCouncilZoneDialog(props) {
 
   return (
     <div>
-      <AssignNewZoneWardConfirmationDialog
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
+        Open max-width dialog
+      </Button> */}
+     <AssignNewZoneWardConfirmationDialog
         isOpenConfirm={topModalOpen}
         handleClose = {(answer)=>handleTopModalAnswer(answer)}
        />
-      <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          New Council
-        </BootstrapDialogTitle>
-        <Divider />
-        <DialogContent dividers>
-          <Grid container spacing={1}>
+      <Dialog
+        fullWidth={fullWidth}
+        maxWidth={maxWidth}
+        open={isOpen}
+        onClose={handleClose}
+        // onClose={handleClose}
+      >
+        <BootstrapDialogTitle onClose={handleClose}>Assigned C-Z-W</BootstrapDialogTitle>
+        <Divider/>
+        <DialogContent>
+        <Grid container spacing={1}>
             <Grid item xs={12}>
               <TextField
                 select
@@ -275,7 +284,7 @@ export default function AssignCouncilZoneDialog(props) {
                 displayEmpty
                 label="Coucil*"
                 value={values.council}
-                style={{ width: '83%', marginLeft: 40,marginTop:5 }}
+                style={{width:'83%', marginLeft: 40, marginTop:5}}
                 defaultValue={data ? data.councilName : ''}
                 onChange={(e) => {
                   handleCouncilName(e)
@@ -309,7 +318,7 @@ export default function AssignCouncilZoneDialog(props) {
           label="Zone*"
           value={ZoneName}
           onChange={handleZoneChange}
-          style={{ width: '83%', marginLeft: 40 }}
+          style={{ width: '83%', marginLeft: 40,  marginTop:5 }}
           error={Boolean(touched.zones && errors.zones)}
           helperText={touched.zones && errors.zones}
           {...getFieldProps("zones")}
@@ -333,7 +342,7 @@ export default function AssignCouncilZoneDialog(props) {
           label="Ward*"
           value={WardName}
           onChange={handleWardChange}
-          style={{ width: '83%', marginLeft: 40 }}
+          style={{ width: '83%', marginLeft: 40, marginTop:5}}
           error={Boolean(touched.wards && errors.wards)}
           helperText={touched.wards && errors.wards}
           {...getFieldProps("wards")}
@@ -352,7 +361,7 @@ export default function AssignCouncilZoneDialog(props) {
             </Grid>
           </Grid>
         </DialogContent>
-
+        <Divider/>
         <DialogActions>
         <AssignNewZoneWardConfirmationDialog
         // open={open}
@@ -363,10 +372,10 @@ export default function AssignCouncilZoneDialog(props) {
         aria-describedby="alert-dialog-description"
       />
           <Button autoFocus onClick={handleSubmit }>
-            Submit
+            Save
           </Button>
         </DialogActions>
-      </BootstrapDialog>
-    </div>
+      </Dialog>
+      </div>
   );
 }
