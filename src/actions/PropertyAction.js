@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import formDataJWTServer from "../api/formDataJWTServer";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { GET_PROPERTY_BY_COUNCIL_ID, IMPORT_PROPERTIES } from "./Types";
+import { GET_PROPERTY_BY_COUNCIL_ID, IMPORT_PROPERTIES, SHOW_PROPERTY_IMPORT_ERROR } from "./Types";
 import { SetNewAlert } from "./AlertActions";
 
 const GetPropertyByCouncilId = (councilId,page,limit) => async (dispatch) => {
@@ -41,8 +41,11 @@ const GetPropertyByCouncilId = (councilId,page,limit) => async (dispatch) => {
       }));
     } catch (e) {
       console.log("ERROR RESPONSE",e.response);
-      if(e.response===422){
-        console.log("ERRR");
+      if(e.response.status===422){
+        dispatch({
+          type: SHOW_PROPERTY_IMPORT_ERROR,
+          payload: e.response,
+        });
       }
       else {
         dispatch(HandleExceptionWithSecureCatch(e));

@@ -1,9 +1,11 @@
-import { GET_PROPERTY_BY_COUNCIL_ID, IMPORT_PROPERTIES, RESET_STATE } from "../actions/Types";
+import { GET_PROPERTY_BY_COUNCIL_ID, IMPORT_PROPERTIES, RESET_STATE, SHOW_PROPERTY_IMPORT_ERROR } from "../actions/Types";
   
   const INIT_STATE = {
     properties:[],
     pageInfo:{},
-    importPropertyLog:false
+    importPropertyLog:false,
+    propertyErrorLog:false,
+    propertyError:[]
   };
   
   export default function PropertyReducer (state = INIT_STATE, action)  {
@@ -21,6 +23,13 @@ import { GET_PROPERTY_BY_COUNCIL_ID, IMPORT_PROPERTIES, RESET_STATE } from "../a
           return{
               ...state,
               importPropertyLog: !state.importPropertyLog,
+        };
+
+        case SHOW_PROPERTY_IMPORT_ERROR:
+          return{
+              ...state,
+              propertyErrorLog: !state.propertyErrorLog,
+              propertyError:payload.data
         };
 
         case RESET_STATE:

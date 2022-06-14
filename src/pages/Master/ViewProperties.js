@@ -29,6 +29,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
+import PropertyErrorDialog from '../../components/DialogBox/tree-data/PropertyErrorDialog';
 
 // ----------------------------------------------------------------------
 
@@ -83,15 +84,22 @@ export default function ViewProperties() {
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
    const [showList,setShowList] = useState(false);
+   const [showErrorModal,setShowErrorModal] = useState(false);
   
   const {
     properties,
     pageInfo,
-    importPropertyLog
+    importPropertyLog,
+    propertyErrorLog,
+    propertyError,
+    state
   } = useSelector((state) => ({
     properties:state.properties.properties,
     pageInfo : state.properties.pageInfo,
-    importPropertyLog : state.properties.importPropertyLog
+    importPropertyLog : state.properties.importPropertyLog,
+    propertyErrorLog : state.properties.propertyErrorLog,
+    propertyError : state.properties.propertyError,
+    state
   }));
 
   const { councilId, councilName } = useParams();
@@ -99,6 +107,8 @@ export default function ViewProperties() {
   useEffect(()=>{
     dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage));
   },[])
+
+  console.log("STATE VALUE",state);
 
   useEffect(()=>{
     if(pageInfo){
@@ -124,6 +134,19 @@ export default function ViewProperties() {
     }
     GetPropertyByCouncilId(councilId,page+1,rowsPerPage)
   },[importPropertyLog])
+
+  const fourthRun = useRef(true);
+  useEffect(()=>{
+    if (fourthRun.current) {
+      fourthRun.current = false;
+      return;
+    }
+    if(propertyError){
+      setShowErrorModal(true);
+    }
+  },[propertyErrorLog])
+
+  console.log("PROPERTY ERROR",propertyError);
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -190,10 +213,22 @@ export default function ViewProperties() {
     dispatch(ImportProperty(formData));
   }
 
+  const handleViewOpen = () => {
+    setShowErrorModal(!showErrorModal);
+
+  }
+
 
   return (
     <Page title="User">
     <Container>
+    {showErrorModal?
+        <PropertyErrorDialog
+        isOpen={showErrorModal}
+        handleClose = {handleViewOpen}
+        data={propertyError}
+        />:null
+        }
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>

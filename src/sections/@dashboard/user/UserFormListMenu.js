@@ -21,6 +21,11 @@ export default function UserMoreMenu(props) {
     props.handleDelete();
   };
 
+  const handleUnlink = () => {
+    setIsOpen(false);
+    props.handleUnlink()
+  }
+
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -57,7 +62,7 @@ export default function UserMoreMenu(props) {
           <ListItemText primary="View" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#"  sx={{ color: 'text.secondary' }} onClick={handleClose}>
+        <MenuItem component={RouterLink} to="#"  sx={{ color: 'text.secondary' }} onClick={handleUnlink}>
           <ListItemIcon>
             <Iconify icon="ci:unlink" width={24} height={24} />
           </ListItemIcon>

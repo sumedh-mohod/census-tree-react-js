@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_TYPES, GET_USER, GET_USER_BY_ID, GET_USER_DOCUMENT_TYPES, SEARCH_USER } from "./Types";
+import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_TYPES, GET_USER, GET_USER_BY_ID, GET_USER_DOCUMENT_TYPES, SEARCH_USER, UNLINK_DEVICE } from "./Types";
 
 const GetUsers = (page,limit) => async (dispatch) => {
     try {
@@ -123,6 +123,23 @@ const GetUsers = (page,limit) => async (dispatch) => {
     }
   };
 
+  const UnlinkDevice = (params) => async (dispatch) => {
+  try {
+    const response = await JWTServer.post("/api/users/unlink-device",params);
+    console.log("RESPONSE",response.data);
+    dispatch({
+      type: UNLINK_DEVICE,
+      payload: response.data,
+    });
+    dispatch(SetNewAlert({
+      msg: response.data.message,
+      alertType: "success",
+    }));
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
   export {
       GetUsers,
       GetUsersById,
@@ -132,5 +149,6 @@ const GetUsers = (page,limit) => async (dispatch) => {
       DeleteUsers,
       GetDeductionType,
       GetUserDocumentType,
-      GetReligions
+      GetReligions,
+      UnlinkDevice
   }

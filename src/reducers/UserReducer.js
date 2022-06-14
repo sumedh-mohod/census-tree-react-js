@@ -1,4 +1,4 @@
-import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_TYPES, GET_USER, GET_USER_BY_ID, GET_USER_DOCUMENT_TYPES, RESET_STATE } from "../actions/Types";
+import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_TYPES, GET_USER, GET_USER_BY_ID, GET_USER_DOCUMENT_TYPES, RESET_STATE, UNLINK_DEVICE } from "../actions/Types";
   
   const INIT_STATE = {
     users:null,
@@ -9,7 +9,8 @@ import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_T
     pageInfo:{},
     salaryDeductionType:[],
     userDocumentType:[],
-    religions:[]
+    religions:[],
+    unlinkDeviceLog:false
   };
   
   export default function UserReducer (state = INIT_STATE, action)  {
@@ -63,6 +64,12 @@ import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_T
           return{
               ...state,
               religions: payload.data,
+        };
+
+        case UNLINK_DEVICE:
+          return{
+              ...state,
+              unlinkDeviceLog: !state.unlinkDeviceLog,
         };
 
         case RESET_STATE:

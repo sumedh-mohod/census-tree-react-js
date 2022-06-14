@@ -26,7 +26,7 @@ import { UserListHead, UserListToolbar, UserFormListMenu } from '../sections/@da
 import USERLIST from '../_mock/user';
 import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../components/JsonFiles/UserTableData.json';
-import { DeleteUsers, GetUsers, SearchUsers } from '../actions/UserAction';
+import { DeleteUsers, GetUsers, SearchUsers, UnlinkDevice } from '../actions/UserAction';
 
 // ----------------------------------------------------------------------
 
@@ -166,6 +166,13 @@ export default function User() {
 
   }
 
+  const handleUnlink = (userId) => {
+    const obj = {
+      user_id: userId
+    }
+    dispatch(UnlinkDevice(obj))
+  }
+
   return (
     <Page title="User">
       <Container>
@@ -211,7 +218,7 @@ export default function User() {
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
 
                         <TableCell align="right">
-                          <UserFormListMenu status={option.status} userId={option.id} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <UserFormListMenu status={option.status} userId={option.id} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} handleUnlink={()=>handleUnlink(option.id)}/>
                         </TableCell>
                         </TableRow>
                         )

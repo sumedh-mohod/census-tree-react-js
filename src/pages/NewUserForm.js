@@ -578,6 +578,7 @@ const validateRole = () => {
     const aadharRegExp = /^\d{12}$/;
     const DistrictsSchema = Yup.object().shape(
       showCouncil?{
+        role: Yup.string().required('Role is required'),
       firstName: Yup.string().required('First Name is required'),
       middleName: Yup.string().required('Middle Name is required'),
       lastName: Yup.string().required('Last Name is required'),
@@ -586,11 +587,12 @@ const validateRole = () => {
       addressLine1: Yup.string().required('Address Line 1 is required'),
       city: Yup.string().required('City is required'),
       district: Yup.string().required('Districts is required'),
-      taluka: Yup.string().required('Taluka is required'),
+      // taluka: Yup.string().required('Taluka is required'),
       council: Yup.string().required('Council is required'),
       username: Yup.string().required('Username is required'),
       password: editUser?null:Yup.string().required('Password is required'),
     }:{
+      role: Yup.string().required('Role is required'),
       firstName: Yup.string().required('First Name is required'),
       middleName: Yup.string().required('Middle Name is required'),
       lastName: Yup.string().required('Last Name is required'),
@@ -599,7 +601,7 @@ const validateRole = () => {
       addressLine1: Yup.string().required('Address Line 1 is required'),
       city: Yup.string().required('City is required'),
       district: Yup.string().required('Districts is required'),
-      taluka: Yup.string().required('Taluka is required'),
+      // taluka: Yup.string().required('Taluka is required'),
       username: Yup.string().required('Username is required'),
       password: editUser?null:Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
       aadhaarNumber: Yup.string().matches(aadharRegExp, 'Enter valid aadhar number').required('Aadhar Number is required'),
@@ -611,7 +613,7 @@ const validateRole = () => {
       emergencyContactName: Yup.string().required('Emergency Contact Name is required'),
       emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emergency Contact Number is required'),
       dateOfJoining: Yup.string().required('DateOfJoining is required'),
-      lastDayOfWork: Yup.string().required('Last Day of work is required'),
+      // lastDayOfWork: Yup.string().required('Last Day of work is required'),
       salaryPerMonth: Yup.string().required('Commited salary per month is required'),
       designation: Yup.string().required('Designation is required'),
       panCardNumber: Yup.string().required('Pancard is required'),
@@ -624,6 +626,7 @@ const validateRole = () => {
     const formik = useFormik({
       enableReinitialize: true,
       initialValues: editUser ? {
+        role,
         firstName: userById.first_name,
       middleName: userById.middle_name,
       lastName: userById.last_name,
@@ -658,6 +661,7 @@ const validateRole = () => {
       accountNumber: userById?.bank_details?.account_number,
       ifscCode: userById?.bank_details?.ifsc_code
       }:{
+        role:"",
         firstName: "",
       middleName: "",
       lastName: "",
@@ -695,6 +699,7 @@ const validateRole = () => {
       ,
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
+        console.log("INSIDE ON SUBMIT");
         if(validateRole()){
           if(showCouncil){
             const obj = {
@@ -838,7 +843,11 @@ const validateRole = () => {
               value={role}
               displayEmpty
               style={{width:'87.5%', marginLeft: 40,marginTop:5}}
-              onChange={handleRoleChange}
+              // onChange={handleRoleChange}
+              onChange={(e) => {
+                handleRoleChange(e)
+                formik.handleChange(e);
+              }}
               placeholder='Select Role*'
               defaultValue={data? data.role: ""}
               // renderValue={(selected) => {
@@ -861,6 +870,9 @@ const validateRole = () => {
                   const found = findRole(roles,role);
                 return found;
               }}
+
+              error={Boolean(touched.role && errors.role)}
+                helperText={touched.role && errors.role}
 
             >
                <MenuItem disabled value="">
@@ -1014,9 +1026,9 @@ const validateRole = () => {
                 style={{width: '87%', marginLeft: 45,marginTop:5}}
                 // placeholder='*Select District'
               
-                // error={Boolean(touched.taluka && errors.taluka)}
-                // helperText={touched.taluka && errors.taluka}
-                // {...getFieldProps("taluka")}
+                error={Boolean(touched.taluka && errors.taluka)}
+                helperText={touched.taluka && errors.taluka}
+                {...getFieldProps("taluka")}
               >
                  <MenuItem disabled value="">
               <em>Taluka</em>
@@ -1343,9 +1355,9 @@ const validateRole = () => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                //   error={Boolean(touched.lastDayOfWork && errors.lastDayOfWork)}
-                //   helperText={touched.lastDayOfWork && errors.lastDayOfWork}
-                //   {...getFieldProps("lastDayOfWork")}
+                  error={Boolean(touched.lastDayOfWork && errors.lastDayOfWork)}
+                  helperText={touched.lastDayOfWork && errors.lastDayOfWork}
+                  {...getFieldProps("lastDayOfWork")}
                  />
                 </Grid>
                 <Grid item xs={6}>
