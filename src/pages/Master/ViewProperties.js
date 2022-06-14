@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetPropertyByCouncilId, SearchPropertyByCouncilId } from '../../actions/PropertyAction';
+import { GetPropertyByCouncilId, ImportProperty, SearchPropertyByCouncilId } from '../../actions/PropertyAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -86,10 +86,12 @@ export default function ViewProperties() {
   
   const {
     properties,
-    pageInfo
+    pageInfo,
+    importPropertyLog
   } = useSelector((state) => ({
     properties:state.properties.properties,
-    pageInfo : state.properties.pageInfo
+    pageInfo : state.properties.pageInfo,
+    importPropertyLog : state.properties.importPropertyLog
   }));
 
   const { councilId, councilName } = useParams();
@@ -112,6 +114,16 @@ export default function ViewProperties() {
     }
     setShowList(true);
   },[properties])
+
+
+  const thirdRun = useRef(true);
+  useEffect(()=>{
+    if (thirdRun.current) {
+      thirdRun.current = false;
+      return;
+    }
+    GetPropertyByCouncilId(councilId,page+1,rowsPerPage)
+  },[importPropertyLog])
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -170,6 +182,14 @@ export default function ViewProperties() {
     console.info('You clicked a breadcrumb.');
   }
 
+  const handleUpload = (e) => {
+    console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+    const formData = new FormData();
+    formData.append('council_id', councilId);
+    formData.append('file', e.target.files[0]);
+    dispatch(ImportProperty(formData));
+  }
+
 
   return (
     <Page title="User">
@@ -206,9 +226,13 @@ export default function ViewProperties() {
       </Breadcrumbs>
 
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button onClick={handleNewUserClick} variant="contained" component="label"  startIcon={<Iconify icon="eva:plus-fill"  />}>
           Import Properties
-
+          <input
+            type="file"
+            hidden
+            onChange={handleUpload}
+          />
           </Button>
         </Stack>
 

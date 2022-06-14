@@ -1,8 +1,9 @@
-import { GET_PROPERTY_BY_COUNCIL_ID, RESET_STATE } from "../actions/Types";
+import { GET_PROPERTY_BY_COUNCIL_ID, IMPORT_PROPERTIES, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     properties:[],
-    pageInfo:{}
+    pageInfo:{},
+    importPropertyLog:false
   };
   
   export default function PropertyReducer (state = INIT_STATE, action)  {
@@ -14,6 +15,12 @@ import { GET_PROPERTY_BY_COUNCIL_ID, RESET_STATE } from "../actions/Types";
               ...state,
               properties: payload.data.data,
               pageInfo: payload.data
+        };
+
+        case IMPORT_PROPERTIES:
+          return{
+              ...state,
+              importPropertyLog: !state.importPropertyLog,
         };
 
         case RESET_STATE:

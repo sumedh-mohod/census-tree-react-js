@@ -129,3 +129,6 @@ export const GET_QC_REMARKS_FOR_BASE_COLOR = "get-qc-remark-for-base-color";
 
 export const GET_PROPERTY_BY_COUNCIL_ID = "get-property-by-council-id";
 export const SEARCH_PROPERTY_BY_COUNCIL_ID = "search-property-by-council-id";
+export const IMPORT_PROPERTIES = "import-properties";
+
+export const GET_DENIED_ENTRY = "get-denied-entry";

@@ -18,6 +18,7 @@ import WardsReducer from "./WardsReducer";
 import ZoneReducer from "./ZoneReducer";
 import BaseColorReducer from "./BaseColorReducer";
 import PropertyReducer from "./PropertyReducer";
+import DeniedEntryReducer from "./DeniedEntryReducer";
 
 
 export default combineReducers({
@@ -39,5 +40,6 @@ export default combineReducers({
   users:UserReducer,
   upload:UploadReducer,
   baseColor:BaseColorReducer,
-  properties:PropertyReducer
+  properties:PropertyReducer,
+  deniedEntry:DeniedEntryReducer
 });
