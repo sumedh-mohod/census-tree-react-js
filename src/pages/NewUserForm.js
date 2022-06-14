@@ -615,8 +615,8 @@ const validateRole = () => {
       salaryPerMonth: Yup.string().required('Commited salary per month is required'),
       designation: Yup.string().required('Designation is required'),
       panCardNumber: Yup.string().required('Pancard is required'),
-      bankName: Yup.string().required('BankName is required'),
-      accountNumber: Yup.string().required('Account number is required'),
+      bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
+      accountNumber: Yup.string().max(15,"Maximum length 15 number only").matches(/^[0-9]{15}$/, 'Enter valid account number').required('Account number is required'),
       ifscCode: Yup.string().required('IFSC is required')
     }
     );
@@ -822,7 +822,7 @@ const validateRole = () => {
         </Button> */}
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-          {editUser?"Edit Users":"Create Users"}
+          {editUser?"Edit User":"Create User"}
           </Typography>
           </Stack>
           <Grid container spacing={1}>
@@ -1010,16 +1010,16 @@ const validateRole = () => {
                 id="taluka"
                 // name='District'
                 displayEmpty
-                label="Taluka*"
+                label="Taluka"
                 style={{width: '87%', marginLeft: 45,marginTop:5}}
-                placeholder='*Select District'
+                // placeholder='*Select District'
               
-                error={Boolean(touched.taluka && errors.taluka)}
-                helperText={touched.taluka && errors.taluka}
-                {...getFieldProps("taluka")}
+                // error={Boolean(touched.taluka && errors.taluka)}
+                // helperText={touched.taluka && errors.taluka}
+                // {...getFieldProps("taluka")}
               >
                  <MenuItem disabled value="">
-              <em>Taluka*</em>
+              <em>Taluka</em>
             </MenuItem>
                 {talukas?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
@@ -1075,8 +1075,8 @@ const validateRole = () => {
                   fullWidth
                   id="aadhar"
                   autoComplete="aadhar"
-                  label="Aadhar Number*"
-                  placeholder="Aadhar Number*"
+                  label="Aadhaar Number*"
+                  placeholder="Aadhaar Number*"
                   error={Boolean(touched.aadhaarNumber && errors.aadhaarNumber)}
                 helperText={touched.aadhaarNumber && errors.aadhaarNumber}
                 {...getFieldProps("aadhaarNumber")}
@@ -1301,19 +1301,19 @@ const validateRole = () => {
                 select
                 id="referredBy"
                 name='referredBy'
-                label="Agreement"
+                label="Is Agreement done?"
                 value={referredBy}
                 displayEmpty
                 defaultValue={data? data.referredBy: ""}
                 style={{width: '87.5%', marginLeft: 40,marginTop:5}}
-                placeholder='Referred By'
+                placeholder='Is Agreement done?'
                 onChange={handleReferredChange}
                 error={Boolean(touched.isAgreementDone && errors.isAgreementDone)}
                 helperText={touched.isAgreementDone && errors.isAgreementDone}
                 {...getFieldProps("isAgreementDone")}
               >
                  <MenuItem disabled value="">
-              <em>Agreement* </em>
+              <em>Is Agreement done?* </em>
             </MenuItem>
                 {agreement.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -1337,22 +1337,22 @@ const validateRole = () => {
                 <TextField
                   id="lastdayOfWork"
                   type="date"
-                  label="Last Day Of work*"
-                  placeholder='*Last Day Of work'
+                  label="Last Day Of work"
+                  placeholder='Last Day Of work'
                   style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  error={Boolean(touched.lastDayOfWork && errors.lastDayOfWork)}
-                  helperText={touched.lastDayOfWork && errors.lastDayOfWork}
-                  {...getFieldProps("lastDayOfWork")}
-                />
+                //   error={Boolean(touched.lastDayOfWork && errors.lastDayOfWork)}
+                //   helperText={touched.lastDayOfWork && errors.lastDayOfWork}
+                //   {...getFieldProps("lastDayOfWork")}
+                 />
                 </Grid>
                 <Grid item xs={6}>
               <TextField
                 select
                 id="noticedperiods"
-                label="Notice Period"
+                label="Is Notice period served?"
                 name='noticedPeriods'
                 value={noticePeriod}
                 displayEmpty
@@ -1370,7 +1370,7 @@ const validateRole = () => {
                 {...getFieldProps("noticePeriod")}
               >
                  <MenuItem disabled value="">
-              <em>Notice Period</em>
+              <em>Is Notice period served</em>
             </MenuItem>
                 {noticePeriodValue.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -1414,6 +1414,7 @@ const validateRole = () => {
                 <DefaultInput
                   fullWidth
                   id="account"
+                  type='number'
                   autoComplete="account"
                   label="Account Number*"
                   placeholder="Account Number*"
@@ -1486,7 +1487,7 @@ const validateRole = () => {
               {showCouncil?null:
               <>
                 <Typography variant="h5" style={{marginTop: 20, marginBottom: 20, marginLeft: 40}} gutterBottom>
-                Applicable Deducation
+                Applicable Deduction
           </Typography>
 
           {deductionList?.map((value,index)=>(
@@ -1527,6 +1528,7 @@ const validateRole = () => {
                   id="panCard"
                   autoComplete="panCard"
                   label="Value"
+                  style={{marginTop: 5}}
                   placeholder="Enter Value"
                   value={value.deductionValue}
                   error={Boolean(value.errorValue)}
@@ -1596,6 +1598,7 @@ const validateRole = () => {
              id="amount"
              type={"file"}
              autoComplete="amount"
+             style={{marginTop: 5}}
              placeholder="Choose file"
              value={value.documentValue}
              error={Boolean(value.errorValue)}
