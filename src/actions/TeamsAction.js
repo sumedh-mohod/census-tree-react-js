@@ -184,6 +184,7 @@ const SearchUserByTeam = (teamId,page,limit,search) => async (dispatch) => {
 };
 
 const AddUserToTeam = (params) => async (dispatch) => {
+  console.log("ADD USER TO TEAM PARAMS",params);
   try {
     const response = await JWTServer.post("/api/teams/assign-users",params);
     console.log("ADD TEAM RESPONSE",response.data);

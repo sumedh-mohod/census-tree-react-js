@@ -59,6 +59,7 @@ const GetUsers = (page,limit) => async (dispatch) => {
   };
 
   const EditUsers = (params,districtsId) => async (dispatch) => {
+    console.log("EDIT USER PARAMS",params)
     try {
       const response = await JWTServer.put(`/api/users/${districtsId}`,params);
       dispatch({

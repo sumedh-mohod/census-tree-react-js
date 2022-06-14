@@ -1348,9 +1348,12 @@ const validateRole = () => {
                 
               </IconButton>
           </Link> */}
-          <IconButton aria-label="delete" target="_blank" rel="noopener" size="large" href={`${value.documentValue}`} color="success">
+          {/* <IconButton aria-label="delete" target="_blank" rel="noopener" size="large" href={`${value.documentValue}`} color="success">
                             <Visibility />
-              </IconButton>
+              </IconButton> */}
+              <Button variant="outlined" target="_blank" rel="noopener" style={{marginTop:'5px'}}  href={`${value.documentValue}`}>
+              View Document
+            </Button>
             </Grid>
             {/* <Grid item xs={2}>
             <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>

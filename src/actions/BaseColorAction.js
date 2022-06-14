@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_QC_REMARKS_FOR_BASE_COLOR, UPDATE_QC_STATUS_BASE_COLOR_TREES } from "./Types";
+import { DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HISTORY, GET_QC_REMARKS_FOR_BASE_COLOR, UPDATE_QC_STATUS_BASE_COLOR_TREES } from "./Types";
 
 const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => {
 
@@ -62,9 +62,25 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
     }
   };
 
-  const GetBaseColorTreeById = (params) => async (dispatch) => {
+  const GetBaseColorTreeHistory = (params,page,limit) => async (dispatch) => {
     try {
-      const response = await JWTServer.get(`/api/base-color-trees/${params}`);
+      const response = await JWTServer.get(`/api/base-color-trees/history/${params}?page=${page}&limit=${limit}`);
+      dispatch({
+        type: GET_BASE_COLOR_TREES_HISTORY,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const SearchBaseColorTreeHistory = (params,page,limit,searchValue) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/base-color-trees/history/${params}?page=${page}&limit=${limit}&search=${searchValue}`);
+      dispatch({
+        type: GET_BASE_COLOR_TREES_HISTORY,
+        payload: response.data,
+      });
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -115,7 +131,8 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
   export {
       GetBaseColorTrees,
       AddBaseColorTrees,
-      GetBaseColorTreeById,
+      GetBaseColorTreeHistory,
+      SearchBaseColorTreeHistory,
       SearchBaseColorTrees,
       DeleteBaseColorTrees,
       UpdateQCStatusOfBaseColorTrees,

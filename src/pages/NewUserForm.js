@@ -147,6 +147,7 @@ export default function NewUserForm(props) {
         roleArray.push(value.id);
         return null;
       })
+      console.log("AFTER SEPARTAE ID ROLE ARRAY",roleArray)
       setRole(roleArray)
     }
 
@@ -712,7 +713,7 @@ const validateRole = () => {
                 username: value.username,
                 password: value.password,
               },
-              "roles":[role],
+              "roles":editUser?role:[role],
             }
 
             if(editUser){
@@ -765,7 +766,7 @@ const validateRole = () => {
                 username: value.username,
                 password: value.password,
               },
-              "roles":[role],
+              "roles":editUser?role:[role],
               "personal_details":{
                 aadhaar_number:value.aadhaarNumber,
                 education: value.education,
@@ -1585,9 +1586,9 @@ const validateRole = () => {
               ))}
             </TextField>
             </Grid>
-            <Grid container item xs={5}>
+            <Grid item xs={5} style={{alignSelf:'center'}}>
               {value.documentValue?
-              <Button variant="outlined" target="_blank" rel="noopener" href={`${value.documentValue}`}>
+              <Button variant="outlined" target="_blank" rel="noopener" style={{marginTop:'5px'}}  href={`${value.documentValue}`}>
               View Document
             </Button>:
              <TextField

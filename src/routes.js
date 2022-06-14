@@ -69,7 +69,7 @@ export default function Router() {
         { path: 'ward', element: <Ward /> },
         { path: 'base-color', element: <BaseColor /> },
         { path: 'denied-entry', element: <DeniedEntry /> },
-        { path: 'base-color/history', element: <BaseColorHistory /> },
+        { path: 'base-color/history/:baseColorId/:baseColorName', element: <BaseColorHistory /> },
         { path: 'teams', element: <TeamsList /> },
         { path: 'assignNewCouncilZoneWard/:teamId/:teamName', element: <AssignNewCouncilZoneWard /> },
         { path: 'assignUser/:teamId/:teamName', element: <AssignUser/> },
