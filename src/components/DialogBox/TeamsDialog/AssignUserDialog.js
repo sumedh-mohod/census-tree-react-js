@@ -219,7 +219,7 @@ export default function AssignUserDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Assign User</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Assign Users</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>

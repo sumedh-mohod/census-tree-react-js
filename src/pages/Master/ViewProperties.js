@@ -185,7 +185,8 @@ export default function ViewProperties() {
         >
           Council
         </Link>
-        <Link
+        <Link component={RouterLink}
+        to={`/dashboard/council`}
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -195,10 +196,9 @@ export default function ViewProperties() {
               
         </Link>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          href="#"
         >
            Properties
               

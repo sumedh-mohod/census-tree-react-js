@@ -163,7 +163,7 @@ export default function CreateCouncil() {
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
@@ -171,7 +171,7 @@ export default function CreateCouncil() {
           Master
         </Link>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
           href="#"
