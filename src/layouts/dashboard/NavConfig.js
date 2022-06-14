@@ -88,7 +88,7 @@ const navConfig = [
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Qc Remaks',
+        title: 'QC Remarks',
         path: '/dashboard/qc-remarks',
         icon: getIcon('eva:shopping-bag-fill'),
       },
