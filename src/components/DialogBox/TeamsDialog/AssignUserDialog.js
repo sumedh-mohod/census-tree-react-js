@@ -140,14 +140,14 @@ export default function AssignUserDialog(props) {
 
 
   const DistrictsSchema = Yup.object().shape({
-    user: Yup.array().min(1,'User is required'),
+    user: Yup.string().required('User is required'),
   });
 
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      user:data? data.user_id : [],
+      user:data? data.user_id : "",
       
     },
     validationSchema: DistrictsSchema,
@@ -157,7 +157,7 @@ export default function AssignUserDialog(props) {
       if(data){
         setReqObj({
           "team_id": teamId,
-          "users":value.user,
+          "users":[value.user],
         })
   
         setId(data.id);
@@ -167,7 +167,7 @@ export default function AssignUserDialog(props) {
 
         setReqObj({
           "team_id": teamId,
-          "users": value.user
+          "users": [value.user]
         })
       }
     },
@@ -219,16 +219,16 @@ export default function AssignUserDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Assign User</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Assign Users</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
             <Grid item xs={12}>
               <TextField
               select
-              SelectProps={{
-                multiple:true
-              }}
+              // SelectProps={{
+              //   multiple:true
+              // }}
               label="User*"
                 id="role"
                 multiple
@@ -237,20 +237,27 @@ export default function AssignUserDialog(props) {
                 value={role}
                 style={{ width: '83%', marginLeft: 40, marginTop:5 }}
                 defaultValue={data ? data.role : ''}
-                renderValue={(selected) => {
-                  console.log("SELECTED",selected);
-                  if (selected.length === 0) {
-                    return <em>User*</em>;
-                  }
-                  const result = [];
-                  selected.map((value)=>{
-                    const found = findValue(users,value);
-                    result.push(found);
-                    return null;
-                  })
+                // renderValue={(selected) => {
+                //   console.log("SELECTED",selected);
+                //   if (selected.length === 0) {
+                //     return <em>User*</em>;
+                //   }
+                //   const result = [];
+                //   selected.map((value)=>{
+                //     const found = findValue(users,value);
+                //     result.push(found);
+                //     return null;
+                //   })
                   
   
-                  return result.join(",");
+                //   return result.join(",");
+                // }}
+                renderValue={(selected) => {
+                  if (selected?.length === 0) {
+                    return <em>Select Role*</em>;
+                  }
+                    const found = findValue(users,values.user);
+                  return found;
                 }}
                 error={Boolean(touched.user && errors.user)}
                   helperText={touched.user && errors.user}

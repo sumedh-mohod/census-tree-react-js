@@ -206,22 +206,24 @@ export default function AssignUser() {
         >
           Teams
         </Link>
-        <Link
+        <Link 
+        component={RouterLink}
+        to={`/dashboard/teams`}
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          href="#"
+          // href="#"
         >
           {teamName}
               
         </Link>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
           href="#"
         >
-           Assigned User
+           Assigned Users
               
         </Link>
       </Breadcrumbs>

@@ -47,18 +47,24 @@ export default function BaseColorMoreMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
+        {props.qcStatus==="Approved"?null
+        :
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleApprove}>
-          <ListItemIcon>
-            <Iconify icon="eva:checkmark-circle-outline" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Approve" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        <ListItemIcon>
+          <Iconify icon="eva:checkmark-circle-outline" width={24} height={24} />
+        </ListItemIcon>
+        <ListItemText primary="Approve" primaryTypographyProps={{ variant: 'body2' }} />
+      </MenuItem>
+        }
+        {props.qcStatus==="Unapproved"?null:
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleQcDialog}>
-          <ListItemIcon>
-            <Iconify icon="eva:close-circle-outline" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Unapprove" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        <ListItemIcon>
+          <Iconify icon="eva:close-circle-outline" width={24} height={24} />
+        </ListItemIcon>
+        <ListItemText primary="Unapprove" primaryTypographyProps={{ variant: 'body2' }} />
+      </MenuItem>
+        }
+        
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
           <ListItemIcon>
             <Iconify icon="eva:trash-2-outline" width={24} height={24} />
@@ -73,7 +79,7 @@ export default function BaseColorMoreMenu(props) {
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="/dashboard/base-color/history" sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to={`/dashboard/base-color/history/${props.baseColorId}/${props.baseColorName}`} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:eye-fill" width={24} height={24} />
           </ListItemIcon>

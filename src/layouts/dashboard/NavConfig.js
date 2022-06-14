@@ -33,6 +33,11 @@ const navConfig = [
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
+        title: 'Designations',
+        path: '/dashboard/designation',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
         title: 'States',
         path: '/dashboard/state',
         icon: getIcon('eva:shopping-bag-fill'),
@@ -90,11 +95,6 @@ const navConfig = [
       {
         title: 'QC Remarks',
         path: '/dashboard/qc-remarks',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
-      {
-        title: 'Designations',
-        path: '/dashboard/designation',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
