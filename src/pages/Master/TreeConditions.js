@@ -201,7 +201,7 @@ export default function TreeConditions() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Tree Condition
+            Add New
 
           </Button>
         </Stack>

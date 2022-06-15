@@ -589,7 +589,7 @@ const validateRole = () => {
       showCouncil?{
         role: Yup.string().required('Role is required'),
       firstName: Yup.string().required('First Name is required'),
-      middleName: Yup.string().required('Middle Name is required'),
+      // middleName: Yup.string().required('Middle Name is required'),
       lastName: Yup.string().required('Last Name is required'),
       email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Phone number is required'),
@@ -603,7 +603,7 @@ const validateRole = () => {
     }:{
       role: Yup.string().required('Role is required'),
       firstName: Yup.string().required('First Name is required'),
-      middleName: Yup.string().required('Middle Name is required'),
+      // middleName: Yup.string().required('Middle Name is required'),
       lastName: Yup.string().required('Last Name is required'),
       email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Mobile number is required'),
@@ -920,7 +920,7 @@ const validateRole = () => {
                   fullWidth
                   id="mName"
                   autoComplete="mName"
-                  label="Middle Name*"
+                  label="Middle Name"
                   placeholder="Middle Name*"
                   error={Boolean(touched.middleName && errors.middleName)}
                 helperText={touched.middleName && errors.middleName}
