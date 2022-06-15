@@ -229,7 +229,7 @@ export default function AssignNewCouncilZoneWard() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-          Assigned C-Z-W
+          Assign C-Z-W
 
           </Button>
         </Stack>
