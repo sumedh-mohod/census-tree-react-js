@@ -618,7 +618,7 @@ const validateRole = () => {
       designation: Yup.string().required('Designation is required'),
       panCardNumber: Yup.string().required('Pancard is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
-      accountNumber: Yup.string().max(15,"Maximum length 15 number only").matches(/^[0-9]{15}$/, 'Enter valid account number').required('Account number is required'),
+      accountNumber: Yup.string().required('Account number is required'),
       ifscCode: Yup.string().required('IFSC is required')
     }
     );
@@ -1172,7 +1172,7 @@ const validateRole = () => {
               <TextField
                 select
                 id="diffentlyAbled"
-                label="Differently Abled ?*"
+                label="Is Differently Abled?*"
                 name='diffentlyAbled'
                 displayEmpty
                 defaultValue={data? data.caste: ""}
@@ -1183,7 +1183,7 @@ const validateRole = () => {
                 {...getFieldProps("differentlyAbled")}
               >
                  <MenuItem disabled value="">
-              <em>Differently Abled ?*</em>
+              <em>Is Differently Abled?*</em>
             </MenuItem>
                 {diffentlyAbled.map((option) => (
                   <MenuItem key={option.value} value={option.value}>

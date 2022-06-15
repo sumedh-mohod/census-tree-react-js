@@ -276,7 +276,7 @@ export default function CreateCouncilDialog(props) {
       name: Yup.string().required('Name is required'),
       district: Yup.string().required('Districts is required'),
       state: Yup.string().required('State is required'),
-      taluka: Yup.string().required('Taluka is required'),
+      // taluka: Yup.string().required('Taluka is required'),
       baseColorTarget: Yup.string().required('Base Color Target is required'),
       censusTarget: Yup.string().required('Census Target is required'),
       zones: Yup.array().min(1,'Zone is required'),
@@ -286,7 +286,7 @@ export default function CreateCouncilDialog(props) {
     name: Yup.string().required('Name is required'),
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
-    taluka: Yup.string().required('Taluka is required'),
+    // taluka: Yup.string().required('Taluka is required'),
     baseColorTarget: Yup.string().required('Base Color Target is required'),
     censusTarget: Yup.string().required('Census Target is required'),
     firstName: Yup.string().required('First Name is required'),
@@ -492,7 +492,7 @@ export default function CreateCouncilDialog(props) {
                 id="taluka"
                 name="taluka"
                 displayEmpty
-                label="Taluka*"
+                label="Taluka"
                 // name="gender"
                 value={taluka}
                 style={{ width: '81%', marginLeft: 40,marginTop:5 }}
@@ -503,7 +503,7 @@ export default function CreateCouncilDialog(props) {
                 {...getFieldProps("taluka")}
               >
                  <MenuItem disabled value="">
-              <em>Select Taluka*</em>
+              <em>Select Taluka</em>
             </MenuItem>
                 {talukas?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
