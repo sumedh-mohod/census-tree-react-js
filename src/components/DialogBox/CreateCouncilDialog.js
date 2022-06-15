@@ -290,7 +290,7 @@ export default function CreateCouncilDialog(props) {
     baseColorTarget: Yup.string().required('Base Color Target is required'),
     censusTarget: Yup.string().required('Census Target is required'),
     firstName: Yup.string().required('First Name is required'),
-    middleName: Yup.string().required('Middle Name is required'),
+    // middleName: Yup.string().required('Middle Name is required'),
     lastName: Yup.string().required('Last Name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Email is required'),
@@ -650,8 +650,8 @@ export default function CreateCouncilDialog(props) {
                fullWidth
                 id="middleName"
                  autoComplete="middleName"
-                 label="Middle Name*"
-                  placeholder="Enter Middle Name*"
+                 label="Middle Name"
+                  placeholder="Enter Middle Name"
                   error={Boolean(touched.middleName && errors.middleName)}
                 helperText={touched.middleName && errors.middleName}
                 {...getFieldProps("middleName")}
