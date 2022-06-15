@@ -198,13 +198,12 @@ export default function CreateNameOfTree() {
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
         >
-          Name Of Trees
+          Tree Names
         </Link>
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Name Of Tree
-
+            Add Tree Name
           </Button>
         </Stack>
 

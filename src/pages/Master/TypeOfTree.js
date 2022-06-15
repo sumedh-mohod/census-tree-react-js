@@ -198,12 +198,12 @@ export default function TypeOfTree() {
           color="inherit"
           // href="#"
         >
-        Type of Trees
+        Tree Types
         </Link>
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Type Of Tree
+            Add Tree Type
 
           </Button>
         </Stack>

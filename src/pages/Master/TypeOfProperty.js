@@ -194,7 +194,7 @@ export default function TypeOfProperty() {
           color="inherit"
           // href="#"
         >
-          Type Of Properties
+          Property Types
         </Link>
       </Breadcrumbs>
     </div>
