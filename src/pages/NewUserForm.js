@@ -23,7 +23,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GetActiveRole } from '../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../actions/UserAction';
 import { UploadFile, UploadImage } from '../actions/UploadActions';
@@ -35,6 +35,7 @@ import { GetActiveDesignations } from '../actions/DesignationAction';
 export default function NewUserForm(props) {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
@@ -45,7 +46,7 @@ export default function NewUserForm(props) {
     const [whoseReference, setWhoseReference] = React.useState('');
     const [bloodGrp, setBloodGrp] = React.useState('');
     const[district, setDistrict]=  React.useState('');
-    const[role, setRole]=  React.useState([]);
+    const[role, setRole]=  React.useState("");
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
@@ -139,15 +140,22 @@ export default function NewUserForm(props) {
     },[uploadFileLog])
 
     const separateId = (roles) => {
-      const roleArray = [];
+      // const roleArray = [];
+      // roles.map((value,index)=>{
+      //   if(value.slug==="council"){
+      //     setShowCouncil(true);
+      //   }
+      //   roleArray.push(value.id);
+      //   return null;
+      // })
+      let roleArray = "";
       roles.map((value,index)=>{
         if(value.slug==="council"){
           setShowCouncil(true);
         }
-        roleArray.push(value.id);
+        roleArray= value.id;
         return null;
       })
-      console.log("AFTER SEPARTAE ID ROLE ARRAY",roleArray)
       setRole(roleArray)
     }
 
@@ -219,6 +227,7 @@ export default function NewUserForm(props) {
       setRoleError("")
       setDeductionList([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
       setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
+      navigate('/dashboard/user', { replace: true });
     },[addUsersLog])
 
     console.log("RELIGIONS",religions);
@@ -718,7 +727,7 @@ const validateRole = () => {
                 username: value.username,
                 password: value.password,
               },
-              "roles":editUser?role:[role],
+              "roles":editUser?[role]:[role],
             }
 
             if(editUser){
@@ -771,7 +780,7 @@ const validateRole = () => {
                 username: value.username,
                 password: value.password,
               },
-              "roles":editUser?role:[role],
+              "roles":editUser?[role]:[role],
               "personal_details":{
                 aadhaar_number:value.aadhaarNumber,
                 education: value.education,

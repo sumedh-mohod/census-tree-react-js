@@ -52,7 +52,7 @@ export default function CouncilMenu(props) {
       </MenuItem>
 }
 
-        {props.disable?
+        {(props.disable || props.status===0)?
         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose} disabled >
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
@@ -70,7 +70,7 @@ export default function CouncilMenu(props) {
             <ListItemIcon>
                 <Iconify icon="bi:building" width={24} height={24} />
             </ListItemIcon>
-            <ListItemText primary="View Property" primaryTypographyProps={{ variant: 'body2' }} />
+            <ListItemText primary="View Properties" primaryTypographyProps={{ variant: 'body2' }} />
          </MenuItem>
 
       </Menu>
