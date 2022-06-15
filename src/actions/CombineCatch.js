@@ -1,4 +1,5 @@
 import { SetNewAlert } from "./AlertActions";
+import { ShowLoader } from "./CommonAction";
 
 const HandleExceptionWithSecureCatch = (exception) => {
   console.log("EXCEPTION",exception.response.data);
@@ -11,6 +12,8 @@ const HandleExceptionWithSecureCatch = (exception) => {
       msg: message,
       alertType: "danger",
     }));
+
+    dispatch(ShowLoader(false))
 
     };
 };
