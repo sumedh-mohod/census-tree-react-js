@@ -16,9 +16,11 @@ import {
   TableContainer,
   TablePagination,
   Link,
+  CircularProgress,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
+import { green } from '@mui/material/colors';
 import { GetPropertyByCouncilId, ImportProperty, SearchPropertyByCouncilId } from '../../actions/PropertyAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
@@ -30,6 +32,7 @@ import USERLIST from '../../_mock/user';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
 import PropertyErrorDialog from '../../components/DialogBox/tree-data/PropertyErrorDialog';
+import { ShowLoader } from '../../actions/CommonAction';
 
 // ----------------------------------------------------------------------
 
@@ -85,6 +88,7 @@ export default function ViewProperties() {
    const [searchValue,setSearchValue] = useState("");
    const [showList,setShowList] = useState(false);
    const [showErrorModal,setShowErrorModal] = useState(false);
+   const [fileValue,setFileValue] = useState("");
   
   const {
     properties,
@@ -92,14 +96,14 @@ export default function ViewProperties() {
     importPropertyLog,
     propertyErrorLog,
     propertyError,
-    state
+    showLoader
   } = useSelector((state) => ({
     properties:state.properties.properties,
     pageInfo : state.properties.pageInfo,
     importPropertyLog : state.properties.importPropertyLog,
     propertyErrorLog : state.properties.propertyErrorLog,
     propertyError : state.properties.propertyError,
-    state
+    showLoader : state.common.showLoader,
   }));
 
   const { councilId, councilName } = useParams();
@@ -108,7 +112,6 @@ export default function ViewProperties() {
     dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage));
   },[])
 
-  console.log("STATE VALUE",state);
 
   useEffect(()=>{
     if(pageInfo){
@@ -132,7 +135,8 @@ export default function ViewProperties() {
       thirdRun.current = false;
       return;
     }
-    GetPropertyByCouncilId(councilId,page+1,rowsPerPage)
+    dispatch(ShowLoader(false))
+    dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage))
   },[importPropertyLog])
 
   const fourthRun = useRef(true);
@@ -144,6 +148,7 @@ export default function ViewProperties() {
     if(propertyError){
       setShowErrorModal(true);
     }
+    dispatch(ShowLoader(false))
   },[propertyErrorLog])
 
   console.log("PROPERTY ERROR",propertyError);
@@ -211,6 +216,8 @@ export default function ViewProperties() {
     formData.append('council_id', councilId);
     formData.append('file', e.target.files[0]);
     dispatch(ImportProperty(formData));
+    setFileValue("");
+    dispatch(ShowLoader(true))
   }
 
   const handleViewOpen = () => {
@@ -218,10 +225,20 @@ export default function ViewProperties() {
 
   }
 
+  console.log("SHOW LOADER",showLoader);
 
   return (
+    showLoader ?
+      <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
+      <CircularProgress color="success" />
+      </div>
+      :
+   
     <Page title="User">
     <Container>
+   
+    
+
     {showErrorModal?
         <PropertyErrorDialog
         isOpen={showErrorModal}
@@ -266,7 +283,9 @@ export default function ViewProperties() {
           <input
             type="file"
             hidden
+            value={fileValue}
             onChange={handleUpload}
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
           />
           </Button>
         </Stack>

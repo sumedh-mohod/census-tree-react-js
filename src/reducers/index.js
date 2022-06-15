@@ -19,6 +19,7 @@ import ZoneReducer from "./ZoneReducer";
 import BaseColorReducer from "./BaseColorReducer";
 import PropertyReducer from "./PropertyReducer";
 import DeniedEntryReducer from "./DeniedEntryReducer";
+import CommonReducer from "./CommonReducer";
 
 
 export default combineReducers({
@@ -41,5 +42,6 @@ export default combineReducers({
   upload:UploadReducer,
   baseColor:BaseColorReducer,
   properties:PropertyReducer,
-  deniedEntry:DeniedEntryReducer
+  deniedEntry:DeniedEntryReducer,
+  common:CommonReducer
 });

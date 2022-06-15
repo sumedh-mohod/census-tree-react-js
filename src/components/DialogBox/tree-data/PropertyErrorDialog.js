@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
@@ -14,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import  ImageGallery  from 'react-image-gallery';
 import { Box, Card, Modal, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import FailImage from "../../../Assets/fail.svg";
 import DefaultInput from '../../Inputs/DefaultInput';
 import "react-image-gallery/styles/css/image-gallery.css";
 import Scrollbar from "../../Scrollbar";
@@ -70,10 +72,9 @@ const style = {
   };
 
 const TABLE_HEAD = [
-    { id: 'srno', label: '#', alignRight: false },
     { id: 'row', label: 'Row', alignRight: false },
     { id: 'attribute', label: 'Attribute', alignRight: false },
-    { id: 'error', label: 'Error', alignRight: true },
+    { id: 'error', label: 'Error', alignRight: false },
   ];
 
 export default function PropertyErrorDialog(props) {
@@ -124,7 +125,12 @@ export default function PropertyErrorDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>{"Error while importing Properties"}</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>
+          <div style={{display:'flex',color:'red',alignItems:'center'}}>
+          <img src={FailImage} alt="failed" style={{marginRight:'20px'}}  />
+          {"Error while importing Properties"}
+          </div>
+        </BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
     <Card>
@@ -140,10 +146,9 @@ export default function PropertyErrorDialog(props) {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.row}</TableCell>
                         <TableCell align="left">{option.attribute}</TableCell>
-                        <TableCell align="right">
+                        <TableCell align="left">
                          {option.error}
                         </TableCell>
                         </TableRow>
