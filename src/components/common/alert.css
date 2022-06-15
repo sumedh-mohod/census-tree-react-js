@@ -49,7 +49,7 @@
     transition: all ease-in-out;
     transform: translateX(0%);
     animation-name: transform-alerts;
-    animation-duration: 4s;
+    animation-duration: 8s;
     animation-delay: 2s;
 }
 
