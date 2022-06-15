@@ -73,7 +73,7 @@ export default function Router() {
         { path: 'teams', element: <TeamsList /> },
         { path: 'assignNewCouncilZoneWard/:teamId/:teamName', element: <AssignNewCouncilZoneWard /> },
         { path: 'assignUser/:teamId/:teamName', element: <AssignUser/> },
-        { path: 'new-user-from', element: <NewUserForm/> },
+        { path: 'new-user-form', element: <NewUserForm/> },
       ],
     },
     {
