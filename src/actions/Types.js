@@ -134,3 +134,5 @@ export const IMPORT_PROPERTIES = "import-properties";
 export const SHOW_PROPERTY_IMPORT_ERROR = "show-property-import-error";
 
 export const GET_DENIED_ENTRY = "get-denied-entry";
+
+export const SHOW_LOADER = "show-loader";
