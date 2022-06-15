@@ -504,7 +504,7 @@ const validateRole = () => {
           validated = false;
           const newDeductionList = [...deductionList];
           const value = newDeductionList[index];
-          value.errorName = "error found";
+          value.errorName = "Field is required";
           newDeductionList[index] = value;
           setDeductionList(newDeductionList); 
         }
@@ -519,7 +519,7 @@ const validateRole = () => {
           validated = false;
           const newDeductionList = [...deductionList];
           const value = newDeductionList[index];
-          value.errorValue = "error found";
+          value.errorValue = "Field is required";
           newDeductionList[index] = value;
           setDeductionList(newDeductionList);
         }
@@ -542,7 +542,7 @@ const validateRole = () => {
           validated = false;
           const newDocumentList = [...documentList];
           const value = newDocumentList[index];
-          value.errorName = "Error found";
+          value.errorName = "Field is required";
           newDocumentList[index] = value;
           setDocumentList(newDocumentList); 
         }
@@ -557,7 +557,7 @@ const validateRole = () => {
           validated = false;
           const newDocumentList = [...documentList];
           const value = newDocumentList[index];
-          value.errorValue = "Error found";
+          value.errorValue = "Field is required";
           newDocumentList[index] = value;
           setDocumentList(newDocumentList); 
         }
