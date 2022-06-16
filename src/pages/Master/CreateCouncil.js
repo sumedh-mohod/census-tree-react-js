@@ -200,7 +200,7 @@ export default function CreateCouncil() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*10+(index+1)}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         {/* <TableCell align="left">{option.uploadLogo}</TableCell> */}
                         <TableCell align="center">{option.name}</TableCell>
                         <TableCell align="center">{option.state?.name}</TableCell>

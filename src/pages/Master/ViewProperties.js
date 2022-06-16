@@ -304,7 +304,7 @@ export default function ViewProperties() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option?.zone?.name}</TableCell>
                         <TableCell align="left">{option?.ward?.name}</TableCell>
                         <TableCell align="left">{option.property_number}</TableCell>
