@@ -18,6 +18,7 @@ import {
   Stack,
   Avatar,
   Checkbox,
+  CircularProgress,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -31,6 +32,7 @@ import DefaultInput from '../components/Inputs/DefaultInput';
 import { GetCouncil } from '../actions/CouncilAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
 import { GetActiveDesignations } from '../actions/DesignationAction';
+import { ShowLoader } from '../actions/CommonAction';
 
 export default function NewUserForm(props) {
 
@@ -74,7 +76,8 @@ export default function NewUserForm(props) {
       designations,
       addUsersLog,
       uploadFile,
-      uploadFileLog
+      uploadFileLog,
+      showLoader
     } = useSelector((state) => ({
       salaryDeductionType:state.users.salaryDeductionType,
       userDocumentType:state.users.userDocumentType,
@@ -88,6 +91,7 @@ export default function NewUserForm(props) {
       addUsersLog:state.users.addUsersLog,
       uploadFile:state.upload.uploadFile,
       uploadFileLog:state.upload.uploadFileLog,
+      showLoader : state.common.showLoader,
     }));
 
     useEffect(()=>{
@@ -105,6 +109,7 @@ export default function NewUserForm(props) {
     useEffect(()=>{
       
       if(userId){
+        dispatch(ShowLoader(true))
         dispatch(GetUsersById(userId))
         
       }
@@ -121,6 +126,7 @@ export default function NewUserForm(props) {
         seprateDeduction(userById.applicable_deductions)
         separateDocument(userById.documents)
         setEditUser(true);
+        dispatch(ShowLoader(false))
       }
     },[userById])
 
@@ -832,6 +838,11 @@ const validateRole = () => {
     console.log("DOCUMENT LIST",documentList);
   
     return (
+       showLoader ?
+      <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
+      <CircularProgress color="success" />
+      </div>
+      :
       <div>
         {/* <Button variant="outlined" onClick={handleClickOpen}>
           Open max-width dialog

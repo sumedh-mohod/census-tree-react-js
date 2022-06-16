@@ -283,7 +283,7 @@ export default function TeamsList() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*10+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>
                         <TableCell >{option?.zone}</TableCell>

@@ -19,6 +19,7 @@ import {
   Avatar,
   Checkbox,
   Link,
+  CircularProgress,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -33,6 +34,7 @@ import DefaultInput from '../../components/Inputs/DefaultInput';
 import { GetCouncil } from '../../actions/CouncilAction';
 import { GetActiveDesignations, GetDesignations } from '../../actions/DesignationAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../../actions/MasterActions';
+import { ShowLoader } from '../../actions/CommonAction';
 
 export default function ViewUser(props) {
 
@@ -73,7 +75,8 @@ export default function ViewUser(props) {
       talukas,
       userById,
       designations,
-      addUsersLog
+      addUsersLog,
+      showLoader
     } = useSelector((state) => ({
       salaryDeductionType:state.users.salaryDeductionType,
       userDocumentType:state.users.userDocumentType,
@@ -85,6 +88,7 @@ export default function ViewUser(props) {
       userById:state.users.userById,
       designations:state.designations.designations,
       addUsersLog:state.users.addUsersLog,
+      showLoader : state.common.showLoader,
     }));
 
     useEffect(()=>{
@@ -102,6 +106,7 @@ export default function ViewUser(props) {
     useEffect(()=>{
       
       if(userId){
+        dispatch(ShowLoader(true))
         dispatch(GetUsersById(userId))
         
       }
@@ -118,6 +123,7 @@ export default function ViewUser(props) {
         seprateDeduction(userById.applicable_deductions)
         separateDocument(userById.documents)
         setEditUser(true);
+        dispatch(ShowLoader(false))
       }
     },[userById])
 
@@ -808,6 +814,11 @@ const validateRole = () => {
     const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,resetForm } = formik;
   
     return (
+      showLoader ?
+      <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
+      <CircularProgress color="success" />
+      </div>
+      :
       <div>
         {/* <Button variant="outlined" onClick={handleClickOpen}>
           Open max-width dialog

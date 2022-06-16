@@ -97,11 +97,11 @@ const navConfig = [
         path: '/dashboard/qc-remarks',
         icon: getIcon('eva:shopping-bag-fill'),
       },
-      {
-        title: 'Tree Density',
-        path: '/dashboard/tree-density',
-        icon: getIcon('eva:shopping-bag-fill'),
-      },
+      // {
+      //   title: 'Tree Density',
+      //   path: '/dashboard/tree-density',
+      //   icon: getIcon('eva:shopping-bag-fill'),
+      // },
       
     ]
 },
