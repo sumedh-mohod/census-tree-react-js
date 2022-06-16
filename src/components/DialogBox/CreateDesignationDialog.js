@@ -158,7 +158,7 @@ const handleStatusChange = (event) => {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>{data? `Edit Designation` : `create Designation`}</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data? `Edit Designation` : `Create Designation`}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
@@ -178,7 +178,7 @@ const handleStatusChange = (event) => {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

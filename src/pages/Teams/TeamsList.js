@@ -247,11 +247,14 @@ export default function TeamsList() {
   return (
     <Page title="Teams">
       <Container>
+        {open?
         <TeamsTableDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data={dialogData}
-        />
+        />:null
+        }
+        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
            Teams

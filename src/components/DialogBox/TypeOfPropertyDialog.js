@@ -154,7 +154,7 @@ export default function TypeOfPropertyDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add Type Of Property</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Property Type":"Add Property Type"}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
@@ -201,7 +201,7 @@ export default function TypeOfPropertyDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

@@ -200,7 +200,7 @@ export default function TalukasDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add Taluka</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Taluka":"Add Taluka"}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
@@ -268,7 +268,7 @@ export default function TalukasDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

@@ -411,7 +411,7 @@ export default function CreateCouncilDialog(props) {
     <div>
       <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          New Council
+          {data?"Edit Counci":"New Council"}
         </BootstrapDialogTitle>
         <DialogContent dividers>
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>

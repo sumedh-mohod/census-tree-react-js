@@ -139,7 +139,7 @@ export default function TypeOfLocationDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Add Type Of Location</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Location Type":"Add Location Type"}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
@@ -158,7 +158,7 @@ export default function TypeOfLocationDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>
