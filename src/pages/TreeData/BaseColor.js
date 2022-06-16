@@ -318,7 +318,7 @@ export default function BaseColor() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
                         <TableCell align="left">{option.property?.property_number}</TableCell>

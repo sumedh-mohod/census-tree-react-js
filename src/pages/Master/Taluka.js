@@ -220,7 +220,7 @@ export default function Taluka() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.name}
                             </TableCell>

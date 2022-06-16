@@ -2,7 +2,7 @@
 
 const account = {
   displayName: 'Jaydon Frankie',
-  email: 'demo@minimals.cc',
+  designation: 'Associate',
   photoURL: '/static/mock-images/avatars/avatar_default.jpg',
 };
 
