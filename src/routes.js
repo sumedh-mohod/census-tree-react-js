@@ -35,6 +35,7 @@ import TreeDensity from './pages/Master/TreeDensity';
 import ViewUser from './pages/Users/ViewUser';
 import QcRemarks from './pages/Master/QcRemarks';
 import ViewProperties from './pages/Master/ViewProperties';
+import TreeOnMap from './pages/Map/TreeOnMap';
 
 // ----------------------------------------------------------------------
 
@@ -74,6 +75,7 @@ export default function Router() {
         { path: 'assignNewCouncilZoneWard/:teamId/:teamName', element: <AssignNewCouncilZoneWard /> },
         { path: 'assignUser/:teamId/:teamName', element: <AssignUser/> },
         { path: 'new-user-form', element: <NewUserForm/> },
+        { path: 'treeOnMap', element: <TreeOnMap /> },
       ],
     },
     {
