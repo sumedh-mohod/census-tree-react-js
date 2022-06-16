@@ -129,7 +129,7 @@ const navConfig = [
 {
   title: 'Map',
   path: '/dashboard/map',
-  icon: getIcon('bi:tree-fill'),
+  icon: getIcon('bxs:map'),
   children:[
     {
       title: 'Tree On Map',

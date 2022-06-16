@@ -35,6 +35,8 @@ export default function TreeOnMap(props) {
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
     const [council, setCouncil] = React.useState('');
+    const [zone, setZone] = React.useState('');
+    const [ward, setWard] = React.useState('');
     const [editUser,setEditUser] = useState(false);  
     const { isOpen, data } = props;
   
@@ -48,8 +50,37 @@ export default function TreeOnMap(props) {
             label : "New Delhi Muncipal Council",
             },
     ]
+    const zoneValue = [
+        {
+        value : "Zone 1",
+        label : "Zone 1",
+        },
+        {
+            value : "Zone 2",
+            label : "Zone 2",
+            },
+    ]
+
+    const wardValue = [
+        {
+        value : "Ward 1",
+        label : "Ward 1",
+        },
+        {
+            value : "Ward 2",
+            label : "Ward 2",
+            },
+    ]
+
 
     const handleCouncilChange = (event) =>{
+        setCouncil(event.target.value);
+    }
+
+    const handleZoneChange = (event) =>{
+        setCouncil(event.target.value);
+    }
+    const handleWardChange = (event) =>{
         setCouncil(event.target.value);
     }
     return (
@@ -66,11 +97,8 @@ export default function TreeOnMap(props) {
           <Grid item sm={6}>
             <TextField
               select
-              // SelectProps={{
-              //   multiple:true
-              // }}
-              id="role"
-              name='role'
+              id="council"
+              name='council'
               label="Council*"
               value={council}
               displayEmpty
@@ -79,21 +107,8 @@ export default function TreeOnMap(props) {
               onChange={(e) => {
                 handleCouncilChange(e)
               }}
-              placeholder='Select Role*'
+              placeholder='Select council*'
               defaultValue={data? data.council: ""}
-              // renderValue={(selected) => {
-              //   if (selected?.length === 0) {
-              //     return <em>Select Role*</em>;
-              //   }
-              //   const result = [];
-              //   selected?.map((value)=>{
-              //     const found = findRole(roles,value);
-              //     result.push(found);
-              //     return null;
-              //   })
-              //   return result.join(",");
-              // }}
-
               renderValue={(selected) => {
                 if (selected?.length === 0) {
                   return <em>Select Council*</em>;
@@ -118,7 +133,7 @@ export default function TreeOnMap(props) {
                 label="Start Date*"
                 placeholder='Start Date*'
                 // defaultValue="2017-05-24"
-                style={{width: '86.5%', marginLeft: 40,marginTop:5}}
+                style={{width: '85.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
                 // error={Boolean(touched.dob && errors.dob)}
                 // helperText={touched.dob && errors.dob}
@@ -135,10 +150,10 @@ export default function TreeOnMap(props) {
                 id="date"
                 // label="Date Of Birth"
                 type="date"
-                label="Start Date*"
-                placeholder='Start Date*'
+                label="End Date*"
+                placeholder= 'End Date*'
                 // defaultValue="2017-05-24"
-                style={{width: '86.5%', marginLeft: 40,marginTop:5}}
+                style={{width: '85.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
                 // error={Boolean(touched.dob && errors.dob)}
                 // helperText={touched.dob && errors.dob}
@@ -149,32 +164,67 @@ export default function TreeOnMap(props) {
               />
               </Grid>
           <Grid item sm={6}>
-          <DefaultInput
-                  fullWidth
-                  id="zone"
-                  autoComplete="zone"
-                  label="zone*"
-                  placeholder="Zone*"
-                  style={{width:'85.5%', marginLeft: 40,marginTop:5}}
-                //   error={Boolean(touched.caste && errors.caste)}
-                // helperText={touched.caste && errors.caste}
-                // {...getFieldProps("caste")}
-                />
+          <TextField
+              select
+              id="zone"
+              name='zone'
+              label="Zone*"
+            //   value={GetZones}
+              displayEmpty
+              style={{width:'85.5%', marginLeft: 40,marginTop:5}}
+              // onChange={handleRoleChange}
+              onChange={(e) => {
+                handleZoneChange(e)
+              }}
+              placeholder='Select Zone*'
+              defaultValue={data? data.zone: ""}
+              renderValue={(selected) => {
+                if (selected?.length === 0) {
+                  return <em>Select Zone*</em>;
+                }
+              }}
+            >
+               <MenuItem disabled value="">
+            <em>Select Zone</em>
+          </MenuItem>
+              {zoneValue?.map((option) => (
+                <MenuItem key={option.id} value={option.label}>
+                  {/* {option.role} */}
+                </MenuItem>
+              ))}
+            </TextField>
             </Grid>
             <Grid container spacing={1} style={{marginTop: 5}}>
             <Grid item sm={6}>
-          <DefaultInput
-                  fullWidth
-                  id="ward"
-                  autoComplete="ward"
-                  label="ward*"
-                  placeholder="ward*"
-                  style={{width:'85.5%', marginLeft: 40,marginTop:5}}
-                //   style={{width:'87.5%', marginLeft: 40,marginTop:5}}
-                //   error={Boolean(touched.caste && errors.caste)}
-                // helperText={touched.caste && errors.caste}
-                // {...getFieldProps("caste")}
-                />
+            <TextField
+              select
+              id="ward"
+              name='ward'
+              label="Ward*"
+              value={ward}
+              displayEmpty
+              style={{width:'85.5%', marginLeft: 40,marginTop:5}}
+              // onChange={handleRoleChange}
+              onChange={(e) => {
+                handleWardChange(e)
+              }}
+              placeholder='Select Ward*'
+              defaultValue={data? data.ward: ""}
+              renderValue={(selected) => {
+                if (selected?.length === 0) {
+                  return <em>Select Ward*</em>;
+                }
+              }}
+            >
+               <MenuItem disabled value="">
+            <em>Select Ward</em>
+          </MenuItem>
+              {wardValue?.map((option) => (
+                <MenuItem key={option.id} value={option.label}>
+                  {/* {option.role} */}
+                </MenuItem>
+              ))}
+            </TextField>
             </Grid>
 
             <Grid item sm={6}>
