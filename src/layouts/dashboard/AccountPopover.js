@@ -42,9 +42,11 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(null);
 
   const {
-    isLoggedOut
+    isLoggedOut,
+    loggedUser
   } = useSelector((state) => ({
-    isLoggedOut:state.auth.isLoggedOut
+    isLoggedOut:state.auth.isLoggedOut,
+    loggedUser:state.auth.loggedUser
   }));
 
   const firstRun = useRef(true);
@@ -109,10 +111,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {loggedUser.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {loggedUser.designation}
           </Typography>
         </Box>
         <Divider sx={{ borderStyle: 'dashed' }} />
