@@ -148,7 +148,7 @@ export default function CreateCouncil() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Councils">
       <Container>
         {open?
         <CreateCouncilDialog
@@ -181,7 +181,7 @@ export default function CreateCouncil() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Council
+            Add New
 
           </Button>
         </Stack>
@@ -200,7 +200,7 @@ export default function CreateCouncil() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         {/* <TableCell align="left">{option.uploadLogo}</TableCell> */}
                         <TableCell align="center">{option.name}</TableCell>
                         <TableCell align="center">{option.state?.name}</TableCell>

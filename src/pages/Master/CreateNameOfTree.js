@@ -172,7 +172,7 @@ export default function CreateNameOfTree() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Tree Names">
       <Container>
         {open?
         <NameOfTreeDialog
@@ -203,7 +203,7 @@ export default function CreateNameOfTree() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Tree Name
+            Add New
           </Button>
         </Stack>
 
@@ -222,7 +222,7 @@ export default function CreateNameOfTree() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.botanical_name}</TableCell>
                         <TableCell align="left">{option.tree_type?.tree_type}</TableCell>

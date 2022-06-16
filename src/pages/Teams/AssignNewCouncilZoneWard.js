@@ -190,31 +190,34 @@ export default function AssignNewCouncilZoneWard() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Teams">
       <Container>
-      <AssignCouncilZoneDialog
+        {open?
+        <AssignCouncilZoneDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
         teamId={teamId}
-        />
+        />:null
+        }
+      
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          href="#"
+          // href="#"
         >
           Teams
         </Link>
-        <Link component={RouterLink}
-        to ={`/dashboard/teams`}
+        <Link
+        component={RouterLink}
+        to={`/dashboard/teams`}
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          href="#"
         >
         {teamName}
         </Link>
@@ -222,7 +225,7 @@ export default function AssignNewCouncilZoneWard() {
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          href="#"
+          // href="#"
         >
              Assigned Councils- Zones- Wards
         </Link>
@@ -248,7 +251,7 @@ export default function AssignNewCouncilZoneWard() {
                         <TableRow
                         hover
                       >
-                        <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option.council_name}</TableCell>
                         <TableCell align="left">{option.zone_name}</TableCell>
                         <TableCell align="left">{option.ward_name}</TableCell>

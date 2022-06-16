@@ -179,7 +179,7 @@ export default function District() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Districts">
       <Container>
         {open?
         <DistrictDialog
@@ -209,7 +209,7 @@ export default function District() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add District
+            Add New
 
           </Button>
         </Stack>
@@ -228,7 +228,7 @@ export default function District() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.name}
                             </TableCell>

@@ -170,7 +170,7 @@ export default function LocationType() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Location Types">
       <Container>
         {open?
          <TypeOfLocationDialog
@@ -219,7 +219,7 @@ export default function LocationType() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">

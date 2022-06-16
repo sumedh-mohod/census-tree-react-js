@@ -170,7 +170,7 @@ export default function TypeOfProperty() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Property Types">
       <Container>
         <TypeOfPropertyDialog
         isOpen={open}
@@ -218,7 +218,7 @@ export default function TypeOfProperty() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option.property_type}</TableCell>
                         <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>

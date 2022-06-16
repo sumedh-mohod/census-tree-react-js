@@ -170,7 +170,7 @@ export default function TypeOfTree() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Tree Types">
       
       <Container>
         {open?
@@ -203,7 +203,7 @@ export default function TypeOfTree() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Tree Type
+            Add New
 
           </Button>
         </Stack>
@@ -223,7 +223,7 @@ export default function TypeOfTree() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option.tree_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">

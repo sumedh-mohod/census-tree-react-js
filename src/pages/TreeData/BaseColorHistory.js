@@ -11,13 +11,13 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  Link,
   IconButton,
   Breadcrumbs,
+  Link
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import {Link as RouterLink, useParams } from 'react-router-dom';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead, UserListToolbar } from '../../sections/@dashboard/user';
@@ -71,6 +71,9 @@ export default function BaseColorHistory() {
   }));
 
   const { baseColorId, baseColorName } = useParams();
+
+  console.log("baseColorName", baseColorName)
+  console.log("baseColorId",baseColorId)
 
   useEffect(()=>{
     dispatch(GetBaseColorTreeHistory(baseColorId,page+1,rowsPerPage));
@@ -149,7 +152,7 @@ export default function BaseColorHistory() {
   console.log("BASE COLOR HISTORY",baseColorTreeHistory);
 
   return (
-    <Page title="User">
+    <Page title="Base Color">
       <Container>
       {viewOpen?
         <ViewImageDialog
@@ -162,35 +165,27 @@ export default function BaseColorHistory() {
         <div role="presentation"  >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Tree Data
+          Trees Data
         </Link>
         <Link
           underline="hover"
+          component={RouterLink}
+          to={`/dashboard/base-color`}
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          href="#"
         >
           Base Color
         </Link>
         <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          {baseColorName}
-              
-        </Link>
-        <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          href="#"
+          // href="#"
         >
            History
               
@@ -213,7 +208,7 @@ export default function BaseColorHistory() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
                         <TableCell align="left">{option.property?.property_number}</TableCell>

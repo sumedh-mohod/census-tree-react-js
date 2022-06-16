@@ -18,6 +18,7 @@ import {
   Stack,
   Avatar,
   Checkbox,
+  CircularProgress,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -31,6 +32,7 @@ import DefaultInput from '../components/Inputs/DefaultInput';
 import { GetCouncil } from '../actions/CouncilAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
 import { GetActiveDesignations } from '../actions/DesignationAction';
+import { ShowLoader } from '../actions/CommonAction';
 
 export default function NewUserForm(props) {
 
@@ -74,7 +76,8 @@ export default function NewUserForm(props) {
       designations,
       addUsersLog,
       uploadFile,
-      uploadFileLog
+      uploadFileLog,
+      showLoader
     } = useSelector((state) => ({
       salaryDeductionType:state.users.salaryDeductionType,
       userDocumentType:state.users.userDocumentType,
@@ -88,6 +91,7 @@ export default function NewUserForm(props) {
       addUsersLog:state.users.addUsersLog,
       uploadFile:state.upload.uploadFile,
       uploadFileLog:state.upload.uploadFileLog,
+      showLoader : state.common.showLoader,
     }));
 
     useEffect(()=>{
@@ -105,6 +109,7 @@ export default function NewUserForm(props) {
     useEffect(()=>{
       
       if(userId){
+        dispatch(ShowLoader(true))
         dispatch(GetUsersById(userId))
         
       }
@@ -121,6 +126,7 @@ export default function NewUserForm(props) {
         seprateDeduction(userById.applicable_deductions)
         separateDocument(userById.documents)
         setEditUser(true);
+        dispatch(ShowLoader(false))
       }
     },[userById])
 
@@ -599,7 +605,7 @@ const validateRole = () => {
       // taluka: Yup.string().required('Taluka is required'),
       council: Yup.string().required('Council is required'),
       username: Yup.string().required('Username is required'),
-      password: editUser?null:Yup.string().required('Password is required'),
+      password: editUser?Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters'):Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     }:{
       role: Yup.string().required('Role is required'),
       firstName: Yup.string().required('First Name is required'),
@@ -612,7 +618,7 @@ const validateRole = () => {
       district: Yup.string().required('Districts is required'),
       // taluka: Yup.string().required('Taluka is required'),
       username: Yup.string().required('Username is required'),
-      password: editUser?null:Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
+      password: editUser?Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters'):Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
       aadhaarNumber: Yup.string().matches(aadharRegExp, 'Enter valid aadhar number').required('Aadhar Number is required'),
       education: Yup.string().required('Education is required'),
       dob: Yup.string().required('DOB is required'),
@@ -731,6 +737,7 @@ const validateRole = () => {
             }
 
             if(editUser){
+              console.log("OBJ",obj);
               dispatch(EditUsers(obj,userById.id))
             }
             else {
@@ -811,6 +818,7 @@ const validateRole = () => {
               "documents": aaplicableDocument
             }
             if(editUser){
+              console.log("OBJ",obj);
               dispatch(EditUsers(obj,userById.id))
             }
             else {
@@ -830,6 +838,11 @@ const validateRole = () => {
     console.log("DOCUMENT LIST",documentList);
   
     return (
+       showLoader ?
+      <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
+      <CircularProgress color="success" />
+      </div>
+      :
       <div>
         {/* <Button variant="outlined" onClick={handleClickOpen}>
           Open max-width dialog
@@ -1489,7 +1502,22 @@ const validateRole = () => {
                   {...getFieldProps("username")}
                 />
               </Grid>{
-                editUser?null:
+                editUser?
+
+                <Grid item xs={6}>
+              <DefaultInput
+                  fullWidth
+                  id="password"
+                  autoComplete="password"
+                  label="Password*"
+                  placeholder="Password*"
+                  error={Boolean(touched.password && errors.password)}
+                  helperText={touched.password && errors.password}
+                  {...getFieldProps("password")}
+                />
+              </Grid>
+
+                :
              
               <Grid item xs={6}>
               <DefaultInput

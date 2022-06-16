@@ -245,7 +245,7 @@ export default function TeamsList() {
   }
 
   return (
-    <Page title="TeamList">
+    <Page title="Teams">
       <Container>
         <TeamsTableDialog
         isOpen={open}
@@ -257,7 +257,7 @@ export default function TeamsList() {
            Teams
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Team
+            Add New
           </Button>
         </Stack>
 
@@ -283,7 +283,7 @@ export default function TeamsList() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>
                         <TableCell >{option?.zone}</TableCell>

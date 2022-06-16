@@ -186,7 +186,7 @@ export default function User() {
             Users
           </Typography>
           <Button variant="contained" component={RouterLink} to="/dashboard/new-user-Form" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            New User
+            Add New
 
           </Button>
         </Stack>
@@ -207,7 +207,7 @@ export default function User() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.first_name}  {option.last_name}
                             </TableCell>

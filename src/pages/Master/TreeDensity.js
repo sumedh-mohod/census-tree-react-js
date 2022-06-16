@@ -177,7 +177,7 @@ export default function TreeDensity() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Tree Density">
       <Container>
         {open?
         <TreeDensityDialog
@@ -226,7 +226,7 @@ export default function TreeDensity() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.name}
                             </TableCell>

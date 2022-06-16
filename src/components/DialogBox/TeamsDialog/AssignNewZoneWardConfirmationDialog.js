@@ -38,7 +38,7 @@ export default function AssignNewZoneWardConfirmationDialog(props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          Assigning new Council-Zone-Ward will Inacivate the previously assinged ouncil-Zone-Ward for this team. Are you sure you want to continue? 
+          Assigning new Council-Zone-Ward will Inacivate the previously assinged Council-Zone-Ward for this team. Are you sure you want to continue? 
           </DialogContentText>
         </DialogContent>
         <DialogActions>

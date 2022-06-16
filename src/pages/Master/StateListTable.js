@@ -140,7 +140,7 @@ export default function StateListTable() {
   }
 
   return (
-    <Page title="User">
+    <Page title="States">
       <Container>
         {open?
         <StateDialog
@@ -170,7 +170,7 @@ export default function StateListTable() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add State
+            Add New
 
           </Button>
         </Stack>
@@ -189,7 +189,7 @@ export default function StateListTable() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">

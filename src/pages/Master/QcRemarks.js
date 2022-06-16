@@ -176,7 +176,7 @@ export default function District() {
 
 
   return (
-    <Page title="User">
+    <Page title="QC Remarks">
       <Container>
 
         {open?
@@ -226,7 +226,7 @@ export default function District() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.remark}
                             </TableCell>

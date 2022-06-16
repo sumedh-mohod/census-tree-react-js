@@ -205,7 +205,7 @@ export default function DeniedEntry() {
   })
 
   return (
-    <Page title="User">
+    <Page title="Denied Entries">
       <Container>
         <WardDialog
         isOpen={open}
@@ -222,12 +222,12 @@ export default function DeniedEntry() {
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Master
+          Trees Data
         </Link>
         <Link
           underline="hover"
@@ -235,7 +235,7 @@ export default function DeniedEntry() {
           color="inherit"
           href="#"
         >
-          Denied Entery
+          Denied Entries
         </Link>
       </Breadcrumbs>
     </div>
@@ -263,7 +263,7 @@ export default function DeniedEntry() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type?option.property_type?.property_type:"-"}</TableCell>
                         <TableCell align="left">{option.property?.property_number?option.property?.property_number:"-"}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
