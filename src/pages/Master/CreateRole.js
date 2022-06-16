@@ -222,7 +222,7 @@ export default function CreateRole() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*10+(index+1)}</TableCell>
                         <TableCell align="left">{option.role}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">

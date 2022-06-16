@@ -222,7 +222,7 @@ export default function CreateNameOfTree() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*10+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.botanical_name}</TableCell>
                         <TableCell align="left">{option.tree_type?.tree_type}</TableCell>

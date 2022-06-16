@@ -248,7 +248,7 @@ export default function AssignNewCouncilZoneWard() {
                         <TableRow
                         hover
                       >
-                        <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{page*10+(index+1)}</TableCell>
                         <TableCell align="left">{option.council_name}</TableCell>
                         <TableCell align="left">{option.zone_name}</TableCell>
                         <TableCell align="left">{option.ward_name}</TableCell>
