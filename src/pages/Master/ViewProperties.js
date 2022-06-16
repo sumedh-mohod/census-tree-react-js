@@ -229,8 +229,13 @@ export default function ViewProperties() {
 
   return (
     showLoader ?
-      <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
-      <CircularProgress color="success" />
+      <div className="loader-container">
+        <div className="loader-inner-div">
+          <div className="loader-text">
+            Uploading....
+            </div> 
+            {/* <div className="dot-elastic" /> */}
+            </div>
       </div>
       :
    

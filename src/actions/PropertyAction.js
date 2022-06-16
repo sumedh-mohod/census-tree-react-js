@@ -3,6 +3,7 @@ import formDataJWTServer from "../api/formDataJWTServer";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { GET_PROPERTY_BY_COUNCIL_ID, IMPORT_PROPERTIES, SHOW_PROPERTY_IMPORT_ERROR } from "./Types";
 import { SetNewAlert } from "./AlertActions";
+import { ShowLoader } from "./CommonAction";
 
 const GetPropertyByCouncilId = (councilId,page,limit) => async (dispatch) => {
     try {
@@ -42,10 +43,20 @@ const GetPropertyByCouncilId = (councilId,page,limit) => async (dispatch) => {
     } catch (e) {
       console.log("ERROR RESPONSE",e.response);
       if(e.response.status===422){
-        dispatch({
-          type: SHOW_PROPERTY_IMPORT_ERROR,
-          payload: e.response,
-        });
+        if(Array.isArray(e.response.data)){
+          dispatch({
+            type: SHOW_PROPERTY_IMPORT_ERROR,
+            payload: e.response,
+          });
+        }
+        else {
+          dispatch(SetNewAlert({
+            msg: e.response.data.message,
+            alertType: "danger",
+          }));
+          dispatch(ShowLoader(false))
+        }
+        
       }
       else {
         dispatch(HandleExceptionWithSecureCatch(e));
