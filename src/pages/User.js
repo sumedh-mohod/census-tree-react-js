@@ -186,7 +186,7 @@ export default function User() {
             Users
           </Typography>
           <Button variant="contained" component={RouterLink} to="/dashboard/new-user-Form" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            New User
+            Add New
 
           </Button>
         </Stack>

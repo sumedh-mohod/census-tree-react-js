@@ -176,7 +176,7 @@ export default function District() {
 
 
   return (
-    <Page title="User">
+    <Page title="QC Remarks">
       <Container>
 
         {open?

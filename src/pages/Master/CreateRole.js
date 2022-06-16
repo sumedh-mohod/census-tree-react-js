@@ -173,7 +173,7 @@ export default function CreateRole() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Roles">
       <Container>
         {open?
         <CreateRoleDialog
@@ -203,7 +203,7 @@ export default function CreateRole() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Role
+            Add New
 
           </Button>
         </Stack>

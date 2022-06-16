@@ -170,7 +170,7 @@ export default function Zone() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Zones">
       <Container>
         {open?
         <ZoneDialog
@@ -200,7 +200,7 @@ export default function Zone() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Zone
+            Add New
 
           </Button>
         </Stack>

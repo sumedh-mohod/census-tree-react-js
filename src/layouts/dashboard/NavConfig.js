@@ -7,12 +7,12 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const navConfig = [
   {
-    title: 'dashboard',
+    title: 'Dashboard',
     path: '/dashboard/home',
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
-    title: 'users',
+    title: 'Users',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
   },
@@ -106,7 +106,7 @@ const navConfig = [
     ]
 },
 {
-  title: 'Tree Data',
+  title: 'Trees Data',
   path: '/dashboard/tree-data',
   icon: getIcon('bi:tree-fill'),
   children:[
@@ -115,12 +115,13 @@ const navConfig = [
       path: '/dashboard/base-color',
       icon: getIcon('eva:shopping-bag-fill'),
     },
+    // {
+    //   title: 'Census',
+    //   path: '/dashboard/census',
+    //   icon: getIcon('eva:shopping-bag-fill'),
+    // },
     {
-      title: 'Census',
-      path: '/dashboard/census',
-      icon: getIcon('eva:shopping-bag-fill'),
-    },{
-      title: 'Denied Entry',
+      title: 'Denied Entries',
       path: '/dashboard/denied-entry',
       icon: getIcon('eva:shopping-bag-fill'),
     },

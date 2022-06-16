@@ -171,7 +171,7 @@ export default function Taluka() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Talukas">
       <Container>
         {open?
         <TalukasDialog
@@ -201,7 +201,7 @@ export default function Taluka() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Taluka
+            Add New
 
           </Button>
         </Stack>

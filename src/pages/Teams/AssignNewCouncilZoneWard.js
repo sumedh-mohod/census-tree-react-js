@@ -190,14 +190,17 @@ export default function AssignNewCouncilZoneWard() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Teams">
       <Container>
-      <AssignCouncilZoneDialog
+        {open?
+        <AssignCouncilZoneDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
         teamId={teamId}
-        />
+        />:null
+        }
+      
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>

@@ -172,7 +172,7 @@ export default function CreateNameOfTree() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Tree Names">
       <Container>
         {open?
         <NameOfTreeDialog
@@ -203,7 +203,7 @@ export default function CreateNameOfTree() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Tree Name
+            Add New
           </Button>
         </Stack>
 

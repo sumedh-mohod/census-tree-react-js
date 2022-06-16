@@ -239,7 +239,7 @@ export default function ViewProperties() {
       </div>
       :
    
-    <Page title="User">
+    <Page title="Properties">
     <Container>
    
     

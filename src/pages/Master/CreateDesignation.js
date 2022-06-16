@@ -171,7 +171,7 @@ export default function CreateDestination() {
 
 
   return (
-    <Page title="User">
+    <Page title="Designations">
       <Container>
       {open?
         <CreateDesignationDialog
@@ -200,7 +200,7 @@ export default function CreateDestination() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Designation
+            Add New
 
           </Button>
         </Stack>

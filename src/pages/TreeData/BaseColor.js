@@ -246,7 +246,7 @@ export default function BaseColor() {
 
 
   return (
-    <Page title="User">
+    <Page title="Base Color">
       <Container>
         {open?
         <BaseColorDialog
@@ -277,12 +277,12 @@ export default function BaseColor() {
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Tree Data
+          Trees Data
         </Link>
         <Link
           underline="hover"

@@ -179,7 +179,7 @@ export default function District() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Districts">
       <Container>
         {open?
         <DistrictDialog
@@ -209,7 +209,7 @@ export default function District() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add District
+            Add New
 
           </Button>
         </Stack>

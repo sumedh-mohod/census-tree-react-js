@@ -125,7 +125,7 @@ export default function TypeOfTree() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Type Of House
+            Add New
 
           </Button>
         </Stack>

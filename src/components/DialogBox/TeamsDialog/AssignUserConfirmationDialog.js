@@ -37,7 +37,7 @@ export default function AssignUserConfirmationDialog(props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          This User is already Assinged to Team- dummy team. On confirm, It will remove him/her from the previously assinged team. Are you sure you want to continue
+          Assigning User to the new team will remove him/her from the previously assigned team. Are you sure you want to continue?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

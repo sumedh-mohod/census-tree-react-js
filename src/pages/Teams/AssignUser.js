@@ -187,14 +187,17 @@ export default function AssignUser() {
   console.log("USERS OF TEAM",userOfTeam);
 
   return (
-    <Page title="User">
+    <Page title="Teams">
     <Container>
-        <AssignUserDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data= {dialogData}
-        teamId={teamId}
-        />
+      {open?
+      <AssignUserDialog
+      isOpen={open}
+      handleClose = {handleNewUserClick}
+      data= {dialogData}
+      teamId={teamId}
+      />:null
+      }
+        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>

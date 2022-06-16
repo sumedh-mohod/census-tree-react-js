@@ -170,7 +170,7 @@ export default function LocationType() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Location Types">
       <Container>
         {open?
          <TypeOfLocationDialog

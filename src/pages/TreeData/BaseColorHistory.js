@@ -152,7 +152,7 @@ export default function BaseColorHistory() {
   console.log("BASE COLOR HISTORY",baseColorTreeHistory);
 
   return (
-    <Page title="User">
+    <Page title="Base Color">
       <Container>
       {viewOpen?
         <ViewImageDialog
@@ -165,32 +165,22 @@ export default function BaseColorHistory() {
         <div role="presentation"  >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Tree Data
+          Trees Data
         </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Base Color
-        </Link>
-        {baseColorName !== 'undefined' ?
         <Link
           underline="hover"
           component={RouterLink}
           to={`/dashboard/base-color`}
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          // href="#"
         >
-          {baseColorName} 
-        </Link> 
-        : null}
+          Base Color
+        </Link>
         <Link
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}

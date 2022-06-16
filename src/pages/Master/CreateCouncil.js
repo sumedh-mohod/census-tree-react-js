@@ -148,7 +148,7 @@ export default function CreateCouncil() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Councils">
       <Container>
         {open?
         <CreateCouncilDialog
@@ -181,7 +181,7 @@ export default function CreateCouncil() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Council
+            Add New
 
           </Button>
         </Stack>
