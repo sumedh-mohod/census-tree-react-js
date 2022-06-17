@@ -171,7 +171,7 @@ export default function TreeConditions() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Tree Conditions">
       <Container>
         {open?
         <TypeOfTreeCuttingDialog

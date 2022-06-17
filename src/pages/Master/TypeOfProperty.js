@@ -170,7 +170,7 @@ export default function TypeOfProperty() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Property Types">
       <Container>
         <TypeOfPropertyDialog
         isOpen={open}

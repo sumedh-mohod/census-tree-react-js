@@ -177,7 +177,7 @@ export default function TreeDensity() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Tree Density">
       <Container>
         {open?
         <TreeDensityDialog

@@ -140,7 +140,7 @@ export default function StateListTable() {
   }
 
   return (
-    <Page title="User">
+    <Page title="States">
       <Container>
         {open?
         <StateDialog
@@ -170,7 +170,7 @@ export default function StateListTable() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add State
+            Add New
 
           </Button>
         </Stack>

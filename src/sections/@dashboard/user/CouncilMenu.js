@@ -65,13 +65,21 @@ export default function CouncilMenu(props) {
            </ListItemIcon>
            <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
          </MenuItem>}
-
-         <MenuItem component={RouterLink} to={`/dashboard/council/properties/${props.councilId}/${props.councilName}`} sx={{ color: 'text.secondary' }} onClick={handleClose} >
-            <ListItemIcon>
-                <Iconify icon="bi:building" width={24} height={24} />
-            </ListItemIcon>
-            <ListItemText primary="View Properties" primaryTypographyProps={{ variant: 'body2' }} />
-         </MenuItem>
+          {props.status===0?
+          <MenuItem component={RouterLink} to={`/dashboard/council/properties/${props.councilId}/${props.councilName}`} sx={{ color: 'text.secondary' }} onClick={handleClose}disabled >
+          <ListItemIcon>
+              <Iconify icon="bi:building" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="View Properties" primaryTypographyProps={{ variant: 'body2' }} />
+       </MenuItem>:
+       <MenuItem component={RouterLink} to={`/dashboard/council/properties/${props.councilId}/${props.councilName}`} sx={{ color: 'text.secondary' }} onClick={handleClose} >
+       <ListItemIcon>
+           <Iconify icon="bi:building" width={24} height={24} />
+       </ListItemIcon>
+       <ListItemText primary="View Properties" primaryTypographyProps={{ variant: 'body2' }} />
+    </MenuItem>
+          }
+         
 
       </Menu>
     </>

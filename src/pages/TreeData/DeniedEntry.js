@@ -205,7 +205,7 @@ export default function DeniedEntry() {
   })
 
   return (
-    <Page title="User">
+    <Page title="Denied Entries">
       <Container>
         <WardDialog
         isOpen={open}
@@ -222,12 +222,12 @@ export default function DeniedEntry() {
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Master
+          Trees Data
         </Link>
         <Link
           underline="hover"
@@ -235,7 +235,7 @@ export default function DeniedEntry() {
           color="inherit"
           href="#"
         >
-          Denied Entery
+          Denied Entries
         </Link>
       </Breadcrumbs>
     </div>
