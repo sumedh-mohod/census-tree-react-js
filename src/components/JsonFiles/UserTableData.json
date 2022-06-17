@@ -1,0 +1,197 @@
+{
+    "userData": [
+        {
+        "srno" : "1",
+        "name" : "sandra keeling",
+        "email" : "rehan@gmail.com",
+        "mobile": 8765098234,
+        "doj": "22/5/2020",
+        "designation": "Admin"
+        },
+        {
+            "srno" : "2",
+            "name" : "Marvin Fisher",
+            "email" : "Marvin@gmail.com",
+            "mobile": 8765098234,
+            "doj": "22/5/2020",
+            "designation": "Admin"
+            },
+            {
+                "srno" : "3",
+                "name" : "Kim little",
+                "email" : "Kim@gmail.com",
+                "mobile": 8765098234,
+                "doj": "22/5/2020",
+                "designation": "Super Admin"
+                },
+                {
+                    "srno" : "4",
+                    "name" : "patty Schinner",
+                    "email" : "PattySch@gmail.com",
+                    "mobile": 8329420771,
+                    "doj": "22/5/2020",
+                    "designation": "Super Admin"
+                    }
+    ],
+    "districtData": [
+        {
+        "srno" : "1",
+        "distName": "Nagpur",
+        "state": "Maharashatra"
+        },
+        {
+            "srno" : "2",
+            "distName": "Nagpur",
+            "state": "Maharashatra"
+            }
+    ],
+    "talukaData": [
+        {
+            "srno" : "1",
+            "TalukaName": "kalmeshawar",
+            "district": "Nagpur",
+            "state": "Maharashatra"
+        },
+        {
+            "srno" : "2",
+            "TalukaName": "Sawali",
+            "district": "Chandrapur",
+            "state": "Maharashatra"
+        },
+        {
+            "srno" : "3",
+            "TalukaName": "Akot",
+            "district": "Akola",
+            "state": "Maharashatra"
+        }
+    ],
+    "DesignationData": [
+        {
+            "srno" : "1",
+            "designation": "Business analyst",
+            "status": "Active"
+        },
+        {
+            "srno" : "2",
+            "designation": "Associate",
+            "status": "InActive"
+        }
+    ],
+    "RoleData": [
+        {
+            "srno" : "1",
+            "role": "super admin",
+            "status": "Active"
+        },
+        {
+            "srno" : "2",
+            "role": "tree counting",
+            "status": "InActive"
+        }
+    ],
+    "TypeOfTree": [
+        {
+            "srno" : "1",
+            "typeOfTree": "fruit tree",
+            "status": "Active"
+        },
+        {
+            "srno" : "2",
+            "typeOfTree": "flower tree",
+            "status": "InActive"
+        }
+    ],
+    "NameOfTreeData": [
+        {
+            "srno" : "1",
+            "nameOfTree": "Mango Tree",
+            "botanicalName": "Mangifera indica",
+            "typeOfTree": "fruit tree"
+        },
+        {
+            "srno" : "2",
+            "nameOfTree": "Coral Jamine",
+            "botanicalName": "Nyctanthes arbortristis",
+            "typeOfTree": "flower tree"
+        }
+    ],
+    "TypeOfTreeCuttingData": [
+        {
+            "srno" : "1",
+            "typeOfTreeCutting": "Open-faced"
+        },
+        {
+            "srno" : "2",
+            "typeOfTreeCutting": "Conventional"
+        }
+    ],
+    "TypeOfPropertyData": [
+        {
+            "srno" : "1",
+            "typeOfProperty": "Commercial"
+        }
+    ],
+    "TypeOfHouseData": [
+        {
+            "srno" : "1",
+            "typeOfHouse": "Townhomes"
+        },
+        {
+            "srno" : "2",
+            "typeOfHouse": "Apartments  "
+        }
+    ],
+    "ZoneData": [
+        {
+            "srno" : "1",
+            "Zone": "Laxminagar"
+        },
+        {
+            "srno" : "2",
+            "Zone": "Dharampeth  "
+        }
+    ],
+    "WardData": [
+        {
+            "srno" : "1",
+            "ward": "Laxminagar"
+        },
+        {
+            "srno" : "2",
+            "ward": "Dharampeth  "
+        }
+    ],
+    "CreateCouncilData": [
+        {
+            "srno" : "1",
+            "prefix": "Mr",
+            "uploadLogo": "logopng",
+            "councilName": "Giga",
+            "state": "Maharashatra",
+            "district": "Nagpur",
+            "contactPersonName": "Rehan",
+            "firstName": "rehan",
+            "MiddleName": "Sanjay",
+            "lastName": "Sheikh",
+            "mobileNumber": "768965456",
+            "emailId": "rehan@gmail.com",
+            "userName": "Rehan@29",
+            "password": "******",
+            "role": "Analiyst"
+        }
+    ],
+    "StateData": [
+        {
+            "srno" : "1",
+            "statedata": "patana",
+            "status": "Active"
+        },
+        {
+            "srno" : "2",
+            "statedata": "Maharashtra",
+            "status": "InActive"
+        }
+    ]
+
+
+}

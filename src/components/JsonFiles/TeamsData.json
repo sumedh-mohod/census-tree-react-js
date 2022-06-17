@@ -1,0 +1,80 @@
+{
+    "teamsTableData": [
+        {
+            "SrNo": "1",
+            "teamName": "Cyborg Droids",
+            "councilName": " Board of Eternity",
+            "zone": "East Central Railway",
+            "ward": "Ward 1"
+        },
+        {
+            "SrNo": "2",
+            "teamName": "Blooming Volcanoes",
+            "councilName": "Living Council",
+            "zone": "Eastern Railway",
+            "ward": "Ward 2"
+        },
+        {
+            "SrNo": "3",
+            "teamName": "Cyborg Droids",
+            "councilName": " Liberty Council",
+            "zone": "Konkan",
+            "ward": "Ward 3"
+        },
+        {
+            "SrNo": "4",
+            "teamName": "Thunderous Cats",
+            "councilName": "Council of the Crown",
+            "zone": "Nagpur ",
+            "ward": "Ward 4"
+        }
+       
+    ],
+    "AssignNewCouncilZone": [
+        {
+            "srno": "1",
+            "council": "Living Council",
+            "zone": "Konkan",
+            "ward": "Ward1",
+            "status":"Active",
+            "fromDate": "13/3/2020",
+            "toDate": "10/4/2021"
+        },
+        {
+            "srno": "2",
+            "council": "Board of Eternity",
+            "zone": "Nagpur",
+            "ward": "Ward2",
+            "status":"InActive",
+            "fromDate": "25/9/2021",
+            "toDate": "30/10/2022"
+        },
+        {
+            "srno": "2",
+            "council": "Liberty Council",
+            "zone": "Eastern Railway",
+            "ward": "Ward3",
+            "status":"Active",
+            "fromDate": "31/2/2021",
+            "toDate": "6/10/2022"
+        }
+    ],
+    "AssignUser": [
+        {
+            "srno": "1",
+            "user": "super admin",
+            "role": "super admin",
+            "fromdate": "31/2/2021",
+            "todate":"6/10/2022",
+            "status": "Active"
+        },
+        {
+            "srno": "2",
+            "user": "super admin",
+            "role": "super admin",
+            "fromdate": "31/2/2021",
+            "todate":"6/10/2022",
+            "status": "InActive"
+        }
+    ]
+}

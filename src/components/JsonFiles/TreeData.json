@@ -1,0 +1,115 @@
+{
+    "baseColor": [
+        {
+            "srno" : "1",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "1234",
+            "ownerName":"James",
+            "images": "View Image",
+            "addedBy": "Marvin Fisher",
+            "qcStatus": "Active"
+        },
+        {
+            "srno" : "2",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "3457",
+            "ownerName":"Steve",
+            "images": "View Image",
+            "addedBy": "Kim little",
+            "qcStatus": "Active"
+        },
+        {
+            "srno" : "3",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "9865",
+            "ownerName":"James",
+            "images": "View Image",
+            "addedBy": "Kim little",
+            "qcStatus": "Active"
+        }
+    ],
+
+    "baseColorHistory": [
+        {
+            "srno" : "1",
+            "locationType":"lake Side",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "1234",
+            "ownerName":"James",
+            "tenantName":"Vinay",
+            "images": "View Image",
+            "addedBy": "Marvin Fisher",
+            "addedOn":"26-02-2022",
+            "qcStatus": "Approved",
+            "qcRemarks": "Lorem Impsem",
+            "qcDate": "26-02-2022"
+        },
+        {
+            "srno" : "2",
+            "locationType":"lake Side",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "1234",
+            "ownerName":"James",
+            "tenantName":"Vinay",
+            "images": "View Image",
+            "addedBy": "Marvin Fisher",
+            "addedOn":"26-02-2022",
+            "qcStatus": "Approved",
+            "qcRemarks": "Lorem Impsem",
+            "qcDate": "26-02-2022"
+        },
+        {
+            "srno" : "3",
+            "locationType":"lake Side",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "1234",
+            "ownerName":"James",
+            "tenantName":"Vinay",
+            "images": "View Image",
+            "addedBy": "Marvin Fisher",
+            "addedOn":"26-02-2022",
+            "qcStatus": "Approved",
+            "qcRemarks": "Lorem Impsem",
+            "qcDate": "26-02-2022"
+        }
+    ],
+
+    "deniedEntry": [
+        {
+            "srno" : "1",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "1234",
+            "ownerName":"James",
+            "images": "View Image",
+            "reason": "Denied",
+            "deniedFor": "baseColor"
+        },
+        {
+            "srno" : "2",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "3232",
+            "ownerName":"Steve",
+            "images": "View Image",
+            "reason": "locked",
+            "deniedFor": "census"
+        },
+        {
+            "srno" : "3",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "1234",
+            "ownerName":"James",
+            "images": "View Image",
+            "reason": "Denied",
+            "deniedFor": "baseColor"
+        },
+        {
+            "srno" : "4",
+            "propertyType" : "sandra keeling",
+            "propertyNumber" : "3232",
+            "ownerName":"Steve",
+            "images": "View Image",
+            "reason": "locked",
+            "deniedFor": "census"
+        }
+    ]
+}
