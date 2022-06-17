@@ -65,12 +65,12 @@ export default function BaseColorMoreMenu(props) {
       </MenuItem>
         }
         
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
+        {/* <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
           <ListItemIcon>
             <Iconify icon="eva:trash-2-outline" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        </MenuItem> */}
 
         {/* <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose}>
           <ListItemIcon>
