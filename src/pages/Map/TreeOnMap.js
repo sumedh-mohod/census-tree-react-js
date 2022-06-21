@@ -100,13 +100,13 @@ export default function TreeOnMap(props) {
           Open max-width dialog
         </Button> */}
         <Container>
-         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+         {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}> */}
           <Typography variant="h4" gutterBottom>
           Tree On Map
           </Typography>
-          </Stack>
+          {/* </Stack> */}
           <Grid container spacing={1} style={{marginTop: 5}}>
-          <Grid item sm={6}>
+          <Grid item sm={4}>
             <TextField
               select
               id="council"
@@ -114,7 +114,7 @@ export default function TreeOnMap(props) {
               label="Council*"
               value={council}
               displayEmpty
-              style={{width:'85.5%', marginLeft: 40,marginTop:5}}
+              style={{width:'85.5%',marginTop:5}}
               // onChange={handleRoleChange}
               onChange={(e) => {
                 handleCouncilChange(e)
@@ -137,7 +137,7 @@ export default function TreeOnMap(props) {
               ))}
             </TextField>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <TextField
                 id="date"
                 // label="Date Of Birth"
@@ -155,9 +155,7 @@ export default function TreeOnMap(props) {
                 }}
               />
               </Grid>
-            </Grid>
-            <Grid container spacing={1} style={{marginTop: 5}}>
-            <Grid item xs={6}>
+              <Grid item xs={4}>
               <TextField
                 id="date"
                 // label="Date Of Birth"
@@ -175,7 +173,10 @@ export default function TreeOnMap(props) {
                 }}
               />
               </Grid>
-          <Grid item sm={6}>
+            </Grid>
+            <Grid container spacing={1} style={{marginTop: 5}}>
+            
+          <Grid item sm={4}>
           <TextField
               select
               id="zone"
@@ -183,7 +184,7 @@ export default function TreeOnMap(props) {
               label="Zone*"
             //   value={GetZones}
               displayEmpty
-              style={{width:'85.5%', marginLeft: 40,marginTop:5}}
+              style={{width:'85.5%',marginTop:5}}
               // onChange={handleRoleChange}
               onChange={(e) => {
                 handleZoneChange(e)
@@ -206,8 +207,7 @@ export default function TreeOnMap(props) {
               ))}
             </TextField>
             </Grid>
-            <Grid container spacing={1} style={{marginTop: 5}}>
-            <Grid item sm={6}>
+            <Grid item sm={4}>
             <TextField
               select
               id="ward"
@@ -238,10 +238,8 @@ export default function TreeOnMap(props) {
               ))}
             </TextField>
             </Grid>
-
-            <Grid item sm={6}>
+            <Grid item sm={4}>
             <Button variant="contained" style={{marginLeft: 40, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}>Get Data</Button>
-            </Grid>
             </Grid>
             </Grid>
             <Grid container spacing={1} style={{marginTop: 20}}>
