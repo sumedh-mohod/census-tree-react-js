@@ -474,6 +474,11 @@ export default function NewUserForm(props) {
       setDocumentList(newDocumentList); 
      
   }
+  
+  const handleViewDocument = (fpath) =>{
+   const fLink = process.env.REACT_APP_BASE_URL.concat('/').concat(fpath);
+   window.location.href=fLink;
+  }
 
   const handleDocumentValueChange = (e,index) => {
     console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
@@ -1641,7 +1646,7 @@ const validateRole = () => {
             </Grid>
             <Grid item xs={5} style={{alignSelf:'center'}}>
               {value.documentValue?
-              <Button variant="outlined" target="_blank" rel="noopener" style={{marginTop:'5px'}}  href={`${value.documentValue}`}>
+              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
              <TextField
