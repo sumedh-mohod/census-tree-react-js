@@ -14,7 +14,11 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+ 
+  TextField,
+  Grid,
+  Box,
+  Pagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Page from '../components/Page';
@@ -77,6 +81,7 @@ export default function User() {
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [order, setOrder] = useState('asc');
@@ -84,11 +89,15 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('Name');
   const [filterName, setFilterName] = useState('');
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState();
-   const [dialogData,setDialogData] = useState(null);
-   const [search,setSearch] = useState(false);
+  const [close, setClose] = useState();
+  const [dialogData,setDialogData] = useState(null);
+  const [search,setSearch] = useState(false);
   const [searchValue,setSearchValue] = useState("");
+  const [pageCountError, setPageCountError]= useState(false);
 
+  
+  
+  
 
    const {
     users,
@@ -101,7 +110,7 @@ export default function User() {
   }));
 
 
-
+  
   useEffect(()=>{
     dispatch(GetUsers(page+1,rowsPerPage));
   },[deleteUsersLog])
@@ -117,14 +126,16 @@ export default function User() {
     setDialogData(data);
     setOpen(!open);
   };
+  
 
   const handleChangePage = (event, newPage) => {
+    console.log(newPage);
     setPage(newPage);
     if(search){
-      dispatch(SearchUsers(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchUsers(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetUsers(newPage+1,rowsPerPage));
+      dispatch(GetUsers(newPage,rowsPerPage));
     }
   };
 
@@ -132,16 +143,7 @@ export default function User() {
     dispatch(DeleteUsers(data.id,data.status?0:1));
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-    if(search){
-      dispatch(SearchUsers(1,parseInt(event.target.value, 10),searchValue));
-    }
-    else {
-      dispatch(GetUsers(1,parseInt(event.target.value, 10)));
-    }
-  };
+
 
   let timer = null;
   const filterByName = (event) => {
@@ -186,7 +188,7 @@ export default function User() {
             Users
           </Typography>
           <Button variant="contained" component={RouterLink} to="/dashboard/new-user-Form" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            New User
 
           </Button>
         </Stack>
@@ -207,7 +209,7 @@ export default function User() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                             <TableCell align="left">
                               {option.first_name}  {option.last_name}
                             </TableCell>
@@ -229,16 +231,14 @@ export default function User() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Box>
+ 
+  <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  
+          </Box>
         </Card>
       </Container>
     </Page>

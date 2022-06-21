@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -118,10 +119,10 @@ export default function CreateRole() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchRole(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchRole(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetRole(newPage+1,rowsPerPage));
+      dispatch(GetRole(newPage,rowsPerPage));
     }
   };
 
@@ -173,7 +174,7 @@ export default function CreateRole() {
   }
 
   return (
-    <Page title="Roles">
+    <Page title="User">
       <Container>
         {open?
         <CreateRoleDialog
@@ -203,7 +204,7 @@ export default function CreateRole() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Role
 
           </Button>
         </Stack>
@@ -222,7 +223,7 @@ export default function CreateRole() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.role}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
@@ -237,8 +238,11 @@ export default function CreateRole() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -246,7 +250,7 @@ export default function CreateRole() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

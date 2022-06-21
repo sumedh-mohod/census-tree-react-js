@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -126,10 +127,10 @@ export default function Taluka() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchTalukas(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchTalukas(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetAllTalukas(newPage+1,rowsPerPage));
+      dispatch(GetAllTalukas(newPage,rowsPerPage));
     }
   };
 
@@ -171,7 +172,7 @@ export default function Taluka() {
   }
 
   return (
-    <Page title="Talukas">
+    <Page title="User">
       <Container>
         {open?
         <TalukasDialog
@@ -201,7 +202,7 @@ export default function Taluka() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Taluka
 
           </Button>
         </Stack>
@@ -220,7 +221,7 @@ export default function Taluka() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                             <TableCell align="left">
                               {option.name}
                             </TableCell>
@@ -240,15 +241,10 @@ export default function Taluka() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
         </Card>
       </Container>
     </Page>

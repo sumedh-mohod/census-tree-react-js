@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Link,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -136,10 +136,10 @@ export default function AssignUser() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchUserByTeam(teamId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchUserByTeam(teamId,newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetUserByTeam(teamId,newPage+1,rowsPerPage));
+      dispatch(GetUserByTeam(teamId,newPage,rowsPerPage));
     }
   };
 
@@ -187,17 +187,14 @@ export default function AssignUser() {
   console.log("USERS OF TEAM",userOfTeam);
 
   return (
-    <Page title="Teams">
+    <Page title="User">
     <Container>
-      {open?
-      <AssignUserDialog
-      isOpen={open}
-      handleClose = {handleNewUserClick}
-      data= {dialogData}
-      teamId={teamId}
-      />:null
-      }
-        
+        <AssignUserDialog
+        isOpen={open}
+        handleClose = {handleNewUserClick}
+        data= {dialogData}
+        teamId={teamId}
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
@@ -251,7 +248,7 @@ export default function AssignUser() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.roles}</TableCell>
                         <TableCell align="left">{option.from_date}</TableCell>
@@ -267,15 +264,10 @@ export default function AssignUser() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
         </Card>
       </Container>
     </Page>

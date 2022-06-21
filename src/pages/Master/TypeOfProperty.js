@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -124,10 +124,10 @@ export default function TypeOfProperty() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchPropertyType(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchPropertyType(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetPropertyType(newPage+1,rowsPerPage));
+      dispatch(GetPropertyType(newPage,rowsPerPage));
     }
   };
 
@@ -170,7 +170,7 @@ export default function TypeOfProperty() {
   }
 
   return (
-    <Page title="Property Types">
+    <Page title="User">
       <Container>
       {open?
         <TypeOfPropertyDialog
@@ -195,7 +195,7 @@ export default function TypeOfProperty() {
           color="inherit"
           // href="#"
         >
-          Property Types
+          Type Of Properties
         </Link>
       </Breadcrumbs>
     </div>
@@ -219,7 +219,7 @@ export default function TypeOfProperty() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.property_type}</TableCell>
                         <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
@@ -236,15 +236,10 @@ export default function TypeOfProperty() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
         </Card>
       </Container>
     </Page>
