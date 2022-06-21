@@ -115,6 +115,7 @@ export default function BaseColor() {
     }
     setShowList(true);
   },[baseColorTrees])
+  console.log("baseColorTrees", baseColorTrees)
 
   useEffect(()=>{
     dispatch(GetCouncil(1,1000));

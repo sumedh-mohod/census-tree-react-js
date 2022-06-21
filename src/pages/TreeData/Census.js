@@ -30,7 +30,7 @@ import TreeData from  '../../components/JsonFiles/TreeData.json';
 import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialog";
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
-import { GetBaseColorTrees, DeleteBaseColorTrees, SearchBaseColorTrees, AddBaseColorTrees, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
+import { GetTreeCensus, SearchTreeCensus} from '../../actions/TreeCensusAction';
 import { GetCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
@@ -91,7 +91,7 @@ export default function Census() {
     council,
     zones,
     wards,
-    baseColorTrees,
+    treeCensus,
     editBaseColorTreesLog,
     deleteBaseColorTreesLog,
     updateQCStatusLog,
@@ -100,10 +100,10 @@ export default function Census() {
     council:state.council.council,
     zones:state.zones.zones,
     wards:state.wards.wards,
-    baseColorTrees:state.baseColor.baseColorTrees,
-    editBaseColorTreesLog:state.baseColor.editBaseColorTreesLog,
-    deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
-    updateQCStatusLog:state.baseColor.updateQCStatusLog,
+    treeCensus:state.treeCensus.treeCensus,
+    // editBaseColorTreesLog:state.baseColor.editBaseColorTreesLog,
+    // deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
+    // updateQCStatusLog:state.baseColor.updateQCStatusLog,
     pageInfo:state.baseColor.pageInfo,
   }));
 
@@ -115,7 +115,7 @@ export default function Census() {
     }
     setShowList(true);
     console.log("BEFORE FETCHING");
-    dispatch(GetBaseColorTrees(page+1,rowsPerPage,coucilId,zoneId,wardId));
+    dispatch(GetTreeCensus(page+1,rowsPerPage,coucilId,zoneId,wardId));
   },[editBaseColorTreesLog,deleteBaseColorTreesLog,updateQCStatusLog])
 
   const secondRun = React.useRef(true);
@@ -125,7 +125,8 @@ export default function Census() {
       return;
     }
     setShowList(true);
-  },[baseColorTrees])
+  },[treeCensus])
+  console.log("treeCensus", treeCensus )
 
   useEffect(()=>{
     dispatch(GetCouncil(1,1000));
@@ -164,7 +165,7 @@ export default function Census() {
       obj.qc_status = "Approved";
     }
 
-    dispatch(UpdateQCStatusOfBaseColorTrees(id,obj))
+    // dispatch(UpdateQCStatusOfBaseColorTrees(id,obj))
 
   }
 
@@ -174,7 +175,7 @@ export default function Census() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteBaseColorTrees(data.id,data.status?0:1));
+
   };
 
 
@@ -182,10 +183,10 @@ export default function Census() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchBaseColorTrees(newPage+1,rowsPerPage,coucilId,zoneId,wardId,searchValue));
+      dispatch(SearchTreeCensus(newPage+1,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetBaseColorTrees(newPage+1,rowsPerPage,coucilId,zoneId,wardId));
+      dispatch(GetTreeCensus(newPage+1,rowsPerPage,coucilId,zoneId,wardId));
     }
   };
 
@@ -194,10 +195,10 @@ export default function Census() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
     if(search){
-      dispatch(SearchBaseColorTrees(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
+      dispatch(SearchTreeCensus(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetBaseColorTrees(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId));
+      dispatch(GetTreeCensus(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId));
     }
   };
   function handleClick(event) {
@@ -212,7 +213,7 @@ export default function Census() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
-          dispatch(SearchBaseColorTrees(1,rowsPerPage,coucilId,zoneId,wardId,value))
+          dispatch(SearchTreeCensus(1,rowsPerPage,coucilId,zoneId,wardId,value))
           setSearch(true)
           setShowList(false)
           setPage(0)
@@ -220,7 +221,7 @@ export default function Census() {
 
         }
         else{
-          dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,zoneId,wardId));
+          dispatch(GetTreeCensus(1,rowsPerPage,coucilId,zoneId,wardId));
           setShowList(false)
           setSearch(false);
           setPage(0);
@@ -236,7 +237,7 @@ export default function Census() {
     setWardId("")
     setPage(0);
     setShowList(false);
-    dispatch(GetBaseColorTrees(1,rowsPerPage,e.target.value,null,null))
+    dispatch(GetTreeCensus(1,rowsPerPage,e.target.value,null,null))
     dispatch(GetZonesByCouncilId(1,1000,e.target.value))
     dispatch(GetWardsByCouncilId(1,1000,e.target.value))
   }
@@ -245,14 +246,14 @@ export default function Census() {
     setWardId(e.target.value);
     setPage(0);
     setShowList(false);
-    dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,zoneId,e.target.value))
+    dispatch(GetTreeCensus(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
 
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
     setPage(0);
-    dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,e.target.value,wardId))
+    dispatch(GetTreeCensus(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
 
@@ -324,7 +325,7 @@ export default function Census() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { showList? baseColorTrees?.map((option,index) => {
+                     { showList? treeCensus?.map((option,index) => {
                         return (
                         <TableRow
                         hover
@@ -332,20 +333,30 @@ export default function Census() {
                             <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
-                        <TableCell align="left">{option.property?.property_number}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
-                        <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
+                        <TableCell align="left">{option.property?.tenant_name}</TableCell>
+                        <TableCell align="left">{option.location}</TableCell>
+                        <TableCell align="left">{option.property?.area? option.property?.area : "-"}</TableCell>
+                        <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
+                        <TableCell align="left">{option.tree_name?.name}</TableCell>
+                        <TableCell align="left">{option.tree_name?.botanical_name}</TableCell>
+                        <TableCell align="left">{option.girth}</TableCell>
+                        <TableCell align="left">{option.height}</TableCell>
+                        <TableCell align="left">{option.canopy}</TableCell>
+                        <TableCell align="left">{option.tree_condition?.condition}</TableCell>
+                        <TableCell align="left">{option.disease_id? option.disease_id: "-"}</TableCell>
+                        <TableCell align="left">{option.plantation_date? option.plantation_date: "-"}</TableCell>
+                        <TableCell align="left">{option.referred_to_expert}</TableCell>
+                        <TableCell align="left">{option.action_need? option.action_need: "-"}</TableCell>
                         <TableCell align="left">
                           {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
                           <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
                             <Visibility />
                           </IconButton>
                           </TableCell>
-                        <TableCell align="left">{option.added_by?.first_name}</TableCell>
-                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.added_on_date}</TableCell>
-                        <TableCell align="left">{option.qc_status?option.qc_status:"-"}</TableCell>
-                        <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>
-                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.qc_date?option.qc_date:"-"}</TableCell>
+                          <TableCell align="left">{option.qc_status}</TableCell>
+                        <TableCell align="left">{option.qc_by? option.qc_by: "-" }</TableCell>
+                        <TableCell align="left">{option.qc_date? option.qc_date: "-" }</TableCell>
                         <TableCell align="right">
                           <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>

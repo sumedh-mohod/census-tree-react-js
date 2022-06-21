@@ -136,3 +136,10 @@ export const SHOW_PROPERTY_IMPORT_ERROR = "show-property-import-error";
 export const GET_DENIED_ENTRY = "get-denied-entry";
 
 export const SHOW_LOADER = "show-loader";
+
+export const GET_TREE_CENSUS = "get-tree-census";
+// export const GET_BASE_COLOR_TREES_HISTORY = "get-base-color-trees-history";
+export const EDIT_TREE_CENSUS = "edit-tree-census";
+export const DELETE_TREE_CENSUS = "delete-tree-census";
+// export const UPDATE_QC_STATUS_BASE_COLOR_TREES = "update-qc-status-base-color-trees";
+// export const GET_QC_REMARKS_FOR_BASE_COLOR = "get-qc-remark-for-base-color";
