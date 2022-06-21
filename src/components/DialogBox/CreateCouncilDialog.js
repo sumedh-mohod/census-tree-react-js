@@ -411,7 +411,7 @@ export default function CreateCouncilDialog(props) {
     <div>
       <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {data?"Edit Counci":"New Council"}
+          {data?"Edit Council":"New Council"}
         </BootstrapDialogTitle>
         <DialogContent dividers>
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
@@ -764,7 +764,12 @@ export default function CreateCouncilDialog(props) {
         </DialogContent>
 
         <DialogActions>
-          <Button autoFocus onClick={handleSubmit}>
+          <Button autoFocus 
+          onClick={(e)=>{
+            validateLogo();
+            formik.handleSubmit(e)
+          }}
+            >
             Save changes
           </Button>
         </DialogActions>
