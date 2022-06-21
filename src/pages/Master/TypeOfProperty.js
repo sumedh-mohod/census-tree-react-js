@@ -172,11 +172,12 @@ export default function TypeOfProperty() {
   return (
     <Page title="User">
       <Container>
+      {open?
         <TypeOfPropertyDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data = {dialogData}
-        />
+        />: null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
