@@ -13,7 +13,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Stack,
   Link,
 } from '@mui/material';
@@ -141,10 +141,10 @@ export default function AssignNewCouncilZoneWard() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchCZWByTeam(teamId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchCZWByTeam(teamId,newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetCZWByTeam(teamId,newPage+1,rowsPerPage));
+      dispatch(GetCZWByTeam(teamId,newPage,rowsPerPage));
     }
   };
 
@@ -190,34 +190,31 @@ export default function AssignNewCouncilZoneWard() {
   }
 
   return (
-    <Page title="Teams">
+    <Page title="User">
       <Container>
-        {open?
-        <AssignCouncilZoneDialog
+      <AssignCouncilZoneDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
         teamId={teamId}
-        />:null
-        }
-      
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          // href="#"
-        >
-          Teams
-        </Link>
-        <Link
-        component={RouterLink}
-        to={`/dashboard/teams`}
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
+          href="#"
+        >
+          Teams
+        </Link>
+        <Link component={RouterLink}
+        to ={`/dashboard/teams`}
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          href="#"
         >
         {teamName}
         </Link>
@@ -225,7 +222,7 @@ export default function AssignNewCouncilZoneWard() {
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          // href="#"
+          href="#"
         >
              Assigned Councils- Zones- Wards
         </Link>
@@ -251,7 +248,7 @@ export default function AssignNewCouncilZoneWard() {
                         <TableRow
                         hover
                       >
-                        <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                        <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.council_name}</TableCell>
                         <TableCell align="left">{option.zone_name}</TableCell>
                         <TableCell align="left">{option.ward_name}</TableCell>
@@ -268,15 +265,10 @@ export default function AssignNewCouncilZoneWard() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
         </Card>
       </Container>
     </Page>

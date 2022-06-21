@@ -15,7 +15,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -174,10 +174,10 @@ export default function TeamsList() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchTeam(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchTeam(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetTeam(newPage+1,rowsPerPage));
+      dispatch(GetTeam(newPage,rowsPerPage));
     }
   };
 
@@ -245,22 +245,19 @@ export default function TeamsList() {
   }
 
   return (
-    <Page title="Teams">
+    <Page title="TeamList">
       <Container>
-        {open?
         <TeamsTableDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data={dialogData}
-        />:null
-        }
-        
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
            Teams
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Team
           </Button>
         </Stack>
 
@@ -286,7 +283,7 @@ export default function TeamsList() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>
                         <TableCell >{option?.zone}</TableCell>
@@ -303,8 +300,11 @@ export default function TeamsList() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -313,7 +313,7 @@ export default function TeamsList() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             render
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

@@ -107,6 +107,8 @@ export default function NewUserForm(props) {
       dispatch(GetActiveDesignations(1,1000,1));
     },[])
 
+    console.log("DeductionTypeId", salaryDeductionType)
+
     const { userId } = useParams();
     useEffect(()=>{
       
@@ -1314,8 +1316,8 @@ const validateRole = () => {
                   fullWidth
                   id="emergencycontactName"
                   autoComplete="emergencycontactName"
-                  label="Emergency Contact Name*"
-                  placeholder="Emergency Contact Name*"
+                  label={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
+                  placeholder={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
                   error={Boolean(touched.emergencyContactName && errors.emergencyContactName)}
                 helperText={touched.emergencyContactName && errors.emergencyContactName}
                 {...getFieldProps("emergencyContactName")}
@@ -1328,8 +1330,8 @@ const validateRole = () => {
                   fullWidth
                   id="emergencycontactMoNum"
                   autoComplete="emergencycontactMoNum"
-                  label="Emergency Contact Mobile Number*"
-                  placeholder="Emergency Contact Mobile Number*"
+                  label={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
+                  placeholder={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
                   error={Boolean(touched.emergencyContactNumber && errors.emergencyContactNumber)}
                 helperText={touched.emergencyContactNumber && errors.emergencyContactNumber}
                 {...getFieldProps("emergencyContactNumber")}
@@ -1403,7 +1405,7 @@ const validateRole = () => {
                 select
                 id="referredBy"
                 name='referredBy'
-                label="Is Agreement done?"
+                label="Is Agreement Done?"
                 value={referredBy}
                 displayEmpty
                 defaultValue={data? data.referredBy: ""}
@@ -1454,7 +1456,7 @@ const validateRole = () => {
               <TextField
                 select
                 id="noticedperiods"
-                label="Is Notice period served?"
+                label="Is Notice Period Served?"
                 name='noticedPeriods'
                 value={noticePeriod}
                 displayEmpty
@@ -1612,8 +1614,8 @@ const validateRole = () => {
               <Grid item xs={5}>
               <TextField
                 select
-                id="pf"
-                name='pf'
+                id="deductionType"
+                name='deductionType'
                 label="Deduction Type*"
                 displayEmpty
                 style={{width: '87.5%', marginLeft: 40,marginTop:5}}
