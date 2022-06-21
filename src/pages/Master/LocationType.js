@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -124,10 +125,10 @@ export default function LocationType() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchLocationType(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchLocationType(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetLocationType(newPage+1,rowsPerPage));
+      dispatch(GetLocationType(newPage,rowsPerPage));
     }
   };
 
@@ -170,7 +171,7 @@ export default function LocationType() {
   }
 
   return (
-    <Page title="Location Types">
+    <Page title="User">
       <Container>
         {open?
          <TypeOfLocationDialog
@@ -219,7 +220,7 @@ export default function LocationType() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
@@ -234,8 +235,11 @@ export default function LocationType() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -243,7 +247,7 @@ export default function LocationType() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

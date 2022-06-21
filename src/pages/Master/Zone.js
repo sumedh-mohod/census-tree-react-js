@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -115,10 +115,10 @@ export default function Zone() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchZones(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchZones(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetZones(newPage+1,rowsPerPage));
+      dispatch(GetZones(newPage,rowsPerPage));
     }
   };
 
@@ -170,7 +170,7 @@ export default function Zone() {
   }
 
   return (
-    <Page title="Zones">
+    <Page title="User">
       <Container>
         {open?
         <ZoneDialog
@@ -200,7 +200,7 @@ export default function Zone() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Zone
 
           </Button>
         </Stack>
@@ -219,7 +219,7 @@ export default function Zone() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
@@ -235,15 +235,10 @@ export default function Zone() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
         </Card>
       </Container>
     </Page>
