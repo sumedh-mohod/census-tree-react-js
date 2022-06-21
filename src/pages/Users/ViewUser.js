@@ -862,7 +862,7 @@ const validateRole = () => {
                   id="fName"
                   autoComplete="fName"
                   label="Full Name"
-                  value={`${values.firstName} ${ values.middleName} ${ values.lastName}`}
+                  value={`${values.firstName} ${ values.middleName? values.middleName:""} ${ values.lastName}`}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -904,7 +904,7 @@ const validateRole = () => {
 				    }
                   id="addressLine1"
                   label="Address"
-                  value={`${values.addressLine1 } ${ values.addressLine2 } ${ values.city}`}
+                  value={`${values.addressLine1? values.addressLine1: "" } ${values.addressLine2 ? values.addressLine2 : "" } ${values.city ? values.city : ""}`}
                 />
               </Grid>
               </Grid>
