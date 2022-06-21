@@ -18,13 +18,17 @@ import {
   Stack,
   Avatar,
   Checkbox,
+  Container,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useLoadScript } from '@react-google-maps/api';
 import DefaultInput from "../../components/Inputs/DefaultInput";
+import Map from './CustomGoogleMaps';
+import Page from '../../components/Page';
 
 export default function TreeOnMap(props) {
 
@@ -39,6 +43,10 @@ export default function TreeOnMap(props) {
     const [ward, setWard] = React.useState('');
     const [editUser,setEditUser] = useState(false);  
     const { isOpen, data } = props;
+
+    const { isLoaded } = useLoadScript({
+      googleMapsApiKey: "AIzaSyCLYJVkpS7Y-N5OOglfLYLcJNmVUwQFY7E" // Add your API key
+    });
   
     const councilValue = [
         {
@@ -83,11 +91,15 @@ export default function TreeOnMap(props) {
     const handleWardChange = (event) =>{
         setCouncil(event.target.value);
     }
+
+    console.log("IS LOADED",isLoaded);
+
     return (
-      <div>
+      <Page title="Maps">
         {/* <Button variant="outlined" onClick={handleClickOpen}>
           Open max-width dialog
         </Button> */}
+        <Container>
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           Tree On Map
@@ -120,7 +132,7 @@ export default function TreeOnMap(props) {
           </MenuItem>
               {councilValue?.map((option) => (
                 <MenuItem key={option.id} value={option.label}>
-                  {/* {option.role} */}
+                  {option.value}
                 </MenuItem>
               ))}
             </TextField>
@@ -189,7 +201,7 @@ export default function TreeOnMap(props) {
           </MenuItem>
               {zoneValue?.map((option) => (
                 <MenuItem key={option.id} value={option.label}>
-                  {/* {option.role} */}
+                  {option.value}
                 </MenuItem>
               ))}
             </TextField>
@@ -221,7 +233,7 @@ export default function TreeOnMap(props) {
           </MenuItem>
               {wardValue?.map((option) => (
                 <MenuItem key={option.id} value={option.label}>
-                  {/* {option.role} */}
+                  {option.value}
                 </MenuItem>
               ))}
             </TextField>
@@ -232,6 +244,12 @@ export default function TreeOnMap(props) {
             </Grid>
             </Grid>
             </Grid>
-        </div>
+            <Grid container spacing={1} style={{marginTop: 20}}>
+            {isLoaded ? <Map /> : null}
+            </Grid>
+
+            </Container>
+           
+        </Page>
                )
               }
