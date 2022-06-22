@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  Pagination,
+  TablePagination,
   Link,
   IconButton,
 } from '@mui/material';
@@ -30,7 +30,7 @@ import TreeData from  '../../components/JsonFiles/TreeData.json';
 import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialog";
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
-import { GetBaseColorTrees, DeleteBaseColorTrees, SearchBaseColorTrees, AddBaseColorTrees, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
+import { GetTreeCensus, SearchTreeCensus} from '../../actions/TreeCensusAction';
 import { GetCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
@@ -43,21 +43,32 @@ const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'locationType', label: 'Location Type', alignRight: false },
   { id: 'propertyType', label: 'Property Type', alignRight: false },
-  { id: 'propertyNumber', label: 'Property Number', alignRight: false },
-  { id: 'ownerName', label: 'Owner Name', alignRight: false },
+  { id: 'propertyOwner', label: 'Property Owner', alignRight: false },
+//   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
+  { id: 'address', label: 'Address', alignRight: false },
+  { id: 'area', label: 'Area(Sq feet)', alignRight: false },
+  { id: 'treeType', label: 'Tree Type', alignRight: false },
+  { id: 'treeName', label: 'Tree Name(Local)', alignRight: false },
+  { id: 'treeName', label: 'Tree Name(Botanical)', alignRight: false },
+  { id: 'girth', label: 'Girth(cm)', alignRight: false },
+  { id: 'Height', label: 'Height(feet)', alignRight: false },
+  { id: 'canopy', label: 'Canopy', alignRight: false },
+  { id: 'treeCondition', label: 'Tree Condition', alignRight: false },
+  { id: 'disease', label: 'Diasease', alignRight: false },
+  { id: 'plantationDate', label: 'Plantation Date', alignRight: false },
+  { id: 'isReferredToExperts', label: 'Is Referred To Experts?', alignRight: false },
+  { id: 'actionNeedToBeTaken', label: 'Action Need To Be Taken', alignRight: false },
   { id: 'images', label: 'Images', alignRight: false },
-  { id: 'addedBy', label: 'Added By', alignRight: false },
-  { id: 'addedOn', label: 'Added On', alignRight: false },
   { id: 'qcStatus', label: 'QC Status', alignRight: false },
-  { id: 'qcRemarks', label: 'QC Remarks', alignRight: false },
-  { id: 'qcDate', label: 'QC Date', alignRight: false },
+  { id: 'qcBy', label: 'QC By', alignRight: false },
+  { id: 'qcOnDate', label: 'QC On Date', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function BaseColor() {
+export default function Census() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -80,7 +91,7 @@ export default function BaseColor() {
     council,
     zones,
     wards,
-    baseColorTrees,
+    treeCensus,
     editBaseColorTreesLog,
     deleteBaseColorTreesLog,
     updateQCStatusLog,
@@ -89,10 +100,10 @@ export default function BaseColor() {
     council:state.council.council,
     zones:state.zones.zones,
     wards:state.wards.wards,
-    baseColorTrees:state.baseColor.baseColorTrees,
-    editBaseColorTreesLog:state.baseColor.editBaseColorTreesLog,
-    deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
-    updateQCStatusLog:state.baseColor.updateQCStatusLog,
+    treeCensus:state.treeCensus.treeCensus,
+    // editBaseColorTreesLog:state.baseColor.editBaseColorTreesLog,
+    // deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
+    // updateQCStatusLog:state.baseColor.updateQCStatusLog,
     pageInfo:state.baseColor.pageInfo,
   }));
 
@@ -104,7 +115,7 @@ export default function BaseColor() {
     }
     setShowList(true);
     console.log("BEFORE FETCHING");
-    dispatch(GetBaseColorTrees(page+1,rowsPerPage,coucilId,zoneId,wardId));
+    dispatch(GetTreeCensus(page+1,rowsPerPage,coucilId,zoneId,wardId));
   },[editBaseColorTreesLog,deleteBaseColorTreesLog,updateQCStatusLog])
 
   const secondRun = React.useRef(true);
@@ -114,8 +125,8 @@ export default function BaseColor() {
       return;
     }
     setShowList(true);
-  },[baseColorTrees])
-  console.log("baseColorTrees", baseColorTrees)
+  },[treeCensus])
+  console.log("treeCensus", treeCensus )
 
   useEffect(()=>{
     dispatch(GetCouncil(1,1000));
@@ -154,7 +165,7 @@ export default function BaseColor() {
       obj.qc_status = "Approved";
     }
 
-    dispatch(UpdateQCStatusOfBaseColorTrees(id,obj))
+    // dispatch(UpdateQCStatusOfBaseColorTrees(id,obj))
 
   }
 
@@ -164,7 +175,7 @@ export default function BaseColor() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteBaseColorTrees(data.id,data.status?0:1));
+
   };
 
 
@@ -172,10 +183,10 @@ export default function BaseColor() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchBaseColorTrees(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
+      dispatch(SearchTreeCensus(newPage+1,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetBaseColorTrees(newPage,rowsPerPage,coucilId,zoneId,wardId));
+      dispatch(GetTreeCensus(newPage+1,rowsPerPage,coucilId,zoneId,wardId));
     }
   };
 
@@ -184,10 +195,10 @@ export default function BaseColor() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
     if(search){
-      dispatch(SearchBaseColorTrees(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
+      dispatch(SearchTreeCensus(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetBaseColorTrees(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId));
+      dispatch(GetTreeCensus(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId));
     }
   };
   function handleClick(event) {
@@ -202,7 +213,7 @@ export default function BaseColor() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
-          dispatch(SearchBaseColorTrees(1,rowsPerPage,coucilId,zoneId,wardId,value))
+          dispatch(SearchTreeCensus(1,rowsPerPage,coucilId,zoneId,wardId,value))
           setSearch(true)
           setShowList(false)
           setPage(0)
@@ -210,7 +221,7 @@ export default function BaseColor() {
 
         }
         else{
-          dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,zoneId,wardId));
+          dispatch(GetTreeCensus(1,rowsPerPage,coucilId,zoneId,wardId));
           setShowList(false)
           setSearch(false);
           setPage(0);
@@ -226,7 +237,7 @@ export default function BaseColor() {
     setWardId("")
     setPage(0);
     setShowList(false);
-    dispatch(GetBaseColorTrees(1,rowsPerPage,e.target.value,null,null))
+    dispatch(GetTreeCensus(1,rowsPerPage,e.target.value,null,null))
     dispatch(GetZonesByCouncilId(1,1000,e.target.value))
     dispatch(GetWardsByCouncilId(1,1000,e.target.value))
   }
@@ -235,19 +246,19 @@ export default function BaseColor() {
     setWardId(e.target.value);
     setPage(0);
     setShowList(false);
-    dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,zoneId,e.target.value))
+    dispatch(GetTreeCensus(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
 
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
     setPage(0);
-    dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,e.target.value,wardId))
+    dispatch(GetTreeCensus(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
 
   return (
-    <Page title="User">
+    <Page title="Base Color">
       <Container>
         {open?
         <BaseColorDialog
@@ -278,12 +289,12 @@ export default function BaseColor() {
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="hover"
+          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Tree Data
+          Trees Data
         </Link>
         <Link
           underline="hover"
@@ -291,7 +302,7 @@ export default function BaseColor() {
           color="inherit"
           href="#"
         >
-        Base Color
+        Census
         </Link>
       </Breadcrumbs>
     </div>
@@ -314,28 +325,38 @@ export default function BaseColor() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { showList? baseColorTrees?.map((option,index) => {
+                     { showList? treeCensus?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
-                        <TableCell align="left">{option.property?.property_number}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
-                        <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
+                        <TableCell align="left">{option.property?.tenant_name}</TableCell>
+                        <TableCell align="left">{option.location}</TableCell>
+                        <TableCell align="left">{option.property?.area? option.property?.area : "-"}</TableCell>
+                        <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
+                        <TableCell align="left">{option.tree_name?.name}</TableCell>
+                        <TableCell align="left">{option.tree_name?.botanical_name}</TableCell>
+                        <TableCell align="left">{option.girth}</TableCell>
+                        <TableCell align="left">{option.height}</TableCell>
+                        <TableCell align="left">{option.canopy}</TableCell>
+                        <TableCell align="left">{option.tree_condition?.condition}</TableCell>
+                        <TableCell align="left">{option.disease_id? option.disease_id: "-"}</TableCell>
+                        <TableCell align="left">{option.plantation_date? option.plantation_date: "-"}</TableCell>
+                        <TableCell align="left">{option.referred_to_expert}</TableCell>
+                        <TableCell align="left">{option.action_need? option.action_need: "-"}</TableCell>
                         <TableCell align="left">
                           {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
                           <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
                             <Visibility />
                           </IconButton>
                           </TableCell>
-                        <TableCell align="left">{option.added_by?.first_name}</TableCell>
-                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.added_on_date}</TableCell>
-                        <TableCell align="left">{option.qc_status?option.qc_status:"-"}</TableCell>
-                        <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>
-                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.qc_date?option.qc_date:"-"}</TableCell>
+                          <TableCell align="left">{option.qc_status}</TableCell>
+                        <TableCell align="left">{option.qc_by? option.qc_by: "-" }</TableCell>
+                        <TableCell align="left">{option.qc_date? option.qc_date: "-" }</TableCell>
                         <TableCell align="right">
                           <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
@@ -349,10 +370,15 @@ export default function BaseColor() {
             </TableContainer>
           </Scrollbar>
 
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
+          <TablePagination
+            rowsPerPageOptions={[10, 20, 30]}
+            component="div"
+            count={count}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Card>
       </Container>
     </Page>
