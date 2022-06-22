@@ -44,6 +44,7 @@ export default function TreeOnMap(props) {
     const [zoneId,setZoneId] = useState('');
    const [wardId,setWardId] = useState('');
    const [coucilId,setCouncilId] = useState('');
+   const [showList,setShowList] = useState(false);
     const [editUser,setEditUser] = useState(false);  
     const { isOpen, data } = props;
 
@@ -55,11 +56,22 @@ export default function TreeOnMap(props) {
       council,
       zones,
       wards,
+      treeLocation
     } = useSelector((state) => ({
       council:state.council.council,
       zones:state.zones.zones,
       wards:state.wards.wards,
+      treeLocation:state.treeLocation.treeLocation
     }));
+
+    const secondRun = React.useRef(true);
+  useEffect(()=>{
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    setShowList(true);
+  },[treeLocation])
   
     const handleCouncilChange = (e) =>{
       setCouncilId(e.target.value);
@@ -256,7 +268,7 @@ export default function TreeOnMap(props) {
             </Grid>
             </Grid>
             <Grid container spacing={1} style={{marginTop: 20}}>
-            {isLoaded ? <Map /> : null}
+            {isLoaded ? <Map treeLocation={showList?treeLocation:[]} /> : null}
             </Grid>
 
             </Container>
