@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { getIcon } from "@iconify/react";
 
-import { Table, TableBody, TableCell,TableRow } from "@mui/material";
+import { CircularProgress, List, ListItem, ListItemText, Table, TableBody, TableCell,TableRow } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import TreeFill from '../../Assets/tree-fill.svg';
+import { GetSpecificTreeInfo } from "../../actions/TreeOnMapAction";
+import { ShowLoader } from "../../actions/CommonAction";
 
 const markers = [
   {
@@ -40,20 +43,47 @@ const markers = [
   }
 ];
 
+const center = {
+  lat: 21.7679,
+  lng: 78.8718
+};
+
 function Map(props) {
+  const dispatch = useDispatch();
   const [activeMarker, setActiveMarker] = useState(null);
+
+  const {
+    treeDetails,
+    showLoader
+  } = useSelector((state) => ({
+    treeDetails:state.treeLocation.treeDetails,
+    showLoader:state.common.showLoader
+  }));
+
+  const secondRun = React.useRef(true);
+  useEffect(()=>{
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    dispatch(ShowLoader(false));
+  },[treeDetails])
 
   const handleActiveMarker = (marker) => {
     if (marker === activeMarker) {
       return;
     }
+    
+    dispatch(GetSpecificTreeInfo(marker))
+    dispatch(ShowLoader(true));
     setActiveMarker(marker);
   };
 
   const handleOnLoad = (map) => {
     // eslint-disable-next-line no-undef
     const bounds = new google.maps.LatLngBounds();
-    markers.forEach(({ position }) => bounds.extend(position));
+    // markers.forEach(({ position }) => bounds.extend(position));
+    bounds.extend(center);
     map.fitBounds(bounds);
   };
 
@@ -67,9 +97,11 @@ function Map(props) {
 
   return (
     <GoogleMap
-      onLoad={handleOnLoad}
+      // onLoad={handleOnLoad}
       onClick={() => setActiveMarker(null)}
       mapContainerStyle={{ width: "100%", height: "500px" }}
+      zoom={5}
+      center={center}
     >
       {props.treeLocation?.map((value,index) => (
         <Marker
@@ -80,29 +112,32 @@ function Map(props) {
         >
           {activeMarker === value.id ? (
             <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+              {showLoader ?
+              <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%',minHeight:'100px',minWidth:'100px' }}>
+              <CircularProgress color="success" />
+              </div>
+              :
               <div>
-              <img src={value.image} alt="tree" style={{height:'100px',width:'100px'}} />
+              <img src={treeDetails?.images?treeDetails.images[1].image_url:""} alt="tree" style={{height:'100px',width:'100px'}} />
               <Table style={{border:'none'}}>
                 <TableBody style={{border:'none'}}>
                   <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px'}}>Tree Number</TableCell>
-                    <TableCell align="left">{value.id}</TableCell>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingBottom:'0px'}}>Tree Name</TableCell>
+                    <TableCell align="left" style={{paddingBottom:'0px'}}>{treeDetails.tree_name?.name}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px'}}>Name</TableCell>
-                    <TableCell align="left">{value.name}</TableCell>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px'}}>Tree Type</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails.tree_type?.tree_type}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px'}}>Tree Age</TableCell>
-                    <TableCell align="left">{value.age}</TableCell>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px'}}>Address</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px'}}>{treeDetails.location}</TableCell>
                   </TableRow>
-                  {/* <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px'}}>Tree Height</TableCell>
-                    <TableCell align="left">{height}</TableCell>
-                  </TableRow> */}
                 </TableBody>
               </Table>
+              
               </div>
+            }
             </InfoWindow>
           ) : null}
         </Marker>
