@@ -23,6 +23,7 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
+import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GetActiveRole } from '../actions/RoleAction';
@@ -64,6 +65,7 @@ export default function NewUserForm(props) {
     const [showCouncil,setShowCouncil] = useState(false);
     const [editUser,setEditUser] = useState(false);  
     const [roleError,setRoleError] = useState("");
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
       userDocumentType,
@@ -93,7 +95,7 @@ export default function NewUserForm(props) {
       uploadFileLog:state.upload.uploadFileLog,
       showLoader : state.common.showLoader,
     }));
-
+    
     useEffect(()=>{
       dispatch(GetDeductionType());
       dispatch(GetUserDocumentType());
@@ -239,7 +241,7 @@ export default function NewUserForm(props) {
     },[addUsersLog])
 
     console.log("RELIGIONS",religions);
-
+   
     const diffentlyAbled = [
       {
         value:"1",
@@ -474,10 +476,15 @@ export default function NewUserForm(props) {
       setDocumentList(newDocumentList); 
      
   }
-  
+
   const handleViewDocument = (fpath) =>{
+    if(fpath.includes(process.env.REACT_APP_BASE_URL)){
+      window.open(fpath, '_blank');
+    }
+    else{
    const fLink = process.env.REACT_APP_BASE_URL.concat('/').concat(fpath);
-   window.location.href=fLink;
+   window.open(fLink, '_blank');
+    }
   }
 
   const handleDocumentValueChange = (e,index) => {
@@ -1146,7 +1153,7 @@ const validateRole = () => {
                 type="date"
                 label="Date of Birth*"
                 placeholder='Date Of Birth*'
-                // defaultValue="2017-05-24"
+                // defaultValue="2017-05-24" 
                 style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
                 error={Boolean(touched.dob && errors.dob)}
@@ -1155,6 +1162,7 @@ const validateRole = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ max: todayDate }}
               />
               </Grid>
               <Grid item xs={6}>

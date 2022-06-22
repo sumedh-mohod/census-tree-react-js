@@ -130,7 +130,7 @@ export default function TeamsTableDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+      
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Team":"Add Team"}</BootstrapDialogTitle>

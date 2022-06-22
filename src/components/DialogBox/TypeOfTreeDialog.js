@@ -145,7 +145,7 @@ export default function CreateRoleDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+      
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Tree Type":"Add Tree Type"}</BootstrapDialogTitle>

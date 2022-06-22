@@ -293,7 +293,7 @@ export default function CreateCouncilDialog(props) {
     // middleName: Yup.string().required('Middle Name is required'),
     lastName: Yup.string().required('Last Name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Email is required'),
+    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Phone number is required'),
     username: Yup.string().required('Username is required'),
     password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     zones: Yup.array().min(1,'Zone is required'),
@@ -409,7 +409,7 @@ export default function CreateCouncilDialog(props) {
 
   return (
     <div>
-      <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
+      <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           {data?"Edit Counci":"New Council"}
         </BootstrapDialogTitle>
