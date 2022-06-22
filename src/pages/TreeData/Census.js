@@ -30,7 +30,7 @@ import TreeData from  '../../components/JsonFiles/TreeData.json';
 import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialog";
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
-import { GetTreeCensus, SearchTreeCensus} from '../../actions/TreeCensusAction';
+import { GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
 import { GetCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
@@ -103,8 +103,8 @@ export default function Census() {
     treeCensus:state.treeCensus.treeCensus,
     // editBaseColorTreesLog:state.baseColor.editBaseColorTreesLog,
     // deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
-    // updateQCStatusLog:state.baseColor.updateQCStatusLog,
-    pageInfo:state.baseColor.pageInfo,
+    updateQCStatusLog:state.treeCensus.updateQCStatusLog,
+    pageInfo:state.treeCensus.pageInfo,
   }));
 
   const firstRun = React.useRef(true);
@@ -116,7 +116,7 @@ export default function Census() {
     setShowList(true);
     console.log("BEFORE FETCHING");
     dispatch(GetTreeCensus(page+1,rowsPerPage,coucilId,zoneId,wardId));
-  },[editBaseColorTreesLog,deleteBaseColorTreesLog,updateQCStatusLog])
+  },[updateQCStatusLog])
 
   const secondRun = React.useRef(true);
   useEffect(()=>{
@@ -165,7 +165,7 @@ export default function Census() {
       obj.qc_status = "Approved";
     }
 
-    // dispatch(UpdateQCStatusOfBaseColorTrees(id,obj))
+    dispatch(UpdateQCStatusOfTreeCensus(id,obj))
 
   }
 
@@ -355,7 +355,7 @@ export default function Census() {
                           </IconButton>
                           </TableCell>
                           <TableCell align="left">{option.qc_status}</TableCell>
-                        <TableCell align="left">{option.qc_by? option.qc_by: "-" }</TableCell>
+                        <TableCell align="left">{option.qc_by?.first_name ?option.qc_by?.first_name : "-" }</TableCell>
                         <TableCell align="left">{option.qc_date? option.qc_date: "-" }</TableCell>
                         <TableCell align="right">
                           <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />

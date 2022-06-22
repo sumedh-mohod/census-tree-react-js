@@ -36,6 +36,7 @@ import ViewUser from './pages/Users/ViewUser';
 import QcRemarks from './pages/Master/QcRemarks';
 import ViewProperties from './pages/Master/ViewProperties';
 import Census from './pages/TreeData/Census';
+import TreeDisease from './pages/Master/TreeDisease';
 
 // ----------------------------------------------------------------------
 
@@ -76,6 +77,7 @@ export default function Router() {
         { path: 'assignUser/:teamId/:teamName', element: <AssignUser/> },
         { path: 'new-user-form', element: <NewUserForm/> },
         { path: 'census', element: <Census/> },
+        { path: 'treeDisease', element: <TreeDisease/> },
       ],
     },
     {
