@@ -102,6 +102,11 @@ const navConfig = [
       //   path: '/dashboard/tree-density',
       //   icon: getIcon('eva:shopping-bag-fill'),
       // },
+      {
+        title: 'Tree Diseases',
+        path: '/dashboard/treeDisease',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
       
     ]
 },
@@ -115,11 +120,11 @@ const navConfig = [
       path: '/dashboard/base-color',
       icon: getIcon('eva:shopping-bag-fill'),
     },
-    // {
-    //   title: 'Census',
-    //   path: '/dashboard/census',
-    //   icon: getIcon('eva:shopping-bag-fill'),
-    // },
+    {
+      title: 'Census',
+      path: '/dashboard/census',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
     {
       title: 'Denied Entries',
       path: '/dashboard/denied-entry',

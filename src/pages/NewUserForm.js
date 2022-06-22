@@ -79,7 +79,8 @@ export default function NewUserForm(props) {
       addUsersLog,
       uploadFile,
       uploadFileLog,
-      showLoader
+      showLoader,
+      editUsersLog
     } = useSelector((state) => ({
       salaryDeductionType:state.users.salaryDeductionType,
       userDocumentType:state.users.userDocumentType,
@@ -94,6 +95,7 @@ export default function NewUserForm(props) {
       uploadFile:state.upload.uploadFile,
       uploadFileLog:state.upload.uploadFileLog,
       showLoader : state.common.showLoader,
+      editUsersLog:state.users.editUsersLog,
     }));
     
     useEffect(()=>{
@@ -239,6 +241,21 @@ export default function NewUserForm(props) {
       setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
       navigate('/dashboard/user', { replace: true });
     },[addUsersLog])
+
+    const editRun = React.useRef(true);
+    useEffect(()=>{
+      if (editRun.current) {
+        editRun.current = false;
+        return;
+      }
+      resetForm();
+      setRole([])
+      setRoleError("")
+      setDeductionList([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
+      setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
+      // navigate('/dashboard/user', { replace: true });
+      navigate(-1);
+    },[editUsersLog])
 
     console.log("RELIGIONS",religions);
    
@@ -473,6 +490,7 @@ export default function NewUserForm(props) {
       const value = newDocumentList[index];
       value.documentName = e.target.value;
       newDocumentList[index] = value;
+      console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
      
   }
@@ -515,26 +533,73 @@ const validateRole = () => {
 
     const validateDropDown = () => {
       let validated = true;
-      // eslint-disable-next-line array-callback-return
+      let foundDeduction = false;
+      let foundDocument = false;
+
+
       deductionList.map((value,index)=>{
+       
+        deductionList.map((value2,index2)=>{
+          if(index2!==index && value2.deductionName === value.deductionName){
+            const firstDeductionList = [...deductionList];
+            const value1 = firstDeductionList[index];
+            value1.errorName = "Same deduction type not allowed";
+            firstDeductionList[index] = value1;
+            const value2 = firstDeductionList[index2];
+            value2.errorName = "Same deduction type not allowed";
+            firstDeductionList[index2] = value2;
+            setDeductionList(firstDeductionList); 
+            foundDeduction = true;
+            validated = false;
+          }
+          return null
+        })
+        return null
+      })
+
+      documentList.map((value,index)=>{
+       
+        documentList.map((value2,index2)=>{
+          if(index2!==index && value2.documentName === value.documentName){
+            const firstDocumentList = [...documentList];
+            const value1 = firstDocumentList[index];
+            value1.errorName = "Same document type not allowed";
+            firstDocumentList[index] = value1;
+            const value2 = firstDocumentList[index2];
+            value2.errorName = "Same document type not allowed";
+            firstDocumentList[index2] = value2;
+            setDocumentList(firstDocumentList); 
+            foundDocument = true;
+            validated = false;
+          }
+          return null
+        })
+        return null
+      })
+
+         // eslint-disable-next-line array-callback-return
+        deductionList.map((value,index)=>{
         console.log("VALUE IN VALIDATIONm",value);
         const conditionName = `deductionName`;
         const conditionValue = `deductionValue`;
-        if(value[conditionName]===""){
-          validated = false;
-          const newDeductionList = [...deductionList];
-          const value = newDeductionList[index];
-          value.errorName = "This field is required";
-          newDeductionList[index] = value;
-          setDeductionList(newDeductionList); 
+        if(!foundDeduction){
+          if(value[conditionName]===""){
+            validated = false;
+            const newDeductionList = [...deductionList];
+            const value = newDeductionList[index];
+            value.errorName = "This field is required";
+            newDeductionList[index] = value;
+            setDeductionList(newDeductionList); 
+          }
+          else{
+            const newDeductionList = [...deductionList];
+            const value = newDeductionList[index];
+            value.errorName = "";
+            newDeductionList[index] = value;
+            setDeductionList(newDeductionList); 
+          }
         }
-        else{
-          const newDeductionList = [...deductionList];
-          const value = newDeductionList[index];
-          value.errorName = "";
-          newDeductionList[index] = value;
-          setDeductionList(newDeductionList); 
-        }
+        
         if(value[conditionValue]===""){
           validated = false;
           const newDeductionList = [...deductionList];
@@ -552,26 +617,29 @@ const validateRole = () => {
         }
       })
 
-
+     
 
       // eslint-disable-next-line array-callback-return
       documentList.map((value,index)=>{
         const conditionName = `documentName`;
         const conditionValue = `documentValue`;
-        if(value[conditionName]===""){
-          validated = false;
-          const newDocumentList = [...documentList];
-          const value = newDocumentList[index];
-          value.errorName = "This field is required";
-          newDocumentList[index] = value;
-          setDocumentList(newDocumentList); 
-        }
-        else {
-          const newDocumentList = [...documentList];
-          const value = newDocumentList[index];
-          value.errorName = "";
-          newDocumentList[index] = value;
-          setDocumentList(newDocumentList);
+
+        if(!foundDocument){
+          if(value[conditionName]===""){
+            validated = false;
+            const newDocumentList = [...documentList];
+            const value = newDocumentList[index];
+            value.errorName = "This field is required";
+            newDocumentList[index] = value;
+            setDocumentList(newDocumentList); 
+          }
+          else {
+            const newDocumentList = [...documentList];
+            const value = newDocumentList[index];
+            value.errorName = "";
+            newDocumentList[index] = value;
+            setDocumentList(newDocumentList);
+          }
         }
         if(value[conditionValue]===""){
           validated = false;
@@ -849,7 +917,7 @@ const validateRole = () => {
   
   
 
-    console.log("DOCUMENT LIST",documentList);
+    console.log("DEDUCTION LIST",deductionList);
   
     return (
        showLoader ?
@@ -1688,7 +1756,15 @@ const validateRole = () => {
           }
           
               
-              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} onClick={handleSubmit}>{editUser?"Update":"Save"}</Button>    
+              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} 
+              onClick={(e)=>{
+                validateDropDown();
+                formik.handleSubmit(e);
+                
+              }
+               
+              }
+                >{editUser?"Update":"Save"}</Button>    
             {/* <Button >Add</Button> */}
         </div>
     );

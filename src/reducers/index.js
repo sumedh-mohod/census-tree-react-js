@@ -20,6 +20,8 @@ import BaseColorReducer from "./BaseColorReducer";
 import PropertyReducer from "./PropertyReducer";
 import DeniedEntryReducer from "./DeniedEntryReducer";
 import CommonReducer from "./CommonReducer";
+import TreeCensusReducer from './TreeCensusReducer';
+import TreeDiseaseReducer from './TreeDiseaseReducer';
 
 
 export default combineReducers({
@@ -41,7 +43,9 @@ export default combineReducers({
   users:UserReducer,
   upload:UploadReducer,
   baseColor:BaseColorReducer,
+  treeCensus:TreeCensusReducer,
   properties:PropertyReducer,
   deniedEntry:DeniedEntryReducer,
+  treeDisease:TreeDiseaseReducer,
   common:CommonReducer
 });
