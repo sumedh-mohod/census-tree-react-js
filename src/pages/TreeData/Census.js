@@ -17,6 +17,7 @@ import {
   TablePagination,
   Link,
   IconButton,
+  Pagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Visibility } from '@mui/icons-material';
@@ -183,10 +184,10 @@ export default function Census() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchTreeCensus(newPage+1,rowsPerPage,coucilId,zoneId,wardId,searchValue));
+      dispatch(SearchTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetTreeCensus(newPage+1,rowsPerPage,coucilId,zoneId,wardId));
+      dispatch(GetTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId));
     }
   };
 
@@ -369,16 +370,10 @@ export default function Census() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
         </Card>
       </Container>
     </Page>
