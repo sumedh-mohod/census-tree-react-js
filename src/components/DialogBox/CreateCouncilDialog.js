@@ -293,7 +293,7 @@ export default function CreateCouncilDialog(props) {
     // middleName: Yup.string().required('Middle Name is required'),
     lastName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('Last Name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Mobile number is required'),
+    mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Mobile number is not valid').required('Mobile number is required'),
     username: Yup.string().required('Username is required'),
     password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     zones: Yup.array().min(1,'Zone is required'),
