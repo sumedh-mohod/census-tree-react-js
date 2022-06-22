@@ -289,11 +289,11 @@ export default function CreateCouncilDialog(props) {
     // taluka: Yup.string().required('Taluka is required'),
     baseColorTarget: Yup.string().required('Base Color Target is required'),
     censusTarget: Yup.string().required('Census Target is required'),
-    firstName: Yup.string().required('First Name is required'),
+    firstName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('First Name is required'),
     // middleName: Yup.string().required('Middle Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
+    lastName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('Last Name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Email is required'),
+    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Mobile number is required'),
     username: Yup.string().required('Username is required'),
     password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     zones: Yup.array().min(1,'Zone is required'),
@@ -411,7 +411,7 @@ export default function CreateCouncilDialog(props) {
     <div>
       <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {data?"Edit Counci":"New Council"}
+          {data?"Edit Council":"New Council"}
         </BootstrapDialogTitle>
         <DialogContent dividers>
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
@@ -764,7 +764,12 @@ export default function CreateCouncilDialog(props) {
         </DialogContent>
 
         <DialogActions>
-          <Button autoFocus onClick={handleSubmit}>
+          <Button autoFocus 
+          onClick={(e)=>{
+            validateLogo();
+            formik.handleSubmit(e)
+          }}
+            >
             Save changes
           </Button>
         </DialogActions>

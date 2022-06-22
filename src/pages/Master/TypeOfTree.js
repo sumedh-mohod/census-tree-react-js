@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -124,10 +124,10 @@ export default function TypeOfTree() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchTreeType(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchTreeType(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetTreeType(newPage+1,rowsPerPage));
+      dispatch(GetTreeType(newPage,rowsPerPage));
     }
   };
 
@@ -170,7 +170,7 @@ export default function TypeOfTree() {
   }
 
   return (
-    <Page title="Tree Types">
+    <Page title="User">
       
       <Container>
         {open?
@@ -198,12 +198,12 @@ export default function TypeOfTree() {
           color="inherit"
           // href="#"
         >
-        Tree Types
+        Type of Trees
         </Link>
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Type Of Tree
 
           </Button>
         </Stack>
@@ -223,7 +223,7 @@ export default function TypeOfTree() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.tree_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
@@ -239,15 +239,10 @@ export default function TypeOfTree() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={USERLIST.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
         </Card>
       </Container>
     </Page>

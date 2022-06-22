@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -120,10 +120,10 @@ export default function TreeDensity() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchDistricts(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchDistricts(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetAllDistricts(newPage+1,rowsPerPage));
+      dispatch(GetAllDistricts(newPage,rowsPerPage));
     }
     
   };
@@ -177,7 +177,7 @@ export default function TreeDensity() {
   }
 
   return (
-    <Page title="Tree Density">
+    <Page title="User">
       <Container>
         {open?
         <TreeDensityDialog
@@ -226,7 +226,7 @@ export default function TreeDensity() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                             <TableCell align="left">
                               {option.name}
                             </TableCell>
@@ -246,15 +246,10 @@ export default function TreeDensity() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
         </Card>
       </Container>
     </Page>

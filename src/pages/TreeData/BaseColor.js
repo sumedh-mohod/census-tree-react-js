@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Link,
   IconButton,
 } from '@mui/material';
@@ -172,10 +172,10 @@ export default function BaseColor() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchBaseColorTrees(newPage+1,rowsPerPage,coucilId,zoneId,wardId,searchValue));
+      dispatch(SearchBaseColorTrees(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetBaseColorTrees(newPage+1,rowsPerPage,coucilId,zoneId,wardId));
+      dispatch(GetBaseColorTrees(newPage,rowsPerPage,coucilId,zoneId,wardId));
     }
   };
 
@@ -247,7 +247,7 @@ export default function BaseColor() {
 
 
   return (
-    <Page title="Base Color">
+    <Page title="User">
       <Container>
         {open?
         <BaseColorDialog
@@ -278,12 +278,12 @@ export default function BaseColor() {
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="none"
+          underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Trees Data
+          Tree Data
         </Link>
         <Link
           underline="hover"
@@ -319,7 +319,7 @@ export default function BaseColor() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
                         <TableCell align="left">{option.property?.property_number}</TableCell>
@@ -349,15 +349,10 @@ export default function BaseColor() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
         </Card>
       </Container>
     </Page>
