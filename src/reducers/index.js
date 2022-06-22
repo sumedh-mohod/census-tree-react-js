@@ -20,6 +20,7 @@ import BaseColorReducer from "./BaseColorReducer";
 import PropertyReducer from "./PropertyReducer";
 import DeniedEntryReducer from "./DeniedEntryReducer";
 import CommonReducer from "./CommonReducer";
+import TreeOnMapReducer from "./TreeOnMapReducer";
 
 
 export default combineReducers({
@@ -43,5 +44,6 @@ export default combineReducers({
   baseColor:BaseColorReducer,
   properties:PropertyReducer,
   deniedEntry:DeniedEntryReducer,
-  common:CommonReducer
+  common:CommonReducer,
+  treeLocation:TreeOnMapReducer
 });

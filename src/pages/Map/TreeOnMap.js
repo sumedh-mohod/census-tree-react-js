@@ -29,6 +29,9 @@ import { useLoadScript } from '@react-google-maps/api';
 import DefaultInput from "../../components/Inputs/DefaultInput";
 import Map from './CustomGoogleMaps';
 import Page from '../../components/Page';
+import { GetZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetAllTreeLocation } from '../../actions/TreeOnMapAction';
 
 export default function TreeOnMap(props) {
 
@@ -38,61 +41,62 @@ export default function TreeOnMap(props) {
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
-    const [council, setCouncil] = React.useState('');
-    const [zone, setZone] = React.useState('');
-    const [ward, setWard] = React.useState('');
+    const [zoneId,setZoneId] = useState('');
+   const [wardId,setWardId] = useState('');
+   const [coucilId,setCouncilId] = useState('');
     const [editUser,setEditUser] = useState(false);  
     const { isOpen, data } = props;
 
     const { isLoaded } = useLoadScript({
       googleMapsApiKey: "AIzaSyCLYJVkpS7Y-N5OOglfLYLcJNmVUwQFY7E" // Add your API key
     });
+
+    const {
+      council,
+      zones,
+      wards,
+    } = useSelector((state) => ({
+      council:state.council.council,
+      zones:state.zones.zones,
+      wards:state.wards.wards,
+    }));
   
-    const councilValue = [
-        {
-        value : "Kalmeshwar Muncipal Council",
-        label : "Kalmeshwar Muncipal Council",
-        },
-        {
-            value : "New Delhi Muncipal Council",
-            label : "New Delhi Muncipal Council",
-            },
-    ]
-    const zoneValue = [
-        {
-        value : "Zone 1",
-        label : "Zone 1",
-        },
-        {
-            value : "Zone 2",
-            label : "Zone 2",
-            },
-    ]
-
-    const wardValue = [
-        {
-        value : "Ward 1",
-        label : "Ward 1",
-        },
-        {
-            value : "Ward 2",
-            label : "Ward 2",
-            },
-    ]
-
-
-    const handleCouncilChange = (event) =>{
-        setCouncil(event.target.value);
+    const handleCouncilChange = (e) =>{
+      setCouncilId(e.target.value);
+      setZoneId("")
+      setWardId("")
+      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
+      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
     }
 
-    const handleZoneChange = (event) =>{
-        setCouncil(event.target.value);
+    const handleZoneChange = (e) =>{
+      setZoneId(e.target.value);
     }
-    const handleWardChange = (event) =>{
-        setCouncil(event.target.value);
+    const handleWardChange = (e) =>{
+      setWardId(e.target.value);
     }
 
-    console.log("IS LOADED",isLoaded);
+    const DistrictsSchema = Yup.object().shape({
+      council: Yup.string().required('Council is required'),
+      zone: Yup.string().required('Zone is required'),
+      ward: Yup.string().required('Ward is required'),
+    });
+  
+    const formik = useFormik({
+      enableReinitialize: true,
+      initialValues: {
+        council:"",
+        zone:"",
+        ward:""
+      },
+      validationSchema: DistrictsSchema,
+      onSubmit: (value) => {
+        dispatch(GetAllTreeLocation(value.council,value.zone,value.ward))
+      },
+    });
+  
+    const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  
 
     return (
       <Page title="Maps">
@@ -112,12 +116,13 @@ export default function TreeOnMap(props) {
               id="council"
               name='council'
               label="Council*"
-              value={council}
+              value={coucilId}
               displayEmpty
               style={{width:'85.5%',marginTop:5}}
               // onChange={handleRoleChange}
               onChange={(e) => {
-                handleCouncilChange(e)
+                handleCouncilChange(e);
+                formik.handleChange(e);
               }}
               placeholder='Select council*'
               defaultValue={data? data.council: ""}
@@ -126,13 +131,15 @@ export default function TreeOnMap(props) {
                   return <em>Select Council*</em>;
                 }
               }}
+              error={Boolean(touched.council && errors.council)}
+                helperText={touched.council && errors.council}
             >
                <MenuItem disabled value="">
             <em>Select Councils</em>
           </MenuItem>
-              {councilValue?.map((option) => (
-                <MenuItem key={option.id} value={option.label}>
-                  {option.value}
+              {council?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
                 </MenuItem>
               ))}
             </TextField>
@@ -182,12 +189,13 @@ export default function TreeOnMap(props) {
               id="zone"
               name='zone'
               label="Zone*"
-            //   value={GetZones}
+              value={zoneId}
               displayEmpty
               style={{width:'85.5%',marginTop:5}}
               // onChange={handleRoleChange}
               onChange={(e) => {
-                handleZoneChange(e)
+                handleZoneChange(e);
+                formik.handleChange(e);
               }}
               placeholder='Select Zone*'
               defaultValue={data? data.zone: ""}
@@ -196,15 +204,17 @@ export default function TreeOnMap(props) {
                   return <em>Select Zone*</em>;
                 }
               }}
+              error={Boolean(touched.zone && errors.zone)}
+                helperText={touched.zone && errors.zone}
             >
                <MenuItem disabled value="">
             <em>Select Zone</em>
           </MenuItem>
-              {zoneValue?.map((option) => (
-                <MenuItem key={option.id} value={option.label}>
-                  {option.value}
+              {coucilId? zones?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item sm={4}>
@@ -213,12 +223,13 @@ export default function TreeOnMap(props) {
               id="ward"
               name='ward'
               label="Ward*"
-              value={ward}
+              value={wardId}
               displayEmpty
               style={{width:'85.5%', marginLeft: 40,marginTop:5}}
               // onChange={handleRoleChange}
               onChange={(e) => {
-                handleWardChange(e)
+                handleWardChange(e);
+                formik.handleChange(e);
               }}
               placeholder='Select Ward*'
               defaultValue={data? data.ward: ""}
@@ -227,19 +238,21 @@ export default function TreeOnMap(props) {
                   return <em>Select Ward*</em>;
                 }
               }}
+              error={Boolean(touched.ward && errors.ward)}
+              helperText={touched.ward && errors.ward}
             >
                <MenuItem disabled value="">
             <em>Select Ward</em>
           </MenuItem>
-              {wardValue?.map((option) => (
-                <MenuItem key={option.id} value={option.label}>
-                  {option.value}
+              {coucilId? wards?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item sm={4}>
-            <Button variant="contained" style={{marginLeft: 40, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}>Get Data</Button>
+            <Button variant="contained" style={{marginLeft: 40, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}  onClick={handleSubmit}>Get Data</Button>
             </Grid>
             </Grid>
             <Grid container spacing={1} style={{marginTop: 20}}>

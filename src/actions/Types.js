@@ -136,3 +136,6 @@ export const SHOW_PROPERTY_IMPORT_ERROR = "show-property-import-error";
 export const GET_DENIED_ENTRY = "get-denied-entry";
 
 export const SHOW_LOADER = "show-loader";
+
+export const GET_TREE_LOCATION = "get-tree-location";
+export const GET_SPECIFIC_TREE_LOCATION_DETAILS = "get-specific-tree-location-details"
