@@ -153,7 +153,7 @@ const handleStatusChange = (event) => {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+        
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit State":"Add State"}</BootstrapDialogTitle>

@@ -270,6 +270,7 @@ export default function TeamsList() {
         coucilId={coucilId}
         zoneId={zoneId}
         wardId={wardId}
+        callType="Teams"
         />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>

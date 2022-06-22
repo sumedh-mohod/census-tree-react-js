@@ -306,6 +306,7 @@ export default function BaseColor() {
         coucilId={coucilId}
         zoneId={zoneId}
         wardId={wardId}
+        callType="BaseColor"
         />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
