@@ -102,6 +102,11 @@ const navConfig = [
       //   path: '/dashboard/tree-density',
       //   icon: getIcon('eva:shopping-bag-fill'),
       // },
+      {
+        title: 'Tree Diseases',
+        path: '/dashboard/treeDisease',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
       
     ]
 },

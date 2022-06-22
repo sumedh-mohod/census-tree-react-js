@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
-// import { SetNewAlert } from "./AlertActions";
+import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { GET_TREE_CENSUS } from "./Types";
+import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS } from "./Types";
 
 const GetTreeCensus = (page,limit,council,zone,ward) => async (dispatch) => {
 
@@ -54,7 +54,24 @@ const SearchTreeCensus = (page,limit,council,zone,ward,searchValue) => async (di
   }
 };
 
+const UpdateQCStatusOfTreeCensus = (id,params) => async (dispatch) => {
+  try {
+    const response = await JWTServer.post(`/api/census-trees/qc/${id}`,params);
+    dispatch({
+      type: UPDATE_QC_STATUS_TREE_CENSUS,
+      payload: response.data,
+    });
+    dispatch(SetNewAlert({
+      msg: response.data.message,
+      alertType: "success",
+    }));
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
 export {
   GetTreeCensus,
   SearchTreeCensus,
+  UpdateQCStatusOfTreeCensus,
 }

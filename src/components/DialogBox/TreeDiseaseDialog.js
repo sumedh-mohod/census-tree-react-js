@@ -1,5 +1,7 @@
-import * as React from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as Yup from 'yup';
+import { useFormik } from 'formik';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -19,11 +21,8 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFormik } from 'formik';
-import { TextField } from '@mui/material';
-import { GetUsers } from '../../../actions/UserAction';
-import { AddUserToTeam } from '../../../actions/TeamsAction';
-import { GetQcRemarksForBaseColor } from '../../../actions/BaseColorAction';
+import DefaultInput from '../Inputs/DefaultInput';
+import { AddTreeDisease, EditTreeDisease } from '../../actions/TreeDiseaseAction';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -54,49 +53,60 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function QcStatusDialog(props) {
-
+export default function TreeDiseaseDialog(props) {
   const dispatch = useDispatch();
-  const { isOpen, data, isOpenConfirm,teamId } = props;
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
-  const[state, setState]=  React.useState('');
-  const [role, setRole] = React.useState([]);
-  const [topModalOpen, setTopModalOpen] = React.useState(false);
-  const [reqObj, setReqObj] = React.useState(null)
-  const [id, setId] = React.useState(null)
+  const [status, setStatus] = React.useState('Status')
+  const { isOpen, data } = props;
 
   const {
-    baseColorRemarks,
-    updateQCStatusLog,
-    updateCensusQCStatusLog,
+    addTreeDiseaseLog,
+    editTreeDiseaseLog
   } = useSelector((state) => ({
-    baseColorRemarks:state.baseColor.baseColorRemarks,
-    updateQCStatusLog:state.baseColor.updateQCStatusLog,
-    updateCensusQCStatusLog:state.treeCensus.updateQCStatusLog,
+    addTreeDiseaseLog:state.treeDisease.addTreeDiseaseLog,
+    editTreeDiseaseLog:state.treeDisease.editTreeDiseaseLog
   }));
 
-  const firstRun = React.useRef(true);
-  React.useEffect(()=>{
+  const firstRun = useRef(true);
+  useEffect(()=>{
     if (firstRun.current) {
       firstRun.current = false;
       return;
     }
-    console.log("INSIDE USEEFFECT");
-    console.log(localStorage.getItem("token"))
     props.handleClose()
-  },[updateQCStatusLog, updateCensusQCStatusLog])
+  },[addTreeDiseaseLog,editTreeDiseaseLog])
+  
 
-  React.useEffect(()=>{
-    dispatch(GetQcRemarksForBaseColor("Base Color"))
-  },[])
 
+  const statusValue = [
+    {
+      value: 'active',
+      label: 'Active',
+    },
+    {
+      value: 'inactive',
+      label: 'InActive',
+    },
+  ];
+
+const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+  };
 
   const handleClose = () => {
     props.handleClose();
   };
 
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const handleMaxWidthChange = (event) => {
     setMaxWidth(
@@ -105,27 +115,35 @@ export default function QcStatusDialog(props) {
     );
   };
 
-
-  const DistrictsSchema = Yup.object().shape({
-    remark: Yup.string().required("Remark is required"),
+  const StateSchema = Yup.object().shape({
+    treeDisease: Yup.string().required('Tree Disease is required'),
   });
 
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      remark:"",
-      
+      treeDisease:data? data.tree_disease : ""
     },
-    validationSchema: DistrictsSchema,
+    validationSchema: StateSchema,
     onSubmit: (value) => {
-        props.handleSubmit(value.remark,props.baseColorId)
+
+      if(data){
+        dispatch(EditTreeDisease({
+          "tree_disease":value.treeDisease
+        },data.id))
+      }
+      else {
+        dispatch(AddTreeDisease({
+          "tree_disease":value.treeDisease
+        }))
+      }
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit,getFieldProps} = formik;
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-
+  console.log("values",values);
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -135,46 +153,33 @@ export default function QcStatusDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+        // onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>QC Remarks</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Tree Disease":"Add Tree Disease"}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <TextField
-                select
-                label="Remark*"
-                id="remark"
-                name="remark"
-                displayEmpty
-                value={values.remark}
-            
-                style={{ width: '83%', marginLeft: 40, marginTop:5 }}
-                error={Boolean(touched.remark && errors.remark)}
-                  helperText={touched.remark && errors.remark}
-                  {...getFieldProps("remark")}
-              >
-           <MenuItem disabled value="">
-            <em>Remark*</em>
-          </MenuItem>
-          {baseColorRemarks?.map((option) => (
-            <MenuItem
-              key={option.id}
-              value={option.id}
-              // style={getStyles(name, personName, theme)}
-            >
-              {option.remark}
-            </MenuItem>
-          ))}
-              </TextField>
+        <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="treeDisease"
+                autoComplete="treeDisease"
+                placeholder="Enter Tree Disease*"
+                label="Tree Disease*"
+                // defaultValue={values? values.state : ""}
+                // onChange = {(e)=>{console.log("Value",e.target.value)}}
+                error={Boolean(touched.treeDisease && errors.treeDisease)}
+                helperText={touched.treeDisease && errors.treeDisease}
+                {...getFieldProps("treeDisease")}
+              />
             </Grid>
+            
           </Grid>
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Unapprove</Button>
+          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

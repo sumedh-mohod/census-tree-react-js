@@ -1,4 +1,4 @@
-import { GET_TREE_CENSUS, RESET_STATE } from "../actions/Types";
+import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS , RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     treeCensus:null,
@@ -21,6 +21,12 @@ import { GET_TREE_CENSUS, RESET_STATE } from "../actions/Types";
               treeCensus: payload.data.data,
               pageInfo: payload.data
         };
+
+        case UPDATE_QC_STATUS_TREE_CENSUS:
+          return{
+              ...state,
+              updateQCStatusLog: !state.updateQCStatusLog,
+      };
 
         case RESET_STATE:
         return { ...INIT_STATE };
