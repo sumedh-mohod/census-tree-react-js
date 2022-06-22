@@ -69,6 +69,10 @@ function Map(props) {
     dispatch(ShowLoader(false));
   },[treeDetails])
 
+  useEffect(()=>{
+    setActiveMarker(null);
+  },[props.treeLocation])
+
   const handleActiveMarker = (marker) => {
     if (marker === activeMarker) {
       return;
