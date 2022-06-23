@@ -130,6 +130,11 @@ const navConfig = [
       path: '/dashboard/denied-entry',
       icon: getIcon('eva:shopping-bag-fill'),
     },
+    {
+      title: 'No Tree Properties',
+      path: '/dashboard/no-tree-properties',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
   ]
 },
 ];

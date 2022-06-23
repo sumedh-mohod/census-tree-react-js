@@ -29,7 +29,7 @@ import { UserListHead } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 import TreeData from  '../../components/JsonFiles/TreeData.json';
 import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialog";
-import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
+import TreeCensusMenu from '../../sections/@dashboard/tree/TreeCensusMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
 import { GetCouncil } from '../../actions/CouncilAction';
@@ -86,7 +86,7 @@ export default function Census() {
    const [imageList,setImageList] = useState([]);
    const [showList,setShowList] = useState(false);
    const [qcDialogOpen,setQcDialogOpen] = useState(false);
-   const [baseColorId,setBaseColorId] = useState("");
+   const [treeCensusId,setTreeCensusId] = useState("");
 
    const {
     council,
@@ -152,7 +152,7 @@ export default function Census() {
 
   const handleQcDialog = (id) => {
     setQcDialogOpen(!qcDialogOpen);
-    setBaseColorId(id);
+    setTreeCensusId(id);
   }
 
   const handleQcSubmit = (data,id) => {
@@ -280,7 +280,7 @@ export default function Census() {
         {qcDialogOpen?
         <QcStatusDialog
         isOpen={qcDialogOpen}
-        baseColorId={baseColorId}
+        baseColorId={treeCensusId}
         handleClose = {()=>handleQcDialog(null)}
         handleSubmit = {(data,id)=>handleQcSubmit(data,id)}
         />:null
@@ -359,7 +359,7 @@ export default function Census() {
                         <TableCell align="left">{option.qc_by?.first_name ?option.qc_by?.first_name : "-" }</TableCell>
                         <TableCell align="left">{option.qc_date? option.qc_date: "-" }</TableCell>
                         <TableCell align="right">
-                          <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
+                          <TreeCensusMenu treeCensusId={option.id} TreeCensusName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )
