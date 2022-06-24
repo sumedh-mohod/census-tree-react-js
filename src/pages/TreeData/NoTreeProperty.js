@@ -127,7 +127,7 @@ export default function NoTreeProperty() {
       dispatch(SearchNoTreeProperty(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(SearchNoTreeProperty(newPage,rowsPerPage,coucilId,zoneId,wardId));
+      dispatch(GetNoTreeProperty(newPage,rowsPerPage,coucilId,zoneId,wardId));
     }
   };
 
