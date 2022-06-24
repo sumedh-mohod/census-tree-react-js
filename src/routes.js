@@ -37,6 +37,8 @@ import QcRemarks from './pages/Master/QcRemarks';
 import ViewProperties from './pages/Master/ViewProperties';
 import Census from './pages/TreeData/Census';
 import TreeDisease from './pages/Master/TreeDisease';
+import TreeCensusHistory from './pages/TreeData/TreeCensusHistory';
+import NoTreeProperty from './pages/TreeData/NoTreeProperty';
 
 // ----------------------------------------------------------------------
 
@@ -78,6 +80,8 @@ export default function Router() {
         { path: 'new-user-form', element: <NewUserForm/> },
         { path: 'census', element: <Census/> },
         { path: 'treeDisease', element: <TreeDisease/> },
+        { path: 'treeCensus/history/:treeCensusId/:treeCensusName', element: <TreeCensusHistory/> },
+        { path: 'no-tree-properties', element: <NoTreeProperty/> },
       ],
     },
     {
