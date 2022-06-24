@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { getIcon } from "@iconify/react";
 
-import { CircularProgress, List, ListItem, ListItemText, Table, TableBody, TableCell,TableRow } from "@mui/material";
+import { CircularProgress, IconButton, List, ListItem, ListItemText, Table, TableBody, TableCell,tableCellClasses,TableRow } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { Visibility } from "@mui/icons-material";
 import TreeFill from '../../Assets/tree-fill.svg';
 import { GetSpecificTreeInfo } from "../../actions/TreeOnMapAction";
 import { ShowLoader } from "../../actions/CommonAction";
+import ViewImageDialog from "../../components/DialogBox/tree-data/ViewImageDialog";
 
 const markers = [
   {
@@ -51,7 +53,8 @@ const center = {
 function Map(props) {
   const dispatch = useDispatch();
   const [activeMarker, setActiveMarker] = useState(null);
-
+  const [viewOpen, setViewOpen ] = useState(false);
+  const [imageList,setImageList] = useState([]);
   const {
     treeDetails,
     showLoader
@@ -98,6 +101,17 @@ function Map(props) {
 
   console.log("PROPS TREE LOCATION",props.treeLocation);
 
+  const handleViewOpen = (images) => {
+    setViewOpen(!viewOpen)
+    const imageList = [];
+    if(images){
+      images.map((value,index)=>{
+        imageList.push(value.image_url)
+        return null;
+      })
+    }
+    setImageList(imageList);
+  }
 
   return (
     <GoogleMap
@@ -107,6 +121,13 @@ function Map(props) {
       zoom={5}
       center={center}
     >
+      {viewOpen?
+        <ViewImageDialog
+        isOpen={viewOpen}
+        handleClose = {handleViewOpen}
+        data={imageList}
+        />:null
+        }
       {props.treeLocation?.map((value,index) => (
         <Marker
           key={value.id}
@@ -122,8 +143,12 @@ function Map(props) {
               </div>
               :
               <div>
-              <img src={treeDetails?.images?treeDetails.images[1].image_url:""} alt="tree" style={{height:'100px',width:'100px'}} />
-              <Table style={{border:'none'}}>
+              {/* <img src={treeDetails?.images?treeDetails.images[0].image_url:""} alt="tree" style={{height:'100px',width:'100px'}} /> */}
+              <Table style={{border:'none'}} sx={{
+    [`& .${tableCellClasses.root}`]: {
+      borderBottom: "none"
+    }
+  }}>
                 <TableBody style={{border:'none'}}>
                   <TableRow>
                     <TableCell align="left" style={{paddingLeft:'0px',paddingBottom:'0px'}}>Tree Name</TableCell>
@@ -134,8 +159,16 @@ function Map(props) {
                     <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails.tree_type?.tree_type}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px'}}>Address</TableCell>
-                    <TableCell align="left" style={{paddingTop:'0px'}}>{treeDetails.location}</TableCell>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px'}}>Address</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails.location}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px'}}>Images</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px'}}>
+                    <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(treeDetails.images)} color="success">
+                            <Visibility />
+                          </IconButton>
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
