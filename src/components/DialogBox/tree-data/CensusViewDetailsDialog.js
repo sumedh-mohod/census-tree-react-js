@@ -106,6 +106,7 @@ export default function CensusViewDetailsDialog(props) {
   const handleViewOpen = (images) => {
     setViewOpen(!viewOpen)
     setImageList(images || []);
+    console.log("viewDetals")
   }
 
   // const handleViewImage = (data) => {
@@ -247,7 +248,7 @@ console.log("hii", isOpen)
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Images</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}><IconButton onclick={()=>handleViewOpen()}>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}><IconButton onClick={()=>handleViewOpen(props.data.images)}>
         <Iconify icon="clarity:eye-show-line" color="green" width={24} style={{marginTop: 5}} />
         </IconButton></td>
   </tr>

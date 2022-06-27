@@ -110,10 +110,11 @@ export default function ViewImageDialog(props) {
     })
   },[data])
 
+  console.log("isopen", isOpen)
+
   
 
   return (
-    
     <Modal
     open={isOpen}
     onClose={handleClose}
