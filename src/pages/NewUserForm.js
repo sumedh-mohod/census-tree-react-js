@@ -50,6 +50,7 @@ export default function NewUserForm(props) {
     const [bloodGrp, setBloodGrp] = React.useState('');
     const[district, setDistrict]=  React.useState('');
     const[role, setRole]=  React.useState("");
+    const[dob, setDob]= React.useState("");
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
@@ -65,6 +66,7 @@ export default function NewUserForm(props) {
     const [showCouncil,setShowCouncil] = useState(false);
     const [editUser,setEditUser] = useState(false);  
     const [roleError,setRoleError] = useState("");
+    const [dobError, setDobError] = useState("");
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -298,8 +300,8 @@ export default function NewUserForm(props) {
         label: 'AB-',
       },
       {
-        value: '0+',
-        label: '0+',
+        value: 'O+',
+        label: 'O+',
       },
     ]
   
@@ -343,6 +345,26 @@ export default function NewUserForm(props) {
       setNoticePeriod(event.target.value);
     };
   
+    const handleDobChange = (event) => {
+      console.log("in dob ",event.target.value);
+      console.log("in dob ",todayDate);
+      const td =new Date( moment(todayDate).format('MM/DD/YYYY'));
+      const gd = new Date(moment(event.target.value).format('MM/DD/YYYY'));
+      console.log(td);
+      const diffTime = td-gd;
+      if(diffTime<0){
+        setDobError("Please enter valid birth date");
+        
+      }else{
+        setDobError("");
+        
+      }
+      setDob(event.target.value)
+//       console.log("in dob ",diffTime);
+// console.log(Math.ceil(diffTime/ (1000 * 60 * 60 * 24)));
+    
+    };
+
     const handleRoleChange = (event) => {
       // console.log("EVENT VALUE",event.target.value);
       // const {
@@ -796,7 +818,7 @@ const validateRole = () => {
       ,
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
-        console.log("INSIDE ON SUBMIT");
+        console.log("INSIDE ON SUBMIT", value);
         if(validateRole()){
           if(showCouncil){
             const obj = {
@@ -1216,22 +1238,28 @@ const validateRole = () => {
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <TextField
-                id="date"
+                id="dob"
+                name='dob'
                 // label="Date Of Birth"
                 type="date"
                 label="Date of Birth*"
+                value={dob}
                 placeholder='Date Of Birth*'
                 // defaultValue="2017-05-24" 
                 style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
+                onChange={(e)=>{handleDobChange(e);
+                formik.handleChange(e)}}
                 error={Boolean(touched.dob && errors.dob)}
                 helperText={touched.dob && errors.dob}
-                {...getFieldProps("dob")}
+                // {...getFieldProps("dob")}
                 InputLabelProps={{
                   shrink: true,
+                  
                 }}
                 inputProps={{ max: todayDate }}
               />
+              <Typography style={{marginLeft: 40, color:"#FF0000"}}>{dobError}</Typography>
               </Grid>
               <Grid item xs={6}>
               <TextField

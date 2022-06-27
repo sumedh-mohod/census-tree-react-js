@@ -261,6 +261,13 @@ export default function NoTreeProperty() {
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
+                        {!showList?(
+                <TableRow>
+                  <TableCell align='center' colSpan={6} fontWeight={700}>
+               Please select council to get base color data
+                </TableCell>
+                </TableRow>
+                ):null}
                 <TableBody>
                      { showList? noTreeProperty?.map((option,index) => {
                         return (
@@ -291,11 +298,12 @@ export default function NoTreeProperty() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
+          {showList?(
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

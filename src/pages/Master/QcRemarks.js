@@ -244,10 +244,12 @@ export default function District() {
               </Table>
             </TableContainer>
           </Scrollbar>
+          {qcremarks?(
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />
+  ):null}
           {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"

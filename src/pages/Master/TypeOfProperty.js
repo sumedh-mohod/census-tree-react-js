@@ -235,11 +235,12 @@ export default function TypeOfProperty() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
+          {propertyTypes?(
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>
