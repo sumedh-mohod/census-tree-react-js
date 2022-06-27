@@ -131,17 +131,17 @@ export default function NoTreeProperty() {
     }
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setShowList(false)
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-    if(search){
-      dispatch(SearchNoTreeProperty(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
-    }
-    else {
-      dispatch(GetNoTreeProperty(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId));
-    }
-  };
+  // const handleChangeRowsPerPage = (event) => {
+  //   setShowList(false)
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  //   if(search){
+  //     dispatch(SearchNoTreeProperty(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
+  //   }
+  //   else {
+  //     dispatch(GetNoTreeProperty(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId));
+  //   }
+  // };
   function handleClick(event) {
     event.preventDefault();
     console.info('You clicked a breadcrumb.');
@@ -267,7 +267,7 @@ export default function NoTreeProperty() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type?option.property_type?.property_type:"-"}</TableCell>
                         <TableCell align="left">{option.council?.name}</TableCell>
                         <TableCell align="left">{option.zone?.name}</TableCell>
@@ -281,7 +281,7 @@ export default function NoTreeProperty() {
                           </IconButton>
                           </TableCell>
                         <TableCell align="left">{option.team?.name}</TableCell>
-                        <TableCell align="left">{option.added_by?.first_name}</TableCell>
+                        <TableCell align="left">{option.added_by?.first_name} {option.added_by?.last_name}</TableCell>
                         </TableRow>
                         )
                   }):null
