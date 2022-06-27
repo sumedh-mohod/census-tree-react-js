@@ -306,6 +306,7 @@ export default function BaseColor() {
         coucilId={coucilId}
         zoneId={zoneId}
         wardId={wardId}
+        callType="BaseColor"
         />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -313,6 +314,14 @@ export default function BaseColor() {
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
+                         {!showList?(
+                <TableRow>
+                  <TableCell align='center' colSpan={6} fontWeight={700}>
+               Please select council to get base color data
+                </TableCell>
+                </TableRow>
+                ):null
+}
                 <TableBody>
                      { showList? baseColorTrees?.map((option,index) => {
                         return (
@@ -348,11 +357,12 @@ export default function BaseColor() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
+          {showList?(
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

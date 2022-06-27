@@ -250,14 +250,25 @@ export default function DeniedEntry() {
         coucilId={coucilId}
         zoneId={zoneId}
         wardId={wardId}
+        callType="DeniedEntries"
         />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
+                
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
+                {!showList?(
+                <TableRow>
+                  <TableCell align='center' colSpan={6} fontWeight={700}>
+               Please select council to get base color data
+                </TableCell>
+                </TableRow>
+                ):null
+}
                 <TableBody>
+                  
                      { showList? deniedEntry?.map((option,index) => {
                         return (
                         <TableRow
@@ -283,11 +294,12 @@ export default function DeniedEntry() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
+{showList?(
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

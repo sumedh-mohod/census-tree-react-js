@@ -151,7 +151,6 @@ export default function TypeOfPropertyDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Property Type":"Add Property Type"}</BootstrapDialogTitle>

@@ -136,7 +136,7 @@ export default function TypeOfLocationDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+      
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Location Type":"Add Location Type"}</BootstrapDialogTitle>

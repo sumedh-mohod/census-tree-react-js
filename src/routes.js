@@ -39,6 +39,7 @@ import Census from './pages/TreeData/Census';
 import TreeDisease from './pages/Master/TreeDisease';
 import TreeCensusHistory from './pages/TreeData/TreeCensusHistory';
 import NoTreeProperty from './pages/TreeData/NoTreeProperty';
+import TreeOnMap from './pages/Map/TreeOnMap';
 
 // ----------------------------------------------------------------------
 
@@ -82,6 +83,7 @@ export default function Router() {
         { path: 'treeDisease', element: <TreeDisease/> },
         { path: 'treeCensus/history/:treeCensusId/:treeCensusName', element: <TreeCensusHistory/> },
         { path: 'no-tree-properties', element: <NoTreeProperty/> },
+        { path: 'treeOnMap', element: <TreeOnMap /> },
       ],
     },
     {

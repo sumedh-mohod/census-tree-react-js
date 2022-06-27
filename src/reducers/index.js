@@ -23,6 +23,7 @@ import CommonReducer from "./CommonReducer";
 import TreeCensusReducer from './TreeCensusReducer';
 import TreeDiseaseReducer from './TreeDiseaseReducer';
 import NoTreePropertyReducer from "./NoTreePropertyReducer";
+import TreeOnMapReducer from "./TreeOnMapReducer";
 
 
 export default combineReducers({
@@ -49,5 +50,6 @@ export default combineReducers({
   properties:PropertyReducer,
   deniedEntry:DeniedEntryReducer,
   treeDisease:TreeDiseaseReducer,
-  common:CommonReducer
+  common:CommonReducer,
+  treeLocation:TreeOnMapReducer
 });

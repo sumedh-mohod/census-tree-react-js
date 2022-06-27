@@ -23,6 +23,7 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GetActiveRole } from '../actions/RoleAction';
@@ -49,6 +50,7 @@ export default function NewUserForm(props) {
     const [bloodGrp, setBloodGrp] = React.useState('');
     const[district, setDistrict]=  React.useState('');
     const[role, setRole]=  React.useState("");
+    const[dob, setDob]= React.useState("");
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
@@ -64,6 +66,8 @@ export default function NewUserForm(props) {
     const [showCouncil,setShowCouncil] = useState(false);
     const [editUser,setEditUser] = useState(false);  
     const [roleError,setRoleError] = useState("");
+    const [dobError, setDobError] = useState("");
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
       userDocumentType,
@@ -95,7 +99,7 @@ export default function NewUserForm(props) {
       showLoader : state.common.showLoader,
       editUsersLog:state.users.editUsersLog,
     }));
-
+    
     useEffect(()=>{
       dispatch(GetDeductionType());
       dispatch(GetUserDocumentType());
@@ -256,7 +260,7 @@ export default function NewUserForm(props) {
     },[editUsersLog])
 
     console.log("RELIGIONS",religions);
-
+   
     const diffentlyAbled = [
       {
         value:"1",
@@ -296,8 +300,8 @@ export default function NewUserForm(props) {
         label: 'AB-',
       },
       {
-        value: '0+',
-        label: '0+',
+        value: 'O+',
+        label: 'O+',
       },
     ]
   
@@ -341,6 +345,26 @@ export default function NewUserForm(props) {
       setNoticePeriod(event.target.value);
     };
   
+    const handleDobChange = (event) => {
+      console.log("in dob ",event.target.value);
+      console.log("in dob ",todayDate);
+      const td =new Date( moment(todayDate).format('MM/DD/YYYY'));
+      const gd = new Date(moment(event.target.value).format('MM/DD/YYYY'));
+      console.log(td);
+      const diffTime = td-gd;
+      if(diffTime<0){
+        setDobError("Please enter valid birth date");
+        
+      }else{
+        setDobError("");
+        
+      }
+      setDob(event.target.value)
+//       console.log("in dob ",diffTime);
+// console.log(Math.ceil(diffTime/ (1000 * 60 * 60 * 24)));
+    
+    };
+
     const handleRoleChange = (event) => {
       // console.log("EVENT VALUE",event.target.value);
       // const {
@@ -491,6 +515,16 @@ export default function NewUserForm(props) {
       console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
      
+  }
+
+  const handleViewDocument = (fpath) =>{
+    if(fpath.includes(process.env.REACT_APP_BASE_URL)){
+      window.open(fpath, '_blank');
+    }
+    else{
+   const fLink = process.env.REACT_APP_BASE_URL.concat('/').concat(fpath);
+   window.open(fLink, '_blank');
+    }
   }
 
   const handleDocumentValueChange = (e,index) => {
@@ -784,7 +818,7 @@ const validateRole = () => {
       ,
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
-        console.log("INSIDE ON SUBMIT");
+        console.log("INSIDE ON SUBMIT", value);
         if(validateRole()){
           if(showCouncil){
             const obj = {
@@ -1204,21 +1238,28 @@ const validateRole = () => {
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <TextField
-                id="date"
+                id="dob"
+                name='dob'
                 // label="Date Of Birth"
                 type="date"
                 label="Date of Birth*"
+                value={dob}
                 placeholder='Date Of Birth*'
-                // defaultValue="2017-05-24"
+                // defaultValue="2017-05-24" 
                 style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
+                onChange={(e)=>{handleDobChange(e);
+                formik.handleChange(e)}}
                 error={Boolean(touched.dob && errors.dob)}
                 helperText={touched.dob && errors.dob}
-                {...getFieldProps("dob")}
+                // {...getFieldProps("dob")}
                 InputLabelProps={{
                   shrink: true,
+                  
                 }}
+                inputProps={{ max: todayDate }}
               />
+              <Typography style={{marginLeft: 40, color:"#FF0000"}}>{dobError}</Typography>
               </Grid>
               <Grid item xs={6}>
               <TextField
@@ -1709,7 +1750,7 @@ const validateRole = () => {
             </Grid>
             <Grid item xs={5} style={{alignSelf:'center'}}>
               {value.documentValue?
-              <Button variant="outlined" target="_blank" rel="noopener" style={{marginTop:'5px'}}  href={`${value.documentValue}`}>
+              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
              <TextField

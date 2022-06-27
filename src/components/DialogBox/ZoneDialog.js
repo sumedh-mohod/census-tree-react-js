@@ -130,7 +130,7 @@ export default function WardDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+    
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Zone":"Add Zone"}</BootstrapDialogTitle>
