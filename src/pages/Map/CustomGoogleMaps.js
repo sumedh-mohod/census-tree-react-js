@@ -155,12 +155,36 @@ function Map(props) {
                     <TableCell align="left" style={{paddingBottom:'0px'}}>{treeDetails.tree_name?.name}</TableCell>
                   </TableRow>
                   <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px',whiteSpace:'nowrap'}}>Botanical Name</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails.tree_name?.botanical_name}</TableCell>
+                  </TableRow>
+                  <TableRow>
                     <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px'}}>Tree Type</TableCell>
                     <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails.tree_type?.tree_type}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px'}}>Address</TableCell>
                     <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails.location}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px'}}>Location Type</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails?.location_type?.location_type}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px'}}>Tree Condition</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails?.tree_condition?.condition}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px'}}>Girth</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails?.girth}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px'}}>Height</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails?.height}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px',paddingBottom:'0px'}}>Canopy</TableCell>
+                    <TableCell align="left" style={{paddingTop:'0px',paddingBottom:'0px'}}>{treeDetails?.canopy}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px'}}>Images</TableCell>
