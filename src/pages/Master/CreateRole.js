@@ -75,7 +75,7 @@ function applySortFilter(array, comparator, query) {
 export default function CreateRole() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -101,7 +101,7 @@ export default function CreateRole() {
   console.log("ROLES",roles);
 
   useEffect(()=>{
-    dispatch(GetRole(page+1,rowsPerPage));
+    dispatch(GetRole(page,rowsPerPage));
   },[addRolesLog,editRolesLog,deleteRolesLog])
 
   
@@ -137,7 +137,7 @@ export default function CreateRole() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchRole(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -155,14 +155,14 @@ export default function CreateRole() {
         if(value){
           dispatch(SearchRole(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetRole(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -223,7 +223,7 @@ export default function CreateRole() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.role}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">

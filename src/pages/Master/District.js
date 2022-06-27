@@ -80,7 +80,7 @@ export default function District() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -106,7 +106,7 @@ export default function District() {
   console.log("DISTRICTS",districts)
 
   useEffect(()=>{
-    dispatch(GetAllDistricts(page+1,rowsPerPage));
+    dispatch(GetAllDistricts(page,rowsPerPage));
   },[addDistrictsLog,editDistrictsLog,deleteDistrictsLog])
 
   useEffect(()=>{
@@ -133,7 +133,7 @@ export default function District() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchDistricts(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -161,14 +161,14 @@ export default function District() {
         if(value){
           dispatch(SearchDistricts(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetAllDistricts(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -229,7 +229,7 @@ export default function District() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.name}
                             </TableCell>

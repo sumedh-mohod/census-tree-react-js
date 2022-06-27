@@ -54,7 +54,7 @@ const TABLE_HEAD = [
 
 export default function Census() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -100,7 +100,7 @@ export default function Census() {
     }
     setShowList(true);
     console.log("BEFORE FETCHING");
-    dispatch(GetTreeCensus(page+1,rowsPerPage,coucilId,zoneId,wardId));
+    dispatch(GetTreeCensus(page,rowsPerPage,coucilId,zoneId,wardId));
   },[updateQCStatusLog])
 
   const secondRun = React.useRef(true);
@@ -172,6 +172,7 @@ export default function Census() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    console.log("newPage", newPage)
     setShowList(false);
     if(search){
       dispatch(SearchTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
@@ -184,7 +185,7 @@ export default function Census() {
   const handleChangeRowsPerPage = (event) => {
     setShowList(false)
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchTreeCensus(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
     }
@@ -207,7 +208,7 @@ export default function Census() {
           dispatch(SearchTreeCensus(1,rowsPerPage,coucilId,zoneId,wardId,value))
           setSearch(true)
           setShowList(false)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -215,7 +216,7 @@ export default function Census() {
           dispatch(GetTreeCensus(1,rowsPerPage,coucilId,zoneId,wardId));
           setShowList(false)
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -226,7 +227,7 @@ export default function Census() {
     setCouncilId(e.target.value);
     setZoneId("")
     setWardId("")
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTreeCensus(1,rowsPerPage,e.target.value,null,null))
     dispatch(GetZonesByCouncilId(1,1000,e.target.value))
@@ -235,7 +236,7 @@ export default function Census() {
 
   const handleWardChange = (e) => {
     setWardId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTreeCensus(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
@@ -243,10 +244,10 @@ export default function Census() {
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
-    setPage(0);
+    setPage(1);
     dispatch(GetTreeCensus(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
-
+console.log("page123", page)
 
   return (
     <Page title="Base Color">
@@ -338,7 +339,7 @@ export default function Census() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.tree_number? option.tree_number: "-" }</TableCell>
                         <TableCell align="left">{option.tree_name?.name}</TableCell>
                         <TableCell align="left">{option.added_by?.first_name}</TableCell>

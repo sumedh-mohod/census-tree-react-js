@@ -54,7 +54,7 @@ const TABLE_HEAD = [
 
 export default function NoTreeProperty() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -157,7 +157,7 @@ export default function NoTreeProperty() {
           dispatch(SearchNoTreeProperty(1,rowsPerPage,coucilId,zoneId,wardId,value))
           setSearch(true)
           setShowList(false)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -165,7 +165,7 @@ export default function NoTreeProperty() {
           dispatch(GetNoTreeProperty(1,rowsPerPage,coucilId,zoneId,wardId));
           setShowList(false)
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -176,7 +176,7 @@ export default function NoTreeProperty() {
     setCouncilId(e.target.value);
     setZoneId("")
     setWardId("")
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetNoTreeProperty(1,rowsPerPage,e.target.value,null,null))
     dispatch(GetZonesByCouncilId(1,1000,e.target.value))
@@ -185,7 +185,7 @@ export default function NoTreeProperty() {
 
   const handleWardChange = (e) => {
     setWardId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetNoTreeProperty(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
@@ -193,7 +193,7 @@ export default function NoTreeProperty() {
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
-    setPage(0);
+    setPage(1);
     dispatch(GetNoTreeProperty(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
@@ -274,7 +274,7 @@ export default function NoTreeProperty() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type?option.property_type?.property_type:"-"}</TableCell>
                         <TableCell align="left">{option.council?.name}</TableCell>
                         <TableCell align="left">{option.zone?.name}</TableCell>

@@ -74,7 +74,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function TypeOfProperty() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -99,7 +99,7 @@ export default function TypeOfProperty() {
   console.log("PROPERTY TYPES",propertyTypes)
 
   useEffect(()=>{
-    dispatch(GetPropertyType(page+1,rowsPerPage));
+    dispatch(GetPropertyType(page,rowsPerPage));
   },[addPropertyTypesLog,editPropertyTypesLog,deletePropertyTypesLog])
 
   useEffect(()=>{
@@ -133,7 +133,7 @@ export default function TypeOfProperty() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchPropertyType(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -151,14 +151,14 @@ export default function TypeOfProperty() {
         if(value){
           dispatch(SearchPropertyType(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetPropertyType(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -219,7 +219,7 @@ export default function TypeOfProperty() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.property_type}</TableCell>
                         <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>

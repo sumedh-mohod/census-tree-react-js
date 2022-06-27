@@ -73,7 +73,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function Zone() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -98,7 +98,7 @@ export default function Zone() {
   console.log("WARDS",wards)
 
   useEffect(()=>{
-    dispatch(GetWards(page+1,rowsPerPage));
+    dispatch(GetWards(page,rowsPerPage));
   },[addWardsLog,editWardsLog,deleteWardsLog])
 
   useEffect(()=>{
@@ -132,7 +132,7 @@ export default function Zone() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchWards(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -150,14 +150,14 @@ export default function Zone() {
         if(value){
           dispatch(SearchWards(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetWards(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -219,7 +219,7 @@ export default function Zone() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">

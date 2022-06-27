@@ -75,7 +75,7 @@ function applySortFilter(array, comparator, query) {
 export default function AssignUser() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -100,7 +100,7 @@ export default function AssignUser() {
   const { teamId, teamName } = useParams();
   
   useEffect(()=>{
-    dispatch(GetUserByTeam(teamId,page+1,rowsPerPage));
+    dispatch(GetUserByTeam(teamId,page,rowsPerPage));
   },[assignUserToTeamLog,deleteUserFromteamLog])
 
   useEffect(()=>{
@@ -146,7 +146,7 @@ export default function AssignUser() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchUserByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -165,7 +165,7 @@ export default function AssignUser() {
           setShowList(false);
           dispatch(SearchUserByTeam(teamId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -173,7 +173,7 @@ export default function AssignUser() {
           setShowList(false);
           dispatch(GetUserByTeam(teamId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -248,7 +248,7 @@ export default function AssignUser() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.roles}</TableCell>
                         <TableCell align="left">{option.from_date}</TableCell>

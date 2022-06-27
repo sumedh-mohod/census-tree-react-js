@@ -73,7 +73,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function TypeOfTree() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -98,7 +98,7 @@ export default function TypeOfTree() {
   console.log("TREE TYPE",treeType)
 
   useEffect(()=>{
-    dispatch(GetTreeType(page+1,rowsPerPage));
+    dispatch(GetTreeType(page,rowsPerPage));
   },[addTreeTypeLog,editTreeTypeLog,deleteTreeTypeLog])
 
   useEffect(()=>{
@@ -133,7 +133,7 @@ export default function TypeOfTree() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchTreeType(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -151,14 +151,14 @@ export default function TypeOfTree() {
         if(value){
           dispatch(SearchTreeType(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetTreeType(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -223,7 +223,7 @@ export default function TypeOfTree() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.tree_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
