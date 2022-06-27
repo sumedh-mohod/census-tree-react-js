@@ -13,6 +13,7 @@ import {
   Container,
   Typography,
   TableContainer,
+  TablePagination,
   Pagination,
   Stack,
 } from '@mui/material';
@@ -204,7 +205,6 @@ export default function TreeDisease() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
           {treeDisease?(
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}

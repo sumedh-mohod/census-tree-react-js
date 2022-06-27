@@ -23,7 +23,7 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
-import moment from 'moment'
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GetActiveRole } from '../actions/RoleAction';
