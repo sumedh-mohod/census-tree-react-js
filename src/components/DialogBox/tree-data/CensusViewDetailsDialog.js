@@ -106,6 +106,7 @@ export default function CensusViewDetailsDialog(props) {
   const handleViewOpen = (images) => {
     setViewOpen(!viewOpen)
     setImageList(images || []);
+    console.log("viewDetals")
   }
 
   // const handleViewImage = (data) => {
@@ -169,34 +170,102 @@ console.log("hii", isOpen)
         <DialogContent>
 {data?
             <div>
-       <h5>Tree Type -{props.data.tree_number}</h5>
-      <h5>Location Type -{props.data.location_type.location_type}</h5>
-      <h5>Property Type -{props.data.location_type.has_property_type}</h5>
-      <h5>Property Owner -</h5>
-      <h5>Tenant Name -</h5>
-      <h5>Area(sq feet) -{props.data.location}</h5>
-      <h5>Tree Type -{props.data.tree_type.tree_type}</h5>
-      <h5>Tree Name(local) -{props.data.tree_name.name}</h5>
-      <h5>Tree Name(Botanical) -{props.data.tree_name.botanical_name}</h5>
-      <h5>Girth(cm) -{props.data.girth}</h5>
-      <h5>Height(Feet)-{props.data.height}</h5>
-      <h5>Canopy -{props.data.canopy}</h5>
-      <h5>Tree Condition-{props.data.tree_condition.condition}</h5>
-      <h5>Disease -{props.data.tree_disease?.tree_disease}</h5>
-      <h5>Plantation Date -{props.data.plantation_date}</h5>
-      <h5>Referred To Expert -{props.data.referred_to_expert}</h5>
-      <h5>Action Need To Be Taken -{props.data.action_need}</h5>
-     
-      <h5>Image - 
-        <IconButton onclick={()=>handleViewOpen()}>
+              <table style={{ fontFamily: "arial, sans-serif",
+  borderCollapse: "collapse",
+  width: "100%"}}>
+  <tr>
+    <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}
+  >Company</th>
+    <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Contact</th>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Number</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_number}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Location Type</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.location_type.location_type}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Type</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.location_type.has_property_type}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Owner</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>-</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tenant Name </td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>-</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Area(sq feet)</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.location}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Type</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_type.tree_type}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Name(local)</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_name.name}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Name(Botanical)</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_name.botanical_name}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Girth(cm)</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.girth}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Height(Feet)</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.height}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Canopy</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.canopy}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Condition</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_condition.condition}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Disease</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_disease?.tree_disease}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Plantation Date</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.plantation_date}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Referred To Expert</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.referred_to_expert}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Action Need To Be Taken</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.action_need ? props.data.action_need: "-"}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Images</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}><IconButton onClick={()=>handleViewOpen(props.data.images)}>
         <Iconify icon="clarity:eye-show-line" color="green" width={24} style={{marginTop: 5}} />
-        </IconButton>
-        </h5>
-  
-      <h5>QC Status -{props.data.qc_status}</h5>
-      <h5>Qc By -{props.data.qc_by}</h5>
-      <h5>Qc On Date -</h5>
-      </div>
+        </IconButton></td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>QC Status</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.qc_status}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Qc By</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.qc_by?props.data.qc_by: "-"}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Qc On Date</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>-</td>
+  </tr>
+  </table>
+  </div>
             : null}
         </DialogContent>
         <Divider/>
