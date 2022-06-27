@@ -63,7 +63,7 @@ export default function TreeCensusHistory() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -85,7 +85,7 @@ export default function TreeCensusHistory() {
   const { treeCensusId, treeCensusName } = useParams();
 
   useEffect(()=>{
-    dispatch(GetTreeCensusHistory(treeCensusId,page+1,rowsPerPage));
+    dispatch(GetTreeCensusHistory(treeCensusId,page,rowsPerPage));
   },[])
 
   useEffect(()=>{
@@ -124,7 +124,7 @@ export default function TreeCensusHistory() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchTreeCensusHistory(treeCensusId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -143,7 +143,7 @@ export default function TreeCensusHistory() {
           setShowList(false);
           dispatch(SearchTreeCensusHistory(treeCensusId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -151,7 +151,7 @@ export default function TreeCensusHistory() {
           setShowList(false);
           dispatch(GetTreeCensusHistory(treeCensusId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);

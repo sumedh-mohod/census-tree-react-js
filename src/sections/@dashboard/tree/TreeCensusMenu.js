@@ -26,6 +26,11 @@ export default function TreeCensusMenu(props) {
     props.handleQcDialog();
   }
 
+  const handleCensusViewDialog =() => {
+    setIsOpen(false)
+    props.handleCensusViewDialog();
+  }
+
   const handleDeletes = () => {
     setIsOpen(false);
     props.handleDelete();
@@ -84,6 +89,12 @@ export default function TreeCensusMenu(props) {
             <Iconify icon="eva:eye-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View History" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleCensusViewDialog}>
+          <ListItemIcon>
+            <Iconify icon="carbon:data-view-alt" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="View Details" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

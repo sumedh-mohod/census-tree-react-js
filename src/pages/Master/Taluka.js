@@ -76,7 +76,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function Taluka() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -101,7 +101,7 @@ export default function Taluka() {
   console.log("TALUKAS",talukas)
 
   useEffect(()=>{
-    dispatch(GetAllTalukas(page+1,rowsPerPage));
+    dispatch(GetAllTalukas(page,rowsPerPage));
   },[addTalukasLog,editTalukasLog,deleteTalukasLog])
 
   useEffect(()=>{
@@ -136,7 +136,7 @@ export default function Taluka() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchTalukas(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -154,14 +154,14 @@ export default function Taluka() {
         if(value){
           dispatch(SearchTalukas(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetAllTalukas(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
         }
     }, 1000);
 
@@ -221,7 +221,7 @@ export default function Taluka() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.name}
                             </TableCell>

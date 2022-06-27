@@ -74,7 +74,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function CreateDestination() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -99,7 +99,7 @@ export default function CreateDestination() {
   console.log("DISTRICTS",designations)
 
   useEffect(()=>{
-    dispatch(GetDesignations(page+1,rowsPerPage));
+    dispatch(GetDesignations(page,rowsPerPage));
   },[addDesignationsLog,editDesignationsLog,deleteDesignationsLog])
 
 
@@ -135,7 +135,7 @@ export default function CreateDestination() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchDesignations(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -153,14 +153,14 @@ export default function CreateDestination() {
         if(value){
           dispatch(SearchDesignations(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetDesignations(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);

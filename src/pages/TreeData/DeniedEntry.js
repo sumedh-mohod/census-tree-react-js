@@ -50,7 +50,7 @@ const TABLE_HEAD = [
 
 export default function DeniedEntry() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -130,7 +130,7 @@ export default function DeniedEntry() {
   const handleChangeRowsPerPage = (event) => {
     setShowList(false)
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchDeniedEntry(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
     }
@@ -153,7 +153,7 @@ export default function DeniedEntry() {
           dispatch(SearchDeniedEntry(1,rowsPerPage,coucilId,zoneId,wardId,value))
           setSearch(true)
           setShowList(false)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -161,7 +161,7 @@ export default function DeniedEntry() {
           dispatch(GetDeniedEntry(1,rowsPerPage,coucilId,zoneId,wardId));
           setShowList(false)
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -172,7 +172,7 @@ export default function DeniedEntry() {
     setCouncilId(e.target.value);
     setZoneId("")
     setWardId("")
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetDeniedEntry(1,rowsPerPage,e.target.value,null,null))
     dispatch(GetZonesByCouncilId(1,1000,e.target.value))
@@ -181,7 +181,7 @@ export default function DeniedEntry() {
 
   const handleWardChange = (e) => {
     setWardId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetDeniedEntry(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
@@ -189,7 +189,7 @@ export default function DeniedEntry() {
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
-    setPage(0);
+    setPage(1);
     dispatch(GetDeniedEntry(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
@@ -274,7 +274,7 @@ export default function DeniedEntry() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type?option.property_type?.property_type:"-"}</TableCell>
                         <TableCell align="left">{option.property?.property_number?option.property?.property_number:"-"}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>

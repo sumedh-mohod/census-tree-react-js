@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -37,33 +36,17 @@ import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
+import CencusViewDetailsDialog from '../../components/DialogBox/tree-data/CensusViewDetailsDialog';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'locationType', label: 'Location Type', alignRight: false },
-  { id: 'propertyType', label: 'Property Type', alignRight: false },
-  { id: 'propertyOwner', label: 'Property Owner', alignRight: false },
-//   { id: 'ownerName', label: 'Owner Name', alignRight: false },
-  { id: 'tenantName', label: 'Tenant Name', alignRight: false },
-  { id: 'address', label: 'Address', alignRight: false },
-  { id: 'area', label: 'Area(Sq feet)', alignRight: false },
-  { id: 'treeType', label: 'Tree Type', alignRight: false },
-  { id: 'treeName', label: 'Tree Name(Local)', alignRight: false },
-  { id: 'treeName', label: 'Tree Name(Botanical)', alignRight: false },
-  { id: 'girth', label: 'Girth(cm)', alignRight: false },
-  { id: 'Height', label: 'Height(feet)', alignRight: false },
-  { id: 'canopy', label: 'Canopy', alignRight: false },
-  { id: 'treeCondition', label: 'Tree Condition', alignRight: false },
-  { id: 'disease', label: 'Diasease', alignRight: false },
-  { id: 'plantationDate', label: 'Plantation Date', alignRight: false },
-  { id: 'isReferredToExperts', label: 'Is Referred To Experts?', alignRight: false },
-  { id: 'actionNeedToBeTaken', label: 'Action Need To Be Taken', alignRight: false },
-  { id: 'images', label: 'Images', alignRight: false },
-  { id: 'qcStatus', label: 'QC Status', alignRight: false },
-  { id: 'qcBy', label: 'QC By', alignRight: false },
-  { id: 'qcOnDate', label: 'QC On Date', alignRight: false },
+  { id: 'treeNumber', label: 'Tree Number', alignRight: false },
+  { id: 'treeName', label: 'Tree Name', alignRight: false },
+  { id: 'addedBy', label: 'Added By', alignRight: false },
+  { id: 'addedOn', label: 'Added On', alignRight: false },
+  { id: 'isReferredToExpert', label: 'Is Referred To Expert', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
 ];
 
@@ -71,7 +54,7 @@ const TABLE_HEAD = [
 
 export default function Census() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -86,6 +69,7 @@ export default function Census() {
    const [imageList,setImageList] = useState([]);
    const [showList,setShowList] = useState(false);
    const [qcDialogOpen,setQcDialogOpen] = useState(false);
+   const [viewCensusDetails, setViewCensusDetails] = useState(false)
    const [treeCensusId,setTreeCensusId] = useState("");
 
    const {
@@ -116,7 +100,7 @@ export default function Census() {
     }
     setShowList(true);
     console.log("BEFORE FETCHING");
-    dispatch(GetTreeCensus(page+1,rowsPerPage,coucilId,zoneId,wardId));
+    dispatch(GetTreeCensus(page,rowsPerPage,coucilId,zoneId,wardId));
   },[updateQCStatusLog])
 
   const secondRun = React.useRef(true);
@@ -155,6 +139,12 @@ export default function Census() {
     setTreeCensusId(id);
   }
 
+  const handleCensusViewDetailsDialog= (data) => {
+    setViewCensusDetails(!viewCensusDetails);
+    setDialogData(data)
+    console.log("data", data)
+  }
+
   const handleQcSubmit = (data,id) => {
     const obj = {};
 
@@ -182,6 +172,7 @@ export default function Census() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    console.log("newPage", newPage)
     setShowList(false);
     if(search){
       dispatch(SearchTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
@@ -194,7 +185,7 @@ export default function Census() {
   const handleChangeRowsPerPage = (event) => {
     setShowList(false)
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchTreeCensus(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
     }
@@ -217,7 +208,7 @@ export default function Census() {
           dispatch(SearchTreeCensus(1,rowsPerPage,coucilId,zoneId,wardId,value))
           setSearch(true)
           setShowList(false)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -225,7 +216,7 @@ export default function Census() {
           dispatch(GetTreeCensus(1,rowsPerPage,coucilId,zoneId,wardId));
           setShowList(false)
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -236,7 +227,7 @@ export default function Census() {
     setCouncilId(e.target.value);
     setZoneId("")
     setWardId("")
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTreeCensus(1,rowsPerPage,e.target.value,null,null))
     dispatch(GetZonesByCouncilId(1,1000,e.target.value))
@@ -245,7 +236,7 @@ export default function Census() {
 
   const handleWardChange = (e) => {
     setWardId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTreeCensus(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
@@ -253,10 +244,10 @@ export default function Census() {
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
-    setPage(0);
+    setPage(1);
     dispatch(GetTreeCensus(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
-
+console.log("page123", page)
 
   return (
     <Page title="Base Color">
@@ -285,6 +276,15 @@ export default function Census() {
         handleSubmit = {(data,id)=>handleQcSubmit(data,id)}
         />:null
         }
+
+        {viewCensusDetails?  
+        <CencusViewDetailsDialog
+        isOpen={viewCensusDetails}
+        handleClose= {() =>handleCensusViewDetailsDialog()}
+        data={dialogData}
+        />: null 
+        }
+
          
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
@@ -339,35 +339,23 @@ export default function Census() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
-                            <TableCell align="left">{option.location_type?.location_type}</TableCell>
-                        <TableCell align="left">{option.property_type?.property_type}</TableCell>
-                        <TableCell align="left">{option.property?.owner_name}</TableCell>
-                        <TableCell align="left">{option.property?.tenant_name}</TableCell>
-                        <TableCell align="left">{option.location}</TableCell>
-                        <TableCell align="left">{option.property?.area? option.property?.area : "-"}</TableCell>
-                        <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left">{option.tree_number? option.tree_number: "-" }</TableCell>
                         <TableCell align="left">{option.tree_name?.name}</TableCell>
-                        <TableCell align="left">{option.tree_name?.botanical_name}</TableCell>
-                        <TableCell align="left">{option.girth}</TableCell>
-                        <TableCell align="left">{option.height}</TableCell>
-                        <TableCell align="left">{option.canopy}</TableCell>
-                        <TableCell align="left">{option.tree_condition?.condition}</TableCell>
-                        <TableCell align="left">{option.disease_id? option.disease_id: "-"}</TableCell>
-                        <TableCell align="left">{option.plantation_date? option.plantation_date: "-"}</TableCell>
-                        <TableCell align="left">{option.referred_to_expert}</TableCell>
-                        <TableCell align="left">{option.action_need? option.action_need: "-"}</TableCell>
-                        <TableCell align="left">
+                        <TableCell align="left">{option.added_by?.first_name}</TableCell>
+                        <TableCell align="left">-</TableCell>
+                        <TableCell align="left">{option.referred_to_expert === 1 ? "yes" : "No"}</TableCell>
+                        {/* <TableCell align="left"> */}
                           {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
-                          <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
+                          {/* <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
                             <Visibility />
                           </IconButton>
-                          </TableCell>
-                          <TableCell align="left">{option.qc_status}</TableCell>
+                          </TableCell> */}
+                          {/* <TableCell align="left">{option.qc_status}</TableCell>
                         <TableCell align="left">{option.qc_by?.first_name ?option.qc_by?.first_name : "-" }</TableCell>
-                        <TableCell align="left">{option.qc_date? option.qc_date: "-" }</TableCell>
+                        <TableCell align="left">{option.qc_date? option.qc_date: "-" }</TableCell> */}
                         <TableCell align="right">
-                          <TreeCensusMenu treeCensusId={option.id} TreeCensusName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
+                          <TreeCensusMenu treeCensusId={option.id} TreeCensusName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleCensusViewDialog={() =>handleCensusViewDetailsDialog(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

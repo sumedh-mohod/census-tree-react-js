@@ -79,7 +79,7 @@ function applySortFilter(array, comparator, query) {
 export default function AssignNewCouncilZoneWard() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -104,7 +104,7 @@ export default function AssignNewCouncilZoneWard() {
   const { teamId,teamName } = useParams();
   
   useEffect(()=>{
-    dispatch(GetCZWByTeam(teamId,page+1,rowsPerPage));
+    dispatch(GetCZWByTeam(teamId,page,rowsPerPage));
   },[assignCWZToTeamLog,deleteCWZFromteamLog])
 
   const firstRun = useRef(true);
@@ -151,7 +151,7 @@ export default function AssignNewCouncilZoneWard() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchCZWByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -170,7 +170,7 @@ export default function AssignNewCouncilZoneWard() {
           setShowList(false);
           dispatch(SearchCZWByTeam(teamId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -178,7 +178,7 @@ export default function AssignNewCouncilZoneWard() {
           setShowList(false);
           dispatch(GetCZWByTeam(teamId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -248,7 +248,7 @@ export default function AssignNewCouncilZoneWard() {
                         <TableRow
                         hover
                       >
-                        <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.council_name}</TableCell>
                         <TableCell align="left">{option.zone_name}</TableCell>
                         <TableCell align="left">{option.ward_name}</TableCell>
