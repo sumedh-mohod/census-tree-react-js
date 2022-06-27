@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Link,
   IconButton,
 } from '@mui/material';
@@ -183,10 +183,10 @@ export default function Census() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchTreeCensus(newPage+1,rowsPerPage,coucilId,zoneId,wardId,searchValue));
+      dispatch(SearchTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetTreeCensus(newPage+1,rowsPerPage,coucilId,zoneId,wardId));
+      dispatch(GetTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId));
     }
   };
 
@@ -324,6 +324,14 @@ export default function Census() {
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
+                         {!showList?(
+                <TableRow>
+                  <TableCell align='center' colSpan={6} fontWeight={700}>
+               Please select council to get base color data
+                </TableCell>
+                </TableRow>
+                ):null
+}
                 <TableBody>
                      { showList? treeCensus?.map((option,index) => {
                         return (
@@ -370,15 +378,12 @@ export default function Census() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {showList?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

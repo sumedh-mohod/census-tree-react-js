@@ -162,9 +162,9 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 )):null}
               </Select>
               </Grid>
-              {(callType === "BaseColor")?(
+              {/* {(callType === "BaseColor" || "DeniedEntries")?(
          <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
-         ):null}
+         ):null} */}
               </Grid>
               {/* {(callType === "BaseColor")?(
          <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 

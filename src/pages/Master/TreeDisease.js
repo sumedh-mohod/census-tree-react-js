@@ -13,7 +13,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Stack,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -95,10 +95,10 @@ export default function TreeDisease() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchTreeDisease(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchTreeDisease(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetAllTreeDisease(newPage+1,rowsPerPage));
+      dispatch(GetAllTreeDisease(newPage,rowsPerPage));
     }
   };
 
@@ -205,15 +205,12 @@ export default function TreeDisease() {
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {treeDisease?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>
