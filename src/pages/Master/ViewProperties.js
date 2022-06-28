@@ -136,7 +136,7 @@ export default function ViewProperties() {
       return;
     }
     dispatch(ShowLoader(false))
-    dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage))
+    dispatch(GetPropertyByCouncilId(councilId,page,rowsPerPage))
   },[importPropertyLog])
 
   const fourthRun = useRef(true);

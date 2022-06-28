@@ -100,7 +100,7 @@ export default function LocationType() {
   console.log("locationTypes", locationTypes)
 
   useEffect(()=>{
-    dispatch(GetLocationType(page+1,rowsPerPage));
+    dispatch(GetLocationType(page,rowsPerPage));
   },[addLocationTypesLog,editLocationTypesLog,deleteLocationTypesLog])
 
   useEffect(()=>{
