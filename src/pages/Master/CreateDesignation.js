@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -73,7 +74,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function CreateDestination() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -98,7 +99,7 @@ export default function CreateDestination() {
   console.log("DISTRICTS",designations)
 
   useEffect(()=>{
-    dispatch(GetDesignations(page+1,rowsPerPage));
+    dispatch(GetDesignations(page,rowsPerPage));
   },[addDesignationsLog,editDesignationsLog,deleteDesignationsLog])
 
 
@@ -125,16 +126,16 @@ export default function CreateDestination() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchDesignations(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchDesignations(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetDesignations(newPage+1,rowsPerPage));
+      dispatch(GetDesignations(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchDesignations(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -152,14 +153,14 @@ export default function CreateDestination() {
         if(value){
           dispatch(SearchDesignations(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetDesignations(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -171,7 +172,7 @@ export default function CreateDestination() {
 
 
   return (
-    <Page title="Designations">
+    <Page title="User">
       <Container>
       {open?
         <CreateDesignationDialog
@@ -200,7 +201,7 @@ export default function CreateDestination() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Designation
 
           </Button>
         </Stack>
@@ -219,7 +220,7 @@ export default function CreateDestination() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
@@ -234,8 +235,13 @@ export default function CreateDestination() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          {designations?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -243,7 +249,7 @@ export default function CreateDestination() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

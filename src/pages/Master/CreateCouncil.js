@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -52,7 +53,7 @@ const TABLE_HEAD = [
 export default function CreateCouncil() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -77,7 +78,7 @@ export default function CreateCouncil() {
   console.log("COUNCIL",council);
 
   useEffect(()=>{
-    dispatch(GetCouncil(page+1,rowsPerPage));
+    dispatch(GetCouncil(page,rowsPerPage));
   },[addCouncilLog,editCouncilLog,deleteCouncilLog])
 
   useEffect(()=>{
@@ -94,10 +95,10 @@ export default function CreateCouncil() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchCouncil(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchCouncil(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetCouncil(newPage+1,rowsPerPage));
+      dispatch(GetCouncil(newPage,rowsPerPage));
     }
   };
   const handleEdit = (data) => {
@@ -111,7 +112,7 @@ export default function CreateCouncil() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchCouncil(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -129,14 +130,14 @@ export default function CreateCouncil() {
         if(value){
           dispatch(SearchCouncil(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetCouncil(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -148,7 +149,7 @@ export default function CreateCouncil() {
   }
 
   return (
-    <Page title="Councils">
+    <Page title="User">
       <Container>
         {open?
         <CreateCouncilDialog
@@ -181,7 +182,7 @@ export default function CreateCouncil() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Council
 
           </Button>
         </Stack>
@@ -200,7 +201,7 @@ export default function CreateCouncil() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         {/* <TableCell align="left">{option.uploadLogo}</TableCell> */}
                         <TableCell align="center">{option.name}</TableCell>
                         <TableCell align="center">{option.state?.name}</TableCell>
@@ -226,8 +227,13 @@ export default function CreateCouncil() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          {council?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -235,7 +241,7 @@ export default function CreateCouncil() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

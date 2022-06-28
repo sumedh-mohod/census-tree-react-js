@@ -35,6 +35,11 @@ import TreeDensity from './pages/Master/TreeDensity';
 import ViewUser from './pages/Users/ViewUser';
 import QcRemarks from './pages/Master/QcRemarks';
 import ViewProperties from './pages/Master/ViewProperties';
+import Census from './pages/TreeData/Census';
+import TreeDisease from './pages/Master/TreeDisease';
+import TreeCensusHistory from './pages/TreeData/TreeCensusHistory';
+import NoTreeProperty from './pages/TreeData/NoTreeProperty';
+import TreeOnMap from './pages/Map/TreeOnMap';
 
 // ----------------------------------------------------------------------
 
@@ -74,6 +79,11 @@ export default function Router() {
         { path: 'assignNewCouncilZoneWard/:teamId/:teamName', element: <AssignNewCouncilZoneWard /> },
         { path: 'assignUser/:teamId/:teamName', element: <AssignUser/> },
         { path: 'new-user-form', element: <NewUserForm/> },
+        { path: 'census', element: <Census/> },
+        { path: 'treeDisease', element: <TreeDisease/> },
+        { path: 'treeCensus/history/:treeCensusId/:treeCensusName', element: <TreeCensusHistory/> },
+        { path: 'no-tree-properties', element: <NoTreeProperty/> },
+        { path: 'treeOnMap', element: <TreeOnMap /> },
       ],
     },
     {

@@ -10,14 +10,14 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
+  Link,
   IconButton,
   Breadcrumbs,
-  Link
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import {Link as RouterLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead, UserListToolbar } from '../../sections/@dashboard/user';
@@ -51,7 +51,7 @@ export default function BaseColorHistory() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -72,11 +72,8 @@ export default function BaseColorHistory() {
 
   const { baseColorId, baseColorName } = useParams();
 
-  console.log("baseColorName", baseColorName)
-  console.log("baseColorId",baseColorId)
-
   useEffect(()=>{
-    dispatch(GetBaseColorTreeHistory(baseColorId,page+1,rowsPerPage));
+    dispatch(GetBaseColorTreeHistory(baseColorId,page,rowsPerPage));
   },[])
 
   useEffect(()=>{
@@ -105,17 +102,17 @@ export default function BaseColorHistory() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchBaseColorTreeHistory(baseColorId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchBaseColorTreeHistory(baseColorId,newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetBaseColorTreeHistory(baseColorId,newPage+1,rowsPerPage));
+      dispatch(GetBaseColorTreeHistory(baseColorId,newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchBaseColorTreeHistory(baseColorId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -134,7 +131,7 @@ export default function BaseColorHistory() {
           setShowList(false);
           dispatch(SearchBaseColorTreeHistory(baseColorId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -142,7 +139,7 @@ export default function BaseColorHistory() {
           setShowList(false);
           dispatch(GetBaseColorTreeHistory(baseColorId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -152,7 +149,7 @@ export default function BaseColorHistory() {
   console.log("BASE COLOR HISTORY",baseColorTreeHistory);
 
   return (
-    <Page title="Base Color">
+    <Page title="User">
       <Container>
       {viewOpen?
         <ViewImageDialog
@@ -165,27 +162,35 @@ export default function BaseColorHistory() {
         <div role="presentation"  >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="none"
+          underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Trees Data
+          Tree Data
         </Link>
         <Link
           underline="hover"
-          component={RouterLink}
-          to={`/dashboard/base-color`}
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
+          href="#"
         >
           Base Color
         </Link>
         <Link
-          underline="none"
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          href="#"
+        >
+          {baseColorName}
+              
+        </Link>
+        <Link
+          underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          // href="#"
+          href="#"
         >
            History
               
@@ -208,7 +213,7 @@ export default function BaseColorHistory() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
                         <TableCell align="left">{option.property?.property_number}</TableCell>
@@ -233,16 +238,12 @@ export default function BaseColorHistory() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {baseColorTreeHistory?(
+          <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

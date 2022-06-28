@@ -13,7 +13,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Stack,
   Link,
 } from '@mui/material';
@@ -79,7 +79,7 @@ function applySortFilter(array, comparator, query) {
 export default function AssignNewCouncilZoneWard() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -104,7 +104,7 @@ export default function AssignNewCouncilZoneWard() {
   const { teamId,teamName } = useParams();
   
   useEffect(()=>{
-    dispatch(GetCZWByTeam(teamId,page+1,rowsPerPage));
+    dispatch(GetCZWByTeam(teamId,page,rowsPerPage));
   },[assignCWZToTeamLog,deleteCWZFromteamLog])
 
   const firstRun = useRef(true);
@@ -141,17 +141,17 @@ export default function AssignNewCouncilZoneWard() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchCZWByTeam(teamId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchCZWByTeam(teamId,newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetCZWByTeam(teamId,newPage+1,rowsPerPage));
+      dispatch(GetCZWByTeam(teamId,newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchCZWByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -170,7 +170,7 @@ export default function AssignNewCouncilZoneWard() {
           setShowList(false);
           dispatch(SearchCZWByTeam(teamId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -178,7 +178,7 @@ export default function AssignNewCouncilZoneWard() {
           setShowList(false);
           dispatch(GetCZWByTeam(teamId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -190,34 +190,31 @@ export default function AssignNewCouncilZoneWard() {
   }
 
   return (
-    <Page title="Teams">
+    <Page title="User">
       <Container>
-        {open?
-        <AssignCouncilZoneDialog
+      <AssignCouncilZoneDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
         teamId={teamId}
-        />:null
-        }
-      
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          // href="#"
-        >
-          Teams
-        </Link>
-        <Link
-        component={RouterLink}
-        to={`/dashboard/teams`}
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
+          href="#"
+        >
+          Teams
+        </Link>
+        <Link component={RouterLink}
+        to ={`/dashboard/teams`}
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          href="#"
         >
         {teamName}
         </Link>
@@ -225,7 +222,7 @@ export default function AssignNewCouncilZoneWard() {
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          // href="#"
+          href="#"
         >
              Assigned Councils- Zones- Wards
         </Link>
@@ -251,7 +248,7 @@ export default function AssignNewCouncilZoneWard() {
                         <TableRow
                         hover
                       >
-                        <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                        <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.council_name}</TableCell>
                         <TableCell align="left">{option.zone_name}</TableCell>
                         <TableCell align="left">{option.ward_name}</TableCell>
@@ -267,16 +264,12 @@ export default function AssignNewCouncilZoneWard() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {cwzOfTeam?(
+          <Pagination count={showList? pageInfo.last_page : 0} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

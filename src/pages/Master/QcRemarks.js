@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -75,7 +76,7 @@ export default function District() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -100,7 +101,7 @@ export default function District() {
 
   // qcremarks:remark.qcRemarksTypes.qcremarks,
   useEffect(()=>{
-    dispatch(GetQcRemarks(page+1,rowsPerPage));
+    dispatch(GetQcRemarks(page,rowsPerPage));
   },[addQcRemarksLog,editQcRemarksLog,deleteQcRemarksLog])
 
   useEffect(()=>{
@@ -118,17 +119,17 @@ export default function District() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchQcRemarks(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchQcRemarks(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetQcRemarks(newPage+1,rowsPerPage));
+      dispatch(GetQcRemarks(newPage,rowsPerPage));
     }
     
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchQcRemarks(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -156,14 +157,14 @@ export default function District() {
         if(value){
           dispatch(SearchQcRemarks(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetQcRemarks(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -176,7 +177,7 @@ export default function District() {
 
 
   return (
-    <Page title="QC Remarks">
+    <Page title="User">
       <Container>
 
         {open?
@@ -226,7 +227,7 @@ export default function District() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.remark}
                             </TableCell>
@@ -243,8 +244,13 @@ export default function District() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          {qcremarks?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -252,7 +258,7 @@ export default function District() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Link,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -75,7 +75,7 @@ function applySortFilter(array, comparator, query) {
 export default function AssignUser() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -100,7 +100,7 @@ export default function AssignUser() {
   const { teamId, teamName } = useParams();
   
   useEffect(()=>{
-    dispatch(GetUserByTeam(teamId,page+1,rowsPerPage));
+    dispatch(GetUserByTeam(teamId,page,rowsPerPage));
   },[assignUserToTeamLog,deleteUserFromteamLog])
 
   useEffect(()=>{
@@ -136,17 +136,17 @@ export default function AssignUser() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchUserByTeam(teamId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchUserByTeam(teamId,newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetUserByTeam(teamId,newPage+1,rowsPerPage));
+      dispatch(GetUserByTeam(teamId,newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchUserByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -165,7 +165,7 @@ export default function AssignUser() {
           setShowList(false);
           dispatch(SearchUserByTeam(teamId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -173,7 +173,7 @@ export default function AssignUser() {
           setShowList(false);
           dispatch(GetUserByTeam(teamId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -187,17 +187,14 @@ export default function AssignUser() {
   console.log("USERS OF TEAM",userOfTeam);
 
   return (
-    <Page title="Teams">
+    <Page title="User">
     <Container>
-      {open?
-      <AssignUserDialog
-      isOpen={open}
-      handleClose = {handleNewUserClick}
-      data= {dialogData}
-      teamId={teamId}
-      />:null
-      }
-        
+        <AssignUserDialog
+        isOpen={open}
+        handleClose = {handleNewUserClick}
+        data= {dialogData}
+        teamId={teamId}
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
@@ -251,7 +248,7 @@ export default function AssignUser() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.roles}</TableCell>
                         <TableCell align="left">{option.from_date}</TableCell>
@@ -266,16 +263,12 @@ export default function AssignUser() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {userOfTeam?(
+          <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

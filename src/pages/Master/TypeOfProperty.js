@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -74,7 +74,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function TypeOfProperty() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -99,7 +99,7 @@ export default function TypeOfProperty() {
   console.log("PROPERTY TYPES",propertyTypes)
 
   useEffect(()=>{
-    dispatch(GetPropertyType(page+1,rowsPerPage));
+    dispatch(GetPropertyType(page,rowsPerPage));
   },[addPropertyTypesLog,editPropertyTypesLog,deletePropertyTypesLog])
 
   useEffect(()=>{
@@ -124,16 +124,16 @@ export default function TypeOfProperty() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchPropertyType(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchPropertyType(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetPropertyType(newPage+1,rowsPerPage));
+      dispatch(GetPropertyType(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchPropertyType(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -151,14 +151,14 @@ export default function TypeOfProperty() {
         if(value){
           dispatch(SearchPropertyType(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetPropertyType(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -170,13 +170,14 @@ export default function TypeOfProperty() {
   }
 
   return (
-    <Page title="Property Types">
+    <Page title="User">
       <Container>
+      {open?
         <TypeOfPropertyDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data = {dialogData}
-        />
+        />: null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" separator='>'>
@@ -194,7 +195,7 @@ export default function TypeOfProperty() {
           color="inherit"
           // href="#"
         >
-          Property Types
+          Type Of Properties
         </Link>
       </Breadcrumbs>
     </div>
@@ -218,7 +219,7 @@ export default function TypeOfProperty() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.property_type}</TableCell>
                         <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
@@ -234,16 +235,12 @@ export default function TypeOfProperty() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {propertyTypes?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

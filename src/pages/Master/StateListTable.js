@@ -14,6 +14,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
   Stack,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -44,7 +45,7 @@ export default function StateListTable() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -69,7 +70,7 @@ export default function StateListTable() {
   console.log("STATES",states)
 
   useEffect(()=>{
-    dispatch(GetAllState(page+1,rowsPerPage));
+    dispatch(GetAllState(page,rowsPerPage));
   },[addStateLog,editStateLog,deleteStateLog])
 
   useEffect(()=>{
@@ -95,16 +96,16 @@ export default function StateListTable() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchState(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchState(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetAllState(newPage+1,rowsPerPage));
+      dispatch(GetAllState(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchState(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -122,14 +123,14 @@ export default function StateListTable() {
         if(value){
           dispatch(SearchState(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetAllState(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
         }
     }, 1000);
 
@@ -140,7 +141,7 @@ export default function StateListTable() {
   }
 
   return (
-    <Page title="States">
+    <Page title="User">
       <Container>
         {open?
         <StateDialog
@@ -170,7 +171,7 @@ export default function StateListTable() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add State
 
           </Button>
         </Stack>
@@ -189,7 +190,7 @@ export default function StateListTable() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
@@ -204,16 +205,12 @@ export default function StateListTable() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+{states?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

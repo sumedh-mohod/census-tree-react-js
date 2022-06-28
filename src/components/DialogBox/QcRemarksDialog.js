@@ -186,7 +186,7 @@ export default function DistrictDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+      
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit QC Remarks":"Add QC Remarks"}</BootstrapDialogTitle>

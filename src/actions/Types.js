@@ -136,3 +136,19 @@ export const SHOW_PROPERTY_IMPORT_ERROR = "show-property-import-error";
 export const GET_DENIED_ENTRY = "get-denied-entry";
 
 export const SHOW_LOADER = "show-loader";
+
+export const GET_TREE_CENSUS = "get-tree-census";
+export const GET_TREE_CENSUS_HISTORY = "get-tree-census-history";
+export const EDIT_TREE_CENSUS = "edit-tree-census";
+export const DELETE_TREE_CENSUS = "delete-tree-census";
+export const UPDATE_QC_STATUS_TREE_CENSUS = "update-qc-status-tree-census";
+// export const GET_QC_REMARKS_FOR_BASE_COLOR = "get-qc-remark-for-base-color";
+
+export const GET_TREE_DISEASE = "get-tree-disease";
+export const EDIT_TREE_DISEASE = "edit-tree-disease";
+export const ADD_TREE_DISEASE = "add-tree-disease";
+export const DELETE_TREE_DISEASE = "delete-tree-disease";
+
+export const GET_NO_TREE_PROPERTY = "get-no-tree-property";
+export const GET_TREE_LOCATION = "get-tree-location";
+export const GET_SPECIFIC_TREE_LOCATION_DETAILS = "get-specific-tree-location-details"

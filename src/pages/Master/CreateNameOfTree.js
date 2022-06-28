@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -75,7 +76,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function CreateNameOfTree() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -100,7 +101,7 @@ export default function CreateNameOfTree() {
   console.log("TREE NAME",treeName)
 
   useEffect(()=>{
-    dispatch(GetTreeName(page+1,rowsPerPage));
+    dispatch(GetTreeName(page,rowsPerPage));
   },[addTreeNameLog,editTreeNameLog,deleteTreeNameLog])
 
   useEffect(()=>{
@@ -126,16 +127,16 @@ export default function CreateNameOfTree() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchTreeName(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchTreeName(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetTreeName(newPage+1,rowsPerPage));
+      dispatch(GetTreeName(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchTreeName(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -153,14 +154,14 @@ export default function CreateNameOfTree() {
         if(value){
           dispatch(SearchTreeName(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetTreeName(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -172,7 +173,7 @@ export default function CreateNameOfTree() {
   }
 
   return (
-    <Page title="Tree Names">
+    <Page title="User">
       <Container>
         {open?
         <NameOfTreeDialog
@@ -198,12 +199,13 @@ export default function CreateNameOfTree() {
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
         >
-          Tree Names
+          Name Of Trees
         </Link>
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Name Of Tree
+
           </Button>
         </Stack>
 
@@ -222,7 +224,7 @@ export default function CreateNameOfTree() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.botanical_name}</TableCell>
                         <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
@@ -239,8 +241,13 @@ export default function CreateNameOfTree() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          {treeName?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -248,7 +255,7 @@ export default function CreateNameOfTree() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

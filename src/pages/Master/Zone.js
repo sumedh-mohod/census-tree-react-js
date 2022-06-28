@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -73,7 +73,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function Zone() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -96,7 +96,7 @@ export default function Zone() {
   }));
 
   useEffect(()=>{
-    dispatch(GetZones(page+1,rowsPerPage));
+    dispatch(GetZones(page,rowsPerPage));
   },[addZonesLog,editZonesLog,deleteZonesLog])
 
   console.log("ZONES",zones);
@@ -115,16 +115,16 @@ export default function Zone() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchZones(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchZones(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetZones(newPage+1,rowsPerPage));
+      dispatch(GetZones(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchZones(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -151,14 +151,14 @@ export default function Zone() {
         if(value){
           dispatch(SearchZones(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetZones(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -170,7 +170,7 @@ export default function Zone() {
   }
 
   return (
-    <Page title="Zones">
+    <Page title="User">
       <Container>
         {open?
         <ZoneDialog
@@ -200,7 +200,7 @@ export default function Zone() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Zone
 
           </Button>
         </Stack>
@@ -219,7 +219,7 @@ export default function Zone() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
@@ -234,16 +234,12 @@ export default function Zone() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {zones?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

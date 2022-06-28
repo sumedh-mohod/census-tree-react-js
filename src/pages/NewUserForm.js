@@ -23,6 +23,7 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GetActiveRole } from '../actions/RoleAction';
@@ -49,6 +50,7 @@ export default function NewUserForm(props) {
     const [bloodGrp, setBloodGrp] = React.useState('');
     const[district, setDistrict]=  React.useState('');
     const[role, setRole]=  React.useState("");
+    const[dob, setDob]= React.useState("");
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
@@ -64,6 +66,8 @@ export default function NewUserForm(props) {
     const [showCouncil,setShowCouncil] = useState(false);
     const [editUser,setEditUser] = useState(false);  
     const [roleError,setRoleError] = useState("");
+    const [dobError, setDobError] = useState("");
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
       userDocumentType,
@@ -77,7 +81,8 @@ export default function NewUserForm(props) {
       addUsersLog,
       uploadFile,
       uploadFileLog,
-      showLoader
+      showLoader,
+      editUsersLog
     } = useSelector((state) => ({
       salaryDeductionType:state.users.salaryDeductionType,
       userDocumentType:state.users.userDocumentType,
@@ -92,8 +97,9 @@ export default function NewUserForm(props) {
       uploadFile:state.upload.uploadFile,
       uploadFileLog:state.upload.uploadFileLog,
       showLoader : state.common.showLoader,
+      editUsersLog:state.users.editUsersLog,
     }));
-
+    
     useEffect(()=>{
       dispatch(GetDeductionType());
       dispatch(GetUserDocumentType());
@@ -104,6 +110,8 @@ export default function NewUserForm(props) {
       dispatch(GetActiveTalukas(1,1000,1));
       dispatch(GetActiveDesignations(1,1000,1));
     },[])
+
+    console.log("DeductionTypeId", salaryDeductionType)
 
     const { userId } = useParams();
     useEffect(()=>{
@@ -236,8 +244,23 @@ export default function NewUserForm(props) {
       navigate('/dashboard/user', { replace: true });
     },[addUsersLog])
 
-    console.log("RELIGIONS",religions);
+    const editRun = React.useRef(true);
+    useEffect(()=>{
+      if (editRun.current) {
+        editRun.current = false;
+        return;
+      }
+      resetForm();
+      setRole([])
+      setRoleError("")
+      setDeductionList([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
+      setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
+      // navigate('/dashboard/user', { replace: true });
+      navigate(-1);
+    },[editUsersLog])
 
+    console.log("RELIGIONS",religions);
+   
     const diffentlyAbled = [
       {
         value:"1",
@@ -277,8 +300,8 @@ export default function NewUserForm(props) {
         label: 'AB-',
       },
       {
-        value: '0+',
-        label: '0+',
+        value: 'O+',
+        label: 'O+',
       },
     ]
   
@@ -322,6 +345,26 @@ export default function NewUserForm(props) {
       setNoticePeriod(event.target.value);
     };
   
+    const handleDobChange = (event) => {
+      console.log("in dob ",event.target.value);
+      console.log("in dob ",todayDate);
+      const td =new Date( moment(todayDate).format('MM/DD/YYYY'));
+      const gd = new Date(moment(event.target.value).format('MM/DD/YYYY'));
+      console.log(td);
+      const diffTime = td-gd;
+      if(diffTime<0){
+        setDobError("Please enter valid birth date");
+        
+      }else{
+        setDobError("");
+        
+      }
+      setDob(event.target.value)
+//       console.log("in dob ",diffTime);
+// console.log(Math.ceil(diffTime/ (1000 * 60 * 60 * 24)));
+    
+    };
+
     const handleRoleChange = (event) => {
       // console.log("EVENT VALUE",event.target.value);
       // const {
@@ -469,8 +512,19 @@ export default function NewUserForm(props) {
       const value = newDocumentList[index];
       value.documentName = e.target.value;
       newDocumentList[index] = value;
+      console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
      
+  }
+
+  const handleViewDocument = (fpath) =>{
+    if(fpath.includes(process.env.REACT_APP_BASE_URL)){
+      window.open(fpath, '_blank');
+    }
+    else{
+   const fLink = process.env.REACT_APP_BASE_URL.concat('/').concat(fpath);
+   window.open(fLink, '_blank');
+    }
   }
 
   const handleDocumentValueChange = (e,index) => {
@@ -501,26 +555,73 @@ const validateRole = () => {
 
     const validateDropDown = () => {
       let validated = true;
-      // eslint-disable-next-line array-callback-return
+      let foundDeduction = false;
+      let foundDocument = false;
+
+
       deductionList.map((value,index)=>{
+       
+        deductionList.map((value2,index2)=>{
+          if(index2!==index && value2.deductionName === value.deductionName){
+            const firstDeductionList = [...deductionList];
+            const value1 = firstDeductionList[index];
+            value1.errorName = "Same deduction type not allowed";
+            firstDeductionList[index] = value1;
+            const value2 = firstDeductionList[index2];
+            value2.errorName = "Same deduction type not allowed";
+            firstDeductionList[index2] = value2;
+            setDeductionList(firstDeductionList); 
+            foundDeduction = true;
+            validated = false;
+          }
+          return null
+        })
+        return null
+      })
+
+      documentList.map((value,index)=>{
+       
+        documentList.map((value2,index2)=>{
+          if(index2!==index && value2.documentName === value.documentName){
+            const firstDocumentList = [...documentList];
+            const value1 = firstDocumentList[index];
+            value1.errorName = "Same document type not allowed";
+            firstDocumentList[index] = value1;
+            const value2 = firstDocumentList[index2];
+            value2.errorName = "Same document type not allowed";
+            firstDocumentList[index2] = value2;
+            setDocumentList(firstDocumentList); 
+            foundDocument = true;
+            validated = false;
+          }
+          return null
+        })
+        return null
+      })
+
+         // eslint-disable-next-line array-callback-return
+        deductionList.map((value,index)=>{
         console.log("VALUE IN VALIDATIONm",value);
         const conditionName = `deductionName`;
         const conditionValue = `deductionValue`;
-        if(value[conditionName]===""){
-          validated = false;
-          const newDeductionList = [...deductionList];
-          const value = newDeductionList[index];
-          value.errorName = "This field is required";
-          newDeductionList[index] = value;
-          setDeductionList(newDeductionList); 
+        if(!foundDeduction){
+          if(value[conditionName]===""){
+            validated = false;
+            const newDeductionList = [...deductionList];
+            const value = newDeductionList[index];
+            value.errorName = "This field is required";
+            newDeductionList[index] = value;
+            setDeductionList(newDeductionList); 
+          }
+          else{
+            const newDeductionList = [...deductionList];
+            const value = newDeductionList[index];
+            value.errorName = "";
+            newDeductionList[index] = value;
+            setDeductionList(newDeductionList); 
+          }
         }
-        else{
-          const newDeductionList = [...deductionList];
-          const value = newDeductionList[index];
-          value.errorName = "";
-          newDeductionList[index] = value;
-          setDeductionList(newDeductionList); 
-        }
+        
         if(value[conditionValue]===""){
           validated = false;
           const newDeductionList = [...deductionList];
@@ -538,26 +639,29 @@ const validateRole = () => {
         }
       })
 
-
+     
 
       // eslint-disable-next-line array-callback-return
       documentList.map((value,index)=>{
         const conditionName = `documentName`;
         const conditionValue = `documentValue`;
-        if(value[conditionName]===""){
-          validated = false;
-          const newDocumentList = [...documentList];
-          const value = newDocumentList[index];
-          value.errorName = "This field is required";
-          newDocumentList[index] = value;
-          setDocumentList(newDocumentList); 
-        }
-        else {
-          const newDocumentList = [...documentList];
-          const value = newDocumentList[index];
-          value.errorName = "";
-          newDocumentList[index] = value;
-          setDocumentList(newDocumentList);
+
+        if(!foundDocument){
+          if(value[conditionName]===""){
+            validated = false;
+            const newDocumentList = [...documentList];
+            const value = newDocumentList[index];
+            value.errorName = "This field is required";
+            newDocumentList[index] = value;
+            setDocumentList(newDocumentList); 
+          }
+          else {
+            const newDocumentList = [...documentList];
+            const value = newDocumentList[index];
+            value.errorName = "";
+            newDocumentList[index] = value;
+            setDocumentList(newDocumentList);
+          }
         }
         if(value[conditionValue]===""){
           validated = false;
@@ -714,7 +818,7 @@ const validateRole = () => {
       ,
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
-        console.log("INSIDE ON SUBMIT");
+        console.log("INSIDE ON SUBMIT", value);
         if(validateRole()){
           if(showCouncil){
             const obj = {
@@ -835,7 +939,7 @@ const validateRole = () => {
   
   
 
-    console.log("DOCUMENT LIST",documentList);
+    console.log("DEDUCTION LIST",deductionList);
   
     return (
        showLoader ?
@@ -1134,21 +1238,28 @@ const validateRole = () => {
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <TextField
-                id="date"
+                id="dob"
+                name='dob'
                 // label="Date Of Birth"
                 type="date"
                 label="Date of Birth*"
+                value={dob}
                 placeholder='Date Of Birth*'
-                // defaultValue="2017-05-24"
+                // defaultValue="2017-05-24" 
                 style={{width: '87.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
+                onChange={(e)=>{handleDobChange(e);
+                formik.handleChange(e)}}
                 error={Boolean(touched.dob && errors.dob)}
                 helperText={touched.dob && errors.dob}
-                {...getFieldProps("dob")}
+                // {...getFieldProps("dob")}
                 InputLabelProps={{
                   shrink: true,
+                  
                 }}
+                inputProps={{ max: todayDate }}
               />
+              <Typography style={{marginLeft: 40, color:"#FF0000"}}>{dobError}</Typography>
               </Grid>
               <Grid item xs={6}>
               <TextField
@@ -1246,8 +1357,8 @@ const validateRole = () => {
                   fullWidth
                   id="emergencycontactName"
                   autoComplete="emergencycontactName"
-                  label="Emergency Contact Name*"
-                  placeholder="Emergency Contact Name*"
+                  label={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
+                  placeholder={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
                   error={Boolean(touched.emergencyContactName && errors.emergencyContactName)}
                 helperText={touched.emergencyContactName && errors.emergencyContactName}
                 {...getFieldProps("emergencyContactName")}
@@ -1260,8 +1371,8 @@ const validateRole = () => {
                   fullWidth
                   id="emergencycontactMoNum"
                   autoComplete="emergencycontactMoNum"
-                  label="Emergency Contact Mobile Number*"
-                  placeholder="Emergency Contact Mobile Number*"
+                  label={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
+                  placeholder={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
                   error={Boolean(touched.emergencyContactNumber && errors.emergencyContactNumber)}
                 helperText={touched.emergencyContactNumber && errors.emergencyContactNumber}
                 {...getFieldProps("emergencyContactNumber")}
@@ -1335,7 +1446,7 @@ const validateRole = () => {
                 select
                 id="referredBy"
                 name='referredBy'
-                label="Is Agreement done?"
+                label="Is Agreement Done?"
                 value={referredBy}
                 displayEmpty
                 defaultValue={data? data.referredBy: ""}
@@ -1386,7 +1497,7 @@ const validateRole = () => {
               <TextField
                 select
                 id="noticedperiods"
-                label="Is Notice period served?"
+                label="Is Notice Period Served?"
                 name='noticedPeriods'
                 value={noticePeriod}
                 displayEmpty
@@ -1544,8 +1655,8 @@ const validateRole = () => {
               <Grid item xs={5}>
               <TextField
                 select
-                id="pf"
-                name='pf'
+                id="deductionType"
+                name='deductionType'
                 label="Deduction Type*"
                 displayEmpty
                 style={{width: '87.5%', marginLeft: 40,marginTop:5}}
@@ -1639,7 +1750,7 @@ const validateRole = () => {
             </Grid>
             <Grid item xs={5} style={{alignSelf:'center'}}>
               {value.documentValue?
-              <Button variant="outlined" target="_blank" rel="noopener" style={{marginTop:'5px'}}  href={`${value.documentValue}`}>
+              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
              <TextField
@@ -1673,7 +1784,15 @@ const validateRole = () => {
           }
           
               
-              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} onClick={handleSubmit}>{editUser?"Update":"Save"}</Button>    
+              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} 
+              onClick={(e)=>{
+                validateDropDown();
+                formik.handleSubmit(e);
+                
+              }
+               
+              }
+                >{editUser?"Update":"Save"}</Button>    
             {/* <Button >Add</Button> */}
         </div>
     );

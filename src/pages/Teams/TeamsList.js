@@ -15,7 +15,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -79,7 +79,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function TeamsList() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -116,7 +116,7 @@ export default function TeamsList() {
   console.log("Teams",teams)
 
   useEffect(()=>{
-    dispatch(GetTeam(page+1,rowsPerPage));
+    dispatch(GetTeam(page,rowsPerPage));
   },[addTeamsLog,editTeamsLog,deleteTeamsLog])
 
   const fetchRun = useRef(true);
@@ -174,16 +174,16 @@ export default function TeamsList() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchTeam(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchTeam(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetTeam(newPage+1,rowsPerPage));
+      dispatch(GetTeam(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     setShowList(false);
     if(search){
       dispatch(SearchTeam(1,parseInt(event.target.value, 10),searchValue));
@@ -203,7 +203,7 @@ export default function TeamsList() {
           setShowList(false);
           dispatch(SearchTeam(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -211,7 +211,7 @@ export default function TeamsList() {
           setShowList(false);
           dispatch(GetTeam(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -223,7 +223,7 @@ export default function TeamsList() {
     setCouncilId(e.target.value);
     setZoneId("")
     setWardId("")
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,e.target.value,null,null))
     dispatch(GetZonesByCouncilId(1,1000,e.target.value))
@@ -232,35 +232,32 @@ export default function TeamsList() {
 
   const handleWardChange = (e) => {
     setWardId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
 
   const handleZoneChange = (e) => {
     setZoneId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
   return (
-    <Page title="Teams">
+    <Page title="TeamList">
       <Container>
-        {open?
         <TeamsTableDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data={dialogData}
-        />:null
-        }
-        
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
            Teams
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Team
           </Button>
         </Stack>
 
@@ -273,6 +270,7 @@ export default function TeamsList() {
         coucilId={coucilId}
         zoneId={zoneId}
         wardId={wardId}
+        callType="Teams"
         />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -286,7 +284,7 @@ export default function TeamsList() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>
                         <TableCell >{option?.zone}</TableCell>
@@ -303,8 +301,13 @@ export default function TeamsList() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          {teams?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -313,7 +316,7 @@ export default function TeamsList() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             render
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

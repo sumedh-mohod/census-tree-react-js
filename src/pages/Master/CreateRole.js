@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -74,7 +75,7 @@ function applySortFilter(array, comparator, query) {
 export default function CreateRole() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -100,7 +101,7 @@ export default function CreateRole() {
   console.log("ROLES",roles);
 
   useEffect(()=>{
-    dispatch(GetRole(page+1,rowsPerPage));
+    dispatch(GetRole(page,rowsPerPage));
   },[addRolesLog,editRolesLog,deleteRolesLog])
 
   
@@ -118,10 +119,10 @@ export default function CreateRole() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchRole(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchRole(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetRole(newPage+1,rowsPerPage));
+      dispatch(GetRole(newPage,rowsPerPage));
     }
   };
 
@@ -136,7 +137,7 @@ export default function CreateRole() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchRole(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -154,14 +155,14 @@ export default function CreateRole() {
         if(value){
           dispatch(SearchRole(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetRole(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -173,7 +174,7 @@ export default function CreateRole() {
   }
 
   return (
-    <Page title="Roles">
+    <Page title="User">
       <Container>
         {open?
         <CreateRoleDialog
@@ -203,7 +204,7 @@ export default function CreateRole() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Add Role
 
           </Button>
         </Stack>
@@ -222,7 +223,7 @@ export default function CreateRole() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.role}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
@@ -237,8 +238,13 @@ export default function CreateRole() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          {roles?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -246,7 +252,7 @@ export default function CreateRole() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

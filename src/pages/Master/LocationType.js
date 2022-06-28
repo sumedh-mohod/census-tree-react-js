@@ -15,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -73,7 +74,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function LocationType() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -99,7 +100,7 @@ export default function LocationType() {
   console.log("locationTypes", locationTypes)
 
   useEffect(()=>{
-    dispatch(GetLocationType(page+1,rowsPerPage));
+    dispatch(GetLocationType(page,rowsPerPage));
   },[addLocationTypesLog,editLocationTypesLog,deleteLocationTypesLog])
 
   useEffect(()=>{
@@ -124,16 +125,16 @@ export default function LocationType() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchLocationType(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchLocationType(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetLocationType(newPage+1,rowsPerPage));
+      dispatch(GetLocationType(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchLocationType(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -151,14 +152,14 @@ export default function LocationType() {
         if(value){
           dispatch(SearchLocationType(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetLocationType(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -170,7 +171,7 @@ export default function LocationType() {
   }
 
   return (
-    <Page title="Location Types">
+    <Page title="User">
       <Container>
         {open?
          <TypeOfLocationDialog
@@ -219,7 +220,7 @@ export default function LocationType() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
@@ -234,8 +235,13 @@ export default function LocationType() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          {locationTypes?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -243,7 +249,7 @@ export default function LocationType() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

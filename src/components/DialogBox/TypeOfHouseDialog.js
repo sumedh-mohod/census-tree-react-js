@@ -79,7 +79,7 @@ export default function TypeOfHouseDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+      
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>Add Type of House</BootstrapDialogTitle>

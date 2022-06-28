@@ -31,6 +31,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 TeamListToolbar.propTypes = {
+  callType: PropTypes.string,
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
@@ -45,7 +46,7 @@ TeamListToolbar.propTypes = {
 
 
 
-export default function TeamListToolbar({ numSelected, filterName, onFilterName, placeHolder,handleCoucilChange,handleWardChange,handleZoneChange,coucilId,zoneId,wardId }) {
+export default function TeamListToolbar({ callType, numSelected, filterName, onFilterName, placeHolder,handleCoucilChange,handleWardChange,handleZoneChange,coucilId,zoneId,wardId }) {
   
     const {
         council,
@@ -84,7 +85,11 @@ export default function TeamListToolbar({ numSelected, filterName, onFilterName,
         />
       )}
 
+
          <Grid container justifyContent="flex-end">
+          {/* {(callType === "BaseColor")?(
+         <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
+         ):null} */}
          <Tooltip title="Filter list">
           <IconButton>
             <Iconify icon="ic:round-filter-list" />
@@ -157,8 +162,13 @@ export default function TeamListToolbar({ numSelected, filterName, onFilterName,
                 )):null}
               </Select>
               </Grid>
+              {/* {(callType === "BaseColor" || "DeniedEntries")?(
+         <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
+         ):null} */}
               </Grid>
-              
+              {/* {(callType === "BaseColor")?(
+         <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
+         ):null} */}
     </RootStyle>
   );
 }
