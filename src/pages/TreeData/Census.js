@@ -328,7 +328,7 @@ console.log("page123", page)
                          {!showList?(
                 <TableRow>
                   <TableCell align='center' colSpan={6} fontWeight={700}>
-               Please select council to get base color data
+               Please select council to get data
                 </TableCell>
                 </TableRow>
                 ):null
@@ -343,8 +343,8 @@ console.log("page123", page)
                             <TableCell align="left">{option.tree_number? option.tree_number: "-" }</TableCell>
                         <TableCell align="left">{option.tree_name?.name}</TableCell>
                         <TableCell align="left">{option.added_by?.first_name}</TableCell>
-                        <TableCell align="left">-</TableCell>
-                        <TableCell align="left">{option.referred_to_expert === 1 ? "yes" : "No"}</TableCell>
+                        <TableCell align="left">{option.added_on_date}</TableCell>
+                        <TableCell align="left">{option.referred_to_expert === 1 ? "Yes" : "No"}</TableCell>
                         {/* <TableCell align="left"> */}
                           {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
                           {/* <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
@@ -366,12 +366,19 @@ console.log("page123", page)
               </Table>
             </TableContainer>
           </Scrollbar>
-          {showList?(
+          {/* {showList?  <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} /> : treeCensus ? <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} /> : null} */}
+  {showList ?
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />
-  ):null}
+  :null}
         </Card>
       </Container>
     </Page>

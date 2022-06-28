@@ -174,11 +174,6 @@ console.log("hii", isOpen)
   borderCollapse: "collapse",
   width: "100%"}}>
   <tr>
-    <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}
-  >Company</th>
-    <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Contact</th>
-  </tr>
-  <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Number</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_number}</td>
   </tr>
@@ -188,19 +183,19 @@ console.log("hii", isOpen)
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Type</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.location_type.has_property_type}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.property_type?.property_type}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Owner</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>-</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.property?.owner_name}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tenant Name </td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>-</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.property?.tenant_name}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Area(sq feet)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.location}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.property?.area}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Type</td>
@@ -232,15 +227,15 @@ console.log("hii", isOpen)
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Disease</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_disease?.tree_disease}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_disease?.tree_disease ? props.data.tree_disease?.tree_disease: "-"}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Plantation Date</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.plantation_date}</td>
   </tr>
   <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Referred To Expert</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.referred_to_expert}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Referred To Expert?</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.referred_to_expert===1 ? "Yes" : "No"}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Action Need To Be Taken</td>
@@ -262,7 +257,7 @@ console.log("hii", isOpen)
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Qc On Date</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>-</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.qc_date? props.data.qc_date: "-"}</td>
   </tr>
   </table>
   </div>
@@ -270,7 +265,7 @@ console.log("hii", isOpen)
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Submit</Button>
+          <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
       </div>

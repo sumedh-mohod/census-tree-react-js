@@ -54,7 +54,7 @@ const TABLE_HEAD = [
     { id: 'qcStatus', label: 'QC Status', alignRight: false },
     { id: 'qcBy', label: 'QC By', alignRight: false },
     { id: 'qcOnDate', label: 'QC On Date', alignRight: false },
-    { id: 'action',label: 'Action',alignRight: true },
+    // { id: 'action',label: 'Action',alignRight: true },
   ];
 
 // ----------------------------------------------------------------------
@@ -187,7 +187,7 @@ export default function TreeCensusHistory() {
           color="inherit"
           href="#"
         >
-          Base Color
+        Census
         </Link>
         {treeCensusName === "undefined" ? null :
         <Link
@@ -262,11 +262,12 @@ export default function TreeCensusHistory() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
+          { showList ? 
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
+  display:'flex', mt:3, mb:3}} /> 
+  : null }
         </Card>
       </Container>
     </Page>

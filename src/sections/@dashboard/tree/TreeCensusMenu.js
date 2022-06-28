@@ -52,7 +52,7 @@ export default function TreeCensusMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {props.qcStatus==="Approved"?null
+        {/* {props.qcStatus==="Approved"?null
         :
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleApprove}>
         <ListItemIcon>
@@ -68,7 +68,7 @@ export default function TreeCensusMenu(props) {
         </ListItemIcon>
         <ListItemText primary="Unapprove" primaryTypographyProps={{ variant: 'body2' }} />
       </MenuItem>
-        }
+        } */}
         
         {/* <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
           <ListItemIcon>
