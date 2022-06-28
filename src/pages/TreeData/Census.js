@@ -46,7 +46,7 @@ const TABLE_HEAD = [
   { id: 'treeName', label: 'Tree Name', alignRight: false },
   { id: 'addedBy', label: 'Added By', alignRight: false },
   { id: 'addedOn', label: 'Added On', alignRight: false },
-  { id: 'isReferredToExpert', label: 'Is Referred To Expert', alignRight: false },
+  { id: 'isReferredToExpert', label: 'Is Referred To Expert?', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
 ];
 
@@ -328,7 +328,7 @@ console.log("page123", page)
                          {!showList?(
                 <TableRow>
                   <TableCell align='center' colSpan={6} fontWeight={700}>
-                  please select council to get census data
+                  Please select council to get census data
                 </TableCell>
                 </TableRow>
                 ):null

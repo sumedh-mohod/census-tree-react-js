@@ -39,14 +39,10 @@ import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'propertyType', label: 'Property Type', alignRight: false },
-  { id: 'Council', label: 'Council', alignRight: false },
-  { id: 'zone', label: 'Zone', alignRight: false },
-  { id: 'Ward', label: 'Ward', alignRight: false },
-  { id: 'lat', label: 'Lat', alignRight: false },
-  { id: 'long', label: 'Long', alignRight: false },
-  { id: 'location', label: 'Location', alignRight: false },
-  { id: 'images', label: 'Images', alignRight: false },
-  { id: 'team', label: 'Team', alignRight: false },
+  { id: 'propertyNumber', label: 'Property Number', alignRight: false },
+  { id: 'ownerName', label: 'Owner Name', alignRight: false },
+  { id: 'area', label: 'Area(Sq Feet)', alignRight: false },
+  { id: 'images', label: 'images', alignRight: false },
   { id: 'addedBy', label: 'Added By', alignRight: false },
 ];
 
@@ -276,18 +272,14 @@ export default function NoTreeProperty() {
                       >
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type?option.property_type?.property_type:"-"}</TableCell>
-                        <TableCell align="left">{option.council?.name}</TableCell>
-                        <TableCell align="left">{option.zone?.name}</TableCell>
-                        <TableCell align="left">{option.ward?.name}</TableCell>
-                        <TableCell align="left">{option.lat}</TableCell>
-                        <TableCell align="left">{option.long}</TableCell>
-                        <TableCell align="left">{option.location}</TableCell>
+                        <TableCell align="left">{option.property?.property_number}</TableCell>
+                        <TableCell align="left">{option.property?.owner_name}</TableCell>
+                        <TableCell align="left">{option.property?.area ? option.property?.area: "-"}</TableCell>
                         <TableCell align="left">
                         <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
                             <Visibility />
                           </IconButton>
                           </TableCell>
-                        <TableCell align="left">{option.team?.name}</TableCell>
                         <TableCell align="left">{option.added_by?.first_name} {option.added_by?.last_name}</TableCell>
                         </TableRow>
                         )

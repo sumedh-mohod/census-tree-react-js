@@ -174,16 +174,16 @@ console.log("hii", isOpen)
   borderCollapse: "collapse",
   width: "100%"}}>
   <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Number</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_number}</td>
-  </tr>
-  <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Location Type</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.location_type.location_type}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Type</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.property_type?.property_type}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Number</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_number}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Owner</td>

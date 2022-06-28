@@ -316,8 +316,8 @@ export default function BaseColor() {
                 />
                          {!showList?(
                 <TableRow>
-                  <TableCell align='center' colSpan={6} fontWeight={700}>
-               Please select council to get base color data
+                  <TableCell align="right" colSpan={6} fontWeight={700}> 
+                  Please select council to get base color data
                 </TableCell>
                 </TableRow>
                 ):null

@@ -235,7 +235,7 @@ export default function DeniedEntry() {
           color="inherit"
           href="#"
         >
-          Denied Entery
+          Denied Enteries
         </Link>
       </Breadcrumbs>
     </div>
