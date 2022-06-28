@@ -263,8 +263,8 @@ export default function AssignUser() {
               </Table>
             </TableContainer>
           </Scrollbar>
-          {showList?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+          {userOfTeam?(
+          <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />

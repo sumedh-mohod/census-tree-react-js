@@ -226,7 +226,7 @@ export default function TreeCensusHistory() {
                         <TableRow
                         hover
                       >
-                                                 <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
@@ -262,8 +262,8 @@ export default function TreeCensusHistory() {
               </Table>
             </TableContainer>
           </Scrollbar>
-          { showList ? 
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+          { treeCensusHistory ? 
+          <Pagination count={ showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} /> 

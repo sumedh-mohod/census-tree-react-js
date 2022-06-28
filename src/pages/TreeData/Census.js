@@ -328,7 +328,7 @@ console.log("page123", page)
                          {!showList?(
                 <TableRow>
                   <TableCell align='center' colSpan={6} fontWeight={700}>
-               Please select council to get data
+                  please select council to get census data
                 </TableCell>
                 </TableRow>
                 ):null
@@ -373,8 +373,8 @@ console.log("page123", page)
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} /> : null} */}
-  {showList ?
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  {treeCensus ?
+          <Pagination count={showList? pageInfo.last_page : 0} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />

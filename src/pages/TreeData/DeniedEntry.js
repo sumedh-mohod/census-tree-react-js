@@ -227,7 +227,7 @@ export default function DeniedEntry() {
           color="inherit"
           href="#"
         >
-          Master
+          Tree Data
         </Link>
         <Link
           underline="hover"
@@ -262,7 +262,7 @@ export default function DeniedEntry() {
                 {!showList?(
                 <TableRow>
                   <TableCell align='center' colSpan={6} fontWeight={700}>
-               Please select council to get base color data
+               Please select council to get data
                 </TableCell>
                 </TableRow>
                 ):null
@@ -294,8 +294,8 @@ export default function DeniedEntry() {
               </Table>
             </TableContainer>
           </Scrollbar>
-{showList?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+{deniedEntry?(
+          <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />
