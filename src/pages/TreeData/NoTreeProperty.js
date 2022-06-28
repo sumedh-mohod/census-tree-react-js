@@ -259,7 +259,7 @@ export default function NoTreeProperty() {
                 />
                         {!showList?(
                 <TableRow>
-                  <TableCell align='center' colSpan={6} fontWeight={700}>
+                  <TableCell align='center' colSpan={8} fontWeight={700}>
                Please select council to get data
                 </TableCell>
                 </TableRow>
