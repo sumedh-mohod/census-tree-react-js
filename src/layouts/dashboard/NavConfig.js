@@ -135,6 +135,11 @@ const navConfig = [
       path: '/dashboard/no-tree-properties',
       icon: getIcon('eva:shopping-bag-fill'),
     },
+    {
+      title: 'New UI',
+      path: '/dashboard/newUI',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
   ]
 },
 {
