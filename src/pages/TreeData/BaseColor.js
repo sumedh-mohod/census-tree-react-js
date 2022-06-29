@@ -314,7 +314,7 @@ export default function BaseColor() {
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
-                         {!showList?(
+                         {!coucilId?(
                 <TableRow>
                   <TableCell align="right" colSpan={8} fontWeight={700}> 
                   Please select council to get base color data
