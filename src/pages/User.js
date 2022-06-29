@@ -80,7 +80,7 @@ export default function User() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
@@ -112,7 +112,7 @@ export default function User() {
 
   
   useEffect(()=>{
-    dispatch(GetUsers(page+1,rowsPerPage));
+    dispatch(GetUsers(page,rowsPerPage));
   },[deleteUsersLog])
 
   useEffect(()=>{
@@ -154,14 +154,14 @@ export default function User() {
         if(value){
           dispatch(SearchUsers(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetUsers(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -209,7 +209,7 @@ export default function User() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.first_name}  {option.last_name}
                             </TableCell>

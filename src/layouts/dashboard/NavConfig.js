@@ -148,12 +148,13 @@ const navConfig = [
   icon: getIcon('bxs:map'),
   children:[
     {
-      title: 'Tree On Map',
+      title: 'Trees on Map',
       path: '/dashboard/treeOnMap',
       icon: getIcon('eva:shopping-bag-fill'),
     },
   ]
 },
+
 ];
 
 export default navConfig;

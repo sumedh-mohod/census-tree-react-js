@@ -79,7 +79,7 @@ function applySortFilter(array, comparator, query) {
 export default function ViewProperties() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -109,7 +109,7 @@ export default function ViewProperties() {
   const { councilId, councilName } = useParams();
   
   useEffect(()=>{
-    dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage));
+    dispatch(GetPropertyByCouncilId(councilId,page,rowsPerPage));
   },[])
 
 
@@ -136,7 +136,7 @@ export default function ViewProperties() {
       return;
     }
     dispatch(ShowLoader(false))
-    dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage))
+    dispatch(GetPropertyByCouncilId(councilId,page,rowsPerPage))
   },[importPropertyLog])
 
   const fourthRun = useRef(true);
@@ -172,7 +172,7 @@ export default function ViewProperties() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchPropertyByCouncilId(councilId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -191,7 +191,7 @@ export default function ViewProperties() {
           setShowList(false);
           dispatch(SearchPropertyByCouncilId(councilId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -199,7 +199,7 @@ export default function ViewProperties() {
           setShowList(false);
           dispatch(GetPropertyByCouncilId(councilId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -304,7 +304,7 @@ export default function ViewProperties() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option?.zone?.name}</TableCell>
                         <TableCell align="left">{option?.ward?.name}</TableCell>
                         <TableCell align="left">{option.property_number}</TableCell>

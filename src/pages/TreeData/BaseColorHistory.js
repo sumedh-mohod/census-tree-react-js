@@ -51,7 +51,7 @@ export default function BaseColorHistory() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -73,7 +73,7 @@ export default function BaseColorHistory() {
   const { baseColorId, baseColorName } = useParams();
 
   useEffect(()=>{
-    dispatch(GetBaseColorTreeHistory(baseColorId,page+1,rowsPerPage));
+    dispatch(GetBaseColorTreeHistory(baseColorId,page,rowsPerPage));
   },[])
 
   useEffect(()=>{
@@ -112,7 +112,7 @@ export default function BaseColorHistory() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchBaseColorTreeHistory(baseColorId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -131,7 +131,7 @@ export default function BaseColorHistory() {
           setShowList(false);
           dispatch(SearchBaseColorTreeHistory(baseColorId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -139,7 +139,7 @@ export default function BaseColorHistory() {
           setShowList(false);
           dispatch(GetBaseColorTreeHistory(baseColorId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -213,7 +213,7 @@ export default function BaseColorHistory() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
                         <TableCell align="left">{option.property?.property_number}</TableCell>
@@ -238,8 +238,8 @@ export default function BaseColorHistory() {
               </Table>
             </TableContainer>
           </Scrollbar>
-          {showList?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+          {baseColorTreeHistory?(
+          <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />

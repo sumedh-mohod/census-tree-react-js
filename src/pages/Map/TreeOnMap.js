@@ -118,7 +118,7 @@ export default function TreeOnMap(props) {
         <Container>
          {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}> */}
           <Typography variant="h4" gutterBottom>
-          Tree On Map
+          Trees On Map
           </Typography>
           {/* </Stack> */}
           <Grid container spacing={1} style={{marginTop: 5}}>

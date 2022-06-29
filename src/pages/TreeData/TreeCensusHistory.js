@@ -54,7 +54,7 @@ const TABLE_HEAD = [
     { id: 'qcStatus', label: 'QC Status', alignRight: false },
     { id: 'qcBy', label: 'QC By', alignRight: false },
     { id: 'qcOnDate', label: 'QC On Date', alignRight: false },
-    { id: 'action',label: 'Action',alignRight: true },
+    // { id: 'action',label: 'Action',alignRight: true },
   ];
 
 // ----------------------------------------------------------------------
@@ -63,7 +63,7 @@ export default function TreeCensusHistory() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -85,7 +85,7 @@ export default function TreeCensusHistory() {
   const { treeCensusId, treeCensusName } = useParams();
 
   useEffect(()=>{
-    dispatch(GetTreeCensusHistory(treeCensusId,page+1,rowsPerPage));
+    dispatch(GetTreeCensusHistory(treeCensusId,page,rowsPerPage));
   },[])
 
   useEffect(()=>{
@@ -124,7 +124,7 @@ export default function TreeCensusHistory() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchTreeCensusHistory(treeCensusId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -143,7 +143,7 @@ export default function TreeCensusHistory() {
           setShowList(false);
           dispatch(SearchTreeCensusHistory(treeCensusId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -151,7 +151,7 @@ export default function TreeCensusHistory() {
           setShowList(false);
           dispatch(GetTreeCensusHistory(treeCensusId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -187,7 +187,7 @@ export default function TreeCensusHistory() {
           color="inherit"
           href="#"
         >
-          Base Color
+        Census
         </Link>
         {treeCensusName === "undefined" ? null :
         <Link
@@ -226,7 +226,7 @@ export default function TreeCensusHistory() {
                         <TableRow
                         hover
                       >
-                                                 <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
@@ -262,11 +262,12 @@ export default function TreeCensusHistory() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+          { treeCensusHistory ? 
+          <Pagination count={ showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
+  display:'flex', mt:3, mb:3}} /> 
+  : null }
         </Card>
       </Container>
     </Page>
