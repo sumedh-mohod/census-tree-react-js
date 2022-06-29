@@ -101,7 +101,7 @@ export default function CreateNameOfTree() {
   console.log("TREE NAME",treeName)
 
   useEffect(()=>{
-    dispatch(GetTreeName(page+1,rowsPerPage));
+    dispatch(GetTreeName(page,rowsPerPage));
   },[addTreeNameLog,editTreeNameLog,deleteTreeNameLog])
 
   useEffect(()=>{
