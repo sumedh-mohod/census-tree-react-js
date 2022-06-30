@@ -204,17 +204,21 @@ import {
       // });
 
     return(
-        <Page title="New UI">
-            <Container>
+        <Page title="New UI" style={{paddingBottom:'0px'}}>
+            <Container style={{paddingRight:'0px',marginRight:'-16px'}}>
             <Box sx={{  height: '100' }}>
           <Button
-            
            variant='outlined'
-            sx={{justifyContent:'end', display:'flex', position: 'fixed',right: 0 }}
+            sx={{justifyContent:'end', display:'flex', position: 'fixed',right: 0,top:'100px',border:'2px solid black',backgroundColor:'black',zIndex:'999', 
+            "&.MuiButtonBase-root:hover": {
+              bgcolor: "black",
+              border:'2px solid black'
+            }
+          }}
             onClick={toggleDrawer("right", true)} 
            
           >
-        <FilterAltRoundedIcon/>
+        <FilterAltRoundedIcon sx={{color:'white'}}/>
           </Button> 
           <Drawer
            sx= {
@@ -234,10 +238,10 @@ import {
          <FilterDrawer data={toggleDrawer("right", false)}/>
         </Drawer>
         </Box>
-        <Grid container spacing={2} sx={{ mt:5 }}>
+        <Grid container style={{height:'calc(100vh - 118px)',marginBottom:'-80px',overflowY:'hidden'}}>
   
-  <Grid item xs={6}>
-  <Box sx={{  width: '50%', ml:5 }}>
+  <Grid item xs={4} style={{height:'100%',overflowY:'auto',paddingRight:'5%'}}>
+  <Box sx={{  width: '100%',height:'100%',paddingRight:'20%',borderRight:'2px solid slategray' }}>
   <Typography variant="h5" gutterBottom align='center'>
             Total Trees: {treeCensusPendingQCStatus.pending_qc_count}
           </Typography>
@@ -264,7 +268,7 @@ import {
 
   </Grid>
   {/* <Divider orientation='vertical' sx={{ mr:3}} flexItem/> */}
-  <Grid item xs={6} >
+  <Grid item xs={8} style={{height:'100%',overflowY:'auto',paddingRight:'16px'}}>
   <Stack spacing={2}>
   <Box sx={{ height: 400, width: '100%', mr:5 }}>
   <ImageGallery {...properties} />
