@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -12,11 +12,17 @@ import {
     Divider,
     TextField,
     form,
+    Modal
   } from '@mui/material';
   import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
   import  ImageGallery  from 'react-image-gallery';
-  import Page from '../components/Page';
+  import { useDispatch, useSelector } from 'react-redux';
+ import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
+ import { GetTreeCensusPendingQCStatus} from '../actions/TreeCensusAction';
+
+ import Page from '../components/Page';
  import FilterDrawer from './FilterDrawer';
+
 
 
 
@@ -38,6 +44,9 @@ import {
 
   
   export default function NewUI(){
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const dispatch = useDispatch();
+
 
     const [updateClick, setUpdateClick] = React.useState(false);
     const [state, setState] = React.useState({
@@ -46,6 +55,45 @@ import {
       bottom: false,
       right: false,
     });
+
+    const {
+      treeCensusPendingQCStatus
+    } = useSelector((state) => ({
+      treeCensusPendingQCStatus: state.treeCensus.treeCensusPendingQCStatus
+    }));
+
+    useEffect(()=>{
+      dispatch(GetTreeCensusPendingQCStatus(1,1,1,'01-06-2022','27-06-2022'));
+      // dispatch(GetBaseColorTreeById(1));
+    },[])
+    console.log(treeCensusPendingQCStatus);
+   treeCensusPendingQCStatus.data.map((tree, index) =>(
+      console.log(index, tree.tree_number, tree.tree_name.name)
+      // console.log(tree.tree_number)
+      // console.log(tree.tree_name.name)
+      ));
+    const handleDialogOpen = () => {
+      setDialogOpen(true);
+      setUpdateClick(true);
+  };
+    const handleDialogClose = () => {
+      setDialogOpen(false);
+      setUpdateClick(false);
+    };
+
+
+
+    const style = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 800,
+      bgcolor: 'background.paper',
+      border: '1px solid #000',
+      boxShadow: 24,
+      p: 0,
+    };
     
     const toggleDrawer = (anchor, open) => (event) => {
       if (
@@ -58,6 +106,10 @@ import {
       setState({ ...state, [anchor]: open });
   
     };
+
+    const handleRowClick = (tree) =>{
+      console.log(tree);
+    }
      
       const properties = {
         // thumbnailPosition: "left",
@@ -86,70 +138,70 @@ import {
         ]
       };
 
-      const TreeDetailsSchema = Yup.object().shape(
-        {
-          locationType: Yup.string().required('Location Type is required'),
-          propertyType: Yup.string().required('Property Type is required'),
-          treeNumber: Yup.string().required('Tree Number is required'),
-          propertyOwner:Yup.string().required('Property Owner is required'),
-          tenantName: Yup.string().required('Tenant Name is required'),
-          area: Yup.string().required('Area is required'),
-          treeType: Yup.string().required('Tree Type is required'),
-          localtreeName: Yup.string().required('Tree Name(Local) is required'),
-          botTreeName: Yup.string().required('Tree Name(Botanical) is required'),
-          girth: Yup.string().required('Girth is required'),
-          height: Yup.string().required('Height is required'),
-          canopy: Yup.string().required('Canopy is required'),
-          treeCondition: Yup.string().required('Tree Condition is required'),
-          disease: Yup.string().required('Disease is required'),
-          plantationDate:Yup.string().required('Plantation Date is required'),
-          referredExpert: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Referred To Expert is required'),
-          actionTaken: Yup.string().required('Action To Be Taken is required'),
-          images: Yup.string().required('Upload images'),
-          qcStatus: Yup.string().required('QC Status is required'),
-          qcBy: Yup.string().required('QC By is required'),
-          qcOnDate: Yup.string().required('QC On Date is required'),
-      }
-      );
+      // const TreeDetailsSchema = Yup.object().shape(
+      //   {
+      //     locationType: Yup.string().required('Location Type is required'),
+      //     propertyType: Yup.string().required('Property Type is required'),
+      //     treeNumber: Yup.string().required('Tree Number is required'),
+      //     propertyOwner:Yup.string().required('Property Owner is required'),
+      //     tenantName: Yup.string().required('Tenant Name is required'),
+      //     area: Yup.string().required('Area is required'),
+      //     treeType: Yup.string().required('Tree Type is required'),
+      //     localtreeName: Yup.string().required('Tree Name(Local) is required'),
+      //     botTreeName: Yup.string().required('Tree Name(Botanical) is required'),
+      //     girth: Yup.string().required('Girth is required'),
+      //     height: Yup.string().required('Height is required'),
+      //     canopy: Yup.string().required('Canopy is required'),
+      //     treeCondition: Yup.string().required('Tree Condition is required'),
+      //     disease: Yup.string().required('Disease is required'),
+      //     plantationDate:Yup.string().required('Plantation Date is required'),
+      //     referredExpert: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Referred To Expert is required'),
+      //     actionTaken: Yup.string().required('Action To Be Taken is required'),
+      //     images: Yup.string().required('Upload images'),
+      //     qcStatus: Yup.string().required('QC Status is required'),
+      //     qcBy: Yup.string().required('QC By is required'),
+      //     qcOnDate: Yup.string().required('QC On Date is required'),
+      // }
+      // );
 
-      const {
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        values,
-        errors,
-        touched,
-        setFieldValue,
-      } = useFormik({
-        enableReinitialize: true,
-        initialValues: {
-          locationType:	"Desert",
-          propertyType:	"Mall",
-          treeNumber:	"11100011",
-          propertyOwner:	"cricket",
-          tenantName:	"hockey",
-          area:	"200",
-          treeType:	"Coniferous trees",
-          localtreeName:	"Christmas trees",
-          botTreeName:	"Araucaria columnaris",
-          girth:	"100",
-          height:	"20",
-          canopy:	"10",
-          treeCondition:	"Fully cut",
-          disease:	"Leaf Rusts",
-          plantationDate:	"2022/06/12",
-          referredExpert:	"Yes",
-          actionTaken:	"no",
-          images: "",
-          qcStatus:	"Pending",
-          qcBy:	"-",
-          qcOnDate: "-"
-        },
-        validationSchema: TreeDetailsSchema,
-        onSubmit: (values) => {
-          console.log(values);
-        },
-      });
+      // const {
+      //   handleBlur,
+      //   handleChange,
+      //   handleSubmit,
+      //   values,
+      //   errors,
+      //   touched,
+      //   setFieldValue,
+      // } = useFormik({
+      //   enableReinitialize: true,
+      //   initialValues: {
+      //     locationType:	"Desert",
+      //     propertyType:	"Mall",
+      //     treeNumber:	"11100011",
+      //     propertyOwner:	"cricket",
+      //     tenantName:	"hockey",
+      //     area:	"200",
+      //     treeType:	"Coniferous trees",
+      //     localtreeName:	"Christmas trees",
+      //     botTreeName:	"Araucaria columnaris",
+      //     girth:	"100",
+      //     height:	"20",
+      //     canopy:	"10",
+      //     treeCondition:	"Fully cut",
+      //     disease:	"Leaf Rusts",
+      //     plantationDate:	"2022/06/12",
+      //     referredExpert:	"Yes",
+      //     actionTaken:	"no",
+      //     images: "",
+      //     qcStatus:	"Pending",
+      //     qcBy:	"-",
+      //     qcOnDate: "-"
+      //   },
+      //   validationSchema: TreeDetailsSchema,
+      //   onSubmit: (values) => {
+      //     console.log(values);
+      //   },
+      // });
 
     return(
         <Page title="New UI">
@@ -187,66 +239,26 @@ import {
   <Grid item xs={6}>
   <Box sx={{  width: '50%', ml:5 }}>
   <Typography variant="h5" gutterBottom align='center'>
-            Total Trees: 15000
+            Total Trees: {treeCensusPendingQCStatus.pending_qc_count}
           </Typography>
   <table style={{ fontFamily: "arial, sans-serif",
   borderCollapse: "collapse",
   width: "100%"}}>
+   
       <tr>
     <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>#</th>
     <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Number</th>
     <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Name</th>
   </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>1</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>112300001</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Neem</td>
+  
+    {treeCensusPendingQCStatus.data.map((tree, index) =>(
+  <tr onClick={handleRowClick(tree)}>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{index+1}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{tree.tree_number}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{tree.tree_name.name}</td>
   </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>2</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>112300002</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Babul</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>3</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>112300003</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Chapha</td>
-  </tr>
-  <tr>
-  <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>4</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>112300004</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Neem</td>
-  </tr>
-  <tr>
-  <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>5</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>112300005</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Aam</td>
-  </tr>
-  <tr>
-  <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>6</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>112300006</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Babul</td>
-  </tr>
-  <tr>
-  <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>7</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>112300007</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Aam</td>
-  </tr>
-  <tr>
-  <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>8</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>112300008</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Gulmohar</td>
-  </tr>
-  <tr>
-  <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>9</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>112300009</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Babul</td>
-  </tr>
-  <tr>
-  <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>10</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>1123000010</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Gulmohar</td>
-  </tr>
+    ))}
+ 
   </table>
     </Box>
 
@@ -262,23 +274,35 @@ import {
     <Typography variant="h5" gutterBottom>
             Tree Details: 
           </Typography>
-          {!updateClick?(
-            <>
-             <Typography>Tree Number: 11200004</Typography>
-             <Typography>Tree Name: Aam</Typography>
-             <Typography>Tree Condition: Good</Typography>
-             <Typography>Tree Diseases: No</Typography>
+          
+   
+             <Typography>Tree Number: {treeCensusPendingQCStatus.data[0].tree_number}</Typography>
+             <Typography>Tree Name: {treeCensusPendingQCStatus.data[0].tree_name.name}</Typography>
+             <Typography>Tree Condition: {treeCensusPendingQCStatus.data[0].tree_condition.condition}</Typography>
+             <Typography>Tree Diseases: {treeCensusPendingQCStatus.data[0].tree_disease.tree_disease}</Typography>
              <Box sx={{ height: 200, width: '100%', mt:5 }}>
     <Stack direction="row" spacing={4}>
   <Button variant="outlined" size="small">Approve & Next</Button>
-  <Button variant="outlined" size="small" onClick={()=>setUpdateClick(true)}>Unapprove & Update</Button>
+  <Button variant="outlined" size="small" onClick={handleDialogOpen}>Unapprove & Update</Button>
   <Button variant="outlined" size="small">Refer To Expert</Button>
 </Stack>
 </Box>
-             </>
-          ):(
-          <>
-          <form onSubmit={handleSubmit}>
+      
+{updateClick?  
+        <TreeDetailsDialog
+        isOpen={updateClick}
+        handleClose= {handleDialogClose}
+        // data={dialogData}
+        />: null 
+        }
+{/* <Modal
+        open={modalOpen}
+        onClose={handleModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+          <Box sx={style}> */}
+          {/* <form onSubmit={handleSubmit}>
     <TextField
                 fullWidth
                 margin="normal"
@@ -593,10 +617,10 @@ import {
                   Update
                 </Button>
               
-              </form>
-    </>
-    )}
+              </form> */}
     </Box>
+ {/* </Modal>
+    </Box> */}
     
     {/* <Box sx={{ height: 200, width: '100%', mt:5 }}>
     <Stack direction="row" spacing={4}>

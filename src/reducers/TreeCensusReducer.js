@@ -1,4 +1,4 @@
-import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS, GET_TREE_CENSUS_HISTORY , RESET_STATE } from "../actions/Types";
+import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS, GET_TREE_CENSUS_HISTORY ,GET_TREE_CENSUS_PENDING_QC_STATUS, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     treeCensus:null,
@@ -8,7 +8,8 @@ import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS, GET_TREE_CENSUS_HISTORY 
     updateQCStatusLog:false,
     pageInfo:{},
     // baseColorRemarks:[],
-    treeCensusHistory:[]
+    treeCensusHistory:[],
+    treeCensusPendingQCStatus:[],
   };
   
   export default function TreeCensusReducer (state = INIT_STATE, action)  {
@@ -29,6 +30,12 @@ import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS, GET_TREE_CENSUS_HISTORY 
               pageInfo: payload.data
         };
 
+        case GET_TREE_CENSUS_PENDING_QC_STATUS:
+          return{
+              ...state,
+              treeCensusPendingQCStatus: payload.data,
+              pageInfo: payload.data
+        }
 
         case UPDATE_QC_STATUS_TREE_CENSUS:
           return{

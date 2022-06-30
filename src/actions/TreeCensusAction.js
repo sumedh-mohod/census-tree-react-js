@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS,  GET_TREE_CENSUS_HISTORY} from "./Types";
+import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS,  GET_TREE_CENSUS_HISTORY, GET_TREE_CENSUS_PENDING_QC_STATUS} from "./Types";
 
 const GetTreeCensus = (page,limit,council,zone,ward) => async (dispatch) => {
 
@@ -94,10 +94,27 @@ const UpdateQCStatusOfTreeCensus = (id,params) => async (dispatch) => {
   }
 };
 
+const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDate) => async (dispatch) => {
+
+  const url =  `/api/census-trees/qc/pending?where[council_id]=${councilId}&where[zone_id]=${zoneId}&where[ward_id]=${wardId}&where[from_date]=${fromDate}&where[to_date]=${toDate}`
+ 
+
+  try {
+    const response = await JWTServer.get(`${url}`);
+    dispatch({
+      type: GET_TREE_CENSUS_PENDING_QC_STATUS,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
 export {
   GetTreeCensus,
   SearchTreeCensus,
   GetTreeCensusHistory,
   SearchTreeCensusHistory,
   UpdateQCStatusOfTreeCensus,
+  GetTreeCensusPendingQCStatus,
 }
