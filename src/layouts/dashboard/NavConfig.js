@@ -136,6 +136,18 @@ const navConfig = [
       icon: getIcon('eva:shopping-bag-fill'),
     },
     {
+      title: 'New UI',
+      path: '/dashboard/newUI',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+  ]
+},
+{
+  title: 'Map',
+  path: '/dashboard/map',
+  icon: getIcon('bxs:map'),
+  children:[
+    {
       title: 'Trees on Map',
       path: '/dashboard/treeOnMap',
       icon: getIcon('eva:shopping-bag-fill'),
