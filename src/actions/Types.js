@@ -127,6 +127,7 @@ export const EDIT_BASE_COLOR_TREES = "edit-base-color-trees";
 export const DELETE_BASE_COLOR_TREES = "delete-base-color-trees";
 export const UPDATE_QC_STATUS_BASE_COLOR_TREES = "update-qc-status-base-color-trees";
 export const GET_QC_REMARKS_FOR_BASE_COLOR = "get-qc-remark-for-base-color";
+export const GET_BASE_COLOR_PENDING_QC_STATUS = "get-base-color-pending-qc-status";
 
 export const GET_PROPERTY_BY_COUNCIL_ID = "get-property-by-council-id";
 export const SEARCH_PROPERTY_BY_COUNCIL_ID = "search-property-by-council-id";

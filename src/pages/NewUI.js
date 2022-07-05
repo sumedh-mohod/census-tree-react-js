@@ -392,7 +392,7 @@ import {
   <Grid item xs={4} style={{height:'100%',overflowY:'auto',paddingRight:'5%'}}>
   <Box sx={{  width: '100%',height:'100%',paddingRight:'20%',borderRight:'2px solid slategray' }}>
   <Typography variant="h4" gutterBottom align='center'>
-            Total Trees: {treeCensusPendingQCStatus.pending_qc_count}
+            Total Trees: {treeCensusPendingQCStatus?.pending_qc_count}
           </Typography>
   <table style={{ fontFamily: "arial, sans-serif",
   borderCollapse: "collapse",
@@ -404,7 +404,7 @@ import {
     <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Name</th>
   </tr>
   
-    {treeCensusPendingQCStatus.data.map((tree, index) =>(
+    {treeCensusPendingQCStatus.data?.map((tree, index) =>(
   <tr onClick={handleRowClick(tree)}>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{index+1}</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{tree.tree_number}</td>
@@ -428,7 +428,7 @@ import {
     <Typography variant="h4" gutterBottom>
             Tree Details: 
           </Typography>
-          {treeCensusPendingQCStatus.data.length !== 0?(
+          {treeCensusPendingQCStatus.data?(
             <>
           <table>
              <tr>

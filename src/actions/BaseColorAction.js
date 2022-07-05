@@ -1,7 +1,8 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HISTORY, GET_QC_REMARKS_FOR_BASE_COLOR, UPDATE_QC_STATUS_BASE_COLOR_TREES } from "./Types";
+import { DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HISTORY, GET_QC_REMARKS_FOR_BASE_COLOR, UPDATE_QC_STATUS_BASE_COLOR_TREES,
+GET_BASE_COLOR_PENDING_QC_STATUS } from "./Types";
 
 const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => {
 
@@ -128,6 +129,22 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
     }
   };
 
+  const GetBaseColorPendingQCStatus = (councilId, zoneId, wardId) => async (dispatch) => {
+
+    
+    const url = `/api/base-color-trees/qc/pending?where[council_id]=${councilId}&where[zone_id]=${zoneId}&where[ward_id]=${wardId}`
+    try {
+      const response = await JWTServer.get(`${url}`);
+      console.log(response)
+      dispatch({
+        type: GET_BASE_COLOR_PENDING_QC_STATUS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   export {
       GetBaseColorTrees,
       AddBaseColorTrees,
@@ -136,5 +153,6 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
       SearchBaseColorTrees,
       DeleteBaseColorTrees,
       UpdateQCStatusOfBaseColorTrees,
-      GetQcRemarksForBaseColor
+      GetQcRemarksForBaseColor,
+      GetBaseColorPendingQCStatus
   }
