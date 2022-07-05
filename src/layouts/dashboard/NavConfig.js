@@ -140,6 +140,11 @@ const navConfig = [
       path: '/dashboard/newUI',
       icon: getIcon('eva:shopping-bag-fill'),
     },
+    {
+      title: 'Base Color Pending QC Status',
+      path: '/dashboard/baseColorPendingQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
   ]
 },
 {

@@ -41,6 +41,7 @@ import TreeCensusHistory from './pages/TreeData/TreeCensusHistory';
 import NoTreeProperty from './pages/TreeData/NoTreeProperty';
 import TreeOnMap from './pages/Map/TreeOnMap';
 import NewUI from './pages/NewUI';
+import BaseColorPendingQC from './pages/TreeData/BaseColorPendingQC';
 
 // ----------------------------------------------------------------------
 
@@ -85,7 +86,8 @@ export default function Router() {
         { path: 'treeCensus/history/:treeCensusId/:treeCensusName', element: <TreeCensusHistory/> },
         { path: 'no-tree-properties', element: <NoTreeProperty/> },
         { path: 'treeOnMap', element: <TreeOnMap /> },
-        { path: 'newUI', element: <NewUI/>}
+        { path: 'newUI', element: <NewUI/>},
+        { path: 'baseColorPendingQC', element: <BaseColorPendingQC/>}
       ],
     },
     {
