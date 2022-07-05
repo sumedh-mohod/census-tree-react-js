@@ -24,6 +24,7 @@ import {
  import { GetCouncil} from '../actions/CouncilAction';
  import { GetZones} from '../actions/ZonesAction';
  import {GetWards} from '../actions/WardsActions';
+ import { GetUsers } from '../actions/UserAction';
 
  import Page from '../components/Page';
 
@@ -50,6 +51,7 @@ import {
     });
 
     const {
+      users,
       council,
       zones,
       wards,
@@ -57,6 +59,7 @@ import {
       referToExpertLog,
       updateQCStatusLog,
     } = useSelector((state) => ({
+      users:state.users.users,
       council:state.council.council,
       zones:state.zones.zones,
       wards:state.wards.wards,
@@ -67,6 +70,7 @@ import {
 
     console.log("in new");
     useEffect(()=>{
+      dispatch(GetUsers(1, 1000));
       dispatch(GetCouncil(1,1000));
       dispatch(GetWards(1,1000));
       dispatch(GetZones(1,1000));
@@ -75,11 +79,12 @@ import {
     },[])
     console.log(treeCensusPendingQCStatus);
     console.log(council);
-   treeCensusPendingQCStatus.data.map((tree, index) =>(
-      console.log(index, tree.tree_number, tree.tree_name.name)
-      // console.log(tree.tree_number)
-      // console.log(tree.tree_name.name)
-      ));
+    console.log(users);
+  //  treeCensusPendingQCStatus.data.map((tree, index) =>(
+  //     console.log(index, tree.tree_number, tree.tree_name.name)
+  //     // console.log(tree.tree_number)
+  //     // console.log(tree.tree_name.name)
+  //     ));
     const handleDialogOpen = () => {
       setDialogOpen(true);
       setUpdateClick(true);
@@ -329,9 +334,9 @@ import {
                <MenuItem disabled value="">
             <em>Select Added By</em>
           </MenuItem>
-              {council?.map((option) => (
+              {users?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
-                  {option.name}
+                  {option.first_name}{" "}{option.last_name}
                 </MenuItem>
               ))}
             </Select>
