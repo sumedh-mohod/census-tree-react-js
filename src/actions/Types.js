@@ -143,6 +143,8 @@ export const EDIT_TREE_CENSUS = "edit-tree-census";
 export const DELETE_TREE_CENSUS = "delete-tree-census";
 export const UPDATE_QC_STATUS_TREE_CENSUS = "update-qc-status-tree-census";
 export const GET_TREE_CENSUS_PENDING_QC_STATUS = "get-tree-census-pending-qc-status";
+export const UPDATE_CENSUS_TREE = "update-census-tree";
+export const REFER_TO_EXPERT = "refer-to-expert";
 // export const GET_QC_REMARKS_FOR_BASE_COLOR = "get-qc-remark-for-base-color";
 
 export const GET_TREE_DISEASE = "get-tree-disease";

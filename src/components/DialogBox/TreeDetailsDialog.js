@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from "yup";
@@ -16,14 +16,23 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle
+    DialogTitle,
+    Select, 
+    MenuItem,
   } from '@mui/material';
-  import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import DefaultInput from '../Inputs/DefaultInput';
+import { GetActiveTreeType } from '../../actions/TreeTypeActions';
+import { GetAllTreeDisease } from '../../actions/TreeDiseaseAction';
+import { GetTreeConditions } from '../../actions/TreeConditionAction';
+import { GetTreeName } from '../../actions/TreeNameAction';
+import { UpdateCensusTree } from '../../actions/TreeCensusAction';
 
 
-  const BootstrapDialogTitle = (props) => {
+
+const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
   
     return (
@@ -54,25 +63,47 @@ import PropTypes from 'prop-types';
 
   export default function TreeDetailsDialog(props) {
 
- 
-    const { isOpen } = props;
+    const dispatch = useDispatch();
+    const { isOpen, data } = props;
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
+    console.log("props", data);
+
+    const {
+        treeName,
+        treeDisease,
+        treeConditions,
+        treeType,
+        updateCensusTreeLog,
+      } = useSelector((state) => ({
+        treeName:state.treeName.treeName,
+        treeDisease:state.treeDisease.treeDisease,
+        treeConditions:state.treeConditions.treeConditions,
+        treeType:state.treeType.treeType,
+        updateCensusTreeLog: state.treeCensus.updateCensusTreeLog,
+      }));
+
+      useEffect(()=>{
+        dispatch(GetTreeName(1,1000));
+        dispatch(GetActiveTreeType(1,1000,1));
+        dispatch(GetTreeConditions(1,1000));
+        dispatch(GetAllTreeDisease(1,1000));
+      },[])
 
     const handleClose = () => {
         props.handleClose();
       };
 
 
+
+console.log("names", treeName);
+console.log("types", treeType);
+console.log("conditions", treeConditions);
+console.log("diseases", treeDisease);
       const TreeDetailsSchema = Yup.object().shape(
         {
-          locationType: Yup.string().required('Location Type is required'),
-          propertyType: Yup.string().required('Property Type is required'),
-          treeNumber: Yup.string().required('Tree Number is required'),
-          propertyOwner:Yup.string().required('Property Owner is required'),
-          tenantName: Yup.string().required('Tenant Name is required'),
-          area: Yup.string().required('Area is required'),
+       
           treeType: Yup.string().required('Tree Type is required'),
           localtreeName: Yup.string().required('Tree Name(Local) is required'),
           botTreeName: Yup.string().required('Tree Name(Botanical) is required'),
@@ -82,388 +113,285 @@ import PropTypes from 'prop-types';
           treeCondition: Yup.string().required('Tree Condition is required'),
           disease: Yup.string().required('Disease is required'),
           plantationDate:Yup.string().required('Plantation Date is required'),
-          referredExpert: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Referred To Expert is required'),
-          actionTaken: Yup.string().required('Action To Be Taken is required'),
-          images: Yup.string().required('Upload images'),
-          qcStatus: Yup.string().required('QC Status is required'),
-          qcBy: Yup.string().required('QC By is required'),
-          qcOnDate: Yup.string().required('QC On Date is required'),
+         
       }
       );
 
-      const {
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        values,
-        errors,
-        touched,
-        setFieldValue,
-      } = useFormik({
+      const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-          locationType:	"Desert",
-          propertyType:	"Mall",
-          treeNumber:	"11100011",
-          propertyOwner:	"cricket",
-          tenantName:	"hockey",
-          area:	"200",
-          treeType:	"Coniferous trees",
-          localtreeName:	"Christmas trees",
-          botTreeName:	"Araucaria columnaris",
-          girth:	"100",
-          height:	"20",
-          canopy:	"10",
-          treeCondition:	"Fully cut",
-          disease:	"Leaf Rusts",
-          plantationDate:	"2022/06/12",
-          referredExpert:	"Yes",
-          actionTaken:	"no",
-          images: "",
-          qcStatus:	"Pending",
-          qcBy:	"-",
-          qcOnDate: "-"
+            treeType:	"",
+            localtreeName:	"",
+            botTreeName:	"",
+            girth:	"",
+            height:	"",
+            canopy:	"",
+            treeCondition:	"",
+            disease:	"",
+            plantationDate:	"",
         },
         validationSchema: TreeDetailsSchema,
-        onSubmit: (values) => {
-          console.log(values);
+        onSubmit: (value) => {
+            console.log("in submit");
+          console.log("VALUE",value);
+          dispatch(UpdateCensusTree({
+            "tree_type_id": value.treeType,
+            "tree_name_id": value.localtreeName,
+            "tree_disease_id": value.disease,
+            "plantation_date": value.plantationDate,
+            "girth": value.girth,
+            "height": value.height,
+            "canopy": value.canopy,
+            "tree_condition_id": value.treeCondition,
+          }, data.id))
+        
         },
       });
     
+      const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+    
+
       return (
       
           <Dialog
             fullWidth={fullWidth}
             maxWidth={maxWidth}
             open={isOpen}
-            onClose={handleClose}
+          
             // onClose={handleClose}
           >
-            <BootstrapDialogTitle >Tree Details</BootstrapDialogTitle>
+            <BootstrapDialogTitle onClose={handleClose}>Tree Details</BootstrapDialogTitle>
             <Divider/>
             <DialogContent>
-            <form onSubmit={handleSubmit}>
-    <TextField
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                <Typography variant='h6' gutterBottom sx={{mb: "-11px"}}>Select Tree Type</Typography>
+                <Typography variant='caption' gutterBottom>Please select any tree type</Typography>
+              <Select
+              fullWidth
+              id="typeOfTree"
+              // label="Tree Type*"
+              name="treeType"
+              displayEmpty
+              defaultValue = ""
+              value={values.tretreeTypeeType || ""}
+              required
+              error={Boolean(touched.treeType && errors.treeType)}
+                helperText={touched.treeType && errors.treeType}
+                {...getFieldProps("treeType")}
+            >
+               <MenuItem disabled value="">
+            {/* <em>Tree Type </em> */}
+          </MenuItem>
+              {treeType?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.tree_type}
+                </MenuItem>
+              ))}
+              </Select>
+              </Grid>
+            <Grid item xs={12}>
+            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Select Tree Name(Local)</Typography>
+                <Typography variant='caption' gutterBottom>Please select any tree name</Typography>
+            <Select
+              fullWidth
+              id="nameOfTreeLocal"
+              // label="Tree Name(Local)"
+              name="localtreeName"
+              displayEmpty
+              defaultValue = ""
+              // placeholder="Tree Name(Local)"
+               value={values.localtreeName || ""}
+              required
+              error={Boolean(touched.localtreeName && errors.localtreeName)}
+                helperText={touched.localtreeName && errors.localtreeName}
+                {...getFieldProps("localtreeName")}
+            >
+               <MenuItem disabled value="">
+            {/* <em>Tree Name(Local)</em> */}
+          </MenuItem>
+              {treeName?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
+                </MenuItem>
+              ))}
+              </Select>
+              </Grid>
+            <Grid item xs={12}>
+            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Select Tree Name(Botanical)</Typography>
+                <Typography variant='caption' gutterBottom>Please select any tree name</Typography>
+              <Select
+              fullWidth
+              id="nameOfTreeBot"
+              // label="Tree Name(Botanical)"
+              name="botTreeName"
+              displayEmpty
+              defaultValue = ""
+              // placeholder="Tree Name(Botanical)"
+               value={values.botTreeName || ""}
+              required
+              error={Boolean(touched.botTreeName && errors.botTreeName)}
+                helperText={touched.botTreeName && errors.botTreeName}
+                {...getFieldProps("botTreeName")}
+            >
+               <MenuItem disabled value="">
+            {/* <em>Tree Name(Botanical)</em> */}
+          </MenuItem>
+              {treeName?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.botanical_name}
+                </MenuItem>
+              ))}
+              </Select>
+              </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
                 fullWidth
-                margin="normal"
-                name="locationType"
-                placeholder="Location Type"
-                label="Location Type"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.locationType || ""}
-                required
-                helperText={
-     
-                    errors.locationType && touched.locationType
-                      
-                
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="propertyType"
-                placeholder="Property Type"
-                label="Property Type"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.propertyType || ""}
-                required
-                helperText={
-                
-                    errors.propertyType && touched.propertyType
-                     
-              
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="treeNumber"
-                placeholder="Tree Number"
-                label="Tree Number"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.treeNumber || ""}
-                required
-                helperText={
-                    errors.treeNumber && touched.treeNumber
-                     
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="propertyOwner"
-                placeholder="Property Owner"
-                label="Property Owner"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.propertyOwner || ""}
-                required
-                helperText={
-                    errors.propertyOwner && touched.propertyOwner
-                     
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="tenantName"
-                placeholder="Tenant Name"
-                label="Tenant Name"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.tenantName || ""}
-                required
-                helperText={
-                    errors.tenantName && touched.tenantName
-                     
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="area"
-                placeholder="Area"
-                label="Area"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.area || ""}
-                required
-                helperText={
-                    errors.area && touched.area
-                     
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="treeType"
-                placeholder="Tree Type"
-                label="Tree Type"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.treeType || ""}
-                required
-                helperText={
-                    errors.treeType && touched.treeType
-                     
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="localTreeName"
-                placeholder="Tree Name(local)"
-                label="Tree Name(local)"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.localTreeName || ""}
-                required
-                helperText={
-                    errors.localTreeName && touched.localTreeName
-                      
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="BotTreeName"
-                placeholder="Tree Name(Botanical)"
-                label="Tree Name(Botanical)"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.BotTreeName || ""}
-                required
-                helperText={
-                    errors.BotTreeName && touched.BotTreeName
-                    
-                }
-              />
-              <TextField
-                fullWidth
+                variant="standard"
                 margin="normal"
                 name="girth"
                 placeholder="Girth"
                 label="Girth"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.girth || ""}
+                 value={values.girth || ""}
+                 sx={{mb: "-11px", paddingTop: "20px", maxWidth:"250px"}}
                 required
                 helperText={
                     errors.girth && touched.girth
                      
                 }
+                {...getFieldProps("girth")}
               />
-              <TextField
+               </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
                 fullWidth
+                variant="standard"
                 margin="normal"
                 name="height"
                 placeholder="Height"
                 label="Height"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.height || ""}
+                 value={values.height || ""}
+                 sx={{mb: "-11px", paddingTop: "20px"}}
                 required
                 helperText={
                     errors.height && touched.height
                       
                 }
+                {...getFieldProps("height")}
               />
-              <TextField
+               </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
                 fullWidth
+                variant="standard"
                 margin="normal"
                 name="canopy"
                 placeholder="Canopy"
                 label="Canopy"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.canopy || ""}
+                 value={values.canopy || ""}
+                 sx={{mb: "-11px", paddingTop: "20px"}}
                 required
                 helperText={
                     errors.canopy && touched.canopy
                      
                 }
+                {...getFieldProps("canopy")}
               />
-                            <TextField
-                fullWidth
-                margin="normal"
-                name="treeCondition"
-                placeholder="Tree Condition"
-                label="Tree Condition"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.treeCondition || ""}
-                required
-                helperText={
-                    errors.treeCondition && touched.treeCondition
-                     
-                }
-              />
+               </Grid>
+            <Grid item xs={12}>
+            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Select Tree Condition</Typography>
+                <Typography variant='caption' gutterBottom>Please select any tree condition</Typography>
+                <Select
+              fullWidth
+              id="treeCondition"
+              // label="Tree Condition"
+              name="treeCondition"
+              displayEmpty
+              defaultValue = ""
+              // placeholder="Tree Condition"
+               value={values.treeCondition || ""}
+              required
+              error={Boolean(touched.treeCondition && errors.treeCondition)}
+                helperText={touched.treeCondition && errors.treeCondition}
+                {...getFieldProps("treeCondition")}
+            >
+               <MenuItem disabled value="">
+            {/* <em>Tree Condition</em> */}
+          </MenuItem>
+              {treeConditions?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.condition}
+                </MenuItem>
+              ))}
+              </Select>
+              </Grid>
+            <Grid item xs={12}>
+            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Select Tree Disease(If any)</Typography>
+                <Typography variant='caption' gutterBottom>Please select any tree disease</Typography>
+                <Select
+              fullWidth
+              id="disease"
+              // label="Tree Disease"
+              name="disease"
+              displayEmpty
+              defaultValue = ""
+              // placeholder="Tree Disease"
+               value={values.disease || ""}
+              required
+              error={Boolean(touched.disease && errors.disease)}
+                helperText={touched.disease && errors.disease}
+                {...getFieldProps("disease")}
+            >
+               <MenuItem disabled value="">
+            {/* <em>Tree Disease</em> */}
+          </MenuItem>
+              {treeDisease?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.tree_disease}
+                </MenuItem>
+              ))}
+              </Select>
+              </Grid>
+            <Grid item xs={12}>
+            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Plantation Date</Typography>
+                <Typography variant='caption' gutterBottom>Please select any plantation date</Typography>
               <TextField
                 fullWidth
-                margin="normal"
-                name="disease"
-                placeholder="Disease"
-                label="Disease"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.disease || ""}
-                required
-                helperText={
-                    errors.disease && touched.disease
-                    
-                }
-              />
-              <TextField
-                fullWidth
+                id="plantationDate"
+                type="date"
                 margin="normal"
                 name="plantationDate"
-                placeholder="Plantation Date"
-                label="Plantation Date"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.plantationDate || ""}
+                sx={{mb: "-11px", paddingTop: "20px", mt: "-20px"}}
+                
+                // label="Plantation Date"
+                 value={values.plantationDate || ""}
                 required
                 helperText={
                     errors.plantationDate && touched.plantationDate
                      
                 }
+                {...getFieldProps("plantationDate")}
               />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="referredExpert"
-                placeholder="Referred To Expert"
-                label="Referred To Expert"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.referredExpert || ""}
-                required
-                helperText={
-                    errors.referredExpert && touched.referredExpert
-                    
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="actionTaken"
-                placeholder="Action Need To Be Taken"
-                label="Action Need To Be Taken"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.actionTaken || ""}
-                required
-                helperText={
-                    errors.actionTaken && touched.actionTaken
-                  
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="qcStatus"
-                placeholder="QC Status"
-                label="QC Status"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.qcStatus || ""}
-                required
-                helperText={
-                    errors.qcStatus && touched.qcStatus
-                      
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="qcBy"
-                placeholder="QC By"
-                label="QC By"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.qcBy || ""}
-                required
-                helperText={
-                    errors.qcBy && touched.qcBy
-                    
-                }
-              />
-              <TextField
-                fullWidth
-                margin="normal"
-                name="qcOnDate"
-                placeholder="QC On Date"
-                label="QC On Date"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.qcOnDate || ""}
-                required
-                helperText={
-                    errors.qcOnDate && touched.qcOnDate
-                    
-                }
-              />
-          <Button
+               </Grid>
+           </Grid>
+           </DialogContent>
+        <Divider/>
+        <DialogActions>
+          <Button onClick={handleSubmit}>Save</Button>
+        </DialogActions>
+      </Dialog>
+        //   <Button
                 
-                  variant="contained"
-                  type="submit"
-                  fullWidth
-                  onClick={handleClose}
-                >
-                  Update
-                </Button>
+        //           variant="contained"
+        //           type="submit"
+        //           fullWidth
+        //           onClick={handleClose}
+        //         >
+        //           Save
+        //         </Button>
               
-              </form>
-            </DialogContent>
-            {/* <DialogActions>
-          <Button onClick={handleClose}>Update</Button>
-        </DialogActions> */}
-
-                </Dialog>
+      
+         
       );
 
   }
