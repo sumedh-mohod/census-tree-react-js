@@ -95,6 +95,7 @@ const UpdateQCStatusOfTreeCensus = (id,params) => async (dispatch) => {
 };
 
 const UpdateCensusTree = (params, id) => async (dispatch) => {
+  console.log("UPDATE CENSUS PARAMS",params);
   try {
     const response = await JWTServer.put(`/api/census-trees/${id}`,params);
     console.log("Update Census Tree",response.data);
@@ -128,16 +129,22 @@ const ReferToExpert = (params,id) => async (dispatch) => {
   }
 };
 
-const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDate) => async (dispatch) => {
+const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDate,addedBy) => async (dispatch) => {
 
-  console.log(fromDate, toDate);
-  let url = `/api/census-trees/qc/pending?where[council_id]=${councilId}&where[zone_id]=${zoneId}&where[ward_id]=${wardId}`
-  // if(fromDate){
-  //   url = `${url}&where[from_date]=${fromDate}`;
-  // }
-  // if(toDate){
-  //   url = `${url}&where[to_date]=${toDate}`;
-  // }
+  console.log("ADDED BY",addedBy);
+  let url = `/api/census-trees/qc/pending`
+  if(councilId){
+    url = `${url}?where[council_id]=${councilId}`;
+  }
+  if(zoneId){
+    url = `${url}&where[zone_id]=${zoneId}`;
+  }
+  if(wardId){
+    url = `${url}&where[ward_id]=${wardId}`
+  }
+  if(addedBy){
+    url = `${url}&where[added_by]=${addedBy}`
+  }
   if(fromDate && toDate){
     url = `${url}&where[from_date]=${fromDate}&where[to_date]=${toDate}`
   }

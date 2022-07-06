@@ -18,7 +18,7 @@ const GetTeam = (page,limit) => async (dispatch) => {
 
   const GetMyActiveTeam = () => async (dispatch) => {
     try {
-      const response = await JWTServer.get(`/api/active-teams`);
+      const response = await JWTServer.get(`/api/my-active-team`);
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_ACTIVE_TEAM,

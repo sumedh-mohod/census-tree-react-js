@@ -68,6 +68,8 @@ const BootstrapDialogTitle = (props) => {
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
+    const [localTreeName, setLocalTreeName] = React.useState(data?data.tree_name_id:"");
+    const [botanicalTreeName, setBotanicalTreeName] = React.useState(data?data.tree_name_id:"");
     console.log("props", data);
 
     const {
@@ -91,16 +93,21 @@ const BootstrapDialogTitle = (props) => {
         dispatch(GetAllTreeDisease(1,1000));
       },[])
 
+      const handleLocalTreeName = (e) => {
+        setLocalTreeName(e.target.value)
+        setBotanicalTreeName(e.target.value)
+
+      }
+
+      const handleBotanicalTreeName = (e) => {
+        setBotanicalTreeName(e.target.value)
+        setLocalTreeName(e.target.value)
+      }
+
     const handleClose = () => {
         props.handleClose();
       };
 
-
-
-console.log("names", treeName);
-console.log("types", treeType);
-console.log("conditions", treeConditions);
-console.log("diseases", treeDisease);
       const TreeDetailsSchema = Yup.object().shape(
         {
        
@@ -120,25 +127,25 @@ console.log("diseases", treeDisease);
       const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            treeType:	"",
-            localtreeName:	"",
-            botTreeName:	"",
-            girth:	"",
-            height:	"",
-            canopy:	"",
-            treeCondition:	"",
-            disease:	"",
-            plantationDate:	"",
+            treeType:	data?data.tree_type_id:"",
+            localtreeName: data?data.tree_name_id:"",
+            botTreeName:	data?data.tree_name_id:"",
+            girth:	data?data.girth:"",
+            height:	data?data.height:"",
+            canopy:	data?data.canopy:"",
+            treeCondition:		data?data.tree_condition_id:"",
+            disease:		data?data.tree_disease_id:"",
+            plantationDate:	data?data.plantation_date:"",
         },
         validationSchema: TreeDetailsSchema,
         onSubmit: (value) => {
-            console.log("in submit");
-          console.log("VALUE",value);
+          const plantationDate = value.plantationDate.replaceAll("-","/")
           dispatch(UpdateCensusTree({
             "tree_type_id": value.treeType,
             "tree_name_id": value.localtreeName,
             "tree_disease_id": value.disease,
-            "plantation_date": value.plantationDate,
+            // "plantation_date": value.plantationDate,
+            "plantation_date": plantationDate,
             "girth": value.girth,
             "height": value.height,
             "canopy": value.canopy,
@@ -165,17 +172,16 @@ console.log("diseases", treeDisease);
             <DialogContent>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
-                <Typography variant='h6' gutterBottom sx={{mb: "-11px"}}>Select Tree Type</Typography>
-                <Typography variant='caption' gutterBottom>Please select any tree type</Typography>
-              <Select
+              <TextField
+
+              select
               fullWidth
               id="typeOfTree"
-              // label="Tree Type*"
+              label="Tree Type*"
               name="treeType"
               displayEmpty
               defaultValue = ""
               value={values.tretreeTypeeType || ""}
-              required
               error={Boolean(touched.treeType && errors.treeType)}
                 helperText={touched.treeType && errors.treeType}
                 {...getFieldProps("treeType")}
@@ -188,24 +194,26 @@ console.log("diseases", treeDisease);
                   {option.tree_type}
                 </MenuItem>
               ))}
-              </Select>
+              </TextField>
               </Grid>
             <Grid item xs={12}>
-            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Select Tree Name(Local)</Typography>
-                <Typography variant='caption' gutterBottom>Please select any tree name</Typography>
-            <Select
+            <TextField
+              select
               fullWidth
               id="nameOfTreeLocal"
-              // label="Tree Name(Local)"
+              label="Tree Name(Local)*"
               name="localtreeName"
+              style={{marginTop:5}}
               displayEmpty
               defaultValue = ""
+              onChange={(e) => {
+                handleLocalTreeName(e)
+                formik.handleChange(e);
+              }}
               // placeholder="Tree Name(Local)"
-               value={values.localtreeName || ""}
-              required
+               value={localTreeName}
               error={Boolean(touched.localtreeName && errors.localtreeName)}
                 helperText={touched.localtreeName && errors.localtreeName}
-                {...getFieldProps("localtreeName")}
             >
                <MenuItem disabled value="">
             {/* <em>Tree Name(Local)</em> */}
@@ -215,24 +223,27 @@ console.log("diseases", treeDisease);
                   {option.name}
                 </MenuItem>
               ))}
-              </Select>
+              </TextField>
               </Grid>
             <Grid item xs={12}>
-            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Select Tree Name(Botanical)</Typography>
-                <Typography variant='caption' gutterBottom>Please select any tree name</Typography>
-              <Select
+              <TextField
+              select
               fullWidth
               id="nameOfTreeBot"
-              // label="Tree Name(Botanical)"
+              label="Tree Name(Botanical)*"
               name="botTreeName"
               displayEmpty
               defaultValue = ""
+              style={{marginTop:5}}
               // placeholder="Tree Name(Botanical)"
-               value={values.botTreeName || ""}
-              required
+               value={botanicalTreeName}
+               onChange={(e) => {
+                handleBotanicalTreeName(e)
+                formik.handleChange(e);
+              }}
               error={Boolean(touched.botTreeName && errors.botTreeName)}
                 helperText={touched.botTreeName && errors.botTreeName}
-                {...getFieldProps("botTreeName")}
+                // {...getFieldProps("botTreeName")}
             >
                <MenuItem disabled value="">
             {/* <em>Tree Name(Botanical)</em> */}
@@ -242,19 +253,18 @@ console.log("diseases", treeDisease);
                   {option.botanical_name}
                 </MenuItem>
               ))}
-              </Select>
+              </TextField>
               </Grid>
             <Grid item xs={12}>
-              <DefaultInput
+              <TextField
                 fullWidth
-                variant="standard"
-                margin="normal"
+                displayEmpty
+                type="number"
                 name="girth"
                 placeholder="Girth"
-                label="Girth"
+                style={{marginTop:5}}
+                label="Girth*"
                  value={values.girth || ""}
-                 sx={{mb: "-11px", paddingTop: "20px", maxWidth:"250px"}}
-                required
                 helperText={
                     errors.girth && touched.girth
                      
@@ -263,16 +273,13 @@ console.log("diseases", treeDisease);
               />
                </Grid>
             <Grid item xs={12}>
-              <DefaultInput
+              <TextField
                 fullWidth
-                variant="standard"
-                margin="normal"
                 name="height"
                 placeholder="Height"
-                label="Height"
+                label="Height*"
                  value={values.height || ""}
-                 sx={{mb: "-11px", paddingTop: "20px"}}
-                required
+                 style={{marginTop:5}}
                 helperText={
                     errors.height && touched.height
                       
@@ -281,16 +288,13 @@ console.log("diseases", treeDisease);
               />
                </Grid>
             <Grid item xs={12}>
-              <DefaultInput
+              <TextField
                 fullWidth
-                variant="standard"
-                margin="normal"
                 name="canopy"
                 placeholder="Canopy"
-                label="Canopy"
+                label="Canopy*"
                  value={values.canopy || ""}
-                 sx={{mb: "-11px", paddingTop: "20px"}}
-                required
+                 style={{marginTop:5}}
                 helperText={
                     errors.canopy && touched.canopy
                      
@@ -299,18 +303,18 @@ console.log("diseases", treeDisease);
               />
                </Grid>
             <Grid item xs={12}>
-            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Select Tree Condition</Typography>
-                <Typography variant='caption' gutterBottom>Please select any tree condition</Typography>
-                <Select
+           
+                <TextField
+                select
               fullWidth
               id="treeCondition"
-              // label="Tree Condition"
+              label="Tree Condition*"
               name="treeCondition"
               displayEmpty
               defaultValue = ""
+              style={{marginTop:5}}
               // placeholder="Tree Condition"
                value={values.treeCondition || ""}
-              required
               error={Boolean(touched.treeCondition && errors.treeCondition)}
                 helperText={touched.treeCondition && errors.treeCondition}
                 {...getFieldProps("treeCondition")}
@@ -323,21 +327,21 @@ console.log("diseases", treeDisease);
                   {option.condition}
                 </MenuItem>
               ))}
-              </Select>
+              </TextField>
               </Grid>
             <Grid item xs={12}>
-            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Select Tree Disease(If any)</Typography>
-                <Typography variant='caption' gutterBottom>Please select any tree disease</Typography>
-                <Select
+            
+                <TextField
+                select
               fullWidth
               id="disease"
-              // label="Tree Disease"
+              label="Tree Disease(If any)"
               name="disease"
               displayEmpty
               defaultValue = ""
+              style={{marginTop:5}}
               // placeholder="Tree Disease"
                value={values.disease || ""}
-              required
               error={Boolean(touched.disease && errors.disease)}
                 helperText={touched.disease && errors.disease}
                 {...getFieldProps("disease")}
@@ -350,26 +354,27 @@ console.log("diseases", treeDisease);
                   {option.tree_disease}
                 </MenuItem>
               ))}
-              </Select>
+              </TextField>
               </Grid>
             <Grid item xs={12}>
-            <Typography variant='h6' sx={{mb: "-11px", paddingTop: "20px"}} gutterBottom>Plantation Date</Typography>
-                <Typography variant='caption' gutterBottom>Please select any plantation date</Typography>
               <TextField
                 fullWidth
                 id="plantationDate"
+                label="Plantation Date*"
                 type="date"
-                margin="normal"
+                style={{marginTop:5}}
                 name="plantationDate"
-                sx={{mb: "-11px", paddingTop: "20px", mt: "-20px"}}
                 
                 // label="Plantation Date"
                  value={values.plantationDate || ""}
-                required
                 helperText={
                     errors.plantationDate && touched.plantationDate
                      
                 }
+                InputLabelProps={{
+                  shrink: true,
+                  
+                }}
                 {...getFieldProps("plantationDate")}
               />
                </Grid>

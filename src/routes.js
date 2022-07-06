@@ -86,7 +86,7 @@ export default function Router() {
         { path: 'treeCensus/history/:treeCensusId/:treeCensusName', element: <TreeCensusHistory/> },
         { path: 'no-tree-properties', element: <NoTreeProperty/> },
         { path: 'treeOnMap', element: <TreeOnMap /> },
-        { path: 'newUI', element: <NewUI/>},
+        { path: 'census-qc', element: <NewUI/>},
         { path: 'baseColorPendingQC', element: <BaseColorPendingQC/>}
       ],
     },
