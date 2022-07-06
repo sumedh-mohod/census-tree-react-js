@@ -85,6 +85,7 @@ export const ADD_COUNCIL = "add-council";
 export const DELETE_COUNCIL = "delete-council";
 
 export const GET_TEAM = "get-team";
+export const GET_ACTIVE_TEAM = "get-active-team";
 export const EDIT_TEAM = "edit-team";
 export const ADD_TEAM = "add-team";
 export const DELETE_TEAM = "delete-team";

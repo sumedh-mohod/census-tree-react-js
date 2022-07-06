@@ -27,6 +27,7 @@ import {
  import { GetUsers } from '../actions/UserAction';
 
  import Page from '../components/Page';
+import { GetMyActiveTeam } from '../actions/TeamsAction';
 
 
 
@@ -58,6 +59,7 @@ import {
       treeCensusPendingQCStatus, 
       referToExpertLog,
       updateQCStatusLog,
+      activeTeams
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.council,
@@ -66,17 +68,33 @@ import {
       treeCensusPendingQCStatus: state.treeCensus.treeCensusPendingQCStatus,
       referToExpertLog: state.treeCensus.referToExpertLog,
       updateQCStatusLog: state.treeCensus.updateQCStatusLog,
+      activeTeams: state.teams.activeTeams,
     }));
 
     console.log("in new");
+
+    const firstRun = React.useRef(true);
     useEffect(()=>{
+      if (firstRun.current) {
+        firstRun.current = false;
+        return;
+      }
       dispatch(GetUsers(1, 1000));
       dispatch(GetCouncil(1,1000));
       dispatch(GetWards(1,1000));
       dispatch(GetZones(1,1000));
-      dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID));
+      dispatch(GetTreeCensusPendingQCStatus(activeTeams?.active_council_id,activeTeams?.active_zone_id,activeTeams?.active_ward_id));
+      setCouncilID(activeTeams?.active_council_id);
+      setZoneID(activeTeams?.active_zone_id);
+      setWardID(activeTeams?.active_ward_id);
+    },[activeTeams])
+
+
+    useEffect(()=>{
+      dispatch(GetMyActiveTeam());
       // dispatch(GetBaseColorTreeById(1));
     },[])
+    console.log("ACTIVE TYEAMS",activeTeams);
     console.log(treeCensusPendingQCStatus);
     console.log(council);
     console.log(users);
@@ -229,6 +247,8 @@ import {
               "& .MuiDrawer-paper": {
                 width: "300px",
                 maxWidth: "100%",
+                justifyContent:"center",
+                alignItems:"center",
               },
             }
           }
@@ -239,21 +259,25 @@ import {
           // }}
         >
           <div>
-          <Grid container spacing={1}>
+          <Grid container spacing={1} style={{width:"90%"}}>
           <Grid item xs={12}>
           <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select Council</Typography>
-            <Select
-            
+            <TextField
+              select
               id="council"
               label="Select Council"
               displayEmpty
               value={councilID}
               style={{width:'83%', marginLeft: 40}}
               size="small"
-              onChange={handleCouncilChange}
+              onChange={(e) => {
+                handleCouncilChange(e)
+                formik.handleChange(e);
+              }}
+              // onChange={handleCouncilChange}
               error={Boolean(touched.councilForm && errors.councilForm)}
                 helperText={touched.councilForm && errors.councilForm}
-                {...getFieldProps("councilForm")}
+                
             >
                <MenuItem disabled value="">
             <em>Select Council*</em>
@@ -263,22 +287,26 @@ import {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
             <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select Zone </Typography>
-            <Select
-            
+            <TextField
+              select
               id="zone"
               label="Select Zone"
               displayEmpty
               value={zoneID}
               style={{width:'83%', marginLeft: 40}}
               size="small"
-              onChange={handleZoneChange}
+              onChange={(e) => {
+                handleZoneChange(e)
+                formik.handleChange(e);
+              }}
+              // onChange={handleZoneChange}
               error={Boolean(touched.zoneForm && errors.zoneForm)}
                 helperText={touched.zoneForm && errors.zoneForm}
-                {...getFieldProps("zoneForm")}
+               
             >
                <MenuItem disabled value="">
             <em>Select Zone*</em>
@@ -288,22 +316,26 @@ import {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
             <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select Ward</Typography>
-            <Select
-            
+            <TextField
+              select
               id="ward"
               label="Select Ward"
               displayEmpty
               value={zoneID}
               style={{width:'83%', marginLeft: 40}}
               size="small"
-              onChange={handleWardChange}
+              onChange={(e) => {
+                handleWardChange(e)
+                formik.handleChange(e);
+              }}
+              // onChange={handleWardChange}
               error={Boolean(touched.wardForm && errors.wardForm)}
                 helperText={touched.wardForm && errors.wardForm}
-                {...getFieldProps("wardForm")}
+                
             >
                <MenuItem disabled value="">
             <em>Select Ward*</em>
@@ -313,12 +345,12 @@ import {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
             <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select Added By</Typography>
-            <Select
-            
+            <TextField
+              select
               id="addedBy"
               label="Select Added By"
               displayEmpty
@@ -326,10 +358,14 @@ import {
               style={{width:'83%', marginLeft: 40}}
               size="small"
               // placeholder='*Status'
-              onChange={handleAddedByChange}
+              onChange={(e) => {
+                handleAddedByChange(e)
+                formik.handleChange(e);
+              }}
+              // onChange={handleAddedByChange}
               // error={Boolean(touched.addedByForm && errors.councilForm)}
               //   helperText={touched.councilForm && errors.councilForm}
-                {...getFieldProps("addedByForm")}
+                // {...getFieldProps("addedByForm")}
             >
                <MenuItem disabled value="">
             <em>Select Added By</em>
@@ -339,7 +375,7 @@ import {
                   {option.first_name}{" "}{option.last_name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
                <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select To Date</Typography>
