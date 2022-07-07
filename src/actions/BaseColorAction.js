@@ -129,10 +129,25 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
     }
   };
 
-  const GetBaseColorPendingQCStatus = (councilId, zoneId, wardId) => async (dispatch) => {
+  const GetBaseColorPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDate,addedBy) => async (dispatch) => {
     
     
-    const url = `/api/base-color-trees/qc/pending?where[council_id]=${councilId}&where[zone_id]=${zoneId}&where[ward_id]=${wardId}`
+    let url = `/api/base-color-trees/qc/pending`;
+    if(councilId){
+      url = `${url}?where[council_id]=${councilId}`;
+    }
+    if(zoneId){
+      url = `${url}&where[zone_id]=${zoneId}`;
+    }
+    if(wardId){
+      url = `${url}&where[ward_id]=${wardId}`
+    }
+    if(addedBy){
+      url = `${url}&where[added_by_id]=${addedBy}`
+    }
+    if(fromDate && toDate){
+      url = `${url}&where[from_date]=${fromDate}&where[to_date]=${toDate}`
+    }
     try {
       const response = await JWTServer.get(`${url}`);
       console.log(response);

@@ -46,6 +46,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
     const [updateClick, setUpdateClick] = React.useState(false);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [imageList, setImageList] = React.useState([])
+    const [totalTrees, setTotalTrees] = React.useState("");
 
 
     const [state, setState] = React.useState({
@@ -105,6 +106,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
 
       if(selectedIndex+1===treeCensusPendingQCStatus?.data.length){
         setSelectedIndex(0);
+        setTotalTrees(totalTrees-1)
         setUpdateClick(false);
         dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID));
       }
@@ -112,6 +114,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
       else {
 
         setSelectedIndex(selectedIndex+1);
+        setTotalTrees(totalTrees-1);
         setUpdateClick(false);
         const imageList = [];
         if(treeCensusPendingQCStatus?.data.length!==0){
@@ -143,6 +146,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
         })
       }
       setImageList(imageList)
+      setTotalTrees(treeCensusPendingQCStatus?.pending_qc_count)
     },[treeCensusPendingQCStatus])
 
 
@@ -193,12 +197,12 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
     const handleReferToExpert = () =>{
       dispatch(ReferToExpert({
         "referred_to_expert" : 1
-      },treeCensusPendingQCStatus.data[selectedIndex].id))
+      },treeCensusPendingQCStatus?.data[selectedIndex].id))
     }
 
     const handleApproveNext = () =>{
       console.log("HANDLE APPROVE CALLED");
-      dispatch(UpdateQCStatusOfTreeCensus(treeCensusPendingQCStatus.data[0].id,{
+      dispatch(UpdateQCStatusOfTreeCensus(treeCensusPendingQCStatus?.data[selectedIndex].id,{
         "qc_status" : "Approved"
       }))
     }
@@ -256,7 +260,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
         onSubmit: (value) => {
           console.log("in submit");
           console.log("VALUE",value);
-          dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm));
+          dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm));
         },
       });
     
@@ -487,7 +491,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
   <Grid item xs={4} style={{height:'100%',overflowY:'auto',paddingRight:'5%'}}>
   <Box sx={{  width: '100%',height:'100%',paddingRight:'5%',borderRight:'2px solid slategray' }}>
   <Typography variant="h4" gutterBottom align='center'>
-            Total Trees: {treeCensusPendingQCStatus?.pending_qc_count}
+            Total Pending Trees: {totalTrees}
           </Typography>
   <table style={{ fontFamily: "arial, sans-serif",
   borderCollapse: "collapse",
@@ -499,7 +503,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
     <th style={{border: "1px solid #dddddd",  textAlign: "center",  padding: "4px"}}>Tree Name</th>
   </tr>
   
-    {treeCensusPendingQCStatus.data?.map((tree, index) =>(
+    {treeCensusPendingQCStatus?.data?.map((tree, index) =>(
   <tr style={{backgroundColor:index===selectedIndex?"grey":""}}>
     <td style={{border: "1px solid #dddddd",  textAlign: "center",  padding: "4px"}}>{index+1}</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "center",  padding: "4px"}}>{tree.tree_number}</td>
@@ -547,13 +551,13 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Location Type: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].location_type?.location_type}</td>
               </tr>
-             <tr>
+             <tr> 
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Property Type: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property_type? treeCensusPendingQCStatus.data[0].property_type?.property_type: "-"}</td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property_type? treeCensusPendingQCStatus.data[selectedIndex].property_type?.property_type: "-"}</td>
               </tr>
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Property Number: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property?.property_number?treeCensusPendingQCStatus.data[0].property?.property_number:"-"}</td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property?.property_number?treeCensusPendingQCStatus.data[selectedIndex].property?.property_number:"-"}</td>
               </tr>
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Owner Name: </td>
@@ -565,7 +569,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
               </tr>
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Area(Sq feet): </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property?.area? treeCensusPendingQCStatus.data[0].property.area:"-"}</td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property?.area? treeCensusPendingQCStatus.data[selectedIndex].property.area:"-"}</td>
               </tr>
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Plantation Date: </td>

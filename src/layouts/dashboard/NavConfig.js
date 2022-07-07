@@ -137,7 +137,7 @@ const navConfig = [
     },
     {
       title: 'Census QC',
-      path: '/dashboard/census-qc',
+      path: '/dashboard/censusQC',
       icon: getIcon('eva:shopping-bag-fill'),
     },
     {

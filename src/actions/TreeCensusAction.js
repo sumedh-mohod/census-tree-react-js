@@ -143,7 +143,7 @@ const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDat
     url = `${url}&where[ward_id]=${wardId}`
   }
   if(addedBy){
-    url = `${url}&where[added_by]=${addedBy}`
+    url = `${url}&where[added_by_id]=${addedBy}`
   }
   if(fromDate && toDate){
     url = `${url}&where[from_date]=${fromDate}&where[to_date]=${toDate}`
