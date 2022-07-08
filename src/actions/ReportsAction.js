@@ -17,12 +17,17 @@ const GetReports = (council,formDate,toDate) => async (dispatch) => {
     }
 
     console.log("council123",council)
+   
     try {
       const response = await JWTServer.get(`${url}`);
+      console.log("payload.data", response.data)
       dispatch({
+     
         type: GET_REPORTS,
         payload: response.data,
+    
       });
+
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }

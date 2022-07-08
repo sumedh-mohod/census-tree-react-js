@@ -66,12 +66,14 @@ ReportListToolbar.propTypes = {
 
 
 
-export default function ReportListToolbar({numSelected, handleGetData}) {
+export default function ReportListToolbar({numSelected, handleGetData, handleCouncil }) {
   const dispatch = useDispatch();
   const [coucilId,setCouncilId] = useState('');
 
   const handleCouncilChange = (e) =>{
     setCouncilId(e.target.value);
+    handleCouncil(e.target.value)
+    console.log("handleCouncilChange", e.target.value)
     // setZoneId("")
     // setWardId("")
     // dispatch(GetZonesByCouncilId(1,1000,e.target.value))
@@ -111,7 +113,6 @@ export default function ReportListToolbar({numSelected, handleGetData}) {
         council:state.council.council,
         reports:state.reports.reports,
       }));
-console.log("council", council)
 console.log("reports123", reports)
 
 const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -148,7 +149,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
               }}
               error={Boolean(touched.council && errors.council)}
                 helperText={touched.council && errors.council}
-                {...getFieldProps("council")}
+                // {...getFieldProps("council")}
             >
                <MenuItem disabled value="">
             <em>Select Councils</em>

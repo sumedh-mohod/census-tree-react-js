@@ -70,6 +70,7 @@ export default function Reports() {
    const [qcDialogOpen,setQcDialogOpen] = useState(false);
    const [baseColorId,setBaseColorId] = useState("");
    const [value, setValue] = useState('1');
+   const [councilName, setCouncilName] = useState('');
 
    const {
     council,
@@ -95,6 +96,19 @@ export default function Reports() {
   },[])
   console.log("reports", reports)
   console.log("council", council)
+
+  // const handleNameCouncil = () => {
+
+  // }
+
+  const separateId = (id) => {
+    council.map((value,index)=>{
+      if(value.id===id){
+        setCouncilName(value.name);
+      }
+      return null;
+    })
+  }
 
 
   useEffect(()=>{
@@ -138,9 +152,14 @@ export default function Reports() {
     setValue(newValue);
   };
 
-  const dataValue =  reports.by_wards;
+
+const handleCoucilChange = (value) => {
+  setCouncilName(value)
+}
+
+  const dataValue =  reports?.by_wards;
   const value1= [];
-  dataValue.map((option, index) => {
+  dataValue?.map((option, index) => {
     const value2 = [index+1]
     value2.push(option.name)
     value2.push(option.census_trees_count)
@@ -149,9 +168,9 @@ export default function Reports() {
   })
 
 
-  const TreeName =  reports.by_tree_names;
+  const TreeName =  reports?.by_tree_names;
   const treeNameValue1 = [];
-  TreeName.map((option, index) => {
+  TreeName?.map((option, index) => {
     const treeNameValue2 = [index+1]
     treeNameValue2.push(option.name)
     treeNameValue2.push(option.census_trees_count)
@@ -160,9 +179,9 @@ export default function Reports() {
   })
 
 
-  const treeType =  reports.by_tree_types;
+  const treeType =  reports?.by_tree_types;
   const treeType1= [];
-  treeType.map((option, index) => {
+  treeType?.map((option, index) => {
     const treeType2 = [index+1]
     treeType2.push(option.tree_type)
     treeType2.push(option.census_trees_count)
@@ -171,9 +190,9 @@ export default function Reports() {
   })
 
 
-  const TreeCondition =  reports.by_tree_conditions;
+  const TreeCondition =  reports?.by_tree_conditions;
   const TreeCondition1= [];
-  TreeCondition.map((option, index) => {
+  TreeCondition?.map((option, index) => {
     const TreeCondition2 = [index+1]
     TreeCondition2.push(option.condition)
     TreeCondition2.push(option.census_trees_count)
@@ -185,11 +204,12 @@ export default function Reports() {
   console.log("dataValue", dataValue)
   console.log("TreeName", TreeName)
   console.log("treeType", treeType)
+  console.log("council1234", councilName)
   // console.log("Council123", council?.name)
   const exportPdf = () => {
     // eslint-disable-next-line new-cap
     const doc = new jsPDF()
-    doc.text("Council Name : ", 20, 10);
+    doc.text(councilName, 20, 10);
     // doc.({`${council?.name}`})
     // doc.text1("Council Name : ", 20, 10);
     autoTable(doc, {
@@ -263,6 +283,7 @@ export default function Reports() {
         </Stack>
         <Card>
         <ReportListToolbar
+      handleCouncil={(e)=>separateId(e)} 
         // handleCoucilChange={(e)=>handleCoucilChange(e)} 
         // coucilId={coucilId}
         // fromDate={""}
@@ -285,21 +306,21 @@ export default function Reports() {
         </Box>
         <TabPanel value="1">
           <ByWardReports
-          data={reports?.by_wards}/>
+          data={reports?.by_wards? reports?.by_wards: []}/>
         </TabPanel>
         <TabPanel value="2">
           <ByTreeNameReports
-          data={reports?.by_tree_names}
+          data={reports?.by_tree_names ? reports?.by_tree_names: []}
           />
         </TabPanel>
         <TabPanel value="3">
     <ByTreeTypeReports
-    data={reports?.by_tree_types}
+    data={reports?.by_tree_types ? reports?.by_tree_types : []}
     />
         </TabPanel>
         <TabPanel value="4">
     <ByTreeConditionReports
-    data={reports?.by_tree_conditions}
+    data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []}
     />
         </TabPanel>
       </TabContext>
