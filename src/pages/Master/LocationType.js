@@ -81,21 +81,29 @@ export default function LocationType() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
   const {
     locationTypes,
     addLocationTypesLog,
     editLocationTypesLog,
     deleteLocationTypesLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     locationTypes:state.locationTypes.locationTypes,
     addLocationTypesLog:state.locationTypes.addLocationTypesLog,
     editLocationTypesLog:state.locationTypes.editLocationTypesLog,
     deleteLocationTypesLog:state.locationTypes.deleteLocationTypesLog,
-    pageInfo : state.locationTypes.pageInfo
+    pageInfo : state.locationTypes.pageInfo,
+    loggedUser:state.auth.loggedUser,
+
   }));
 
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
   console.log("Location TYPES", addLocationTypesLog)
   console.log("locationTypes", locationTypes)
 
@@ -200,10 +208,11 @@ export default function LocationType() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-location-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
            Add New
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -224,7 +233,7 @@ export default function LocationType() {
                         <TableCell align="left">{option.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

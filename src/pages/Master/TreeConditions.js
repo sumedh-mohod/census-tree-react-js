@@ -80,21 +80,29 @@ export default function TreeConditions() {
    const [dialogData,setDialogData] = useState(null);
    const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
    const {
     treeConditions,
     addTreeConditionsLog,
     editTreeConditionsLog,
     deleteTreeConditionsLog,
-    pageInfo
+    pageInfo,
+    loggedUser,
   } = useSelector((state) => ({
     treeConditions:state.treeConditions.treeConditions,
     addTreeConditionsLog:state.treeConditions.addTreeConditionsLog,
     editTreeConditionsLog:state.treeConditions.editTreeConditionsLog,
     deleteTreeConditionsLog:state.treeConditions.deleteTreeConditionsLog,
-    pageInfo : state.treeConditions.pageInfo
+    pageInfo : state.treeConditions.pageInfo,
+    loggedUser:state.auth.loggedUser,
+
   }));
 
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
   console.log("TREE CONDITIONS",treeConditions)
 
   useEffect(()=>{
@@ -200,10 +208,11 @@ export default function TreeConditions() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-tree-condition")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Tree Condition
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -224,7 +233,7 @@ export default function TreeConditions() {
                         <TableCell align="left">{option.condition}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

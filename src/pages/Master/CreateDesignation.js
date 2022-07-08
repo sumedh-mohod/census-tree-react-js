@@ -81,21 +81,28 @@ export default function CreateDestination() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
   const [searchValue,setSearchValue] = useState("");
+  const userPermissions = [];
   
   const {
     designations,
     addDesignationsLog,
     editDesignationsLog,
     deleteDesignationsLog,
-    pageInfo
+    pageInfo,
+    loggedUser,
   } = useSelector((state) => ({
     designations:state.designations.designations,
     addDesignationsLog:state.designations.addDesignationsLog,
     editDesignationsLog:state.designations.editDesignationsLog,
     deleteDesignationsLog:state.designations.deleteDesignationsLog,
-    pageInfo : state.designations.pageInfo
+    pageInfo : state.designations.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
 
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
   console.log("DISTRICTS",designations)
 
   useEffect(()=>{
@@ -200,10 +207,11 @@ export default function CreateDestination() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-designation")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Designation
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -224,7 +232,7 @@ export default function CreateDestination() {
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

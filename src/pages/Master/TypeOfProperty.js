@@ -81,20 +81,28 @@ export default function TypeOfProperty() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
   const {
     propertyTypes,
     addPropertyTypesLog,
     editPropertyTypesLog,
     deletePropertyTypesLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     propertyTypes:state.propertyTypes.propertyTypes,
     addPropertyTypesLog:state.propertyTypes.addPropertyTypesLog,
     editPropertyTypesLog:state.propertyTypes.editPropertyTypesLog,
     deletePropertyTypesLog:state.propertyTypes.deletePropertyTypesLog,
-    pageInfo : state.propertyTypes.pageInfo
+    pageInfo : state.propertyTypes.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   console.log("PROPERTY TYPES",propertyTypes)
 
@@ -199,10 +207,11 @@ export default function TypeOfProperty() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-property-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add New
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -224,7 +233,7 @@ export default function TypeOfProperty() {
                         <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

@@ -10,6 +10,7 @@ import Iconify from '../../../components/Iconify';
 export default function TreeCensusMenu(props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const permissions = props.permissions;
 
   const handleClose = () => {
     setIsOpen(false);
@@ -83,19 +84,22 @@ export default function TreeCensusMenu(props) {
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem> */}
-
+ {(permissions.includes("view-census-tree-history"))?
         <MenuItem component={RouterLink} to={`/dashboard/treeCensus/history/${props.treeCensusId}/${props.treeCensusName}`} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:eye-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View History" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
+        :null}
+         {(permissions.includes("view-census-tree-details"))?
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleCensusViewDialog}>
           <ListItemIcon>
             <Iconify icon="carbon:data-view-alt" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View Details" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
+        :null}
       </Menu>
     </>
   );

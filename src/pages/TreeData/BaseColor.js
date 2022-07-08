@@ -75,6 +75,7 @@ export default function BaseColor() {
    const [showList,setShowList] = useState(false);
    const [qcDialogOpen,setQcDialogOpen] = useState(false);
    const [baseColorId,setBaseColorId] = useState("");
+   const userPermissions = [];
 
    const {
     council,
@@ -84,7 +85,8 @@ export default function BaseColor() {
     editBaseColorTreesLog,
     deleteBaseColorTreesLog,
     updateQCStatusLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     council:state.council.council,
     zones:state.zones.zones,
@@ -94,7 +96,12 @@ export default function BaseColor() {
     deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
     updateQCStatusLog:state.baseColor.updateQCStatusLog,
     pageInfo:state.baseColor.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
 
   const firstRun = React.useRef(true);
   useEffect(()=>{
@@ -346,7 +353,7 @@ export default function BaseColor() {
                         <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.qc_date?option.qc_date:"-"}</TableCell>
                         <TableCell align="right">
-                          <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
+                          <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} permissions={userPermissions} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

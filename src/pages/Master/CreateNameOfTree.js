@@ -83,22 +83,31 @@ export default function CreateNameOfTree() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
   const [searchValue,setSearchValue] = useState("");
+  const userPermissions = [];
 
   const {
     treeName,
     addTreeNameLog,
     editTreeNameLog,
     deleteTreeNameLog,
-    pageInfo
+    pageInfo, 
+    loggedUser
   } = useSelector((state) => ({
     treeName:state.treeName.treeName,
     addTreeNameLog:state.treeName.addTreeNameLog,
     editTreeNameLog:state.treeName.editTreeNameLog,
     deleteTreeNameLog:state.treeName.deleteTreeNameLog,
-    pageInfo : state.treeName.pageInfo
+    pageInfo : state.treeName.pageInfo,
+    loggedUser:state.auth.loggedUser,
+   
   }));
 
   console.log("TREE NAME",treeName)
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   useEffect(()=>{
     dispatch(GetTreeName(page,rowsPerPage));
@@ -203,10 +212,11 @@ export default function CreateNameOfTree() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-tree-name")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Name Of Tree
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -230,7 +240,7 @@ export default function CreateNameOfTree() {
                         <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

@@ -84,21 +84,28 @@ export default function District() {
    const [dialogData,setDialogData] = useState(null);
    const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
    const {
   qcremarks,
     addQcRemarksLog,
     editQcRemarksLog,
     deleteQcRemarksLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((qcremark) => ({
     qcremarks:qcremark.qcRemarksTypes.qcremarks,
     addQcRemarksLog:qcremark.qcRemarksTypes.addQcRemarksLog,
     editQcRemarksLog:qcremark.qcRemarksTypes.editQcRemarksLog,
     deleteQcRemarksLog:qcremark.qcRemarksTypes.deleteQcRemarksLog,
-    pageInfo : qcremark.qcRemarksTypes.pageInfo
+    pageInfo : qcremark.qcRemarksTypes.pageInfo,
+    loggedUser:qcremark.auth.loggedUser,
   }));
 
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
   // qcremarks:remark.qcRemarksTypes.qcremarks,
   useEffect(()=>{
     dispatch(GetQcRemarks(page,rowsPerPage));
@@ -207,10 +214,11 @@ export default function District() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-qc-remark")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add New
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -233,7 +241,7 @@ export default function District() {
                             </TableCell>
                         <TableCell align="left">{option.remark_for}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )
