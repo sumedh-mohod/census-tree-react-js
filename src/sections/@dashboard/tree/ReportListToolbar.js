@@ -169,7 +169,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 label="From Date*"
                 placeholder='From Date*'
                 // defaultValue="2017-05-24"
-                style={{width: '90.5%',  marginLeft: 40}}
+                style={{width: '90.5%',  marginLeft: 20}}
                 // className={classes.textField}
                 // error={Boolean(touched.dob && errors.dob)}
                 // helperText={touched.dob && errors.dob}
@@ -197,6 +197,12 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 }}
               />
               </Grid>
+              <Grid item sm={4}>
+            <Button variant="contained" onClick={handleSubmit} style={{marginLeft: 30, marginTop: 5, backgroundColor: "#008000", height: 50, width: 150}}  >View Report</Button>
+            </Grid>
+            {/* <Grid item sm={4}>
+            <Button variant="contained" onClick={handleSubmit} style={{marginLeft: 30, marginTop: 5, height: 50, width: 150}}  >Export Report</Button>
+            </Grid> */}
 
 
 
@@ -204,9 +210,9 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
           {/* {(callType === "BaseColor")?(
          <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
          ):null} */}
-          <Grid item sm={4}>
+          {/* <Grid item sm={4}>
             <Button variant="contained" onClick={handleSubmit} style={{marginLeft: 30, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}  >Get Data</Button>
-            </Grid>
+            </Grid> */}
               </Grid>
    </RootStyle>
   );

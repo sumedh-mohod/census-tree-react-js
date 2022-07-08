@@ -246,7 +246,7 @@ const handleCoucilChange = (value) => {
       body: TreeCondition1
     })
 
-    doc.save('table.pdf')
+    doc.save(`${councilName}.pdf`)
   }
 
   function a11yProps(index) {
@@ -286,7 +286,7 @@ const handleCoucilChange = (value) => {
       <div style={{marginBottom : 20}}>
       {userPermissions.includes("export-report")? 
         <Button variant="contained" component="span" onClick= {exportPdf} style={{ position: "absolute", right: "42px" }}>
-          export
+          export Report
         </Button>:null}
         </div>
     </div>
@@ -308,10 +308,10 @@ const handleCoucilChange = (value) => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="By Ward" value="1" />
-            <Tab label="By Tree Name" value="2" />
-            <Tab label="By Tree Type" value="3" />
-            <Tab label="By Tree Condition" value="4" />
+            <Tab label="By Wards" value="1" />
+            <Tab label="By Tree Names" value="2" />
+            <Tab label="By Tree Types" value="3" />
+            <Tab label="By Tree Conditions" value="4" />
           </TabList>
         </Box>
         <TabPanel value="1">
