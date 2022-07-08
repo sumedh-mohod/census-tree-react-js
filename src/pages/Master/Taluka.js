@@ -83,21 +83,29 @@ export default function Taluka() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
   const {
     talukas,
     addTalukasLog,
     editTalukasLog,
     deleteTalukasLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     talukas:state.master.talukas,
     addTalukasLog:state.master.addTalukasLog,
     editTalukasLog:state.master.editTalukasLog,
     deleteTalukasLog:state.master.deleteTalukasLog,
-    pageInfo : state.master.pageInfo
+    pageInfo : state.master.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
 
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+
+  
   console.log("TALUKAS",talukas)
 
   useEffect(()=>{
@@ -201,10 +209,11 @@ export default function Taluka() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-taluka")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Taluka
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -229,7 +238,7 @@ export default function Taluka() {
                         <TableCell align="left">{option.district?.state?.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

@@ -71,6 +71,8 @@ export default function Census() {
    const [qcDialogOpen,setQcDialogOpen] = useState(false);
    const [viewCensusDetails, setViewCensusDetails] = useState(false)
    const [treeCensusId,setTreeCensusId] = useState("");
+   const userPermissions = [];
+
 
    const {
     council,
@@ -80,7 +82,8 @@ export default function Census() {
     editBaseColorTreesLog,
     deleteBaseColorTreesLog,
     updateQCStatusLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     council:state.council.council,
     zones:state.zones.zones,
@@ -90,7 +93,14 @@ export default function Census() {
     // deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
     updateQCStatusLog:state.treeCensus.updateQCStatusLog,
     pageInfo:state.treeCensus.pageInfo,
+    loggedUser:state.auth.loggedUser
   }));
+
+  
+loggedUser.roles[0].permissions.map((item, index)=>(
+  userPermissions.push(item.name)
+))
+
 
   const firstRun = React.useRef(true);
   useEffect(()=>{
@@ -355,7 +365,7 @@ console.log("page123", page)
                         <TableCell align="left">{option.qc_by?.first_name ?option.qc_by?.first_name : "-" }</TableCell>
                         <TableCell align="left">{option.qc_date? option.qc_date: "-" }</TableCell> */}
                         <TableCell align="right">
-                          <TreeCensusMenu treeCensusId={option.id} TreeCensusName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleCensusViewDialog={() =>handleCensusViewDetailsDialog(option)} handleDelete={()=>handleDelete(option)} />
+                          <TreeCensusMenu permissions={userPermissions} treeCensusId={option.id} TreeCensusName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleCensusViewDialog={() =>handleCensusViewDetailsDialog(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

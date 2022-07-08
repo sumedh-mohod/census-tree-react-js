@@ -52,22 +52,30 @@ export default function TreeDisease() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
   const {
     treeDisease,
     addTreeDiseaseLog,
     editTreeDiseaseLog,
     deleteTreeDiseaseLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     treeDisease:state.treeDisease.treeDisease,
     addTreeDiseaseLog:state.treeDisease.addTreeDiseaseLog,
     editTreeDiseaseLog:state.treeDisease.editTreeDiseaseLog,
     deleteTreeDiseaseLog:state.treeDisease.deleteTreeDiseaseLog,
-    pageInfo : state.treeDisease.pageInfo
+    pageInfo : state.treeDisease.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
 
   console.log("treeDisease",treeDisease)
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   useEffect(()=>{
     dispatch(GetAllTreeDisease(page,rowsPerPage));
@@ -170,10 +178,11 @@ export default function TreeDisease() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-tree-disease")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add New
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -194,7 +203,7 @@ export default function TreeDisease() {
                         <TableCell align="left">{option.tree_disease}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )
