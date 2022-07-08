@@ -15,7 +15,7 @@ const GetAllTreeLocation = (council,zone,ward,fromDate,toDate) => async (dispatc
       url = `${url}&where[ward_id]=${ward}`
     }
     if(fromDate && toDate){
-      url = `${url}&where[ward_id]=${fromDate}&where[ward_id]=${toDate}`
+      url = `${url}&where[from_date]=${fromDate}&where[to_date]=${toDate}`
     }
 
 

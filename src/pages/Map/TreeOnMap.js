@@ -107,6 +107,7 @@ export default function TreeOnMap(props) {
       },
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
+        console.log("in on ");
         dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate))
       },
     });
