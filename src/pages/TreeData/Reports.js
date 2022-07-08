@@ -71,12 +71,14 @@ export default function Reports() {
    const [baseColorId,setBaseColorId] = useState("");
    const [value, setValue] = useState('1');
    const [councilName, setCouncilName] = useState('');
+   const userPermissions = [];
 
    const {
     council,
     zones,
     wards,
     reports,
+    loggedUser
     // editBaseColorTreesLog,
     // deleteBaseColorTreesLog,
     // updateQCStatusLog,
@@ -84,7 +86,14 @@ export default function Reports() {
   } = useSelector((state) => ({
     council: state.council.council,
     reports:state.reports.reports,
+    loggedUser:state.auth.loggedUser,
+   
   }));
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   const secondRun = React.useRef(true);
   useEffect(()=>{
@@ -275,9 +284,10 @@ const handleCoucilChange = (value) => {
         </Link>
       </Breadcrumbs>
       <div style={{marginBottom : 20}}>
+      {userPermissions.includes("export-report")? 
         <Button variant="contained" component="span" onClick= {exportPdf} style={{ position: "absolute", right: "42px" }}>
           export
-        </Button>
+        </Button>:null}
         </div>
     </div>
         </Stack>

@@ -51,6 +51,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
     const [imageList, setImageList] = React.useState([])
     const [totalTrees, setTotalTrees] = React.useState("");
     const [checked, setChecked] = React.useState(0);
+    const userPermissions = [];
 
 
     const [state, setState] = React.useState({
@@ -70,6 +71,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
       updateQCStatusLog,
       activeTeams,
       updateCensusTreeLog,
+      loggedUser
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.council,
@@ -80,8 +82,13 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
       updateQCStatusLog: state.treeCensus.updateQCStatusLog,
       activeTeams: state.teams.activeTeams,
       updateCensusTreeLog: state.treeCensus.updateCensusTreeLog,
+      loggedUser:state.auth.loggedUser,
     }));
 
+    loggedUser.roles[0].permissions.map((item, index)=>(
+      userPermissions.push(item.name)
+    ))
+    
     console.log("in new");
 
     const firstRun = React.useRef(true);
@@ -609,8 +616,12 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
              ):null}
              <Box sx={{ height: 200, width: '100%', mt:5 }}>
     <Stack direction="row" spacing={4}>
-  <Button size="small" variant="contained" onClick={handleApproveNext}>Approve & Next</Button>
-  <Button  size="small" variant="contained" onClick={handleDialogOpen}>Unapprove & Update</Button>
+    {userPermissions.includes("approve-census-tree")? 
+
+  <Button size="small" variant="contained" onClick={handleApproveNext}>Approve & Next</Button>:null}
+  {userPermissions.includes("update-census-tree")? 
+
+  <Button  size="small" variant="contained" onClick={handleDialogOpen}>Unapprove & Update</Button>:null}
   <Button  size="small" variant="contained" onClick={handleReferToExpert}>Refer To Expert</Button>
 </Stack>
 </Box>
