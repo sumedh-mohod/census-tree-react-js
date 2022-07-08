@@ -179,196 +179,175 @@ export default function NavSection({ navConfig, ...other }) {
   }
     navConfigArray.push(obj);
   }
-  const obj =  {
-    title: 'Master',
-    path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill'),
-    children:[]}
+  // const obj =  {
+  //   title: 'Master',
+  //   path: '/dashboard/products',
+  //   icon: getIcon('eva:shopping-bag-fill'),
+  //   children:[]}
 
   if(item.name === "view-roles"){
-    console.log("|||||");
-    const obj2 =  {
+ 
+    const obj =  {
       
+      title: 'Master',
+      path: '/dashboard/products',
+      icon: getIcon('eva:shopping-bag-fill'),
+      children:[
+        {
           title: 'Roles',
           path: '/dashboard/role',
           icon: getIcon('eva:shopping-bag-fill'),
+        }]
         }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
-    console.log("++++", obj.children);
-   // navConfigArray.push(obj);
+   
+   navConfigArray.push(obj);
   }
-  console.log("--------",obj);
+  
   // const masterNav = navConfigArray[2].children;
   if(item.name === "view-designations"){
-    const obj2 =   {
+    const obj =   {
       title: 'Designations',
       path: '/dashboard/designation',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children.push(children2);
+    
     
     // masterNav.push(teamsobj);
-    // navConfigArray.push(obj);
+    navConfigArray.push(obj);
   }
-  console.log("::::::::::",obj);
+
   if(item.name === "view-states"){
-    const obj2 =   {
+    const obj =   {
       title: 'States',
         path: '/dashboard/state',
         icon: getIcon('eva:shopping-bag-fill'),
 
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+   
     // masterNav.push(teamsobj);
-    // navConfigArray.push(obj);
+     navConfigArray.push(obj);
   }
   if(item.name === "view-districts"){
-    const obj2 =   {
+    const obj =   {
       title: 'Districts',
       path: '/dashboard/district',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+    // const children2 = obj.children;
+    // children2.push(obj2);
+    // obj.children = children2
     // masterNav.push(teamsobj);
-    // navConfigArray.push(obj);
+     navConfigArray.push(obj);
   }
   if(item.name === "view-talukas"){
-    const obj2 =   {
+    const obj =   {
       title: 'Talukas',
       path: '/dashboard/taluka',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+   
     // masterNav.push(teamsobj);
-    // navConfigArray.push(obj);
+     navConfigArray.push(obj);
   }
   if(item.name === "view-zones"){
-    const obj2 =   {
+    const obj =   {
       title: 'Zones',
       path: '/dashboard/zone',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+   
     // masterNav.push(teamsobj);
-    // navConfigArray.push(obj);
+    navConfigArray.push(obj);
   }
   if(item.name === "view-wards"){
-    const obj2 =   {
+    const obj =   {
       title: 'Wards',
       path: '/dashboard/ward',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+    
     // masterNav.push(teamsobj);
-   // navConfigArray.push(obj);
+   navConfigArray.push(obj);
   }
   if(item.name === "view-councils"){
-    const obj2 =   {
+    const obj =   {
       title: 'Councils',
       path: '/dashboard/council',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+    // const children2 = obj.children;
+    // children2.push(obj2);
+    // obj.children = children2
     // masterNav.push(teamsobj);
-    
+    navConfigArray.push(obj);
   }
   if(item.name === "view-tree-types"){
-    const obj2 =   {
+    const obj =   {
       title: 'Tree Types',
       path: '/dashboard/type-of-tree',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+    navConfigArray.push(obj);
     // masterNav.push(teamsobj);
   
   }
   if(item.name === "view-tree-conditions"){
-    const obj2 =   {
+    const obj =   {
       title: 'Tree Conditions',
       path: '/dashboard/tree-condition',
       icon: getIcon('eva:shopping-bag-fill'),    
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
-    // masterNav.push(teamsobj);
     
+    // masterNav.push(teamsobj);
+    navConfigArray.push(obj);
   }
   if(item.name === "view-tree-names"){
-    const obj2 =   {
+    const obj =   {
       title: 'Tree Names',
       path: '/dashboard/name-of-tree',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+    navConfigArray.push(obj);
     // masterNav.push(teamsobj);
    
   }
   if(item.name === "view-location-types"){
-    const obj2 =   {
+    const obj =   {
       title: 'Location Types',
       path: '/dashboard/location-type',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+    navConfigArray.push(obj);
     // masterNav.push(teamsobj);
    
   }
   if(item.name === "view-property-types"){
-    const obj2 =   {
+    const obj =   {
       title: 'Property Types',
       path: '/dashboard/type-of-property',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+    navConfigArray.push(obj);
     // masterNav.push(teamsobj);
    
   }
   if(item.name === "view-qc-remarks"){
-    const obj2 =   {
+    const obj =   {
       title: 'QC Remarks',
       path: '/dashboard/qc-remarks',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+    navConfigArray.push(obj);
     // masterNav.push(teamsobj);
  
   }
   if(item.name === "view-tree-diseases"){
-    const obj2 =   {
+    const obj =   {
       title: 'Tree Diseases',
       path: '/dashboard/treeDisease',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    const children2 = obj.children;
-    children2.push(obj2);
-    obj.children = children2
+    
     // masterNav.push(teamsobj);
     navConfigArray.push(obj);
   }
@@ -415,6 +394,25 @@ export default function NavSection({ navConfig, ...other }) {
     // masterNav.push(teamsobj);
     navConfigArray.push(obj);
   }
+  if(item.name === "census-offsite-qc"){
+    const obj =   {
+      title: 'Census QC',
+      path: '/dashboard/censusQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    // masterNav.push(teamsobj);
+    navConfigArray.push(obj);
+  }
+  if(item.name === "base-color-offsite-qc"){
+    const obj =   {
+      title: 'Base Color QC',
+      path: '/dashboard/baseColorPendingQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    // masterNav.push(teamsobj);
+    navConfigArray.push(obj);
+  }
+
   if(item.name === "view-trees-on-map"){
     const obj =   {
       title: 'Map',
@@ -428,6 +426,15 @@ export default function NavSection({ navConfig, ...other }) {
     },
   ]
 
+    }
+    // masterNav.push(teamsobj);
+    navConfigArray.push(obj);
+  }
+  if(item.name === "view-report"){
+    const obj =   {
+      title: 'Reports',
+      path: '/dashboard/reports',
+      icon: getIcon('eva:shopping-bag-fill'),
     }
     // masterNav.push(teamsobj);
     navConfigArray.push(obj);
