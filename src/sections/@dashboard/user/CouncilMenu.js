@@ -10,6 +10,8 @@ import Iconify from '../../../components/Iconify';
 export default function CouncilMenu(props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const permissions = props.permissions;
+
 
   const handleClose = () => {
     setIsOpen(false);
@@ -37,7 +39,8 @@ export default function CouncilMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-          {props.disable?
+          {(permissions.includes("delete-council"))?
+          props.disable?
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} disabled >
           <ListItemIcon>
             <Iconify icon="eva:activity-outline" width={24} height={24} />
@@ -49,10 +52,11 @@ export default function CouncilMenu(props) {
           <Iconify icon="eva:activity-outline" width={24} height={24} />
         </ListItemIcon>
         <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />
-      </MenuItem>
+      </MenuItem>:null
 }
 
-        {(props.disable || props.status===0)?
+        {(permissions.includes("edit-council"))?
+        (props.disable || props.status===0)?
         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose} disabled >
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
@@ -64,8 +68,10 @@ export default function CouncilMenu(props) {
              <Iconify icon="eva:edit-fill" width={24} height={24} />
            </ListItemIcon>
            <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-         </MenuItem>}
-          {props.status===0?
+         </MenuItem>:null}
+
+         {(permissions.includes("view-properties"))?
+          props.status===0?
           <MenuItem component={RouterLink} to={`/dashboard/council/properties/${props.councilId}/${props.councilName}`} sx={{ color: 'text.secondary' }} onClick={handleClose}disabled >
           <ListItemIcon>
               <Iconify icon="bi:building" width={24} height={24} />
@@ -78,7 +84,7 @@ export default function CouncilMenu(props) {
        </ListItemIcon>
        <ListItemText primary="View Properties" primaryTypographyProps={{ variant: 'body2' }} />
     </MenuItem>
-          }
+         :null }
          
 
       </Menu>

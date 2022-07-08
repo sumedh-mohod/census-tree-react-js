@@ -60,20 +60,28 @@ export default function CreateCouncil() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
   const [searchValue,setSearchValue] = useState("");
+  const userPermissions = [];
 
   const {
     council,
     addCouncilLog,
     editCouncilLog,
     deleteCouncilLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     council:state.council.council,
     addCouncilLog:state.council.addCouncilLog,
     editCouncilLog:state.council.editCouncilLog,
     deleteCouncilLog:state.council.deleteCouncilLog,
-    pageInfo : state.council.pageInfo
+    pageInfo : state.council.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   console.log("COUNCIL",council);
 
@@ -181,10 +189,11 @@ export default function CreateCouncil() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-council")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Council
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -216,7 +225,7 @@ export default function CreateCouncil() {
                         {/* <TableCell align="left">{option.password}</TableCell> */}
                         <TableCell align="center">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <CouncilMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} councilId={option.id} councilName={option.name} />
+                          <CouncilMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} councilId={option.id} councilName={option.name} />
                         </TableCell>
                         </TableRow>
                         )

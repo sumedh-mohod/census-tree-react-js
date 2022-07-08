@@ -88,20 +88,28 @@ export default function District() {
    const [dialogData,setDialogData] = useState(null);
    const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
    const {
     districts,
     addDistrictsLog,
     editDistrictsLog,
     deleteDistrictsLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     districts:state.master.districts,
     addDistrictsLog:state.master.addDistrictsLog,
     editDistrictsLog:state.master.editDistrictsLog,
     deleteDistrictsLog:state.master.deleteDistrictsLog,
-    pageInfo : state.master.pageInfo
+    pageInfo : state.master.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   console.log("DISTRICTS",districts)
 
@@ -209,10 +217,11 @@ export default function District() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-district")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add District
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -236,7 +245,7 @@ export default function District() {
                         <TableCell align="left">{option.state?.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

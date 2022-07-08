@@ -80,20 +80,29 @@ export default function TypeOfTree() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
   const {
     treeType,
     addTreeTypeLog,
     editTreeTypeLog,
     deleteTreeTypeLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     treeType:state.treeType.treeType,
     addTreeTypeLog:state.treeType.addTreeTypeLog,
     editTreeTypeLog:state.treeType.editTreeTypeLog,
     deleteTreeTypeLog:state.treeType.deleteTreeTypeLog,
-    pageInfo : state.treeType.pageInfo
+    pageInfo : state.treeType.pageInfo,
+    loggedUser:state.auth.loggedUser,
+
   }));
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   console.log("TREE TYPE",treeType)
 
@@ -202,10 +211,11 @@ export default function TypeOfTree() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-tree-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Type Of Tree
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -227,7 +237,7 @@ export default function TypeOfTree() {
                         <TableCell align="left">{option.tree_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )

@@ -83,22 +83,30 @@ export default function CreateRole() {
    const [dialogData,setDialogData] = useState(null);
    const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
    const {
     roles,
     addRolesLog,
     editRolesLog,
     deleteRolesLog,
-    pageInfo
+    pageInfo,
+    loggedUser,
   } = useSelector((state) => ({
     roles:state.roles.roles,
     addRolesLog:state.roles.addRolesLog,
     editRolesLog:state.roles.editRolesLog,
     deleteRolesLog:state.roles.deleteRolesLog,
-    pageInfo : state.roles.pageInfo
+    pageInfo : state.roles.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
 
   console.log("ROLES",roles);
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   useEffect(()=>{
     dispatch(GetRole(page,rowsPerPage));
@@ -203,10 +211,11 @@ export default function CreateRole() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-role")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Role
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -227,7 +236,7 @@ export default function CreateRole() {
                         <TableCell align="left">{option.role}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} disable={option.is_protected} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} disable={option.is_protected} />
                         </TableCell>
                         </TableRow>
                         )

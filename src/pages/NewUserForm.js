@@ -59,6 +59,7 @@ export default function NewUserForm(props) {
     const [referredBy, setReferredBy] = React.useState('');
     const [noticePeriod, setNoticePeriod] = React.useState('');
     const [formValues, setFormValues] = useState([{ deductionType: "", amount : ""}])
+    const [filePath, setFilePath] = useState(null);
     const { isOpen, data } = props;
     const [deductionList,setDeductionList] = useState([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
     const [documentList,setDocumentList] = useState([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
@@ -82,7 +83,8 @@ export default function NewUserForm(props) {
       uploadFile,
       uploadFileLog,
       showLoader,
-      editUsersLog
+      editUsersLog,
+      loggedUser
     } = useSelector((state) => ({
       salaryDeductionType:state.users.salaryDeductionType,
       userDocumentType:state.users.userDocumentType,
@@ -98,7 +100,10 @@ export default function NewUserForm(props) {
       uploadFileLog:state.upload.uploadFileLog,
       showLoader : state.common.showLoader,
       editUsersLog:state.users.editUsersLog,
+      loggedUser:state.auth.loggedUser,
     }));
+
+    console.log(loggedUser.roles.role);
     
     useEffect(()=>{
       dispatch(GetDeductionType());
@@ -519,10 +524,12 @@ export default function NewUserForm(props) {
 
   const handleViewDocument = (fpath) =>{
     if(fpath.includes(process.env.REACT_APP_BASE_URL)){
+      console.log("file path", fpath);
       window.open(fpath, '_blank');
     }
     else{
    const fLink = process.env.REACT_APP_BASE_URL.concat('/').concat(fpath);
+   console.log("file path", fLink);
    window.open(fLink, '_blank');
     }
   }
@@ -532,12 +539,17 @@ export default function NewUserForm(props) {
     const formData = new FormData();
     formData.append('upload_for', 'users');
     formData.append('file', e.target.files[0]);
-    dispatch(UploadFile(formData,index));
+    dispatch(UploadFile(formData,index)).then((response) => {
+      console.log("upload file",response);
+    });
     const newDocumentList = [...documentList];
     const value =  newDocumentList[index];
     value.documentValue = e.target.value;
     newDocumentList[index] = value;
     setDocumentList(newDocumentList); 
+    console.log(e.target.value);
+    setFilePath(e.target.value);
+    console.log(documentList);
    
 }
 
@@ -845,7 +857,9 @@ const validateRole = () => {
               dispatch(EditUsers(obj,userById.id))
             }
             else {
-              dispatch(AddUsers(obj));
+              dispatch(AddUsers(obj)).then(()=>{
+                console.log("in DD  ");
+              });
             }
 
             
@@ -1750,7 +1764,7 @@ const validateRole = () => {
             </TextField>
             </Grid>
             <Grid item xs={5} style={{alignSelf:'center'}}>
-              {value.documentValue?
+              {filePath?
               <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
