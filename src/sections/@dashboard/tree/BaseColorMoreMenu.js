@@ -48,7 +48,7 @@ export default function BaseColorMoreMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {(permissions.includes("approve-base-color-tree"))?
+        {/* {(permissions.includes("approve-base-color-tree"))?
         props.qcStatus==="Approved"?null
         :
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleApprove}>
@@ -67,7 +67,7 @@ export default function BaseColorMoreMenu(props) {
         </ListItemIcon>
         <ListItemText primary="Unapprove" primaryTypographyProps={{ variant: 'body2' }} />
       </MenuItem>
-       :null }
+       :null } */}
         
         {/* <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
           <ListItemIcon>
