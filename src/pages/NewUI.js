@@ -14,11 +14,14 @@ import {
     form,
     Modal,
     Select,
-    MenuItem
+    MenuItem,
+    FormControlLabel,
+    Checkbox
   } from '@mui/material';
   import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
   import  ImageGallery  from 'react-image-gallery';
   import { useDispatch, useSelector } from 'react-redux';
+import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
  import { GetCouncil} from '../actions/CouncilAction';
@@ -47,6 +50,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [imageList, setImageList] = React.useState([])
     const [totalTrees, setTotalTrees] = React.useState("");
+    const [checked, setChecked] = React.useState(0);
 
 
     const [state, setState] = React.useState({
@@ -255,14 +259,19 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
           addedByForm: addedBy || "",
           toDateForm: null,
           fromDateForm: null,
+          
         },
         validationSchema: FilterSchema,
         onSubmit: (value) => {
           console.log("in submit");
           console.log("VALUE",value);
-          dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm));
+          dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm,checked));
         },
       });
+
+      const handleHeritage = (e) => {
+        setChecked(!checked * 1);
+      }
     
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
@@ -467,6 +476,10 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
                 {...getFieldProps("toDateForm")}
               />
                </Grid>
+               <Grid item xs={12}>
+               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only heritage" />
+               </Grid>
+
                <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:5}}>
             Apply
 

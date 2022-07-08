@@ -129,7 +129,7 @@ const ReferToExpert = (params,id) => async (dispatch) => {
   }
 };
 
-const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDate,addedBy) => async (dispatch) => {
+const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDate,addedBy,checked) => async (dispatch) => {
 
   console.log("ADDED BY",addedBy);
   let url = `/api/census-trees/qc/pending`
@@ -148,6 +148,10 @@ const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDat
   if(fromDate && toDate){
     url = `${url}&where[from_date]=${fromDate}&where[to_date]=${toDate}`
   }
+  if(checked){
+    url = `${url}&where[is_heritage]=${checked}`
+  }
+    
  
  
 
