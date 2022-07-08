@@ -50,6 +50,7 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
     const [imageList, setImageList] = React.useState([])
     const [baseColorId,setBaseColorId] = useState("");
     const [totalTrees, setTotalTrees] = React.useState("");
+    const userPermissions = [];
 
 
     const [state, setState] = React.useState({
@@ -80,6 +81,11 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
     }));
 
     console.log("Logged user",loggedUser);
+
+    loggedUser.roles[0].permissions.map((item, index)=>(
+      userPermissions.push(item.name)
+    ))
+    
 
     const firstRun = React.useRef(true);
     useEffect(()=>{
@@ -578,8 +584,11 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
              ):null}
              <Box sx={{ height: 200, width: '100%', mt:5, }}>
     <Stack direction="row" spacing={4} style={{justifyContent:"center"}}>
-  <Button size="medium" variant="contained" onClick={handleApproveNext}>Approve & Next</Button>
-  <Button  size="medium" variant="contained" onClick={()=>handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}>Unapprove & Next</Button>
+{userPermissions.includes("approve-base-color-tree")? 
+
+  <Button size="medium" variant="contained" onClick={handleApproveNext}>Approve & Next</Button>:null}
+  {userPermissions.includes("unapprove-base-color-tree")? 
+  <Button  size="medium" variant="contained" onClick={()=>handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}>Unapprove & Next</Button>:null}
 </Stack>
 </Box>
       
