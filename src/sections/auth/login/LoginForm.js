@@ -72,11 +72,7 @@ export default function LoginForm() {
             fullWidth
             autoComplete="username"
             // type="email"
-<<<<<<< HEAD
-            label="Email address"
-=======
             label="Username"
->>>>>>> 54e89ce61c3ce6d4394454858f9411c794ca9957
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
