@@ -16,7 +16,8 @@ import {
     Select,
     MenuItem,
     FormControlLabel,
-    Checkbox
+    Checkbox,
+    CircularProgress
   } from '@mui/material';
   import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
   import  ImageGallery  from 'react-image-gallery';
@@ -31,6 +32,7 @@ import { CheckBox } from '@mui/icons-material';
 
  import Page from '../components/Page';
 import { GetMyActiveTeam } from '../actions/TeamsAction';
+import { ShowLoader } from '../actions/CommonAction';
 
 
 
@@ -40,9 +42,9 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
   export default function NewUI(){
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const dispatch = useDispatch();
-    const [councilID, setCouncilID] = React.useState(1);
-    const [zoneID, setZoneID] = React.useState(1);
-    const [wardID, setWardID] = React.useState(1);
+    const [councilID, setCouncilID] = React.useState("");
+    const [zoneID, setZoneID] = React.useState("");
+    const [wardID, setWardID] = React.useState("");
     const [fromDate, setFromDate] = React.useState("");
     const [toDate, setToDate] = React.useState("");
     const [addedBy, setAddedBy] = React.useState("");
@@ -51,6 +53,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
     const [imageList, setImageList] = React.useState([])
     const [totalTrees, setTotalTrees] = React.useState("");
     const [checked, setChecked] = React.useState(0);
+    const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
 
 
@@ -71,7 +74,8 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
       updateQCStatusLog,
       activeTeams,
       updateCensusTreeLog,
-      loggedUser
+      loggedUser,
+      showLoader
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.council,
@@ -83,6 +87,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
       activeTeams: state.teams.activeTeams,
       updateCensusTreeLog: state.treeCensus.updateCensusTreeLog,
       loggedUser:state.auth.loggedUser,
+      showLoader : state.common.showLoader,
     }));
 
     loggedUser.roles[0].permissions.map((item, index)=>(
@@ -97,10 +102,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
         firstRun.current = false;
         return;
       }
-      dispatch(GetUsers(1, 1000));
-      dispatch(GetCouncil(1,1000));
-      dispatch(GetWards(1,1000));
-      dispatch(GetZones(1,1000));
+      
       dispatch(GetTreeCensusPendingQCStatus(activeTeams?.active_council_id,activeTeams?.active_zone_id,activeTeams?.active_ward_id));
       setCouncilID(activeTeams?.active_council_id);
       setZoneID(activeTeams?.active_zone_id);
@@ -157,13 +159,22 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
         })
       }
       setImageList(imageList)
+      dispatch(ShowLoader(false))
+      setShowData(true)
       setTotalTrees(treeCensusPendingQCStatus?.pending_qc_count)
     },[treeCensusPendingQCStatus])
 
 
     useEffect(()=>{
-      dispatch(GetMyActiveTeam());
-      // dispatch(GetBaseColorTreeById(1));
+      if(loggedUser?.roles[0]?.slug==="qc_census_offsite"){
+        dispatch(GetMyActiveTeam());
+        dispatch(ShowLoader(true))
+      }
+      
+      dispatch(GetUsers(1, 1000));
+      dispatch(GetCouncil(1,1000));
+      dispatch(GetWards(1,1000));
+      dispatch(GetZones(1,1000));
     },[])
   //  treeCensusPendingQCStatus.data.map((tree, index) =>(
   //     console.log(index, tree.tree_number, tree.tree_name.name)
@@ -273,6 +284,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
           console.log("in submit");
           console.log("VALUE",value);
           dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm,checked));
+          setState({ ...state, "right": false });
         },
       });
 
@@ -283,6 +295,10 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
     return(
+      showLoader ?
+      <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
+      <CircularProgress color="success" />
+      </div>:
         <Page title="New UI" style={{paddingBottom:'0px'}}>
             <Container style={{paddingRight:'0px',marginRight:'-16px'}}>
             <Box sx={{  height: '100' }}>
@@ -321,8 +337,8 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
           <Grid item xs={12}>
             <TextField
               select
-              disabled
-              id="council"
+              disabled={loggedUser?.roles[0]?.slug==="qc_census_offsite"}
+              id="councilForm"
               label="Council"
               displayEmpty
               value={councilID}
@@ -350,8 +366,8 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
             <Grid item xs={12}>
             <TextField
               select
-              disabled
-              id="zone"
+              disabled={loggedUser?.roles[0]?.slug==="qc_census_offsite"}
+              id="zoneForm"
               label="Zone"
               displayEmpty
               value={zoneID}
@@ -379,11 +395,11 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
             <Grid item xs={12}>
             <TextField
               select
-              disabled
-              id="ward"
+              disabled={loggedUser?.roles[0]?.slug==="qc_census_offsite"}
+              id="wardForm"
               label="Ward"
               displayEmpty
-              value={zoneID}
+              value={wardID}
               style={{width:'100%',marginTop:5}}
               size="small"
               onChange={(e) => {
@@ -497,7 +513,7 @@ import { GetMyActiveTeam } from '../actions/TeamsAction';
          {/* <FilterDrawer data={toggleDrawer("right", false)}/> */}
         </Drawer>
         </Box>
-        {( treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data.length===0)?
+        {( treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data.length===0) || !showData?
         <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%"}}>
        
           <h2>
