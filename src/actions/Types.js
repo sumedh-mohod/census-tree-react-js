@@ -85,6 +85,7 @@ export const ADD_COUNCIL = "add-council";
 export const DELETE_COUNCIL = "delete-council";
 
 export const GET_TEAM = "get-team";
+export const GET_ACTIVE_TEAM = "get-active-team";
 export const EDIT_TEAM = "edit-team";
 export const ADD_TEAM = "add-team";
 export const DELETE_TEAM = "delete-team";
@@ -127,6 +128,8 @@ export const EDIT_BASE_COLOR_TREES = "edit-base-color-trees";
 export const DELETE_BASE_COLOR_TREES = "delete-base-color-trees";
 export const UPDATE_QC_STATUS_BASE_COLOR_TREES = "update-qc-status-base-color-trees";
 export const GET_QC_REMARKS_FOR_BASE_COLOR = "get-qc-remark-for-base-color";
+export const GET_BASE_COLOR_PENDING_QC_STATUS = "get-base-color-pending-qc-status";
+export const UPDATE_BASE_COLOR_TREE = "update-base-color-tree";
 
 export const GET_PROPERTY_BY_COUNCIL_ID = "get-property-by-council-id";
 export const SEARCH_PROPERTY_BY_COUNCIL_ID = "search-property-by-council-id";
@@ -142,6 +145,9 @@ export const GET_TREE_CENSUS_HISTORY = "get-tree-census-history";
 export const EDIT_TREE_CENSUS = "edit-tree-census";
 export const DELETE_TREE_CENSUS = "delete-tree-census";
 export const UPDATE_QC_STATUS_TREE_CENSUS = "update-qc-status-tree-census";
+export const GET_TREE_CENSUS_PENDING_QC_STATUS = "get-tree-census-pending-qc-status";
+export const UPDATE_CENSUS_TREE = "update-census-tree";
+export const REFER_TO_EXPERT = "refer-to-expert";
 // export const GET_QC_REMARKS_FOR_BASE_COLOR = "get-qc-remark-for-base-color";
 
 export const GET_TREE_DISEASE = "get-tree-disease";
