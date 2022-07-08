@@ -24,6 +24,7 @@ import TreeCensusReducer from './TreeCensusReducer';
 import TreeDiseaseReducer from './TreeDiseaseReducer';
 import NoTreePropertyReducer from "./NoTreePropertyReducer";
 import TreeOnMapReducer from "./TreeOnMapReducer";
+import ReportsReducer from './ReportsReducer';
 
 
 export default combineReducers({
@@ -51,5 +52,6 @@ export default combineReducers({
   deniedEntry:DeniedEntryReducer,
   treeDisease:TreeDiseaseReducer,
   common:CommonReducer,
-  treeLocation:TreeOnMapReducer
+  treeLocation:TreeOnMapReducer,
+  reports: ReportsReducer,
 });

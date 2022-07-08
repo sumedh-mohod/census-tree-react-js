@@ -140,6 +140,11 @@ const navConfig = [
       path: '/dashboard/treeOnMap',
       icon: getIcon('eva:shopping-bag-fill'),
     },
+    {
+      title: 'Reports',
+      path: '/dashboard/reports',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
   ]
 },
 

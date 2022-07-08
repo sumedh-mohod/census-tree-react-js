@@ -940,6 +940,7 @@ const validateRole = () => {
   
 
     console.log("DEDUCTION LIST",deductionList);
+    console.log("error123", formik.errors.email)
   
     return (
        showLoader ?
