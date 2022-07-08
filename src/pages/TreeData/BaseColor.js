@@ -51,6 +51,7 @@ const TABLE_HEAD = [
   { id: 'addedOn', label: 'Added On', alignRight: false },
   { id: 'qcStatus', label: 'QC Status', alignRight: false },
   { id: 'qcRemarks', label: 'QC Remarks', alignRight: false },
+  { id: 'qcBy', label: 'QC By', alignRight: false },
   { id: 'qcDate', label: 'QC Date', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
 ];
@@ -344,6 +345,7 @@ export default function BaseColor() {
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.added_on_date}</TableCell>
                         <TableCell align="left">{option.qc_status?option.qc_status:"-"}</TableCell>
                         <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>
+                        <TableCell align="left">{option.qc_by? option.qc_by?.first_name: "-"} {option.qc_by? option.qc_by?.last_name: "-"}</TableCell>
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.qc_date?option.qc_date:"-"}</TableCell>
                         <TableCell align="right">
                           <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />

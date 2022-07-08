@@ -2,7 +2,7 @@ import JWTServer from "../api/withJWTServer";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { GET_SPECIFIC_TREE_LOCATION_DETAILS, GET_TREE_LOCATION } from "./Types";
 
-const GetAllTreeLocation = (council,zone,ward) => async (dispatch) => {
+const GetAllTreeLocation = (council,zone,ward,fromDate,toDate) => async (dispatch) => {
 
     let url = `api/get-locations/census-trees`
     if(council){
@@ -14,6 +14,10 @@ const GetAllTreeLocation = (council,zone,ward) => async (dispatch) => {
     if(ward){
       url = `${url}&where[ward_id]=${ward}`
     }
+    if(fromDate && toDate){
+      url = `${url}&where[ward_id]=${fromDate}&where[ward_id]=${toDate}`
+    }
+
 
     try {
       const response = await JWTServer.get(`${url}`);

@@ -92,6 +92,8 @@ export default function TreeOnMap(props) {
       council: Yup.string().required('Council is required'),
       zone: Yup.string().required('Zone is required'),
       ward: Yup.string().required('Ward is required'),
+      fromDate: Yup.string().required('From date is required'),
+      toDate: Yup.string().required('To date is required'),
     });
   
     const formik = useFormik({
@@ -99,11 +101,13 @@ export default function TreeOnMap(props) {
       initialValues: {
         council:"",
         zone:"",
-        ward:""
+        ward:"",
+        fromDate:"",
+        toDate:"",
       },
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
-        dispatch(GetAllTreeLocation(value.council,value.zone,value.ward))
+        dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate))
       },
     });
   
@@ -161,14 +165,14 @@ export default function TreeOnMap(props) {
                 id="date"
                 // label="Date Of Birth"
                 type="date"
-                label="Start Date*"
-                placeholder='Start Date*'
+                label="From Date*"
+                placeholder='From Date*'
                 // defaultValue="2017-05-24"
                 style={{width: '85.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
-                // error={Boolean(touched.dob && errors.dob)}
-                // helperText={touched.dob && errors.dob}
-                // {...getFieldProps("dob")}
+                error={Boolean(touched.fromDate && errors.fromDate)}
+                helperText={touched.fromDate && errors.fromDate}
+                {...getFieldProps("fromDate")}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -179,14 +183,14 @@ export default function TreeOnMap(props) {
                 id="date"
                 // label="Date Of Birth"
                 type="date"
-                label="End Date*"
-                placeholder= 'End Date*'
+                label="To Date*"
+                placeholder= 'To Date*'
                 // defaultValue="2017-05-24"
                 style={{width: '85.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
-                // error={Boolean(touched.dob && errors.dob)}
-                // helperText={touched.dob && errors.dob}
-                // {...getFieldProps("dob")}
+                error={Boolean(touched.toDate && errors.toDate)}
+                helperText={touched.toDate && errors.toDate}
+                {...getFieldProps("toDate")}
                 InputLabelProps={{
                   shrink: true,
                 }}
