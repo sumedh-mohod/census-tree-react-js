@@ -85,6 +85,7 @@ export const ADD_COUNCIL = "add-council";
 export const DELETE_COUNCIL = "delete-council";
 
 export const GET_TEAM = "get-team";
+export const GET_ACTIVE_TEAM = "get-active-team";
 export const EDIT_TEAM = "edit-team";
 export const ADD_TEAM = "add-team";
 export const DELETE_TEAM = "delete-team";
@@ -157,3 +158,5 @@ export const DELETE_TREE_DISEASE = "delete-tree-disease";
 export const GET_NO_TREE_PROPERTY = "get-no-tree-property";
 export const GET_TREE_LOCATION = "get-tree-location";
 export const GET_SPECIFIC_TREE_LOCATION_DETAILS = "get-specific-tree-location-details"
+
+export const GET_REPORTS = "get-reports";

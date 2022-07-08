@@ -12,7 +12,7 @@
   }
 
   .image-gallery-content .image-gallery-slide .image-gallery-image {
-    max-height: calc(90vh - 80px) !important;
+    max-height: calc(75vh - 80px) !important;
 }
 
 .loader-container{

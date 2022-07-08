@@ -14,11 +14,14 @@ import {
     form,
     Modal,
     Select,
-    MenuItem
+    MenuItem,
+    FormControlLabel,
+    Checkbox
   } from '@mui/material';
   import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
   import  ImageGallery  from 'react-image-gallery';
   import { useDispatch, useSelector } from 'react-redux';
+import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
  import { GetCouncil} from '../actions/CouncilAction';
@@ -27,6 +30,7 @@ import {
  import { GetUsers } from '../actions/UserAction';
 
  import Page from '../components/Page';
+import { GetMyActiveTeam } from '../actions/TeamsAction';
 
 
 
@@ -43,6 +47,12 @@ import {
     const [toDate, setToDate] = React.useState("");
     const [addedBy, setAddedBy] = React.useState("");
     const [updateClick, setUpdateClick] = React.useState(false);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [imageList, setImageList] = React.useState([])
+    const [totalTrees, setTotalTrees] = React.useState("");
+    const [checked, setChecked] = React.useState(0);
+
+
     const [state, setState] = React.useState({
       top: false,
       left: false,
@@ -58,6 +68,8 @@ import {
       treeCensusPendingQCStatus, 
       referToExpertLog,
       updateQCStatusLog,
+      activeTeams,
+      updateCensusTreeLog,
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.council,
@@ -66,20 +78,86 @@ import {
       treeCensusPendingQCStatus: state.treeCensus.treeCensusPendingQCStatus,
       referToExpertLog: state.treeCensus.referToExpertLog,
       updateQCStatusLog: state.treeCensus.updateQCStatusLog,
+      activeTeams: state.teams.activeTeams,
+      updateCensusTreeLog: state.treeCensus.updateCensusTreeLog,
     }));
 
     console.log("in new");
+
+    const firstRun = React.useRef(true);
     useEffect(()=>{
+      if (firstRun.current) {
+        firstRun.current = false;
+        return;
+      }
       dispatch(GetUsers(1, 1000));
       dispatch(GetCouncil(1,1000));
       dispatch(GetWards(1,1000));
       dispatch(GetZones(1,1000));
-      dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID));
+      dispatch(GetTreeCensusPendingQCStatus(activeTeams?.active_council_id,activeTeams?.active_zone_id,activeTeams?.active_ward_id));
+      setCouncilID(activeTeams?.active_council_id);
+      setZoneID(activeTeams?.active_zone_id);
+      setWardID(activeTeams?.active_ward_id);
+      setSelectedIndex(0);
+    },[activeTeams])
+
+    const secondRun = React.useRef(true);
+    useEffect(()=>{
+      if (secondRun.current) {
+        secondRun.current = false;
+        return;
+      }
+
+      if(selectedIndex+1===treeCensusPendingQCStatus?.data.length){
+        setSelectedIndex(0);
+        setTotalTrees(totalTrees-1)
+        setUpdateClick(false);
+        dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID));
+      }
+
+      else {
+
+        setSelectedIndex(selectedIndex+1);
+        setTotalTrees(totalTrees-1);
+        setUpdateClick(false);
+        const imageList = [];
+        if(treeCensusPendingQCStatus?.data.length!==0){
+          treeCensusPendingQCStatus?.data[selectedIndex+1].images?.map((value2,index)=>{
+              const imageUrl = {original:value2.image_url};
+              imageList.push(imageUrl)
+              return null;
+          })
+        }
+        setImageList(imageList)
+
+      }
+
+      
+    },[updateQCStatusLog,updateCensusTreeLog,referToExpertLog])
+
+    const thirdRun = React.useRef(true);
+    useEffect(()=>{
+      if (thirdRun.current) {
+        thirdRun.current = false;
+        return;
+      }
+      const imageList = [];
+      if(treeCensusPendingQCStatus?.data.length!==0){
+        treeCensusPendingQCStatus?.data[selectedIndex].images?.map((value2,index)=>{
+            const imageUrl = {original:value2.image_url};
+            imageList.push(imageUrl)
+            return null;
+        })
+      }
+      setImageList(imageList)
+      setTotalTrees(treeCensusPendingQCStatus?.pending_qc_count)
+    },[treeCensusPendingQCStatus])
+
+
+    useEffect(()=>{
+      dispatch(GetMyActiveTeam());
       // dispatch(GetBaseColorTreeById(1));
     },[])
-    console.log(treeCensusPendingQCStatus);
-    console.log(council);
-    console.log(users);
   //  treeCensusPendingQCStatus.data.map((tree, index) =>(
   //     console.log(index, tree.tree_number, tree.tree_name.name)
   //     // console.log(tree.tree_number)
@@ -123,11 +201,12 @@ import {
     const handleReferToExpert = () =>{
       dispatch(ReferToExpert({
         "referred_to_expert" : 1
-      },treeCensusPendingQCStatus.data[0].id))
+      },treeCensusPendingQCStatus?.data[selectedIndex].id))
     }
 
     const handleApproveNext = () =>{
-      dispatch(UpdateQCStatusOfTreeCensus(treeCensusPendingQCStatus.data[0].id,{
+      console.log("HANDLE APPROVE CALLED");
+      dispatch(UpdateQCStatusOfTreeCensus(treeCensusPendingQCStatus?.data[selectedIndex].id,{
         "qc_status" : "Approved"
       }))
     }
@@ -153,6 +232,8 @@ import {
       setAddedBy(event.target.value);
       };
 
+      console.log("PENDING QC STATUS",treeCensusPendingQCStatus);
+
       const properties = {
         // thumbnailPosition: "left",
         useBrowserFullscreen: false,
@@ -160,24 +241,7 @@ import {
         showBullets:true,
         showIndex:true,
         // renderItem: this.myRenderItem.bind(this),
-        items: [
-          {
-            original: "https://i.pinimg.com/originals/78/7e/b6/787eb63e14539e0763c1687e30fe6101.jpg"
-           
-          },
-          {
-            original: "https://balconygardenweb-lhnfx0beomqvnhspx.netdna-ssl.com/wp-content/uploads/2015/06/mango-tree-1.jpg",
-            
-          },
-          {
-            original: "https://res.cloudinary.com/digicomm/image/upload/t_metadata/news-magazine/2021/_assets/mango3.jpg",
-            
-          },
-          {
-            original: "https://as1.ftcdn.net/v2/jpg/02/30/80/80/500_F_230808031_Sriv3Z1nxkTlzVcv6ZXWaXGxYnLh4dDN.jpg"
-           
-          },
-        ]
+        items: imageList
       };
       const FilterSchema = Yup.object().shape({
         councilForm: Yup.string().required('Please select council'),
@@ -189,20 +253,25 @@ import {
       const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-          councilForm: " ",
-          wardForm: "",
-          zoneForm:"",
-          addedByForm: "",
+          councilForm: councilID || " ",
+          wardForm: wardID || " ",
+          zoneForm: zoneID || " ",
+          addedByForm: addedBy || "",
           toDateForm: null,
           fromDateForm: null,
+          
         },
         validationSchema: FilterSchema,
         onSubmit: (value) => {
           console.log("in submit");
           console.log("VALUE",value);
-          dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm));
+          dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm,checked));
         },
       });
+
+      const handleHeritage = (e) => {
+        setChecked(!checked * 1);
+      }
     
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
@@ -229,6 +298,8 @@ import {
               "& .MuiDrawer-paper": {
                 width: "300px",
                 maxWidth: "100%",
+                justifyContent:"center",
+                alignItems:"center",
               },
             }
           }
@@ -239,21 +310,25 @@ import {
           // }}
         >
           <div>
-          <Grid container spacing={1}>
+          <Grid container spacing={1} style={{width:"90%",marginLeft:'5%',marginRight:'5%'}}>
           <Grid item xs={12}>
-          <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select Council</Typography>
-            <Select
-            
+            <TextField
+              select
+              disabled
               id="council"
-              label="Select Council"
+              label="Council"
               displayEmpty
               value={councilID}
-              style={{width:'83%', marginLeft: 40}}
+              style={{width:'100%'}}
               size="small"
-              onChange={handleCouncilChange}
+              onChange={(e) => {
+                handleCouncilChange(e)
+                formik.handleChange(e);
+              }}
+              // onChange={handleCouncilChange}
               error={Boolean(touched.councilForm && errors.councilForm)}
                 helperText={touched.councilForm && errors.councilForm}
-                {...getFieldProps("councilForm")}
+                
             >
                <MenuItem disabled value="">
             <em>Select Council*</em>
@@ -263,22 +338,26 @@ import {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
-            <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select Zone </Typography>
-            <Select
-            
+            <TextField
+              select
+              disabled
               id="zone"
-              label="Select Zone"
+              label="Zone"
               displayEmpty
               value={zoneID}
-              style={{width:'83%', marginLeft: 40}}
+              style={{width:'100%',marginTop:5}}
               size="small"
-              onChange={handleZoneChange}
+              onChange={(e) => {
+                handleZoneChange(e)
+                formik.handleChange(e);
+              }}
+              // onChange={handleZoneChange}
               error={Boolean(touched.zoneForm && errors.zoneForm)}
                 helperText={touched.zoneForm && errors.zoneForm}
-                {...getFieldProps("zoneForm")}
+               
             >
                <MenuItem disabled value="">
             <em>Select Zone*</em>
@@ -288,22 +367,26 @@ import {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
-            <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select Ward</Typography>
-            <Select
-            
+            <TextField
+              select
+              disabled
               id="ward"
-              label="Select Ward"
+              label="Ward"
               displayEmpty
               value={zoneID}
-              style={{width:'83%', marginLeft: 40}}
+              style={{width:'100%',marginTop:5}}
               size="small"
-              onChange={handleWardChange}
+              onChange={(e) => {
+                handleWardChange(e)
+                formik.handleChange(e);
+              }}
+              // onChange={handleWardChange}
               error={Boolean(touched.wardForm && errors.wardForm)}
                 helperText={touched.wardForm && errors.wardForm}
-                {...getFieldProps("wardForm")}
+                
             >
                <MenuItem disabled value="">
             <em>Select Ward*</em>
@@ -313,23 +396,26 @@ import {
                   {option.name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
-            <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select Added By</Typography>
-            <Select
-            
+            <TextField
+              select
               id="addedBy"
-              label="Select Added By"
+              label="Added By"
               displayEmpty
               value={addedBy}
-              style={{width:'83%', marginLeft: 40}}
+              style={{width:'100%',marginTop:5}}
               size="small"
               // placeholder='*Status'
-              onChange={handleAddedByChange}
+              onChange={(e) => {
+                handleAddedByChange(e)
+                formik.handleChange(e);
+              }}
+              // onChange={handleAddedByChange}
               // error={Boolean(touched.addedByForm && errors.councilForm)}
               //   helperText={touched.councilForm && errors.councilForm}
-                {...getFieldProps("addedByForm")}
+                // {...getFieldProps("addedByForm")}
             >
                <MenuItem disabled value="">
             <em>Select Added By</em>
@@ -339,37 +425,17 @@ import {
                   {option.first_name}{" "}{option.last_name}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
-               <Typography variant='Button' sx={{mb: "0", paddingTop: "10px"}} gutterBottom>Select To Date</Typography>
-              <TextField
-                fullWidth
-                id="toDate"
-                type="date"
-                margin="normal"
-                name="toDateForm"
-                sx={{mb: "-11px", paddingTop: "20px", mt: "-20px"}}
-                size="small"
-                // label="Plantation Date"
-                 value={values.toDateForm || ""}
-         
-                // helperText={
-                //     errors.toDateForm && touched.toDateForm
-                     
-                // }
-                {...getFieldProps("toDateForm")}
-              />
-               </Grid>
-               <Grid item xs={12}>
-               <Typography variant='Button' sx={{mb: "0", mt: "20px"}} gutterBottom>Select From Date</Typography>
-              <TextField
+            <TextField
                 fullWidth
                 id="fromDate"
                 type="date"
+                label="Start Date"
                 margin="normal"
                 name="fromDateForm"
-                sx={{mb: "-11px", paddingTop: "20px", mt: "-20px"}}
+                style={{width:'100%',marginTop:5}}
                 size="small"
                 // label="Plantation Date"
                  value={values.fromDateForm || ""}
@@ -378,37 +444,83 @@ import {
                 //     errors.toDateForm && touched.toDateForm
                      
                 // }
+                InputLabelProps={{
+                  shrink: true,
+                  
+                }}
                 {...getFieldProps("fromDateForm")}
               />
+              
                </Grid>
+               <Grid item xs={12}>
+               <TextField
+                fullWidth
+                id="toDate"
+                label="End Date"
+                type="date"
+                margin="normal"
+                name="toDateForm"
+                style={{width:'100%',marginTop:5}}
+                size="small"
+                // label="Plantation Date"
+                 value={values.toDateForm || ""}
+         
+                // helperText={
+                //     errors.toDateForm && touched.toDateForm
+                     
+                // }
+                InputLabelProps={{
+                  shrink: true,
+                  
+                }}
+                {...getFieldProps("toDateForm")}
+              />
+               </Grid>
+               <Grid item xs={12}>
+               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only heritage" />
+               </Grid>
+
+               <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:5}}>
+            Apply
+
+          </Button>
+
             </Grid>
-            <Button sx={{mt:10, alignContent:'center', ml:10}} onClick={handleSubmit}>Apply</Button>
           </div>
          {/* <FilterDrawer data={toggleDrawer("right", false)}/> */}
         </Drawer>
         </Box>
+        {( treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data.length===0)?
+        <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%"}}>
+       
+          <h2>
+          No Record Found
+          </h2>
+          
+        </div>:
+        
         <Grid container style={{height:'calc(100vh - 118px)',marginBottom:'-80px',overflowY:'hidden'}}>
   
   <Grid item xs={4} style={{height:'100%',overflowY:'auto',paddingRight:'5%'}}>
-  <Box sx={{  width: '100%',height:'100%',paddingRight:'20%',borderRight:'2px solid slategray' }}>
+  <Box sx={{  width: '100%',height:'100%',paddingRight:'5%',borderRight:'2px solid slategray' }}>
   <Typography variant="h4" gutterBottom align='center'>
-            Total Trees: {treeCensusPendingQCStatus?.pending_qc_count}
+            Total Pending Trees: {totalTrees}
           </Typography>
   <table style={{ fontFamily: "arial, sans-serif",
   borderCollapse: "collapse",
   width: "100%"}}>
    
       <tr>
-    <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>#</th>
-    <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Number</th>
-    <th style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Name</th>
+    <th style={{border: "1px solid #dddddd",  textAlign: "center",  padding: "4px"}}>#</th>
+    <th style={{border: "1px solid #dddddd",  textAlign: "center",  padding: "4px"}}>Tree Number</th>
+    <th style={{border: "1px solid #dddddd",  textAlign: "center",  padding: "4px"}}>Tree Name</th>
   </tr>
   
-    {treeCensusPendingQCStatus.data?.map((tree, index) =>(
-  <tr onClick={handleRowClick(tree)}>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{index+1}</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{tree.tree_number}</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{tree.tree_name.name}</td>
+    {treeCensusPendingQCStatus?.data?.map((tree, index) =>(
+  <tr style={{backgroundColor:index===selectedIndex?"grey":""}}>
+    <td style={{border: "1px solid #dddddd",  textAlign: "center",  padding: "4px"}}>{index+1}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "center",  padding: "4px"}}>{tree.tree_number}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "center",  padding: "4px"}}>{tree.tree_name.name}</td>
   </tr>
     ))}
  
@@ -419,8 +531,8 @@ import {
   {/* <Divider orientation='vertical' sx={{ mr:3}} flexItem/> */}
   <Grid item xs={8} style={{height:'100%',overflowY:'auto',paddingRight:'16px'}}>
   <Stack spacing={2}>
-  <Box sx={{ height: 500, width: '100%', mr:5 }}>
-  <ImageGallery {...properties} />
+  <Box sx={{ height: "auto", width: '100%', mr:5 }}>
+  <ImageGallery {...properties} style={{height:"300px",maxHeight:"300px !important"}} />
   </Box>
   <Box sx={{ height: 400, width: '100%' }}>
     <Box sx={{  width: '100%' }}>
@@ -428,78 +540,78 @@ import {
     <Typography variant="h4" gutterBottom>
             Tree Details: 
           </Typography>
-          {treeCensusPendingQCStatus.data?(
+          {(treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data?.length!==0)?(
             <>
           <table>
              <tr>
              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Tree Number:</td>
-             <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}> {treeCensusPendingQCStatus.data[0].tree_number}</td>
+             <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}> {treeCensusPendingQCStatus?.data[selectedIndex].tree_number}</td>
              </tr>
             
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Tree Name: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].tree_name?.name}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Tree Name: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].tree_name?.name}</td>
             </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Botanical Name: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].tree_name?.botanical_name}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Botanical Name: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].tree_name?.botanical_name}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Tree Type: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].tree_type.tree_type}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Tree Type: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].tree_type.tree_type}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Location Type: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].location_type.location_type}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Location Type: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].location_type?.location_type}</td>
+              </tr>
+             <tr> 
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Property Type: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property_type? treeCensusPendingQCStatus.data[selectedIndex].property_type?.property_type: "-"}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Property Type: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].property_type? treeCensusPendingQCStatus.data[0].property_type.property_type: "-"}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Property Number: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property?.property_number?treeCensusPendingQCStatus.data[selectedIndex].property?.property_number:"-"}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Property Number: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].property?.property_number?treeCensusPendingQCStatus.data[0].property?.property_number:"-"}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Owner Name: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property?.owner_name}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Owner Name: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].property?.owner_name}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Tenant Name: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property?.tenant_name}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Tenant Name: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].property?.tenant_name}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Area(Sq feet): </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property?.area? treeCensusPendingQCStatus.data[selectedIndex].property.area:"-"}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Area(Sq feet): </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].property?.area? treeCensusPendingQCStatus.data[0].property.area:"-"}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Plantation Date: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].plantation_date}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Plantation Date: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].plantation_date}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Tree Condition: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].tree_condition.condition}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Tree Condition: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].tree_condition.condition}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Girth: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].girth}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Girth: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].girth}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Height: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].height}</td>
               </tr>
              <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Height: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].height}</td>
-              </tr>
-             <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px"}}>Canopy: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px"}}>{treeCensusPendingQCStatus.data[0].canopy}</td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Canopy: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].canopy}</td>
               </tr>
              </table>
              </>
              ):null}
              <Box sx={{ height: 200, width: '100%', mt:5 }}>
     <Stack direction="row" spacing={4}>
-  <Button size="small" onClick={handleApproveNext}>Approve & Next</Button>
-  <Button  size="small" onClick={handleDialogOpen}>Unapprove & Update</Button>
-  <Button  size="small" onClick={handleReferToExpert}>Refer To Expert</Button>
+  <Button size="small" variant="contained" onClick={handleApproveNext}>Approve & Next</Button>
+  <Button  size="small" variant="contained" onClick={handleDialogOpen}>Unapprove & Update</Button>
+  <Button  size="small" variant="contained" onClick={handleReferToExpert}>Refer To Expert</Button>
 </Stack>
 </Box>
       
@@ -507,7 +619,7 @@ import {
         <TreeDetailsDialog
         isOpen={updateClick}
         handleClose= {handleDialogClose}
-        data={treeCensusPendingQCStatus.data[0]}
+        data={treeCensusPendingQCStatus.data[selectedIndex]}
         />: null 
         }
     </Box>
@@ -517,6 +629,7 @@ import {
 </Stack>
   </Grid>
 </Grid>
+}
 </Container>
 </Page>
     );

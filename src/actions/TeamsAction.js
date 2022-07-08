@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZW, DELETE_ASSIGNED_USER, DELETE_TEAM, EDIT_TEAM, GET_CZW_BY_TEAM, GET_TEAM, GET_USERS_BY_TEAM } from "./Types";
+import { ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZW, DELETE_ASSIGNED_USER, DELETE_TEAM, EDIT_TEAM, GET_ACTIVE_TEAM, GET_CZW_BY_TEAM, GET_TEAM, GET_USERS_BY_TEAM } from "./Types";
 
 const GetTeam = (page,limit) => async (dispatch) => {
     try {
@@ -9,6 +9,19 @@ const GetTeam = (page,limit) => async (dispatch) => {
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_TEAM,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetMyActiveTeam = () => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/my-active-team`);
+      console.log("DESIGNATIONS RESPONSE",response.data);
+      dispatch({
+        type: GET_ACTIVE_TEAM,
         payload: response.data,
       });
     } catch (e) {
@@ -216,6 +229,7 @@ const DeleteUserFromTeam = (params,status) => async (dispatch) => {
 
   export {
       GetTeam,
+      GetMyActiveTeam,
       GetTeamByFilter,
       SearchTeam,
       AddTeam,

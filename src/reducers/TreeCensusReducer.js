@@ -9,7 +9,7 @@ import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS, GET_TREE_CENSUS_HISTORY 
     pageInfo:{},
     // baseColorRemarks:[],
     treeCensusHistory:[],
-    treeCensusPendingQCStatus:[],
+    treeCensusPendingQCStatus:null,
     updateCensusTreeLog:false,
     referToExpertLog:false,
   };
