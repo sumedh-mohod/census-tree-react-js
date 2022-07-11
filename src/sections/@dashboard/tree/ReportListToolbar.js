@@ -14,6 +14,8 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import jsPDF from "jspdf";
+import autoTable from 'jspdf-autotable';
 import { GetReports } from '../../../actions/ReportsAction';
 import Iconify from '../../../components/Iconify';
 
@@ -69,16 +71,25 @@ ReportListToolbar.propTypes = {
 export default function ReportListToolbar({numSelected, handleGetData, handleCouncil }) {
   const dispatch = useDispatch();
   const [coucilId,setCouncilId] = useState('');
+  const [councilName, setCouncilName] = useState('');
 
   const handleCouncilChange = (e) =>{
     setCouncilId(e.target.value);
     handleCouncil(e.target.value)
     console.log("handleCouncilChange", e.target.value)
+    council.map((value,index)=>{
+      if(value.id===e.target.value){
+        setCouncilName(value.name);
+      }
+      return null;
+    })
+    console.log("councilName",councilName)
     // setZoneId("")
     // setWardId("")
     // dispatch(GetZonesByCouncilId(1,1000,e.target.value))
     // dispatch(GetWardsByCouncilId(1,1000,e.target.value))
   }
+  console.log("councilName",councilName)
 
 
   const DistrictsSchema = Yup.object().shape({
@@ -108,12 +119,111 @@ export default function ReportListToolbar({numSelected, handleGetData, handleCou
         council,
         // zones,
         // wards,
-        reports
+        reports,
       } = useSelector((state) => ({
         council:state.council.council,
         reports:state.reports.reports,
       }));
 console.log("reports123", reports)
+console.log("council1234", council)
+console.log("Council123", council.name)
+
+const separateId = (id) => {
+  council.map((value,index)=>{
+    if(value.id===id){
+      setCouncilName(value.name);
+    }
+    return null;
+  })
+}
+
+
+
+const dataValue =  reports?.by_wards;
+  const value1= [];
+  dataValue?.map((option, index) => {
+    const value2 = [index+1]
+    value2.push(option.name)
+    value2.push(option.census_trees_count)
+    value1.push(value2)
+    return null
+  })
+
+
+  const TreeName =  reports?.by_tree_names;
+  const treeNameValue1 = [];
+  TreeName?.map((option, index) => {
+    const treeNameValue2 = [index+1]
+    treeNameValue2.push(option.name)
+    treeNameValue2.push(option.census_trees_count)
+    treeNameValue1.push(treeNameValue2)
+    return null
+  })
+
+
+  const treeType =  reports?.by_tree_types;
+  const treeType1= [];
+  treeType?.map((option, index) => {
+    const treeType2 = [index+1]
+    treeType2.push(option.tree_type)
+    treeType2.push(option.census_trees_count)
+    treeType1.push(treeType2)
+    return null
+  })
+
+
+  const TreeCondition =  reports?.by_tree_conditions;
+  const TreeCondition1= [];
+  TreeCondition?.map((option, index) => {
+    const TreeCondition2 = [index+1]
+    TreeCondition2.push(option.condition)
+    TreeCondition2.push(option.census_trees_count)
+    TreeCondition1.push(TreeCondition2)
+    return null
+  })
+
+
+  console.log("dataValue", dataValue)
+  console.log("TreeName", TreeName)
+  console.log("treeType", treeType)
+  // console.log("council1234", councilName)
+
+  const exportPdf = () => {
+    // eslint-disable-next-line new-cap
+    const doc = new jsPDF()
+    doc.text(councilName ,60, 150);
+    // doc.({`${council?.name}`})
+    // doc.text1("Council Name : ", 20, 10);
+    doc.addPage()
+    // doc.text("By Wards", 20, 10);
+    autoTable(doc, {
+     
+      head: [['#', 'Wards', 'Counts']],
+      // text: ("By Tree Name", 20, 60),
+      body: value1
+    })
+    // doc.text(20, 35, 'By Tree Name');
+    autoTable(doc, {
+      head: [['#', 'Tree Names', 'Counts']],
+      body: treeNameValue1
+    })
+  
+
+    doc.text(20, 90, 'By Tree Types');
+    autoTable(doc, {
+      head: [['#', 'Tree Types', 'Counts']],
+      body: treeType1
+    })
+
+    autoTable(doc, {
+      text: ("By Tree Condition", 20, 10),
+      head: [['#', 'Tree Conditions', 'Counts']],
+      body: TreeCondition1
+    })
+
+    doc.save(`${councilName}.pdf`)
+  }
+
 
 const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
     return (
@@ -200,9 +310,9 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
               <Grid item sm={4}>
             <Button variant="contained" onClick={handleSubmit} style={{marginLeft: 30, marginTop: 5, backgroundColor: "#008000", height: 50, width: 150}}  >View Report</Button>
             </Grid>
-            {/* <Grid item sm={4}>
-            <Button variant="contained" onClick={handleSubmit} style={{marginLeft: 30, marginTop: 5, height: 50, width: 150}}  >Export Report</Button>
-            </Grid> */}
+            <Grid item sm={4}>
+            <Button variant="contained" onClick= {exportPdf}  style={{marginLeft: 30, marginTop: 5, height: 50, width: 150}}  >Export Report</Button>
+            </Grid>
 
 
 

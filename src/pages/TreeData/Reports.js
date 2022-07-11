@@ -214,13 +214,15 @@ const handleCoucilChange = (value) => {
   console.log("TreeName", TreeName)
   console.log("treeType", treeType)
   console.log("council1234", councilName)
-  // console.log("Council123", council?.name)
+  console.log("Council123", council?.id)
   const exportPdf = () => {
     // eslint-disable-next-line new-cap
     const doc = new jsPDF()
-    doc.text(councilName, 20, 10);
+    doc.text("Kalmeshwar Muncipal Council", 20, 10);
     // doc.({`${council?.name}`})
     // doc.text1("Council Name : ", 20, 10);
+    doc.addPage()
+    doc.text("By Wards", 20, 10);
     autoTable(doc, {
       text: ("By Ward", 20, 10),
       head: [['#', 'Tree Names', 'Counts']],
@@ -283,18 +285,18 @@ const handleCoucilChange = (value) => {
     Reports
         </Link>
       </Breadcrumbs>
-      <div style={{marginBottom : 20}}>
-      {userPermissions.includes("export-report")? 
+      {/* <div style={{marginBottom : 20}}> */}
+      {/* {userPermissions.includes("export-report")? 
         <Button variant="contained" component="span" onClick= {exportPdf} style={{ position: "absolute", right: "42px" }}>
           export Report
-        </Button>:null}
-        </div>
+        </Button>:null} */}
+        {/* </div> */}
     </div>
         </Stack>
-        <Card>
+        <Card> 
         <ReportListToolbar
       handleCouncil={(e)=>separateId(e)} 
-        // handleCoucilChange={(e)=>handleCoucilChange(e)} 
+        handleCoucilChange={(e)=>handleCoucilChange(e)} 
         // coucilId={coucilId}
         // fromDate={""}
         // toDate={""}
