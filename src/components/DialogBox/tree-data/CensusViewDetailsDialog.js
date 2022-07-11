@@ -72,7 +72,7 @@ export default function CensusViewDetailsDialog(props) {
   const [id, setId] = React.useState(null);
   const [viewOpen, setViewOpen ] = React.useState(false);
   const [imageList,setImageList] = React.useState([]);
-
+  console.log("data",props);
 //   const {
 //     baseColorRemarks,
 //     updateQCStatusLog,
@@ -144,7 +144,7 @@ export default function CensusViewDetailsDialog(props) {
 //   const { errors, touched, values, isSubmitting, handleSubmit,getFieldProps} = formik;
 
 
-console.log("hii", isOpen)
+console.log("hii", isOpen, props.data);
 
   return (
     <div>
@@ -175,71 +175,71 @@ console.log("hii", isOpen)
   width: "100%"}}>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Location Type</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.location_type.location_type}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.location_type?.location_type}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Type</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.property_type?.property_type}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property_type?.property_type}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Number</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_number}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_number}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Owner</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.property?.owner_name}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property?.owner_name}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tenant Name </td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.property?.tenant_name}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property?.tenant_name}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Area(sq feet)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.property?.area}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data?.property?.area}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Type</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_type.tree_type}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_type.tree_type}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Name(local)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_name.name}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_name.name}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Name(Botanical)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_name.botanical_name}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_name.botanical_name}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Girth(cm)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.girth}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.girth}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Height(Feet)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.height}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.height}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Canopy</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.canopy}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.canopy}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Condition</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_condition.condition}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_condition?.condition}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Disease</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.tree_disease?.tree_disease ? props.data.tree_disease?.tree_disease: "-"}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_disease?.tree_disease ? props.data.tree_disease?.tree_disease: "-"}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Plantation Date</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.plantation_date}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.plantation_date}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Referred To Expert?</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.referred_to_expert===1 ? "Yes" : "No"}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.referred_to_expert===1 ? "Yes" : "No"}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Action Need To Be Taken</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.action_need ? props.data.action_need: "-"}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.action_need ? props.data.action_need: "-"}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Images</td>
@@ -249,15 +249,15 @@ console.log("hii", isOpen)
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>QC Status</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.qc_status}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.qc_status}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Qc By</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.qc_by?props.data.qc_by: "-"}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.qc_by?props.data.qc_by.first_name: "-"} {" "} {data?.qc_by?props.data.qc_by.last_name: "-"}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Qc On Date</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.qc_date? props.data.qc_date: "-"}</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.qc_date? props.data.qc_date: "-"}</td>
   </tr>
   </table>
   </div>
