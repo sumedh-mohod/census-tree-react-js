@@ -519,6 +519,11 @@ export default function NewUserForm(props) {
       newDocumentList[index] = value;
       console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
+      const isValid = /\.jpe?g$/i.test(e.target.value);
+      if (!isValid) {
+      console.log('Only jpg files allowed!');
+      }
+      console.log(isValid);
      
   }
 
