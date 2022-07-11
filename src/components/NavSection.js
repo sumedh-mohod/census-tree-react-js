@@ -373,6 +373,22 @@ export default function NavSection({ navConfig, ...other }) {
     }
     treeDataOuterObj.children.push(obj);
   }
+  if(isContainPermission("base-color-offsite-qc")){
+    const obj =   {
+      title: 'Base Color QC',
+      path: '/dashboard/baseColorPendingQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    treeDataOuterObj.children.push(obj);
+  }
+  if(isContainPermission("census-offsite-qc")){
+    const obj =   {
+      title: 'Census QC',
+      path: '/dashboard/censusQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    treeDataOuterObj.children.push(obj);
+  }
   if(isContainPermission("view-denied-properties")){
     const obj =   {
       title: 'Denied Entries',
@@ -389,22 +405,8 @@ export default function NavSection({ navConfig, ...other }) {
     }
     treeDataOuterObj.children.push(obj);
   }
-  if(isContainPermission("census-offsite-qc")){
-    const obj =   {
-      title: 'Census QC',
-      path: '/dashboard/censusQC',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    treeDataOuterObj.children.push(obj);
-  }
-  if(isContainPermission("base-color-offsite-qc")){
-    const obj =   {
-      title: 'Base Color QC',
-      path: '/dashboard/baseColorPendingQC',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    treeDataOuterObj.children.push(obj);
-  }
+  
+  
 
   if(isContainPermission("view-trees-on-map")){
     treeDataOuterObj.children.push(
