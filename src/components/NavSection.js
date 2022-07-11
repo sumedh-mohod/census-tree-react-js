@@ -153,6 +153,18 @@ export default function NavSection({ navConfig, ...other }) {
   console.log(loggedUser);
   console.log(loggedUser.roles[0].permissions);
   const userPermissions = loggedUser.roles[0].permissions;
+
+  const isContainPermission = (name) => {
+    let found = false;
+    userPermissions?.map((value,index)=>{
+      if(value.name===name){
+        found = true;
+      }
+      return null;
+    })
+    return found;
+  }
+
   const dashObj = {
     title: 'Dashboard',
     path: '/dashboard/home',
@@ -161,8 +173,7 @@ export default function NavSection({ navConfig, ...other }) {
   navConfigArray.push(dashObj);
 
 
-  userPermissions.map((item, index)=>{
-  if(item.name === "view-users"){
+  if(isContainPermission("view-users")){
     const obj = {
       title: 'Users',
       path: '/dashboard/user',
@@ -171,7 +182,7 @@ export default function NavSection({ navConfig, ...other }) {
     navConfigArray.push(obj);
   }
 
-  if(item.name === "view-teams"){
+  if(isContainPermission("view-teams")){
     const obj =  {
       title: 'Teams',
       path: '/dashboard/teams',
@@ -185,38 +196,41 @@ export default function NavSection({ navConfig, ...other }) {
   //   icon: getIcon('eva:shopping-bag-fill'),
   //   children:[]}
 
-  if(item.name === "view-roles"){
- 
-    const obj =  {
+  const outerObj =  {
       
-      title: 'Master',
-      path: '/dashboard/products',
-      icon: getIcon('eva:shopping-bag-fill'),
-      children:[
+    title: 'Master',
+    path: '/dashboard/products',
+    icon: getIcon('eva:shopping-bag-fill'),
+    children:[]
+    }
+
+  if(isContainPermission("view-roles")){
+ 
+      outerObj.children.push(
         {
           title: 'Roles',
           path: '/dashboard/role',
           icon: getIcon('eva:shopping-bag-fill'),
-        }]
         }
+      )
+        
    
-   navConfigArray.push(obj);
+  //  navConfigArray.push(obj);
   }
   
   // const masterNav = navConfigArray[2].children;
-  if(item.name === "view-designations"){
+  if(isContainPermission("view-designations")){
     const obj =   {
       title: 'Designations',
       path: '/dashboard/designation',
       icon: getIcon('eva:shopping-bag-fill'),
     }
     
-    
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    outerObj.children.push(obj)
+    // navConfigArray.push(obj);
   }
 
-  if(item.name === "view-states"){
+  if(isContainPermission("view-states")){
     const obj =   {
       title: 'States',
         path: '/dashboard/state',
@@ -224,223 +238,197 @@ export default function NavSection({ navConfig, ...other }) {
 
     }
    
-    // masterNav.push(teamsobj);
-     navConfigArray.push(obj);
+    outerObj.children.push(obj);
+    //  navConfigArray.push(obj);
   }
-  if(item.name === "view-districts"){
+  if(isContainPermission("view-districts")){
     const obj =   {
       title: 'Districts',
       path: '/dashboard/district',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    // const children2 = obj.children;
-    // children2.push(obj2);
-    // obj.children = children2
-    // masterNav.push(teamsobj);
-     navConfigArray.push(obj);
+    outerObj.children.push(obj);
   }
-  if(item.name === "view-talukas"){
+  if(isContainPermission("view-talukas")){
     const obj =   {
       title: 'Talukas',
       path: '/dashboard/taluka',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-   
-    // masterNav.push(teamsobj);
-     navConfigArray.push(obj);
+    outerObj.children.push(obj);
   }
-  if(item.name === "view-zones"){
+  if(isContainPermission("view-zones")){
     const obj =   {
       title: 'Zones',
       path: '/dashboard/zone',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-   
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    outerObj.children.push(obj);
   }
-  if(item.name === "view-wards"){
+  if(isContainPermission("view-wards")){
     const obj =   {
       title: 'Wards',
       path: '/dashboard/ward',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    
-    // masterNav.push(teamsobj);
-   navConfigArray.push(obj);
+    outerObj.children.push(obj);
   }
-  if(item.name === "view-councils"){
+  if(isContainPermission("view-councils")){
     const obj =   {
       title: 'Councils',
       path: '/dashboard/council',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    // const children2 = obj.children;
-    // children2.push(obj2);
-    // obj.children = children2
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    outerObj.children.push(obj);
   }
-  if(item.name === "view-tree-types"){
+  if(isContainPermission("view-tree-types")){
     const obj =   {
       title: 'Tree Types',
       path: '/dashboard/type-of-tree',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    navConfigArray.push(obj);
-    // masterNav.push(teamsobj);
+    outerObj.children.push(obj);
   
   }
-  if(item.name === "view-tree-conditions"){
+  if(isContainPermission("view-tree-conditions")){
     const obj =   {
       title: 'Tree Conditions',
       path: '/dashboard/tree-condition',
       icon: getIcon('eva:shopping-bag-fill'),    
     }
     
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    outerObj.children.push(obj);
   }
-  if(item.name === "view-tree-names"){
+  if(isContainPermission("view-tree-names")){
     const obj =   {
       title: 'Tree Names',
       path: '/dashboard/name-of-tree',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    navConfigArray.push(obj);
-    // masterNav.push(teamsobj);
+    outerObj.children.push(obj);
    
   }
-  if(item.name === "view-location-types"){
+  if(isContainPermission("view-location-types")){
     const obj =   {
       title: 'Location Types',
       path: '/dashboard/location-type',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    navConfigArray.push(obj);
-    // masterNav.push(teamsobj);
+    outerObj.children.push(obj);
    
   }
-  if(item.name === "view-property-types"){
+  if(isContainPermission("view-property-types")){
     const obj =   {
       title: 'Property Types',
       path: '/dashboard/type-of-property',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    navConfigArray.push(obj);
-    // masterNav.push(teamsobj);
+    outerObj.children.push(obj);
    
   }
-  if(item.name === "view-qc-remarks"){
+  if(isContainPermission("view-qc-remarks")){
     const obj =   {
       title: 'QC Remarks',
       path: '/dashboard/qc-remarks',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    navConfigArray.push(obj);
-    // masterNav.push(teamsobj);
+    outerObj.children.push(obj);
  
   }
-  if(item.name === "view-tree-diseases"){
+  if(isContainPermission("view-tree-diseases")){
     const obj =   {
       title: 'Tree Diseases',
       path: '/dashboard/treeDisease',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    outerObj.children.push(obj);
   }
-  if(item.name === "view-base-color-trees"){
-    const obj =   {
-      title: 'Trees Data',
-  path: '/dashboard/tree-data',
-  icon: getIcon('bi:tree-fill'),
-  children:[
+
+  if(outerObj.children.length!==0){
+    navConfigArray.push(outerObj);
+  }
+
+  const treeDataOuterObj =   {
+    title: 'Trees Data',
+    path: '/dashboard/tree-data',
+    icon: getIcon('bi:tree-fill'),
+    children:[]
+  }
+
+  if(isContainPermission("view-base-color-trees")){
+    treeDataOuterObj.children.push(
     {
       title: 'Base Color',
       path: '/dashboard/base-color',
       icon: getIcon('eva:shopping-bag-fill'),
-    },
-  ]
     }
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    )
+
   }
-  if(item.name === "view-census-trees"){
+  if(isContainPermission("view-census-trees")){
     const obj =   {
       title: 'Census',
       path: '/dashboard/census',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    treeDataOuterObj.children.push(obj);
   }
-  if(item.name === "view-denied-properties"){
-    const obj =   {
-      title: 'Denied Entries',
-      path: '/dashboard/denied-entry',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
-  }
-  if(item.name === "view-no-tree-properties"){
-    const obj =   {
-      title: 'No Tree Properties',
-      path: '/dashboard/no-tree-properties',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
-  }
-  if(item.name === "census-offsite-qc"){
-    const obj =   {
-      title: 'Census QC',
-      path: '/dashboard/censusQC',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
-  }
-  if(item.name === "base-color-offsite-qc"){
+  if(isContainPermission("base-color-offsite-qc")){
     const obj =   {
       title: 'Base Color QC',
       path: '/dashboard/baseColorPendingQC',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    treeDataOuterObj.children.push(obj);
   }
-
-  if(item.name === "view-trees-on-map"){
+  if(isContainPermission("census-offsite-qc")){
     const obj =   {
-      title: 'Map',
-  path: '/dashboard/map',
-  icon: getIcon('bxs:map'),
-  children:[
+      title: 'Census QC',
+      path: '/dashboard/censusQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    treeDataOuterObj.children.push(obj);
+  }
+  if(isContainPermission("view-denied-properties")){
+    const obj =   {
+      title: 'Denied Entries',
+      path: '/dashboard/denied-entry',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    treeDataOuterObj.children.push(obj);
+  }
+  if(isContainPermission("view-no-tree-properties")){
+    const obj =   {
+      title: 'No Tree Properties',
+      path: '/dashboard/no-tree-properties',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    treeDataOuterObj.children.push(obj);
+  }
+  
+  
+
+  if(isContainPermission("view-trees-on-map")){
+    treeDataOuterObj.children.push(
     {
       title: 'Trees on Map',
       path: '/dashboard/treeOnMap',
       icon: getIcon('eva:shopping-bag-fill'),
-    },
-  ]
-
-    }
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    })
   }
-  if(item.name === "view-report"){
+  if(isContainPermission("view-report")){
     const obj =   {
       title: 'Reports',
       path: '/dashboard/reports',
       icon: getIcon('eva:shopping-bag-fill'),
     }
-    // masterNav.push(teamsobj);
-    navConfigArray.push(obj);
+    treeDataOuterObj.children.push(obj);
   }
-  return true;
-})
+
+  if(treeDataOuterObj.children.length !==0){
+    navConfigArray.push(treeDataOuterObj);
+  }
+
   console.log(navConfigArray);
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
 

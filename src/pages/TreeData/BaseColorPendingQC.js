@@ -14,7 +14,8 @@ import {
     form,
     Modal,
     Select,
-    MenuItem
+    MenuItem,
+    CircularProgress
   } from '@mui/material';
   import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
   import  ImageGallery  from 'react-image-gallery';
@@ -30,6 +31,7 @@ import {
 import { GetMyActiveTeam } from '../../actions/TeamsAction';
 import { GetBaseColorPendingQCStatus, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
+import { ShowLoader } from '../../actions/CommonAction';
 
 
 
@@ -39,9 +41,9 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
   export default function BaseColorPendingQC(){
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const dispatch = useDispatch();
-    const [councilID, setCouncilID] = React.useState(1);
-    const [zoneID, setZoneID] = React.useState(1);
-    const [wardID, setWardID] = React.useState(1);
+    const [councilID, setCouncilID] = React.useState("");
+    const [zoneID, setZoneID] = React.useState("");
+    const [wardID, setWardID] = React.useState("");
     const [fromDate, setFromDate] = React.useState("");
     const [toDate, setToDate] = React.useState("");
     const [addedBy, setAddedBy] = React.useState("");
@@ -50,6 +52,7 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
     const [imageList, setImageList] = React.useState([])
     const [baseColorId,setBaseColorId] = useState("");
     const [totalTrees, setTotalTrees] = React.useState("");
+    const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
 
 
@@ -68,7 +71,8 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
       baseColorPendingQCStatus, 
       updateQCStatusLog,
       activeTeams,
-      loggedUser
+      loggedUser,
+      showLoader
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.council,
@@ -77,7 +81,8 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
       baseColorPendingQCStatus: state.baseColor.baseColorPendingQCStatus,
       updateQCStatusLog: state.baseColor.updateQCStatusLog,
       activeTeams: state.teams.activeTeams,
-      loggedUser:state.auth.loggedUser
+      loggedUser:state.auth.loggedUser,
+      showLoader : state.common.showLoader,
     }));
 
     console.log("Logged user",loggedUser);
@@ -93,10 +98,7 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
         firstRun.current = false;
         return;
       }
-      dispatch(GetUsers(1, 1000));
-      dispatch(GetCouncil(1,1000));
-      dispatch(GetWards(1,1000));
-      dispatch(GetZones(1,1000));
+      
       dispatch(GetBaseColorPendingQCStatus(activeTeams?.active_council_id,activeTeams?.active_zone_id,activeTeams?.active_ward_id));
       setCouncilID(activeTeams?.active_council_id);
       setZoneID(activeTeams?.active_zone_id);
@@ -152,13 +154,23 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
             return null;
         })
       }
+      dispatch(ShowLoader(false))
+      setShowData(true)
       setImageList(imageList)
       setTotalTrees(baseColorPendingQCStatus?.pending_qc_count)
     },[baseColorPendingQCStatus])
 
 
     useEffect(()=>{
-      dispatch(GetMyActiveTeam());
+      if(loggedUser?.roles[0]?.slug==="qc_base_color_offsite"){
+        dispatch(GetMyActiveTeam());
+        dispatch(ShowLoader(true))
+      }
+      dispatch(GetUsers(1, 1000));
+      dispatch(GetCouncil(1,1000));
+      dispatch(GetWards(1,1000));
+      dispatch(GetZones(1,1000));
+      
       // dispatch(GetBaseColorTreeById(1));
     },[])
   //  baseColorPendingQCStatus.data.map((tree, index) =>(
@@ -270,9 +282,9 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
       const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-          councilForm: councilID || " ",
-          wardForm: wardID || " ",
-          zoneForm: zoneID || " ",
+          councilForm: councilID || "",
+          wardForm: wardID || "",
+          zoneForm: zoneID || "",
           addedByForm: addedBy || "",
           toDateForm: null,
           fromDateForm: null,
@@ -281,13 +293,19 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
         onSubmit: (value) => {
           console.log("in submit");
           console.log("VALUE",value);
+          setState({ ...state, "right": false });
           dispatch(GetBaseColorPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm));
+          
         },
       });
     
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
     return(
+      showLoader ?
+      <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
+      <CircularProgress color="success" />
+      </div>:
         <Page title="New UI" style={{paddingBottom:'0px'}}>
             <Container style={{paddingRight:'0px',marginRight:'0px',marginLeft:"0px",paddingLeft:"0px"}}>
             <Box sx={{  height: '100' }}>
@@ -326,8 +344,8 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
           <Grid item xs={12}>
             <TextField
               select
-              disabled
-              id="council"
+              disabled={loggedUser?.roles[0]?.slug==="qc_base_color_offsite"}
+              id="councilForm"
               label="Council"
               displayEmpty
               value={councilID}
@@ -355,8 +373,8 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
             <Grid item xs={12}>
             <TextField
               select
-              disabled
-              id="zone"
+              disabled={loggedUser?.roles[0]?.slug==="qc_base_color_offsite"}
+              id="zoneForm"
               label="Zone"
               displayEmpty
               value={zoneID}
@@ -384,11 +402,11 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
             <Grid item xs={12}>
             <TextField
               select
-              disabled
-              id="ward"
+              disabled={loggedUser?.roles[0]?.slug==="qc_base_color_offsite"}
+              id="wardForm"
               label="Ward"
               displayEmpty
-              value={zoneID}
+              value={wardID}
               style={{width:'100%',marginTop:5}}
               size="small"
               onChange={(e) => {
@@ -498,7 +516,7 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
          {/* <FilterDrawer data={toggleDrawer("right", false)}/> */}
         </Drawer>
         </Box>
-        {( baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data.length===0)?
+        {( baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data.length===0) || !showData?
         <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%"}}>
        
           <h2>
