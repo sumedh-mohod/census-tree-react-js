@@ -34,6 +34,7 @@ import { GetCouncil } from '../actions/CouncilAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
 import { GetActiveDesignations } from '../actions/DesignationAction';
 import { ShowLoader } from '../actions/CommonAction';
+import { SetNewAlert } from '../actions/AlertActions';
 
 export default function NewUserForm(props) {
 
@@ -117,6 +118,7 @@ export default function NewUserForm(props) {
     },[])
 
     console.log("DeductionTypeId", salaryDeductionType)
+    // SetNewAlert("hiiii");
 
     const { userId } = useParams();
     useEffect(()=>{
@@ -519,11 +521,11 @@ export default function NewUserForm(props) {
       newDocumentList[index] = value;
       console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
-      const isValid = /\.jpe?g$/i.test(e.target.value);
-      if (!isValid) {
-      console.log('Only jpg files allowed!');
-      }
-      console.log(isValid);
+      // const isValid = /\.jpe?g$/i.test(e.target.value);
+      // if (!isValid) {
+      // console.log('Only jpg files allowed!');
+      // }
+      // console.log(isValid);
      
   }
 
@@ -541,6 +543,7 @@ export default function NewUserForm(props) {
 
   const handleDocumentValueChange = (e,index) => {
     console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+    console.log(e.target.files[0].name);
     const formData = new FormData();
     formData.append('upload_for', 'users');
     formData.append('file', e.target.files[0]);
@@ -550,13 +553,17 @@ export default function NewUserForm(props) {
     const newDocumentList = [...documentList];
     const value =  newDocumentList[index];
     value.documentValue = e.target.value;
+    console.log(value.documentValue,"||||||")
     newDocumentList[index] = value;
     setDocumentList(newDocumentList); 
     console.log(e.target.value);
     setFilePath(e.target.value);
     console.log(documentList);
-   
-}
+    const validExtensions = ['png','jpeg','jpg']
+    const fileExtension = e.target.files[0].name.split('.')[1]
+    console.log(fileExtension);
+    console.log(validExtensions.includes(fileExtension));
+  }
 
 const validateRole = () => {
   let validated = true;
@@ -758,7 +765,7 @@ const validateRole = () => {
       ifscCode: Yup.string().required('IFSC is required')
     }
     );
-
+console.log("-------",userById)
     const formik = useFormik({
       enableReinitialize: true,
       initialValues: editUser ? {
@@ -1769,7 +1776,7 @@ const validateRole = () => {
             </TextField>
             </Grid>
             <Grid item xs={5} style={{alignSelf:'center'}}>
-              {filePath?
+              {value.documentValue?
               <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
@@ -1780,7 +1787,7 @@ const validateRole = () => {
              autoComplete="amount"
              style={{marginTop: 5}}
              placeholder="Choose file"
-             value={value.documentValue}
+            value={value.documentValue}
              error={Boolean(value.errorValue)}
              helperText={value.errorValue}
              onChange={(e)=>handleDocumentValueChange(e,index)}
