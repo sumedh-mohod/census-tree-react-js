@@ -116,7 +116,7 @@ const handleStatusChange = (event) => {
   };
 
   const StateSchema = Yup.object().shape({
-    treeDisease: Yup.string().required('Tree Disease is required'),
+    treeDisease: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Tree Disease is required'),
   });
 
 

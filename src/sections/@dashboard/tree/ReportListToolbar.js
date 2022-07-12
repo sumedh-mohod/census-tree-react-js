@@ -68,11 +68,11 @@ ReportListToolbar.propTypes = {
 
 
 
-export default function ReportListToolbar({numSelected, handleGetData, handleCouncil }) {
+export default function ReportListToolbar({numSelected, handleGetData, handleCouncil, councilId }) {
   const dispatch = useDispatch();
   const [coucilId,setCouncilId] = useState('');
   const [councilName, setCouncilName] = useState('');
-
+// const { dataValue}= props;
   const handleCouncilChange = (e) =>{
     setCouncilId(e.target.value);
     handleCouncil(e.target.value)
@@ -83,6 +83,7 @@ export default function ReportListToolbar({numSelected, handleGetData, handleCou
       }
       return null;
     })
+    // councilId(e.target.value)
     console.log("councilName",councilName)
     // setZoneId("")
     // setWardId("")
@@ -90,6 +91,7 @@ export default function ReportListToolbar({numSelected, handleGetData, handleCou
     // dispatch(GetWardsByCouncilId(1,1000,e.target.value))
   }
   console.log("councilName",councilName)
+console.log("CouncilId", coucilId)
 
 
   const DistrictsSchema = Yup.object().shape({
@@ -281,8 +283,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 // defaultValue="2017-05-24"
                 style={{width: '90.5%',  marginLeft: 20}}
                 // className={classes.textField}
-                // error={Boolean(touched.dob && errors.dob)}
-                // helperText={touched.dob && errors.dob}
+                error={Boolean(touched.fromDate && errors.fromDate)}
+                helperText={touched.fromDate && errors.fromDate}
                 {...getFieldProps("fromDate")}
                 InputLabelProps={{
                   shrink: true,
@@ -299,8 +301,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 // defaultValue="2017-05-24"
                 style={{width: '90.5%', marginLeft: 30}}
                 // className={classes.textField}
-                // error={Boolean(touched.dob && errors.dob)}
-                // helperText={touched.dob && errors.dob}
+                error={Boolean(touched.toDate && errors.toDate)}
+                helperText={touched.toDate && errors.toDate}
                 {...getFieldProps("toDate")}
                 InputLabelProps={{
                   shrink: true,
@@ -310,8 +312,11 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
               <Grid item sm={4}>
             <Button variant="contained" onClick={handleSubmit} style={{marginLeft: 30, marginTop: 5, backgroundColor: "#008000", height: 50, width: 150}}  >View Report</Button>
             </Grid>
+
             <Grid item sm={4}>
-            <Button variant="contained" onClick= {exportPdf}  style={{marginLeft: 30, marginTop: 5, height: 50, width: 150}}  >Export Report</Button>
+              {!coucilId ?  
+            <Button variant="contained"  onClick= {handleSubmit}   style={{marginLeft: 30, marginTop: 5, height: 50, width: 150}}  >Export Report</Button> :
+            <Button variant="contained"  onClick= {exportPdf}   style={{marginLeft: 30, marginTop: 5, height: 50, width: 150}}  >Export Report</Button> }
             </Grid>
 
 

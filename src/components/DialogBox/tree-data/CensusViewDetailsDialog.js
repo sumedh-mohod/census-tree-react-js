@@ -259,6 +259,10 @@ console.log("hii", isOpen)
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Qc On Date</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.qc_date? props.data.qc_date: "-"}</td>
   </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Added By</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.added_by?.first_name? props.data.added_by?.first_name: "-"} {props.data.added_by?.last_name? props.data.added_by?.last_name: "-"} </td>
+  </tr>
   </table>
   </div>
             : null}

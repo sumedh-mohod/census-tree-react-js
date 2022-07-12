@@ -487,11 +487,7 @@ import { ShowLoader } from '../actions/CommonAction';
                 size="small"
                 // label="Plantation Date"
                  value={values.toDateForm || ""}
-         
-                // helperText={
-                //     errors.toDateForm && touched.toDateForm
-                     
-                // }
+        F                // }
                 InputLabelProps={{
                   shrink: true,
                   
@@ -500,7 +496,7 @@ import { ShowLoader } from '../actions/CommonAction';
               />
                </Grid>
                <Grid item xs={12}>
-               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only heritage" />
+               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only heritage trees" />
                </Grid>
 
                <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:5}}>
@@ -614,6 +610,14 @@ import { ShowLoader } from '../actions/CommonAction';
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Tree Condition: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].tree_condition.condition}</td>
+              </tr>
+              <tr>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Added By: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].added_by?.first_name} {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.last_name}</td>
+              </tr>
+              <tr>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Added On: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].added_on_date}</td>
               </tr>
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Girth: </td>

@@ -37,7 +37,7 @@ const TABLE_HEAD = [
     { id: 'propertyOwner', label: 'Property Owner', alignRight: false },
   //   { id: 'ownerName', label: 'Owner Name', alignRight: false },
     { id: 'tenantName', label: 'Tenant Name', alignRight: false },
-    { id: 'address', label: 'Address', alignRight: false },
+    { id: 'location', label: 'Location', alignRight: false },
     { id: 'area', label: 'Area(Sq feet)', alignRight: false },
     { id: 'treeType', label: 'Tree Type', alignRight: false },
     { id: 'treeName', label: 'Tree Name(Local)', alignRight: false },
