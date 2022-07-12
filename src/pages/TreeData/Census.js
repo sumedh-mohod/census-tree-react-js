@@ -352,7 +352,7 @@ console.log("page123", page)
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.tree_number? option.tree_number: "-" }</TableCell>
                         <TableCell align="left">{option.tree_name?.name}</TableCell>
-                        <TableCell align="left">{option.added_by?.first_name}</TableCell>
+                        <TableCell align="left">{option.added_by?.first_name} {option.added_by?.last_name} </TableCell>
                         <TableCell align="left">{option.added_on_date}</TableCell>
                         <TableCell align="left">{option.referred_to_expert === 1 ? "Yes" : "No"}</TableCell>
                         {/* <TableCell align="left"> */}

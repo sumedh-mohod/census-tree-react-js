@@ -285,12 +285,6 @@ const handleCoucilChange = (value) => {
     Reports
         </Link>
       </Breadcrumbs>
-      {/* <div style={{marginBottom : 20}}> */}
-      {/* {userPermissions.includes("export-report")? 
-        <Button variant="contained" component="span" onClick= {exportPdf} style={{ position: "absolute", right: "42px" }}>
-          export Report
-        </Button>:null} */}
-        {/* </div> */}
     </div>
         </Stack>
         <Card> 
@@ -317,23 +311,45 @@ const handleCoucilChange = (value) => {
           </TabList>
         </Box>
         <TabPanel value="1">
-          <ByWardReports
-          data={reports?.by_wards? reports?.by_wards: []}/>
+          {!councilName ? (
+                  <div align="center" fontWeight={700}> 
+                  Please select council to get data
+                </div>
+                ) :
+             <ByWardReports
+             data={reports?.by_wards? reports?.by_wards: []}/>
+          }
+       
         </TabPanel>
         <TabPanel value="2">
+        {!councilName ? (
+                  <div align="center" fontWeight={700}> 
+                  Please select council to get data
+                </div>
+                ) :
           <ByTreeNameReports
           data={reports?.by_tree_names ? reports?.by_tree_names: []}
-          />
+          />}
         </TabPanel>
         <TabPanel value="3">
+        {!councilName ? (
+                  <div align="center" fontWeight={700}> 
+                  Please select council to get data
+                </div>
+                ) :
     <ByTreeTypeReports
     data={reports?.by_tree_types ? reports?.by_tree_types : []}
-    />
+    />}
         </TabPanel>
         <TabPanel value="4">
+        {!councilName ? (
+                  <div align="center" fontWeight={700}> 
+                  Please select council to get data
+                </div>
+                ) :
     <ByTreeConditionReports
     data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []}
-    />
+    />}
         </TabPanel>
       </TabContext>
     </Box>

@@ -150,7 +150,7 @@ export default function TalukasDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    talukas: Yup.string().required('Taluka is required'),
+    talukas: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Taluka is required'),
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
   });

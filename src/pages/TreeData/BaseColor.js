@@ -348,7 +348,7 @@ export default function BaseColor() {
                             <Visibility />
                           </IconButton>
                           </TableCell>
-                        <TableCell align="left">{option.added_by?.first_name}</TableCell>
+                        <TableCell align="left">{option.added_by?.first_name} {option.added_by?.last_name}</TableCell>
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.added_on_date}</TableCell>
                         <TableCell align="left">{option.qc_status?option.qc_status:"-"}</TableCell>
                         <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>

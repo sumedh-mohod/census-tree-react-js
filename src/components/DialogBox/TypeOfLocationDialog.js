@@ -100,7 +100,7 @@ export default function TypeOfLocationDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    locationTypes: Yup.string().required('Location Type is required'),
+    locationTypes: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Location Type is required'),
   });
 
 

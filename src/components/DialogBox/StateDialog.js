@@ -116,7 +116,7 @@ const handleStatusChange = (event) => {
   };
 
   const StateSchema = Yup.object().shape({
-    state: Yup.string().required('State is required'),
+    state: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('State is required'),
   });
 
 
