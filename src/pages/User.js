@@ -1,4 +1,4 @@
-import { filter } from 'lodash';
+import { filter, includes } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import {
@@ -94,7 +94,7 @@ export default function User() {
   const [search,setSearch] = useState(false);
   const [searchValue,setSearchValue] = useState("");
   const [pageCountError, setPageCountError]= useState(false);
-
+  const userPermissions = [];
   
   
   
@@ -102,15 +102,20 @@ export default function User() {
    const {
     users,
     pageInfo,
-    deleteUsersLog
+    deleteUsersLog,
+    loggedUser,
   } = useSelector((state) => ({
     users:state.users.users,
     pageInfo : state.users.pageInfo,
-    deleteUsersLog:state.users.deleteUsersLog
+    deleteUsersLog:state.users.deleteUsersLog,
+    loggedUser:state.auth.loggedUser,
   }));
 
-
+loggedUser.roles[0].permissions.map((item, index)=>(
+  userPermissions.push(item.name)
+))
   
+
   useEffect(()=>{
     dispatch(GetUsers(page,rowsPerPage));
   },[deleteUsersLog])
@@ -187,10 +192,12 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             Users
           </Typography>
+          {userPermissions.includes("create-user")? 
           <Button variant="contained" component={RouterLink} to="/dashboard/new-user-Form" startIcon={<Iconify icon="eva:plus-fill"  />}>
             New User
 
           </Button>
+           :null} 
         </Stack>
 
         <Card>
@@ -220,7 +227,7 @@ export default function User() {
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
 
                         <TableCell align="right">
-                          <UserFormListMenu status={option.status} userId={option.id} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} handleUnlink={()=>handleUnlink(option.id)}/>
+                          <UserFormListMenu status={option.status} userId={option.id} userPermissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} handleUnlink={()=>handleUnlink(option.id)}/>
                         </TableCell>
                         </TableRow>
                         )

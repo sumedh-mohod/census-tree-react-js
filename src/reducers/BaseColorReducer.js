@@ -1,4 +1,6 @@
-import {  DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HISTORY, GET_QC_REMARKS_FOR_BASE_COLOR, RESET_STATE, UPDATE_QC_STATUS_BASE_COLOR_TREES } from "../actions/Types";
+import {  DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HISTORY, 
+  GET_QC_REMARKS_FOR_BASE_COLOR, RESET_STATE, UPDATE_QC_STATUS_BASE_COLOR_TREES, 
+GET_BASE_COLOR_PENDING_QC_STATUS } from "../actions/Types";
   
   const INIT_STATE = {
     baseColorTrees:null,
@@ -8,7 +10,8 @@ import {  DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HI
     updateQCStatusLog:false,
     pageInfo:{},
     baseColorRemarks:[],
-    baseColorTreeHistory:[]
+    baseColorTreeHistory:[],
+    baseColorPendingQCStatus:[],
   };
   
   export default function BaseColorReducer (state = INIT_STATE, action)  {
@@ -46,6 +49,13 @@ import {  DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HI
               ...state,
               baseColorRemarks:payload.data
         };
+
+        case GET_BASE_COLOR_PENDING_QC_STATUS:
+          return{
+              ...state,
+              baseColorPendingQCStatus: payload.data,
+              pageInfo: payload.data
+        }
 
         case RESET_STATE:
         return { ...INIT_STATE };

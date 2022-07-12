@@ -51,6 +51,8 @@
     "date-fns": "^2.28.0",
     "formik": "^2.2.9",
     "history": "^5.2.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.25",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "numeral": "^2.0.6",

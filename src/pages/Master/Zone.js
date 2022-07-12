@@ -80,20 +80,28 @@ export default function Zone() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
   const {
     zones,
     addZonesLog,
     editZonesLog,
     deleteZonesLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     zones:state.zones.zones,
     addZonesLog:state.zones.addZonesLog,
     editZonesLog:state.zones.editZonesLog,
     deleteZonesLog:state.zones.deleteZonesLog,
-    pageInfo : state.zones.pageInfo
+    pageInfo : state.zones.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   useEffect(()=>{
     dispatch(GetZones(page,rowsPerPage));
@@ -199,10 +207,11 @@ export default function Zone() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-zone")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Zone
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -223,7 +232,7 @@ export default function Zone() {
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

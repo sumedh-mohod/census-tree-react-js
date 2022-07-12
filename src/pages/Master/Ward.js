@@ -80,21 +80,29 @@ export default function Zone() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
 
   const {
     wards,
     addWardsLog,
     editWardsLog,
     deleteWardsLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     wards:state.wards.wards,
     addWardsLog:state.wards.addWardsLog,
     editWardsLog:state.wards.editWardsLog,
     deleteWardsLog:state.wards.deleteWardsLog,
-    pageInfo : state.wards.pageInfo
+    pageInfo : state.wards.pageInfo,
+    loggedUser:state.auth.loggedUser,
+
   }));
 
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
   console.log("WARDS",wards)
 
   useEffect(()=>{
@@ -198,10 +206,11 @@ export default function Zone() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-ward")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Ward
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -223,7 +232,7 @@ export default function Zone() {
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )

@@ -52,22 +52,31 @@ export default function StateListTable() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const userPermissions = [];
+   
 
   const {
     states,
     addStateLog,
     editStateLog,
     deleteStateLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     states:state.master.states,
     addStateLog:state.master.addStateLog,
     editStateLog:state.master.editStateLog,
     deleteStateLog:state.master.deleteStateLog,
-    pageInfo : state.master.pageInfo
+    pageInfo : state.master.pageInfo,
+    loggedUser:state.auth.loggedUser,
+
   }));
 
-  console.log("STATES",states)
+  console.log("STATES",states);
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   useEffect(()=>{
     dispatch(GetAllState(page,rowsPerPage));
@@ -170,10 +179,11 @@ export default function StateListTable() {
         </Link>
       </Breadcrumbs>
     </div>
+    {userPermissions.includes("create-state")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add State
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -194,7 +204,7 @@ export default function StateListTable() {
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )

@@ -136,8 +136,30 @@ const navConfig = [
       icon: getIcon('eva:shopping-bag-fill'),
     },
     {
+      title: 'Census QC',
+      path: '/dashboard/censusQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+    {
+      title: 'Base Color QC',
+      path: '/dashboard/baseColorPendingQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+  ]
+},
+{
+  title: 'Map',
+  path: '/dashboard/map',
+  icon: getIcon('bxs:map'),
+  children:[
+    {
       title: 'Trees on Map',
       path: '/dashboard/treeOnMap',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+    {
+      title: 'Reports',
+      path: '/dashboard/reports',
       icon: getIcon('eva:shopping-bag-fill'),
     },
   ]

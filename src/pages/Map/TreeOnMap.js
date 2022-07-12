@@ -19,11 +19,13 @@ import {
   Avatar,
   Checkbox,
   Container,
+  Drawer,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
+import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLoadScript } from '@react-google-maps/api';
 import DefaultInput from "../../components/Inputs/DefaultInput";
@@ -47,6 +49,13 @@ export default function TreeOnMap(props) {
    const [showList,setShowList] = useState(false);
     const [editUser,setEditUser] = useState(false);  
     const { isOpen, data } = props;
+
+    const [state, setState] = React.useState({
+      top: false,
+      left: false,
+      bottom: false,
+      right: false,
+    });
 
     const { isLoaded } = useLoadScript({
       googleMapsApiKey: "AIzaSyCLYJVkpS7Y-N5OOglfLYLcJNmVUwQFY7E" // Add your API key
@@ -88,10 +97,24 @@ export default function TreeOnMap(props) {
       setWardId(e.target.value);
     }
 
+    const toggleDrawer = (anchor, open) => (event) => {
+      if (
+        event.type === "keydown" &&
+        ((event).key === "Tab" || (event).key === "Shift")
+      ) {
+        return;
+      }
+  
+      setState({ ...state, [anchor]: open });
+  
+    };
+
     const DistrictsSchema = Yup.object().shape({
       council: Yup.string().required('Council is required'),
       zone: Yup.string().required('Zone is required'),
       ward: Yup.string().required('Ward is required'),
+      fromDate: Yup.string().required('From date is required'),
+      toDate: Yup.string().required('To date is required'),
     });
   
     const formik = useFormik({
@@ -99,11 +122,15 @@ export default function TreeOnMap(props) {
       initialValues: {
         council:"",
         zone:"",
-        ward:""
+        ward:"",
+        fromDate:"",
+        toDate:"",
       },
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
-        dispatch(GetAllTreeLocation(value.council,value.zone,value.ward))
+        console.log("in on ");
+        setState({ ...state, "right": false });
+        dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate))
       },
     });
   
@@ -121,16 +148,41 @@ export default function TreeOnMap(props) {
           Trees On Map
           </Typography>
           {/* </Stack> */}
-          <Grid container spacing={1} style={{marginTop: 5}}>
-          <Grid item sm={4}>
-            <TextField
+          <Button
+           variant='outlined'
+            sx={{justifyContent:'end', display:'flex', position: 'fixed',right: 0,top:'100px',border:'2px solid black',backgroundColor:'black',zIndex:'999', 
+            "&.MuiButtonBase-root:hover": {
+              bgcolor: "black",
+              border:'2px solid black'
+            }
+          }}
+            onClick={toggleDrawer("right", true)} 
+           
+          >
+        <FilterAltRoundedIcon sx={{color:'white'}} />
+          </Button> 
+          <Drawer
+           sx= {
+            {
+              "& .MuiDrawer-paper": {
+                width: "300px",
+                maxWidth: "100%",
+                justifyContent:"center",
+                alignItems:"center",
+              },
+            }
+          }
+          anchor={"right"} open={state.right} onClose={toggleDrawer("right", false)}
+        >
+          <div>
+          <TextField
               select
               id="council"
               name='council'
               label="Council*"
               value={coucilId}
               displayEmpty
-              style={{width:'85.5%',marginTop:5}}
+              style={{width:'85.5%', marginLeft: 20}}
               // onChange={handleRoleChange}
               onChange={(e) => {
                 handleCouncilChange(e);
@@ -155,55 +207,46 @@ export default function TreeOnMap(props) {
                 </MenuItem>
               ))}
             </TextField>
-            </Grid>
-            <Grid item xs={4}>
-              <TextField
+            <TextField
                 id="date"
                 // label="Date Of Birth"
                 type="date"
-                label="Start Date*"
-                placeholder='Start Date*'
+                label="From Date*"
+                placeholder='From Date*'
                 // defaultValue="2017-05-24"
-                style={{width: '85.5%', marginLeft: 40,marginTop:5}}
+                style={{width: '85.5%', marginLeft: 20,marginTop:10}}
                 // className={classes.textField}
-                // error={Boolean(touched.dob && errors.dob)}
-                // helperText={touched.dob && errors.dob}
-                // {...getFieldProps("dob")}
+                error={Boolean(touched.fromDate && errors.fromDate)}
+                helperText={touched.fromDate && errors.fromDate}
+                {...getFieldProps("fromDate")}
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
-              </Grid>
-              <Grid item xs={4}>
-              <TextField
+                <TextField
                 id="date"
                 // label="Date Of Birth"
                 type="date"
-                label="End Date*"
-                placeholder= 'End Date*'
+                label="To Date*"
+                placeholder= 'To Date*'
                 // defaultValue="2017-05-24"
-                style={{width: '85.5%', marginLeft: 40,marginTop:5}}
+                style={{width: '85.5%', marginLeft: 20,marginTop:10}}
                 // className={classes.textField}
-                // error={Boolean(touched.dob && errors.dob)}
-                // helperText={touched.dob && errors.dob}
-                // {...getFieldProps("dob")}
+                error={Boolean(touched.toDate && errors.toDate)}
+                helperText={touched.toDate && errors.toDate}
+                {...getFieldProps("toDate")}
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
-              </Grid>
-            </Grid>
-            <Grid container spacing={1} style={{marginTop: 5}}>
-            
-          <Grid item sm={4}>
-          <TextField
+               <TextField
               select
               id="zone"
               name='zone'
               label="Zone*"
               value={zoneId}
               displayEmpty
-              style={{width:'85.5%',marginTop:5}}
+              style={{width:'85.5%', marginLeft: 20, marginTop:10}}
               // onChange={handleRoleChange}
               onChange={(e) => {
                 handleZoneChange(e);
@@ -228,8 +271,6 @@ export default function TreeOnMap(props) {
                 </MenuItem>
               )):null}
             </TextField>
-            </Grid>
-            <Grid item sm={4}>
             <TextField
               select
               id="ward"
@@ -237,7 +278,7 @@ export default function TreeOnMap(props) {
               label="Ward*"
               value={wardId}
               displayEmpty
-              style={{width:'85.5%', marginLeft: 40,marginTop:5}}
+              style={{width:'85.5%', marginLeft: 20,marginTop:10}}
               // onChange={handleRoleChange}
               onChange={(e) => {
                 handleWardChange(e);
@@ -262,11 +303,14 @@ export default function TreeOnMap(props) {
                 </MenuItem>
               )):null}
             </TextField>
-            </Grid>
-            <Grid item sm={4}>
-            <Button variant="contained" style={{marginLeft: 40, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}  onClick={handleSubmit}>Get Data</Button>
-            </Grid>
-            </Grid>
+            <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:20}}>
+            Get Data
+
+          </Button>
+
+            {/* <Button variant="contained" style={{marginLeft: 50, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}  onClick={handleSubmit}>Get Data</Button> */}
+          </div>
+          </Drawer>
             <Grid container spacing={1} style={{marginTop: 20}}>
             {isLoaded ? <Map treeLocation={showList?treeLocation:[]} /> : null}
             </Grid>
