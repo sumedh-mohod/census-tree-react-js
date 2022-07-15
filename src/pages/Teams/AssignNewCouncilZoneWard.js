@@ -224,7 +224,7 @@ export default function AssignNewCouncilZoneWard() {
           color="inherit"
           href="#"
         >
-             Assigned Councils- Zones- Wards
+             Assigned Councils - Zones - Wards
         </Link>
       </Breadcrumbs>
     </div>
