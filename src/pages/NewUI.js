@@ -25,7 +25,7 @@ import {
 import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
- import { GetCouncil} from '../actions/CouncilAction';
+ import { GetActiveCouncil} from '../actions/CouncilAction';
  import { GetZones} from '../actions/ZonesAction';
  import {GetWards} from '../actions/WardsActions';
  import { GetUsers } from '../actions/UserAction';
@@ -78,7 +78,7 @@ import { ShowLoader } from '../actions/CommonAction';
       showLoader
     } = useSelector((state) => ({
       users:state.users.users,
-      council:state.council.council,
+      council:state.council.activeCouncil,
       zones:state.zones.zones,
       wards:state.wards.wards,
       treeCensusPendingQCStatus: state.treeCensus.treeCensusPendingQCStatus,
@@ -180,7 +180,7 @@ import { ShowLoader } from '../actions/CommonAction';
       }
       
       dispatch(GetUsers(1, 1000));
-      dispatch(GetCouncil(1,1000));
+      dispatch(GetActiveCouncil(1));
       dispatch(GetWards(1,1000));
       dispatch(GetZones(1,1000));
     },[])
