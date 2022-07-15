@@ -2,7 +2,9 @@ import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_T
   
   const INIT_STATE = {
     users:null,
+    activeUsers:null,
     userById:null,
+    userByRoleID:null,
     addUsersLog:false,
     editUsersLog:false,
     deleteUsersLog:false,

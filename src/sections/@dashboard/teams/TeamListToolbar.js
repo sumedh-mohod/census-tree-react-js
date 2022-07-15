@@ -54,8 +54,8 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
         wards,
       } = useSelector((state) => ({
         council:state.council.activeCouncil,
-        zones:state.zones.zones,
-        wards:state.wards.wards,
+        zones:state.zones.activeZones,
+        wards:state.wards.activeWards,
       }));
   
     return (

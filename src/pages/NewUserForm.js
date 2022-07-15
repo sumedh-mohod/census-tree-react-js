@@ -116,7 +116,7 @@ export default function NewUserForm(props) {
       dispatch(GetActiveCouncil(1));
       dispatch(GetActiveDistricts(1,1000,1));
       dispatch(GetActiveTalukas(1,1000,1));
-      dispatch(GetActiveDesignations(1,1000,1));
+      dispatch(GetActiveDesignations(1));
     },[])
 
     console.log("DeductionTypeId", salaryDeductionType)
@@ -546,6 +546,9 @@ export default function NewUserForm(props) {
   const handleDocumentValueChange = (e,index) => {
     console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
     console.log(e.target.files[0].name);
+    console.log(e.target.files[0].size);
+    const i = parseInt((Math.floor(Math.log(e.target.files[0].size) / Math.log(1024))),10);
+    console.log("file size", i);
     const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
     const fileExtension = e.target.files[0].name.split('.')[1]
     console.log(fileExtension);

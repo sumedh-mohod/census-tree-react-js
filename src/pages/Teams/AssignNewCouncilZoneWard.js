@@ -20,8 +20,8 @@ import {
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetActiveCouncil } from '../../actions/CouncilAction';
-import { GetZones } from '../../actions/ZonesAction';
-import { GetWards } from '../../actions/WardsActions';
+import { GetActiveZones } from '../../actions/ZonesAction';
+import { GetActiveWards } from '../../actions/WardsActions';
 import { DeleteCZWFromTeam, GetCZWByTeam, SearchCZWByTeam } from '../../actions/TeamsAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';

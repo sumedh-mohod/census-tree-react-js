@@ -26,9 +26,9 @@ import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
  import { GetActiveCouncil} from '../actions/CouncilAction';
- import { GetZones} from '../actions/ZonesAction';
- import {GetWards} from '../actions/WardsActions';
- import { GetUsers } from '../actions/UserAction';
+ import { GetActiveZones} from '../actions/ZonesAction';
+ import {GetActiveWards} from '../actions/WardsActions';
+ import { GetUsers, GetUsersByRoleID } from '../actions/UserAction';
 
  import Page from '../components/Page';
 import { GetMyActiveTeam } from '../actions/TeamsAction';
@@ -69,6 +69,7 @@ import { ShowLoader } from '../actions/CommonAction';
       council,
       zones,
       wards,
+      userByRoleID,
       treeCensusPendingQCStatus, 
       referToExpertLog,
       updateQCStatusLog,
@@ -79,8 +80,9 @@ import { ShowLoader } from '../actions/CommonAction';
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.activeCouncil,
-      zones:state.zones.zones,
-      wards:state.wards.wards,
+      zones:state.zones.activeZones,
+      wards:state.wards.activeWards,
+      userByRoleID: state.users.userByRoleID,
       treeCensusPendingQCStatus: state.treeCensus.treeCensusPendingQCStatus,
       referToExpertLog: state.treeCensus.referToExpertLog,
       updateQCStatusLog: state.treeCensus.updateQCStatusLog,
@@ -95,15 +97,16 @@ import { ShowLoader } from '../actions/CommonAction';
     ))
     
     console.log("in new", users);
-    if(users){
-    selectedUsers= users.filter(
-      (currentValue) => {if(currentValue.assigned_roles.includes("Census User") || currentValue.assigned_roles.includes("Census QC - Offsite")){
-        return currentValue;
-      }
-      return null;
-  });
-    console.log(":::::::::", selectedUsers);
-}
+//     if(users){
+//     selectedUsers= users.filter(
+//       (currentValue) => {if(currentValue.assigned_roles.includes("Census User") || currentValue.assigned_roles.includes("Census QC - Offsite")){
+//         return currentValue;
+//       }
+//       return null;
+//   });
+//     console.log(":::::::::", selectedUsers);
+// }
+
     const firstRun = React.useRef(true);
     useEffect(()=>{
       if (firstRun.current) {
@@ -179,16 +182,17 @@ import { ShowLoader } from '../actions/CommonAction';
         dispatch(ShowLoader(true))
       }
       
-      dispatch(GetUsers(1, 1000));
+      dispatch(GetUsersByRoleID(1, 6, 8));
       dispatch(GetActiveCouncil(1));
-      dispatch(GetWards(1,1000));
-      dispatch(GetZones(1,1000));
+      dispatch(GetActiveWards(1));
+      dispatch(GetActiveZones(1));
     },[])
   //  treeCensusPendingQCStatus.data.map((tree, index) =>(
   //     console.log(index, tree.tree_number, tree.tree_name.name)
   //     // console.log(tree.tree_number)
   //     // console.log(tree.tree_name.name)
   //     ));
+  console.log("userByRoleID",userByRoleID)
     const handleDialogOpen = () => {
       setDialogOpen(true);
       setUpdateClick(true);
@@ -454,7 +458,7 @@ import { ShowLoader } from '../actions/CommonAction';
           <MenuItem  value="">
             <em>----Null----</em>
           </MenuItem>
-              {selectedUsers?.map((option) => (
+              {userByRoleID?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.first_name}{" "}{option.last_name}
                 </MenuItem>
