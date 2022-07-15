@@ -24,7 +24,7 @@ import { ADD_ZONES, DELETE_ZONES, EDIT_ZONES, GET_ZONES, GET_ACTIVE_ZONES, RESET
           return{
               ...state,
               activeZones: payload.data,
-              pageInfo: payload.data
+             
         };
 
         case ADD_ZONES:

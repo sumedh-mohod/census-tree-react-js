@@ -29,9 +29,9 @@ const GetUsers = (page,limit) => async (dispatch) => {
     }
   };
 
-  const GetUsersByRoleID = (roleid1, roleid2) => async (dispatch) => {
+  const GetUsersByRoleID = (status, roleid1, roleid2) => async (dispatch) => {
     try {
-      const response = await JWTServer.get(`/api/users?role_id[]=${roleid1}&role_id[]=${roleid2}`);
+      const response = await JWTServer.get(`/api/users?status=${status}&role_id[]=${roleid1}&role_id[]=${roleid2}`);
       console.log("users by roles",response.data);
       dispatch({
         type: GET_USERS_BY_ROLEID,

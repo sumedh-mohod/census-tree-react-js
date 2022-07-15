@@ -19,6 +19,7 @@ const GetZones = (page,limit) => async (dispatch) => {
   const GetActiveZones = (status) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/zones?status=${status}`);
+      console.log("active zones RESPONSE",response.data);
       dispatch({
         type: GET_ACTIVE_ZONES,
         payload: response.data,

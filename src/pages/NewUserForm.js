@@ -546,6 +546,9 @@ export default function NewUserForm(props) {
   const handleDocumentValueChange = (e,index) => {
     console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
     console.log(e.target.files[0].name);
+    console.log(e.target.files[0].size);
+    const i = parseInt((Math.floor(Math.log(e.target.files[0].size) / Math.log(1024))),10);
+    console.log("file size", i);
     const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
     const fileExtension = e.target.files[0].name.split('.')[1]
     console.log(fileExtension);

@@ -19,6 +19,7 @@ const GetWards = (page,limit) => async (dispatch) => {
   const GetActiveWards = (status) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/wards?status=${status}`);
+      console.log("active wards RESPONSE",response.data);
       dispatch({
         type: GET_ACTIVE_WARDS,
         payload: response.data,

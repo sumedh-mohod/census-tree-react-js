@@ -25,7 +25,7 @@ import {
  import { GetActiveCouncil} from '../../actions/CouncilAction';
  import { GetActiveZones} from '../../actions/ZonesAction';
  import {GetActiveWards} from '../../actions/WardsActions';
- import { GetUsers } from '../../actions/UserAction';
+ import { GetUsers, GetUsersByRoleID } from '../../actions/UserAction';
 
  import Page from '../../components/Page';
 import { GetMyActiveTeam } from '../../actions/TeamsAction';
@@ -69,6 +69,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       council,
       zones,
       wards,
+      userByRoleID,
       baseColorPendingQCStatus, 
       updateQCStatusLog,
       activeTeams,
@@ -79,6 +80,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       council:state.council.activeCouncil,
       zones:state.zones.activeZones,
       wards:state.wards.activeWards,
+      userByRoleID: state.users.userByRoleID,
       baseColorPendingQCStatus: state.baseColor.baseColorPendingQCStatus,
       updateQCStatusLog: state.baseColor.updateQCStatusLog,
       activeTeams: state.teams.activeTeams,
@@ -92,15 +94,15 @@ import { ShowLoader } from '../../actions/CommonAction';
       userPermissions.push(item.name)
     ))
 
-   if(users){ 
-    selectedUsers= users.filter(
-      (currentValue) => {if(currentValue.assigned_roles.includes("Base Color User") || currentValue.assigned_roles.includes("Base Color QC - Offsite")){
-        return currentValue;
-      }
-      return null;
-  });
-  console.log("selectedUsers", selectedUsers)
-}
+//    if(users){ 
+//     selectedUsers= users.filter(
+//       (currentValue) => {if(currentValue.assigned_roles.includes("Base Color User") || currentValue.assigned_roles.includes("Base Color QC - Offsite")){
+//         return currentValue;
+//       }
+//       return null;
+//   });
+//   console.log("selectedUsers", selectedUsers)
+// }
 
  
     const firstRun = React.useRef(true);
@@ -177,7 +179,7 @@ import { ShowLoader } from '../../actions/CommonAction';
         dispatch(GetMyActiveTeam());
         dispatch(ShowLoader(true))
       }
-      dispatch(GetUsers(1, 1000));
+      dispatch(GetUsersByRoleID(1, 3, 5));
       dispatch(GetActiveCouncil(1));
       dispatch(GetActiveWards(1));
       dispatch(GetActiveZones(1));
@@ -461,7 +463,7 @@ import { ShowLoader } from '../../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Added By</em>
           </MenuItem>
-              {selectedUsers?.map((option) => (
+              {userByRoleID?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.first_name}{" "}{option.last_name}
                 </MenuItem>

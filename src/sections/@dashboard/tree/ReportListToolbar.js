@@ -125,7 +125,7 @@ console.log("CouncilId", coucilId)
         // wards,
         reports,
       } = useSelector((state) => ({
-        council:state.council.council,
+        council:state.council.activeCouncil,
         reports:state.reports.reports,
       }));
 console.log("reports123", reports)
