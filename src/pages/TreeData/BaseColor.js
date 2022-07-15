@@ -44,6 +44,8 @@ const TABLE_HEAD = [
   { id: 'locationType', label: 'Location Type', alignRight: false },
   { id: 'propertyType', label: 'Property Type', alignRight: false },
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
+  { id: 'propertyAddress', label: 'Property Address', alignRight: false },
+  { id: 'treeLocation', label: 'Tree Location', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
   { id: 'images', label: 'Images', alignRight: false },
@@ -289,7 +291,7 @@ export default function BaseColor() {
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          href="#"
+          // href="#"
         >
           Tree Data
         </Link>
@@ -297,7 +299,7 @@ export default function BaseColor() {
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          href="#"
+          href="/dashboard/base-color"
         >
         Base Color
         </Link>
@@ -339,7 +341,9 @@ export default function BaseColor() {
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
-                        <TableCell align="left">{option.property?.property_number}</TableCell>
+                        <TableCell align="left">{option.property?.property_number?option.property?.property_number: "-"}</TableCell>
+                        <TableCell align="left">{option.property?.address? option.property?.address: "-"}</TableCell>
+                        <TableCell align="left">{option.location}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
                         <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
                         <TableCell align="left">

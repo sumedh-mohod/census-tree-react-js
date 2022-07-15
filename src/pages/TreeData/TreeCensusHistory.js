@@ -242,7 +242,7 @@ export default function TreeCensusHistory() {
                         <TableCell align="left">{option.tree_condition?.condition}</TableCell>
                         <TableCell align="left">{option.disease_id? option.disease_id: "-"}</TableCell>
                         <TableCell align="left">{option.plantation_date? option.plantation_date: "-"}</TableCell>
-                        <TableCell align="left">{option.referred_to_expert}</TableCell>
+                        <TableCell align="left">{option.referred_to_expert === 1 ? "Yes" : "No"}</TableCell>
                         <TableCell align="left">{option.action_need? option.action_need: "-"}</TableCell>
                         <TableCell align="left">
                           {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
