@@ -28,7 +28,7 @@ import USERLIST from '../../_mock/user';
 import TreeData from  '../../components/JsonFiles/TreeData.json';
 import WardDialog from "../../components/DialogBox/WardDialog";
 import { GetDeniedEntry, SearchDeniedEntry } from '../../actions/DeniedEntryAction';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
@@ -70,7 +70,7 @@ export default function DeniedEntry() {
     deniedEntry,
     pageInfo
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     deniedEntry:state.deniedEntry.deniedEntry,
@@ -97,7 +97,7 @@ export default function DeniedEntry() {
   },[deniedEntry])
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
 

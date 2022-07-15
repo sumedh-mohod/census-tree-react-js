@@ -21,7 +21,7 @@ import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
 import { AddCZWToTeam } from '../../../actions/TeamsAction';
 import AssignNewZoneWardConfirmationDialog from './AssignNewZoneWardConfirmationDialog';
-import { GetCouncil } from '../../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../../actions/CouncilAction';
 import { GetZones, GetZonesByCouncilId } from '../../../actions/ZonesAction';
 import { GetWards, GetWardsByCouncilId } from '../../../actions/WardsActions';
 
@@ -121,7 +121,7 @@ export default function AssignCouncilZoneDialog(props) {
     deleteCWZFromteamLog
 
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
@@ -130,7 +130,7 @@ export default function AssignCouncilZoneDialog(props) {
   }));
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     
   },[])
 

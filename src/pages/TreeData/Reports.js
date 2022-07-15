@@ -35,7 +35,7 @@ import autoTable from 'jspdf-autotable';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { GetReports } from '../../actions/ReportsAction';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import ReportListToolbar from '../../sections/@dashboard/tree/ReportListToolbar';
@@ -84,7 +84,7 @@ export default function Reports() {
     // updateQCStatusLog,
     // pageInfo
   } = useSelector((state) => ({
-    council: state.council.council,
+    council: state.council.activeCouncil,
     reports:state.reports.reports,
     loggedUser:state.auth.loggedUser,
    
@@ -121,7 +121,7 @@ export default function Reports() {
 
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
   // useEffect(()=>{

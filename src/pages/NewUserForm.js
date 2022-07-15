@@ -30,7 +30,7 @@ import { GetActiveRole } from '../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../actions/UserAction';
 import { UploadFile, UploadImage } from '../actions/UploadActions';
 import DefaultInput from '../components/Inputs/DefaultInput';
-import { GetCouncil } from '../actions/CouncilAction';
+import { GetActiveCouncil } from '../actions/CouncilAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
 import { GetActiveDesignations } from '../actions/DesignationAction';
 import { ShowLoader } from '../actions/CommonAction';
@@ -92,7 +92,7 @@ export default function NewUserForm(props) {
       userDocumentType:state.users.userDocumentType,
       roles:state.roles.roles,
       religions:state.users.religions,
-      council:state.council.council,
+      council:state.council.activeCouncil,
       districts:state.master.districts,
       talukas:state.master.talukas,
       userById:state.users.userById,
@@ -113,7 +113,7 @@ export default function NewUserForm(props) {
       dispatch(GetUserDocumentType());
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
-      dispatch(GetCouncil(1,1000));
+      dispatch(GetActiveCouncil(1));
       dispatch(GetActiveDistricts(1,1000,1));
       dispatch(GetActiveTalukas(1,1000,1));
       dispatch(GetActiveDesignations(1,1000,1));

@@ -31,7 +31,7 @@ import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialo
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetBaseColorTrees, DeleteBaseColorTrees, SearchBaseColorTrees, AddBaseColorTrees, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
@@ -91,7 +91,7 @@ export default function BaseColor() {
     pageInfo,
     loggedUser
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     baseColorTrees:state.baseColor.baseColorTrees,
@@ -128,7 +128,7 @@ export default function BaseColor() {
   console.log("baseColorTrees", baseColorTrees)
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
 

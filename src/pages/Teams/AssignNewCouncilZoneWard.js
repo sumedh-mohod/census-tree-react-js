@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetZones } from '../../actions/ZonesAction';
 import { GetWards } from '../../actions/WardsActions';
 import { DeleteCZWFromTeam, GetCZWByTeam, SearchCZWByTeam } from '../../actions/TeamsAction';

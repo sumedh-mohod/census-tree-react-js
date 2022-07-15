@@ -31,7 +31,7 @@ import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialo
 import TreeCensusMenu from '../../sections/@dashboard/tree/TreeCensusMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
@@ -85,7 +85,7 @@ export default function Census() {
     pageInfo,
     loggedUser
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     treeCensus:state.treeCensus.treeCensus,
@@ -124,7 +124,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   console.log("treeCensus", treeCensus )
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
 

@@ -2,6 +2,7 @@ import {GET_COUNCIL, ADD_COUNCIL, EDIT_COUNCIL, DELETE_COUNCIL, RESET_STATE, GET
   
   const INIT_STATE = {
     council:null,
+    activeCouncil: null,
     councilById:null,
     addCouncilLog:false,
     editCouncilLog:false,

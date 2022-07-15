@@ -95,11 +95,11 @@ export default function AssignUserDialog(props) {
 //     console.log(":::::::::", activeUsers);
 // }
   React.useEffect(()=>{
-    dispatch(GetUsers(1,1000));
+    // dispatch(GetUsers(1,1000));
     dispatch(GetActiveUsers(1));
   },[])
 
-  console.log(":::::::::", users);
+  // console.log(":::::::::", users);
   console.log(":::::::::", activeUsers);
 
   const firstRun = React.useRef(true);
