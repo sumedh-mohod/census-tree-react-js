@@ -69,6 +69,7 @@ export default function NewUserForm(props) {
     const [editUser,setEditUser] = useState(false);  
     const [roleError,setRoleError] = useState("");
     const [dobError, setDobError] = useState("");
+    const [fileUploadError, setFileUploadError] = useState("");
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -105,6 +106,7 @@ export default function NewUserForm(props) {
     }));
 
     console.log(loggedUser.roles.role);
+    console.log("roles", roles)
     
     useEffect(()=>{
       dispatch(GetDeductionType());
@@ -544,6 +546,10 @@ export default function NewUserForm(props) {
   const handleDocumentValueChange = (e,index) => {
     console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
     console.log(e.target.files[0].name);
+    const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
+    const fileExtension = e.target.files[0].name.split('.')[1]
+    console.log(fileExtension);
+    if(validExtensions.includes(fileExtension)){
     const formData = new FormData();
     formData.append('upload_for', 'users');
     formData.append('file', e.target.files[0]);
@@ -559,10 +565,14 @@ export default function NewUserForm(props) {
     console.log(e.target.value);
     setFilePath(e.target.value);
     console.log(documentList);
-    const validExtensions = ['png','jpeg','jpg']
-    const fileExtension = e.target.files[0].name.split('.')[1]
-    console.log(fileExtension);
-    console.log(validExtensions.includes(fileExtension));
+  }
+  else{
+    setFileUploadError("Please upload documents only with given format")
+    // dispatch(SetNewAlert({
+    //   msg: "Please upload images only with given format only",
+    //   alertType: "danger",
+    // }));
+  }
   }
 
 const validateRole = () => {
@@ -1776,10 +1786,33 @@ console.log("-------",userById)
             </TextField>
             </Grid>
             <Grid item xs={5} style={{alignSelf:'center'}}>
-              {value.documentValue?
+             {editUser?
+              value.documentValue?
               <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
+            ( 
+            <><TextField
+             fullWidth
+             id="amount"
+             type={"file"}
+             autoComplete="amount"
+             style={{marginTop: 5}}
+             placeholder="Choose file"
+            value={value.documentValue}
+             error={Boolean(value.errorValue)}
+             helperText={value.errorValue}
+             onChange={(e)=>handleDocumentValueChange(e,index)}
+           />
+           <Typography>{fileUploadError}</Typography>
+           <Typography>Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
+           </>
+           ) :
+              filePath?
+              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
+              View Document
+            </Button>:
+             (<>
              <TextField
              fullWidth
              id="amount"
@@ -1792,8 +1825,10 @@ console.log("-------",userById)
              helperText={value.errorValue}
              onChange={(e)=>handleDocumentValueChange(e,index)}
            />
-              }
-           
+           <Typography variant="caption" color={"#FF0000"}>{fileUploadError}</Typography>
+           <Typography variant="body2">Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
+           </>)
+           }
             </Grid>
             <Grid item xs={2}>
             <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>
