@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import * as Yup from 'yup';
+import moment from 'moment';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -72,6 +73,7 @@ export default function ReportListToolbar({numSelected, handleGetData, handleCou
   const dispatch = useDispatch();
   const [coucilId,setCouncilId] = useState('');
   const [councilName, setCouncilName] = useState('');
+  const todayDate = moment(new Date()).format('YYYY-MM-DD');
 // const { dataValue}= props;
   const handleCouncilChange = (e) =>{
     setCouncilId(e.target.value);
@@ -289,6 +291,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ max: todayDate }}
               />
               </Grid>
               <Grid item xs={4}>
@@ -307,6 +310,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ max: todayDate }}
               />
               </Grid>
               <Grid item sm={4}>
