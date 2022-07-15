@@ -22,8 +22,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteTeam, GetTeam, SearchTeam,GetTeamByFilter } from '../../actions/TeamsAction';
 import { GetActiveCouncil } from '../../actions/CouncilAction';
-import { GetZones, GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWards, GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveZones, GetZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWards, GetWardsByCouncilId } from '../../actions/WardsActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -131,8 +131,8 @@ export default function TeamsList() {
 
   useEffect(()=>{
     dispatch(GetActiveCouncil(1));
-    dispatch(GetWards(1,1000));
-    dispatch(GetZones(1,1000));
+    dispatch(GetActiveWards(1));
+    dispatch(GetActiveZones(1));
   },[])
 
   useEffect(()=>{

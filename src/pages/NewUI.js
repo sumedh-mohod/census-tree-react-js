@@ -26,8 +26,8 @@ import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
  import { GetActiveCouncil} from '../actions/CouncilAction';
- import { GetZones} from '../actions/ZonesAction';
- import {GetWards} from '../actions/WardsActions';
+ import { GetActiveZones} from '../actions/ZonesAction';
+ import {GetActiveWards} from '../actions/WardsActions';
  import { GetUsers } from '../actions/UserAction';
 
  import Page from '../components/Page';
@@ -181,8 +181,8 @@ import { ShowLoader } from '../actions/CommonAction';
       
       dispatch(GetUsers(1, 1000));
       dispatch(GetActiveCouncil(1));
-      dispatch(GetWards(1,1000));
-      dispatch(GetZones(1,1000));
+      dispatch(GetActiveWards(1));
+      dispatch(GetActiveZones(1));
     },[])
   //  treeCensusPendingQCStatus.data.map((tree, index) =>(
   //     console.log(index, tree.tree_number, tree.tree_name.name)

@@ -1,7 +1,8 @@
-import { ADD_ZONES, DELETE_ZONES, EDIT_ZONES, GET_ZONES, RESET_STATE } from "../actions/Types";
+import { ADD_ZONES, DELETE_ZONES, EDIT_ZONES, GET_ZONES, GET_ACTIVE_ZONES, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     zones:null,
+    activeZones: null,
     addZonesLog:false,
     editZonesLog:false,
     deleteZonesLog:false,
@@ -16,6 +17,13 @@ import { ADD_ZONES, DELETE_ZONES, EDIT_ZONES, GET_ZONES, RESET_STATE } from "../
           return{
               ...state,
               zones: payload.data.data,
+              pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_ZONES:
+          return{
+              ...state,
+              activeZones: payload.data,
               pageInfo: payload.data
         };
 

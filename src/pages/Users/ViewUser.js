@@ -97,7 +97,7 @@ export default function ViewUser(props) {
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
       dispatch(GetActiveCouncil(1));
-      dispatch(GetDesignations(1,1000));
+      dispatch(GetActiveDesignations(1));
       dispatch(GetActiveDistricts(1,1000,1));
       dispatch(GetActiveTalukas(1,1000,1));
     },[])

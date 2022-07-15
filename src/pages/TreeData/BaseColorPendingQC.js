@@ -23,8 +23,8 @@ import {
  import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../../actions/TreeCensusAction';
  import { GetActiveCouncil} from '../../actions/CouncilAction';
- import { GetZones} from '../../actions/ZonesAction';
- import {GetWards} from '../../actions/WardsActions';
+ import { GetActiveZones} from '../../actions/ZonesAction';
+ import {GetActiveWards} from '../../actions/WardsActions';
  import { GetUsers } from '../../actions/UserAction';
 
  import Page from '../../components/Page';
@@ -77,8 +77,8 @@ import { ShowLoader } from '../../actions/CommonAction';
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.activeCouncil,
-      zones:state.zones.zones,
-      wards:state.wards.wards,
+      zones:state.zones.activeZones,
+      wards:state.wards.activeWards,
       baseColorPendingQCStatus: state.baseColor.baseColorPendingQCStatus,
       updateQCStatusLog: state.baseColor.updateQCStatusLog,
       activeTeams: state.teams.activeTeams,
@@ -179,8 +179,8 @@ import { ShowLoader } from '../../actions/CommonAction';
       }
       dispatch(GetUsers(1, 1000));
       dispatch(GetActiveCouncil(1));
-      dispatch(GetWards(1,1000));
-      dispatch(GetZones(1,1000));
+      dispatch(GetActiveWards(1));
+      dispatch(GetActiveZones(1));
       
       // dispatch(GetBaseColorTreeById(1));
     },[])

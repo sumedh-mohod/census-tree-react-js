@@ -116,7 +116,7 @@ export default function NewUserForm(props) {
       dispatch(GetActiveCouncil(1));
       dispatch(GetActiveDistricts(1,1000,1));
       dispatch(GetActiveTalukas(1,1000,1));
-      dispatch(GetActiveDesignations(1,1000,1));
+      dispatch(GetActiveDesignations(1));
     },[])
 
     console.log("DeductionTypeId", salaryDeductionType)

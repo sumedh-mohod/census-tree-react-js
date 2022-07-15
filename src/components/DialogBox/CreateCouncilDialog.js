@@ -126,8 +126,8 @@ export default function CreateCouncilDialog(props) {
   },[data])
 
   useEffect(()=>{
-    dispatch(GetActiveZones(1,1000,1));
-    dispatch(GetActiveWards(1,1000,1));
+    dispatch(GetActiveZones(1));
+    dispatch(GetActiveWards(1));
     dispatch(GetActiveState(1,1000,1));
     dispatch(GetActiveDistricts(1,1000,1));
     dispatch(GetActiveTalukas(1,1000,1));

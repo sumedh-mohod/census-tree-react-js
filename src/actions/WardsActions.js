@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS } from "./Types";
+import { ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, GET_ACTIVE_WARDS } from "./Types";
 
 const GetWards = (page,limit) => async (dispatch) => {
     try {
@@ -16,11 +16,11 @@ const GetWards = (page,limit) => async (dispatch) => {
     }
   };
 
-  const GetActiveWards = (page,limit,status) => async (dispatch) => {
+  const GetActiveWards = (status) => async (dispatch) => {
     try {
-      const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}&status=${status}`);
+      const response = await JWTServer.get(`/api/wards?status=${status}`);
       dispatch({
-        type: GET_WARDS,
+        type: GET_ACTIVE_WARDS,
         payload: response.data,
       });
     } catch (e) {
