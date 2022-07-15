@@ -54,6 +54,7 @@ import { ShowLoader } from '../../actions/CommonAction';
     const [totalTrees, setTotalTrees] = React.useState("");
     const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
+    let selectedUsers;
 
 
     const [state, setState] = React.useState({
@@ -90,8 +91,18 @@ import { ShowLoader } from '../../actions/CommonAction';
     loggedUser.roles[0].permissions.map((item, index)=>(
       userPermissions.push(item.name)
     ))
-    
 
+   if(users){ 
+    selectedUsers= users.filter(
+      (currentValue) => {if(currentValue.assigned_roles.includes("Base Color User") || currentValue.assigned_roles.includes("Base Color QC - Offsite")){
+        return currentValue;
+      }
+      return null;
+  });
+  console.log("selectedUsers", selectedUsers)
+}
+
+ 
     const firstRun = React.useRef(true);
     useEffect(()=>{
       if (firstRun.current) {
@@ -450,7 +461,7 @@ import { ShowLoader } from '../../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Added By</em>
           </MenuItem>
-              {users?.map((option) => (
+              {selectedUsers?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.first_name}{" "}{option.last_name}
                 </MenuItem>

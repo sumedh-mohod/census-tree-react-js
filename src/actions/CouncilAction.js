@@ -2,7 +2,7 @@ import JWTServer from "../api/withJWTServer";
 import formDataJWTServer from "../api/formDataJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_COUNCIL, DELETE_COUNCIL, EDIT_COUNCIL, GET_COUNCIL, GET_COUNCIL_BY_ID } from "./Types";
+import { ADD_COUNCIL, DELETE_COUNCIL, EDIT_COUNCIL, GET_COUNCIL, GET_COUNCIL_BY_ID, GET_ACTIVE_COUNCIL } from "./Types";
 
 const GetCouncil = (page,limit) => async (dispatch) => {
     try {
@@ -10,6 +10,19 @@ const GetCouncil = (page,limit) => async (dispatch) => {
       console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_COUNCIL,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetActiveCouncil = (status) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/councils?status=${status}`);
+      console.log("Active Councils RESPONSE",response.data);
+      dispatch({
+        type: GET_ACTIVE_COUNCIL,
         payload: response.data,
       });
     } catch (e) {
@@ -136,6 +149,7 @@ const GetCouncil = (page,limit) => async (dispatch) => {
 
   export {
       GetCouncil,
+      GetActiveCouncil,
       SearchCouncil,
       AddCouncil,
       AddCouncilWithLogo,

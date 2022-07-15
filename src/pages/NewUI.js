@@ -55,7 +55,7 @@ import { ShowLoader } from '../actions/CommonAction';
     const [checked, setChecked] = React.useState(0);
     const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
-
+    let selectedUsers;
 
     const [state, setState] = React.useState({
       top: false,
@@ -94,8 +94,16 @@ import { ShowLoader } from '../actions/CommonAction';
       userPermissions.push(item.name)
     ))
     
-    console.log("in new");
-
+    console.log("in new", users);
+    if(users){
+    selectedUsers= users.filter(
+      (currentValue) => {if(currentValue.assigned_roles.includes("Census User") || currentValue.assigned_roles.includes("Census QC - Offsite")){
+        return currentValue;
+      }
+      return null;
+  });
+    console.log(":::::::::", selectedUsers);
+}
     const firstRun = React.useRef(true);
     useEffect(()=>{
       if (firstRun.current) {
@@ -299,7 +307,7 @@ import { ShowLoader } from '../actions/CommonAction';
       <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
       <CircularProgress color="success" />
       </div>:
-        <Page title="New UI" style={{paddingBottom:'0px'}}>
+        <Page title="Census QC" style={{paddingBottom:'0px'}}>
             <Container style={{paddingRight:'0px',marginRight:'-16px'}}>
             <Box sx={{  height: '100' }}>
           <Button
@@ -443,7 +451,10 @@ import { ShowLoader } from '../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Added By</em>
           </MenuItem>
-              {users?.map((option) => (
+          <MenuItem  value="">
+            <em>----Null----</em>
+          </MenuItem>
+              {selectedUsers?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.first_name}{" "}{option.last_name}
                 </MenuItem>

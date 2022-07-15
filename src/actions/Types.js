@@ -79,6 +79,7 @@ export const ADD_WARDS = "add-wards";
 export const DELETE_WARDS = "delete-wards";
 
 export const GET_COUNCIL = "get-council";
+export const GET_ACTIVE_COUNCIL = "get-active-council";
 export const GET_COUNCIL_BY_ID = "get-council-by-id";
 export const EDIT_COUNCIL = "edit-council";
 export const ADD_COUNCIL = "add-council";
@@ -116,6 +117,8 @@ export const ADD_USER = "add-user";
 export const EDIT_USER = "edit-user";
 export const GET_USER = "get-users";
 export const GET_USER_BY_ID = "get-users-by-id";
+export const GET_ACTIVE_USER = "get-active-users";
+export const GET_USERS_BY_ROLEID = "get-users-by-roleid";
 export const SEARCH_USER = "search-user";
 export const DELETE_USER = "delete-user";
 export const UNLINK_DEVICE = "unlink-device"
