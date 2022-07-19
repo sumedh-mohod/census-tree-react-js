@@ -71,11 +71,11 @@ export default function DistrictDialog(props) {
   } = useSelector((state) => ({
     addDistrictsLog:state.master.addDistrictsLog,
     editDistrictsLog:state.master.editDistrictsLog,
-    states:state.master.states,
+    states:state.master.activeStates,
   }));
 
   useEffect(()=>{
-    dispatch(GetActiveState(1,1000,1));
+    dispatch(GetActiveState(1));
   },[])
 
 
@@ -140,7 +140,7 @@ export default function DistrictDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    districts: Yup.string().required('Districts is required'),
+    districts: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Districts is required'),
     state: Yup.string().required('State is required'),
   });
 

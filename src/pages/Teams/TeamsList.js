@@ -21,9 +21,9 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteTeam, GetTeam, SearchTeam,GetTeamByFilter } from '../../actions/TeamsAction';
-import { GetCouncil } from '../../actions/CouncilAction';
-import { GetZones, GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWards, GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
+import { GetActiveZones, GetZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWards, GetWardsByCouncilId } from '../../actions/WardsActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -108,7 +108,7 @@ export default function TeamsList() {
     editTeamsLog:state.teams.editTeamsLog,
     deleteTeamsLog:state.teams.deleteTeamsLog,
     pageInfo : state.teams.pageInfo,
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
   }));
@@ -130,9 +130,9 @@ export default function TeamsList() {
   
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
-    dispatch(GetWards(1,1000));
-    dispatch(GetZones(1,1000));
+    dispatch(GetActiveCouncil(1));
+    dispatch(GetActiveWards(1));
+    dispatch(GetActiveZones(1));
   },[])
 
   useEffect(()=>{

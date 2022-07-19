@@ -25,10 +25,10 @@ import {
 import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
- import { GetCouncil} from '../actions/CouncilAction';
- import { GetZones} from '../actions/ZonesAction';
- import {GetWards} from '../actions/WardsActions';
- import { GetUsers } from '../actions/UserAction';
+ import { GetActiveCouncil} from '../actions/CouncilAction';
+ import { GetActiveZones, GetZonesByCouncilId} from '../actions/ZonesAction';
+ import {GetActiveWards, GetWardsByCouncilId} from '../actions/WardsActions';
+ import { GetUsers, GetUsersByRoleID } from '../actions/UserAction';
 
  import Page from '../components/Page';
 import { GetMyActiveTeam } from '../actions/TeamsAction';
@@ -55,7 +55,7 @@ import { ShowLoader } from '../actions/CommonAction';
     const [checked, setChecked] = React.useState(0);
     const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
-
+    let selectedUsers;
 
     const [state, setState] = React.useState({
       top: false,
@@ -69,6 +69,7 @@ import { ShowLoader } from '../actions/CommonAction';
       council,
       zones,
       wards,
+      userByRoleID,
       treeCensusPendingQCStatus, 
       referToExpertLog,
       updateQCStatusLog,
@@ -78,9 +79,10 @@ import { ShowLoader } from '../actions/CommonAction';
       showLoader
     } = useSelector((state) => ({
       users:state.users.users,
-      council:state.council.council,
+      council:state.council.activeCouncil,
       zones:state.zones.zones,
       wards:state.wards.wards,
+      userByRoleID: state.users.userByRoleID,
       treeCensusPendingQCStatus: state.treeCensus.treeCensusPendingQCStatus,
       referToExpertLog: state.treeCensus.referToExpertLog,
       updateQCStatusLog: state.treeCensus.updateQCStatusLog,
@@ -94,7 +96,16 @@ import { ShowLoader } from '../actions/CommonAction';
       userPermissions.push(item.name)
     ))
     
-    console.log("in new");
+    console.log("in new", users);
+//     if(users){
+//     selectedUsers= users.filter(
+//       (currentValue) => {if(currentValue.assigned_roles.includes("Census User") || currentValue.assigned_roles.includes("Census QC - Offsite")){
+//         return currentValue;
+//       }
+//       return null;
+//   });
+//     console.log(":::::::::", selectedUsers);
+// }
 
     const firstRun = React.useRef(true);
     useEffect(()=>{
@@ -171,16 +182,17 @@ import { ShowLoader } from '../actions/CommonAction';
         dispatch(ShowLoader(true))
       }
       
-      dispatch(GetUsers(1, 1000));
-      dispatch(GetCouncil(1,1000));
-      dispatch(GetWards(1,1000));
-      dispatch(GetZones(1,1000));
+      dispatch(GetUsersByRoleID(1, 6, 8));
+      dispatch(GetActiveCouncil(1));
+      dispatch(GetActiveWards(1));
+      dispatch(GetActiveZones(1));
     },[])
   //  treeCensusPendingQCStatus.data.map((tree, index) =>(
   //     console.log(index, tree.tree_number, tree.tree_name.name)
   //     // console.log(tree.tree_number)
   //     // console.log(tree.tree_name.name)
   //     ));
+  console.log("userByRoleID",userByRoleID)
     const handleDialogOpen = () => {
       setDialogOpen(true);
       setUpdateClick(true);
@@ -234,8 +246,12 @@ import { ShowLoader } from '../actions/CommonAction';
       console.log(tree);
     }
 
-    const handleCouncilChange = (event) => {
-      setCouncilID(event.target.value);
+    const handleCouncilChange = (e) => {
+      setCouncilID(e.target.value);
+      setZoneID("")
+      setWardID("")
+      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
+      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
       };
 
     const handleZoneChange = (event) => {
@@ -299,7 +315,7 @@ import { ShowLoader } from '../actions/CommonAction';
       <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
       <CircularProgress color="success" />
       </div>:
-        <Page title="New UI" style={{paddingBottom:'0px'}}>
+        <Page title="Census QC" style={{paddingBottom:'0px'}}>
             <Container style={{paddingRight:'0px',marginRight:'-16px'}}>
             <Box sx={{  height: '100' }}>
           <Button
@@ -443,7 +459,10 @@ import { ShowLoader } from '../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Added By</em>
           </MenuItem>
-              {users?.map((option) => (
+          <MenuItem  value="">
+            <em>----Null----</em>
+          </MenuItem>
+              {userByRoleID?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.first_name}{" "}{option.last_name}
                 </MenuItem>
@@ -487,11 +506,7 @@ import { ShowLoader } from '../actions/CommonAction';
                 size="small"
                 // label="Plantation Date"
                  value={values.toDateForm || ""}
-         
-                // helperText={
-                //     errors.toDateForm && touched.toDateForm
-                     
-                // }
+        F                // }
                 InputLabelProps={{
                   shrink: true,
                   
@@ -500,7 +515,7 @@ import { ShowLoader } from '../actions/CommonAction';
               />
                </Grid>
                <Grid item xs={12}>
-               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only heritage" />
+               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only heritage trees" />
                </Grid>
 
                <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:5}}>
@@ -614,6 +629,14 @@ import { ShowLoader } from '../actions/CommonAction';
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Tree Condition: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].tree_condition.condition}</td>
+              </tr>
+              <tr>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Added By: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].added_by?.first_name} {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.last_name}</td>
+              </tr>
+              <tr>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Added On: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].added_on_date}</td>
               </tr>
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Girth: </td>

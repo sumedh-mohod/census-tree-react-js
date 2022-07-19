@@ -191,8 +191,8 @@ export default function LocationType() {
        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+      <Breadcrumbs aria-label="breadcrumb"  style={{color: "#000000"}} separator='>'>
+        {/* <Link
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -205,7 +205,13 @@ export default function LocationType() {
           color="inherit"
         >
           Location Types
-        </Link>
+        </Link> */}
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+              Master
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Location Types
+          </Typography>
       </Breadcrumbs>
     </div>
     {userPermissions.includes("create-location-type")? 

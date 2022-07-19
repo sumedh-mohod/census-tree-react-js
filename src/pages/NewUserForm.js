@@ -30,10 +30,11 @@ import { GetActiveRole } from '../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../actions/UserAction';
 import { UploadFile, UploadImage } from '../actions/UploadActions';
 import DefaultInput from '../components/Inputs/DefaultInput';
-import { GetCouncil } from '../actions/CouncilAction';
+import { GetActiveCouncil } from '../actions/CouncilAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
 import { GetActiveDesignations } from '../actions/DesignationAction';
 import { ShowLoader } from '../actions/CommonAction';
+import { SetNewAlert } from '../actions/AlertActions';
 
 export default function NewUserForm(props) {
 
@@ -68,6 +69,8 @@ export default function NewUserForm(props) {
     const [editUser,setEditUser] = useState(false);  
     const [roleError,setRoleError] = useState("");
     const [dobError, setDobError] = useState("");
+    const [fileUploadError, setFileUploadError] = useState("");
+    const [fileSizeError, setFileSizeError] = useState("");
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -90,9 +93,9 @@ export default function NewUserForm(props) {
       userDocumentType:state.users.userDocumentType,
       roles:state.roles.roles,
       religions:state.users.religions,
-      council:state.council.council,
-      districts:state.master.districts,
-      talukas:state.master.talukas,
+      council:state.council.activeCouncil,
+      districts:state.master.activeDistricts,
+      talukas:state.master.activeTalukas,
       userById:state.users.userById,
       designations:state.designations.designations,
       addUsersLog:state.users.addUsersLog,
@@ -104,19 +107,21 @@ export default function NewUserForm(props) {
     }));
 
     console.log(loggedUser.roles.role);
+    console.log("roles", roles)
     
     useEffect(()=>{
       dispatch(GetDeductionType());
       dispatch(GetUserDocumentType());
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
-      dispatch(GetCouncil(1,1000));
-      dispatch(GetActiveDistricts(1,1000,1));
-      dispatch(GetActiveTalukas(1,1000,1));
-      dispatch(GetActiveDesignations(1,1000,1));
+      dispatch(GetActiveCouncil(1));
+      dispatch(GetActiveDistricts(1));
+      dispatch(GetActiveTalukas(1));
+      dispatch(GetActiveDesignations(1));
     },[])
 
     console.log("DeductionTypeId", salaryDeductionType)
+    // SetNewAlert("hiiii");
 
     const { userId } = useParams();
     useEffect(()=>{
@@ -519,11 +524,11 @@ export default function NewUserForm(props) {
       newDocumentList[index] = value;
       console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
-      const isValid = /\.jpe?g$/i.test(e.target.value);
-      if (!isValid) {
-      console.log('Only jpg files allowed!');
-      }
-      console.log(isValid);
+      // const isValid = /\.jpe?g$/i.test(e.target.value);
+      // if (!isValid) {
+      // console.log('Only jpg files allowed!');
+      // }
+      // console.log(isValid);
      
   }
 
@@ -541,22 +546,47 @@ export default function NewUserForm(props) {
 
   const handleDocumentValueChange = (e,index) => {
     console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
-    const formData = new FormData();
-    formData.append('upload_for', 'users');
-    formData.append('file', e.target.files[0]);
-    dispatch(UploadFile(formData,index)).then((response) => {
-      console.log("upload file",response);
-    });
-    const newDocumentList = [...documentList];
-    const value =  newDocumentList[index];
-    value.documentValue = e.target.value;
-    newDocumentList[index] = value;
-    setDocumentList(newDocumentList); 
-    console.log(e.target.value);
-    setFilePath(e.target.value);
-    console.log(documentList);
-   
-}
+    console.log(e.target.files[0].name);
+    console.log(e.target.files[0].size);
+    const i = parseInt((Math.floor(Math.log(e.target.files[0].size) / Math.log(1024))),10);
+    console.log("file size", i);
+    const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
+    const fileExtension = e.target.files[0].name.split('.')[1]
+    console.log(fileExtension);
+    if(validExtensions.includes(fileExtension)){
+      setFileUploadError("");
+      if(e.target.files[0].size<5242880){
+        setFileSizeError("");
+        const formData = new FormData();
+        formData.append('upload_for', 'users');
+        formData.append('file', e.target.files[0]);
+        dispatch(UploadFile(formData,index)).then((response) => {
+          console.log("upload file",response);
+        });
+        const newDocumentList = [...documentList];
+        const value =  newDocumentList[index];
+        value.documentValue = e.target.value;
+        console.log(value.documentValue,"||||||")
+        newDocumentList[index] = value;
+        setDocumentList(newDocumentList); 
+        console.log(e.target.value);
+        setFilePath(e.target.value);
+        console.log(documentList);
+      }
+      else{
+        setFileSizeError("Please upload documents within 5MB only");
+      }
+       
+  }
+  else{
+    setFileUploadError("Please upload documents with given format only");
+    
+    // dispatch(SetNewAlert({
+    //   msg: "Please upload images only with given format only",
+    //   alertType: "danger",
+    // }));
+  }
+  }
 
 const validateRole = () => {
   let validated = true;
@@ -758,7 +788,7 @@ const validateRole = () => {
       ifscCode: Yup.string().required('IFSC is required')
     }
     );
-
+console.log("-------",userById)
     const formik = useFormik({
       enableReinitialize: true,
       initialValues: editUser ? {
@@ -1769,10 +1799,34 @@ const validateRole = () => {
             </TextField>
             </Grid>
             <Grid item xs={5} style={{alignSelf:'center'}}>
-              {filePath?
+             {editUser?
+              value.documentValue?
               <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
+            ( 
+            <><TextField
+             fullWidth
+             id="amount"
+             type={"file"}
+             autoComplete="amount"
+             style={{marginTop: 5}}
+             placeholder="Choose file"
+            value={value.documentValue}
+             error={Boolean(value.errorValue)}
+             helperText={value.errorValue}
+             onChange={(e)=>handleDocumentValueChange(e,index)}
+           />
+           <Typography>{fileUploadError}</Typography>
+           <br/>
+           <Typography>Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
+           </>
+           ) :
+              filePath?
+              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
+              View Document
+            </Button>:
+             (<>
              <TextField
              fullWidth
              id="amount"
@@ -1780,13 +1834,17 @@ const validateRole = () => {
              autoComplete="amount"
              style={{marginTop: 5}}
              placeholder="Choose file"
-             value={value.documentValue}
+            value={value.documentValue}
              error={Boolean(value.errorValue)}
              helperText={value.errorValue}
              onChange={(e)=>handleDocumentValueChange(e,index)}
            />
-              }
-           
+           <Typography variant="caption" color={"#FF0000"}>{fileUploadError}</Typography>
+           <Typography variant="caption" color={"#FF0000"}>{fileSizeError}</Typography>
+           <Typography variant="body2">Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
+           <Typography variant="body2">Supported document size: 5MB</Typography>
+           </>)
+           }
             </Grid>
             <Grid item xs={2}>
             <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>

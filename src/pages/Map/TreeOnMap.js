@@ -67,7 +67,7 @@ export default function TreeOnMap(props) {
       wards,
       treeLocation
     } = useSelector((state) => ({
-      council:state.council.council,
+      council:state.council.activeCouncil,
       zones:state.zones.zones,
       wards:state.wards.wards,
       treeLocation:state.treeLocation.treeLocation
@@ -123,6 +123,7 @@ export default function TreeOnMap(props) {
         council:"",
         zone:"",
         ward:"",
+        treeNo: "",
         fromDate:"",
         toDate:"",
       },
@@ -207,38 +208,7 @@ export default function TreeOnMap(props) {
                 </MenuItem>
               ))}
             </TextField>
-            <TextField
-                id="date"
-                // label="Date Of Birth"
-                type="date"
-                label="From Date*"
-                placeholder='From Date*'
-                // defaultValue="2017-05-24"
-                style={{width: '85.5%', marginLeft: 20,marginTop:10}}
-                // className={classes.textField}
-                error={Boolean(touched.fromDate && errors.fromDate)}
-                helperText={touched.fromDate && errors.fromDate}
-                {...getFieldProps("fromDate")}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-                <TextField
-                id="date"
-                // label="Date Of Birth"
-                type="date"
-                label="To Date*"
-                placeholder= 'To Date*'
-                // defaultValue="2017-05-24"
-                style={{width: '85.5%', marginLeft: 20,marginTop:10}}
-                // className={classes.textField}
-                error={Boolean(touched.toDate && errors.toDate)}
-                helperText={touched.toDate && errors.toDate}
-                {...getFieldProps("toDate")}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+          
                <TextField
               select
               id="zone"
@@ -303,6 +273,52 @@ export default function TreeOnMap(props) {
                 </MenuItem>
               )):null}
             </TextField>
+            <TextField
+                fullWidth
+                id="treeNo"
+                type="text"
+                autoComplete="Tree No"
+                placeholder="Tree No*"
+                label="Tree No*"
+                style={{width:'85.5%', marginLeft: 20,marginTop:10}}
+                // defaultValue={values? values.state : ""}
+                // onChange = {(e)=>{console.log("Value",e.target.value)}}
+                // error={Boolean(touched.state && errors.state)}
+                // helperText={touched.state && errors.state}
+                // {...getFieldProps("state")}
+              />
+            <TextField
+                id="date"
+                // label="Date Of Birth"
+                type="date"
+                label="From Date*"
+                placeholder='From Date*'
+                // defaultValue="2017-05-24"
+                style={{width: '85.5%', marginLeft: 20,marginTop:10}}
+                // className={classes.textField}
+                error={Boolean(touched.fromDate && errors.fromDate)}
+                helperText={touched.fromDate && errors.fromDate}
+                {...getFieldProps("fromDate")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+                <TextField
+                id="date"
+                // label="Date Of Birth"
+                type="date"
+                label="To Date*"
+                placeholder= 'To Date*'
+                // defaultValue="2017-05-24"
+                style={{width: '85.5%', marginLeft: 20,marginTop:10}}
+                // className={classes.textField}
+                error={Boolean(touched.toDate && errors.toDate)}
+                helperText={touched.toDate && errors.toDate}
+                {...getFieldProps("toDate")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
             <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:20}}>
             Get Data
 

@@ -31,7 +31,7 @@ import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialo
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetBaseColorTrees, DeleteBaseColorTrees, SearchBaseColorTrees, AddBaseColorTrees, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
@@ -44,6 +44,8 @@ const TABLE_HEAD = [
   { id: 'locationType', label: 'Location Type', alignRight: false },
   { id: 'propertyType', label: 'Property Type', alignRight: false },
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
+  { id: 'propertyAddress', label: 'Property Address', alignRight: false },
+  { id: 'treeLocation', label: 'Tree Location', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
   { id: 'images', label: 'Images', alignRight: false },
@@ -89,7 +91,7 @@ export default function BaseColor() {
     pageInfo,
     loggedUser
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     baseColorTrees:state.baseColor.baseColorTrees,
@@ -126,7 +128,7 @@ export default function BaseColor() {
   console.log("baseColorTrees", baseColorTrees)
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
 
@@ -284,12 +286,12 @@ export default function BaseColor() {
          
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+        {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          href="#"
+          // href="#"
         >
           Tree Data
         </Link>
@@ -297,10 +299,16 @@ export default function BaseColor() {
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          href="#"
+          href="/dashboard/base-color"
         >
         Base Color
-        </Link>
+        </Link> */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+              Master
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Base Color
+          </Typography>
       </Breadcrumbs>
     </div>
         </Stack>
@@ -339,7 +347,9 @@ export default function BaseColor() {
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
-                        <TableCell align="left">{option.property?.property_number}</TableCell>
+                        <TableCell align="left">{option.property?.property_number?option.property?.property_number: "-"}</TableCell>
+                        <TableCell align="left">{option.property?.address? option.property?.address: "-"}</TableCell>
+                        <TableCell align="left">{option.location}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
                         <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
                         <TableCell align="left">
@@ -348,7 +358,7 @@ export default function BaseColor() {
                             <Visibility />
                           </IconButton>
                           </TableCell>
-                        <TableCell align="left">{option.added_by?.first_name}</TableCell>
+                        <TableCell align="left">{option.added_by?.first_name} {option.added_by?.last_name}</TableCell>
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.added_on_date}</TableCell>
                         <TableCell align="left">{option.qc_status?option.qc_status:"-"}</TableCell>
                         <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>

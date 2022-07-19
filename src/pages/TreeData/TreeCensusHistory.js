@@ -37,7 +37,7 @@ const TABLE_HEAD = [
     { id: 'propertyOwner', label: 'Property Owner', alignRight: false },
   //   { id: 'ownerName', label: 'Owner Name', alignRight: false },
     { id: 'tenantName', label: 'Tenant Name', alignRight: false },
-    { id: 'address', label: 'Address', alignRight: false },
+    { id: 'location', label: 'Location', alignRight: false },
     { id: 'area', label: 'Area(Sq feet)', alignRight: false },
     { id: 'treeType', label: 'Tree Type', alignRight: false },
     { id: 'treeName', label: 'Tree Name(Local)', alignRight: false },
@@ -173,7 +173,7 @@ export default function TreeCensusHistory() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation"  >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+        {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -188,26 +188,27 @@ export default function TreeCensusHistory() {
           href="#"
         >
         Census
-        </Link>
+        </Link> */}
+            <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        Census
+          </Typography>
         {treeCensusName === "undefined" ? null :
         <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
+          variant="h4" gutterBottom style={{color: "#000000"}}
         >
           {treeCensusName}
               
         </Link>}
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
-           History
-              
-        </Link>
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            History
+          </Typography>
       </Breadcrumbs>
 
     </div>
@@ -242,7 +243,7 @@ export default function TreeCensusHistory() {
                         <TableCell align="left">{option.tree_condition?.condition}</TableCell>
                         <TableCell align="left">{option.disease_id? option.disease_id: "-"}</TableCell>
                         <TableCell align="left">{option.plantation_date? option.plantation_date: "-"}</TableCell>
-                        <TableCell align="left">{option.referred_to_expert}</TableCell>
+                        <TableCell align="left">{option.referred_to_expert === 1 ? "Yes" : "No"}</TableCell>
                         <TableCell align="left">{option.action_need? option.action_need: "-"}</TableCell>
                         <TableCell align="left">
                           {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}

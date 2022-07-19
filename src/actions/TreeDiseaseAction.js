@@ -6,6 +6,7 @@ import {
   DELETE_TREE_DISEASE,
   EDIT_TREE_DISEASE,
   GET_TREE_DISEASE,
+  GET_ACTIVE_TREE_DISEASE,
 } from "./Types";
 
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
@@ -29,12 +30,12 @@ const GetAllTreeDisease = (page,limit) => async (dispatch) => {
       }
     };
 
-const GetActiveTreeDisease = (page,limit,status) => async (dispatch) => {
+const GetActiveTreeDisease = (status) => async (dispatch) => {
   try {
-    const response = await JWTServer.get(`api/tree-diseases?page=${page}&limit=${limit}&status=${status}`);
-    console.log("GET STATE RESPONSE",response.data);
+    const response = await JWTServer.get(`api/tree-diseases?status=${status}`);
+    console.log("active tree disease RESPONSE",response.data);
     dispatch({
-      type: GET_TREE_DISEASE,
+      type: GET_ACTIVE_TREE_DISEASE,
       payload: response.data,
     });
   } catch (e) {

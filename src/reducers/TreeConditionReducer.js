@@ -1,7 +1,8 @@
-import { ADD_TREE_CONDITIONS, DELETE_TREE_CONDITIONS, EDIT_TREE_CONDITIONS, GET_TREE_CONDITIONS, RESET_STATE } from "../actions/Types";
+import { ADD_TREE_CONDITIONS, DELETE_TREE_CONDITIONS, EDIT_TREE_CONDITIONS, GET_TREE_CONDITIONS, GET_ACTIVE_TREE_CONDITIONS, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     treeConditions:null,
+    activeTreeCondition:null,
     addTreeConditionsLog:false,
     editTreeConditionsLog:false,
     deleteTreeConditionsLog:false,
@@ -17,6 +18,12 @@ import { ADD_TREE_CONDITIONS, DELETE_TREE_CONDITIONS, EDIT_TREE_CONDITIONS, GET_
               ...state,
               treeConditions: payload.data.data,
               pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_TREE_CONDITIONS:
+          return{
+              ...state,
+              activeTreeCondition: payload.data,
         };
 
         case ADD_TREE_CONDITIONS:

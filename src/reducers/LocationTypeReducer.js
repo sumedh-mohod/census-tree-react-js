@@ -1,7 +1,8 @@
-import { ADD_LOCATION_TYPES, DELETE_LOCATION_TYPES, EDIT_LOCATION_TYPES, GET_LOCATION_TYPES, RESET_STATE } from "../actions/Types";
+import { ADD_LOCATION_TYPES, DELETE_LOCATION_TYPES, EDIT_LOCATION_TYPES, GET_LOCATION_TYPES, GET_ACTIVE_LOCATION_TYPES, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     locationTypes:null,
+    activeLocationTypes: null,
     addLocationTypesLog:false,
     editLocationTypesLog:false,
     deleteLocationTypesLog:false,
@@ -18,6 +19,13 @@ import { ADD_LOCATION_TYPES, DELETE_LOCATION_TYPES, EDIT_LOCATION_TYPES, GET_LOC
               locationTypes: payload.data.data,
               pageInfo: payload.data
         };
+
+        case GET_ACTIVE_LOCATION_TYPES:
+          return{
+              ...state,
+              activeLocationTypes: payload.data,
+        };
+
 
         case ADD_LOCATION_TYPES:
             return{

@@ -110,9 +110,9 @@ export default function CreateCouncilDialog(props) {
     editCouncilLog:state.council.editCouncilLog,
     zones:state.zones.zones,
     wards:state.wards.wards,
-    states:state.master.states,
-    districts:state.master.districts,
-    talukas:state.master.talukas,
+    states:state.master.activeStates,
+    districts:state.master.activeDistricts,
+    talukas:state.master.activeTalukas,
     councilById:state.council.councilById,
     uploadImage:state.upload.uploadImage,
     uploadImageLog:state.upload.uploadImageLog,
@@ -126,12 +126,14 @@ export default function CreateCouncilDialog(props) {
   },[data])
 
   useEffect(()=>{
-    dispatch(GetActiveZones(1,1000,1));
-    dispatch(GetActiveWards(1,1000,1));
-    dispatch(GetActiveState(1,1000,1));
-    dispatch(GetActiveDistricts(1,1000,1));
-    dispatch(GetActiveTalukas(1,1000,1));
+    dispatch(GetActiveZones(1));
+    dispatch(GetActiveWards(1));
+    dispatch(GetActiveState(1));
+    dispatch(GetActiveDistricts(1));
+    dispatch(GetActiveTalukas(1));
   },[])
+
+  console.log("states", states);
 
   const firstRun = React.useRef(true);
   useEffect(()=>{

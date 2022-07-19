@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_ZONES, DELETE_ZONES,  EDIT_ZONES, GET_ZONES } from "./Types";
+import { ADD_ZONES, DELETE_ZONES,  EDIT_ZONES, GET_ZONES, GET_ACTIVE_ZONES } from "./Types";
 
 const GetZones = (page,limit) => async (dispatch) => {
     try {
@@ -16,11 +16,12 @@ const GetZones = (page,limit) => async (dispatch) => {
     }
   };
 
-  const GetActiveZones = (page,limit,status) => async (dispatch) => {
+  const GetActiveZones = (status) => async (dispatch) => {
     try {
-      const response = await JWTServer.get(`/api/zones?page=${page}&limit=${limit}&status=${status}`);
+      const response = await JWTServer.get(`/api/zones?status=${status}`);
+      console.log("active zones RESPONSE",response.data);
       dispatch({
-        type: GET_ZONES,
+        type: GET_ACTIVE_ZONES,
         payload: response.data,
       });
     } catch (e) {

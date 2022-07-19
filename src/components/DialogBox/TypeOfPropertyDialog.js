@@ -73,11 +73,11 @@ export default function TypeOfPropertyDialog(props) {
     propertyTypes:state.propertyTypes.propertyTypes,
     addPropertyTypesLog:state.propertyTypes.addPropertyTypesLog,
     editPropertyTypesLog:state.propertyTypes.editPropertyTypesLog,
-    locationTypes:state.locationTypes.locationTypes,
+    locationTypes:state.locationTypes.activeLocationTypes,
   }));
 
   React.useEffect(()=>{
-    dispatch(GetActiveLocationType(1,1000,1));
+    dispatch(GetActiveLocationType(1));
   },[])
 
   const firstRun = React.useRef(true);

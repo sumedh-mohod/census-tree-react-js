@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
 import AssignUserConfirmationDialog from './AssignUserConfirmationDialog';
-import { GetUsers } from '../../../actions/UserAction';
+import { GetUsers, GetActiveUsers } from '../../../actions/UserAction';
 import { AddUserToTeam } from '../../../actions/TeamsAction';
 
 const BootstrapDialogTitle = (props) => {
@@ -73,18 +73,34 @@ export default function AssignUserDialog(props) {
   const [topModalOpen, setTopModalOpen] = React.useState(false);
   const [reqObj, setReqObj] = React.useState(null)
   const [id, setId] = React.useState(null)
+  let selectedUsers;
 
   const {
     users,
+    activeUsers,
     assignUserToTeamLog,
   } = useSelector((state) => ({
-    users:state.users.users,
+    users: state.users,
+    activeUsers:state.users.activeUsers,
     assignUserToTeamLog:state.teams.assignUserToTeamLog,
   }));
-
+  // userById:state.users.userById,
+  // if(users){
+  //   selectedUsers= users.filter(
+  //     (currentValue) => {if(currentValue.assigned_roles.includes("Census User") || currentValue.assigned_roles.includes("Census QC - Offsite")){
+  //       return currentValue;
+  //     }
+  //     return null;
+  // });
+//     console.log(":::::::::", activeUsers);
+// }
   React.useEffect(()=>{
-    dispatch(GetUsers(1,1000));
+    // dispatch(GetUsers(1,1000));
+    dispatch(GetActiveUsers(1));
   },[])
+
+  // console.log(":::::::::", users);
+  console.log(":::::::::", activeUsers);
 
   const firstRun = React.useRef(true);
   React.useEffect(()=>{
@@ -256,7 +272,7 @@ export default function AssignUserDialog(props) {
                   if (selected?.length === 0) {
                     return <em>Select Role*</em>;
                   }
-                    const found = findValue(users,values.user);
+                    const found = findValue(activeUsers,values.user);
                   return found;
                 }}
                 error={Boolean(touched.user && errors.user)}
@@ -267,7 +283,7 @@ export default function AssignUserDialog(props) {
            <MenuItem disabled value="">
             <em>User*</em>
           </MenuItem>
-          {users?.map((option) => (
+          {activeUsers?.map((option) => (
             <MenuItem
               key={option.id}
               value={option.id}

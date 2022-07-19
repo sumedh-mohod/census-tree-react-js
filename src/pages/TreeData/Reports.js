@@ -35,7 +35,7 @@ import autoTable from 'jspdf-autotable';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { GetReports } from '../../actions/ReportsAction';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import ReportListToolbar from '../../sections/@dashboard/tree/ReportListToolbar';
@@ -84,7 +84,7 @@ export default function Reports() {
     // updateQCStatusLog,
     // pageInfo
   } = useSelector((state) => ({
-    council: state.council.council,
+    council: state.council.activeCouncil,
     reports:state.reports.reports,
     loggedUser:state.auth.loggedUser,
    
@@ -121,7 +121,7 @@ export default function Reports() {
 
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
   // useEffect(()=>{
@@ -267,8 +267,8 @@ const handleCoucilChange = (value) => {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+      <Breadcrumbs aria-label="breadcrumb" style={{ color: "#000000"}}separator='>'>
+        {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -283,14 +283,14 @@ const handleCoucilChange = (value) => {
           href="#"
         >
     Reports
-        </Link>
+        </Link> */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        Reports
+          </Typography>
       </Breadcrumbs>
-      {/* <div style={{marginBottom : 20}}> */}
-      {/* {userPermissions.includes("export-report")? 
-        <Button variant="contained" component="span" onClick= {exportPdf} style={{ position: "absolute", right: "42px" }}>
-          export Report
-        </Button>:null} */}
-        {/* </div> */}
     </div>
         </Stack>
         <Card> 
@@ -317,23 +317,45 @@ const handleCoucilChange = (value) => {
           </TabList>
         </Box>
         <TabPanel value="1">
-          <ByWardReports
-          data={reports?.by_wards? reports?.by_wards: []}/>
+          {!councilName ? (
+                  <div align="center" fontWeight={700}> 
+                  Please select council to get data
+                </div>
+                ) :
+             <ByWardReports
+             data={reports?.by_wards? reports?.by_wards: []}/>
+          }
+       
         </TabPanel>
         <TabPanel value="2">
+        {!councilName ? (
+                  <div align="center" fontWeight={700}> 
+                  Please select council to get data
+                </div>
+                ) :
           <ByTreeNameReports
           data={reports?.by_tree_names ? reports?.by_tree_names: []}
-          />
+          />}
         </TabPanel>
         <TabPanel value="3">
+        {!councilName ? (
+                  <div align="center" fontWeight={700}> 
+                  Please select council to get data
+                </div>
+                ) :
     <ByTreeTypeReports
     data={reports?.by_tree_types ? reports?.by_tree_types : []}
-    />
+    />}
         </TabPanel>
         <TabPanel value="4">
+        {!councilName ? (
+                  <div align="center" fontWeight={700}> 
+                  Please select council to get data
+                </div>
+                ) :
     <ByTreeConditionReports
     data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []}
-    />
+    />}
         </TabPanel>
       </TabContext>
     </Box>

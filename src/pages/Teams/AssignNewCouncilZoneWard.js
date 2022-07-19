@@ -19,9 +19,9 @@ import {
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetCouncil } from '../../actions/CouncilAction';
-import { GetZones } from '../../actions/ZonesAction';
-import { GetWards } from '../../actions/WardsActions';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
+import { GetActiveZones } from '../../actions/ZonesAction';
+import { GetActiveWards } from '../../actions/WardsActions';
 import { DeleteCZWFromTeam, GetCZWByTeam, SearchCZWByTeam } from '../../actions/TeamsAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
@@ -224,7 +224,7 @@ export default function AssignNewCouncilZoneWard() {
           color="inherit"
           href="#"
         >
-             Assigned Councils- Zones- Wards
+             Assigned Councils - Zones - Wards
         </Link>
       </Breadcrumbs>
     </div>

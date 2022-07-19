@@ -1,7 +1,8 @@
-import { ADD_PROPERTY_TYPES, DELETE_PROPERTY_TYPES, EDIT_PROPERTY_TYPES, GET_PROPERTY_TYPES, RESET_STATE } from "../actions/Types";
+import { ADD_PROPERTY_TYPES, DELETE_PROPERTY_TYPES, EDIT_PROPERTY_TYPES, GET_PROPERTY_TYPES, GET_ACTIVE_PROPERTY_TYPES, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     propertyTypes:null,
+    activePropertyType:null,
     addPropertyTypesLog:false,
     editPropertyTypesLog:false,
     deletePropertyTypesLog:false,
@@ -17,6 +18,12 @@ import { ADD_PROPERTY_TYPES, DELETE_PROPERTY_TYPES, EDIT_PROPERTY_TYPES, GET_PRO
               ...state,
               propertyTypes: payload.data.data,
               pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_PROPERTY_TYPES:
+          return{
+              ...state,
+              activePropertyTypes: payload.data,
         };
 
         case ADD_PROPERTY_TYPES:

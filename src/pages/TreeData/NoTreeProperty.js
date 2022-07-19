@@ -28,7 +28,7 @@ import USERLIST from '../../_mock/user';
 import TreeData from  '../../components/JsonFiles/TreeData.json';
 import WardDialog from "../../components/DialogBox/WardDialog";
 import { GetNoTreeProperty, SearchNoTreeProperty } from '../../actions/NoTreePropertyAction';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
@@ -70,7 +70,7 @@ export default function NoTreeProperty() {
     noTreeProperty,
     pageInfo
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     noTreeProperty:state.noTreeProperty.noTreeProperty,
@@ -97,7 +97,7 @@ export default function NoTreeProperty() {
   },[noTreeProperty])
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
 
@@ -220,8 +220,8 @@ export default function NoTreeProperty() {
         }
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+      <Breadcrumbs aria-label="breadcrumb"style={{color: "#000000"}}separator='>'>
+        {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -236,7 +236,13 @@ export default function NoTreeProperty() {
           href="#"
         >
           No Tree Properties
-        </Link>
+        </Link> */}
+            <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        No Tree Properties
+          </Typography>
       </Breadcrumbs>
     </div>
         </Stack>

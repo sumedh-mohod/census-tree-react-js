@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import * as Yup from 'yup';
+import moment from 'moment';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -68,11 +69,12 @@ ReportListToolbar.propTypes = {
 
 
 
-export default function ReportListToolbar({numSelected, handleGetData, handleCouncil }) {
+export default function ReportListToolbar({numSelected, handleGetData, handleCouncil, councilId }) {
   const dispatch = useDispatch();
   const [coucilId,setCouncilId] = useState('');
   const [councilName, setCouncilName] = useState('');
-
+  const todayDate = moment(new Date()).format('YYYY-MM-DD');
+// const { dataValue}= props;
   const handleCouncilChange = (e) =>{
     setCouncilId(e.target.value);
     handleCouncil(e.target.value)
@@ -83,6 +85,7 @@ export default function ReportListToolbar({numSelected, handleGetData, handleCou
       }
       return null;
     })
+    // councilId(e.target.value)
     console.log("councilName",councilName)
     // setZoneId("")
     // setWardId("")
@@ -90,6 +93,7 @@ export default function ReportListToolbar({numSelected, handleGetData, handleCou
     // dispatch(GetWardsByCouncilId(1,1000,e.target.value))
   }
   console.log("councilName",councilName)
+console.log("CouncilId", coucilId)
 
 
   const DistrictsSchema = Yup.object().shape({
@@ -121,7 +125,7 @@ export default function ReportListToolbar({numSelected, handleGetData, handleCou
         // wards,
         reports,
       } = useSelector((state) => ({
-        council:state.council.council,
+        council:state.council.activeCouncil,
         reports:state.reports.reports,
       }));
 console.log("reports123", reports)
@@ -281,12 +285,13 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 // defaultValue="2017-05-24"
                 style={{width: '90.5%',  marginLeft: 20}}
                 // className={classes.textField}
-                // error={Boolean(touched.dob && errors.dob)}
-                // helperText={touched.dob && errors.dob}
+                error={Boolean(touched.fromDate && errors.fromDate)}
+                helperText={touched.fromDate && errors.fromDate}
                 {...getFieldProps("fromDate")}
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ max: todayDate }}
               />
               </Grid>
               <Grid item xs={4}>
@@ -299,19 +304,23 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 // defaultValue="2017-05-24"
                 style={{width: '90.5%', marginLeft: 30}}
                 // className={classes.textField}
-                // error={Boolean(touched.dob && errors.dob)}
-                // helperText={touched.dob && errors.dob}
+                error={Boolean(touched.toDate && errors.toDate)}
+                helperText={touched.toDate && errors.toDate}
                 {...getFieldProps("toDate")}
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ max: todayDate }}
               />
               </Grid>
               <Grid item sm={4}>
             <Button variant="contained" onClick={handleSubmit} style={{marginLeft: 30, marginTop: 5, backgroundColor: "#008000", height: 50, width: 150}}  >View Report</Button>
             </Grid>
+
             <Grid item sm={4}>
-            <Button variant="contained" onClick= {exportPdf}  style={{marginLeft: 30, marginTop: 5, height: 50, width: 150}}  >Export Report</Button>
+              {!coucilId ?  
+            <Button variant="contained"  onClick= {handleSubmit}   style={{marginLeft: 30, marginTop: 5, height: 50, width: 150}}  >Export Report</Button> :
+            <Button variant="contained"  onClick= {exportPdf}   style={{marginLeft: 30, marginTop: 5, height: 50, width: 150}}  >Export Report</Button> }
             </Grid>
 
 

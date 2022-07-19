@@ -22,10 +22,10 @@ import {
   import { useDispatch, useSelector } from 'react-redux';
  import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../../actions/TreeCensusAction';
- import { GetCouncil} from '../../actions/CouncilAction';
- import { GetZones} from '../../actions/ZonesAction';
- import {GetWards} from '../../actions/WardsActions';
- import { GetUsers } from '../../actions/UserAction';
+ import { GetActiveCouncil} from '../../actions/CouncilAction';
+ import { GetZonesByCouncilId, GetActiveZones} from '../../actions/ZonesAction';
+ import {GetWardsByCouncilId, GetActiveWards} from '../../actions/WardsActions';
+ import { GetUsers, GetUsersByRoleID } from '../../actions/UserAction';
 
  import Page from '../../components/Page';
 import { GetMyActiveTeam } from '../../actions/TeamsAction';
@@ -54,6 +54,7 @@ import { ShowLoader } from '../../actions/CommonAction';
     const [totalTrees, setTotalTrees] = React.useState("");
     const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
+    let selectedUsers;
 
 
     const [state, setState] = React.useState({
@@ -68,6 +69,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       council,
       zones,
       wards,
+      userByRoleID,
       baseColorPendingQCStatus, 
       updateQCStatusLog,
       activeTeams,
@@ -75,9 +77,10 @@ import { ShowLoader } from '../../actions/CommonAction';
       showLoader
     } = useSelector((state) => ({
       users:state.users.users,
-      council:state.council.council,
+      council:state.council.activeCouncil,
       zones:state.zones.zones,
       wards:state.wards.wards,
+      userByRoleID: state.users.userByRoleID,
       baseColorPendingQCStatus: state.baseColor.baseColorPendingQCStatus,
       updateQCStatusLog: state.baseColor.updateQCStatusLog,
       activeTeams: state.teams.activeTeams,
@@ -90,8 +93,18 @@ import { ShowLoader } from '../../actions/CommonAction';
     loggedUser.roles[0].permissions.map((item, index)=>(
       userPermissions.push(item.name)
     ))
-    
 
+//    if(users){ 
+//     selectedUsers= users.filter(
+//       (currentValue) => {if(currentValue.assigned_roles.includes("Base Color User") || currentValue.assigned_roles.includes("Base Color QC - Offsite")){
+//         return currentValue;
+//       }
+//       return null;
+//   });
+//   console.log("selectedUsers", selectedUsers)
+// }
+
+ 
     const firstRun = React.useRef(true);
     useEffect(()=>{
       if (firstRun.current) {
@@ -166,10 +179,10 @@ import { ShowLoader } from '../../actions/CommonAction';
         dispatch(GetMyActiveTeam());
         dispatch(ShowLoader(true))
       }
-      dispatch(GetUsers(1, 1000));
-      dispatch(GetCouncil(1,1000));
-      dispatch(GetWards(1,1000));
-      dispatch(GetZones(1,1000));
+      dispatch(GetUsersByRoleID(1, 3, 5));
+      dispatch(GetActiveCouncil(1));
+      dispatch(GetActiveWards(1));
+      dispatch(GetActiveZones(1));
       
       // dispatch(GetBaseColorTreeById(1));
     },[])
@@ -245,8 +258,12 @@ import { ShowLoader } from '../../actions/CommonAction';
       console.log(tree);
     }
 
-    const handleCouncilChange = (event) => {
-      setCouncilID(event.target.value);
+    const handleCouncilChange = (e) => {
+      setCouncilID(e.target.value);
+      setZoneID("")
+      setWardID("")
+      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
+      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
       };
 
     const handleZoneChange = (event) => {
@@ -450,7 +467,7 @@ import { ShowLoader } from '../../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Added By</em>
           </MenuItem>
-              {users?.map((option) => (
+              {userByRoleID?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.first_name}{" "}{option.last_name}
                 </MenuItem>

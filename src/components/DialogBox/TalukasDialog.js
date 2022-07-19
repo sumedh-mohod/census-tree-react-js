@@ -70,13 +70,13 @@ export default function TalukasDialog(props) {
   } = useSelector((state) => ({
     addTalukasLog:state.master.addTalukasLog,
     editTalukasLog:state.master.editTalukasLog,
-    states:state.master.states,
-    districts:state.master.districts,
+    states:state.master.activeStates,
+    districts:state.master.activeDistricts,
   }));
 
   React.useEffect(()=>{
-    dispatch(GetActiveState(1,1000,1));
-    dispatch(GetActiveDistricts(1,1000,1));
+    dispatch(GetActiveState(1));
+    dispatch(GetActiveDistricts(1));
   },[])
 
   React.useEffect(()=>{
@@ -150,7 +150,7 @@ export default function TalukasDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    talukas: Yup.string().required('Taluka is required'),
+    talukas: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Taluka is required'),
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
   });

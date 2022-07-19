@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_TYPES, GET_USER, GET_USER_BY_ID, GET_USER_DOCUMENT_TYPES, SEARCH_USER, UNLINK_DEVICE } from "./Types";
+import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_TYPES, GET_USER, GET_USER_BY_ID, GET_ACTIVE_USER, GET_USERS_BY_ROLEID, GET_USER_DOCUMENT_TYPES, SEARCH_USER, UNLINK_DEVICE } from "./Types";
 
 const GetUsers = (page,limit) => async (dispatch) => {
     try {
@@ -15,6 +15,33 @@ const GetUsers = (page,limit) => async (dispatch) => {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
+
+  const GetActiveUsers = (status) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/users?status=${status}`);
+      console.log("active users",response.data);
+      dispatch({
+        type: GET_ACTIVE_USER,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetUsersByRoleID = (status, roleid1, roleid2) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/users?status=${status}&role_id[]=${roleid1}&role_id[]=${roleid2}`);
+      console.log("users by roles",response.data);
+      dispatch({
+        type: GET_USERS_BY_ROLEID,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
 
   const GetUsersById = (userId) => async (dispatch) => {
     try {
@@ -143,6 +170,8 @@ const GetUsers = (page,limit) => async (dispatch) => {
   export {
       GetUsers,
       GetUsersById,
+      GetActiveUsers,
+      GetUsersByRoleID,
       SearchUsers,
       AddUsers,
       EditUsers,

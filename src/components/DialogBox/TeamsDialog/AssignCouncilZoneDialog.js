@@ -21,9 +21,9 @@ import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
 import { AddCZWToTeam } from '../../../actions/TeamsAction';
 import AssignNewZoneWardConfirmationDialog from './AssignNewZoneWardConfirmationDialog';
-import { GetCouncil } from '../../../actions/CouncilAction';
-import { GetZones, GetZonesByCouncilId } from '../../../actions/ZonesAction';
-import { GetWards, GetWardsByCouncilId } from '../../../actions/WardsActions';
+import { GetActiveCouncil } from '../../../actions/CouncilAction';
+import { GetZones, GetActiveZones, GetZonesByCouncilId } from '../../../actions/ZonesAction';
+import { GetWards, GetActiveWards, GetWardsByCouncilId } from '../../../actions/WardsActions';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -121,7 +121,7 @@ export default function AssignCouncilZoneDialog(props) {
     deleteCWZFromteamLog
 
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
@@ -130,15 +130,15 @@ export default function AssignCouncilZoneDialog(props) {
   }));
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     
   },[])
 
   useEffect(()=>{
     if(data){
       setShowSubMenu(true);
-      dispatch(GetZones(1,1000));
-      dispatch(GetWards(1,1000));
+      dispatch(GetActiveZones(1));
+      dispatch(GetActiveWards(1));
     }
   },[data])
 

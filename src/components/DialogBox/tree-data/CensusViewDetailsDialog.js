@@ -190,6 +190,14 @@ console.log("hii", isOpen, props.data);
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property?.owner_name}</td>
   </tr>
   <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Address</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data?.property?.address? props.data?.property?.address: "-"}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Number</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data?.property?.property_number? props.data?.property?.property_number: "-"}</td>
+  </tr>
+  <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tenant Name </td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property?.tenant_name}</td>
   </tr>
@@ -246,6 +254,14 @@ console.log("hii", isOpen, props.data);
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}><IconButton onClick={()=>handleViewOpen(props.data.images)}>
         <Iconify icon="clarity:eye-show-line" color="green" width={24} style={{marginTop: 5}} />
         </IconButton></td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Added By</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.added_by?.first_name? props.data.added_by?.first_name: "-"} {props.data.added_by?.last_name? props.data.added_by?.last_name: "-"} </td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Updated By</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.updated_by?.first_name? props.data.updated_by?.first_name: "-"} {props.data.updated_by?.last_name? props.data.updated_by?.last_name: "-"}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>QC Status</td>
