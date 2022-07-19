@@ -962,7 +962,9 @@ console.log("-------",userById)
             }
             if(editUser){
               console.log("OBJ",obj);
-              dispatch(EditUsers(obj,userById.id))
+              dispatch(EditUsers(obj,userById.id));
+             // window.history.go(-1);
+
             }
             else {
               dispatch(AddUsers(obj));
