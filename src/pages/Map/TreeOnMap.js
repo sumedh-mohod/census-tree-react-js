@@ -67,7 +67,7 @@ export default function TreeOnMap(props) {
       wards,
       treeLocation
     } = useSelector((state) => ({
-      council:state.council.council,
+      council:state.council.activeCouncil,
       zones:state.zones.zones,
       wards:state.wards.wards,
       treeLocation:state.treeLocation.treeLocation

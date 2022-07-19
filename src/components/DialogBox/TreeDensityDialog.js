@@ -70,11 +70,11 @@ export default function TreeDensityDialog(props) {
   } = useSelector((state) => ({
     addDistrictsLog:state.master.addDistrictsLog,
     editDistrictsLog:state.master.editDistrictsLog,
-    states:state.master.states,
+    states:state.master.activeStates,
   }));
 
   useEffect(()=>{
-    dispatch(GetActiveState(1,1000,1));
+    dispatch(GetActiveState(1));
   },[])
 
 

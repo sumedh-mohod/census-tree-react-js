@@ -11,7 +11,8 @@ import {
   EDIT_DISTRICTS,
   EDIT_STATE,
   EDIT_TALUKAS,
-  GET_DISTRICTS, GET_STATE, GET_TALUKAS
+  GET_DISTRICTS, GET_STATE, GET_TALUKAS,
+  GET_ACTIVE_STATE, GET_ACTIVE_DISTRICTS, GET_ACTIVE_TALUKAS
 } from "./Types";
 
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
@@ -35,12 +36,12 @@ const GetAllState = (page,limit) => async (dispatch) => {
       }
     };
 
-const GetActiveState = (page,limit,status) => async (dispatch) => {
+const GetActiveState = (status) => async (dispatch) => {
   try {
-    const response = await JWTServer.get(`/api/states?page=${page}&limit=${limit}&status=${status}`);
-    console.log("GET STATE RESPONSE",response.data);
+    const response = await JWTServer.get(`/api/states?status=${status}`);
+    console.log("active STATE RESPONSE",response.data);
     dispatch({
-      type: GET_STATE,
+      type: GET_ACTIVE_STATE,
       payload: response.data,
     });
   } catch (e) {
@@ -125,11 +126,11 @@ const GetAllDistricts = (page,limit) => async (dispatch) => {
   }
 };
 
-const GetActiveDistricts = (page,limit,status) => async (dispatch) => {
+const GetActiveDistricts = (status) => async (dispatch) => {
   try {
-    const response = await JWTServer.get(`/api/districts?page=${page}&limit=${limit}&status=${status}`);
+    const response = await JWTServer.get(`/api/districts?status=${status}`);
     dispatch({
-      type: GET_DISTRICTS,
+      type: GET_ACTIVE_DISTRICTS,
       payload: response.data,
     });
   } catch (e) {
@@ -236,11 +237,11 @@ const GetAllTalukas = (page,limit) => async (dispatch) => {
   }
 };
 
-const GetActiveTalukas = (page,limit,status) => async (dispatch) => {
+const GetActiveTalukas = (status) => async (dispatch) => {
   try {
-    const response = await JWTServer.get(`/api/talukas?page=${page}&limit=${limit}&status=${status}`);
+    const response = await JWTServer.get(`/api/talukas?status=${status}`);
     dispatch({
-      type: GET_TALUKAS,
+      type: GET_ACTIVE_TALUKAS,
       payload: response.data,
     });
   } catch (e) {

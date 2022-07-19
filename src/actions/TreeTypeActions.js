@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_TREE_TYPE, DELETE_TREE_TYPE, EDIT_TREE_TYPE, GET_TREE_TYPE } from "./Types";
+import { ADD_TREE_TYPE, DELETE_TREE_TYPE, EDIT_TREE_TYPE, GET_TREE_TYPE, GET_ACTIVE_TREE_TYPE } from "./Types";
 
 const GetTreeType = (page,limit) => async (dispatch) => {
     try {
@@ -16,11 +16,13 @@ const GetTreeType = (page,limit) => async (dispatch) => {
     }
   };
 
-  const GetActiveTreeType = (page,limit,status) => async (dispatch) => {
+  
+
+  const GetActiveTreeType = (status) => async (dispatch) => {
     try {
-      const response = await JWTServer.get(`/api/tree-types?page=${page}&limit=${limit}&status=${status}`);
+      const response = await JWTServer.get(`/api/tree-types?status=${status}`);
       dispatch({
-        type: GET_TREE_TYPE,
+        type: GET_ACTIVE_TREE_TYPE,
         payload: response.data,
       });
     } catch (e) {

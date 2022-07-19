@@ -70,6 +70,7 @@ export default function NewUserForm(props) {
     const [roleError,setRoleError] = useState("");
     const [dobError, setDobError] = useState("");
     const [fileUploadError, setFileUploadError] = useState("");
+    const [fileSizeError, setFileSizeError] = useState("");
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -93,8 +94,8 @@ export default function NewUserForm(props) {
       roles:state.roles.roles,
       religions:state.users.religions,
       council:state.council.activeCouncil,
-      districts:state.master.districts,
-      talukas:state.master.talukas,
+      districts:state.master.activeDistricts,
+      talukas:state.master.activeTalukas,
       userById:state.users.userById,
       designations:state.designations.designations,
       addUsersLog:state.users.addUsersLog,
@@ -114,8 +115,8 @@ export default function NewUserForm(props) {
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
       dispatch(GetActiveCouncil(1));
-      dispatch(GetActiveDistricts(1,1000,1));
-      dispatch(GetActiveTalukas(1,1000,1));
+      dispatch(GetActiveDistricts(1));
+      dispatch(GetActiveTalukas(1));
       dispatch(GetActiveDesignations(1));
     },[])
 
@@ -553,24 +554,33 @@ export default function NewUserForm(props) {
     const fileExtension = e.target.files[0].name.split('.')[1]
     console.log(fileExtension);
     if(validExtensions.includes(fileExtension)){
-    const formData = new FormData();
-    formData.append('upload_for', 'users');
-    formData.append('file', e.target.files[0]);
-    dispatch(UploadFile(formData,index)).then((response) => {
-      console.log("upload file",response);
-    });
-    const newDocumentList = [...documentList];
-    const value =  newDocumentList[index];
-    value.documentValue = e.target.value;
-    console.log(value.documentValue,"||||||")
-    newDocumentList[index] = value;
-    setDocumentList(newDocumentList); 
-    console.log(e.target.value);
-    setFilePath(e.target.value);
-    console.log(documentList);
+      setFileUploadError("");
+      if(e.target.files[0].size<5242880){
+        setFileSizeError("");
+        const formData = new FormData();
+        formData.append('upload_for', 'users');
+        formData.append('file', e.target.files[0]);
+        dispatch(UploadFile(formData,index)).then((response) => {
+          console.log("upload file",response);
+        });
+        const newDocumentList = [...documentList];
+        const value =  newDocumentList[index];
+        value.documentValue = e.target.value;
+        console.log(value.documentValue,"||||||")
+        newDocumentList[index] = value;
+        setDocumentList(newDocumentList); 
+        console.log(e.target.value);
+        setFilePath(e.target.value);
+        console.log(documentList);
+      }
+      else{
+        setFileSizeError("Please upload documents within 5MB only");
+      }
+       
   }
   else{
-    setFileUploadError("Please upload documents only with given format")
+    setFileUploadError("Please upload documents with given format only");
+    
     // dispatch(SetNewAlert({
     //   msg: "Please upload images only with given format only",
     //   alertType: "danger",
@@ -1808,6 +1818,7 @@ console.log("-------",userById)
              onChange={(e)=>handleDocumentValueChange(e,index)}
            />
            <Typography>{fileUploadError}</Typography>
+           <br/>
            <Typography>Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
            </>
            ) :
@@ -1829,7 +1840,9 @@ console.log("-------",userById)
              onChange={(e)=>handleDocumentValueChange(e,index)}
            />
            <Typography variant="caption" color={"#FF0000"}>{fileUploadError}</Typography>
+           <Typography variant="caption" color={"#FF0000"}>{fileSizeError}</Typography>
            <Typography variant="body2">Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
+           <Typography variant="body2">Supported document size: 5MB</Typography>
            </>)
            }
             </Grid>

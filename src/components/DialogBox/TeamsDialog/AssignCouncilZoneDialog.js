@@ -122,8 +122,8 @@ export default function AssignCouncilZoneDialog(props) {
 
   } = useSelector((state) => ({
     council:state.council.activeCouncil,
-    zones:state.zones.activeZones,
-    wards:state.wards.activeWards,
+    zones:state.zones.zones,
+    wards:state.wards.wards,
     assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
     deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog
     
@@ -272,7 +272,7 @@ export default function AssignCouncilZoneDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Assign C-Z-W</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Assigned C-Z-W</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
