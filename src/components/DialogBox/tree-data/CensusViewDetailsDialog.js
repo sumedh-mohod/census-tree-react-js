@@ -190,6 +190,14 @@ console.log("hii", isOpen, props.data);
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property?.owner_name}</td>
   </tr>
   <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Address</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data?.property?.address? props.data?.property?.address: "-"}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Number</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data?.property?.property_number? props.data?.property?.property_number: "-"}</td>
+  </tr>
+  <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tenant Name </td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property?.tenant_name}</td>
   </tr>

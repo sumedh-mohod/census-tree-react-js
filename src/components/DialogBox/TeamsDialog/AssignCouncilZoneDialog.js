@@ -124,10 +124,8 @@ export default function AssignCouncilZoneDialog(props) {
 
   } = useSelector((state) => ({
     council:state.council.activeCouncil,
-    zones:state.zones.activeZones,
-    wards:state.wards.activeWards,
-    activeWardsByCID:state.wards.activeWardsByCID,
-    activeZonesByCID:state.zones.activeZonesByCID,
+    zones:state.zones.zones,
+    wards:state.wards.wards,
     assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
     deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog
     

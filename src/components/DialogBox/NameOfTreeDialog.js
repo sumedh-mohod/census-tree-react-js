@@ -71,7 +71,7 @@ export default function NameOfTreeDialog(props) {
   } = useSelector((state) => ({
     addTreeNameLog:state.treeName.addTreeNameLog,
     editTreeNameLog:state.treeName.editTreeNameLog,
-    treeType:state.treeType.treeType,
+    treeType:state.treeType.activeTreeType,
   }));
 
   const typeOfTreeValue = [
@@ -86,7 +86,7 @@ export default function NameOfTreeDialog(props) {
   ];
 
   useEffect(()=>{
-    dispatch(GetActiveTreeType(1,1000,1));
+    dispatch(GetActiveTreeType(1));
   },[])
 
   useEffect(()=>{
@@ -113,6 +113,7 @@ SetTypeOfTree(event.target.value);
     props.handleClose();
   };
 
+  console.log("jjjjj",treeType)
 
   const handleClickOpen = () => {
     setOpen(true);

@@ -200,21 +200,27 @@ export default function District() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+        {/* <Link
            underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
         >
           Master
-        </Link>
-        <Link
+        </Link> */}
+         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+              Master
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Districts
+          </Typography>
+        {/* <Link
          underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
         >
           Districts
-        </Link>
+        </Link> */}
       </Breadcrumbs>
     </div>
     {userPermissions.includes("create-district")? 

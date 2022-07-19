@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_PROPERTY_TYPES, DELETE_PROPERTY_TYPES, EDIT_PROPERTY_TYPES, GET_PROPERTY_TYPES } from "./Types";
+import { ADD_PROPERTY_TYPES, DELETE_PROPERTY_TYPES, EDIT_PROPERTY_TYPES, GET_PROPERTY_TYPES, GET_ACTIVE_PROPERTY_TYPES } from "./Types";
 
 const GetPropertyType = (page,limit) => async (dispatch) => {
     try {
@@ -16,6 +16,18 @@ const GetPropertyType = (page,limit) => async (dispatch) => {
     }
   };
 
+  const GetActivePropertyType = (status) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/property-types?status=${status}`);
+      console.log("active property types RESPONSE",response.data);
+      dispatch({
+        type: GET_ACTIVE_PROPERTY_TYPES,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
 
   const SearchPropertyType = (page,limit,searchValue) => async (dispatch) => {
     try {
@@ -78,6 +90,7 @@ const GetPropertyType = (page,limit) => async (dispatch) => {
 
   export {
       GetPropertyType,
+      GetActivePropertyType,
       SearchPropertyType,
       AddPropertyType,
       EditPropertyType,

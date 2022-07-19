@@ -23,8 +23,8 @@ import {
  import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../../actions/TreeCensusAction';
  import { GetActiveCouncil} from '../../actions/CouncilAction';
- import { GetActiveZones} from '../../actions/ZonesAction';
- import {GetActiveWards} from '../../actions/WardsActions';
+ import { GetZonesByCouncilId, GetActiveZones} from '../../actions/ZonesAction';
+ import {GetWardsByCouncilId, GetActiveWards} from '../../actions/WardsActions';
  import { GetUsers, GetUsersByRoleID } from '../../actions/UserAction';
 
  import Page from '../../components/Page';
@@ -78,8 +78,8 @@ import { ShowLoader } from '../../actions/CommonAction';
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.activeCouncil,
-      zones:state.zones.activeZones,
-      wards:state.wards.activeWards,
+      zones:state.zones.zones,
+      wards:state.wards.wards,
       userByRoleID: state.users.userByRoleID,
       baseColorPendingQCStatus: state.baseColor.baseColorPendingQCStatus,
       updateQCStatusLog: state.baseColor.updateQCStatusLog,
@@ -258,8 +258,12 @@ import { ShowLoader } from '../../actions/CommonAction';
       console.log(tree);
     }
 
-    const handleCouncilChange = (event) => {
-      setCouncilID(event.target.value);
+    const handleCouncilChange = (e) => {
+      setCouncilID(e.target.value);
+      setZoneID("")
+      setWardID("")
+      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
+      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
       };
 
     const handleZoneChange = (event) => {

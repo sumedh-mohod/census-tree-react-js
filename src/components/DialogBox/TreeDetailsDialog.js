@@ -25,9 +25,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import DefaultInput from '../Inputs/DefaultInput';
 import { GetActiveTreeType } from '../../actions/TreeTypeActions';
-import { GetAllTreeDisease } from '../../actions/TreeDiseaseAction';
+import { GetActiveTreeDisease } from '../../actions/TreeDiseaseAction';
 import { GetTreeConditions } from '../../actions/TreeConditionAction';
-import { GetTreeName } from '../../actions/TreeNameAction';
+import { GetActiveTreeName } from '../../actions/TreeNameAction';
 import { UpdateCensusTree } from '../../actions/TreeCensusAction';
 
 
@@ -79,18 +79,18 @@ const BootstrapDialogTitle = (props) => {
         treeType,
         updateCensusTreeLog,
       } = useSelector((state) => ({
-        treeName:state.treeName.treeName,
-        treeDisease:state.treeDisease.treeDisease,
+        treeName:state.treeName.activeTreeName,
+        treeDisease:state.treeDisease.activeTreeDisease,
         treeConditions:state.treeConditions.treeConditions,
-        treeType:state.treeType.treeType,
+        treeType:state.treeType.activeTreeType,
         updateCensusTreeLog: state.treeCensus.updateCensusTreeLog,
       }));
 
       useEffect(()=>{
-        dispatch(GetTreeName(1,1000));
-        dispatch(GetActiveTreeType(1,1000,1));
+        dispatch(GetActiveTreeName(1));
+        dispatch(GetActiveTreeType(1));
         dispatch(GetTreeConditions(1,1000));
-        dispatch(GetAllTreeDisease(1,1000));
+        dispatch(GetActiveTreeDisease(1));
       },[])
 
       const handleLocalTreeName = (e) => {

@@ -1,5 +1,6 @@
 import {
     GET_TREE_DISEASE,
+    GET_ACTIVE_TREE_DISEASE,
     RESET_STATE,
     ADD_TREE_DISEASE,
     EDIT_TREE_DISEASE,
@@ -9,6 +10,7 @@ import {
   
   const INIT_STATE = {
     treeDisease:null,
+    activeTreeDisease: null,
     addTreeDiseaseLog:false,
     editTreeDiseaseLog:false,
     deleteTreeDiseaseLog:false,
@@ -24,6 +26,12 @@ import {
                 ...state,
                 treeDisease: payload.data.data,
                 pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_TREE_DISEASE:
+            return{
+                ...state,
+                activeTreeDisease: payload.data,
         };
 
         case ADD_TREE_DISEASE:

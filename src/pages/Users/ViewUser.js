@@ -83,8 +83,8 @@ export default function ViewUser(props) {
       roles:state.roles.roles,
       religions:state.users.religions,
       council:state.council.activeCouncil,
-      districts:state.master.districts,
-      talukas:state.master.talukas,
+      districts:state.master.activeDistricts,
+      talukas:state.master.activeTalukas,
       userById:state.users.userById,
       designations:state.designations.designations,
       addUsersLog:state.users.addUsersLog,
@@ -98,8 +98,8 @@ export default function ViewUser(props) {
       dispatch(GetReligions())
       dispatch(GetActiveCouncil(1));
       dispatch(GetActiveDesignations(1));
-      dispatch(GetActiveDistricts(1,1000,1));
-      dispatch(GetActiveTalukas(1,1000,1));
+      dispatch(GetActiveDistricts(1));
+      dispatch(GetActiveTalukas(1));
     },[])
 
     const { userId } = useParams();
