@@ -29,8 +29,8 @@ import TreeData from  '../../components/JsonFiles/TreeData.json';
 import WardDialog from "../../components/DialogBox/WardDialog";
 import { GetNoTreeProperty, SearchNoTreeProperty } from '../../actions/NoTreePropertyAction';
 import { GetActiveCouncil } from '../../actions/CouncilAction';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 
@@ -175,8 +175,8 @@ export default function NoTreeProperty() {
     setPage(1);
     setShowList(false);
     dispatch(GetNoTreeProperty(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {
