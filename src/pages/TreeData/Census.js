@@ -32,8 +32,8 @@ import TreeCensusMenu from '../../sections/@dashboard/tree/TreeCensusMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
 import { GetActiveCouncil } from '../../actions/CouncilAction';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import CencusViewDetailsDialog from '../../components/DialogBox/tree-data/CensusViewDetailsDialog';
@@ -235,8 +235,8 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     setPage(1);
     setShowList(false);
     dispatch(GetTreeCensus(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {

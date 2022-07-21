@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_ZONES, DELETE_ZONES,  EDIT_ZONES, GET_ZONES, GET_ACTIVE_ZONES } from "./Types";
+import { ADD_ZONES, DELETE_ZONES,  EDIT_ZONES, GET_ZONES, GET_ACTIVE_ZONES, GET_ACTIVE_ZONES_BY_COUNCILID } from "./Types";
 
 const GetZones = (page,limit) => async (dispatch) => {
     try {
@@ -34,6 +34,19 @@ const GetZones = (page,limit) => async (dispatch) => {
       const response = await JWTServer.get(`/api/zones?page=${page}&limit=${limit}&council_id=${councilId}`);
       dispatch({
         type: GET_ZONES,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetActiveZonesByCouncilId = (status,councilId) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/zones?status=${status}&council_id=${councilId}`);
+      console.log("Active zones council RESPONSE",response.data.data);
+      dispatch({
+        type: GET_ACTIVE_ZONES_BY_COUNCILID,
         payload: response.data,
       });
     } catch (e) {
@@ -104,6 +117,7 @@ const GetZones = (page,limit) => async (dispatch) => {
       GetZones,
       GetActiveZones,
       GetZonesByCouncilId,
+      GetActiveZonesByCouncilId,
       SearchZones,
       AddZones,
       EditZones,

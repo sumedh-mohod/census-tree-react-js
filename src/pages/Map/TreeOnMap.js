@@ -31,8 +31,8 @@ import { useLoadScript } from '@react-google-maps/api';
 import DefaultInput from "../../components/Inputs/DefaultInput";
 import Map from './CustomGoogleMaps';
 import Page from '../../components/Page';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import { GetAllTreeLocation } from '../../actions/TreeOnMapAction';
 
 export default function TreeOnMap(props) {
@@ -65,11 +65,15 @@ export default function TreeOnMap(props) {
       council,
       zones,
       wards,
+      activeZonesByCID,
+      activeWardsByCID,
       treeLocation
     } = useSelector((state) => ({
       council:state.council.activeCouncil,
       zones:state.zones.zones,
       wards:state.wards.wards,
+      activeWardsByCID:state.wards.activeWardsByCID,
+      activeZonesByCID:state.zones.activeZonesByCID,
       treeLocation:state.treeLocation.treeLocation
     }));
 
@@ -86,8 +90,8 @@ export default function TreeOnMap(props) {
       setCouncilId(e.target.value);
       setZoneId("")
       setWardId("")
-      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+      dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+      dispatch(GetActiveWardsByCouncilId(1,e.target.value))
     }
 
     const handleZoneChange = (e) =>{
@@ -235,7 +239,7 @@ export default function TreeOnMap(props) {
                <MenuItem disabled value="">
             <em>Select Zone</em>
           </MenuItem>
-              {coucilId? zones?.map((option) => (
+              {coucilId? activeZonesByCID?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
@@ -267,7 +271,7 @@ export default function TreeOnMap(props) {
                <MenuItem disabled value="">
             <em>Select Ward</em>
           </MenuItem>
-              {coucilId? wards?.map((option) => (
+              {coucilId? activeWardsByCID?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
