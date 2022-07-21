@@ -1,6 +1,6 @@
 import { filter, includes } from 'lodash';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -95,8 +95,10 @@ export default function User() {
   const [searchValue,setSearchValue] = useState("");
   const [pageCountError, setPageCountError]= useState(false);
   const userPermissions = [];
+
+  const { state } = useLocation();
   
-  
+  console.log("STATE PAGE ",state);
   
 
    const {
@@ -114,10 +116,24 @@ export default function User() {
 loggedUser.roles[0].permissions.map((item, index)=>(
   userPermissions.push(item.name)
 ))
+
+  useEffect(()=>{
+    if(state){
+      console.log("INSIDE STATE");
+      setPage(state.page);
+    }
+  },[])
   
 
   useEffect(()=>{
-    dispatch(GetUsers(page,rowsPerPage));
+    if(state){
+      setPage(state.page);
+      dispatch(GetUsers(state.page,rowsPerPage));
+    }
+    else {
+      dispatch(GetUsers(page,rowsPerPage));
+    }
+    
   },[deleteUsersLog])
 
   useEffect(()=>{
@@ -227,7 +243,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
 
                         <TableCell align="right">
-                          <UserFormListMenu status={option.status} userId={option.id} userPermissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} handleUnlink={()=>handleUnlink(option.id)}/>
+                          <UserFormListMenu page={page} status={option.status} userId={option.id} userPermissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} handleUnlink={()=>handleUnlink(option.id)}/>
                         </TableCell>
                         </TableRow>
                         )
@@ -240,7 +256,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
           </Scrollbar>
           <Box>
  { users?(
-  <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  <Pagination count={pageInfo.last_page} page={page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />):null

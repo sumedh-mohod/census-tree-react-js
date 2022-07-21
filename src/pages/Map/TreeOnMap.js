@@ -45,6 +45,7 @@ export default function TreeOnMap(props) {
     const [maxWidth, setMaxWidth] = React.useState('sm');
     const [zoneId,setZoneId] = useState('');
    const [wardId,setWardId] = useState('');
+   const [treeNumber,setTreeNumber] = useState('');
    const [coucilId,setCouncilId] = useState('');
    const [showList,setShowList] = useState(false);
     const [editUser,setEditUser] = useState(false);  
@@ -101,6 +102,10 @@ export default function TreeOnMap(props) {
       setWardId(e.target.value);
     }
 
+    const handleTreeNumberChange = (e) =>{
+      setTreeNumber(e.target.value);
+    }
+
     const toggleDrawer = (anchor, open) => (event) => {
       if (
         event.type === "keydown" &&
@@ -120,6 +125,12 @@ export default function TreeOnMap(props) {
       fromDate: Yup.string().required('From date is required'),
       toDate: Yup.string().required('To date is required'),
     });
+
+    const TreeSchema = Yup.object().shape({
+      council: Yup.string().required('Council is required'),
+      treeNumber: Yup.string().required('TreeNumber is required'),
+      
+    });
   
     const formik = useFormik({
       enableReinitialize: true,
@@ -131,11 +142,11 @@ export default function TreeOnMap(props) {
         fromDate:"",
         toDate:"",
       },
-      validationSchema: DistrictsSchema,
+      validationSchema: treeNumber ? TreeSchema : DistrictsSchema,
       onSubmit: (value) => {
         console.log("in on ");
         setState({ ...state, "right": false });
-        dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate))
+        dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate,treeNumber))
       },
     });
   
@@ -277,20 +288,7 @@ export default function TreeOnMap(props) {
                 </MenuItem>
               )):null}
             </TextField>
-            <TextField
-                fullWidth
-                id="treeNo"
-                type="text"
-                autoComplete="Tree No"
-                placeholder="Tree No*"
-                label="Tree No*"
-                style={{width:'85.5%', marginLeft: 20,marginTop:10}}
-                // defaultValue={values? values.state : ""}
-                // onChange = {(e)=>{console.log("Value",e.target.value)}}
-                // error={Boolean(touched.state && errors.state)}
-                // helperText={touched.state && errors.state}
-                // {...getFieldProps("state")}
-              />
+            
             <TextField
                 id="date"
                 // label="Date Of Birth"
@@ -322,6 +320,27 @@ export default function TreeOnMap(props) {
                 InputLabelProps={{
                   shrink: true,
                 }}
+              />
+              <Divider style={{marginTop:10}}>OR</Divider>
+              <TextField
+                fullWidth
+                id="treeNumber"
+                type="text"
+                autoComplete="Tree No"
+                placeholder="Tree No*"
+                label="Tree No*"
+                onChange={(e) => {
+                  handleTreeNumberChange(e)
+                  formik.handleChange(e);
+                }}
+                style={{width:'85.5%', marginLeft: 20,marginTop:10}}
+                // defaultValue={values? values.state : ""}
+                // onChange = {(e)=>{console.log("Value",e.target.value)}}
+                // error={Boolean(touched.state && errors.state)}
+                // helperText={touched.state && errors.state}
+                // {...getFieldProps("state")}
+                error={Boolean(touched.treeNumber && errors.treeNumber)}
+                helperText={touched.treeNumber && errors.treeNumber}
               />
             <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:20}}>
             Get Data
