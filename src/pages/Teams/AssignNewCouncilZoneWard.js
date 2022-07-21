@@ -200,32 +200,24 @@ export default function AssignNewCouncilZoneWard() {
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Teams
-        </Link>
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+      <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+      Teams
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link component={RouterLink}
         to ={`/dashboard/teams`}
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
         {teamName}
         </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
+        </Typography>
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
              Assigned Councils - Zones - Wards
-        </Link>
+    </Typography>
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>

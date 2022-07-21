@@ -113,7 +113,6 @@ export default function BaseColor() {
       return;
     }
     setShowList(true);
-    console.log("BEFORE FETCHING");
     dispatch(GetBaseColorTrees(page,rowsPerPage,coucilId,zoneId,wardId));
   },[editBaseColorTreesLog,deleteBaseColorTreesLog,updateQCStatusLog])
 
@@ -125,7 +124,6 @@ export default function BaseColor() {
     }
     setShowList(true);
   },[baseColorTrees])
-  console.log("baseColorTrees", baseColorTrees)
 
   useEffect(()=>{
     dispatch(GetActiveCouncil(1));
@@ -202,7 +200,6 @@ export default function BaseColor() {
   };
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
   }
 
   let timer = null;
@@ -304,7 +301,7 @@ export default function BaseColor() {
         Base Color
         </Link> */}
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-              Master
+            Tree Data
           </Typography>
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
           Base Color

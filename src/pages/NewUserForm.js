@@ -25,7 +25,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetActiveRole } from '../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../actions/UserAction';
 import { UploadFile, UploadImage } from '../actions/UploadActions';
@@ -71,6 +71,7 @@ export default function NewUserForm(props) {
     const [dobError, setDobError] = useState("");
     const [fileUploadError, setFileUploadError] = useState("");
     const [fileSizeError, setFileSizeError] = useState("");
+    const [page, setPage] = useState(0);
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -124,6 +125,8 @@ export default function NewUserForm(props) {
     // SetNewAlert("hiiii");
 
     const { userId } = useParams();
+    const { state } = useLocation();
+    console.log("STATE",state);
     useEffect(()=>{
       
       if(userId){
@@ -140,6 +143,10 @@ export default function NewUserForm(props) {
         return;
       }
       if(userById){
+        
+        if(state){
+          setPage(state.page);
+        }
         separateId(userById.roles)
         seprateDeduction(userById.applicable_deductions)
         separateDocument(userById.documents)
@@ -251,7 +258,7 @@ export default function NewUserForm(props) {
       setRoleError("")
       setDeductionList([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
       setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
-      navigate('/dashboard/user', { replace: true });
+      navigate('/dashboard/user', { replace: true});
     },[addUsersLog])
 
     const editRun = React.useRef(true);
@@ -265,8 +272,8 @@ export default function NewUserForm(props) {
       setRoleError("")
       setDeductionList([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
       setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
-      // navigate('/dashboard/user', { replace: true });
-      navigate(-1);
+      navigate('/dashboard/user', { replace: true ,state:{"page":page} });
+      // navigate(-1);
     },[editUsersLog])
 
     console.log("RELIGIONS",religions);
