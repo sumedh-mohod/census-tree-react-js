@@ -197,27 +197,27 @@ export default function AssignUser() {
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Teams
-        </Link>
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+      <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+      Teams
+          </Typography>
+      <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link 
         component={RouterLink}
         to={`/dashboard/teams`}
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           // href="#"
         >
           {teamName}
               
         </Link>
-        <Link
+        </Typography>
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        Assigned Users
+        </Typography>
+        {/* <Link
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
@@ -225,7 +225,7 @@ export default function AssignUser() {
         >
            Assigned Users
               
-        </Link>
+        </Link> */}
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>

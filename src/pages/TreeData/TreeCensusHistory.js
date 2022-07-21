@@ -158,7 +158,6 @@ export default function TreeCensusHistory() {
 
   }
 
-  console.log("treeCensusHistory",treeCensusHistory);
 
   return (
     <Page title="User">
@@ -172,7 +171,7 @@ export default function TreeCensusHistory() {
         }
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation"  >
-        <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
         {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
@@ -196,16 +195,19 @@ export default function TreeCensusHistory() {
         Census
           </Typography>
         {treeCensusName === "undefined" ? null :
+            <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
-          variant="h4" gutterBottom style={{color: "#000000"}}
+          // variant="h4" gutterBottom style={{color: "#000000"}}
         >
           {treeCensusName}
               
-        </Link>}
+        </Link>
+        </Typography>
+        }
         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
             History
           </Typography>
