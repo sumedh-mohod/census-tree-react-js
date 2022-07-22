@@ -113,8 +113,6 @@ SetTypeOfTree(event.target.value);
     props.handleClose();
   };
 
-  console.log("jjjjj",treeType)
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -142,7 +140,6 @@ SetTypeOfTree(event.target.value);
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
         dispatch(EditTreeName({
           "name":value.name,
@@ -161,8 +158,6 @@ SetTypeOfTree(event.target.value);
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
-  console.log("TREE TYPE IN NAME OF TREE",treeType)
 
   return (
     <div>

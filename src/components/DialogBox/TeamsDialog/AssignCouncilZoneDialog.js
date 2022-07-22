@@ -99,7 +99,6 @@ export default function AssignCouncilZoneDialog(props) {
   ];
   
   const { isOpen, data, isOpenConfirm,teamId } = props;
-  console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [gender, setGender] = React.useState('');
   const [councilName, setCouncilName] = React.useState('');
@@ -168,14 +167,12 @@ export default function AssignCouncilZoneDialog(props) {
     setShowInitial(true)
   };
   const handleConfirmationDialogClick = () => {
-    console.log("hiiii")
     setOpen(open)
   }
   const handleClose = () => {
     setShowInitial(false);
     props.handleClose();
   };
-console.log("active Zones", activeZonesByCID);
   const handleZoneChange = (event) => {
     setZoneName(event.target.value);
   };

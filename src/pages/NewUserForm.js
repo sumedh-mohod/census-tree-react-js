@@ -1090,9 +1090,9 @@ console.log("-------",userById)
                   id="mName"
                   autoComplete="mName"
                   label="Middle Name"
-                  placeholder="Middle Name*"
-                  error={Boolean(touched.middleName && errors.middleName)}
-                helperText={touched.middleName && errors.middleName}
+                  placeholder="Middle Name"
+                //   error={Boolean(touched.middleName && errors.middleName)}
+                // helperText={touched.middleName && errors.middleName}
                 {...getFieldProps("middleName")}
                 />
               </Grid>
@@ -1546,6 +1546,7 @@ console.log("-------",userById)
                  />
                 </Grid>
                 <Grid item xs={6}>
+          
               <TextField
                 select
                 id="noticedperiods"
@@ -1672,10 +1673,10 @@ console.log("-------",userById)
                   fullWidth
                   id="password"
                   autoComplete="password"
-                  label="Password*"
-                  placeholder="Password*"
-                  error={Boolean(touched.password && errors.password)}
-                  helperText={touched.password && errors.password}
+                  label="Password"
+                  placeholder="Password"
+                  // error={Boolean(touched.password && errors.password)}
+                  // helperText={touched.password && errors.password}
                   {...getFieldProps("password")}
                 />
               </Grid>
