@@ -1831,7 +1831,7 @@ console.log("-------",userById)
            <Typography>Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
            </>
            ) :
-              filePath?
+           value.documentValue?
               <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
