@@ -128,7 +128,6 @@ const handleStatusChange = (event) => {
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
         dispatch(EditDesignations({
           "name":value.designations,

@@ -81,7 +81,6 @@ export default function TalukasDialog(props) {
 
   React.useEffect(()=>{
     if(data){
-      console.log("DATA",data);
       setState(data.district.state_id);
       setDistrict(data.district_id);
     }
@@ -100,14 +99,12 @@ export default function TalukasDialog(props) {
 
    const handleStateChange = (event) => {
 
-     console.log("HANDLE STATE CHANGE CALLED");
      dispatch(GetActiveDistrictsByStateId(event.target.value,1,1000,1))
      setDistrict("District")
      setState(event.target.value);
    };
 
    const handleDistrictChange = (event) => {
-     console.log("DISTRICT CHANGE CALLED");
      setDistrict(event.target.value);
    };
 
@@ -204,18 +201,6 @@ export default function TalukasDialog(props) {
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-        <Grid item xs={12}>
-              <DefaultInput
-                fullWidth
-                id="name"
-                label="Taluka Name*"
-                autoComplete="name"
-                placeholder="Enter Taluka Name*"
-                error={Boolean(touched.talukas && errors.talukas)}
-                helperText={touched.talukas && errors.talukas}
-                {...getFieldProps("talukas")}
-              />
-            </Grid>
             <Grid item xs={12}>
             <TextField
               select
@@ -263,6 +248,18 @@ export default function TalukasDialog(props) {
                 </MenuItem>
               ))}
             </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="name"
+                label="Taluka Name*"
+                autoComplete="name"
+                placeholder="Enter Taluka Name*"
+                error={Boolean(touched.talukas && errors.talukas)}
+                helperText={touched.talukas && errors.talukas}
+                {...getFieldProps("talukas")}
+              />
             </Grid>
           </Grid>
         </DialogContent>

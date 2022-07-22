@@ -101,10 +101,8 @@ export default function TreeDensityDialog(props) {
   };
 
   const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
+   
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
     if(found){
       return found.name
     }
@@ -152,7 +150,6 @@ export default function TreeDensityDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
         dispatch(EditDistricts({
           "name":value.districts,
