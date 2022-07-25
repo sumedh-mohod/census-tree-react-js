@@ -94,7 +94,7 @@ export default function TeamsTableDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+    name: Yup.string().max(30, "Character limit is 30").required('Name is required'),
   });
 
 
