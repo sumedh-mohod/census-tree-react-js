@@ -31,7 +31,7 @@ import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentTyp
 import { UploadFile, UploadImage } from '../actions/UploadActions';
 import DefaultInput from '../components/Inputs/DefaultInput';
 import { GetActiveCouncil } from '../actions/CouncilAction';
-import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
+import { GetActiveState, GetActiveDistricts, GetActiveTalukas } from '../actions/MasterActions';
 import { GetActiveDesignations } from '../actions/DesignationAction';
 import { ShowLoader } from '../actions/CommonAction';
 import { SetNewAlert } from '../actions/AlertActions';
@@ -72,6 +72,7 @@ export default function NewUserForm(props) {
     const [fileUploadError, setFileUploadError] = useState("");
     const [fileSizeError, setFileSizeError] = useState("");
     const [page, setPage] = useState(0);
+    const [dateLimitError, setDateLimitError] = useState("");
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -116,6 +117,7 @@ export default function NewUserForm(props) {
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
       dispatch(GetActiveCouncil(1));
+      dispatch(GetActiveState(1));
       dispatch(GetActiveDistricts(1));
       dispatch(GetActiveTalukas(1));
       dispatch(GetActiveDesignations(1));
@@ -368,9 +370,20 @@ export default function NewUserForm(props) {
       const td =new Date( moment(todayDate).format('MM/DD/YYYY'));
       const gd = new Date(moment(event.target.value).format('MM/DD/YYYY'));
       console.log(td);
+      const ageDifMs = Date.now() - gd.getTime();
+    const ageDate = new Date(ageDifMs); // miliseconds from epoch
+    const ageLimit =  Math.abs(ageDate.getUTCFullYear() - 1970);
+    console.log("agelimit", ageLimit);
       const diffTime = td-gd;
+      if(ageLimit<18){
+        setDateLimitError("Please select date for above 18 years");
+      }
+      else{
+        setDateLimitError("");
+      }
       if(diffTime<0){
         setDobError("Please enter valid birth date");
+        
         
       }else{
         setDobError("");
@@ -1318,7 +1331,8 @@ console.log("-------",userById)
                 }}
                 inputProps={{ max: todayDate }}
               />
-              <Typography style={{marginLeft: 40, color:"#FF0000"}}>{dobError}</Typography>
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{dobError}</Typography>
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{dateLimitError}</Typography>
               </Grid>
               <Grid item xs={6}>
               <TextField
