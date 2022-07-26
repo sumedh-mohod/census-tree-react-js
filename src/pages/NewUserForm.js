@@ -52,6 +52,8 @@ export default function NewUserForm(props) {
     const[district, setDistrict]=  React.useState('');
     const[role, setRole]=  React.useState("");
     const[dob, setDob]= React.useState("");
+    const [panCardNumber, setPanCardNumber] = React.useState("");
+    const [ifscCode, setIfscCode] = React.useState("");
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
@@ -73,6 +75,8 @@ export default function NewUserForm(props) {
     const [fileSizeError, setFileSizeError] = useState("");
     const [page, setPage] = useState(0);
     const [dateLimitError, setDateLimitError] = useState("");
+    const [panCardError, setPanCardError] = useState("");
+    const [ifscCodeError, setIfscCodeError] = useState("");
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -564,6 +568,32 @@ export default function NewUserForm(props) {
     }
   }
 
+  const handlePancardNumber = (e) => {
+    console.log("in pancard");
+    const  regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+    if(regex.test(e.target.value)) {
+      setPanCardError("");
+ }
+ else{
+  setPanCardError("Please Enter Pan Card Number in Standard Format");
+    
+ }
+ setPanCardNumber(e.target.value);
+  }
+
+  const handleIFSCCode = (e) => {
+    console.log("in ")
+    const  regex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+    if(regex.test(e.target.value)) {
+      setIfscCodeError("");
+ }
+ else{
+  setIfscCodeError("Please Enter IFSC code In Standard Format Only");
+    
+ }
+ setIfscCode(e.target.value);
+  }
+
   const handleDocumentValueChange = (e,index) => {
     console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
     console.log(e.target.files[0].name);
@@ -802,10 +832,10 @@ const validateRole = () => {
       // lastDayOfWork: Yup.string().required('Last Day of work is required'),
       salaryPerMonth: Yup.string().required('Salary per month is required'),
       designation: Yup.string().required('Designation is required'),
-      panCardNumber: Yup.string().required('Pancard is required'),
+      panCardNumber: Yup.string().matches(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/, 'Pancard number is not valid').required('Pancard is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
       accountNumber: Yup.string().required('Account number is required'),
-      ifscCode: Yup.string().required('IFSC is required')
+      ifscCode: Yup.string().matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'IFSC Code is not valid').required('IFSC is required')
     }
     );
 console.log("-------",userById)
@@ -1646,27 +1676,40 @@ console.log("-------",userById)
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
                 <DefaultInput
+                
                   fullWidth
-                  id="IFSC"
+                  id="ifscCode"
+                  name="ifscCode"
                   autoComplete="IFSC"
                   label="IFSC Code*"
+                  value={ifscCode}
                   placeholder="IFSC Code*"
+                  onChange={(e)=>{handleIFSCCode(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.ifscCode && errors.ifscCode)}
                   helperText={touched.ifscCode && errors.ifscCode}
-                  {...getFieldProps("ifscCode")}
+                  // {...getFieldProps("ifscCode")}
                 />
+                
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{ifscCodeError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="panCard"
+                  id="panCardNumber"
+                  name="panCardNumber"
                   autoComplete="panCard"
                   label="Pan Card*"
+                  value={panCardNumber}
                   placeholder="Pan Card*"
+                  onChange={(e)=>{handlePancardNumber(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.panCardNumber && errors.panCardNumber)}
                   helperText={touched.panCardNumber && errors.panCardNumber}
-                  {...getFieldProps("panCardNumber")}
+                  // {...getFieldProps("panCardNumber")}
                 />
+                
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{panCardError}</Typography>
               </Grid>
                 </Grid>
                 </>
@@ -1841,7 +1884,9 @@ console.log("-------",userById)
              helperText={value.errorValue}
              onChange={(e)=>handleDocumentValueChange(e,index)}
            />
-           <Typography>{fileUploadError}</Typography>
+           
+           <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{fileUploadError}</Typography>
+          
            <br/>
            <Typography>Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
            </>
@@ -1863,8 +1908,8 @@ console.log("-------",userById)
              helperText={value.errorValue}
              onChange={(e)=>handleDocumentValueChange(e,index)}
            />
-           <Typography variant="caption" color={"#FF0000"}>{fileUploadError}</Typography>
-           <Typography variant="caption" color={"#FF0000"}>{fileSizeError}</Typography>
+           <Typography variant="body2" color={"#FF0000"}>{fileUploadError}</Typography>
+           <Typography variant="body2" color={"#FF0000"}>{fileSizeError}</Typography>
            <Typography variant="body2">Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
            <Typography variant="body2">Supported document size: 5MB</Typography>
            </>)
