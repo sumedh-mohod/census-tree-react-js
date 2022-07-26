@@ -76,7 +76,6 @@ export default function CreateCouncilDialog(props) {
   const dispatch = useDispatch();
 
   const { isOpen, data } = props;
-  console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [gender, setGender] = React.useState('');
   const [role, setRole] = React.useState('');
@@ -132,8 +131,6 @@ export default function CreateCouncilDialog(props) {
     dispatch(GetActiveDistricts(1));
     dispatch(GetActiveTalukas(1));
   },[])
-
-  console.log("states", states);
 
   const firstRun = React.useRef(true);
   useEffect(()=>{
@@ -211,7 +208,6 @@ export default function CreateCouncilDialog(props) {
   // };
 
   const handleWardChange = (event) => {
-    console.log("HANDLE WARD CHANGE CALLED");
     const {
       target: { value },
     } = event;
@@ -222,7 +218,6 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleStateChange = (event) => {
-    console.log("HANDLE STATE CHANGE");
     dispatch(GetActiveDistrictsByStateId(event.target.value,1,1000,1))
     setDistrict("District")
     setTaluka("Taluka")
@@ -230,10 +225,7 @@ export default function CreateCouncilDialog(props) {
   };
 
   const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
     if(found){
       return found.name
     }
@@ -336,10 +328,8 @@ export default function CreateCouncilDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
         if(validateLogo() && isImageRemoved){
-          console.log("INSIDE IS IMAGE REMOVED");
           const formData = new FormData();
             formData.append('upload_for', 'councils');
             formData.append('image', files);
@@ -405,9 +395,6 @@ export default function CreateCouncilDialog(props) {
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
-
-
-  console.log("VALUES",values)
 
   return (
     <div>
@@ -550,7 +537,6 @@ export default function CreateCouncilDialog(props) {
               // onChange={handleChange}
               style={{ width: '81%', marginLeft: 40 , marginTop:5}}
               renderValue={(selected) => {
-                console.log("SELECTED",selected);
                 if (selected.length === 0) {
                   return <em>Zone*</em>;
                 }

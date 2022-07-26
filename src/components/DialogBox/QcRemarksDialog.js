@@ -87,11 +87,8 @@ export default function DistrictDialog(props) {
     qcremarks:remark.qcRemarksTypes.qcremarks,
   }));
 
-  console.log('qcremarks', qcremarks)
-
   useEffect(()=>{
     dispatch(GetQcRemarks(1,1000,1));
-    console.log('qcremarks', qcremarks)
   },[])
 
 
@@ -118,10 +115,7 @@ export default function DistrictDialog(props) {
   };
 
   const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
     if(found){
       return found.name
     }
@@ -158,7 +152,6 @@ export default function DistrictDialog(props) {
     },
     validationSchema: QcRemarksSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
         dispatch(EditQcRemarks({
           "remark":value.remarks,

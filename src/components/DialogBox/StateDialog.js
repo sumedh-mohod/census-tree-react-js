@@ -143,7 +143,6 @@ const handleStatusChange = (event) => {
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-  console.log("values",values);
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
