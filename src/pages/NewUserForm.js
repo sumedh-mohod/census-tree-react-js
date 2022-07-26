@@ -77,6 +77,7 @@ export default function NewUserForm(props) {
     const [dateLimitError, setDateLimitError] = useState("");
     const [panCardError, setPanCardError] = useState("");
     const [ifscCodeError, setIfscCodeError] = useState("");
+    const[ lastDayOfWork, setLastDayOfWork] = useState("");
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -194,6 +195,11 @@ export default function NewUserForm(props) {
         return null;
       })
       setRole(roleArray)
+    }
+
+    const handleLastDayChange = (event) => {
+      console.log("gadsgshfhds", event.target.value)
+      setLastDayOfWork(event.target.value)
     }
 
     const seprateDeduction = (deduction) => {
@@ -369,7 +375,7 @@ export default function NewUserForm(props) {
     };
   
     const handleDobChange = (event) => {
-      console.log("in dob ",event.target.value);
+      console.log("in dob  x",event.target.value);
       console.log("in dob ",todayDate);
       const td =new Date( moment(todayDate).format('MM/DD/YYYY'));
       const gd = new Date(moment(event.target.value).format('MM/DD/YYYY'));
@@ -1582,20 +1588,25 @@ console.log("-------",userById)
                   // name="contact"
                   // value="contact"
                 /> */}
+
                 <TextField
                   id="lastdayOfWork"
                   type="date"
                   label="Last Day Of work"
                   placeholder='Last Day Of work'
+                  value={lastDayOfWork}
                   style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                  onChange={(e)=>{handleLastDayChange(e);
+                  formik.handleChange(e)}}
                   InputLabelProps={{
                     shrink: true,
                   }}
                   error={Boolean(touched.lastDayOfWork && errors.lastDayOfWork)}
                   helperText={touched.lastDayOfWork && errors.lastDayOfWork}
-                  {...getFieldProps("lastDayOfWork")}
+                  // {...getFieldProps("lastDayOfWork")}
                  />
                 </Grid>
+                {lastDayOfWork ?  ( <>
                 <Grid item xs={6}>
           
               <TextField
@@ -1627,7 +1638,7 @@ console.log("-------",userById)
                   </MenuItem>
                 ))}
               </TextField>
-              </Grid>
+              </Grid></>) : null }
                 </Grid>
                 <Grid container spacing={1} style={{marginTop: 5}}>
                    <Grid item xs={6}>
