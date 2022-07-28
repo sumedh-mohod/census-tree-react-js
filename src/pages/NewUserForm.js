@@ -1105,7 +1105,7 @@ console.log("-------",userById)
               label="Role*"
               value={role}
               displayEmpty
-              style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+              style={{width:'93.8%', marginLeft: 40,marginTop:5}}
               // onChange={handleRoleChange}
               onChange={(e) => {
                 handleRoleChange(e)
@@ -1263,7 +1263,7 @@ console.log("-------",userById)
                 displayEmpty
                 defaultValue={data? data.state_id : ""}
                 value={selectedState}
-                style={{width: '87.5%', marginLeft: 45,marginTop:5}}
+                style={{width: '93.8%', marginLeft: 45,marginTop:5}}
                 onChange={(e) => {
                   handleStatesChange(e)
                   formik.handleChange(e);
@@ -1288,6 +1288,7 @@ console.log("-------",userById)
 
               <Grid item xs={6}>
               <TextField
+                
                 select
                 id="district"
                 name="district"
@@ -1299,7 +1300,7 @@ console.log("-------",userById)
                 }}
                 defaultValue={data? data.district : ""}
                 value={district}
-                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 // placeholder='*Select District'
               
                 error={Boolean(touched.district && errors.district)}
@@ -1329,7 +1330,7 @@ console.log("-------",userById)
                 // name='District'
                 displayEmpty
                 label="Taluka"
-                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 45,marginTop:5}}
                 // placeholder='*Select District'
               
                 error={Boolean(touched.taluka && errors.taluka)}
@@ -1358,7 +1359,7 @@ console.log("-------",userById)
                   displayEmpty
                   defaultValue={data? data.district : ""}
                   value={district}
-                  style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                  style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                   placeholder='Select Council*'
                 
                   error={Boolean(touched.council && errors.council)}
@@ -1429,7 +1430,7 @@ console.log("-------",userById)
                 value={dob}
                 placeholder='Date Of Birth*'
                 // defaultValue="2017-05-24" 
-                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
                 onChange={(e)=>{handleDobChange(e);
                 formik.handleChange(e)}}
@@ -1454,7 +1455,7 @@ console.log("-------",userById)
                 value={religion}
                 displayEmpty
                 defaultValue={data? data.religion: ""}
-                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 placeholder='Religion*'
                 onChange={handleReligionChange}
                 error={Boolean(touched.religion && errors.religion)}
@@ -1493,7 +1494,7 @@ console.log("-------",userById)
                 name='diffentlyAbled'
                 displayEmpty
                 defaultValue={data? data.caste: ""}
-                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 onChange={handleGenderChange}
                 error={Boolean(touched.differentlyAbled && errors.differentlyAbled)}
                 helperText={touched.differentlyAbled && errors.differentlyAbled}
@@ -1519,7 +1520,7 @@ console.log("-------",userById)
                 label="Blood Group"
                 value={bloodGrp}
                 displayEmpty
-                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 placeholder='Blood Group'
                 onChange={handleBloodGrpChange}
                 error={Boolean(touched.bloodGroup && errors.bloodGroup)}
@@ -1574,7 +1575,7 @@ console.log("-------",userById)
       type="date"
       label="Date Of Joining*"
       placeholder='Date Of Joining*'
-      style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+      style={{width:'93.8%', marginLeft: 40,marginTop:5}}
       error={Boolean(touched.dateOfJoining && errors.dateOfJoining)}
       helperText={touched.dateOfJoining && errors.dateOfJoining}
       {...getFieldProps("dateOfJoining")}
@@ -1592,7 +1593,7 @@ console.log("-------",userById)
                 value={designation}
                 displayEmpty
                 defaultValue={data? data.designation: ""}
-                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 
                 onChange={handleDesignationChange}
                 error={Boolean(touched.designation && errors.designation)}
@@ -1634,7 +1635,7 @@ console.log("-------",userById)
                 value={referredBy}
                 displayEmpty
                 defaultValue={data? data.referredBy: ""}
-                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 placeholder='Is Agreement done?*'
                 onChange={handleReferredChange}
                 error={Boolean(touched.isAgreementDone && errors.isAgreementDone)}
@@ -1672,7 +1673,7 @@ console.log("-------",userById)
                   label="Last Day Of work"
                   placeholder='Last Day Of work'
                   value={lastDayOfWork}
-                  style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                  style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                   onChange={(e)=>{handleLastDayChange(e);
                   formik.handleChange(e)}}
                   InputLabelProps={{
@@ -1693,7 +1694,7 @@ console.log("-------",userById)
                 name='noticedPeriods'
                 value={noticePeriod}
                 displayEmpty
-                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 defaultValue={data? data.noticedPeriods: ""}
                 onChange={handleNoticePeriodChange}
                 // renderValue={(selected) => {
