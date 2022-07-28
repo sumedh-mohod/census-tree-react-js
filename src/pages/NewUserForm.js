@@ -31,7 +31,7 @@ import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentTyp
 import { UploadFile, UploadImage } from '../actions/UploadActions';
 import DefaultInput from '../components/Inputs/DefaultInput';
 import { GetActiveCouncil } from '../actions/CouncilAction';
-import { GetActiveState, GetActiveDistricts, GetActiveTalukas } from '../actions/MasterActions';
+import { GetActiveState, GetActiveDistricts, GetActiveTalukas, GetAllActiveDistrictsByStateId, GetAllActiveTalukaByDistrictId } from '../actions/MasterActions';
 import { GetActiveDesignations } from '../actions/DesignationAction';
 import { ShowLoader } from '../actions/CommonAction';
 import { SetNewAlert } from '../actions/AlertActions';
@@ -49,9 +49,12 @@ export default function NewUserForm(props) {
     const [caste, setCaste] = React.useState('');
     const [whoseReference, setWhoseReference] = React.useState('');
     const [bloodGrp, setBloodGrp] = React.useState('');
-    const[district, setDistrict]=  React.useState('');
-    const[role, setRole]=  React.useState("");
-    const[dob, setDob]= React.useState("");
+    const [selectedState, setSelectedState]=  React.useState('');
+    const [district, setDistrict]=  React.useState('');
+    const [showDistrict, setShowDistrict]=  React.useState(false);
+    const [showTaluka, setShowTaluka]=  React.useState(false);
+    const [role, setRole]=  React.useState("");
+    const [dob, setDob]= React.useState("");
     const [panCardNumber, setPanCardNumber] = React.useState("");
     const [ifscCode, setIfscCode] = React.useState("");
     const [agreementDone, setAgreementDone] = React.useState('');
@@ -85,6 +88,7 @@ export default function NewUserForm(props) {
       roles,
       religions,
       council,
+      states,
       districts,
       talukas,
       userById,
@@ -101,6 +105,7 @@ export default function NewUserForm(props) {
       roles:state.roles.roles,
       religions:state.users.religions,
       council:state.council.activeCouncil,
+      states:state.master.activeStates,
       districts:state.master.activeDistricts,
       talukas:state.master.activeTalukas,
       userById:state.users.userById,
@@ -123,8 +128,8 @@ export default function NewUserForm(props) {
       dispatch(GetReligions())
       dispatch(GetActiveCouncil(1));
       dispatch(GetActiveState(1));
-      dispatch(GetActiveDistricts(1));
-      dispatch(GetActiveTalukas(1));
+      // dispatch(GetActiveDistricts(1));
+      // dispatch(GetActiveTalukas(1));
       dispatch(GetActiveDesignations(1));
     },[])
 
@@ -158,6 +163,12 @@ export default function NewUserForm(props) {
         seprateDeduction(userById.applicable_deductions)
         separateDocument(userById.documents)
         setEditUser(true);
+        dispatch(GetAllActiveDistrictsByStateId(userById?.state_id,1));
+        dispatch(GetAllActiveTalukaByDistrictId(userById?.district_id,1));
+        setSelectedState(userById?.state_id);
+        setDistrict(userById?.district_id)
+        setShowDistrict(true);
+        setShowTaluka(true);
         dispatch(ShowLoader(false))
       }
     },[userById])
@@ -466,8 +477,19 @@ export default function NewUserForm(props) {
     // const handleClose = () => {
     //   setOpen(false);
     // };
+
+    const handleStatesChange = (event) => {
+      dispatch(GetAllActiveDistrictsByStateId(event.target.value,1))
+      setShowDistrict(true);
+      setShowTaluka(false);
+      setSelectedState(event.target.value)
+    };
+
     const handleDistrictChange = (event) => {
+      console.log("HANDLE DISTRICT CHANGE VALUE",event.target.value);
       setDistrict(event.target.value);
+      dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1));
+      setShowTaluka(true);
     };
   
     const handleAgreementChange = (event) => {
@@ -808,6 +830,7 @@ const validateRole = () => {
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Phone number is required'),
       addressLine1: Yup.string().required('Address Line 1 is required'),
       city: Yup.string().required('City is required'),
+      states: Yup.string().required('State is required'),
       district: Yup.string().required('Districts is required'),
       // taluka: Yup.string().required('Taluka is required'),
       council: Yup.string().required('Council is required'),
@@ -822,6 +845,7 @@ const validateRole = () => {
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Mobile number is required'),
       addressLine1: Yup.string().required('Address Line 1 is required'),
       city: Yup.string().required('City is required'),
+      states: Yup.string().required('State is required'),
       district: Yup.string().required('Districts is required'),
       // taluka: Yup.string().required('Taluka is required'),
       username: Yup.string().required('Username is required'),
@@ -857,6 +881,7 @@ console.log("-------",userById)
       addressLine1: userById.address_line1,
       addressLine2: userById?.address_line2,
       city: userById?.city,
+      states: userById?.state_id,
       district: userById.district_id,
       taluka: userById.taluka_id,
       council: userById?.council_id,
@@ -892,6 +917,7 @@ console.log("-------",userById)
       addressLine1: "",
       addressLine2: "",
       city: "",
+      states:"",
       district: "",
       taluka: "",
       council: "",
@@ -934,6 +960,7 @@ console.log("-------",userById)
                 address_line1:value.addressLine1,
                 address_line2:value.addressLine2,
                 city: value.city,
+                state_id: value.states,
                 district_id:value.district,
                 taluka_id:value.taluka,
                 council_id: value.council,
@@ -991,6 +1018,7 @@ console.log("-------",userById)
                 address_line1:value.addressLine1,
                 address_line2:value.addressLine2,
                 city: value.city,
+                state_id: value.states,
                 district_id:value.district,
                 taluka_id:value.taluka,
                 username: value.username,
@@ -1227,9 +1255,46 @@ console.log("-------",userById)
               <Grid item xs={6}>
               <TextField
                 select
+                id="states"
+                name="states"
+                label="State*"
+                displayEmpty
+                defaultValue={data? data.state_id : ""}
+                value={selectedState}
+                style={{width: '87.5%', marginLeft: 45,marginTop:5}}
+                onChange={(e) => {
+                  handleStatesChange(e)
+                  formik.handleChange(e);
+                }}
+                // placeholder='*Select District'
+              
+                error={Boolean(touched.states && errors.states)}
+                helperText={touched.states && errors.states}
+                
+              >
+                 <MenuItem disabled value="">
+              <em>State*</em>
+            </MenuItem>
+                {states?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+              
+              </Grid>
+
+              <Grid item xs={6}>
+              <TextField
+                select
                 id="district"
+                name="district"
                 label="District*"
                 displayEmpty
+                onChange={(e) => {
+                  handleDistrictChange(e)
+                  formik.handleChange(e);
+                }}
                 defaultValue={data? data.district : ""}
                 value={district}
                 style={{width: '87.5%', marginLeft: 45,marginTop:5}}
@@ -1237,21 +1302,26 @@ console.log("-------",userById)
               
                 error={Boolean(touched.district && errors.district)}
                 helperText={touched.district && errors.district}
-                {...getFieldProps("district")}
+                // {...getFieldProps("district")}
               >
                  <MenuItem disabled value="">
               <em>District*</em>
             </MenuItem>
-                {districts?.map((option) => (
+                {showDistrict?districts?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
-                ))}
+                )):null}
               </TextField>
+              
               </Grid>
 
-              <Grid item xs={6}>
-              <TextField
+              </Grid>
+
+              <Grid container spacing={1} style={{marginTop: 5}}>
+
+                <Grid item xs={6}>
+                <TextField
                 select
                 id="taluka"
                 // name='District'
@@ -1267,19 +1337,16 @@ console.log("-------",userById)
                  <MenuItem disabled value="">
               <em>Taluka</em>
             </MenuItem>
-                {talukas?.map((option) => (
+                {showTaluka?talukas?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
-                ))}
+                )):null}
               </TextField>
-              </Grid>
+                </Grid>
 
-              </Grid>
-              
-              </Grid>
                 {showCouncil?
-                <Grid container spacing={1} style={{marginTop: 5}}>
+                
                 <Grid item xs={6}>
                 <TextField
                   select
@@ -1305,9 +1372,15 @@ console.log("-------",userById)
                     </MenuItem>
                   ))}
                 </TextField>
-                </Grid>
+               
                 </Grid>:null
                 }
+
+              </Grid>
+              
+              </Grid>
+              
+                
               
                 {showCouncil?null:
                <>
@@ -1695,11 +1768,11 @@ console.log("-------",userById)
                   label="IFSC Code*"
                   value={ifscCode}
                   placeholder="IFSC Code*"
-                  onChange={(e)=>{handleIFSCCode(e);
-                    formik.handleChange(e)}}
+                  // onChange={(e)=>{handleIFSCCode(e);
+                  //   formik.handleChange(e)}}
                   error={Boolean(touched.ifscCode && errors.ifscCode)}
                   helperText={touched.ifscCode && errors.ifscCode}
-                  // {...getFieldProps("ifscCode")}
+                  {...getFieldProps("ifscCode")}
                 />
                 
               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{ifscCodeError}</Typography>
@@ -1713,11 +1786,11 @@ console.log("-------",userById)
                   label="Pan Card*"
                   value={panCardNumber}
                   placeholder="Pan Card*"
-                  onChange={(e)=>{handlePancardNumber(e);
-                    formik.handleChange(e)}}
+                  // onChange={(e)=>{handlePancardNumber(e);
+                  //   formik.handleChange(e)}}
                   error={Boolean(touched.panCardNumber && errors.panCardNumber)}
                   helperText={touched.panCardNumber && errors.panCardNumber}
-                  // {...getFieldProps("panCardNumber")}
+                  {...getFieldProps("panCardNumber")}
                 />
                 
               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{panCardError}</Typography>
