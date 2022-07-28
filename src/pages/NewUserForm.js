@@ -855,13 +855,14 @@ const validateRole = () => {
       dob: Yup.string().required('DOB is required'),
       religion: Yup.string().required('Religion is required'),
       caste: Yup.string().required('Caste is required'),
-      differentlyAbled: Yup.string().required('DifferentlyAbled is required'),
-      emergencyContactName: Yup.string().required('Emg Contact Name is required'),
-      emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emg Contact Number is required'),
+      differentlyAbled: Yup.string().required('Differently Abled is required'),
+      emergencyContactName: Yup.string().required('Emergency Contact Name is required'),
+      emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emergency Contact Number is required'),
       dateOfJoining: Yup.string().required('DateOfJoining is required'),
       // lastDayOfWork: Yup.string().required('Last Day of work is required'),
       salaryPerMonth: Yup.string().required('Salary per month is required'),
       designation: Yup.string().required('Designation is required'),
+      isAgreementDone: Yup.string().required('Is agreement done is required'),
       panCardNumber: Yup.string().matches(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/, 'Pancard number is not valid').required('Pancard is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
       accountNumber: Yup.string().required('Account number is required'),
@@ -1104,7 +1105,7 @@ console.log("-------",userById)
               label="Role*"
               value={role}
               displayEmpty
-              style={{width:'87.5%', marginLeft: 40,marginTop:5}}
+              style={{width:'97.5%', marginLeft: 40,marginTop:5}}
               // onChange={handleRoleChange}
               onChange={(e) => {
                 handleRoleChange(e)
@@ -1157,8 +1158,9 @@ console.log("-------",userById)
             <Grid container spacing={1}>
             <Grid item xs={6}>
                 <DefaultInput
-                  fullWidth
-                  // style={{width: '53%'}}
+                  // fullWidth
+                   style={{width: '10%'}}
+                  // style={{width:'57.5%', marginLeft: 40,marginTop:5}}
                   id="fName"
                   autoComplete="fName"
                   label="First Name*"
@@ -1297,7 +1299,7 @@ console.log("-------",userById)
                 }}
                 defaultValue={data? data.district : ""}
                 value={district}
-                style={{width: '87.5%', marginLeft: 45,marginTop:5}}
+                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                 // placeholder='*Select District'
               
                 error={Boolean(touched.district && errors.district)}
@@ -1327,7 +1329,7 @@ console.log("-------",userById)
                 // name='District'
                 displayEmpty
                 label="Taluka"
-                style={{width: '87%', marginLeft: 45,marginTop:5}}
+                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                 // placeholder='*Select District'
               
                 error={Boolean(touched.taluka && errors.taluka)}
@@ -1356,7 +1358,7 @@ console.log("-------",userById)
                   displayEmpty
                   defaultValue={data? data.district : ""}
                   value={district}
-                  style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                  style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                   placeholder='Select Council*'
                 
                   error={Boolean(touched.council && errors.council)}
@@ -1427,7 +1429,7 @@ console.log("-------",userById)
                 value={dob}
                 placeholder='Date Of Birth*'
                 // defaultValue="2017-05-24" 
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
                 onChange={(e)=>{handleDobChange(e);
                 formik.handleChange(e)}}
@@ -1452,7 +1454,7 @@ console.log("-------",userById)
                 value={religion}
                 displayEmpty
                 defaultValue={data? data.religion: ""}
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                 placeholder='Religion*'
                 onChange={handleReligionChange}
                 error={Boolean(touched.religion && errors.religion)}
@@ -1491,7 +1493,7 @@ console.log("-------",userById)
                 name='diffentlyAbled'
                 displayEmpty
                 defaultValue={data? data.caste: ""}
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                 onChange={handleGenderChange}
                 error={Boolean(touched.differentlyAbled && errors.differentlyAbled)}
                 helperText={touched.differentlyAbled && errors.differentlyAbled}
@@ -1517,7 +1519,7 @@ console.log("-------",userById)
                 label="Blood Group"
                 value={bloodGrp}
                 displayEmpty
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                 placeholder='Blood Group'
                 onChange={handleBloodGrpChange}
                 error={Boolean(touched.bloodGroup && errors.bloodGroup)}
@@ -1572,7 +1574,7 @@ console.log("-------",userById)
       type="date"
       label="Date Of Joining*"
       placeholder='Date Of Joining*'
-      style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+      style={{width:'97.5%', marginLeft: 40,marginTop:5}}
       error={Boolean(touched.dateOfJoining && errors.dateOfJoining)}
       helperText={touched.dateOfJoining && errors.dateOfJoining}
       {...getFieldProps("dateOfJoining")}
@@ -1590,7 +1592,7 @@ console.log("-------",userById)
                 value={designation}
                 displayEmpty
                 defaultValue={data? data.designation: ""}
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                 
                 onChange={handleDesignationChange}
                 error={Boolean(touched.designation && errors.designation)}
@@ -1628,12 +1630,12 @@ console.log("-------",userById)
                 select
                 id="referredBy"
                 name='referredBy'
-                label="Is Agreement Done?"
+                label="Is Agreement Done?*"
                 value={referredBy}
                 displayEmpty
                 defaultValue={data? data.referredBy: ""}
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
-                placeholder='Is Agreement done?'
+                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
+                placeholder='Is Agreement done?*'
                 onChange={handleReferredChange}
                 error={Boolean(touched.isAgreementDone && errors.isAgreementDone)}
                 helperText={touched.isAgreementDone && errors.isAgreementDone}
@@ -1650,6 +1652,8 @@ console.log("-------",userById)
               </TextField>
                 </Grid>
                 </Grid>
+                {editUser?(
+                  <>
                 <Grid container spacing={1} style={{marginTop: 5}}>
                    <Grid item xs={6}>
                  {/* <DefaultInput
@@ -1668,7 +1672,7 @@ console.log("-------",userById)
                   label="Last Day Of work"
                   placeholder='Last Day Of work'
                   value={lastDayOfWork}
-                  style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                  style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                   onChange={(e)=>{handleLastDayChange(e);
                   formik.handleChange(e)}}
                   InputLabelProps={{
@@ -1689,7 +1693,7 @@ console.log("-------",userById)
                 name='noticedPeriods'
                 value={noticePeriod}
                 displayEmpty
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'97.5%', marginLeft: 40,marginTop:5}}
                 defaultValue={data? data.noticedPeriods: ""}
                 onChange={handleNoticePeriodChange}
                 // renderValue={(selected) => {
@@ -1713,6 +1717,8 @@ console.log("-------",userById)
               </TextField>
               </Grid></>) : null }
                 </Grid>
+                </>
+                ):null}
                 <Grid container spacing={1} style={{marginTop: 5}}>
                    <Grid item xs={6}>
                  <DefaultInput
