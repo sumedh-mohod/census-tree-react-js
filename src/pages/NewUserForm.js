@@ -52,6 +52,9 @@ export default function NewUserForm(props) {
     const[district, setDistrict]=  React.useState('');
     const[role, setRole]=  React.useState("");
     const[dob, setDob]= React.useState("");
+    const [firstName, setFirstName] = useState('');
+    const [ lastName, setLastName] = useState('');
+    const [middleName, setMiddleName] = useState('');
     const [panCardNumber, setPanCardNumber] = React.useState("");
     const [ifscCode, setIfscCode] = React.useState("");
     const [agreementDone, setAgreementDone] = React.useState('');
@@ -77,6 +80,9 @@ export default function NewUserForm(props) {
     const [dateLimitError, setDateLimitError] = useState("");
     const [panCardError, setPanCardError] = useState("");
     const [ifscCodeError, setIfscCodeError] = useState("");
+    const [firstNameError, setFirstNameError] = useState('');
+    const [middleNameError, setMiddleNameError] = useState('');
+    const [lastNameError, setLastNameError] = useState("");
     const[ lastDayOfWork, setLastDayOfWork] = useState("");
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
@@ -129,7 +135,6 @@ export default function NewUserForm(props) {
     },[])
 
     console.log("DeductionTypeId", salaryDeductionType)
-    // SetNewAlert("hiiii");
 
     const { userId } = useParams();
     const { state } = useLocation();
@@ -574,18 +579,54 @@ export default function NewUserForm(props) {
     }
   }
 
-  const handlePancardNumber = (e) => {
-    console.log("in pancard");
-    const  regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
-    if(regex.test(e.target.value)) {
-      setPanCardError("");
- }
- else{
-  setPanCardError("Please Enter Pan Card Number in Standard Format");
-    
- }
- setPanCardNumber(e.target.value);
-  }
+const handlePancardNumber = (e) => {
+      console.log("in pancard");
+      const  regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+      if(regex.test(e.target.value)) {
+        setPanCardError("");
+    }
+    else{
+    setPanCardError("Please Enter Pan Card Number in Standard Format");
+      
+    }
+    setPanCardNumber(e.target.value);
+}
+
+const handleFirstName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setFirstNameError("");
+}
+else{
+setFirstNameError("Please Enter First Name Containing Alphabets Only");
+  
+}
+setFirstName(e.target.value);
+}
+
+const handleMiddleName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setMiddleNameError("");
+}
+else{
+setMiddleNameError("Please Enter Middle Name Containing Alphabets Only");
+  
+}
+setMiddleName(e.target.value);
+}
+
+const handleLastName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setLastNameError("");
+}
+else{
+setLastNameError("Please Enter Last Name Containing Alphabets Only");
+  
+}
+setLastName(e.target.value);
+}
 
   const handleIFSCCode = (e) => {
     console.log("in ")
@@ -801,9 +842,9 @@ const validateRole = () => {
     const DistrictsSchema = Yup.object().shape(
       showCouncil?{
         role: Yup.string().required('Role is required'),
-      firstName: Yup.string().required('First Name is required'),
-      // middleName: Yup.string().required('Middle Name is required'),
-      lastName: Yup.string().required('Last Name is required'),
+      firstName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid first name').required('First Name is required'),
+      middleName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name').required('Middle Name is required'),
+      lastName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid last name').required('Last Name is required'),
       email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Phone number is required'),
       addressLine1: Yup.string().required('Address Line 1 is required'),
@@ -815,9 +856,9 @@ const validateRole = () => {
       password: editUser?Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters'):Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     }:{
       role: Yup.string().required('Role is required'),
-      firstName: Yup.string().required('First Name is required'),
-      // middleName: Yup.string().required('Middle Name is required'),
-      lastName: Yup.string().required('Last Name is required'),
+      firstName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid first name').required('First Name is required'),
+      middleName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name'),
+      lastName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid last name').required('Last Name is required'),
       email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Mobile number is required'),
       addressLine1: Yup.string().required('Address Line 1 is required'),
@@ -839,7 +880,7 @@ const validateRole = () => {
       salaryPerMonth: Yup.string().required('Salary per month is required'),
       designation: Yup.string().required('Designation is required'),
       isAgreementDone: Yup.string().required('Is agreement done is required'),
-      panCardNumber: Yup.string().matches(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/, 'Pancard number is not valid').required('Pancard is required'),
+      panCardNumber: Yup.string().matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/, 'Pancard number is not valid').required('Pancard is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
       accountNumber: Yup.string().required('Account number is required'),
       ifscCode: Yup.string().matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'IFSC Code is not valid').required('IFSC is required')
@@ -850,7 +891,7 @@ console.log("-------",userById)
       enableReinitialize: true,
       initialValues: editUser ? {
         role,
-        firstName: userById.first_name,
+      firstName: userById.first_name,
       middleName: userById.middle_name,
       lastName: userById.last_name,
       email:userById.email,
@@ -1133,40 +1174,53 @@ console.log("-------",userById)
                   // fullWidth
                    style={{width: '10%'}}
                   // style={{width:'57.5%', marginLeft: 40,marginTop:5}}
-                  id="fName"
-                  autoComplete="fName"
+                  id="firstName"
+                  name="firstName"
+                  autoComplete="firstName"
                   label="First Name*"
                   placeholder="First Name*"
+                   value={values.firstName}
+                  onChange={(e)=>{handleFirstName(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.firstName && errors.firstName)}
                 helperText={touched.firstName && errors.firstName}
-                {...getFieldProps("firstName")}
+               // {...getFieldProps("firstName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{firstNameError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="mName"
-                  autoComplete="mName"
+                  id="middleName"
+                  autoComplete="middleName"
                   label="Middle Name"
                   placeholder="Middle Name"
+                  value={values.middleName}
+                  onChange={(e)=>{handleMiddleName(e);
+                    formik.handleChange(e)}}
                 //   error={Boolean(touched.middleName && errors.middleName)}
                 // helperText={touched.middleName && errors.middleName}
-                {...getFieldProps("middleName")}
+               // {...getFieldProps("middleName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{middleNameError}</Typography>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="lName"
-                  autoComplete="lName"
+                  id="lastName"
+                  autoComplete="lastName"
                   label="Last Name*"
                   placeholder="Last Name*"
+                  value={values.lastName}
+                  onChange={(e)=>{handleLastName(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.lastName && errors.lastName)}
                 helperText={touched.lastName && errors.lastName}
-                {...getFieldProps("lastName")}
+               // {...getFieldProps("lastName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{lastNameError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
@@ -1353,7 +1407,7 @@ console.log("-------",userById)
                 // label="Date Of Birth"
                 type="date"
                 label="Date of Birth*"
-                value={dob}
+                value={values.dob}
                 placeholder='Date Of Birth*'
                 // defaultValue="2017-05-24" 
                 style={{width:'97.5%', marginLeft: 40,marginTop:5}}
