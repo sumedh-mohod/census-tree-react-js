@@ -87,6 +87,8 @@ export default function NewUserForm(props) {
     const [middleNameError, setMiddleNameError] = useState('');
     const [lastNameError, setLastNameError] = useState("");
     const[ lastDayOfWork, setLastDayOfWork] = useState("");
+    const [uploadClick, setUploadClick] = useState("");
+    const [uploadClickError,setUploadClickError] = useState("") ;
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -581,6 +583,8 @@ export default function NewUserForm(props) {
       newDocumentList[index] = value;
       console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
+      setUploadClick(true);
+      setUploadClickError("");
       // const isValid = /\.jpe?g$/i.test(e.target.value);
       // if (!isValid) {
       // console.log('Only jpg files allowed!');
@@ -664,47 +668,52 @@ setLastName(e.target.value);
   }
 
   const handleDocumentValueChange = (e,index) => {
-    console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
-    console.log(e.target.files[0].name);
-    console.log(e.target.files[0].size);
-    const i = parseInt((Math.floor(Math.log(e.target.files[0].size) / Math.log(1024))),10);
-    console.log("file size", i);
-    const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
-    const fileExtension = e.target.files[0].name.split('.')[1]
-    console.log(fileExtension);
-    if(validExtensions.includes(fileExtension)){
-      setFileUploadError("");
-      if(e.target.files[0].size<5242880){
-        setFileSizeError("");
-        const formData = new FormData();
-        formData.append('upload_for', 'users');
-        formData.append('file', e.target.files[0]);
-        dispatch(UploadFile(formData,index)).then((response) => {
-          console.log("upload file",response);
-        });
-        const newDocumentList = [...documentList];
-        const value =  newDocumentList[index];
-        value.documentValue = e.target.value;
-        console.log(value.documentValue,"||||||")
-        newDocumentList[index] = value;
-        setDocumentList(newDocumentList); 
-        console.log(e.target.value);
-        setFilePath(e.target.value);
-        console.log(documentList);
-      }
-      else{
-        setFileSizeError("Please upload documents within 5MB only");
-      }
-       
-  }
-  else{
-    setFileUploadError("Please upload documents with given format only");
-    
-    // dispatch(SetNewAlert({
-    //   msg: "Please upload images only with given format only",
-    //   alertType: "danger",
-    // }));
-  }
+    if(uploadClick){
+      console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+      console.log(e.target.files[0].name);
+      console.log(e.target.files[0].size);
+      const i = parseInt((Math.floor(Math.log(e.target.files[0].size) / Math.log(1024))),10);
+      console.log("file size", i);
+      const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
+      const fileExtension = e.target.files[0].name.split('.')[1]
+      console.log(fileExtension);
+      if(validExtensions.includes(fileExtension)){
+        setFileUploadError("");
+        if(e.target.files[0].size<5242880){
+          setFileSizeError("");
+          const formData = new FormData();
+          formData.append('upload_for', 'users');
+          formData.append('file', e.target.files[0]);
+          dispatch(UploadFile(formData,index)).then((response) => {
+            console.log("upload file",response);
+          });
+          const newDocumentList = [...documentList];
+          const value =  newDocumentList[index];
+          value.documentValue = e.target.value;
+          console.log(value.documentValue,"||||||")
+          newDocumentList[index] = value;
+          setDocumentList(newDocumentList); 
+          console.log(e.target.value);
+          setFilePath(e.target.value);
+          console.log(documentList);
+        }
+        else{
+          setFileSizeError("Please upload documents within 5MB only");
+        }
+         
+    }
+    else{
+      setFileUploadError("Please upload documents with given format only");
+      
+      // dispatch(SetNewAlert({
+      //   msg: "Please upload images only with given format only",
+      //   alertType: "danger",
+      // }));
+    }
+    }
+    else{
+      setUploadClickError("Please Select Document Type First");
+    }
   }
 
 const validateRole = () => {
@@ -2017,7 +2026,9 @@ console.log("-------",userById)
               View Document
             </Button>:
             ( 
-            <><TextField
+            <>
+            
+            <TextField
              fullWidth
              id="amount"
              type={"file"}
@@ -2030,10 +2041,12 @@ console.log("-------",userById)
              onChange={(e)=>handleDocumentValueChange(e,index)}
            />
            
-           <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{fileUploadError}</Typography>
-          
-           <br/>
-           <Typography>Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
+           <Typography variant="body2" color={"#FF0000"}>{fileUploadError}</Typography>
+           <Typography variant="body2" color={"#FF0000"}>{fileSizeError}</Typography>
+           
+           <Typography variant="body2" color={"#FF0000"}>{uploadClickError}</Typography>
+           <Typography variant="body2">Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
+           <Typography variant="body2">Supported document size: 5MB</Typography>
            </>
            ) :
            value.documentValue?
@@ -2055,6 +2068,7 @@ console.log("-------",userById)
            />
            <Typography variant="body2" color={"#FF0000"}>{fileUploadError}</Typography>
            <Typography variant="body2" color={"#FF0000"}>{fileSizeError}</Typography>
+           <Typography variant="body2" color={"#FF0000"}>{uploadClickError}</Typography>
            <Typography variant="body2">Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
            <Typography variant="body2">Supported document size: 5MB</Typography>
            </>)
