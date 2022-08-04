@@ -29,6 +29,17 @@ const GetZones = (page,limit) => async (dispatch) => {
     }
   };
 
+  const SetActiveZones = (obj) => async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_ACTIVE_ZONES,
+        payload: obj,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const GetZonesByCouncilId = (page,limit,councilId) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/zones?page=${page}&limit=${limit}&council_id=${councilId}`);
@@ -116,6 +127,7 @@ const GetZones = (page,limit) => async (dispatch) => {
   export {
       GetZones,
       GetActiveZones,
+      SetActiveZones,
       GetZonesByCouncilId,
       GetActiveZonesByCouncilId,
       SearchZones,

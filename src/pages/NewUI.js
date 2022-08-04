@@ -25,9 +25,9 @@ import {
 import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
- import { GetActiveCouncil} from '../actions/CouncilAction';
- import { GetActiveZones, GetZonesByCouncilId} from '../actions/ZonesAction';
- import {GetActiveWards, GetWardsByCouncilId} from '../actions/WardsActions';
+ import { GetActiveCouncil, SetActiveCouncil} from '../actions/CouncilAction';
+ import { GetActiveZones, GetZonesByCouncilId, SetActiveZones} from '../actions/ZonesAction';
+ import {GetActiveWards, GetWardsByCouncilId, SetActiveWards} from '../actions/WardsActions';
  import { GetUsers, GetUsersByRoleID } from '../actions/UserAction';
 
  import Page from '../components/Page';
@@ -80,8 +80,8 @@ import { ShowLoader } from '../actions/CommonAction';
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.activeCouncil,
-      zones:state.zones.zones,
-      wards:state.wards.wards,
+      zones:state.zones.activeZones,
+      wards:state.wards.activeWards,
       userByRoleID: state.users.userByRoleID,
       treeCensusPendingQCStatus: state.treeCensus.treeCensusPendingQCStatus,
       referToExpertLog: state.treeCensus.referToExpertLog,
@@ -118,6 +118,18 @@ import { ShowLoader } from '../actions/CommonAction';
       setCouncilID(activeTeams?.active_council_id);
       setZoneID(activeTeams?.active_zone_id);
       setWardID(activeTeams?.active_ward_id);
+      const activeCouncilObj = {
+        data:[{id:activeTeams?.active_council_id,name:activeTeams?.active_council_name,status:1}]
+      }
+      const activeWardObj = {
+        data:[{id:activeTeams?.active_ward_id,name:activeTeams?.active_ward_name,status:1}]
+      }
+      const activeZoneObj = {
+        data:[{id:activeTeams?.active_ward_id,name:activeTeams?.active_zone_name,status:1}]
+      }
+      dispatch(SetActiveCouncil(activeCouncilObj))
+      dispatch(SetActiveWards(activeWardObj))
+      dispatch(SetActiveZones(activeZoneObj))
       setSelectedIndex(0);
     },[activeTeams])
 
@@ -179,13 +191,16 @@ import { ShowLoader } from '../actions/CommonAction';
     useEffect(()=>{
       if(loggedUser?.roles[0]?.slug==="qc_census_offsite"){
         dispatch(GetMyActiveTeam());
-        dispatch(ShowLoader(true))
+        dispatch(ShowLoader(true));
+        dispatch(GetUsersByRoleID(1, 6, 8));
       }
-      
-      dispatch(GetUsersByRoleID(1, 6, 8));
-      dispatch(GetActiveCouncil(1));
-      dispatch(GetActiveWards(1));
-      dispatch(GetActiveZones(1));
+
+      else {
+        dispatch(GetUsersByRoleID(1, 6, 8));
+        dispatch(GetActiveCouncil(1));
+        dispatch(GetActiveWards(1));
+        dispatch(GetActiveZones(1));
+      }
     },[])
   //  treeCensusPendingQCStatus.data.map((tree, index) =>(
   //     console.log(index, tree.tree_number, tree.tree_name.name)

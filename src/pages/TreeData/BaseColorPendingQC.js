@@ -22,9 +22,9 @@ import {
   import { useDispatch, useSelector } from 'react-redux';
  import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../../actions/TreeCensusAction';
- import { GetActiveCouncil} from '../../actions/CouncilAction';
- import { GetZonesByCouncilId, GetActiveZones} from '../../actions/ZonesAction';
- import {GetWardsByCouncilId, GetActiveWards} from '../../actions/WardsActions';
+ import { GetActiveCouncil, SetActiveCouncil} from '../../actions/CouncilAction';
+ import { GetZonesByCouncilId, GetActiveZones, SetActiveZones} from '../../actions/ZonesAction';
+ import {GetWardsByCouncilId, GetActiveWards, SetActiveWards} from '../../actions/WardsActions';
  import { GetUsers, GetUsersByRoleID } from '../../actions/UserAction';
 
  import Page from '../../components/Page';
@@ -78,8 +78,8 @@ import { ShowLoader } from '../../actions/CommonAction';
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.activeCouncil,
-      zones:state.zones.zones,
-      wards:state.wards.wards,
+      zones:state.zones.activeZones,
+      wards:state.wards.activeWards,
       userByRoleID: state.users.userByRoleID,
       baseColorPendingQCStatus: state.baseColor.baseColorPendingQCStatus,
       updateQCStatusLog: state.baseColor.updateQCStatusLog,
@@ -116,6 +116,18 @@ import { ShowLoader } from '../../actions/CommonAction';
       setCouncilID(activeTeams?.active_council_id);
       setZoneID(activeTeams?.active_zone_id);
       setWardID(activeTeams?.active_ward_id);
+      const activeCouncilObj = {
+        data:[{id:activeTeams?.active_council_id,name:activeTeams?.active_council_name,status:1}]
+      }
+      const activeWardObj = {
+        data:[{id:activeTeams?.active_ward_id,name:activeTeams?.active_ward_name,status:1}]
+      }
+      const activeZoneObj = {
+        data:[{id:activeTeams?.active_ward_id,name:activeTeams?.active_zone_name,status:1}]
+      }
+      dispatch(SetActiveCouncil(activeCouncilObj))
+      dispatch(SetActiveWards(activeWardObj))
+      dispatch(SetActiveZones(activeZoneObj))
       setSelectedIndex(0);
     },[activeTeams])
 
@@ -177,13 +189,17 @@ import { ShowLoader } from '../../actions/CommonAction';
     useEffect(()=>{
       if(loggedUser?.roles[0]?.slug==="qc_base_color_offsite"){
         dispatch(GetMyActiveTeam());
-        dispatch(ShowLoader(true))
+        dispatch(ShowLoader(true));
+        dispatch(GetUsersByRoleID(1, 3, 5));
       }
-      dispatch(GetUsersByRoleID(1, 3, 5));
-      dispatch(GetActiveCouncil(1));
-      dispatch(GetActiveWards(1));
-      dispatch(GetActiveZones(1));
-      
+
+      else {
+        dispatch(GetUsersByRoleID(1, 3, 5));
+        dispatch(GetActiveCouncil(1));
+        dispatch(GetActiveWards(1));
+        dispatch(GetActiveZones(1));
+      }
+
       // dispatch(GetBaseColorTreeById(1));
     },[])
   //  baseColorPendingQCStatus.data.map((tree, index) =>(
@@ -315,6 +331,9 @@ import { ShowLoader } from '../../actions/CommonAction';
           
         },
       });
+
+      console.log("ZONES",zones);
+      console.log("WARDS",wards);
     
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
