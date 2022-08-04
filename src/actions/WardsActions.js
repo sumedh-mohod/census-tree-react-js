@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, GET_ACTIVE_WARDS } from "./Types";
+import { ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, GET_ACTIVE_WARDS, GET_ACTIVE_WARDS_BY_COUNCILID } from "./Types";
 
 const GetWards = (page,limit) => async (dispatch) => {
     try {
@@ -29,11 +29,34 @@ const GetWards = (page,limit) => async (dispatch) => {
     }
   };
 
+  const SetActiveWards = (obj) => async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_ACTIVE_WARDS,
+        payload: obj,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const GetWardsByCouncilId = (page,limit,wardId) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}&council_id=${wardId}`);
       dispatch({
         type: GET_WARDS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetActiveWardsByCouncilId = (status,councilId) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/wards?status=${status}&council_id=${councilId}`);
+      dispatch({
+        type: GET_ACTIVE_WARDS_BY_COUNCILID,
         payload: response.data,
       });
     } catch (e) {
@@ -102,7 +125,9 @@ const GetWards = (page,limit) => async (dispatch) => {
   export {
       GetWards,
       GetActiveWards,
+      SetActiveWards,
       GetWardsByCouncilId,
+      GetActiveWardsByCouncilId,
       SearchWards,
       AddWards,
       EditWards,

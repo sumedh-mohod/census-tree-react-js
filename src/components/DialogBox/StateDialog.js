@@ -116,7 +116,7 @@ const handleStatusChange = (event) => {
   };
 
   const StateSchema = Yup.object().shape({
-    state: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('State is required'),
+    state: Yup.string().max(30,"Character limit is 30").matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('State is required'),
   });
 
 
@@ -143,7 +143,6 @@ const handleStatusChange = (event) => {
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-  console.log("values",values);
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>

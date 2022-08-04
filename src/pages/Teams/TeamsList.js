@@ -22,8 +22,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteTeam, GetTeam, SearchTeam,GetTeamByFilter } from '../../actions/TeamsAction';
 import { GetActiveCouncil } from '../../actions/CouncilAction';
-import { GetActiveZones, GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetActiveWards, GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveZones, GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWards, GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -102,6 +102,8 @@ export default function TeamsList() {
     council,
     zones,
     wards,
+    activeZonesByCID,
+    activeWardsByCID,
   } = useSelector((state) => ({
     teams:state.teams.teams,
     addTeamsLog:state.teams.addTeamsLog,
@@ -111,6 +113,8 @@ export default function TeamsList() {
     council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
+    activeZonesByCID:state.zones.activeZonesByCID,
+    activeWardsByCID:state.wards.activeWardsByCID,
   }));
 
   console.log("Teams",teams)
@@ -226,8 +230,8 @@ export default function TeamsList() {
     setPage(1);
     setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {

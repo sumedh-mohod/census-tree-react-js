@@ -31,8 +31,8 @@ import { useLoadScript } from '@react-google-maps/api';
 import DefaultInput from "../../components/Inputs/DefaultInput";
 import Map from './CustomGoogleMaps';
 import Page from '../../components/Page';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import { GetAllTreeLocation } from '../../actions/TreeOnMapAction';
 
 export default function TreeOnMap(props) {
@@ -45,6 +45,7 @@ export default function TreeOnMap(props) {
     const [maxWidth, setMaxWidth] = React.useState('sm');
     const [zoneId,setZoneId] = useState('');
    const [wardId,setWardId] = useState('');
+   const [treeNumber,setTreeNumber] = useState('');
    const [coucilId,setCouncilId] = useState('');
    const [showList,setShowList] = useState(false);
     const [editUser,setEditUser] = useState(false);  
@@ -65,11 +66,15 @@ export default function TreeOnMap(props) {
       council,
       zones,
       wards,
+      activeZonesByCID,
+      activeWardsByCID,
       treeLocation
     } = useSelector((state) => ({
       council:state.council.activeCouncil,
       zones:state.zones.zones,
       wards:state.wards.wards,
+      activeWardsByCID:state.wards.activeWardsByCID,
+      activeZonesByCID:state.zones.activeZonesByCID,
       treeLocation:state.treeLocation.treeLocation
     }));
 
@@ -86,8 +91,8 @@ export default function TreeOnMap(props) {
       setCouncilId(e.target.value);
       setZoneId("")
       setWardId("")
-      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+      dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+      dispatch(GetActiveWardsByCouncilId(1,e.target.value))
     }
 
     const handleZoneChange = (e) =>{
@@ -95,6 +100,10 @@ export default function TreeOnMap(props) {
     }
     const handleWardChange = (e) =>{
       setWardId(e.target.value);
+    }
+
+    const handleTreeNumberChange = (e) =>{
+      setTreeNumber(e.target.value);
     }
 
     const toggleDrawer = (anchor, open) => (event) => {
@@ -116,6 +125,12 @@ export default function TreeOnMap(props) {
       fromDate: Yup.string().required('From date is required'),
       toDate: Yup.string().required('To date is required'),
     });
+
+    const TreeSchema = Yup.object().shape({
+      council: Yup.string().required('Council is required'),
+      treeNumber: Yup.string().required('TreeNumber is required'),
+      
+    });
   
     const formik = useFormik({
       enableReinitialize: true,
@@ -127,11 +142,11 @@ export default function TreeOnMap(props) {
         fromDate:"",
         toDate:"",
       },
-      validationSchema: DistrictsSchema,
+      validationSchema: treeNumber ? TreeSchema : DistrictsSchema,
       onSubmit: (value) => {
         console.log("in on ");
         setState({ ...state, "right": false });
-        dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate))
+        dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate,treeNumber))
       },
     });
   
@@ -235,7 +250,7 @@ export default function TreeOnMap(props) {
                <MenuItem disabled value="">
             <em>Select Zone</em>
           </MenuItem>
-              {coucilId? zones?.map((option) => (
+              {coucilId? activeZonesByCID?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
@@ -267,26 +282,13 @@ export default function TreeOnMap(props) {
                <MenuItem disabled value="">
             <em>Select Ward</em>
           </MenuItem>
-              {coucilId? wards?.map((option) => (
+              {coucilId? activeWardsByCID?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
               )):null}
             </TextField>
-            <TextField
-                fullWidth
-                id="treeNo"
-                type="text"
-                autoComplete="Tree No"
-                placeholder="Tree No*"
-                label="Tree No*"
-                style={{width:'85.5%', marginLeft: 20,marginTop:10}}
-                // defaultValue={values? values.state : ""}
-                // onChange = {(e)=>{console.log("Value",e.target.value)}}
-                // error={Boolean(touched.state && errors.state)}
-                // helperText={touched.state && errors.state}
-                // {...getFieldProps("state")}
-              />
+            
             <TextField
                 id="date"
                 // label="Date Of Birth"
@@ -318,6 +320,27 @@ export default function TreeOnMap(props) {
                 InputLabelProps={{
                   shrink: true,
                 }}
+              />
+              <Divider style={{marginTop:10}}>OR</Divider>
+              <TextField
+                fullWidth
+                id="treeNumber"
+                type="text"
+                autoComplete="Tree No"
+                placeholder="Tree No*"
+                label="Tree No*"
+                onChange={(e) => {
+                  handleTreeNumberChange(e)
+                  formik.handleChange(e);
+                }}
+                style={{width:'85.5%', marginLeft: 20,marginTop:10}}
+                // defaultValue={values? values.state : ""}
+                // onChange = {(e)=>{console.log("Value",e.target.value)}}
+                // error={Boolean(touched.state && errors.state)}
+                // helperText={touched.state && errors.state}
+                // {...getFieldProps("state")}
+                error={Boolean(touched.treeNumber && errors.treeNumber)}
+                helperText={touched.treeNumber && errors.treeNumber}
               />
             <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:20}}>
             Get Data

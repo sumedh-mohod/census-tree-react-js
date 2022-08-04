@@ -32,8 +32,8 @@ import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu'
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetBaseColorTrees, DeleteBaseColorTrees, SearchBaseColorTrees, AddBaseColorTrees, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
 import { GetActiveCouncil } from '../../actions/CouncilAction';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 
@@ -113,7 +113,6 @@ export default function BaseColor() {
       return;
     }
     setShowList(true);
-    console.log("BEFORE FETCHING");
     dispatch(GetBaseColorTrees(page,rowsPerPage,coucilId,zoneId,wardId));
   },[editBaseColorTreesLog,deleteBaseColorTreesLog,updateQCStatusLog])
 
@@ -125,7 +124,6 @@ export default function BaseColor() {
     }
     setShowList(true);
   },[baseColorTrees])
-  console.log("baseColorTrees", baseColorTrees)
 
   useEffect(()=>{
     dispatch(GetActiveCouncil(1));
@@ -202,7 +200,6 @@ export default function BaseColor() {
   };
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
   }
 
   let timer = null;
@@ -237,8 +234,8 @@ export default function BaseColor() {
     setPage(1);
     setShowList(false);
     dispatch(GetBaseColorTrees(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {
@@ -304,7 +301,7 @@ export default function BaseColor() {
         Base Color
         </Link> */}
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-              Master
+            Tree Data
           </Typography>
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
           Base Color

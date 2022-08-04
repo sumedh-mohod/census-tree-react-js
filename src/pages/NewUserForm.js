@@ -25,13 +25,13 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetActiveRole } from '../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../actions/UserAction';
 import { UploadFile, UploadImage } from '../actions/UploadActions';
 import DefaultInput from '../components/Inputs/DefaultInput';
 import { GetActiveCouncil } from '../actions/CouncilAction';
-import { GetActiveDistricts,GetActiveTalukas } from '../actions/MasterActions';
+import { GetActiveState, GetActiveDistricts, GetActiveTalukas, GetAllActiveDistrictsByStateId, GetAllActiveTalukaByDistrictId } from '../actions/MasterActions';
 import { GetActiveDesignations } from '../actions/DesignationAction';
 import { ShowLoader } from '../actions/CommonAction';
 import { SetNewAlert } from '../actions/AlertActions';
@@ -52,6 +52,14 @@ export default function NewUserForm(props) {
     const[district, setDistrict]=  React.useState('');
     const[role, setRole]=  React.useState("");
     const[dob, setDob]= React.useState("");
+    const [firstName, setFirstName] = useState('');
+    const [ lastName, setLastName] = useState('');
+    const [middleName, setMiddleName] = useState('');
+    const [selectedState, setSelectedState]=  React.useState('');
+    const [showDistrict, setShowDistrict]=  React.useState(false);
+    const [showTaluka, setShowTaluka]=  React.useState(false);
+    const [panCardNumber, setPanCardNumber] = React.useState("");
+    const [ifscCode, setIfscCode] = React.useState("");
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
@@ -71,6 +79,16 @@ export default function NewUserForm(props) {
     const [dobError, setDobError] = useState("");
     const [fileUploadError, setFileUploadError] = useState("");
     const [fileSizeError, setFileSizeError] = useState("");
+    const [page, setPage] = useState(0);
+    const [dateLimitError, setDateLimitError] = useState("");
+    const [panCardError, setPanCardError] = useState("");
+    const [ifscCodeError, setIfscCodeError] = useState("");
+    const [firstNameError, setFirstNameError] = useState('');
+    const [middleNameError, setMiddleNameError] = useState('');
+    const [lastNameError, setLastNameError] = useState("");
+    const[ lastDayOfWork, setLastDayOfWork] = useState("");
+    const [uploadClick, setUploadClick] = useState("");
+    const [uploadClickError,setUploadClickError] = useState("") ;
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
     const {
       salaryDeductionType,
@@ -78,6 +96,7 @@ export default function NewUserForm(props) {
       roles,
       religions,
       council,
+      states,
       districts,
       talukas,
       userById,
@@ -94,6 +113,7 @@ export default function NewUserForm(props) {
       roles:state.roles.roles,
       religions:state.users.religions,
       council:state.council.activeCouncil,
+      states:state.master.activeStates,
       districts:state.master.activeDistricts,
       talukas:state.master.activeTalukas,
       userById:state.users.userById,
@@ -115,15 +135,17 @@ export default function NewUserForm(props) {
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
       dispatch(GetActiveCouncil(1));
-      dispatch(GetActiveDistricts(1));
-      dispatch(GetActiveTalukas(1));
+      dispatch(GetActiveState(1));
+      // dispatch(GetActiveDistricts(1));
+      // dispatch(GetActiveTalukas(1));
       dispatch(GetActiveDesignations(1));
     },[])
 
     console.log("DeductionTypeId", salaryDeductionType)
-    // SetNewAlert("hiiii");
 
     const { userId } = useParams();
+    const { state } = useLocation();
+    console.log("STATE",state);
     useEffect(()=>{
       
       if(userId){
@@ -140,10 +162,20 @@ export default function NewUserForm(props) {
         return;
       }
       if(userById){
+        
+        if(state){
+          setPage(state.page);
+        }
         separateId(userById.roles)
         seprateDeduction(userById.applicable_deductions)
         separateDocument(userById.documents)
         setEditUser(true);
+        dispatch(GetAllActiveDistrictsByStateId(userById?.state_id,1));
+        dispatch(GetAllActiveTalukaByDistrictId(userById?.district_id,1));
+        setSelectedState(userById?.state_id);
+        setDistrict(userById?.district_id)
+        setShowDistrict(true);
+        setShowTaluka(true);
         dispatch(ShowLoader(false))
       }
     },[userById])
@@ -181,6 +213,11 @@ export default function NewUserForm(props) {
         return null;
       })
       setRole(roleArray)
+    }
+
+    const handleLastDayChange = (event) => {
+      console.log("gadsgshfhds", event.target.value)
+      setLastDayOfWork(event.target.value)
     }
 
     const seprateDeduction = (deduction) => {
@@ -251,7 +288,7 @@ export default function NewUserForm(props) {
       setRoleError("")
       setDeductionList([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
       setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
-      navigate('/dashboard/user', { replace: true });
+      navigate('/dashboard/user', { replace: true});
     },[addUsersLog])
 
     const editRun = React.useRef(true);
@@ -265,8 +302,8 @@ export default function NewUserForm(props) {
       setRoleError("")
       setDeductionList([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
       setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
-      // navigate('/dashboard/user', { replace: true });
-      navigate(-1);
+      navigate('/dashboard/user', { replace: true ,state:{"page":page} });
+      // navigate(-1);
     },[editUsersLog])
 
     console.log("RELIGIONS",religions);
@@ -356,14 +393,25 @@ export default function NewUserForm(props) {
     };
   
     const handleDobChange = (event) => {
-      console.log("in dob ",event.target.value);
+      console.log("in dob  x",event.target.value);
       console.log("in dob ",todayDate);
       const td =new Date( moment(todayDate).format('MM/DD/YYYY'));
       const gd = new Date(moment(event.target.value).format('MM/DD/YYYY'));
       console.log(td);
+      const ageDifMs = Date.now() - gd.getTime();
+    const ageDate = new Date(ageDifMs); // miliseconds from epoch
+    const ageLimit =  Math.abs(ageDate.getUTCFullYear() - 1970);
+    console.log("agelimit", ageLimit);
       const diffTime = td-gd;
+      if(ageLimit<18){
+        setDateLimitError("Please select date for above 18 years");
+      }
+      else{
+        setDateLimitError("");
+      }
       if(diffTime<0){
         setDobError("Please enter valid birth date");
+        
         
       }else{
         setDobError("");
@@ -436,8 +484,19 @@ export default function NewUserForm(props) {
     // const handleClose = () => {
     //   setOpen(false);
     // };
+
+    const handleStatesChange = (event) => {
+      dispatch(GetAllActiveDistrictsByStateId(event.target.value,1))
+      setShowDistrict(true);
+      setShowTaluka(false);
+      setSelectedState(event.target.value)
+    };
+
     const handleDistrictChange = (event) => {
+      console.log("HANDLE DISTRICT CHANGE VALUE",event.target.value);
       setDistrict(event.target.value);
+      dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1));
+      setShowTaluka(true);
     };
   
     const handleAgreementChange = (event) => {
@@ -524,6 +583,8 @@ export default function NewUserForm(props) {
       newDocumentList[index] = value;
       console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
+      setUploadClick(true);
+      setUploadClickError("");
       // const isValid = /\.jpe?g$/i.test(e.target.value);
       // if (!isValid) {
       // console.log('Only jpg files allowed!');
@@ -544,48 +605,115 @@ export default function NewUserForm(props) {
     }
   }
 
-  const handleDocumentValueChange = (e,index) => {
-    console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
-    console.log(e.target.files[0].name);
-    console.log(e.target.files[0].size);
-    const i = parseInt((Math.floor(Math.log(e.target.files[0].size) / Math.log(1024))),10);
-    console.log("file size", i);
-    const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
-    const fileExtension = e.target.files[0].name.split('.')[1]
-    console.log(fileExtension);
-    if(validExtensions.includes(fileExtension)){
-      setFileUploadError("");
-      if(e.target.files[0].size<5242880){
-        setFileSizeError("");
-        const formData = new FormData();
-        formData.append('upload_for', 'users');
-        formData.append('file', e.target.files[0]);
-        dispatch(UploadFile(formData,index)).then((response) => {
-          console.log("upload file",response);
-        });
-        const newDocumentList = [...documentList];
-        const value =  newDocumentList[index];
-        value.documentValue = e.target.value;
-        console.log(value.documentValue,"||||||")
-        newDocumentList[index] = value;
-        setDocumentList(newDocumentList); 
-        console.log(e.target.value);
-        setFilePath(e.target.value);
-        console.log(documentList);
-      }
-      else{
-        setFileSizeError("Please upload documents within 5MB only");
-      }
-       
-  }
-  else{
-    setFileUploadError("Please upload documents with given format only");
+const handlePancardNumber = (e) => {
+      console.log("in pancard");
+      const  regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+      if(regex.test(e.target.value)) {
+        setPanCardError("");
+    }
+    else{
+    setPanCardError("Please Enter Pan Card Number in Standard Format");
+      
+    }
+    setPanCardNumber(e.target.value);
+}
+
+const handleFirstName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setFirstNameError("");
+}
+else{
+setFirstNameError("Please Enter First Name Containing Alphabets Only");
+  
+}
+setFirstName(e.target.value);
+}
+
+const handleMiddleName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setMiddleNameError("");
+}
+else{
+setMiddleNameError("Please Enter Middle Name Containing Alphabets Only");
+  
+}
+setMiddleName(e.target.value);
+}
+
+const handleLastName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setLastNameError("");
+}
+else{
+setLastNameError("Please Enter Last Name Containing Alphabets Only");
+  
+}
+setLastName(e.target.value);
+}
+
+  const handleIFSCCode = (e) => {
+    console.log("in ")
+    const  regex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+    if(regex.test(e.target.value)) {
+      setIfscCodeError("");
+ }
+ else{
+  setIfscCodeError("Please Enter IFSC code In Standard Format Only");
     
-    // dispatch(SetNewAlert({
-    //   msg: "Please upload images only with given format only",
-    //   alertType: "danger",
-    // }));
+ }
+ setIfscCode(e.target.value);
   }
+
+  const handleDocumentValueChange = (e,index) => {
+    if(uploadClick){
+      console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+      console.log(e.target.files[0].name);
+      console.log(e.target.files[0].size);
+      const i = parseInt((Math.floor(Math.log(e.target.files[0].size) / Math.log(1024))),10);
+      console.log("file size", i);
+      const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
+      const fileExtension = e.target.files[0].name.split('.')[1]
+      console.log(fileExtension);
+      if(validExtensions.includes(fileExtension)){
+        setFileUploadError("");
+        if(e.target.files[0].size<5242880){
+          setFileSizeError("");
+          const formData = new FormData();
+          formData.append('upload_for', 'users');
+          formData.append('file', e.target.files[0]);
+          dispatch(UploadFile(formData,index)).then((response) => {
+            console.log("upload file",response);
+          });
+          const newDocumentList = [...documentList];
+          const value =  newDocumentList[index];
+          value.documentValue = e.target.value;
+          console.log(value.documentValue,"||||||")
+          newDocumentList[index] = value;
+          setDocumentList(newDocumentList); 
+          console.log(e.target.value);
+          setFilePath(e.target.value);
+          console.log(documentList);
+        }
+        else{
+          setFileSizeError("Please upload documents within 5MB only");
+        }
+         
+    }
+    else{
+      setFileUploadError("Please upload documents with given format only");
+      
+      // dispatch(SetNewAlert({
+      //   msg: "Please upload images only with given format only",
+      //   alertType: "danger",
+      // }));
+    }
+    }
+    else{
+      setUploadClickError("Please Select Document Type First");
+    }
   }
 
 const validateRole = () => {
@@ -745,13 +873,14 @@ const validateRole = () => {
     const DistrictsSchema = Yup.object().shape(
       showCouncil?{
         role: Yup.string().required('Role is required'),
-      firstName: Yup.string().required('First Name is required'),
-      // middleName: Yup.string().required('Middle Name is required'),
-      lastName: Yup.string().required('Last Name is required'),
+      firstName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid first name').required('First Name is required'),
+      middleName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name').required('Middle Name is required'),
+      lastName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid last name').required('Last Name is required'),
       email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Phone number is required'),
       addressLine1: Yup.string().required('Address Line 1 is required'),
       city: Yup.string().required('City is required'),
+      states: Yup.string().required('State is required'),
       district: Yup.string().required('Districts is required'),
       // taluka: Yup.string().required('Taluka is required'),
       council: Yup.string().required('Council is required'),
@@ -759,13 +888,14 @@ const validateRole = () => {
       password: editUser?Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters'):Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     }:{
       role: Yup.string().required('Role is required'),
-      firstName: Yup.string().required('First Name is required'),
-      // middleName: Yup.string().required('Middle Name is required'),
-      lastName: Yup.string().required('Last Name is required'),
+      firstName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid first name').required('First Name is required'),
+      middleName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name'),
+      lastName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid last name').required('Last Name is required'),
       email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Mobile number is required'),
       addressLine1: Yup.string().required('Address Line 1 is required'),
       city: Yup.string().required('City is required'),
+      states: Yup.string().required('State is required'),
       district: Yup.string().required('Districts is required'),
       // taluka: Yup.string().required('Taluka is required'),
       username: Yup.string().required('Username is required'),
@@ -775,17 +905,18 @@ const validateRole = () => {
       dob: Yup.string().required('DOB is required'),
       religion: Yup.string().required('Religion is required'),
       caste: Yup.string().required('Caste is required'),
-      differentlyAbled: Yup.string().required('DifferentlyAbled is required'),
+      differentlyAbled: Yup.string().required('Differently Abled is required'),
       emergencyContactName: Yup.string().required('Emergency Contact Name is required'),
       emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emergency Contact Number is required'),
       dateOfJoining: Yup.string().required('DateOfJoining is required'),
       // lastDayOfWork: Yup.string().required('Last Day of work is required'),
-      salaryPerMonth: Yup.string().required('Commited salary per month is required'),
+      salaryPerMonth: Yup.string().required('Salary per month is required'),
       designation: Yup.string().required('Designation is required'),
-      panCardNumber: Yup.string().required('Pancard is required'),
+      isAgreementDone: Yup.string().required('Is agreement done is required'),
+      panCardNumber: Yup.string().matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/, 'Pancard number is not valid').required('Pancard is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
       accountNumber: Yup.string().required('Account number is required'),
-      ifscCode: Yup.string().required('IFSC is required')
+      ifscCode: Yup.string().matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'IFSC Code is not valid').required('IFSC is required')
     }
     );
 console.log("-------",userById)
@@ -793,7 +924,7 @@ console.log("-------",userById)
       enableReinitialize: true,
       initialValues: editUser ? {
         role,
-        firstName: userById.first_name,
+      firstName: userById.first_name,
       middleName: userById.middle_name,
       lastName: userById.last_name,
       email:userById.email,
@@ -801,6 +932,7 @@ console.log("-------",userById)
       addressLine1: userById.address_line1,
       addressLine2: userById?.address_line2,
       city: userById?.city,
+      states: userById?.state_id,
       district: userById.district_id,
       taluka: userById.taluka_id,
       council: userById?.council_id,
@@ -836,6 +968,7 @@ console.log("-------",userById)
       addressLine1: "",
       addressLine2: "",
       city: "",
+      states:"",
       district: "",
       taluka: "",
       council: "",
@@ -878,6 +1011,7 @@ console.log("-------",userById)
                 address_line1:value.addressLine1,
                 address_line2:value.addressLine2,
                 city: value.city,
+                state_id: value.states,
                 district_id:value.district,
                 taluka_id:value.taluka,
                 council_id: value.council,
@@ -935,6 +1069,7 @@ console.log("-------",userById)
                 address_line1:value.addressLine1,
                 address_line2:value.addressLine2,
                 city: value.city,
+                state_id: value.states,
                 district_id:value.district,
                 taluka_id:value.taluka,
                 username: value.username,
@@ -972,7 +1107,9 @@ console.log("-------",userById)
             }
             if(editUser){
               console.log("OBJ",obj);
-              dispatch(EditUsers(obj,userById.id))
+              dispatch(EditUsers(obj,userById.id));
+             // window.history.go(-1);
+
             }
             else {
               dispatch(AddUsers(obj));
@@ -1018,7 +1155,7 @@ console.log("-------",userById)
               label="Role*"
               value={role}
               displayEmpty
-              style={{width:'87.5%', marginLeft: 40,marginTop:5}}
+              style={{width:'93.8%', marginLeft: 40,marginTop:5}}
               // onChange={handleRoleChange}
               onChange={(e) => {
                 handleRoleChange(e)
@@ -1071,42 +1208,56 @@ console.log("-------",userById)
             <Grid container spacing={1}>
             <Grid item xs={6}>
                 <DefaultInput
-                  fullWidth
-                  // style={{width: '53%'}}
-                  id="fName"
-                  autoComplete="fName"
+                  // fullWidth
+                   style={{width: '10%'}}
+                  // style={{width:'57.5%', marginLeft: 40,marginTop:5}}
+                  id="firstName"
+                  name="firstName"
+                  autoComplete="firstName"
                   label="First Name*"
                   placeholder="First Name*"
+                   value={values.firstName}
+                  onChange={(e)=>{handleFirstName(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.firstName && errors.firstName)}
                 helperText={touched.firstName && errors.firstName}
-                {...getFieldProps("firstName")}
+               // {...getFieldProps("firstName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{firstNameError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="mName"
-                  autoComplete="mName"
+                  id="middleName"
+                  autoComplete="middleName"
                   label="Middle Name"
-                  placeholder="Middle Name*"
-                  error={Boolean(touched.middleName && errors.middleName)}
-                helperText={touched.middleName && errors.middleName}
-                {...getFieldProps("middleName")}
+                  placeholder="Middle Name"
+                  value={values.middleName}
+                  onChange={(e)=>{handleMiddleName(e);
+                    formik.handleChange(e)}}
+                //   error={Boolean(touched.middleName && errors.middleName)}
+                // helperText={touched.middleName && errors.middleName}
+               // {...getFieldProps("middleName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{middleNameError}</Typography>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="lName"
-                  autoComplete="lName"
+                  id="lastName"
+                  autoComplete="lastName"
                   label="Last Name*"
                   placeholder="Last Name*"
+                  value={values.lastName}
+                  onChange={(e)=>{handleLastName(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.lastName && errors.lastName)}
                 helperText={touched.lastName && errors.lastName}
-                {...getFieldProps("lastName")}
+               // {...getFieldProps("lastName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{lastNameError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
@@ -1169,37 +1320,80 @@ console.log("-------",userById)
               <Grid item xs={6}>
               <TextField
                 select
-                id="district"
-                label="District*"
+                id="states"
+                name="states"
+                label="State*"
                 displayEmpty
-                defaultValue={data? data.district : ""}
-                value={district}
-                style={{width: '87.5%', marginLeft: 45,marginTop:5}}
+                defaultValue={data? data.state_id : ""}
+                value={selectedState}
+                style={{width: '93.8%', marginLeft: 45,marginTop:5}}
+                onChange={(e) => {
+                  handleStatesChange(e)
+                  formik.handleChange(e);
+                }}
                 // placeholder='*Select District'
               
-                error={Boolean(touched.district && errors.district)}
-                helperText={touched.district && errors.district}
-                {...getFieldProps("district")}
+                error={Boolean(touched.states && errors.states)}
+                helperText={touched.states && errors.states}
+                
               >
                  <MenuItem disabled value="">
-              <em>District*</em>
+              <em>State*</em>
             </MenuItem>
-                {districts?.map((option) => (
+                {states?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
                 ))}
               </TextField>
+              
               </Grid>
 
               <Grid item xs={6}>
               <TextField
+                
+                select
+                id="district"
+                name="district"
+                label="District*"
+                displayEmpty
+                onChange={(e) => {
+                  handleDistrictChange(e)
+                  formik.handleChange(e);
+                }}
+                defaultValue={data? data.district : ""}
+                value={district}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
+                // placeholder='*Select District'
+              
+                error={Boolean(touched.district && errors.district)}
+                helperText={touched.district && errors.district}
+                // {...getFieldProps("district")}
+              >
+                 <MenuItem disabled value="">
+              <em>District*</em>
+            </MenuItem>
+                {showDistrict?districts?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                )):null}
+              </TextField>
+              
+              </Grid>
+
+              </Grid>
+
+              <Grid container spacing={1} style={{marginTop: 5}}>
+
+                <Grid item xs={6}>
+                <TextField
                 select
                 id="taluka"
                 // name='District'
                 displayEmpty
                 label="Taluka"
-                style={{width: '87%', marginLeft: 45,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 45,marginTop:5}}
                 // placeholder='*Select District'
               
                 error={Boolean(touched.taluka && errors.taluka)}
@@ -1209,19 +1403,16 @@ console.log("-------",userById)
                  <MenuItem disabled value="">
               <em>Taluka</em>
             </MenuItem>
-                {talukas?.map((option) => (
+                {showTaluka?talukas?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
-                ))}
+                )):null}
               </TextField>
-              </Grid>
+                </Grid>
 
-              </Grid>
-              
-              </Grid>
                 {showCouncil?
-                <Grid container spacing={1} style={{marginTop: 5}}>
+                
                 <Grid item xs={6}>
                 <TextField
                   select
@@ -1231,7 +1422,7 @@ console.log("-------",userById)
                   displayEmpty
                   defaultValue={data? data.district : ""}
                   value={district}
-                  style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                  style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                   placeholder='Select Council*'
                 
                   error={Boolean(touched.council && errors.council)}
@@ -1247,9 +1438,15 @@ console.log("-------",userById)
                     </MenuItem>
                   ))}
                 </TextField>
-                </Grid>
+               
                 </Grid>:null
                 }
+
+              </Grid>
+              
+              </Grid>
+              
+                
               
                 {showCouncil?null:
                <>
@@ -1293,10 +1490,10 @@ console.log("-------",userById)
                 // label="Date Of Birth"
                 type="date"
                 label="Date of Birth*"
-                value={dob}
+                value={values.dob}
                 placeholder='Date Of Birth*'
                 // defaultValue="2017-05-24" 
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 // className={classes.textField}
                 onChange={(e)=>{handleDobChange(e);
                 formik.handleChange(e)}}
@@ -1309,7 +1506,8 @@ console.log("-------",userById)
                 }}
                 inputProps={{ max: todayDate }}
               />
-              <Typography style={{marginLeft: 40, color:"#FF0000"}}>{dobError}</Typography>
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{dobError}</Typography>
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{dateLimitError}</Typography>
               </Grid>
               <Grid item xs={6}>
               <TextField
@@ -1320,7 +1518,7 @@ console.log("-------",userById)
                 value={religion}
                 displayEmpty
                 defaultValue={data? data.religion: ""}
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 placeholder='Religion*'
                 onChange={handleReligionChange}
                 error={Boolean(touched.religion && errors.religion)}
@@ -1359,7 +1557,7 @@ console.log("-------",userById)
                 name='diffentlyAbled'
                 displayEmpty
                 defaultValue={data? data.caste: ""}
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 onChange={handleGenderChange}
                 error={Boolean(touched.differentlyAbled && errors.differentlyAbled)}
                 helperText={touched.differentlyAbled && errors.differentlyAbled}
@@ -1385,7 +1583,7 @@ console.log("-------",userById)
                 label="Blood Group"
                 value={bloodGrp}
                 displayEmpty
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 placeholder='Blood Group'
                 onChange={handleBloodGrpChange}
                 error={Boolean(touched.bloodGroup && errors.bloodGroup)}
@@ -1440,7 +1638,7 @@ console.log("-------",userById)
       type="date"
       label="Date Of Joining*"
       placeholder='Date Of Joining*'
-      style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+      style={{width:'93.8%', marginLeft: 40,marginTop:5}}
       error={Boolean(touched.dateOfJoining && errors.dateOfJoining)}
       helperText={touched.dateOfJoining && errors.dateOfJoining}
       {...getFieldProps("dateOfJoining")}
@@ -1458,7 +1656,7 @@ console.log("-------",userById)
                 value={designation}
                 displayEmpty
                 defaultValue={data? data.designation: ""}
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 
                 onChange={handleDesignationChange}
                 error={Boolean(touched.designation && errors.designation)}
@@ -1496,12 +1694,12 @@ console.log("-------",userById)
                 select
                 id="referredBy"
                 name='referredBy'
-                label="Is Agreement Done?"
+                label="Is Agreement Done?*"
                 value={referredBy}
                 displayEmpty
                 defaultValue={data? data.referredBy: ""}
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
-                placeholder='Is Agreement done?'
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
+                placeholder='Is Agreement done?*'
                 onChange={handleReferredChange}
                 error={Boolean(touched.isAgreementDone && errors.isAgreementDone)}
                 helperText={touched.isAgreementDone && errors.isAgreementDone}
@@ -1518,6 +1716,8 @@ console.log("-------",userById)
               </TextField>
                 </Grid>
                 </Grid>
+                {editUser?(
+                  <>
                 <Grid container spacing={1} style={{marginTop: 5}}>
                    <Grid item xs={6}>
                  {/* <DefaultInput
@@ -1529,21 +1729,27 @@ console.log("-------",userById)
                   // name="contact"
                   // value="contact"
                 /> */}
+
                 <TextField
                   id="lastdayOfWork"
                   type="date"
                   label="Last Day Of work"
                   placeholder='Last Day Of work'
-                  style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                  value={lastDayOfWork}
+                  style={{width:'93.8%', marginLeft: 40,marginTop:5}}
+                  onChange={(e)=>{handleLastDayChange(e);
+                  formik.handleChange(e)}}
                   InputLabelProps={{
                     shrink: true,
                   }}
                   error={Boolean(touched.lastDayOfWork && errors.lastDayOfWork)}
                   helperText={touched.lastDayOfWork && errors.lastDayOfWork}
-                  {...getFieldProps("lastDayOfWork")}
+                  // {...getFieldProps("lastDayOfWork")}
                  />
                 </Grid>
+                {lastDayOfWork ?  ( <>
                 <Grid item xs={6}>
+          
               <TextField
                 select
                 id="noticedperiods"
@@ -1551,7 +1757,7 @@ console.log("-------",userById)
                 name='noticedPeriods'
                 value={noticePeriod}
                 displayEmpty
-                style={{width: '87.5%', marginLeft: 40,marginTop:5}}
+                style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 defaultValue={data? data.noticedPeriods: ""}
                 onChange={handleNoticePeriodChange}
                 // renderValue={(selected) => {
@@ -1573,8 +1779,10 @@ console.log("-------",userById)
                   </MenuItem>
                 ))}
               </TextField>
-              </Grid>
+              </Grid></>) : null }
                 </Grid>
+                </>
+                ):null}
                 <Grid container spacing={1} style={{marginTop: 5}}>
                    <Grid item xs={6}>
                  <DefaultInput
@@ -1622,27 +1830,40 @@ console.log("-------",userById)
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
                 <DefaultInput
+                
                   fullWidth
-                  id="IFSC"
+                  id="ifscCode"
+                  name="ifscCode"
                   autoComplete="IFSC"
                   label="IFSC Code*"
+                  value={ifscCode}
                   placeholder="IFSC Code*"
+                  // onChange={(e)=>{handleIFSCCode(e);
+                  //   formik.handleChange(e)}}
                   error={Boolean(touched.ifscCode && errors.ifscCode)}
                   helperText={touched.ifscCode && errors.ifscCode}
                   {...getFieldProps("ifscCode")}
                 />
+                
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{ifscCodeError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="panCard"
+                  id="panCardNumber"
+                  name="panCardNumber"
                   autoComplete="panCard"
                   label="Pan Card*"
+                  value={panCardNumber}
                   placeholder="Pan Card*"
+                  // onChange={(e)=>{handlePancardNumber(e);
+                  //   formik.handleChange(e)}}
                   error={Boolean(touched.panCardNumber && errors.panCardNumber)}
                   helperText={touched.panCardNumber && errors.panCardNumber}
                   {...getFieldProps("panCardNumber")}
                 />
+                
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{panCardError}</Typography>
               </Grid>
                 </Grid>
                 </>
@@ -1670,10 +1891,10 @@ console.log("-------",userById)
                   fullWidth
                   id="password"
                   autoComplete="password"
-                  label="Password*"
-                  placeholder="Password*"
-                  error={Boolean(touched.password && errors.password)}
-                  helperText={touched.password && errors.password}
+                  label="Password"
+                  placeholder="Password"
+                  // error={Boolean(touched.password && errors.password)}
+                  // helperText={touched.password && errors.password}
                   {...getFieldProps("password")}
                 />
               </Grid>
@@ -1805,7 +2026,9 @@ console.log("-------",userById)
               View Document
             </Button>:
             ( 
-            <><TextField
+            <>
+            
+            <TextField
              fullWidth
              id="amount"
              type={"file"}
@@ -1817,12 +2040,16 @@ console.log("-------",userById)
              helperText={value.errorValue}
              onChange={(e)=>handleDocumentValueChange(e,index)}
            />
-           <Typography>{fileUploadError}</Typography>
-           <br/>
-           <Typography>Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
+           
+           <Typography variant="body2" color={"#FF0000"}>{fileUploadError}</Typography>
+           <Typography variant="body2" color={"#FF0000"}>{fileSizeError}</Typography>
+           
+           <Typography variant="body2" color={"#FF0000"}>{uploadClickError}</Typography>
+           <Typography variant="body2">Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
+           <Typography variant="body2">Supported document size: 5MB</Typography>
            </>
            ) :
-              filePath?
+           value.documentValue?
               <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
@@ -1839,8 +2066,9 @@ console.log("-------",userById)
              helperText={value.errorValue}
              onChange={(e)=>handleDocumentValueChange(e,index)}
            />
-           <Typography variant="caption" color={"#FF0000"}>{fileUploadError}</Typography>
-           <Typography variant="caption" color={"#FF0000"}>{fileSizeError}</Typography>
+           <Typography variant="body2" color={"#FF0000"}>{fileUploadError}</Typography>
+           <Typography variant="body2" color={"#FF0000"}>{fileSizeError}</Typography>
+           <Typography variant="body2" color={"#FF0000"}>{uploadClickError}</Typography>
            <Typography variant="body2">Supported Formats are .pdf, .jpg, .jpeg, .png, .tiff, .gif</Typography>
            <Typography variant="body2">Supported document size: 5MB</Typography>
            </>)

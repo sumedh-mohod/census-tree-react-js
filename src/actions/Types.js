@@ -54,6 +54,7 @@ export const DELETE_TREE_CONDITIONS = "delete-tree-conditions";
 
 export const GET_ZONES = "get-zones";
 export const GET_ACTIVE_ZONES = "get-active-zones";
+export const GET_ACTIVE_ZONES_BY_COUNCILID = "get-active-zones-by-councilid";
 export const EDIT_ZONES = "edit-zones";
 export const ADD_ZONES = "add-zones";
 export const DELETE_ZONES = "delete-zones";
@@ -84,6 +85,7 @@ export const DELETE_QCREMARKS = "delete-qcremarks";
 
 export const GET_WARDS = "get-wards";
 export const GET_ACTIVE_WARDS = "get-active-wards";
+export const GET_ACTIVE_WARDS_BY_COUNCILID = "get-active-wards-by-councilid";
 export const EDIT_WARDS = "edit-wards";
 export const ADD_WARDS = "add-wards";
 export const DELETE_WARDS = "delete-wards";

@@ -54,8 +54,8 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
         wards,
       } = useSelector((state) => ({
         council:state.council.activeCouncil,
-        zones:state.zones.zones,
-        wards:state.wards.wards,
+        zones:state.zones.activeZonesByCID,
+        wards:state.wards.activeWardsByCID,
       }));
   
     return (
@@ -108,9 +108,19 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
               >
-                 <MenuItem disabled value="">
+                { callType === "Teams"?(
+                  
+                    <MenuItem disabled value="">
+                  <em>Project Name</em>
+                </MenuItem>
+              
+                )
+                 :(
+                    <MenuItem disabled value="">
               <em>Council Name</em>
             </MenuItem>
+                 )
+                 }
                 {council?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}

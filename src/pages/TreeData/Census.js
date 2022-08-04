@@ -32,8 +32,8 @@ import TreeCensusMenu from '../../sections/@dashboard/tree/TreeCensusMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
 import { GetActiveCouncil } from '../../actions/CouncilAction';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import CencusViewDetailsDialog from '../../components/DialogBox/tree-data/CensusViewDetailsDialog';
@@ -109,7 +109,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
       return;
     }
     setShowList(true);
-    console.log("BEFORE FETCHING");
     dispatch(GetTreeCensus(page,rowsPerPage,coucilId,zoneId,wardId));
   },[updateQCStatusLog])
 
@@ -121,7 +120,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     }
     setShowList(true);
   },[treeCensus])
-  console.log("treeCensus", treeCensus )
 
   useEffect(()=>{
     dispatch(GetActiveCouncil(1));
@@ -152,7 +150,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   const handleCensusViewDetailsDialog= (data) => {
     setViewCensusDetails(!viewCensusDetails);
     setDialogData(data)
-    console.log("data", data)
   }
 
   const handleQcSubmit = (data,id) => {
@@ -182,7 +179,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    console.log("newPage", newPage)
     setShowList(false);
     if(search){
       dispatch(SearchTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
@@ -205,7 +201,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   };
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
   }
 
   let timer = null;
@@ -240,8 +235,8 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     setPage(1);
     setShowList(false);
     dispatch(GetTreeCensus(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {
@@ -257,7 +252,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     setPage(1);
     dispatch(GetTreeCensus(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
-console.log("page123", page)
 
   return (
     <Page title="Base Color">

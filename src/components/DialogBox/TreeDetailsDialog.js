@@ -69,8 +69,7 @@ const BootstrapDialogTitle = (props) => {
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
     const [localTreeName, setLocalTreeName] = React.useState(data?data.tree_name_id:"");
-    const [botanicalTreeName, setBotanicalTreeName] = React.useState(data?data.tree_name_id:"");
-    console.log("props", data);
+    const [botanicalTreeName, setBotanicalTreeName] = React.useState(data?data.tree_name_id:"");;
 
     const {
         treeName,
