@@ -29,6 +29,17 @@ const GetWards = (page,limit) => async (dispatch) => {
     }
   };
 
+  const SetActiveWards = (obj) => async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_ACTIVE_WARDS,
+        payload: obj,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const GetWardsByCouncilId = (page,limit,wardId) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}&council_id=${wardId}`);
@@ -114,6 +125,7 @@ const GetWards = (page,limit) => async (dispatch) => {
   export {
       GetWards,
       GetActiveWards,
+      SetActiveWards,
       GetWardsByCouncilId,
       GetActiveWardsByCouncilId,
       SearchWards,
