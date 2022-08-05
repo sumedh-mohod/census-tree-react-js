@@ -530,7 +530,7 @@ import { ShowLoader } from '../actions/CommonAction';
               />
                </Grid>
                <Grid item xs={12}>
-               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only heritage trees" />
+               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only Heritage Trees" />
                </Grid>
 
                <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:5}}>
