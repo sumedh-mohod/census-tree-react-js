@@ -23,6 +23,7 @@ import {
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import DefaultInput from '../Inputs/DefaultInput';
 import { GetActiveTreeType } from '../../actions/TreeTypeActions';
 import { GetActiveTreeDisease } from '../../actions/TreeDiseaseAction';
@@ -69,7 +70,8 @@ const BootstrapDialogTitle = (props) => {
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
     const [localTreeName, setLocalTreeName] = React.useState(data?data.tree_name_id:"");
-    const [botanicalTreeName, setBotanicalTreeName] = React.useState(data?data.tree_name_id:"");;
+    const [botanicalTreeName, setBotanicalTreeName] = React.useState(data?data.tree_name_id:"");
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
     const {
         treeName,
@@ -374,6 +376,7 @@ const BootstrapDialogTitle = (props) => {
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("plantationDate")}
               />
                </Grid>

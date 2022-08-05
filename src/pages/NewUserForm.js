@@ -868,7 +868,6 @@ const validateRole = () => {
       }
       
     }
-
     const aadharRegExp = /^\d{12}$/;
     const DistrictsSchema = Yup.object().shape(
       showCouncil?{
@@ -1731,11 +1730,12 @@ console.log("-------",userById)
                 /> */}
 
                 <TextField
-                  id="lastdayOfWork"
+                  id="lastDayOfWork"
+                  name='lastDayOfWork'
                   type="date"
                   label="Last Day Of work"
                   placeholder='Last Day Of work'
-                  value={lastDayOfWork}
+                  value={values.lastDayOfWork}
                   style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                   onChange={(e)=>{handleLastDayChange(e);
                   formik.handleChange(e)}}
