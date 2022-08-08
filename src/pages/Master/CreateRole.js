@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, NavLink } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -17,8 +17,12 @@ import {
   TablePagination,
   Pagination,
 } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteRole, GetRole, SearchRole } from '../../actions/RoleAction';
 import Page from '../../components/Page';
@@ -31,6 +35,9 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import CreateRoleDialog from "../../components/DialogBox/CreateRoleDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+// import Menu from './Menu';
+
 
 // ----------------------------------------------------------------------
 
@@ -83,6 +90,11 @@ export default function CreateRole() {
    const [dialogData,setDialogData] = useState(null);
    const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [dropPage, setDropPage] = useState(1);
+
+   const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
    const userPermissions = [];
 
    const {
@@ -193,24 +205,11 @@ export default function CreateRole() {
         }
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-          Roles
-        </Link>
-      </Breadcrumbs>
-    </div>
+          <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
+  
     {userPermissions.includes("create-role")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Role

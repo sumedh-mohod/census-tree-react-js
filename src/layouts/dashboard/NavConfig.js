@@ -24,8 +24,9 @@ const navConfig = [
   },
   {
     title: 'Master',
-    path: '/dashboard/products',
+    path: '/dashboard/role',
     icon: getIcon('eva:shopping-bag-fill'),
+
     children:[
       {
         title: 'Roles',
@@ -97,11 +98,11 @@ const navConfig = [
         path: '/dashboard/qc-remarks',
         icon: getIcon('eva:shopping-bag-fill'),
       },
-      // {
-      //   title: 'Tree Density',
-      //   path: '/dashboard/tree-density',
-      //   icon: getIcon('eva:shopping-bag-fill'),
-      // },
+      {
+        title: 'Tree Density',
+        path: '/dashboard/tree-density',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
       {
         title: 'Tree Diseases',
         path: '/dashboard/treeDisease',
@@ -109,7 +110,7 @@ const navConfig = [
       },
       
     ]
-},
+  },
 {
   title: 'Trees Data',
   path: '/dashboard/tree-data',

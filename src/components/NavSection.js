@@ -196,156 +196,26 @@ export default function NavSection({ navConfig, ...other }) {
   //   icon: getIcon('eva:shopping-bag-fill'),
   //   children:[]}
 
+  // if(isContainPermission("view-teams")){
+  //   const obj =  {
+  //     title: 'Teams',
+  //     path: '/dashboard/teams',
+  //     icon: getIcon('bxl:microsoft-teams'),
+  // }
+  //   navConfigArray.push(obj);
+  // }
+
+  
+  if(isContainPermission("view-teams")){
   const outerObj =  {
       
     title: 'Master',
-    path: '/dashboard/products',
+    path: '/dashboard/role',
     icon: getIcon('eva:shopping-bag-fill'),
-    children:[]
+    // children:[]
     }
+    navConfigArray.push(outerObj)
 
-  if(isContainPermission("view-roles")){
- 
-      outerObj.children.push(
-        {
-          title: 'Roles',
-          path: '/dashboard/role',
-          icon: getIcon('eva:shopping-bag-fill'),
-        }
-      )
-        
-   
-  //  navConfigArray.push(obj);
-  }
-  
-  // const masterNav = navConfigArray[2].children;
-  if(isContainPermission("view-designations")){
-    const obj =   {
-      title: 'Designations',
-      path: '/dashboard/designation',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    
-    outerObj.children.push(obj)
-    // navConfigArray.push(obj);
-  }
-
-  if(isContainPermission("view-states")){
-    const obj =   {
-      title: 'States',
-        path: '/dashboard/state',
-        icon: getIcon('eva:shopping-bag-fill'),
-
-    }
-   
-    outerObj.children.push(obj);
-    //  navConfigArray.push(obj);
-  }
-  if(isContainPermission("view-districts")){
-    const obj =   {
-      title: 'Districts',
-      path: '/dashboard/district',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-talukas")){
-    const obj =   {
-      title: 'Talukas',
-      path: '/dashboard/taluka',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-zones")){
-    const obj =   {
-      title: 'Zones',
-      path: '/dashboard/zone',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-wards")){
-    const obj =   {
-      title: 'Wards',
-      path: '/dashboard/ward',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-councils")){
-    const obj =   {
-      title: 'Councils',
-      path: '/dashboard/council',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-tree-types")){
-    const obj =   {
-      title: 'Tree Types',
-      path: '/dashboard/type-of-tree',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  
-  }
-  if(isContainPermission("view-tree-conditions")){
-    const obj =   {
-      title: 'Tree Conditions',
-      path: '/dashboard/tree-condition',
-      icon: getIcon('eva:shopping-bag-fill'),    
-    }
-    
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-tree-names")){
-    const obj =   {
-      title: 'Tree Names',
-      path: '/dashboard/name-of-tree',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-   
-  }
-  if(isContainPermission("view-location-types")){
-    const obj =   {
-      title: 'Location Types',
-      path: '/dashboard/location-type',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-   
-  }
-  if(isContainPermission("view-property-types")){
-    const obj =   {
-      title: 'Property Types',
-      path: '/dashboard/type-of-property',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-   
-  }
-  if(isContainPermission("view-qc-remarks")){
-    const obj =   {
-      title: 'QC Remarks',
-      path: '/dashboard/qc-remarks',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
- 
-  }
-  if(isContainPermission("view-tree-diseases")){
-    const obj =   {
-      title: 'Tree Diseases',
-      path: '/dashboard/treeDisease',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-
-  if(outerObj.children.length!==0){
-    navConfigArray.push(outerObj);
   }
 
   const treeDataOuterObj =   {

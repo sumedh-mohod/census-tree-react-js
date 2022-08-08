@@ -30,6 +30,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfTreeDialog from "../../components/DialogBox/TypeOfTreeDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -80,6 +81,7 @@ export default function TypeOfTree() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [dropPage, setDropPage] = useState(9);
    const userPermissions = [];
 
   const {
@@ -151,6 +153,7 @@ export default function TypeOfTree() {
     }
   };
 
+
   let timer = null;
   const filterByName = (event) => {
     const value = event.currentTarget.value;
@@ -177,6 +180,10 @@ export default function TypeOfTree() {
     event.preventDefault();
     console.info('You clicked a breadcrumb.');
   }
+  const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
+
 
   return (
     <Page title="User">
@@ -192,25 +199,12 @@ export default function TypeOfTree() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          // href="#"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          // href="#"
-        >
-        Type of Trees
-        </Link>
-      </Breadcrumbs>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
     </div>
+  
     {userPermissions.includes("create-tree-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Type Of Tree
