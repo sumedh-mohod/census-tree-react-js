@@ -888,7 +888,7 @@ const validateRole = () => {
     }:{
       role: Yup.string().required('Role is required'),
       firstName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid first name').required('First Name is required'),
-      middleName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name'),
+     // middleName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name'),
       lastName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid last name').required('Last Name is required'),
       email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Mobile number is required'),
