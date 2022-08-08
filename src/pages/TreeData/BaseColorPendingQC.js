@@ -633,6 +633,10 @@ import { ShowLoader } from '../../actions/CommonAction';
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Added By: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{baseColorPendingQCStatus?.data[selectedIndex].added_by? `${baseColorPendingQCStatus?.data[selectedIndex].added_by?.first_name} ${baseColorPendingQCStatus?.data[selectedIndex].added_by?.last_name}`:"-"}</td>
               </tr>
+              <tr>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Added On: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>-</td>
+              </tr>
              </table>
              </>
              ):null}

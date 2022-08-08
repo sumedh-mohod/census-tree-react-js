@@ -189,12 +189,14 @@ export default function AssignUser() {
   return (
     <Page title="User">
     <Container>
+      {open?
         <AssignUserDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
         teamId={teamId}
         />
+        :null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
