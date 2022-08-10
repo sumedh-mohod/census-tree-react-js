@@ -635,7 +635,7 @@ import { ShowLoader } from '../../actions/CommonAction';
               </tr>
               <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Added On: </td>
-              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>-</td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{baseColorPendingQCStatus?.data[selectedIndex].added_on_date}</td>
               </tr>
              </table>
              </>

@@ -19,6 +19,8 @@ import {
   Avatar,
   Checkbox,
   CircularProgress,
+
+  InputAdornment,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -26,6 +28,7 @@ import { useFormik } from 'formik';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import Iconify from '../components/Iconify';
 import { GetActiveRole } from '../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../actions/UserAction';
 import { UploadFile, UploadImage } from '../actions/UploadActions';
@@ -69,6 +72,7 @@ export default function NewUserForm(props) {
     const [noticePeriod, setNoticePeriod] = React.useState('');
     const [formValues, setFormValues] = useState([{ deductionType: "", amount : ""}])
     const [filePath, setFilePath] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
     const { isOpen, data } = props;
     const [deductionList,setDeductionList] = useState([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
     const [documentList,setDocumentList] = useState([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
@@ -367,11 +371,11 @@ export default function NewUserForm(props) {
 
     const noticePeriodValue =[
       {
-        value: '1',
+        value: 'Yes',
         label: 'Yes',
       },
       {
-        value: '0',
+        value: 'No',
         label: 'No',
     },
     ]
@@ -389,9 +393,13 @@ export default function NewUserForm(props) {
     };
 
     const handleTalukaChange = (event) => {
-      setNoticePeriod(event.target.value);
+      // setNoticePeriod(event.target.value);
     };
   
+    const handleShowPassword = () => {
+      setShowPassword((show) => !show);
+    };
+
     const handleDobChange = (event) => {
       console.log("in dob  x",event.target.value);
       console.log("in dob ",todayDate);
@@ -1747,7 +1755,7 @@ console.log("-------",userById)
                   // {...getFieldProps("lastDayOfWork")}
                  />
                 </Grid>
-                {lastDayOfWork ?  ( <>
+                {lastDayOfWork || values.lastDayOfWork ?  ( <>
                 <Grid item xs={6}>
           
               <TextField
@@ -1887,12 +1895,23 @@ console.log("-------",userById)
                 editUser?
 
                 <Grid item xs={6}>
-              <DefaultInput
+              <TextField
                   fullWidth
                   id="password"
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="password"
                   label="Password"
                   placeholder="Password"
+                  style={{width:'93.8%', marginLeft: 40,marginTop:5}}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowPassword} edge="end">
+                          <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   // error={Boolean(touched.password && errors.password)}
                   // helperText={touched.password && errors.password}
                   {...getFieldProps("password")}
@@ -1902,14 +1921,25 @@ console.log("-------",userById)
                 :
              
               <Grid item xs={6}>
-              <DefaultInput
+              <TextField
                   fullWidth
                   id="password"
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="password"
                   label="Password*"
                   placeholder="Password*"
+                  style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                   error={Boolean(touched.password && errors.password)}
                   helperText={touched.password && errors.password}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowPassword} edge="end">
+                          <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   {...getFieldProps("password")}
                 />
               </Grid>
