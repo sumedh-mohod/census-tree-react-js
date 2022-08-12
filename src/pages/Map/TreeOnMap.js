@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import moment from 'moment';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
@@ -50,6 +51,7 @@ export default function TreeOnMap(props) {
    const [showList,setShowList] = useState(false);
     const [editUser,setEditUser] = useState(false);  
     const { isOpen, data } = props;
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
     const [state, setState] = React.useState({
       top: false,
@@ -304,6 +306,7 @@ export default function TreeOnMap(props) {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ max: todayDate }}
               />
                 <TextField
                 id="date"
@@ -320,6 +323,7 @@ export default function TreeOnMap(props) {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ max: todayDate }}
               />
               <Divider style={{marginTop:10}}>OR</Divider>
               <TextField

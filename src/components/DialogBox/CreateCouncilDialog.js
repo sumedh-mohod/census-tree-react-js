@@ -23,7 +23,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { GetActiveDistricts, GetActiveDistrictsByStateId, GetActiveState, GetActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
+import { GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState, GetActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
 import { AddCouncil, AddCouncilWithLogo, EditCouncil, EditCouncilWithLogo, GetCouncilById } from '../../actions/CouncilAction';
 import { GetActiveZones } from '../../actions/ZonesAction';
 import { GetActiveWards } from '../../actions/WardsActions';
@@ -91,6 +91,7 @@ export default function CreateCouncilDialog(props) {
   const [logoError, setLogoError] = React.useState("");
   const [isEditable, setIsEditable] = React.useState(false);
   const [isImageRemoved, setIsImageRemoved] = React.useState(false);
+  const [showDistrict, setShowDistrict] = React.useState(false);
 
   
   const {
@@ -218,7 +219,8 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleStateChange = (event) => {
-    dispatch(GetActiveDistrictsByStateId(event.target.value,1,1000,1))
+    dispatch(GetAllActiveDistrictsByStateId(event.target.value,1));
+    setShowDistrict(true);
     setDistrict("District")
     setTaluka("Taluka")
     setStateName(event.target.value);
@@ -267,7 +269,7 @@ export default function CreateCouncilDialog(props) {
   const DistrictsSchema = Yup.object().shape(
     data?
     {
-      name: Yup.string().required('Name is required'),
+      name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid name').required('Name is required'),
       district: Yup.string().required('Districts is required'),
       state: Yup.string().required('State is required'),
       // taluka: Yup.string().required('Taluka is required'),
@@ -468,11 +470,11 @@ export default function CreateCouncilDialog(props) {
                <MenuItem disabled value="">
             <em>Select District*</em>
           </MenuItem>
-              {districts?.map((option) => (
+              {showDistrict?districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>

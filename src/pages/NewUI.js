@@ -22,6 +22,7 @@ import {
   import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
   import  ImageGallery  from 'react-image-gallery';
   import { useDispatch, useSelector } from 'react-redux';
+  import moment from 'moment';
 import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
@@ -55,6 +56,7 @@ import { ShowLoader } from '../actions/CommonAction';
     const [checked, setChecked] = React.useState(0);
     const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
     let selectedUsers;
 
     const [state, setState] = React.useState({
@@ -505,6 +507,7 @@ import { ShowLoader } from '../actions/CommonAction';
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("fromDateForm")}
               />
               
@@ -526,6 +529,7 @@ import { ShowLoader } from '../actions/CommonAction';
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("toDateForm")}
               />
                </Grid>
