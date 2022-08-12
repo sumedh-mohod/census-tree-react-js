@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -57,6 +58,7 @@ export default function TeamsTableDialog(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const { isOpen, data } = props;
 
@@ -105,6 +107,7 @@ export default function TeamsTableDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
+      setButtonDisabled(true);
       if(data){
         dispatch(EditTeam({
           "name":value.name,
@@ -153,7 +156,13 @@ export default function TeamsTableDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data? `Save`: `Add`}</Button>
+           <LoadingButton
+        
+      
+        loading={buttonDisabled}
+        loadingPosition="end"
+        
+       onClick={handleSubmit} >{data? `Save`: `Add`}</LoadingButton>
         </DialogActions>
       </Dialog>
       </div>

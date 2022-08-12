@@ -18,6 +18,7 @@ import {
     CircularProgress
   } from '@mui/material';
   import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
+  import moment from 'moment';
   import  ImageGallery  from 'react-image-gallery';
   import { useDispatch, useSelector } from 'react-redux';
  import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
@@ -54,6 +55,7 @@ import { ShowLoader } from '../../actions/CommonAction';
     const [totalTrees, setTotalTrees] = React.useState("");
     const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
     let selectedUsers;
 
 
@@ -514,6 +516,7 @@ import { ShowLoader } from '../../actions/CommonAction';
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("fromDateForm")}
               />
               
@@ -539,6 +542,7 @@ import { ShowLoader } from '../../actions/CommonAction';
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("toDateForm")}
               />
                </Grid>
