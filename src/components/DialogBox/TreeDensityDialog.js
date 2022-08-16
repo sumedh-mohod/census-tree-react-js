@@ -70,11 +70,11 @@ export default function TreeDensityDialog(props) {
   } = useSelector((state) => ({
     addDistrictsLog:state.master.addDistrictsLog,
     editDistrictsLog:state.master.editDistrictsLog,
-    states:state.master.states,
+    states:state.master.activeStates,
   }));
 
   useEffect(()=>{
-    dispatch(GetActiveState(1,1000,1));
+    dispatch(GetActiveState(1));
   },[])
 
 
@@ -101,10 +101,8 @@ export default function TreeDensityDialog(props) {
   };
 
   const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
+   
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
     if(found){
       return found.name
     }
@@ -152,7 +150,6 @@ export default function TreeDensityDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
         dispatch(EditDistricts({
           "name":value.districts,

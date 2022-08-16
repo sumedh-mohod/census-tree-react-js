@@ -71,7 +71,7 @@ export default function NameOfTreeDialog(props) {
   } = useSelector((state) => ({
     addTreeNameLog:state.treeName.addTreeNameLog,
     editTreeNameLog:state.treeName.editTreeNameLog,
-    treeType:state.treeType.treeType,
+    treeType:state.treeType.activeTreeType,
   }));
 
   const typeOfTreeValue = [
@@ -86,7 +86,7 @@ export default function NameOfTreeDialog(props) {
   ];
 
   useEffect(()=>{
-    dispatch(GetActiveTreeType(1,1000,1));
+    dispatch(GetActiveTreeType(1));
   },[])
 
   useEffect(()=>{
@@ -112,7 +112,6 @@ SetTypeOfTree(event.target.value);
   const handleClose = () => {
     props.handleClose();
   };
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -141,7 +140,6 @@ SetTypeOfTree(event.target.value);
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
         dispatch(EditTreeName({
           "name":value.name,
@@ -160,8 +158,6 @@ SetTypeOfTree(event.target.value);
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
-  console.log("TREE TYPE IN NAME OF TREE",treeType)
 
   return (
     <div>

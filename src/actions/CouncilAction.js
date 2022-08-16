@@ -30,6 +30,17 @@ const GetCouncil = (page,limit) => async (dispatch) => {
     }
   };
 
+  const SetActiveCouncil = (obj) => async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_ACTIVE_COUNCIL,
+        payload: obj,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const SearchCouncil = (page,limit,searchValue) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/councils?page=${page}&limit=${limit}&search=${searchValue}`);
@@ -150,6 +161,7 @@ const GetCouncil = (page,limit) => async (dispatch) => {
   export {
       GetCouncil,
       GetActiveCouncil,
+      SetActiveCouncil,
       SearchCouncil,
       AddCouncil,
       AddCouncilWithLogo,

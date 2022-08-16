@@ -200,12 +200,11 @@ export default function District() {
         }
        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <div role="presentation" onClick={handleClick} >
         <MasterBreadCrum
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
           />
-    </div>
+
     {userPermissions.includes("create-qc-remark")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add New

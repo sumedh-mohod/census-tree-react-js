@@ -9,17 +9,20 @@ export const REMOVE_ALERT = "remove-alert";
 export const REMINDER_ALERT = "reminder-alert";
 
 export const GET_STATE = "get-state";
+export const GET_ACTIVE_STATE = "get-active-state";
 export const EDIT_STATE = "edit-state";
 export const ADD_STATE = "add-state";
 export const DELETE_STATE = "delete-state";
 
 export const GET_DISTRICTS = "get-districts";
+export const GET_ACTIVE_DISTRICTS = "get-active-districts";
 export const EDIT_DISTRICTS = "edit-districts";
 export const ADD_DISTRICTS = "add-districts";
 export const DELETE_DISTRICTS = "delete-districts";
 export const GET_DISTRICTS_BY_STATE_ID = "get-districts-by-state-id";
 
 export const GET_TALUKAS = "get-talukas";
+export const GET_ACTIVE_TALUKAS = "get-active-talukas";
 export const EDIT_TALUKAS = "edit-talukas";
 export const ADD_TALUKAS = "add-talukas";
 export const DELETE_TALUKAS = "delete-talukas";
@@ -32,31 +35,38 @@ export const DELETE_DESIGNATIONS = "delete-designations";
 
 
 export const GET_TREE_TYPE = "get-tree-type";
+export const GET_ACTIVE_TREE_TYPE = "get-active-tree-type";
 export const EDIT_TREE_TYPE = "edit-tree-type";
 export const ADD_TREE_TYPE = "add-tree-type";
 export const DELETE_TREE_TYPE = "delete-tree-type";
 
 export const GET_TREE_NAME = "get-tree-name";
+export const GET_ACTIVE_TREE_NAME = "get-active-tree-name";
 export const EDIT_TREE_NAME = "edit-tree-name";
 export const ADD_TREE_NAME = "add-tree-name";
 export const DELETE_TREE_NAME = "delete-tree-name";
 
 export const GET_TREE_CONDITIONS = "get-tree-conditions";
+export const GET_ACTIVE_TREE_CONDITIONS = "get-active-tree-conditions";
 export const EDIT_TREE_CONDITIONS = "edit-tree-conditions";
 export const ADD_TREE_CONDITIONS = "add-tree-conditions";
 export const DELETE_TREE_CONDITIONS = "delete-tree-conditions";
 
 export const GET_ZONES = "get-zones";
+export const GET_ACTIVE_ZONES = "get-active-zones";
+export const GET_ACTIVE_ZONES_BY_COUNCILID = "get-active-zones-by-councilid";
 export const EDIT_ZONES = "edit-zones";
 export const ADD_ZONES = "add-zones";
 export const DELETE_ZONES = "delete-zones";
 
 export const GET_PROPERTY_TYPES = "get-property-types";
+export const GET_ACTIVE_PROPERTY_TYPES = "get-active-property-types";
 export const EDIT_PROPERTY_TYPES = "edit-property-types";
 export const ADD_PROPERTY_TYPES = "add-property-types";
 export const DELETE_PROPERTY_TYPES = "delete-property-types";
 
 export const GET_LOCATION_TYPES = "get-location-types";
+export const GET_ACTIVE_LOCATION_TYPES = "get-active-location-types";
 export const EDIT_LOCATION_TYPES = "edit-location-types";
 export const ADD_LOCATION_TYPES = "add-location-types";
 export const DELETE_LOCATION_TYPES = "delete-location-types";
@@ -74,6 +84,8 @@ export const DELETE_QCREMARKS = "delete-qcremarks";
 // export const GET_DISTRICTS_BY_STATE_ID = "get-districts-by-state-id";
 
 export const GET_WARDS = "get-wards";
+export const GET_ACTIVE_WARDS = "get-active-wards";
+export const GET_ACTIVE_WARDS_BY_COUNCILID = "get-active-wards-by-councilid";
 export const EDIT_WARDS = "edit-wards";
 export const ADD_WARDS = "add-wards";
 export const DELETE_WARDS = "delete-wards";
@@ -154,6 +166,7 @@ export const REFER_TO_EXPERT = "refer-to-expert";
 // export const GET_QC_REMARKS_FOR_BASE_COLOR = "get-qc-remark-for-base-color";
 
 export const GET_TREE_DISEASE = "get-tree-disease";
+export const GET_ACTIVE_TREE_DISEASE = "get-active-tree-disease";
 export const EDIT_TREE_DISEASE = "edit-tree-disease";
 export const ADD_TREE_DISEASE = "add-tree-disease";
 export const DELETE_TREE_DISEASE = "delete-tree-disease";

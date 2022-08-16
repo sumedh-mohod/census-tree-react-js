@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_ZONES, DELETE_ZONES,  EDIT_ZONES, GET_ZONES } from "./Types";
+import { ADD_ZONES, DELETE_ZONES,  EDIT_ZONES, GET_ZONES, GET_ACTIVE_ZONES, GET_ACTIVE_ZONES_BY_COUNCILID } from "./Types";
 
 const GetZones = (page,limit) => async (dispatch) => {
     try {
@@ -16,12 +16,24 @@ const GetZones = (page,limit) => async (dispatch) => {
     }
   };
 
-  const GetActiveZones = (page,limit,status) => async (dispatch) => {
+  const GetActiveZones = (status) => async (dispatch) => {
     try {
-      const response = await JWTServer.get(`/api/zones?page=${page}&limit=${limit}&status=${status}`);
+      const response = await JWTServer.get(`/api/zones?status=${status}`);
+      console.log("active zones RESPONSE",response.data);
       dispatch({
-        type: GET_ZONES,
+        type: GET_ACTIVE_ZONES,
         payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const SetActiveZones = (obj) => async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_ACTIVE_ZONES,
+        payload: obj,
       });
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
@@ -33,6 +45,19 @@ const GetZones = (page,limit) => async (dispatch) => {
       const response = await JWTServer.get(`/api/zones?page=${page}&limit=${limit}&council_id=${councilId}`);
       dispatch({
         type: GET_ZONES,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetActiveZonesByCouncilId = (status,councilId) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/zones?status=${status}&council_id=${councilId}`);
+      console.log("Active zones council RESPONSE",response.data.data);
+      dispatch({
+        type: GET_ACTIVE_ZONES_BY_COUNCILID,
         payload: response.data,
       });
     } catch (e) {
@@ -102,7 +127,9 @@ const GetZones = (page,limit) => async (dispatch) => {
   export {
       GetZones,
       GetActiveZones,
+      SetActiveZones,
       GetZonesByCouncilId,
+      GetActiveZonesByCouncilId,
       SearchZones,
       AddZones,
       EditZones,

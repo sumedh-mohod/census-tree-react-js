@@ -23,7 +23,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { GetActiveDistricts, GetActiveDistrictsByStateId, GetActiveState, GetActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
+import { GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState, GetAllActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
 import { AddCouncil, AddCouncilWithLogo, EditCouncil, EditCouncilWithLogo, GetCouncilById } from '../../actions/CouncilAction';
 import { GetActiveZones } from '../../actions/ZonesAction';
 import { GetActiveWards } from '../../actions/WardsActions';
@@ -76,7 +76,6 @@ export default function CreateCouncilDialog(props) {
   const dispatch = useDispatch();
 
   const { isOpen, data } = props;
-  console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [gender, setGender] = React.useState('');
   const [role, setRole] = React.useState('');
@@ -92,7 +91,8 @@ export default function CreateCouncilDialog(props) {
   const [logoError, setLogoError] = React.useState("");
   const [isEditable, setIsEditable] = React.useState(false);
   const [isImageRemoved, setIsImageRemoved] = React.useState(false);
-
+  const [showDistrict, setShowDistrict] = React.useState(false);
+  const [showTaluka, setShowTaluka] = React.useState(false);
   
   const {
     addCouncilLog,
@@ -108,11 +108,11 @@ export default function CreateCouncilDialog(props) {
   } = useSelector((state) => ({
     addCouncilLog:state.council.addCouncilLog,
     editCouncilLog:state.council.editCouncilLog,
-    zones:state.zones.zones,
-    wards:state.wards.wards,
-    states:state.master.states,
-    districts:state.master.districts,
-    talukas:state.master.talukas,
+    zones:state.zones.activeZones,
+    wards:state.wards.activeWards,
+    states:state.master.activeStates,
+    districts:state.master.activeDistricts,
+    talukas:state.master.activeTalukas,
     councilById:state.council.councilById,
     uploadImage:state.upload.uploadImage,
     uploadImageLog:state.upload.uploadImageLog,
@@ -126,11 +126,11 @@ export default function CreateCouncilDialog(props) {
   },[data])
 
   useEffect(()=>{
-    dispatch(GetActiveZones(1,1000,1));
-    dispatch(GetActiveWards(1,1000,1));
-    dispatch(GetActiveState(1,1000,1));
-    dispatch(GetActiveDistricts(1,1000,1));
-    dispatch(GetActiveTalukas(1,1000,1));
+    dispatch(GetActiveZones(1));
+    dispatch(GetActiveWards(1));
+    dispatch(GetActiveState(1));
+    dispatch(GetActiveDistricts(1));
+    dispatch(GetActiveTalukas(1));
   },[])
 
   const firstRun = React.useRef(true);
@@ -190,8 +190,9 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleDistrictChange = (event) => {
-    dispatch(GetActiveTalukaByDistrictId(event.target.value,1,1000,1))
+    dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1))
     setDistrict(event.target.value);
+    setShowTaluka(true);
     setTaluka("Taluka")
   };
 
@@ -209,7 +210,6 @@ export default function CreateCouncilDialog(props) {
   // };
 
   const handleWardChange = (event) => {
-    console.log("HANDLE WARD CHANGE CALLED");
     const {
       target: { value },
     } = event;
@@ -220,18 +220,15 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleStateChange = (event) => {
-    console.log("HANDLE STATE CHANGE");
-    dispatch(GetActiveDistrictsByStateId(event.target.value,1,1000,1))
+    dispatch(GetAllActiveDistrictsByStateId(event.target.value,1));
+    setShowDistrict(true);
     setDistrict("District")
     setTaluka("Taluka")
     setStateName(event.target.value);
   };
 
   const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
     if(found){
       return found.name
     }
@@ -273,7 +270,7 @@ export default function CreateCouncilDialog(props) {
   const DistrictsSchema = Yup.object().shape(
     data?
     {
-      name: Yup.string().required('Name is required'),
+      name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid name').required('Name is required'),
       district: Yup.string().required('Districts is required'),
       state: Yup.string().required('State is required'),
       // taluka: Yup.string().required('Taluka is required'),
@@ -334,10 +331,8 @@ export default function CreateCouncilDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
         if(validateLogo() && isImageRemoved){
-          console.log("INSIDE IS IMAGE REMOVED");
           const formData = new FormData();
             formData.append('upload_for', 'councils');
             formData.append('image', files);
@@ -403,9 +398,6 @@ export default function CreateCouncilDialog(props) {
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
-
-
-  console.log("VALUES",values)
 
   return (
     <div>
@@ -479,11 +471,11 @@ export default function CreateCouncilDialog(props) {
                <MenuItem disabled value="">
             <em>Select District*</em>
           </MenuItem>
-              {districts?.map((option) => (
+              {showDistrict?districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>
@@ -505,11 +497,11 @@ export default function CreateCouncilDialog(props) {
                  <MenuItem disabled value="">
               <em>Select Taluka</em>
             </MenuItem>
-                {talukas?.map((option) => (
+                {showTaluka?talukas?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
-                ))}
+                )):null}
               </TextField>
             </Grid>
             <Grid item xs={12}>
@@ -548,7 +540,6 @@ export default function CreateCouncilDialog(props) {
               // onChange={handleChange}
               style={{ width: '81%', marginLeft: 40 , marginTop:5}}
               renderValue={(selected) => {
-                console.log("SELECTED",selected);
                 if (selected.length === 0) {
                   return <em>Zone*</em>;
                 }

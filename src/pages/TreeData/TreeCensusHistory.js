@@ -158,7 +158,6 @@ export default function TreeCensusHistory() {
 
   }
 
-  console.log("treeCensusHistory",treeCensusHistory);
 
   return (
     <Page title="User">
@@ -172,8 +171,8 @@ export default function TreeCensusHistory() {
         }
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation"  >
-        <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+        <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+        {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -188,26 +187,30 @@ export default function TreeCensusHistory() {
           href="#"
         >
         Census
-        </Link>
+        </Link> */}
+            <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        Census
+          </Typography>
         {treeCensusName === "undefined" ? null :
+            <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
+          // variant="h4" gutterBottom style={{color: "#000000"}}
         >
           {treeCensusName}
               
-        </Link>}
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
-           History
-              
         </Link>
+        </Typography>
+        }
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            History
+          </Typography>
       </Breadcrumbs>
 
     </div>

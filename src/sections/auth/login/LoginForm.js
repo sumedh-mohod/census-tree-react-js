@@ -51,8 +51,7 @@ export default function LoginForm() {
     onSubmit: (value) => {
       dispatch(LoginUser({
         "username": value.email,
-        "password": value.password,
-        "imei_number" : "278782"
+        "password": value.password
       }))
       // navigate('/dashboard', { replace: true });
     },

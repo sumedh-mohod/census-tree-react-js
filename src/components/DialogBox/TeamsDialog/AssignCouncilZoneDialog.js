@@ -21,9 +21,9 @@ import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
 import { AddCZWToTeam } from '../../../actions/TeamsAction';
 import AssignNewZoneWardConfirmationDialog from './AssignNewZoneWardConfirmationDialog';
-import { GetCouncil } from '../../../actions/CouncilAction';
-import { GetZones, GetZonesByCouncilId } from '../../../actions/ZonesAction';
-import { GetWards, GetWardsByCouncilId } from '../../../actions/WardsActions';
+import { GetActiveCouncil } from '../../../actions/CouncilAction';
+import { GetZones, GetActiveZones, GetActiveZonesByCouncilId } from '../../../actions/ZonesAction';
+import { GetWards, GetActiveWards, GetActiveWardsByCouncilId } from '../../../actions/WardsActions';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -99,7 +99,6 @@ export default function AssignCouncilZoneDialog(props) {
   ];
   
   const { isOpen, data, isOpenConfirm,teamId } = props;
-  console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [gender, setGender] = React.useState('');
   const [councilName, setCouncilName] = React.useState('');
@@ -117,28 +116,32 @@ export default function AssignCouncilZoneDialog(props) {
     council,
     zones,
     wards,
+    activeZonesByCID,
+    activeWardsByCID,
     assignCWZToTeamLog,
     deleteCWZFromteamLog
 
   } = useSelector((state) => ({
-    council:state.council.council,
-    zones:state.zones.zones,
-    wards:state.wards.wards,
+    council:state.council.activeCouncil,
+    zones:state.zones.activeZones,
+    wards:state.wards.activeWards,
+    activeWardsByCID:state.wards.activeWardsByCID,
+    activeZonesByCID:state.zones.activeZonesByCID,
     assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
     deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog
     
   }));
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     
   },[])
 
   useEffect(()=>{
     if(data){
       setShowSubMenu(true);
-      dispatch(GetZones(1,1000));
-      dispatch(GetWards(1,1000));
+      dispatch(GetActiveZones(1));
+      dispatch(GetActiveWards(1));
     }
   },[data])
 
@@ -157,21 +160,19 @@ export default function AssignCouncilZoneDialog(props) {
     setGender(event.target.value);
   };
   const handleCouncilName = (event) => {
-    dispatch(GetZonesByCouncilId(1,1000,event.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,event.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,event.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,event.target.value))
     setShowSubMenu(true);
     setCouncilName(event.target.value);
     setShowInitial(true)
   };
   const handleConfirmationDialogClick = () => {
-    console.log("hiiii")
     setOpen(open)
   }
   const handleClose = () => {
     setShowInitial(false);
     props.handleClose();
   };
-
   const handleZoneChange = (event) => {
     setZoneName(event.target.value);
   };
@@ -328,7 +329,7 @@ export default function AssignCouncilZoneDialog(props) {
           <MenuItem disabled value="">
             <em>Select Zone*</em>
           </MenuItem>
-                {showSubMenu?zones?.map((option) => (
+                {showSubMenu?activeZonesByCID?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
@@ -352,7 +353,7 @@ export default function AssignCouncilZoneDialog(props) {
           <MenuItem disabled value="">
             <em>Select Ward*</em>
           </MenuItem>
-          {showSubMenu?wards?.map((option) => (
+          {showSubMenu?activeWardsByCID?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>

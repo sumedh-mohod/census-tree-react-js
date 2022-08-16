@@ -195,10 +195,12 @@ export default function LocationType() {
        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
+
         <MasterBreadCrum
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
           />
+
     </div>
     {userPermissions.includes("create-location-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>

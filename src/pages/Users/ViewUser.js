@@ -31,7 +31,7 @@ import { GetActiveRole } from '../../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../../actions/UserAction';
 import { UploadFile, UploadImage } from '../../actions/UploadActions';
 import DefaultInput from '../../components/Inputs/DefaultInput';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetActiveDesignations, GetDesignations } from '../../actions/DesignationAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../../actions/MasterActions';
 import { ShowLoader } from '../../actions/CommonAction';
@@ -82,9 +82,9 @@ export default function ViewUser(props) {
       userDocumentType:state.users.userDocumentType,
       roles:state.roles.roles,
       religions:state.users.religions,
-      council:state.council.council,
-      districts:state.master.districts,
-      talukas:state.master.talukas,
+      council:state.council.activeCouncil,
+      districts:state.master.activeDistricts,
+      talukas:state.master.activeTalukas,
       userById:state.users.userById,
       designations:state.designations.designations,
       addUsersLog:state.users.addUsersLog,
@@ -96,10 +96,10 @@ export default function ViewUser(props) {
       dispatch(GetUserDocumentType());
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
-      dispatch(GetCouncil(1,1000));
-      dispatch(GetDesignations(1,1000));
-      dispatch(GetActiveDistricts(1,1000,1));
-      dispatch(GetActiveTalukas(1,1000,1));
+      dispatch(GetActiveCouncil(1));
+      dispatch(GetActiveDesignations(1));
+      dispatch(GetActiveDistricts(1));
+      dispatch(GetActiveTalukas(1));
     },[])
 
     const { userId } = useParams();

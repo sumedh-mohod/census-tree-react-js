@@ -95,12 +95,9 @@ export default function AssignUserDialog(props) {
 //     console.log(":::::::::", activeUsers);
 // }
   React.useEffect(()=>{
-    dispatch(GetUsers(1,1000));
+    // dispatch(GetUsers(1,1000));
     dispatch(GetActiveUsers(1));
   },[])
-
-  console.log(":::::::::", users);
-  console.log(":::::::::", activeUsers);
 
   const firstRun = React.useRef(true);
   React.useEffect(()=>{
@@ -199,7 +196,6 @@ export default function AssignUserDialog(props) {
 
   const handleTopModalAnswer = (answer) => {
     if(answer){
-      console.log("REQ OBJ",reqObj);
       if(data){
            dispatch(AddUserToTeam(reqObj))
       }
@@ -212,7 +208,6 @@ export default function AssignUserDialog(props) {
 
   const findValue = (listOfObj,id) => {
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
     if(found){
       return found.first_name
     }

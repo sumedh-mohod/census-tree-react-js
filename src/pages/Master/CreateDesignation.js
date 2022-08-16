@@ -201,7 +201,6 @@ export default function CreateDestination() {
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
           />
-  
     </div>
     {userPermissions.includes("create-designation")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>

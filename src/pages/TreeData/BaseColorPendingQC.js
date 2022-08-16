@@ -18,14 +18,15 @@ import {
     CircularProgress
   } from '@mui/material';
   import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
+  import moment from 'moment';
   import  ImageGallery  from 'react-image-gallery';
   import { useDispatch, useSelector } from 'react-redux';
  import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../../actions/TreeCensusAction';
- import { GetCouncil} from '../../actions/CouncilAction';
- import { GetZones} from '../../actions/ZonesAction';
- import {GetWards} from '../../actions/WardsActions';
- import { GetUsers } from '../../actions/UserAction';
+ import { GetActiveCouncil, SetActiveCouncil} from '../../actions/CouncilAction';
+ import { GetZonesByCouncilId, GetActiveZones, SetActiveZones} from '../../actions/ZonesAction';
+ import {GetWardsByCouncilId, GetActiveWards, SetActiveWards} from '../../actions/WardsActions';
+ import { GetUsers, GetUsersByRoleID } from '../../actions/UserAction';
 
  import Page from '../../components/Page';
 import { GetMyActiveTeam } from '../../actions/TeamsAction';
@@ -54,6 +55,7 @@ import { ShowLoader } from '../../actions/CommonAction';
     const [totalTrees, setTotalTrees] = React.useState("");
     const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
     let selectedUsers;
 
 
@@ -69,6 +71,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       council,
       zones,
       wards,
+      userByRoleID,
       baseColorPendingQCStatus, 
       updateQCStatusLog,
       activeTeams,
@@ -76,9 +79,10 @@ import { ShowLoader } from '../../actions/CommonAction';
       showLoader
     } = useSelector((state) => ({
       users:state.users.users,
-      council:state.council.council,
-      zones:state.zones.zones,
-      wards:state.wards.wards,
+      council:state.council.activeCouncil,
+      zones:state.zones.activeZones,
+      wards:state.wards.activeWards,
+      userByRoleID: state.users.userByRoleID,
       baseColorPendingQCStatus: state.baseColor.baseColorPendingQCStatus,
       updateQCStatusLog: state.baseColor.updateQCStatusLog,
       activeTeams: state.teams.activeTeams,
@@ -92,15 +96,15 @@ import { ShowLoader } from '../../actions/CommonAction';
       userPermissions.push(item.name)
     ))
 
-   if(users){ 
-    selectedUsers= users.filter(
-      (currentValue) => {if(currentValue.assigned_roles.includes("Base Color User") || currentValue.assigned_roles.includes("Base Color QC - Offsite")){
-        return currentValue;
-      }
-      return null;
-  });
-  console.log("selectedUsers", selectedUsers)
-}
+//    if(users){ 
+//     selectedUsers= users.filter(
+//       (currentValue) => {if(currentValue.assigned_roles.includes("Base Color User") || currentValue.assigned_roles.includes("Base Color QC - Offsite")){
+//         return currentValue;
+//       }
+//       return null;
+//   });
+//   console.log("selectedUsers", selectedUsers)
+// }
 
  
     const firstRun = React.useRef(true);
@@ -114,6 +118,18 @@ import { ShowLoader } from '../../actions/CommonAction';
       setCouncilID(activeTeams?.active_council_id);
       setZoneID(activeTeams?.active_zone_id);
       setWardID(activeTeams?.active_ward_id);
+      const activeCouncilObj = {
+        data:[{id:activeTeams?.active_council_id,name:activeTeams?.active_council_name,status:1}]
+      }
+      const activeWardObj = {
+        data:[{id:activeTeams?.active_ward_id,name:activeTeams?.active_ward_name,status:1}]
+      }
+      const activeZoneObj = {
+        data:[{id:activeTeams?.active_ward_id,name:activeTeams?.active_zone_name,status:1}]
+      }
+      dispatch(SetActiveCouncil(activeCouncilObj))
+      dispatch(SetActiveWards(activeWardObj))
+      dispatch(SetActiveZones(activeZoneObj))
       setSelectedIndex(0);
     },[activeTeams])
 
@@ -175,13 +191,17 @@ import { ShowLoader } from '../../actions/CommonAction';
     useEffect(()=>{
       if(loggedUser?.roles[0]?.slug==="qc_base_color_offsite"){
         dispatch(GetMyActiveTeam());
-        dispatch(ShowLoader(true))
+        dispatch(ShowLoader(true));
+        dispatch(GetUsersByRoleID(1, 3, 5));
       }
-      dispatch(GetUsers(1, 1000));
-      dispatch(GetCouncil(1,1000));
-      dispatch(GetWards(1,1000));
-      dispatch(GetZones(1,1000));
-      
+
+      else {
+        dispatch(GetUsersByRoleID(1, 3, 5));
+        dispatch(GetActiveCouncil(1));
+        dispatch(GetActiveWards(1));
+        dispatch(GetActiveZones(1));
+      }
+
       // dispatch(GetBaseColorTreeById(1));
     },[])
   //  baseColorPendingQCStatus.data.map((tree, index) =>(
@@ -256,8 +276,12 @@ import { ShowLoader } from '../../actions/CommonAction';
       console.log(tree);
     }
 
-    const handleCouncilChange = (event) => {
-      setCouncilID(event.target.value);
+    const handleCouncilChange = (e) => {
+      setCouncilID(e.target.value);
+      setZoneID("")
+      setWardID("")
+      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
+      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
       };
 
     const handleZoneChange = (event) => {
@@ -309,6 +333,9 @@ import { ShowLoader } from '../../actions/CommonAction';
           
         },
       });
+
+      console.log("ZONES",zones);
+      console.log("WARDS",wards);
     
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
@@ -461,7 +488,7 @@ import { ShowLoader } from '../../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Added By</em>
           </MenuItem>
-              {selectedUsers?.map((option) => (
+              {userByRoleID?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.first_name}{" "}{option.last_name}
                 </MenuItem>
@@ -489,6 +516,7 @@ import { ShowLoader } from '../../actions/CommonAction';
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("fromDateForm")}
               />
               
@@ -514,6 +542,7 @@ import { ShowLoader } from '../../actions/CommonAction';
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("toDateForm")}
               />
                </Grid>
@@ -607,6 +636,10 @@ import { ShowLoader } from '../../actions/CommonAction';
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Added By: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{baseColorPendingQCStatus?.data[selectedIndex].added_by? `${baseColorPendingQCStatus?.data[selectedIndex].added_by?.first_name} ${baseColorPendingQCStatus?.data[selectedIndex].added_by?.last_name}`:"-"}</td>
+              </tr>
+              <tr>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Added On: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{baseColorPendingQCStatus?.data[selectedIndex].added_on_date}</td>
               </tr>
              </table>
              </>

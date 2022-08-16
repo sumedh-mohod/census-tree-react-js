@@ -23,11 +23,12 @@ import {
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import DefaultInput from '../Inputs/DefaultInput';
 import { GetActiveTreeType } from '../../actions/TreeTypeActions';
-import { GetAllTreeDisease } from '../../actions/TreeDiseaseAction';
+import { GetActiveTreeDisease } from '../../actions/TreeDiseaseAction';
 import { GetTreeConditions } from '../../actions/TreeConditionAction';
-import { GetTreeName } from '../../actions/TreeNameAction';
+import { GetActiveTreeName } from '../../actions/TreeNameAction';
 import { UpdateCensusTree } from '../../actions/TreeCensusAction';
 
 
@@ -70,7 +71,7 @@ const BootstrapDialogTitle = (props) => {
     const [maxWidth, setMaxWidth] = React.useState('sm');
     const [localTreeName, setLocalTreeName] = React.useState(data?data.tree_name_id:"");
     const [botanicalTreeName, setBotanicalTreeName] = React.useState(data?data.tree_name_id:"");
-    console.log("props", data);
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
     const {
         treeName,
@@ -79,18 +80,18 @@ const BootstrapDialogTitle = (props) => {
         treeType,
         updateCensusTreeLog,
       } = useSelector((state) => ({
-        treeName:state.treeName.treeName,
-        treeDisease:state.treeDisease.treeDisease,
+        treeName:state.treeName.activeTreeName,
+        treeDisease:state.treeDisease.activeTreeDisease,
         treeConditions:state.treeConditions.treeConditions,
-        treeType:state.treeType.treeType,
+        treeType:state.treeType.activeTreeType,
         updateCensusTreeLog: state.treeCensus.updateCensusTreeLog,
       }));
 
       useEffect(()=>{
-        dispatch(GetTreeName(1,1000));
-        dispatch(GetActiveTreeType(1,1000,1));
+        dispatch(GetActiveTreeName(1));
+        dispatch(GetActiveTreeType(1));
         dispatch(GetTreeConditions(1,1000));
-        dispatch(GetAllTreeDisease(1,1000));
+        dispatch(GetActiveTreeDisease(1));
       },[])
 
       const handleLocalTreeName = (e) => {
@@ -375,6 +376,7 @@ const BootstrapDialogTitle = (props) => {
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("plantationDate")}
               />
                </Grid>

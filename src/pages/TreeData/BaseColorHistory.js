@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams} from 'react-router-dom';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead, UserListToolbar } from '../../sections/@dashboard/user';
@@ -147,7 +147,6 @@ export default function BaseColorHistory() {
 
   }
 
-  console.log("BASE COLOR HISTORY",baseColorTreeHistory);
 
   return (
     <Page title="User">
@@ -161,16 +160,29 @@ export default function BaseColorHistory() {
         }
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation"  >
-        <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}}separator='>'>
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        Tree Data
+        </Typography>
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        Base Color
+        </Typography>
+        {baseColorName=== 'undefined' ? null : 
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link
+          component={RouterLink}
+          to={`/dashboard/base-color`}
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Tree Data
+          {baseColorName}
+              
         </Link>
-        <Link
+        </Typography>
+        }
+        {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -187,16 +199,8 @@ export default function BaseColorHistory() {
         >
           {baseColorName}
               
-        </Link>}
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
-           History
-              
-        </Link>
+        </Link>} */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>  History</Typography>
       </Breadcrumbs>
 
     </div>

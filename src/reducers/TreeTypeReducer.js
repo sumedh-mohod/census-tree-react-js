@@ -1,7 +1,8 @@
-import { ADD_TREE_TYPE, DELETE_TREE_TYPE, EDIT_TREE_TYPE, GET_TREE_TYPE, RESET_STATE } from "../actions/Types";
+import { ADD_TREE_TYPE, DELETE_TREE_TYPE, EDIT_TREE_TYPE, GET_TREE_TYPE, GET_ACTIVE_TREE_TYPE, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     treeType:null,
+    activeTreeType:null,
     addTreeTypeLog:false,
     editTreeTypeLog:false,
     deleteTreeTypeLog:false,
@@ -17,6 +18,12 @@ import { ADD_TREE_TYPE, DELETE_TREE_TYPE, EDIT_TREE_TYPE, GET_TREE_TYPE, RESET_S
               ...state,
               treeType: payload.data.data,
               pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_TREE_TYPE:
+            return{
+                ...state,
+                activeTreeType: payload.data,
         };
 
         case ADD_TREE_TYPE:

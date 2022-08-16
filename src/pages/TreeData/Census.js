@@ -31,9 +31,9 @@ import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialo
 import TreeCensusMenu from '../../sections/@dashboard/tree/TreeCensusMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
-import { GetCouncil } from '../../actions/CouncilAction';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import CencusViewDetailsDialog from '../../components/DialogBox/tree-data/CensusViewDetailsDialog';
@@ -85,7 +85,7 @@ export default function Census() {
     pageInfo,
     loggedUser
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     treeCensus:state.treeCensus.treeCensus,
@@ -109,7 +109,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
       return;
     }
     setShowList(true);
-    console.log("BEFORE FETCHING");
     dispatch(GetTreeCensus(page,rowsPerPage,coucilId,zoneId,wardId));
   },[updateQCStatusLog])
 
@@ -121,10 +120,9 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     }
     setShowList(true);
   },[treeCensus])
-  console.log("treeCensus", treeCensus )
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
 
@@ -152,7 +150,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   const handleCensusViewDetailsDialog= (data) => {
     setViewCensusDetails(!viewCensusDetails);
     setDialogData(data)
-    console.log("data", data)
   }
 
   const handleQcSubmit = (data,id) => {
@@ -182,7 +179,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    console.log("newPage", newPage)
     setShowList(false);
     if(search){
       dispatch(SearchTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
@@ -205,7 +201,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   };
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
   }
 
   let timer = null;
@@ -240,8 +235,8 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     setPage(1);
     setShowList(false);
     dispatch(GetTreeCensus(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {
@@ -257,7 +252,6 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     setPage(1);
     dispatch(GetTreeCensus(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
-console.log("page123", page)
 
   return (
     <Page title="Base Color">
@@ -298,8 +292,8 @@ console.log("page123", page)
          
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+        {/* <Link
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -314,7 +308,13 @@ console.log("page123", page)
           href="#"
         >
         Census
-        </Link>
+        </Link> */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Census
+          </Typography>
       </Breadcrumbs>
     </div>
         </Stack>

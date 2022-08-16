@@ -12,12 +12,18 @@ import {
     ADD_TALUKAS,
     EDIT_TALUKAS,
     DELETE_TALUKAS,
-    GET_DISTRICTS_BY_STATE_ID
+    GET_DISTRICTS_BY_STATE_ID,
+    GET_ACTIVE_STATE,
+    GET_ACTIVE_DISTRICTS,
+    GET_ACTIVE_TALUKAS
   } from "../actions/Types";
   
   const INIT_STATE = {
     districts:null,
     states:null,
+    activeStates:null,
+    activeDistricts:null,
+    activeTalukas:null,
     addStateLog:false,
     editStateLog:false,
     deleteStateLog:false,
@@ -40,6 +46,12 @@ import {
                 ...state,
                 states: payload.data.data,
                 pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_STATE:
+            return{
+                ...state,
+                activeStates: payload.data,
         };
 
         case ADD_STATE:
@@ -66,6 +78,13 @@ import {
               districts: payload.data.data,
               pageInfo: payload.data
         };
+
+        case GET_ACTIVE_DISTRICTS:
+            return{
+                ...state,
+                activeDistricts: payload.data,
+             
+          };
 
         case GET_DISTRICTS_BY_STATE_ID:
             return{
@@ -96,6 +115,13 @@ import {
               ...state,
               talukas: payload.data.data,
               pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_TALUKAS:
+          return{
+              ...state,
+              activeTalukas: payload.data,
+             
         };
 
         case ADD_TALUKAS:

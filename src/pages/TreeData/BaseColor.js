@@ -31,9 +31,9 @@ import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialo
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetBaseColorTrees, DeleteBaseColorTrees, SearchBaseColorTrees, AddBaseColorTrees, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
-import { GetCouncil } from '../../actions/CouncilAction';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 
@@ -91,7 +91,7 @@ export default function BaseColor() {
     pageInfo,
     loggedUser
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     baseColorTrees:state.baseColor.baseColorTrees,
@@ -113,7 +113,6 @@ export default function BaseColor() {
       return;
     }
     setShowList(true);
-    console.log("BEFORE FETCHING");
     dispatch(GetBaseColorTrees(page,rowsPerPage,coucilId,zoneId,wardId));
   },[editBaseColorTreesLog,deleteBaseColorTreesLog,updateQCStatusLog])
 
@@ -125,10 +124,9 @@ export default function BaseColor() {
     }
     setShowList(true);
   },[baseColorTrees])
-  console.log("baseColorTrees", baseColorTrees)
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
 
@@ -202,7 +200,6 @@ export default function BaseColor() {
   };
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
   }
 
   let timer = null;
@@ -237,8 +234,8 @@ export default function BaseColor() {
     setPage(1);
     setShowList(false);
     dispatch(GetBaseColorTrees(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {
@@ -286,8 +283,8 @@ export default function BaseColor() {
          
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+        {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -302,7 +299,13 @@ export default function BaseColor() {
           href="/dashboard/base-color"
         >
         Base Color
-        </Link>
+        </Link> */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Base Color
+          </Typography>
       </Breadcrumbs>
     </div>
         </Stack>
