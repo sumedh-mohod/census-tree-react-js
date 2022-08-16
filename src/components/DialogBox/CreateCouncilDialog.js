@@ -23,7 +23,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState, GetActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
+import { GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState, GetAllActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
 import { AddCouncil, AddCouncilWithLogo, EditCouncil, EditCouncilWithLogo, GetCouncilById } from '../../actions/CouncilAction';
 import { GetActiveZones } from '../../actions/ZonesAction';
 import { GetActiveWards } from '../../actions/WardsActions';
@@ -92,7 +92,7 @@ export default function CreateCouncilDialog(props) {
   const [isEditable, setIsEditable] = React.useState(false);
   const [isImageRemoved, setIsImageRemoved] = React.useState(false);
   const [showDistrict, setShowDistrict] = React.useState(false);
-
+  const [showTaluka, setShowTaluka] = React.useState(false);
   
   const {
     addCouncilLog,
@@ -190,8 +190,9 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleDistrictChange = (event) => {
-    dispatch(GetActiveTalukaByDistrictId(event.target.value,1,1000,1))
+    dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1))
     setDistrict(event.target.value);
+    setShowTaluka(true);
     setTaluka("Taluka")
   };
 
@@ -496,11 +497,11 @@ export default function CreateCouncilDialog(props) {
                  <MenuItem disabled value="">
               <em>Select Taluka</em>
             </MenuItem>
-                {talukas?.map((option) => (
+                {showTaluka?talukas?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
-                ))}
+                )):null}
               </TextField>
             </Grid>
             <Grid item xs={12}>
