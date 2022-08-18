@@ -33,6 +33,7 @@ import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
 import PropertyErrorDialog from '../../components/DialogBox/tree-data/PropertyErrorDialog';
 import { ShowLoader } from '../../actions/CommonAction';
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -89,6 +90,10 @@ export default function ViewProperties() {
    const [showList,setShowList] = useState(false);
    const [showErrorModal,setShowErrorModal] = useState(false);
    const [fileValue,setFileValue] = useState("");
+   const [dropPage, setDropPage] = useState(8);
+   const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
   
   const {
     properties,
@@ -249,14 +254,10 @@ export default function ViewProperties() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Council
-        </Link>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
         <Link component={RouterLink}
         to={`/dashboard/council`}
           underline="hover"
