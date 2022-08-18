@@ -161,6 +161,7 @@ export default function MasterBreadCrum({name, callType, numSelected, filterName
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
         >
+         
              <Select
         labelId="demo-select-small"
         id="demo-select-small"
@@ -169,11 +170,11 @@ export default function MasterBreadCrum({name, callType, numSelected, filterName
         onChange={handleDropChange}
       >
         {breadCrumDrop?.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
+                 <MenuItem key={option.value} value={option.value} >
                <NavLink to ={option.url} style={{textDecoration: "none", color: "black"}}>{option.label}</NavLink>
                 </MenuItem>
               ))}
-      </Select>
+      </Select>  
         </Link>
       </Breadcrumbs>
            
