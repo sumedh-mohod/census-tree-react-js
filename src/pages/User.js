@@ -99,7 +99,7 @@ export default function User() {
   const { state } = useLocation();
   
   console.log("STATE PAGE ",state);
-  
+  console.log("Current Page", page)
 
    const {
     users,
@@ -152,6 +152,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   const handleChangePage = (event, newPage) => {
     console.log(newPage);
     setPage(newPage);
+   
     if(search){
       dispatch(SearchUsers(newPage,rowsPerPage,searchValue));
     }

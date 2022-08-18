@@ -94,6 +94,7 @@ export default function NewUserForm(props) {
     const [uploadClick, setUploadClick] = useState("");
     const [uploadClickError,setUploadClickError] = useState("") ;
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
+    const submitErrors = [];
     const {
       salaryDeductionType,
       userDocumentType,
@@ -220,8 +221,13 @@ export default function NewUserForm(props) {
     }
 
     const handleLastDayChange = (event) => {
-      console.log("gadsgshfhds", event.target.value)
-      setLastDayOfWork(event.target.value)
+      if(event.target.value){
+        console.log("gadsgshfhds", event.target.value)
+        setLastDayOfWork(event.target.value)
+      }
+      else{
+        submitErrors.push(event.target.value);
+      }
     }
 
     const seprateDeduction = (deduction) => {
@@ -736,6 +742,25 @@ const validateRole = () => {
   return validated;
 }
 
+const handleSubmitErrors = () =>{
+  console.log("in submit errors");
+  console.log("Formiok submit errors", formik.errors);
+  const keys = Object.keys(formik.errors)
+  console.log("keys", keys);
+      // Whenever there are errors and the form is submitting but finished validating.
+      if (keys.length > 0 ) {
+          // We grab the first input element that error by its name.
+          const errorElement = document.querySelector(
+              `input[name="${keys[0]}"]`
+          )
+            console.log(errorElement);
+          if (errorElement) {
+              // When there is an input, scroll this input into view.
+              errorElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
+          }
+      }
+}
+
     const validateDropDown = () => {
       let validated = true;
       let foundDeduction = false;
@@ -898,15 +923,13 @@ const validateRole = () => {
       firstName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid first name').required('First Name is required'),
      // middleName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name'),
       lastName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid last name').required('Last Name is required'),
-      email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Mobile number is required'),
+      email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       addressLine1: Yup.string().required('Address Line 1 is required'),
       city: Yup.string().required('City is required'),
       states: Yup.string().required('State is required'),
       district: Yup.string().required('Districts is required'),
       // taluka: Yup.string().required('Taluka is required'),
-      username: Yup.string().required('Username is required'),
-      password: editUser?Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters'):Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
       aadhaarNumber: Yup.string().matches(aadharRegExp, 'Enter valid aadhar number').required('Aadhar Number is required'),
       education: Yup.string().required('Education is required'),
       dob: Yup.string().required('DOB is required'),
@@ -916,14 +939,16 @@ const validateRole = () => {
       emergencyContactName: Yup.string().required('Emergency Contact Name is required'),
       emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emergency Contact Number is required'),
       dateOfJoining: Yup.string().required('DateOfJoining is required'),
-      // lastDayOfWork: Yup.string().required('Last Day of work is required'),
-      salaryPerMonth: Yup.string().required('Salary per month is required'),
       designation: Yup.string().required('Designation is required'),
+      salaryPerMonth: Yup.string().required('Salary per month is required'),
       isAgreementDone: Yup.string().required('Is agreement done is required'),
-      panCardNumber: Yup.string().matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/, 'Pancard number is not valid').required('Pancard is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
       accountNumber: Yup.string().required('Account number is required'),
-      ifscCode: Yup.string().matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'IFSC Code is not valid').required('IFSC is required')
+      ifscCode: Yup.string().matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'IFSC Code is not valid').required('IFSC is required'),
+      panCardNumber: Yup.string().matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/, 'Pancard number is not valid').required('Pancard is required'),
+      username: Yup.string().required('Username is required'),
+      password: editUser?Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters'):Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
+      // lastDayOfWork: Yup.string().required('Last Day of work is required')
     }
     );
 console.log("-------",userById)
@@ -1006,6 +1031,7 @@ console.log("-------",userById)
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
         console.log("INSIDE ON SUBMIT", value);
+        console.log("Formiok errors sub", formik.errors);
         if(validateRole()){
           if(showCouncil){
             const obj = {
@@ -1133,7 +1159,9 @@ console.log("-------",userById)
   
 
     console.log("DEDUCTION LIST",deductionList);
-    console.log("error123", formik.errors.email)
+    console.log("error123", formik.errors.email);
+    console.log("Formiok errors", formik.errors);
+  
   
     return (
        showLoader ?
@@ -2124,7 +2152,7 @@ console.log("-------",userById)
               onClick={(e)=>{
                 validateDropDown();
                 formik.handleSubmit(e);
-                
+                handleSubmitErrors();
               }
                
               }

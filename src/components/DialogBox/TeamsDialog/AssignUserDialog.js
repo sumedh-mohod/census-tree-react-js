@@ -188,7 +188,7 @@ export default function AssignUserDialog(props) {
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
 
-
+  console.log("active users", activeUsers);
 
   const handleTopModalClose = () => {
     setTopModalOpen(!topModalOpen)
@@ -284,7 +284,7 @@ export default function AssignUserDialog(props) {
               value={option.id}
               // style={getStyles(name, personName, theme)}
             >
-              {option.first_name} {option.last_name}
+              {option.first_name} {option.last_name} ({option.username})
             </MenuItem>
           ))}
               </TextField>
