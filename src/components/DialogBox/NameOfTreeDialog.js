@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
-import RangePicker from "react-range-picker";
+
 import { AddTreeName, EditTreeName } from '../../actions/TreeNameAction';
 import { GetActiveTreeType } from '../../actions/TreeTypeActions';
 import DefaultInput from '../Inputs/DefaultInput';
