@@ -43,6 +43,7 @@ import TreeOnMap from './pages/Map/TreeOnMap';
 import Reports from './pages/TreeData/Reports';
 import NewUI from './pages/NewUI';
 import BaseColorPendingQC from './pages/TreeData/BaseColorPendingQC';
+import TreeFamilies from './pages/Master/TreeFamilies';
 
 // ----------------------------------------------------------------------
 
@@ -66,6 +67,7 @@ export default function Router() {
         { path: 'council', element: <CreateCouncil /> },
         { path: 'council/properties/:councilId/:councilName', element: <ViewProperties /> },
         { path: 'type-of-tree', element: <TypeOfTree /> },
+        { path: 'families', element: <TreeFamilies/> },
         { path: 'name-of-tree', element: <CreateNameOfTree /> },
         { path: 'tree-condition', element: <TreeConditions /> }, 
         { path: 'type-of-property', element: <TypeOfProperty /> },   

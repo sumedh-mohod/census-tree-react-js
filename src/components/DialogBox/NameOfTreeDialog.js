@@ -11,6 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
@@ -22,9 +23,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
+import RangePicker from "react-range-picker";
 import { AddTreeName, EditTreeName } from '../../actions/TreeNameAction';
 import { GetActiveTreeType } from '../../actions/TreeTypeActions';
 import DefaultInput from '../Inputs/DefaultInput';
+
+
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -60,7 +64,12 @@ export default function NameOfTreeDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
-  const [typeOfTree, SetTypeOfTree] = React.useState('Tree Type')
+  const [typeOfTree, SetTypeOfTree] = React.useState('Tree Type');
+  const [treeFamily, setTreeFamily] = React.useState('');
+  const [origin, setOrigin] = React.useState('');
+  const [seasonStart, setSeasonStart] = React.useState('');
+  const [seasonEnd, setSeasonEnd] = React.useState('');
+  
   const { isOpen, data } = props;
 
   const {
@@ -74,16 +83,82 @@ export default function NameOfTreeDialog(props) {
     treeType:state.treeType.activeTreeType,
   }));
 
-  const typeOfTreeValue = [
+  const treeFamilyValue = [
     {
-      value: 'fruitTree',
-      label: 'Fruit Tree',
+      value: 'Verbenaceae',
+      label: 'Verbenaceae',
     },
     {
-      value: 'flowerTree',
-      label: 'Flower Tree',
+      value: 'Proteaceae',
+      label: 'Proteaceae',
+    },
+    {
+      value: 'Moraceae',
+      label: 'Moraceae',
     },
   ];
+
+  const originValue = [
+    {
+      value: 'Navtive',
+      label: 'Navtive',
+    },
+    {
+      value: 'Exotic',
+      label: 'Exotic',
+    },
+  ];
+
+  const Months = [
+    {
+      value: 'Jan',
+      label: 'Jan',
+    },
+    {
+      value: 'Feb',
+      label: 'Feb',
+    },
+    {
+      value: 'Mar',
+      label: 'Mar',
+    },
+    {
+      value: 'Apr',
+      label: 'Apr',
+    },
+    {
+      value: 'May',
+      label: 'May',
+    },
+    {
+      value: 'Jun',
+      label: 'Jun',
+    },
+    {
+      value: 'July',
+      label: 'July',
+    },
+    {
+      value: 'Aug',
+      label: 'Aug',
+    },
+    {
+      value: 'Sept',
+      label: 'Sept',
+    },
+    {
+      value: 'Oct',
+      label: 'Oct',
+    },
+    {
+      value: 'Nov',
+      label: 'Nov',
+    },
+    {
+      value: 'Dec',
+      label: 'Dec',
+    },
+  ]
 
   useEffect(()=>{
     dispatch(GetActiveTreeType(1));
@@ -108,6 +183,13 @@ export default function NameOfTreeDialog(props) {
 const handleStatusChange = (event) => {
 SetTypeOfTree(event.target.value);
 };
+const handleOriginChange = (event) => {
+  setOrigin(event.target.value)
+}
+
+const handleFamilyChange = (event) => {
+  setTreeFamily(event.target.value);
+  };
 
   const handleClose = () => {
     props.handleClose();
@@ -123,6 +205,13 @@ SetTypeOfTree(event.target.value);
       event.target.value,
     );
   };
+  const handleChange = (event) => {
+    setSeasonStart(event.target.value)
+  };
+
+  const handleSeasonEndChange = (event) => {
+    setSeasonEnd(event.target.value)
+  }
 
   const DesignationsSchema = Yup.object().shape({
     name: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Name is required'),
@@ -224,6 +313,103 @@ SetTypeOfTree(event.target.value);
               ))}
             </Select>
             </Grid>
+            <Grid item xs={12}>
+            <Select
+              // SelectProps={{
+              //   multiple:true
+              // }}
+              id="treeFamily"
+              label="Tree Family"
+              name='treeFamily'
+            displayEmpty
+              value={treeFamily}
+              style={{width:'83%', marginLeft: 40}}
+              placeholder='Tree family'
+              onChange={handleFamilyChange}
+              // error={Boolean(touched.treeType && errors.treeType)}
+              //   helperText={touched.treeType && errors.treeType}
+              //   {...getFieldProps("treeType")}
+            >
+               <MenuItem disabled value="">
+            <em>Tree Family*</em>
+          </MenuItem>
+              {treeFamilyValue?.map((option) => (
+                <MenuItem  value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+            </Grid>
+            <Grid item xs={12}>
+            <TextareaAutosize
+  aria-label="empty textarea"
+  placeholder="Uses"
+  style={{ width: "83%", marginLeft:40, borderRadius: 7, height: 80, paddingTop: 8, paddingLeft: 8, fontFamily: "Public Sans,sans-serif",
+  fontWeight: 400, outline: "darkgrey"}}
+/>
+            </Grid>
+            <Grid item xs={12}>
+            <Select
+              // SelectProps={{
+              //   multiple:true
+              // }}
+              id="origin"
+              label="Origin"
+              name='origin'
+            displayEmpty
+              value={origin}
+              style={{width:'83%', marginLeft: 40}}
+              placeholder='Select Origin'
+              onChange={handleOriginChange}
+              // error={Boolean(touched.treeType && errors.treeType)}
+              //   helperText={touched.treeType && errors.treeType}
+              //   {...getFieldProps("treeType")}
+            >
+               <MenuItem disabled value="">
+            <em>Origin</em>
+          </MenuItem>
+              {originValue?.map((option) => (
+                <MenuItem  value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>  
+              <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={seasonStart}
+          label="Age"
+          onChange={handleChange}
+          style={{width : "80%", marginLeft: 48, marginTop: 20}}
+        >
+            <MenuItem disabled value="">
+            <em>Flowering Season Start</em>
+          </MenuItem>
+          {Months?.map((option) =>(
+             <MenuItem value={option.value} >{option.label}</MenuItem>
+          ))}
+        </Select>
+        </Grid>
+              <Grid item xs={6}> 
+                <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={seasonEnd}
+          label="Age"
+          onChange={handleSeasonEndChange}
+          style={{width : "80%", marginTop: 20}}
+        >
+            <MenuItem disabled value="">
+            <em>Flowering Season End</em>
+          </MenuItem>
+          {Months?.map((option) =>(
+             <MenuItem value={option.value} >{option.label}</MenuItem>
+          ))}
+        </Select></Grid>
+            </Grid>
           </Grid>
 
         </DialogContent>
@@ -235,3 +421,4 @@ SetTypeOfTree(event.target.value);
       </div>
   );
 }
+

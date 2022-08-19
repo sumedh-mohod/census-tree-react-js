@@ -74,6 +74,11 @@ const navConfig = [
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
+        title: 'Tree Families',
+        path: '/dashboard/families',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
         title: 'Tree Conditions',
         path: '/dashboard/tree-condition',
         icon: getIcon('eva:shopping-bag-fill'),

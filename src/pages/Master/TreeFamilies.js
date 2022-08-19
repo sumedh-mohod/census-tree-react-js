@@ -14,13 +14,12 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
   Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteTreeName, GetTreeName, SearchTreeName } from '../../actions/TreeNameAction';
+import { DeleteTreeFamily, GetTreeFamily, SearchTreeFamily } from '../../actions/TreeFamilyAction';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -30,25 +29,15 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@das
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import NameOfTreeDialog from "../../components/DialogBox/NameOfTreeDialog";
+import TypeOfTreeDialog from "../../components/DialogBox/TypeOfTreeDialog";
 import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import TreeFamiliesDialog from '../../components/DialogBox/TreeFamiliesDialog';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'localName', label: 'Local Name', alignRight: false },
-  { id: 'botanicalName', label: 'Botanical Name', alignRight: false },
-  { id: 'typeOfTree', label: 'Type Of Tree', alignRight: false },
   { id: 'treeFamily', label: 'Tree Family', alignRight: false },
-  { id: 'Uses', label: 'Uses', alignRight: false },
-  { id: 'origin', label: 'Origin', alignRight: false },
-  { id: 'floweringSeason', label: 'Flowering Season', alignRight: false },
-  { id: 'fruitingSeason', label: 'Fruiting Season', alignRight: false },
-  { id: 'growthFactor', label: 'Growth Factor', alignRight: false },
-  { id: 'oxygenEmittrate', label: 'Oxygen Emittrate', alignRight: false },
-  { id: 'maximumHeight', label: 'Maximum Height', alignRight: false },
-  { id: 'maximunAge', label: 'Maximun Age', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
@@ -84,7 +73,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function CreateNameOfTree() {
+export default function TreeFamilies() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -92,48 +81,44 @@ export default function CreateNameOfTree() {
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
-  const [searchValue,setSearchValue] = useState("");
-  const [dropPage, setDropPage] = useState(11);
-  const userPermissions = [];
-
-  const handleDropChange = (event) => {
-    setDropPage(event.target.value);
-   };
+   const [searchValue,setSearchValue] = useState("");
+   const [dropPage, setDropPage] = useState(16);
+   const userPermissions = [];
 
   const {
-    treeName,
-    addTreeNameLog,
-    editTreeNameLog,
-    deleteTreeNameLog,
-    pageInfo, 
+    treeFamily,
+    addTreeFamilyLog,
+    editTreeFamilyLog,
+    deleteTreeFamilyLog,
+    pageInfo,
     loggedUser
   } = useSelector((state) => ({
-    treeName:state.treeName.treeName,
-    addTreeNameLog:state.treeName.addTreeNameLog,
-    editTreeNameLog:state.treeName.editTreeNameLog,
-    deleteTreeNameLog:state.treeName.deleteTreeNameLog,
-    pageInfo : state.treeName.pageInfo,
+    treeFamily:state.treeFamily.treeFamily,
+    addTreeFamilyLog:state.treeFamily.addTreeFamilyLog,
+    editTreeFamilyLog:state.treeFamily.editTreeFamilyLog,
+    deleteTreeFamilyLog:state.treeFamily.deleteTreeFamilyLog,
+    pageInfo : state.treeFamily.pageInfo,
     loggedUser:state.auth.loggedUser,
-   
-  }));
 
-  console.log("TREE NAME",treeName)
+  }));
 
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
   ))
   
 
+  console.log("TREE FAmily",treeFamily)
+
   useEffect(()=>{
-    dispatch(GetTreeName(page,rowsPerPage));
-  },[addTreeNameLog,editTreeNameLog,deleteTreeNameLog])
+    dispatch(GetTreeFamily(page,rowsPerPage));
+  },[addTreeFamilyLog,editTreeFamilyLog,deleteTreeFamilyLog])
 
   useEffect(()=>{
     if(pageInfo){
       setCount(pageInfo?.total)
     }
   },[pageInfo])
-  
+
   const handleNewUserClick = () => {
     setDialogData(null);
     setOpen(!open)
@@ -145,16 +130,16 @@ export default function CreateNameOfTree() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteTreeName(data.id,data.status?0:1));
+    dispatch(DeleteTreeFamily(data.id,data.status?0:1));
   };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchTreeName(newPage,rowsPerPage,searchValue));
+      dispatch(SearchTreeFamily(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetTreeName(newPage,rowsPerPage));
+      dispatch(GetTreeFamily(newPage,rowsPerPage));
     }
   };
 
@@ -162,12 +147,13 @@ export default function CreateNameOfTree() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
     if(search){
-      dispatch(SearchTreeName(1,parseInt(event.target.value, 10),searchValue));
+      dispatch(SearchTreeFamily(1,parseInt(event.target.value, 10),searchValue));
     }
     else {
-      dispatch(GetTreeName(1,parseInt(event.target.value, 10)));
+      dispatch(GetTreeFamily(1,parseInt(event.target.value, 10)));
     }
   };
+
 
   let timer = null;
   const filterByName = (event) => {
@@ -176,14 +162,14 @@ export default function CreateNameOfTree() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
-          dispatch(SearchTreeName(1,rowsPerPage,value))
+          dispatch(SearchTreeFamily(1,rowsPerPage,value))
           setSearch(true)
           setPage(1)
           setSearchValue(value);
 
         }
         else{
-          dispatch(GetTreeName(1,rowsPerPage));
+          dispatch(GetTreeFamily(1,rowsPerPage));
           setSearch(false);
           setPage(1);
           setSearchValue("")
@@ -195,64 +181,60 @@ export default function CreateNameOfTree() {
     event.preventDefault();
     console.info('You clicked a breadcrumb.');
   }
+  const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
+
 
   return (
     <Page title="User">
+      
       <Container>
         {open?
-        <NameOfTreeDialog
+        <TreeFamiliesDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
-        data={dialogData}
+        data= {dialogData}
         />:null
         }
         
-       
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-         <MasterBreadCrum
+        <MasterBreadCrum
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
           />
     </div>
-    {userPermissions.includes("create-tree-name")? 
+  
+    {userPermissions.includes("create-tree-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Name Of Tree
+            Add New
 
           </Button>:null}
         </Stack>
 
         <Card>
+      
 
-        <UserListToolbar numSelected={0} placeHolder={"Search tree..."} onFilterName={filterByName} />
+        <UserListToolbar numSelected={0} placeHolder={"Search Tree Family..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
+            
                 <TableBody>
-                     { treeName?.map((option,index) => {
+                     {treeFamily?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                        <TableCell align="left">{option.name}</TableCell>
-                        <TableCell align="left">{option.botanical_name}</TableCell>
-                        <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
-                        <TableCell align="left">{option.tree_family_id?option.tree_family_id: "-"}</TableCell>
-                        <TableCell align="left">{option.uses? option.uses: "-" }</TableCell>
-                        <TableCell align="left">{option.origin? option.origin: "-"}</TableCell>
-                        <TableCell align="left">{option.flowering_season? option.flowering_season: "-"}</TableCell>
-                        <TableCell align="left">{option.fruiting_season? option.fruiting_season: "-"}</TableCell>
-                        <TableCell align="left">{option.growth_factor? option.growth_factor: "-"}</TableCell>
-                        <TableCell align="left">{option.oxygen_emit_rate? option.oxygen_emit_rate: "-"}</TableCell>
-                        <TableCell align="left">{option.max_height? option.max_height: "-"}</TableCell>
-                        <TableCell align="left">{option.max_age? option.max_age: "-"}</TableCell>
+                        <TableCell align="left">{option.tree_family}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )
@@ -263,21 +245,12 @@ export default function CreateNameOfTree() {
               </Table>
             </TableContainer>
           </Scrollbar>
-          {treeName?(
+          {/* {treeType?( */}
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} />
-  ):null}
-          {/* <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          /> */}
+  {/* ):null} */}
         </Card>
       </Container>
     </Page>

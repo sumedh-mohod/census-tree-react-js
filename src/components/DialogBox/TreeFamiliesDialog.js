@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import DefaultInput from '../Inputs/DefaultInput';
-import { AddTreeType, EditTreeType } from '../../actions/TreeTypeActions';
+import { AddTreeFamily, EditTreeFamily } from '../../actions/TreeFamilyAction';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -52,7 +52,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function TypeOfTreeDialog(props) {
+export default function TreeFamiliesDialog(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
@@ -61,11 +61,11 @@ export default function TypeOfTreeDialog(props) {
   const { isOpen, data } = props;
 
   const {
-    addTreeTypeLog,
-    editTreeTypeLog
+    addTreeFamilyLog,
+    editTreeFamilyLog
   } = useSelector((state) => ({
-    addTreeTypeLog:state.treeType.addTreeTypeLog,
-    editTreeTypeLog:state.treeType.editTreeTypeLog,
+    addTreeFamilyLog:state.treeFamily.addTreeFamilyLog,
+    editTreeFamilyLog:state.treeFamily.editTreeFamilyLog,
   }));
 
   const firstRun = React.useRef(true);
@@ -75,7 +75,7 @@ export default function TypeOfTreeDialog(props) {
       return;
     }
     props.handleClose();
-  },[addTreeTypeLog,editTreeTypeLog])
+  },[addTreeFamilyLog,editTreeFamilyLog])
 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
@@ -109,25 +109,25 @@ export default function TypeOfTreeDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    treeType: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Tree Type is required'),
+    treeFamily: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Tree Family is required'),
   });
 
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      treeType:data? data.tree_type : "",
+      treeFamily:data? data.tree_family : "",
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
       if(data){
-        dispatch(EditTreeType({
-          "tree_type":value.treeType,
+        dispatch(EditTreeFamily({
+          "tree_family":value.treeFamily,
         },data.id))
       }
       else {
-        dispatch(AddTreeType({
-          "tree_type":value.treeType,
+        dispatch(AddTreeFamily({
+          "tree_family":value.treeFamily,
         }))
       }
     },
@@ -148,20 +148,20 @@ export default function TypeOfTreeDialog(props) {
       
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Tree Type":"Add Tree Type"}</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Tree Family":"Add Tree Family"}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
         <Grid item xs={12}>
               <DefaultInput
                 fullWidth
-                id="typeOfTree"
-                // autoComplete="typeOfTree"
-                label="Type Of Tree*"
-                placeholder="Type Of Tree*"
-                error={Boolean(touched.treeType && errors.treeType)}
-                helperText={touched.treeType && errors.treeType}
-                {...getFieldProps("treeType")}
+                id="treeFamily"
+                autoComplete="typeOfTree"
+                label="Tree Family*"
+                placeholder="Tree Family*"
+                error={Boolean(touched.treeFamily && errors.treeFamily)}
+                helperText={touched.treeFamily && errors.treeFamily}
+                {...getFieldProps("treeFamily")}
               />
             </Grid>
           </Grid>
