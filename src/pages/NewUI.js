@@ -27,8 +27,8 @@ import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
  import { GetActiveCouncil, SetActiveCouncil} from '../actions/CouncilAction';
- import { GetActiveZones, GetZonesByCouncilId, SetActiveZones} from '../actions/ZonesAction';
- import {GetActiveWards, GetWardsByCouncilId, SetActiveWards} from '../actions/WardsActions';
+ import { GetActiveZones, GetActiveZonesByCouncilId, SetActiveZones} from '../actions/ZonesAction';
+ import {GetActiveWards, GetActiveWardsByCouncilId, SetActiveWards} from '../actions/WardsActions';
  import { GetUsers, GetUsersByRoleID } from '../actions/UserAction';
 
  import Page from '../components/Page';
@@ -82,8 +82,8 @@ import { ShowLoader } from '../actions/CommonAction';
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.activeCouncil,
-      zones:state.zones.activeZones,
-      wards:state.wards.activeWards,
+      zones:state.zones.activeZonesByCID,
+      wards:state.wards.activeWardsByCID,
       userByRoleID: state.users.userByRoleID,
       treeCensusPendingQCStatus: state.treeCensus.treeCensusPendingQCStatus,
       referToExpertLog: state.treeCensus.referToExpertLog,
@@ -267,8 +267,9 @@ import { ShowLoader } from '../actions/CommonAction';
       setCouncilID(e.target.value);
       setZoneID("")
       setWardID("")
-      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+      dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+      dispatch(GetActiveWardsByCouncilId(1,e.target.value))
+      console.log("Council change", e.target.value, zones, wards)
       };
 
     const handleZoneChange = (event) => {
@@ -418,11 +419,11 @@ import { ShowLoader } from '../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Zone*</em>
           </MenuItem>
-              {zones?.map((option) => (
+              {councilID? zones?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>
@@ -447,11 +448,11 @@ import { ShowLoader } from '../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Ward*</em>
           </MenuItem>
-              {wards?.map((option) => (
+              {councilID? wards?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>
