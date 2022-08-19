@@ -255,7 +255,7 @@ export default function AssignUser() {
                         <TableCell align="left">{option.roles}</TableCell>
                         <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
+                        <TableCell align="left">{option.status?"Assigned":"Unassigned"}</TableCell>
                         </TableRow>
                         )
                   }):null

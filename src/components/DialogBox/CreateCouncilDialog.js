@@ -270,7 +270,7 @@ export default function CreateCouncilDialog(props) {
   const DistrictsSchema = Yup.object().shape(
     data?
     {
-      name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid name').required('Name is required'),
+      name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
       district: Yup.string().required('Districts is required'),
       state: Yup.string().required('State is required'),
       // taluka: Yup.string().required('Taluka is required'),
@@ -280,7 +280,7 @@ export default function CreateCouncilDialog(props) {
       wards: Yup.array().min(1,'Ward is required'),
     }
     :{
-    name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid name').required('Name is required'),
+    name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
     // taluka: Yup.string().required('Taluka is required'),
