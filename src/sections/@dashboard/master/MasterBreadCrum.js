@@ -36,12 +36,12 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 // ----------------------------------------------------------------------
 const breadCrumDrop = [
   {
-    label: "Role",
+    label: "Roles",
     value: 1,
     url:  "/dashboard/role"
   },
   {
-    label: "Designation",
+    label: "Designations",
     value: 2,
     url:  "/dashboard/designation"
   },
@@ -81,6 +81,11 @@ const breadCrumDrop = [
     url:  "/dashboard/type-of-tree"
   },
   {
+    label: "Tree Families",
+    value: 16,
+    url:  "/dashboard/families"
+  },
+  {
     label: "Tree Conditions",
     value: 10,
     url:  "/dashboard/tree-condition"
@@ -89,6 +94,11 @@ const breadCrumDrop = [
     label: "Tree Names",
     value: 11,
     url:  "/dashboard/name-of-tree"
+  },
+  {
+    label: "Tree Diseases",
+    value: 15,
+    url:  "/dashboard/treeDisease"
   },
   {
     label: "Location Types",
@@ -104,12 +114,8 @@ const breadCrumDrop = [
     label: "QC Remarks",
     value: 14,
     url:  "/dashboard/qc-remarks"
-  },
-  {
-    label: "Tree Disease",
-    value: 15,
-    url:  "/dashboard/treeDisease"
   }
+
 ]
 
 
