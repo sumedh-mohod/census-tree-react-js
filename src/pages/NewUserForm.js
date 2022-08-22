@@ -67,6 +67,7 @@ export default function NewUserForm(props) {
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
     const [designation, setDesignation] =  React.useState('');
+    const [city, setCity] = React.useState('');
     const [value, setValue] = React.useState(null);
     const [referredBy, setReferredBy] = React.useState('');
     const [noticePeriod, setNoticePeriod] = React.useState('');
@@ -90,6 +91,7 @@ export default function NewUserForm(props) {
     const [firstNameError, setFirstNameError] = useState('');
     const [middleNameError, setMiddleNameError] = useState('');
     const [lastNameError, setLastNameError] = useState("");
+    const [cityError, setCityError] = useState('');
     const[ lastDayOfWork, setLastDayOfWork] = useState("");
     const [uploadClick, setUploadClick] = useState("");
     const [uploadClickError,setUploadClickError] = useState("") ;
@@ -668,6 +670,18 @@ setLastNameError("Please Enter Last Name Containing Alphabets Only");
 setLastName(e.target.value);
 }
 
+const handleCity = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setCityError("");
+}
+else{
+setCityError("Please Enter City Name Containing Alphabets Only");
+  
+}
+setCity(e.target.value);
+}
+
   const handleIFSCCode = (e) => {
     console.log("in ")
     const  regex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
@@ -746,6 +760,9 @@ const handleSubmitErrors = () =>{
   console.log("in submit errors");
   console.log("Formiok submit errors", formik.errors);
   const keys = Object.keys(formik.errors)
+  // const roleElement = document.getElementById("role-label");
+  // console.log("roleelement", roleElement);
+  // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
   console.log("keys", keys);
       // Whenever there are errors and the form is submitting but finished validating.
       if (keys.length > 0 ) {
@@ -758,6 +775,11 @@ const handleSubmitErrors = () =>{
               // When there is an input, scroll this input into view.
               errorElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
           }
+      }
+      else{
+        const roleElement = document.getElementById("role-label");
+  console.log("roleelement", roleElement);
+  roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" });
       }
 }
 
@@ -926,7 +948,7 @@ const handleSubmitErrors = () =>{
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Mobile number is required'),
       email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       addressLine1: Yup.string().required('Address Line 1 is required'),
-      city: Yup.string().required('City is required'),
+      city: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid city name').required('City is required'),
       states: Yup.string().required('State is required'),
       district: Yup.string().required('Districts is required'),
       // taluka: Yup.string().required('Taluka is required'),
@@ -1345,11 +1367,20 @@ console.log("-------",userById)
                 />
               </Grid>
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="village" autoComplete="village" label="City*" placeholder="City*" 
+                <DefaultInput 
+                fullWidth 
+                id="city" 
+                name="city"
+                autoComplete="city" 
+                label="City*" 
+                placeholder="City*" 
+                onChange={(e)=>{handleCity(e);
+                  formik.handleChange(e)}}
                  error={Boolean(touched.city && errors.city)}
                  helperText={touched.city && errors.city}
-                 {...getFieldProps("city")}
+                // {...getFieldProps("city")}
                  />
+                  <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{cityError}</Typography>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
