@@ -116,6 +116,25 @@ const navConfig = [
       
     ]
   },
+
+  {
+    title: 'Report',
+    path: '/dashboard/role',
+    icon: getIcon('eva:shopping-bag-fill'),
+
+    children:[
+      {
+        title: 'Working Report',
+        path: '/dashboard/role',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Tree Report',
+        path: '/dashboard/designation',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+    ]
+  },
 {
   title: 'Trees Data',
   path: '/dashboard/tree-data',
