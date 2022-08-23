@@ -235,21 +235,22 @@ export default function CreateNameOfTree() {
                      { treeName?.map((option,index) => {
                         return (
                         <TableRow
+                        key={index}
                         hover
                       >
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.botanical_name}</TableCell>
                         <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
-                        <TableCell align="left">{option.tree_family_id?option.tree_family_id: "-"}</TableCell>
+                        <TableCell align="left">{option.tree_family?.tree_family?option.tree_family?.tree_family: "-"}</TableCell>
                         <TableCell align="left">{option.uses? option.uses: "-" }</TableCell>
                         <TableCell align="left">{option.origin? option.origin: "-"}</TableCell>
-                        <TableCell align="left">{option.flowering_season? option.flowering_season: "-"}</TableCell>
-                        <TableCell align="left">{option.fruiting_season? option.fruiting_season: "-"}</TableCell>
-                        <TableCell align="left">{option.growth_factor? option.growth_factor: "-"}</TableCell>
-                        <TableCell align="left">{option.oxygen_emit_rate? option.oxygen_emit_rate: "-"}</TableCell>
-                        <TableCell align="left">{option.max_height? option.max_height: "-"}</TableCell>
-                        <TableCell align="left">{option.max_age? option.max_age: "-"}</TableCell>
+                        <TableCell align="left">{option.flowering_season? option.flowering_season: "NA"}</TableCell>
+                        <TableCell align="left">{option.fruiting_season? option.fruiting_season: "NA"}</TableCell>
+                        <TableCell align="left">{option.growth_factor? option.growth_factor: "NA"}</TableCell>
+                        <TableCell align="left">{option.oxygen_emit_rate? option.oxygen_emit_rate: "NA"}</TableCell>
+                        <TableCell align="left">{option.max_height? option.max_height: "NA"}</TableCell>
+                        <TableCell align="left">{option.max_age? option.max_age: "NA"}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />

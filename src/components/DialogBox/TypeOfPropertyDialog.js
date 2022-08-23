@@ -92,6 +92,7 @@ export default function TypeOfPropertyDialog(props) {
   const handleClose = () => {
     props.handleClose();
   };
+  
 
 
   const handleClickOpen = () => {
