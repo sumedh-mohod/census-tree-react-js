@@ -202,7 +202,7 @@ export default function Zone() {
     </div>
     {userPermissions.includes("create-zone")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Zone
+            Zone
 
           </Button>:null}
         </Stack>

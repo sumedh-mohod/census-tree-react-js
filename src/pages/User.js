@@ -211,7 +211,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
           </Typography>
           {userPermissions.includes("create-user")? 
           <Button variant="contained" component={RouterLink} to="/dashboard/new-user-Form" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            New User
+            User
 
           </Button>
            :null} 

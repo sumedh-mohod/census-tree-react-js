@@ -63,12 +63,19 @@ export default function NewUserForm(props) {
     const [showTaluka, setShowTaluka]=  React.useState(false);
     const [panCardNumber, setPanCardNumber] = React.useState("");
     const [ifscCode, setIfscCode] = React.useState("");
+    const [aadhaarNumber, setAadhaarNumber] = React.useState('');
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
     const [designation, setDesignation] =  React.useState('');
     const [city, setCity] = React.useState('');
     const [value, setValue] = React.useState(null);
+    const [mobile, setMobile] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [emergencyContactName, setEmergencyContactName] = React.useState('');
+    const [emergencyContactNumber, setEmergencyContactNumber] = React.useState('');
+    const [bankName, setBankName] = useState('');
+    const [accountNumber, setAccountNumber] = React.useState('');
     const [referredBy, setReferredBy] = React.useState('');
     const [noticePeriod, setNoticePeriod] = React.useState('');
     const [formValues, setFormValues] = useState([{ deductionType: "", amount : ""}])
@@ -88,10 +95,18 @@ export default function NewUserForm(props) {
     const [dateLimitError, setDateLimitError] = useState("");
     const [panCardError, setPanCardError] = useState("");
     const [ifscCodeError, setIfscCodeError] = useState("");
+    const [aadharError, setAadharError] = useState('');
     const [firstNameError, setFirstNameError] = useState('');
     const [middleNameError, setMiddleNameError] = useState('');
     const [lastNameError, setLastNameError] = useState("");
     const [cityError, setCityError] = useState('');
+    const [casteError, setCasteError] = React.useState('');
+    const [mobileError, setMobileError] = React.useState('');
+    const [emailError, setEmailError] = React.useState('');
+    const [emergencyContactNameError, setEmergencyContactNameError] = React.useState('');
+    const [emergencyContactNumberError, setEmergencyContactNumberError] = React.useState('');
+    const [bankNameError, setBankNameError] = useState('');
+    const [accountNumberError, setAccountNumberError] = React.useState('');
     const[ lastDayOfWork, setLastDayOfWork] = useState("");
     const [uploadClick, setUploadClick] = useState("");
     const [uploadClickError,setUploadClickError] = useState("") ;
@@ -490,6 +505,15 @@ export default function NewUserForm(props) {
     
   
     const handleCasteChange = (event) => {
+      const  regex = /^[a-zA-Z ]{2,30}$/;
+      if(regex.test(event.target.value)) {
+        setCasteError("");
+    }
+    else{
+    setCasteError("Please Enter Caste Containing Alphabets Only");
+      
+    }
+   
       setCaste(event.target.value);
     };
   
@@ -682,8 +706,84 @@ setCityError("Please Enter City Name Containing Alphabets Only");
 setCity(e.target.value);
 }
 
+const handleEmgName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setEmergencyContactNameError("");
+}
+else{
+  setEmergencyContactNameError("Please Enter Emergency Contact Name Containing Alphabets Only");
+  
+}
+setEmergencyContactName(e.target.value);
+}
+
+const handleBankName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setBankNameError("");
+}
+else{
+setBankNameError("Please Enter Bank Name Containing Alphabets Only");
+  
+}
+setBankName(e.target.value);
+}
+
+const handleMobile = (e) => {
+  const  regex = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+  if(regex.test(e.target.value)) {
+    setMobileError("");
+}
+else{
+setMobileError("Please Enter Mobile Number Containing 10 Digits Only");
+  
+}
+setMobile(e.target.value);
+}
+
+const handleEmgNumber = (e) => {
+  const  regex = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+  if(regex.test(e.target.value)) {
+    setEmergencyContactNumberError("");
+}
+else{
+setEmergencyContactNumberError("Please Enter Emergency Contact Number Containing 10 Digits Only");
+  
+}
+setEmergencyContactNumber(e.target.value);
+}
+
+
+
+const handleEmail = (e) => {
+  const  regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  if(regex.test(e.target.value)) {
+    setEmailError("");
+}
+else{
+setEmailError("Please Enter Valid Email Address Only");
+  
+}
+setEmail(e.target.value);
+}
+
+
+
+const handleAccNumber = (e) => {
+  const  regex = /^\d{9,18}$/;
+  if(regex.test(e.target.value)) {
+    setAccountNumberError("");
+}
+else{
+setAccountNumberError("Please Enter Account Number In Standard Format(9-18 Digits) Only");
+  
+}
+setAccountNumber(e.target.value);
+}
+
+
   const handleIFSCCode = (e) => {
-    console.log("in ")
     const  regex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
     if(regex.test(e.target.value)) {
       setIfscCodeError("");
@@ -693,6 +793,19 @@ setCity(e.target.value);
     
  }
  setIfscCode(e.target.value);
+  }
+
+
+  const handleAadharCard = (e) => {
+    const  regex = /^\d{12}$/;
+    if(regex.test(e.target.value)) {
+      setAadharError("");
+ }
+ else{
+  setAadharError("Please Enter Aadhar Card Number In Standard Format Only");
+    
+ }
+ setAadhaarNumber(e.target.value);
   }
 
   const handleDocumentValueChange = (e,index) => {
@@ -1319,23 +1432,35 @@ console.log("-------",userById)
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="contact"
+                  id="mobile"
+                  name='mobile'
                   autoComplete="contact"
                   label="Mobile Number*"
                   placeholder="Mobile Number*"
+                  onChange={(e)=>{handleMobile(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.mobile && errors.mobile)}
                 helperText={touched.mobile && errors.mobile}
-                {...getFieldProps("mobile")}
+                // {...getFieldProps("mobile")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{mobileError}</Typography>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="Email" label="Email*" autoComplete="email" placeholder="Email*" 
+                <DefaultInput 
+                fullWidth 
+                id="email" 
+                label="Email*" 
+                autoComplete="email" 
+                placeholder="Email*" 
+                onChange={(e)=>{handleEmail(e);
+                  formik.handleChange(e)}}
                  error={Boolean(touched.email && errors.email)}
                  helperText={touched.email && errors.email}
-                 {...getFieldProps("email")}
+                //  {...getFieldProps("email")}
                  />
+                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{emailError}</Typography>
               </Grid>
 
               <Grid item xs={6}>
@@ -1524,16 +1649,19 @@ console.log("-------",userById)
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="aadhar"
+                  id="aadhaarNumber"
                   autoComplete="aadhar"
                   label="Aadhaar Number*"
                   placeholder="Aadhaar Number*"
+                  onChange={(e)=>{handleAadharCard(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.aadhaarNumber && errors.aadhaarNumber)}
                 helperText={touched.aadhaarNumber && errors.aadhaarNumber}
-                {...getFieldProps("aadhaarNumber")}
+                // {...getFieldProps("aadhaarNumber")}
                   // name="aadhar"
                   // value="aadhar"
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{aadharError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
@@ -1610,10 +1738,13 @@ console.log("-------",userById)
                   autoComplete="caste"
                   label="Caste*"
                   placeholder="Caste*"
+                  onChange={(e)=>{handleCasteChange(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.caste && errors.caste)}
                 helperText={touched.caste && errors.caste}
-                {...getFieldProps("caste")}
+                // {...getFieldProps("caste")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{casteError}</Typography>
       </Grid>
               <Grid item xs={6}>
               <TextField
@@ -1669,28 +1800,34 @@ console.log("-------",userById)
               <Grid item xs={6}>
               <DefaultInput
                   fullWidth
-                  id="emergencycontactName"
+                  id="emergencyContactName"
                   autoComplete="emergencycontactName"
                   label={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
                   placeholder={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
+                  onChange={(e)=>{handleEmgName(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.emergencyContactName && errors.emergencyContactName)}
                 helperText={touched.emergencyContactName && errors.emergencyContactName}
-                {...getFieldProps("emergencyContactName")}
+                // {...getFieldProps("emergencyContactName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{emergencyContactNameError}</Typography>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <DefaultInput
                   fullWidth
-                  id="emergencycontactMoNum"
+                  id="emergencyContactNumber"
                   autoComplete="emergencycontactMoNum"
                   label={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
                   placeholder={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
+                  onChange={(e)=>{handleEmgNumber(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.emergencyContactNumber && errors.emergencyContactNumber)}
                 helperText={touched.emergencyContactNumber && errors.emergencyContactNumber}
-                {...getFieldProps("emergencyContactNumber")}
+                // {...getFieldProps("emergencyContactNumber")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{emergencyContactNumberError}</Typography>
             </Grid>
             </Grid>
             
@@ -1875,23 +2012,29 @@ console.log("-------",userById)
                   autoComplete="bankName"
                   label="Bank Name*"
                   placeholder="Bank Name*"
+                  onChange={(e)=>{handleBankName(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.bankName && errors.bankName)}
                   helperText={touched.bankName && errors.bankName}
-                  {...getFieldProps("bankName")}
+                  // {...getFieldProps("bankName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{bankNameError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="account"
+                  id="accountNumber"
                   type='number'
                   autoComplete="account"
                   label="Account Number*"
                   placeholder="Account Number*"
+                  onChange={(e)=>{handleAccNumber(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.accountNumber && errors.accountNumber)}
                   helperText={touched.accountNumber && errors.accountNumber}
-                  {...getFieldProps("accountNumber")}
+                  // {...getFieldProps("accountNumber")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{accountNumberError}</Typography>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
@@ -1905,11 +2048,11 @@ console.log("-------",userById)
                   label="IFSC Code*"
                   value={ifscCode}
                   placeholder="IFSC Code*"
-                  // onChange={(e)=>{handleIFSCCode(e);
-                  //   formik.handleChange(e)}}
+                  onChange={(e)=>{handleIFSCCode(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.ifscCode && errors.ifscCode)}
                   helperText={touched.ifscCode && errors.ifscCode}
-                  {...getFieldProps("ifscCode")}
+                  // {...getFieldProps("ifscCode")}
                 />
                 
               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{ifscCodeError}</Typography>
@@ -1923,11 +2066,11 @@ console.log("-------",userById)
                   label="Pan Card*"
                   value={panCardNumber}
                   placeholder="Pan Card*"
-                  // onChange={(e)=>{handlePancardNumber(e);
-                  //   formik.handleChange(e)}}
+                  onChange={(e)=>{handlePancardNumber(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.panCardNumber && errors.panCardNumber)}
                   helperText={touched.panCardNumber && errors.panCardNumber}
-                  {...getFieldProps("panCardNumber")}
+                  // {...getFieldProps("panCardNumber")}
                 />
                 
               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{panCardError}</Typography>

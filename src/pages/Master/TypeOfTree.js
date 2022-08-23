@@ -207,7 +207,7 @@ export default function TypeOfTree() {
   
     {userPermissions.includes("create-tree-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Type Of Tree
+            Type Of Tree
 
           </Button>:null}
         </Stack>

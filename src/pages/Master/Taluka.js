@@ -204,7 +204,7 @@ export default function Taluka() {
     </div>
     {userPermissions.includes("create-taluka")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Taluka
+            Taluka
 
           </Button>:null}
         </Stack>

@@ -207,7 +207,7 @@ export default function District() {
 
     {userPermissions.includes("create-qc-remark")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            QC Remark
 
           </Button>:null}
         </Stack>

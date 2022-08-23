@@ -204,7 +204,7 @@ export default function LocationType() {
     </div>
     {userPermissions.includes("create-location-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-           Add New
+           Location Type
 
           </Button>:null}
         </Stack>

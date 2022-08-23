@@ -202,7 +202,7 @@ export default function TreeConditions() {
     </div>
     {userPermissions.includes("create-tree-condition")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Tree Condition
+            Tree Condition
 
           </Button>:null}
         </Stack>

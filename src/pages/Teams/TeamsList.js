@@ -262,7 +262,7 @@ export default function TeamsList() {
            Teams
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Team
+            Team
           </Button>
         </Stack>
 

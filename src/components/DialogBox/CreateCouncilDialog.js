@@ -278,6 +278,7 @@ export default function CreateCouncilDialog(props) {
       censusTarget: Yup.string().required('Census Target is required'),
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
+      locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
     }
     :{
     name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
@@ -295,6 +296,7 @@ export default function CreateCouncilDialog(props) {
     password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     zones: Yup.array().min(1,'Zone is required'),
     wards: Yup.array().min(1,'Ward is required'),
+    locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
   });
 
 
@@ -310,6 +312,7 @@ export default function CreateCouncilDialog(props) {
       censusTarget:data?data.census_target:"",
       zones: data?zoneName:[],
       wards: data?wardName:[],
+      locationAccuracyNeeded:data?data.location_accuracy_needed:"",
     }
     :{
       district:data? data.district_id : "",
@@ -327,6 +330,7 @@ export default function CreateCouncilDialog(props) {
       password: data?data?.password:"",
       zones: data?[]:[],
       wards: data?[]:[],
+      locationAccuracyNeeded:data?data.location_accuracy_needed:"",
 
     },
     validationSchema: DistrictsSchema,
@@ -343,10 +347,12 @@ export default function CreateCouncilDialog(props) {
               "district_id" : value.district,
               "taluka_id" : value.taluka,
               "base_color_target" : value.baseColorTarget,
-              "census_target" : value.censusTarget
+              "census_target" : value.censusTarget,
+              "location_accuracy_needed": value.locationAccuracyNeeded,
               },
               "zones":value.zones,
-              "wards": value.wards
+              "wards": value.wards,
+              
           },data.id))
         }
 
@@ -359,10 +365,12 @@ export default function CreateCouncilDialog(props) {
               "district_id" : value.district,
               "taluka_id" : value.taluka,
               "base_color_target" : value.baseColorTarget,
-              "census_target" : value.censusTarget
+              "census_target" : value.censusTarget,
+              "location_accuracy_needed": value.locationAccuracyNeeded,
               },
               "zones":value.zones,
-              "wards": value.wards
+              "wards": value.wards,
+            
           },data.id))
         }
         
@@ -379,7 +387,8 @@ export default function CreateCouncilDialog(props) {
                 "district_id" : value.district,
                 "taluka_id" : value.taluka,
                 "base_color_target" : value.baseColorTarget,
-                "census_target" : value.censusTarget
+                "census_target" : value.censusTarget,
+                "location_accuracy_needed": value.locationAccuracyNeeded,
                 },
                 "contact_person" : {
                   "first_name" : value.firstName,
@@ -391,7 +400,8 @@ export default function CreateCouncilDialog(props) {
                   "password" : value.password
               },
               "zones":value.zones,
-              "wards": value.wards
+              "wards": value.wards,
+              
             }))
       }
     },
@@ -616,6 +626,18 @@ export default function CreateCouncilDialog(props) {
             </MenuItem>
           ))}
         </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="locationAccuracyNeeded"
+                autoComplete="name"
+                label="Location Accuracy Needed*"
+                placeholder="Enter Location Accuracy Needed*"
+                error={Boolean(touched.locationAccuracyNeeded && errors.locationAccuracyNeeded)}
+                helperText={touched.locationAccuracyNeeded && errors.locationAccuracyNeeded}
+                {...getFieldProps("locationAccuracyNeeded")}
+              />
             </Grid>
             <Divider />
             {!data?

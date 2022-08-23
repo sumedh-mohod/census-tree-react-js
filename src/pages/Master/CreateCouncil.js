@@ -182,7 +182,7 @@ export default function CreateCouncil() {
     </div>
     {userPermissions.includes("create-council")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Council
+            Council
 
           </Button>:null}
         </Stack>

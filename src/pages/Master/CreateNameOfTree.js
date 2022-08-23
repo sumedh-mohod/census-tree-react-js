@@ -217,7 +217,7 @@ export default function CreateNameOfTree() {
     </div>
     {userPermissions.includes("create-tree-name")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Name Of Tree
+            Name Of Tree
 
           </Button>:null}
         </Stack>

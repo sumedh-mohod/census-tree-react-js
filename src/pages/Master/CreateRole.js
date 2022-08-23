@@ -213,7 +213,7 @@ export default function CreateRole() {
 
     {userPermissions.includes("create-role")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Role
+            Role
 
           </Button>:null}
         </Stack>

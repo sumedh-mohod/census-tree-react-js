@@ -199,7 +199,7 @@ export default function TypeOfProperty() {
     </div>
     {userPermissions.includes("create-property-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Type Of Property
 
           </Button>:null}
         </Stack>
