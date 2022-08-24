@@ -98,7 +98,7 @@ import { ShowLoader } from '../actions/CommonAction';
       userPermissions.push(item.name)
     ))
     
-    console.log("in new", users);
+    // console.log("in new", users);
 //     if(users){
 //     selectedUsers= users.filter(
 //       (currentValue) => {if(currentValue.assigned_roles.includes("Census User") || currentValue.assigned_roles.includes("Census QC - Offsite")){
@@ -209,7 +209,7 @@ import { ShowLoader } from '../actions/CommonAction';
   //     // console.log(tree.tree_number)
   //     // console.log(tree.tree_name.name)
   //     ));
-  console.log("userByRoleID",userByRoleID)
+  // console.log("userByRoleID",userByRoleID)
     const handleDialogOpen = () => {
       setDialogOpen(true);
       setUpdateClick(true);
@@ -252,7 +252,7 @@ import { ShowLoader } from '../actions/CommonAction';
     }
 
     const handleApproveNext = () =>{
-      console.log("HANDLE APPROVE CALLED");
+      // console.log("HANDLE APPROVE CALLED");
       dispatch(UpdateQCStatusOfTreeCensus(treeCensusPendingQCStatus?.data[selectedIndex].id,{
         "qc_status" : "Approved"
       }))
@@ -260,7 +260,7 @@ import { ShowLoader } from '../actions/CommonAction';
 
 
     const handleRowClick = (tree) =>{
-      console.log(tree);
+      // console.log(tree);
     }
 
     const handleCouncilChange = (e) => {
@@ -269,7 +269,7 @@ import { ShowLoader } from '../actions/CommonAction';
       setWardID("")
       dispatch(GetActiveZonesByCouncilId(1,e.target.value))
       dispatch(GetActiveWardsByCouncilId(1,e.target.value))
-      console.log("Council change", e.target.value, zones, wards)
+      // console.log("Council change", e.target.value, zones, wards)
       };
 
     const handleZoneChange = (event) => {
@@ -284,7 +284,7 @@ import { ShowLoader } from '../actions/CommonAction';
       setAddedBy(event.target.value);
       };
 
-      console.log("PENDING QC STATUS",treeCensusPendingQCStatus);
+      // console.log("PENDING QC STATUS",treeCensusPendingQCStatus);
 
       const properties = {
         // thumbnailPosition: "left",
@@ -315,8 +315,8 @@ import { ShowLoader } from '../actions/CommonAction';
         },
         validationSchema: FilterSchema,
         onSubmit: (value) => {
-          console.log("in submit");
-          console.log("VALUE",value);
+          // console.log("in submit");
+          // console.log("VALUE",value);
           dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm,checked));
           setState({ ...state, "right": false });
         },

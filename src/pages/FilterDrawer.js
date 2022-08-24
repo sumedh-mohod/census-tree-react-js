@@ -21,7 +21,7 @@ import {
 
 
   export default function FilterDrawer(props){
-    console.log("in drawer");
+    // console.log("in drawer");
     return(
         <Container>
           <Typography variant="h5" gutterBottom >

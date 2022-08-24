@@ -78,7 +78,7 @@ export default function ReportListToolbar({numSelected, handleGetData, handleCou
   const handleCouncilChange = (e) =>{
     setCouncilId(e.target.value);
     handleCouncil(e.target.value)
-    console.log("handleCouncilChange", e.target.value)
+    // console.log("handleCouncilChange", e.target.value)
     council.map((value,index)=>{
       if(value.id===e.target.value){
         setCouncilName(value.name);
@@ -86,14 +86,14 @@ export default function ReportListToolbar({numSelected, handleGetData, handleCou
       return null;
     })
     // councilId(e.target.value)
-    console.log("councilName",councilName)
+    // console.log("councilName",councilName)
     // setZoneId("")
     // setWardId("")
     // dispatch(GetZonesByCouncilId(1,1000,e.target.value))
     // dispatch(GetWardsByCouncilId(1,1000,e.target.value))
   }
-  console.log("councilName",councilName)
-console.log("CouncilId", coucilId)
+//   console.log("councilName",councilName)
+// console.log("CouncilId", coucilId)
 
 
   const DistrictsSchema = Yup.object().shape({
@@ -112,7 +112,7 @@ console.log("CouncilId", coucilId)
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
       dispatch(GetReports(value.council, "01-01-2020", "30-12-2022"))
-      console.log("value", value)
+      // console.log("value", value)
     },
   });
 
@@ -128,9 +128,9 @@ console.log("CouncilId", coucilId)
         council:state.council.activeCouncil,
         reports:state.reports.reports,
       }));
-console.log("reports123", reports)
-console.log("council1234", council)
-console.log("Council123", council.name)
+// console.log("reports123", reports)
+// console.log("council1234", council)
+// console.log("Council123", council.name)
 
 const separateId = (id) => {
   council.map((value,index)=>{
@@ -187,9 +187,9 @@ const dataValue =  reports?.by_wards;
   })
 
 
-  console.log("dataValue", dataValue)
-  console.log("TreeName", TreeName)
-  console.log("treeType", treeType)
+  // console.log("dataValue", dataValue)
+  // console.log("TreeName", TreeName)
+  // console.log("treeType", treeType)
   // console.log("council1234", councilName)
 
   const exportPdf = () => {

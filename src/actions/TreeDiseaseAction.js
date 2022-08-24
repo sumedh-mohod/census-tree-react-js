@@ -18,14 +18,14 @@ import { SetNewAlert } from "./AlertActions";
 const GetAllTreeDisease = (page,limit) => async (dispatch) => {
       try {
         const response = await JWTServer.get(`api/tree-diseases?page=${page}&limit=${limit}`);
-        console.log("GET STATE RESPONSE",response.data);
+        // console.log("GET STATE RESPONSE",response.data);
         dispatch({
           type: GET_TREE_DISEASE,
           payload: response.data,
         });
       } catch (e) {
 
-          console.log("CATCH GET ALL STATE",e.response);
+          // console.log("CATCH GET ALL STATE",e.response);
         dispatch(HandleExceptionWithSecureCatch(e));
       }
     };
@@ -33,14 +33,14 @@ const GetAllTreeDisease = (page,limit) => async (dispatch) => {
 const GetActiveTreeDisease = (status) => async (dispatch) => {
   try {
     const response = await JWTServer.get(`api/tree-diseases?status=${status}`);
-    console.log("active tree disease RESPONSE",response.data);
+    // console.log("active tree disease RESPONSE",response.data);
     dispatch({
       type: GET_ACTIVE_TREE_DISEASE,
       payload: response.data,
     });
   } catch (e) {
 
-      console.log("CATCH GET ALL TREE DISEASE",e.response);
+      // console.log("CATCH GET ALL TREE DISEASE",e.response);
     dispatch(HandleExceptionWithSecureCatch(e));
   }
 };
@@ -54,7 +54,7 @@ const SearchTreeDisease = (page,limit,searchValue) => async (dispatch) => {
     });
   } catch (e) {
 
-      console.log("CATCH GET ALL TREE DISEASE",e.response);
+      // console.log("CATCH GET ALL TREE DISEASE",e.response);
     dispatch(HandleExceptionWithSecureCatch(e));
   }
 };
@@ -62,7 +62,7 @@ const SearchTreeDisease = (page,limit,searchValue) => async (dispatch) => {
 const AddTreeDisease = (params) => async (dispatch) => {
     try {
       const response = await JWTServer.post("/api/tree-diseases",params);
-      console.log("ADD STATE RESPONSE",response.data);
+      // console.log("ADD STATE RESPONSE",response.data);
       dispatch({
         type:  ADD_TREE_DISEASE,
         payload: response.data,
@@ -79,7 +79,7 @@ const AddTreeDisease = (params) => async (dispatch) => {
     const EditTreeDisease = (params,stateId) => async (dispatch) => {
       try {
         const response = await JWTServer.put(`/api/tree-diseases/${stateId}`,params);
-        console.log("EDIT STATE RESPONSE",response.data);
+        // console.log("EDIT STATE RESPONSE",response.data);
         dispatch({
           type: EDIT_TREE_DISEASE,
           payload: response.data,
@@ -96,7 +96,7 @@ const AddTreeDisease = (params) => async (dispatch) => {
     const DeleteTreeDisease = (params,status) => async (dispatch) => {
       try {
         const response = await JWTServer.delete(`/api/tree-diseases/${params}?status=${status}`);
-        console.log("DELETE TREE DISEASE RESPONSE",response);
+        // console.log("DELETE TREE DISEASE RESPONSE",response);
         dispatch({
           type: DELETE_TREE_DISEASE,
           payload: response.data,

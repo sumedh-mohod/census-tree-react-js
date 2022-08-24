@@ -311,14 +311,14 @@ const handleFamilyChange = (event) => {
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("Submit",value
-       )
+      // console.log("Submit",value
+      //  )
        const maxHeight = `${value.minHeight} - ${value.maxHeightx}`
        const age = `${value.minAge} - ${value.maxAge} `
        const growthFactor= `${value.minGrowth} - ${value.maxGrowth}`
        const floweringSeason= `${value.floweringStart } - ${value.floweringEnd}`
        const fruitingSeason= `${value.fruitingStart} - ${value.fruitingEnd}`
-       console.log("maxHeight", maxHeight)
+      //  console.log("maxHeight", maxHeight)
       if(data){
         dispatch(EditTreeName({
           "name":value.name,

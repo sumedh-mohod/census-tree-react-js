@@ -6,7 +6,7 @@ import { ADD_DESIGNATIONS, DELETE_DESIGNATIONS, EDIT_DESIGNATIONS, GET_ACTIVE_DE
 const GetDesignations = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/designations?page=${page}&limit=${limit}`);
-      console.log("DESIGNATIONS RESPONSE",response.data);
+      // console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_DESIGNATIONS,
         payload: response.data,
@@ -59,7 +59,7 @@ const GetDesignations = (page,limit) => async (dispatch) => {
   const EditDesignations = (params,districtsId) => async (dispatch) => {
     try {
       const response = await JWTServer.put(`/api/designations/${districtsId}`,params);
-      console.log("EDIT STATE RESPONSE",response.data);
+      // console.log("EDIT STATE RESPONSE",response.data);
       dispatch({
         type: EDIT_DESIGNATIONS,
         payload: response.data,
@@ -76,7 +76,7 @@ const GetDesignations = (page,limit) => async (dispatch) => {
   const DeleteDesignations = (params,status) => async (dispatch) => {
     try {
       const response = await JWTServer.delete(`/api/designations/${params}?status=${status}`);
-      console.log("DELETE STATE RESPONSE",response.data);
+      // console.log("DELETE STATE RESPONSE",response.data);
       dispatch({
         type: DELETE_DESIGNATIONS,
         payload: response.data,

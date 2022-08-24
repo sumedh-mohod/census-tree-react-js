@@ -107,7 +107,7 @@ export default function TreeFamilies() {
   ))
   
 
-  console.log("TREE FAmily",treeFamily)
+  // console.log("TREE FAmily",treeFamily)
 
   useEffect(()=>{
     dispatch(GetTreeFamily(page,rowsPerPage));

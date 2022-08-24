@@ -6,7 +6,7 @@ import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_T
 const GetUsers = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/users?page=${page}&limit=${limit}`);
-      console.log("DESIGNATIONS RESPONSE",response.data);
+      // console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_USER,
         payload: response.data,
@@ -19,7 +19,7 @@ const GetUsers = (page,limit) => async (dispatch) => {
   const GetActiveUsers = (status) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/users?status=${status}`);
-      console.log("active users",response.data);
+      // console.log("active users",response.data);
       dispatch({
         type: GET_ACTIVE_USER,
         payload: response.data,
@@ -32,7 +32,7 @@ const GetUsers = (page,limit) => async (dispatch) => {
   const GetUsersByRoleID = (status, roleid1, roleid2) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/users?status=${status}&role_id[]=${roleid1}&role_id[]=${roleid2}`);
-      console.log("users by roles",response.data);
+      // console.log("users by roles",response.data);
       dispatch({
         type: GET_USERS_BY_ROLEID,
         payload: response.data,
@@ -46,7 +46,7 @@ const GetUsers = (page,limit) => async (dispatch) => {
   const GetUsersById = (userId) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/users/${userId}`);
-      console.log("DESIGNATIONS RESPONSE",response.data);
+      // console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_USER_BY_ID,
         payload: response.data,
@@ -69,7 +69,7 @@ const GetUsers = (page,limit) => async (dispatch) => {
   };
 
   const AddUsers = (params) => async (dispatch) => {
-      console.log("ADD USER PARAMS",params);
+      // console.log("ADD USER PARAMS",params);
     try {
       const response = await JWTServer.post("/api/users",params);
       dispatch({
@@ -86,7 +86,7 @@ const GetUsers = (page,limit) => async (dispatch) => {
   };
 
   const EditUsers = (params,districtsId) => async (dispatch) => {
-    console.log("EDIT USER PARAMS",params)
+    // console.log("EDIT USER PARAMS",params)
     try {
       const response = await JWTServer.put(`/api/users/${districtsId}`,params);
       dispatch({
@@ -153,7 +153,7 @@ const GetUsers = (page,limit) => async (dispatch) => {
   const UnlinkDevice = (params) => async (dispatch) => {
   try {
     const response = await JWTServer.post("/api/users/unlink-device",params);
-    console.log("RESPONSE",response.data);
+    // console.log("RESPONSE",response.data);
     dispatch({
       type: UNLINK_DEVICE,
       payload: response.data,

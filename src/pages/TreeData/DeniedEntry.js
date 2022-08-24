@@ -193,14 +193,14 @@ export default function DeniedEntry() {
     dispatch(GetDeniedEntry(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
-  console.log("DENIED ENTRY",deniedEntry);
+  // console.log("DENIED ENTRY",deniedEntry);
 
   deniedEntry?.map((option,index)=>{
-    console.log("PROPRTY TYPE",option.property_type);
-    console.log("PROPERTY NUMBER",option.property?.property_number);
-    console.log("OWNER NAME",option.property?.owner_name);
-    console.log("REASON",option.reason);
-    console.log("DENIED FOR",option.denied_for);
+    // console.log("PROPRTY TYPE",option.property_type);
+    // console.log("PROPERTY NUMBER",option.property?.property_number);
+    // console.log("OWNER NAME",option.property?.owner_name);
+    // console.log("REASON",option.reason);
+    // console.log("DENIED FOR",option.denied_for);
     return null;
   })
 

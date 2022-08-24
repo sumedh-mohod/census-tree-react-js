@@ -63,7 +63,7 @@ export default function BaseColorDialog(props) {
         },
       ];
   const { isOpen, data } = props;
-  console.log(isOpen);
+  // console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [status, setStatus] = React.useState('Status')
 

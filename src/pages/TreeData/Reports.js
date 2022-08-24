@@ -103,8 +103,8 @@ export default function Reports() {
     }
     setShowList(true);
   },[])
-  console.log("reports", reports)
-  console.log("council", council)
+  // console.log("reports", reports)
+  // console.log("council", council)
 
   // const handleNameCouncil = () => {
 
@@ -210,11 +210,11 @@ const handleCoucilChange = (value) => {
   })
 
 
-  console.log("dataValue", dataValue)
-  console.log("TreeName", TreeName)
-  console.log("treeType", treeType)
-  console.log("council1234", councilName)
-  console.log("Council123", council?.id)
+  // console.log("dataValue", dataValue)
+  // console.log("TreeName", TreeName)
+  // console.log("treeType", treeType)
+  // console.log("council1234", councilName)
+  // console.log("Council123", council?.id)
   const exportPdf = () => {
     // eslint-disable-next-line new-cap
     const doc = new jsPDF()
@@ -258,7 +258,7 @@ const handleCoucilChange = (value) => {
     };
   }
 
-  console.log("reports1", reports?.by_wards)
+  // console.log("reports1", reports?.by_wards)
   // const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return (

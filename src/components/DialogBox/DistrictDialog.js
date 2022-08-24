@@ -97,15 +97,15 @@ export default function DistrictDialog(props) {
 
   const handleStateChange = (event) => {
     // const states = {label:event.target.label,value:event.target.value}
-    console.log("HANDLE STATE CHANGE",event.target.value)
+    // console.log("HANDLE STATE CHANGE",event.target.value)
     // setState(event.target.value);
   };
 
   const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
+    // console.log("LIST OF OBJ",listOfObj);
+    // console.log("ID",id);
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
+    // console.log("FOUND",found);
     if(found){
       return found.name
     }
@@ -153,7 +153,7 @@ export default function DistrictDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
+      // console.log("VALUE",value);
       if(data){
         dispatch(EditDistricts({
           "name":value.districts,

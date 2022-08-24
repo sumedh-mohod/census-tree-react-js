@@ -193,14 +193,14 @@ export default function NoTreeProperty() {
     dispatch(GetNoTreeProperty(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
-  console.log("No tree property",noTreeProperty);
+  // console.log("No tree property",noTreeProperty);
 
   noTreeProperty?.map((option,index)=>{
-    console.log("PROPRTY TYPE",option.property_type);
-    console.log("PROPERTY NUMBER",option.property?.property_number);
-    console.log("OWNER NAME",option.property?.owner_name);
-    console.log("REASON",option.reason);
-    console.log("DENIED FOR",option.denied_for);
+    // console.log("PROPRTY TYPE",option.property_type);
+    // console.log("PROPERTY NUMBER",option.property?.property_number);
+    // console.log("OWNER NAME",option.property?.owner_name);
+    // console.log("REASON",option.reason);
+    // console.log("DENIED FOR",option.denied_for);
     return null;
   })
 

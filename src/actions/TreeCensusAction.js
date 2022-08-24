@@ -95,10 +95,10 @@ const UpdateQCStatusOfTreeCensus = (id,params) => async (dispatch) => {
 };
 
 const UpdateCensusTree = (params, id) => async (dispatch) => {
-  console.log("UPDATE CENSUS PARAMS",params);
+  // console.log("UPDATE CENSUS PARAMS",params);
   try {
     const response = await JWTServer.put(`/api/census-trees/${id}`,params);
-    console.log("Update Census Tree",response.data);
+    // console.log("Update Census Tree",response.data);
     dispatch({
       type: UPDATE_CENSUS_TREE,
       payload: response.data,
@@ -115,7 +115,7 @@ const UpdateCensusTree = (params, id) => async (dispatch) => {
 const ReferToExpert = (params,id) => async (dispatch) => {
   try {
     const response = await JWTServer.post(`/api/census-trees/referred-to-expert/${id}`,params);
-    console.log("Refer to expert Census Tree",response.data);
+    // console.log("Refer to expert Census Tree",response.data);
     dispatch({
       type: REFER_TO_EXPERT,
       payload: response.data,
@@ -131,7 +131,7 @@ const ReferToExpert = (params,id) => async (dispatch) => {
 
 const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDate,addedBy,checked) => async (dispatch) => {
 
-  console.log("ADDED BY",addedBy);
+  // console.log("ADDED BY",addedBy);
   let url = `/api/census-trees/qc/pending`
   if(councilId){
     url = `${url}?where[council_id]=${councilId}`;
@@ -157,7 +157,7 @@ const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDat
 
   try {
     const response = await JWTServer.get(`${url}`);
-    console.log(response)
+    // console.log(response)
     dispatch({
       type: GET_TREE_CENSUS_PENDING_QC_STATUS,
       payload: response.data,

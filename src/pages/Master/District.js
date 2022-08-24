@@ -115,7 +115,7 @@ export default function District() {
   ))
   
 
-  console.log("DISTRICTS",districts)
+  // console.log("DISTRICTS",districts)
 
   useEffect(()=>{
     dispatch(GetAllDistricts(page,rowsPerPage));

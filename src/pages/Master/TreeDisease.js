@@ -75,7 +75,7 @@ export default function TreeDisease() {
     loggedUser:state.auth.loggedUser,
   }));
 
-  console.log("treeDisease",treeDisease)
+  // console.log("treeDisease",treeDisease)
 
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)

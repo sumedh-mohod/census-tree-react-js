@@ -121,7 +121,7 @@ export default function District() {
     }
   },[pageInfo])
   
-  console.log("qcremarks---",qcremarks)
+  // console.log("qcremarks---",qcremarks)
   const handleNewUserClick = () => {
     setDialogData(null);
     setOpen(!open)

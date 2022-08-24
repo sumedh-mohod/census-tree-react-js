@@ -88,7 +88,7 @@ export default function CreateCouncil() {
   ))
   
 
-  console.log("COUNCIL",council);
+  // console.log("COUNCIL",council);
 
   useEffect(()=>{
     dispatch(GetCouncil(page,rowsPerPage));

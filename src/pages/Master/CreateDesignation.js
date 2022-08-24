@@ -109,7 +109,7 @@ export default function CreateDestination() {
     userPermissions.push(item.name)
   ))
   
-  console.log("DISTRICTS",designations)
+  // console.log("DISTRICTS",designations)
 
   useEffect(()=>{
     dispatch(GetDesignations(page,rowsPerPage));

@@ -90,7 +90,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       showLoader : state.common.showLoader,
     }));
 
-    console.log("Logged user",loggedUser);
+    // console.log("Logged user",loggedUser);
 
     loggedUser.roles[0].permissions.map((item, index)=>(
       userPermissions.push(item.name)
@@ -220,7 +220,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       setBaseColorId(null);
     };
 
-    console.log("BASE COLOR PENDING QC STATUS",baseColorPendingQCStatus);   
+    // console.log("BASE COLOR PENDING QC STATUS",baseColorPendingQCStatus);   
 
 
 
@@ -250,7 +250,7 @@ import { ShowLoader } from '../../actions/CommonAction';
 
 
     const handleApproveNext = () =>{
-      console.log("HANDLE APPROVE CALLED");
+      // console.log("HANDLE APPROVE CALLED");
       dispatch(UpdateQCStatusOfBaseColorTrees(baseColorPendingQCStatus?.data[selectedIndex].id,{
         "qc_status" : "Approved"
       }))
@@ -273,7 +273,7 @@ import { ShowLoader } from '../../actions/CommonAction';
 
 
     const handleRowClick = (tree) =>{
-      console.log(tree);
+      // console.log(tree);
     }
 
     const handleCouncilChange = (e) => {
@@ -296,7 +296,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       setAddedBy(event.target.value);
       };
 
-      console.log("PENDING QC STATUS",baseColorPendingQCStatus);
+      // console.log("PENDING QC STATUS",baseColorPendingQCStatus);
 
       const properties = {
         // thumbnailPosition: "left",
@@ -326,16 +326,16 @@ import { ShowLoader } from '../../actions/CommonAction';
         },
         validationSchema: FilterSchema,
         onSubmit: (value) => {
-          console.log("in submit");
-          console.log("VALUE",value);
+          // console.log("in submit");
+          // console.log("VALUE",value);
           setState({ ...state, "right": false });
           dispatch(GetBaseColorPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm));
           
         },
       });
 
-      console.log("ZONES",zones);
-      console.log("WARDS",wards);
+      // console.log("ZONES",zones);
+      // console.log("WARDS",wards);
     
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 

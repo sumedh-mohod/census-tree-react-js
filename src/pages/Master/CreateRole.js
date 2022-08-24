@@ -113,7 +113,7 @@ export default function CreateRole() {
     loggedUser:state.auth.loggedUser,
   }));
 
-  console.log("ROLES",roles);
+  // console.log("ROLES",roles);
 
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
