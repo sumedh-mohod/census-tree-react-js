@@ -632,8 +632,8 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="locationAccuracyNeeded"
                 autoComplete="name"
-                label="Location Accuracy Needed*"
-                placeholder="Enter Location Accuracy Needed*"
+                label="Location Accuracy Needed* (in meter)"
+                placeholder="Enter Location Accuracy Needed* (in meter)"
                 error={Boolean(touched.locationAccuracyNeeded && errors.locationAccuracyNeeded)}
                 helperText={touched.locationAccuracyNeeded && errors.locationAccuracyNeeded}
                 {...getFieldProps("locationAccuracyNeeded")}
