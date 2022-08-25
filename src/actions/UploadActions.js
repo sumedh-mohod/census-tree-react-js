@@ -13,7 +13,7 @@ import { SetNewAlert } from "./AlertActions";
 const UploadFile = (params,index) => async (dispatch) => {
     try {
       const response = await formDataJWTServer.post("/api/upload-file", params);
-      console.log("UPLOAD FILE RESPONSE",response.data);
+      // console.log("UPLOAD FILE RESPONSE",response.data);
       const uploadFile = response.data.data;
 
       uploadFile.index = index;
@@ -29,7 +29,7 @@ const UploadFile = (params,index) => async (dispatch) => {
   const UploadImage = (params) => async (dispatch) => {
     try {
       const response = await formDataJWTServer.post("/api/upload-image", params);
-      console.log("UPLOAD FILE RESPONSE",response.data);
+      // console.log("UPLOAD FILE RESPONSE",response.data);
       dispatch({
         type: UPLOAD_IMAGE,
         payload: response.data,

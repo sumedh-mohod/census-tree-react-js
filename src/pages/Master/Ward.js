@@ -108,7 +108,7 @@ export default function Ward() {
     userPermissions.push(item.name)
   ))
   
-  console.log("WARDS",wards)
+  // console.log("WARDS",wards)
 
   useEffect(()=>{
     dispatch(GetWards(page,rowsPerPage));
@@ -202,7 +202,7 @@ export default function Ward() {
     </div>
     {userPermissions.includes("create-ward")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Ward
+            Ward
 
           </Button>:null}
         </Stack>

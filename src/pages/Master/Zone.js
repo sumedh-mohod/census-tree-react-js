@@ -112,7 +112,7 @@ export default function Zone() {
     dispatch(GetZones(page,rowsPerPage));
   },[addZonesLog,editZonesLog,deleteZonesLog])
 
-  console.log("ZONES",zones);
+  // console.log("ZONES",zones);
 
   useEffect(()=>{
     if(pageInfo){
@@ -202,7 +202,7 @@ export default function Zone() {
     </div>
     {userPermissions.includes("create-zone")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Zone
+            Zone
 
           </Button>:null}
         </Stack>

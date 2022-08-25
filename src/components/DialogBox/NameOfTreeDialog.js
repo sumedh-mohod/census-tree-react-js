@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
-import RangePicker from "react-range-picker";
+
 import { AddTreeName, EditTreeName } from '../../actions/TreeNameAction';
 import { GetActiveTreeType } from '../../actions/TreeTypeActions';
 import {GetActiveTreeFamily} from "../../actions/TreeFamilyAction"
@@ -323,8 +323,8 @@ const handleFamilyChange = (event) => {
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("Submit",value
-       )
+      // console.log("Submit",value
+      //  )
        const maxHeight = `${value.minHeight} - ${value.maxHeightx}`
        const maxData= data.max_height.split('-')
        const maxValue= maxData[1]

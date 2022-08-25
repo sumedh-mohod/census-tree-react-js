@@ -113,7 +113,7 @@ export default function CreateRole() {
     loggedUser:state.auth.loggedUser,
   }));
 
-  console.log("ROLES",roles);
+  // console.log("ROLES",roles);
 
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
@@ -213,7 +213,7 @@ export default function CreateRole() {
 
     {userPermissions.includes("create-role")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Role
+            Role
 
           </Button>:null}
         </Stack>

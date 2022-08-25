@@ -117,7 +117,7 @@ export default function CreateNameOfTree() {
    
   }));
 
-  console.log("TREE NAME",treeName)
+  // console.log("TREE NAME",treeName)
 
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
@@ -217,7 +217,7 @@ export default function CreateNameOfTree() {
     </div>
     {userPermissions.includes("create-tree-name")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Name Of Tree
+            Tree Name
 
           </Button>:null}
         </Stack>

@@ -104,7 +104,7 @@ export default function TalukasDialog(props) {
     setShowDistrict(true);
      setDistrict("District")
      setState(event.target.value);
-     console.log("Districts......", districts);
+    //  console.log("Districts......", districts);
    };
 
    const handleDistrictChange = (event) => {

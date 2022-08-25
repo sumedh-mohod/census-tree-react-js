@@ -75,7 +75,7 @@ export default function TreeDisease() {
     loggedUser:state.auth.loggedUser,
   }));
 
-  console.log("treeDisease",treeDisease)
+  // console.log("treeDisease",treeDisease)
 
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
@@ -173,7 +173,7 @@ export default function TreeDisease() {
     </div>
     {userPermissions.includes("create-tree-disease")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Tree Disease
 
           </Button>:null}
         </Stack>

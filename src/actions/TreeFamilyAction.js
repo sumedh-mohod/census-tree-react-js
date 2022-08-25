@@ -6,7 +6,7 @@ import { ADD_TREE_FAMILY, DELETE_TREE_FAMILY, EDIT_TREE_FAMILY, GET_TREE_FAMILY,
 const GetTreeFamily = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/tree-families?page=${page}&limit=${limit}`);
-      console.log("Tree Family Action",response.data);
+      // console.log("Tree Family Action",response.data);
       dispatch({
         type: GET_TREE_FAMILY,
         payload: response.data,
@@ -61,7 +61,7 @@ const GetTreeFamily = (page,limit) => async (dispatch) => {
   const EditTreeFamily = (params,districtsId) => async (dispatch) => {
     try {
       const response = await JWTServer.put(`/api/tree-families/${districtsId}`,params);
-      console.log("EDIT STATE RESPONSE",response.data);
+      // console.log("EDIT STATE RESPONSE",response.data);
       dispatch({
         type: EDIT_TREE_FAMILY,
         payload: response.data,
@@ -78,7 +78,7 @@ const GetTreeFamily = (page,limit) => async (dispatch) => {
   const DeleteTreeFamily = (params,status) => async (dispatch) => {
     try {
       const response = await JWTServer.delete(`/api/tree-families/${params}?status=${status}`);
-      console.log("DELETE STATE RESPONSE",response.data);
+      // console.log("DELETE STATE RESPONSE",response.data);
       dispatch({
         type: DELETE_TREE_FAMILY,
         payload: response.data,

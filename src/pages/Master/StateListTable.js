@@ -76,7 +76,7 @@ export default function StateListTable() {
 
   }));
 
-  console.log("STATES",states);
+  // console.log("STATES",states);
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
   ))
@@ -173,7 +173,7 @@ export default function StateListTable() {
     </div>
     {userPermissions.includes("create-state")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add State
+            State
 
           </Button>:null}
         </Stack>

@@ -117,7 +117,7 @@ export default function TeamsList() {
     activeWardsByCID:state.wards.activeWardsByCID,
   }));
 
-  console.log("Teams",teams)
+  // console.log("Teams",teams)
 
   useEffect(()=>{
     dispatch(GetTeam(page,rowsPerPage));
@@ -262,7 +262,7 @@ export default function TeamsList() {
            Teams
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Team
+            Team
           </Button>
         </Stack>
 

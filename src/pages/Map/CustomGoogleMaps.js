@@ -99,7 +99,7 @@ function Map(props) {
     scaledSize: new window.google.maps.Size(90, 42)
   };
 
-  console.log("PROPS TREE LOCATION",props.treeLocation);
+  // console.log("PROPS TREE LOCATION",props.treeLocation);
 
   const handleViewOpen = (images) => {
     setViewOpen(!viewOpen)

@@ -81,7 +81,7 @@ export default function TypeOfTree() {
   };
 
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    // console.log("hiiii")
     setOpen(!open)
   }
 
@@ -132,7 +132,7 @@ export default function TypeOfTree() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Type Of House
 
           </Button>
         </Stack>

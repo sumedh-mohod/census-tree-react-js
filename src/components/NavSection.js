@@ -150,8 +150,8 @@ export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
   const loggedUser = useSelector(state=> state.auth.loggedUser);
   const navConfigArray = [];
-  console.log(loggedUser);
-  console.log(loggedUser.roles[0].permissions);
+  // console.log(loggedUser);
+  // console.log(loggedUser.roles[0].permissions);
   const userPermissions = loggedUser.roles[0].permissions;
 
   const isContainPermission = (name) => {
@@ -312,7 +312,6 @@ export default function NavSection({ navConfig, ...other }) {
     navConfigArray.push(treeDataOuterObj);
   }
 
-
   const newReportObj =   {
     title: 'Reports',
     path: '/dashboard/newReports',
@@ -349,6 +348,7 @@ export default function NavSection({ navConfig, ...other }) {
   // navConfigArray.push(reportObj);
 
   console.log(navConfigArray);
+  // console.log(navConfigArray);
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
 
   return (

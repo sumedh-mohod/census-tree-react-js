@@ -24,8 +24,8 @@ import {
  import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../../actions/TreeCensusAction';
  import { GetActiveCouncil, SetActiveCouncil} from '../../actions/CouncilAction';
- import { GetZonesByCouncilId, GetActiveZones, SetActiveZones} from '../../actions/ZonesAction';
- import {GetWardsByCouncilId, GetActiveWards, SetActiveWards} from '../../actions/WardsActions';
+ import { GetActiveZonesByCouncilId, GetActiveZones, SetActiveZones} from '../../actions/ZonesAction';
+ import {GetActiveWardsByCouncilId, GetActiveWards, SetActiveWards} from '../../actions/WardsActions';
  import { GetUsers, GetUsersByRoleID } from '../../actions/UserAction';
 
  import Page from '../../components/Page';
@@ -80,8 +80,8 @@ import { ShowLoader } from '../../actions/CommonAction';
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.activeCouncil,
-      zones:state.zones.activeZones,
-      wards:state.wards.activeWards,
+      zones:state.zones.activeZonesByCID,
+      wards:state.wards.activeWardsByCID,
       userByRoleID: state.users.userByRoleID,
       baseColorPendingQCStatus: state.baseColor.baseColorPendingQCStatus,
       updateQCStatusLog: state.baseColor.updateQCStatusLog,
@@ -90,7 +90,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       showLoader : state.common.showLoader,
     }));
 
-    console.log("Logged user",loggedUser);
+    // console.log("Logged user",loggedUser);
 
     loggedUser.roles[0].permissions.map((item, index)=>(
       userPermissions.push(item.name)
@@ -220,7 +220,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       setBaseColorId(null);
     };
 
-    console.log("BASE COLOR PENDING QC STATUS",baseColorPendingQCStatus);   
+    // console.log("BASE COLOR PENDING QC STATUS",baseColorPendingQCStatus);   
 
 
 
@@ -250,7 +250,7 @@ import { ShowLoader } from '../../actions/CommonAction';
 
 
     const handleApproveNext = () =>{
-      console.log("HANDLE APPROVE CALLED");
+      // console.log("HANDLE APPROVE CALLED");
       dispatch(UpdateQCStatusOfBaseColorTrees(baseColorPendingQCStatus?.data[selectedIndex].id,{
         "qc_status" : "Approved"
       }))
@@ -273,15 +273,15 @@ import { ShowLoader } from '../../actions/CommonAction';
 
 
     const handleRowClick = (tree) =>{
-      console.log(tree);
+      // console.log(tree);
     }
 
     const handleCouncilChange = (e) => {
       setCouncilID(e.target.value);
       setZoneID("")
       setWardID("")
-      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+      dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+      dispatch(GetActiveWardsByCouncilId(1,e.target.value))
       };
 
     const handleZoneChange = (event) => {
@@ -296,7 +296,7 @@ import { ShowLoader } from '../../actions/CommonAction';
       setAddedBy(event.target.value);
       };
 
-      console.log("PENDING QC STATUS",baseColorPendingQCStatus);
+      // console.log("PENDING QC STATUS",baseColorPendingQCStatus);
 
       const properties = {
         // thumbnailPosition: "left",
@@ -326,16 +326,16 @@ import { ShowLoader } from '../../actions/CommonAction';
         },
         validationSchema: FilterSchema,
         onSubmit: (value) => {
-          console.log("in submit");
-          console.log("VALUE",value);
+          // console.log("in submit");
+          // console.log("VALUE",value);
           setState({ ...state, "right": false });
           dispatch(GetBaseColorPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm));
           
         },
       });
 
-      console.log("ZONES",zones);
-      console.log("WARDS",wards);
+      // console.log("ZONES",zones);
+      // console.log("WARDS",wards);
     
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
@@ -430,11 +430,11 @@ import { ShowLoader } from '../../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Zone*</em>
           </MenuItem>
-              {zones?.map((option) => (
+              {councilID? zones?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>
@@ -459,11 +459,11 @@ import { ShowLoader } from '../../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Ward*</em>
           </MenuItem>
-              {wards?.map((option) => (
+              {councilID? wards?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>

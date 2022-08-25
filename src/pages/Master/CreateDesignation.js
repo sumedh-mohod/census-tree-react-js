@@ -109,7 +109,7 @@ export default function CreateDestination() {
     userPermissions.push(item.name)
   ))
   
-  console.log("DISTRICTS",designations)
+  // console.log("DISTRICTS",designations)
 
   useEffect(()=>{
     dispatch(GetDesignations(page,rowsPerPage));
@@ -204,7 +204,7 @@ export default function CreateDestination() {
     </div>
     {userPermissions.includes("create-designation")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Designation
+            Designation
 
           </Button>:null}
         </Stack>

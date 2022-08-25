@@ -146,7 +146,7 @@ export default function TreeOnMap(props) {
       },
       validationSchema: treeNumber ? TreeSchema : DistrictsSchema,
       onSubmit: (value) => {
-        console.log("in on ");
+        // console.log("in on ");
         setState({ ...state, "right": false });
         dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate,treeNumber))
       },

@@ -105,7 +105,7 @@ export default function TreeDensity() {
     pageInfo : state.master.pageInfo
   }));
 
-  console.log("DISTRICTS",districts)
+  // console.log("DISTRICTS",districts)
 
   useEffect(()=>{
     dispatch(GetAllDistricts(page,rowsPerPage));
@@ -201,7 +201,7 @@ export default function TreeDensity() {
 
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Tree Density
 
           </Button>
         </Stack>

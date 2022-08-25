@@ -88,7 +88,7 @@ export default function CreateCouncil() {
   ))
   
 
-  console.log("COUNCIL",council);
+  // console.log("COUNCIL",council);
 
   useEffect(()=>{
     dispatch(GetCouncil(page,rowsPerPage));
@@ -182,7 +182,7 @@ export default function CreateCouncil() {
     </div>
     {userPermissions.includes("create-council")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Council
+            Council
 
           </Button>:null}
         </Stack>
