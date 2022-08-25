@@ -72,6 +72,8 @@ export default function NameOfTreeDialog(props) {
   const [seasonEnd, setSeasonEnd] = React.useState('');
   const [fruitSeason, setFruitSeason] = React.useState('');
   const [fruitSeasonEnd, setFruitSeasonEnd] = React.useState('');
+  const [minHeight, setMinHeight] = React.useState('');
+  const [maxHeight, setMaxHeight] = React.useState('');
   const [val, setVal] = React.useState([40,80]);
   const [growth, setGrowth]= React.useState('');
 
@@ -111,8 +113,8 @@ setVal(item)
 
   const originValue = [
     {
-      value: 'Navtive',
-      label: 'Navtive',
+      value: 'Native',
+      label: 'Native',
     },
     {
       value: 'Exotic',
@@ -278,9 +280,19 @@ const handleFamilyChange = (event) => {
     setSeasonEnd(event.target.value)
   }
 
+  const handleMinHeightChange =(event) => {
+    setMinHeight(event.target.value)
+  }
+
+  const handleMaxHeightChange = (event) => {
+    setMaxHeight(event.target.value)
+  }
+
+
+
   const DesignationsSchema = Yup.object().shape({
     name: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Name is required'),
-    botanicalName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('botanical Name is required'),
+    botanicalName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Botanical Name is required'),
     treeType: Yup.string().required('Tree Type is required'),
     treeFamily: Yup.string().required('Tree Family is required'),
     origin: Yup.string().required('origin is required'),
@@ -314,11 +326,15 @@ const handleFamilyChange = (event) => {
       console.log("Submit",value
        )
        const maxHeight = `${value.minHeight} - ${value.maxHeightx}`
+       const maxData= data.max_height.split('-')
+       const maxValue= maxData[1]
+       console.log("maxValue", maxValue)
        const age = `${value.minAge} - ${value.maxAge} `
        const growthFactor= `${value.minGrowth} - ${value.maxGrowth}`
        const floweringSeason= `${value.floweringStart } - ${value.floweringEnd}`
        const fruitingSeason= `${value.fruitingStart} - ${value.fruitingEnd}`
        console.log("maxHeight", maxHeight)
+      //  console.log("maxData", maxData)
       if(data){
         dispatch(EditTreeName({
           "name":value.name,
@@ -331,7 +347,7 @@ const handleFamilyChange = (event) => {
           // "flowering_season": value.floweringSeason,
           "flowering_season": floweringSeason,
           "fruiting_season": fruitingSeason,
-          "max_height" :maxHeight,
+          "max_height" : maxHeight,
           "max_age": age,
           "growth_factor": growthFactor,
 
@@ -377,7 +393,7 @@ const handleFamilyChange = (event) => {
         <DialogContent>
         <Grid container spacing={1}>
         <Grid item xs={12}>
-        <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Name</FormLabel>
+        <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Name*</FormLabel>
               <DefaultInput
                 fullWidth
                 required
@@ -403,7 +419,7 @@ const handleFamilyChange = (event) => {
               />
             </Grid>
             <Grid item xs={12}>
-            <FormLabel style={{marginLeft: 45, marginTop: 20}}>Type Of Tree</FormLabel>
+            <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Type*</FormLabel>
             <Select
               // SelectProps={{
               //   multiple:true
@@ -459,7 +475,7 @@ const handleFamilyChange = (event) => {
             </Select>
             </Grid>
             <Grid item xs={12}>
-            <FormLabel style={{marginLeft: 45, marginTop: 20}}>Uses</FormLabel>
+            <FormLabel style={{marginLeft: 45, marginTop: 20}}>Uses*</FormLabel>
             <TextareaAutosize
   aria-label="empty textarea"
   fullWidth
@@ -474,7 +490,7 @@ const handleFamilyChange = (event) => {
 />
             </Grid>
             <Grid item xs={12}>
-            <FormLabel style={{marginLeft: 45, marginTop: 20}}>Origin</FormLabel>
+            <FormLabel style={{marginLeft: 45, marginTop: 20}}>Origin*</FormLabel>
             <Select
               // SelectProps={{
               //   multiple:true
@@ -507,11 +523,10 @@ const handleFamilyChange = (event) => {
                 fullWidth
                 required
                 id="oxygenEmittrate"
-                defaultValue={data? data.oxygenEmittrate: ""}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
-                // error={Boolean(touched.name && errors.name)}
-                // helperText={touched.name && errors.name}
+                error={Boolean(touched.oxygenEmittrate && errors.oxygenEmittrate)}
+                helperText={touched.oxygenEmittrate && errors.oxygenEmittrate}
                 {...getFieldProps("oxygenEmittrate")}
               />
             </Grid>
@@ -527,7 +542,6 @@ const handleFamilyChange = (event) => {
           id="floweringStart"
           value={seasonStart}
           displayEmpty
-          defaultValue={data? data.floweringStart: ""}
           // label="Age"
           // placeholder="Flowering Season Start"
           onChange={handleChange}
@@ -553,7 +567,6 @@ const handleFamilyChange = (event) => {
           id="floweringEnd"
           value={seasonEnd}
           displayEmpty
-          defaultValue={data? data.floweringEnd: ""}
           // label="Age"
           placeholder="Flowering Season End"
           onChange={handleSeasonEndChange}
@@ -569,7 +582,7 @@ const handleFamilyChange = (event) => {
         </Select>
         </Grid>
         </Grid>
-            <FormLabel style={{marginLeft: 48, marginTop: 20}}>Flowering Season</FormLabel>
+            <FormLabel style={{marginLeft: 48, marginTop: 20}}>Fruiting Season</FormLabel>
             <Grid container style={{display:"flex"}}>
             {/* <FormControl> */}
    
@@ -621,7 +634,7 @@ const handleFamilyChange = (event) => {
         </Select>
         </Grid>
         </Grid>
-        <FormLabel style={{marginLeft: 48, marginTop: 20}}>Growth Factor(ft/yr)</FormLabel>
+        <FormLabel style={{marginLeft: 48, marginTop: 20}}>Growth Factor (ft/yr)</FormLabel>
             <Grid container style={{display:"flex"}}>
             {/* <FormControl> */}
    
@@ -646,7 +659,7 @@ const handleFamilyChange = (event) => {
         />
           </Grid>
           </Grid>
-          <FormLabel style={{marginLeft: 48, marginTop: 20}}>Maximum Height(M)</FormLabel>
+          <FormLabel style={{marginLeft: 48, marginTop: 20}}>Maximum Height (M)</FormLabel>
             <Grid container style={{display:"flex"}}>
             {/* <FormControl> */}
    
@@ -654,6 +667,8 @@ const handleFamilyChange = (event) => {
               <Grid item xs={4}>
               <TextField
           id="minHeight"
+          value={minHeight}
+          onChange={handleMinHeightChange}
           // label="Password"
           style={{  width: 120, marginLeft: 48}}
           {...getFieldProps("minHeight")}
@@ -665,13 +680,16 @@ const handleFamilyChange = (event) => {
           <Grid item xs={4}>
           <TextField
           id="maxHeightx"
+          value={maxHeight}
+          onChange={handleMaxHeightChange}
           // label="Password"
+
           style={{  width: 120}}
           {...getFieldProps("maxHeightx")}
         />
           </Grid>
           </Grid>
-          <FormLabel style={{marginLeft: 48, marginTop: 20}}>Maximum age(Year)</FormLabel>
+          <FormLabel style={{marginLeft: 48, marginTop: 20}}>Maximum age (Year)</FormLabel>
             <Grid container style={{display:"flex"}}>
             {/* <FormControl> */}
    

@@ -12,6 +12,11 @@ const navConfig = [
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
+    title: 'Reports',
+    path: '/dashboard/workingReports',
+    icon: getIcon('eva:shopping-bag-fill'),
+  },
+  {
     title: 'Users',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
@@ -116,25 +121,24 @@ const navConfig = [
       
     ]
   },
-
   {
-    title: 'Report',
-    path: '/dashboard/role',
-    icon: getIcon('eva:shopping-bag-fill'),
-
+    title: 'Reports',
+    path: '/dashboard/reportsNew',
+    icon: getIcon('bi:tree-fill'),
     children:[
       {
-        title: 'Working Report',
-        path: '/dashboard/role',
+        title: 'Working Reports',
+        path: '/dashboard/workingReports',
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
-        title: 'Tree Report',
-        path: '/dashboard/designation',
+        title: 'Tree Reports',
+        path: '/dashboard/census',
         icon: getIcon('eva:shopping-bag-fill'),
       },
-    ]
-  },
+    ],
+},
+
 {
   title: 'Trees Data',
   path: '/dashboard/tree-data',
@@ -170,6 +174,11 @@ const navConfig = [
       path: '/dashboard/baseColorPendingQC',
       icon: getIcon('eva:shopping-bag-fill'),
     },
+    // {
+    //   title: 'Working Reports',
+    //   path: '/dashboard/workingReports',
+    //   icon: getIcon('eva:shopping-bag-fill'),
+    // },
   ]
 },
 {

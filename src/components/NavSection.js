@@ -172,7 +172,6 @@ export default function NavSection({ navConfig, ...other }) {
   };
   navConfigArray.push(dashObj);
 
-
   if(isContainPermission("view-users")){
     const obj = {
       title: 'Users',
@@ -217,6 +216,21 @@ export default function NavSection({ navConfig, ...other }) {
     navConfigArray.push(outerObj)
 
   }
+  const newReportsObj = {
+    title: 'Reports',
+    path: '/dashboard/home',
+    icon: getIcon('eva:pie-chart-2-fill'),
+    children:[]
+  };
+  newReportsObj.children.push(
+    {
+      title: 'Working Tree',
+      path: '/dashboard/base-color',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    )
+
+ 
 
   const treeDataOuterObj =   {
     title: 'Trees Data',
@@ -233,7 +247,6 @@ export default function NavSection({ navConfig, ...other }) {
       icon: getIcon('eva:shopping-bag-fill'),
     }
     )
-
   }
   if(isContainPermission("view-census-trees")){
     const obj =   {
@@ -298,6 +311,42 @@ export default function NavSection({ navConfig, ...other }) {
   if(treeDataOuterObj.children.length !==0){
     navConfigArray.push(treeDataOuterObj);
   }
+
+
+  const newReportObj =   {
+    title: 'Reports',
+    path: '/dashboard/newReports',
+    icon: getIcon('carbon:report'),
+    children:[]
+  }
+
+  // if(isContainPermission("view-base-color-trees")){
+    newReportObj.children.push(
+    {
+      title: 'Working Reports',
+      path: '/dashboard/workingReports',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    )
+    newReportObj.children.push(
+      {
+        title: 'Tree Reports',
+        path: '/dashboard/treeReports',
+        icon: getIcon('eva:shopping-bag-fill'),
+      }
+      )
+
+      if(newReportObj.children.length !==0){
+        navConfigArray.push(newReportObj);
+      }
+    
+
+  // const reportObj = {
+  //   title: 'Reports',
+  //   path: '/dashboard/workingReports',
+  //   icon: getIcon('carbon:report'),
+  // };
+  // navConfigArray.push(reportObj);
 
   console.log(navConfigArray);
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
