@@ -100,7 +100,7 @@ export default function AssignNewCouncilZoneWard() {
     pageInfo : state.teams.pageInfo
   }));
 
-  console.log("CWZ of team",cwzOfTeam)
+  // console.log("CWZ of team",cwzOfTeam)
   const { teamId,teamName } = useParams();
   
   useEffect(()=>{

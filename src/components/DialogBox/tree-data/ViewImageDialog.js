@@ -110,7 +110,7 @@ export default function ViewImageDialog(props) {
     })
   },[data])
 
-  console.log("isopen", isOpen)
+  // console.log("isopen", isOpen)
 
   
 

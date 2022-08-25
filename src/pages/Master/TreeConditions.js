@@ -107,7 +107,7 @@ export default function TreeConditions() {
     userPermissions.push(item.name)
   ))
   
-  console.log("TREE CONDITIONS",treeConditions)
+  // console.log("TREE CONDITIONS",treeConditions)
 
   useEffect(()=>{
     dispatch(GetTreeConditions(page,rowsPerPage));
@@ -130,7 +130,7 @@ export default function TreeConditions() {
   };
 
   const handleDelete = (data) => {
-    console.log("HANDLE DELETE",data);
+    // console.log("HANDLE DELETE",data);
     dispatch(DeleteTreeConditions(data.id,data.status?0:1));
   };
 

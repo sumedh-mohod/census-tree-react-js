@@ -108,8 +108,8 @@ export default function LocationType() {
     userPermissions.push(item.name)
   ))
   
-  console.log("Location TYPES", addLocationTypesLog)
-  console.log("locationTypes", locationTypes)
+  // console.log("Location TYPES", addLocationTypesLog)
+  // console.log("locationTypes", locationTypes)
 
   useEffect(()=>{
     dispatch(GetLocationType(page,rowsPerPage));

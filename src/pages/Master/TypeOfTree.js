@@ -106,7 +106,7 @@ export default function TypeOfTree() {
   ))
   
 
-  console.log("TREE TYPE",treeType)
+  // console.log("TREE TYPE",treeType)
 
   useEffect(()=>{
     dispatch(GetTreeType(page,rowsPerPage));
@@ -207,7 +207,7 @@ export default function TypeOfTree() {
   
     {userPermissions.includes("create-tree-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Type Of Tree
+            Tree Type 
 
           </Button>:null}
         </Stack>

@@ -108,7 +108,7 @@ export default function Ward() {
     userPermissions.push(item.name)
   ))
   
-  console.log("WARDS",wards)
+  // console.log("WARDS",wards)
 
   useEffect(()=>{
     dispatch(GetWards(page,rowsPerPage));

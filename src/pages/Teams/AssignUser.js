@@ -96,7 +96,7 @@ export default function AssignUser() {
     pageInfo : state.teams.pageInfo
   }));
 
-  console.log("USER of team",userOfTeam)
+  // console.log("USER of team",userOfTeam)
   const { teamId, teamName } = useParams();
   
   useEffect(()=>{
@@ -184,7 +184,7 @@ export default function AssignUser() {
     console.info('You clicked a breadcrumb.');
   }
 
-  console.log("USERS OF TEAM",userOfTeam);
+  // console.log("USERS OF TEAM",userOfTeam);
 
   return (
     <Page title="User">

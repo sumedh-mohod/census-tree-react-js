@@ -108,7 +108,7 @@ export default function TypeOfProperty() {
   ))
   
 
-  console.log("PROPERTY TYPES",propertyTypes)
+  // console.log("PROPERTY TYPES",propertyTypes)
 
   useEffect(()=>{
     dispatch(GetPropertyType(page,rowsPerPage));
@@ -199,7 +199,7 @@ export default function TypeOfProperty() {
     </div>
     {userPermissions.includes("create-property-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Type Of Property
+            Property Type
 
           </Button>:null}
         </Stack>

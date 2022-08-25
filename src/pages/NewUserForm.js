@@ -148,8 +148,8 @@ export default function NewUserForm(props) {
       loggedUser:state.auth.loggedUser,
     }));
 
-    console.log(loggedUser.roles.role);
-    console.log("roles", roles)
+    // console.log(loggedUser.roles.role);
+    // console.log("roles", roles)
     
     useEffect(()=>{
       dispatch(GetDeductionType());
@@ -163,11 +163,11 @@ export default function NewUserForm(props) {
       dispatch(GetActiveDesignations(1));
     },[])
 
-    console.log("DeductionTypeId", salaryDeductionType)
+    // console.log("DeductionTypeId", salaryDeductionType)
 
     const { userId } = useParams();
     const { state } = useLocation();
-    console.log("STATE",state);
+    // console.log("STATE",state);
     useEffect(()=>{
       
       if(userId){
@@ -239,7 +239,7 @@ export default function NewUserForm(props) {
 
     const handleLastDayChange = (event) => {
       if(event.target.value){
-        console.log("gadsgshfhds", event.target.value)
+        // console.log("gadsgshfhds", event.target.value)
         setLastDayOfWork(event.target.value)
       }
       else{
@@ -333,7 +333,7 @@ export default function NewUserForm(props) {
       // navigate(-1);
     },[editUsersLog])
 
-    console.log("RELIGIONS",religions);
+    // console.log("RELIGIONS",religions);
    
     const diffentlyAbled = [
       {
@@ -424,15 +424,15 @@ export default function NewUserForm(props) {
     };
 
     const handleDobChange = (event) => {
-      console.log("in dob  x",event.target.value);
-      console.log("in dob ",todayDate);
+      // console.log("in dob  x",event.target.value);
+      // console.log("in dob ",todayDate);
       const td =new Date( moment(todayDate).format('MM/DD/YYYY'));
       const gd = new Date(moment(event.target.value).format('MM/DD/YYYY'));
-      console.log(td);
+      // console.log(td);
       const ageDifMs = Date.now() - gd.getTime();
     const ageDate = new Date(ageDifMs); // miliseconds from epoch
     const ageLimit =  Math.abs(ageDate.getUTCFullYear() - 1970);
-    console.log("agelimit", ageLimit);
+    // console.log("agelimit", ageLimit);
       const diffTime = td-gd;
       if(ageLimit<18){
         setDateLimitError("Please select date for above 18 years");
@@ -533,7 +533,7 @@ export default function NewUserForm(props) {
     };
 
     const handleDistrictChange = (event) => {
-      console.log("HANDLE DISTRICT CHANGE VALUE",event.target.value);
+      // console.log("HANDLE DISTRICT CHANGE VALUE",event.target.value);
       setDistrict(event.target.value);
       dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1));
       setShowTaluka(true);
@@ -597,7 +597,7 @@ export default function NewUserForm(props) {
   }
 
     const handleDocumentButtonClick = (value,index) => {
-      console.log("HANDLE DOCUMENT BUTTONVCLICKED CALLED");
+      // console.log("HANDLE DOCUMENT BUTTONVCLICKED CALLED");
       if(value==='add'){
         const newDocumentList = [...documentList];
         const infoToAdd = {
@@ -621,7 +621,7 @@ export default function NewUserForm(props) {
       const value = newDocumentList[index];
       value.documentName = e.target.value;
       newDocumentList[index] = value;
-      console.log("DOCUMENT LIST",newDocumentList);
+      // console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
       setUploadClick(true);
       setUploadClickError("");
@@ -635,18 +635,18 @@ export default function NewUserForm(props) {
 
   const handleViewDocument = (fpath) =>{
     if(fpath.includes(process.env.REACT_APP_BASE_URL)){
-      console.log("file path", fpath);
+      // console.log("file path", fpath);
       window.open(fpath, '_blank');
     }
     else{
    const fLink = process.env.REACT_APP_BASE_URL.concat('/').concat(fpath);
-   console.log("file path", fLink);
+  //  console.log("file path", fLink);
    window.open(fLink, '_blank');
     }
   }
 
 const handlePancardNumber = (e) => {
-      console.log("in pancard");
+      // console.log("in pancard");
       const  regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
       if(regex.test(e.target.value)) {
         setPanCardError("");
@@ -810,14 +810,14 @@ setAccountNumber(e.target.value);
 
   const handleDocumentValueChange = (e,index) => {
     if(uploadClick){
-      console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
-      console.log(e.target.files[0].name);
-      console.log(e.target.files[0].size);
+      // console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+      // console.log(e.target.files[0].name);
+      // console.log(e.target.files[0].size);
       const i = parseInt((Math.floor(Math.log(e.target.files[0].size) / Math.log(1024))),10);
-      console.log("file size", i);
+      // console.log("file size", i);
       const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
       const fileExtension = e.target.files[0].name.split('.')[1]
-      console.log(fileExtension);
+      // console.log(fileExtension);
       if(validExtensions.includes(fileExtension)){
         setFileUploadError("");
         if(e.target.files[0].size<5242880){
@@ -826,17 +826,17 @@ setAccountNumber(e.target.value);
           formData.append('upload_for', 'users');
           formData.append('file', e.target.files[0]);
           dispatch(UploadFile(formData,index)).then((response) => {
-            console.log("upload file",response);
+            // console.log("upload file",response);
           });
           const newDocumentList = [...documentList];
           const value =  newDocumentList[index];
           value.documentValue = e.target.value;
-          console.log(value.documentValue,"||||||")
+          // console.log(value.documentValue,"||||||")
           newDocumentList[index] = value;
           setDocumentList(newDocumentList); 
-          console.log(e.target.value);
+          // console.log(e.target.value);
           setFilePath(e.target.value);
-          console.log(documentList);
+          // console.log(documentList);
         }
         else{
           setFileSizeError("Please upload documents within 5MB only");
@@ -870,20 +870,20 @@ const validateRole = () => {
 }
 
 const handleSubmitErrors = () =>{
-  console.log("in submit errors");
-  console.log("Formiok submit errors", formik.errors);
+  // console.log("in submit errors");
+  // console.log("Formiok submit errors", formik.errors);
   const keys = Object.keys(formik.errors)
   // const roleElement = document.getElementById("role-label");
   // console.log("roleelement", roleElement);
   // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
-  console.log("keys", keys);
+  // console.log("keys", keys);
       // Whenever there are errors and the form is submitting but finished validating.
       if (keys.length > 0 ) {
           // We grab the first input element that error by its name.
           const errorElement = document.querySelector(
               `input[name="${keys[0]}"]`
           )
-            console.log(errorElement);
+            // console.log(errorElement);
           if (errorElement) {
               // When there is an input, scroll this input into view.
               errorElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
@@ -891,7 +891,7 @@ const handleSubmitErrors = () =>{
       }
       else{
         const roleElement = document.getElementById("role-label");
-  console.log("roleelement", roleElement);
+  // console.log("roleelement", roleElement);
   roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" });
       }
 }
@@ -944,7 +944,7 @@ const handleSubmitErrors = () =>{
 
          // eslint-disable-next-line array-callback-return
         deductionList.map((value,index)=>{
-        console.log("VALUE IN VALIDATIONm",value);
+        // console.log("VALUE IN VALIDATIONm",value);
         const conditionName = `deductionName`;
         const conditionValue = `deductionValue`;
         if(!foundDeduction){
@@ -1030,7 +1030,7 @@ const handleSubmitErrors = () =>{
     // eslint-disable-next-line consistent-return
     const findRole = (listOfObj,id) => {
       const found = listOfObj.find(e => e.id === id);
-      console.log("FOUND",found);
+      // console.log("FOUND",found);
       if(found){
         return found.role
       }
@@ -1086,7 +1086,7 @@ const handleSubmitErrors = () =>{
       // lastDayOfWork: Yup.string().required('Last Day of work is required')
     }
     );
-console.log("-------",userById)
+// console.log("-------",userById)
     const formik = useFormik({
       enableReinitialize: true,
       initialValues: editUser ? {
@@ -1165,8 +1165,8 @@ console.log("-------",userById)
       ,
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
-        console.log("INSIDE ON SUBMIT", value);
-        console.log("Formiok errors sub", formik.errors);
+        // console.log("INSIDE ON SUBMIT", value);
+        // console.log("Formiok errors sub", formik.errors);
         if(validateRole()){
           if(showCouncil){
             const obj = {
@@ -1190,12 +1190,12 @@ console.log("-------",userById)
             }
 
             if(editUser){
-              console.log("OBJ",obj);
+              // console.log("OBJ",obj);
               dispatch(EditUsers(obj,userById.id))
             }
             else {
               dispatch(AddUsers(obj)).then(()=>{
-                console.log("in DD  ");
+                // console.log("in DD  ");
               });
             }
 
@@ -1274,7 +1274,7 @@ console.log("-------",userById)
               "documents": aaplicableDocument
             }
             if(editUser){
-              console.log("OBJ",obj);
+              // console.log("OBJ",obj);
               dispatch(EditUsers(obj,userById.id));
              // window.history.go(-1);
 
@@ -1293,9 +1293,9 @@ console.log("-------",userById)
   
   
 
-    console.log("DEDUCTION LIST",deductionList);
-    console.log("error123", formik.errors.email);
-    console.log("Formiok errors", formik.errors);
+    // console.log("DEDUCTION LIST",deductionList);
+    // console.log("error123", formik.errors.email);
+    // console.log("Formiok errors", formik.errors);
   
   
     return (

@@ -81,7 +81,7 @@ export default function TypeOfTree() {
   };
 
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    // console.log("hiiii")
     setOpen(!open)
   }
 

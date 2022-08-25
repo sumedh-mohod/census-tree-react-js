@@ -83,8 +83,8 @@ export default function QcStatusDialog(props) {
       firstRun.current = false;
       return;
     }
-    console.log("INSIDE USEEFFECT");
-    console.log(localStorage.getItem("token"))
+    // console.log("INSIDE USEEFFECT");
+    // console.log(localStorage.getItem("token"))
     props.handleClose()
   },[updateQCStatusLog, updateCensusQCStatusLog])
 

@@ -111,7 +111,7 @@ export default function Taluka() {
   ))
 
   
-  console.log("TALUKAS",talukas)
+  // console.log("TALUKAS",talukas)
 
   useEffect(()=>{
     dispatch(GetAllTalukas(page,rowsPerPage));

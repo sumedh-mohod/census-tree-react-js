@@ -14,7 +14,7 @@ import { SetNewAlert } from "./AlertActions";
 const GetAllDistricts = (page,limit) => async (dispatch) => {
   try {
     const response = await JWTServer.get(`/api/districts?page=${page}&limit=${limit}`);
-    console.log("DISTRICTS RESPONSE",response.data);
+    // console.log("DISTRICTS RESPONSE",response.data);
     dispatch({
       type: GET_DISTRICTS,
       payload: response.data,
@@ -81,7 +81,7 @@ const GetActiveDistricts = (page,limit,status) => async (dispatch) => {
     const EditDistricts = (params,districtsId) => async (dispatch) => {
       try {
         const response = await JWTServer.put(`/api/districts/${districtsId}`,params);
-        console.log("EDIT STATE RESPONSE",response.data);
+        // console.log("EDIT STATE RESPONSE",response.data);
         dispatch({
           type: EDIT_DISTRICTS,
           payload: response.data,
@@ -98,7 +98,7 @@ const GetActiveDistricts = (page,limit,status) => async (dispatch) => {
     const DeleteDistricts = (params,status) => async (dispatch) => {
       try {
         const response = await JWTServer.delete(`/api/districts/${params}?status=${status}`);
-        console.log("DELETE STATE RESPONSE",response.data);
+        // console.log("DELETE STATE RESPONSE",response.data);
         dispatch({
           type: DELETE_DISTRICTS,
           payload: response.data,

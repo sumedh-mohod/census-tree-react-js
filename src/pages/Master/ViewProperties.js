@@ -156,7 +156,7 @@ export default function ViewProperties() {
     dispatch(ShowLoader(false))
   },[propertyErrorLog])
 
-  console.log("PROPERTY ERROR",propertyError);
+  // console.log("PROPERTY ERROR",propertyError);
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -216,7 +216,7 @@ export default function ViewProperties() {
   }
 
   const handleUpload = (e) => {
-    console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+    // console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
     const formData = new FormData();
     formData.append('council_id', councilId);
     formData.append('file', e.target.files[0]);
@@ -230,7 +230,7 @@ export default function ViewProperties() {
 
   }
 
-  console.log("SHOW LOADER",showLoader);
+  // console.log("SHOW LOADER",showLoader);
 
   return (
     showLoader ?

@@ -41,7 +41,7 @@ const GetPropertyByCouncilId = (councilId,page,limit) => async (dispatch) => {
         alertType: "success",
       }));
     } catch (e) {
-      console.log("ERROR RESPONSE",e.response);
+      // console.log("ERROR RESPONSE",e.response);
       if(e.response.status===422){
         if(Array.isArray(e.response.data)){
           dispatch({

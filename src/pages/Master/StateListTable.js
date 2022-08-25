@@ -76,7 +76,7 @@ export default function StateListTable() {
 
   }));
 
-  console.log("STATES",states);
+  // console.log("STATES",states);
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
   ))

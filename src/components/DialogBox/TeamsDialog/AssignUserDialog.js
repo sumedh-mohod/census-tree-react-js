@@ -93,7 +93,7 @@ export default function AssignUserDialog(props) {
 //     console.log(":::::::::", activeUsers);
 // }
 
-console.log("/////...", roles)
+// console.log("/////...", roles)
   React.useEffect(()=>{
     // dispatch(GetUsers(1,1000));
     dispatch(GetActiveUsers(1));
@@ -111,7 +111,7 @@ console.log("/////...", roles)
 
 
   const handleRoleChange = (event) => {
-    console.log("in role change", event.target.value);
+    // console.log("in role change", event.target.value);
     setRoleID(event.target.value)
     dispatch(GetUsersByRoleID(1, event.target.value));
   };
@@ -171,7 +171,7 @@ console.log("/////...", roles)
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
 
-  console.log("active users", activeUsers);
+  // console.log("active users", activeUsers);
 
   const handleTopModalClose = () => {
     setTopModalOpen(!topModalOpen)

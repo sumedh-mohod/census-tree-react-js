@@ -105,7 +105,7 @@ export default function TreeDensity() {
     pageInfo : state.master.pageInfo
   }));
 
-  console.log("DISTRICTS",districts)
+  // console.log("DISTRICTS",districts)
 
   useEffect(()=>{
     dispatch(GetAllDistricts(page,rowsPerPage));

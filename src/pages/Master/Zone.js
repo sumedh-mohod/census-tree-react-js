@@ -112,7 +112,7 @@ export default function Zone() {
     dispatch(GetZones(page,rowsPerPage));
   },[addZonesLog,editZonesLog,deleteZonesLog])
 
-  console.log("ZONES",zones);
+  // console.log("ZONES",zones);
 
   useEffect(()=>{
     if(pageInfo){
