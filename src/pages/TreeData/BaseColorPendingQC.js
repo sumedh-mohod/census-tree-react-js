@@ -334,7 +334,7 @@ import { ShowLoader } from '../../actions/CommonAction';
         },
       });
 
-      // console.log("ZONES",zones);
+     // console.log("ZONES",baseColorPendingQCStatus.data[0].location_accuracy);
       // console.log("WARDS",wards);
     
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -616,6 +616,10 @@ import { ShowLoader } from '../../actions/CommonAction';
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Location Type: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type}</td>
+              </tr>
+              <tr>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Location Accuracy Needed: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{baseColorPendingQCStatus?.data[selectedIndex].location_accuracy?baseColorPendingQCStatus?.data[selectedIndex].location_accuracy:"-"}</td>
               </tr>
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Property Type: </td>

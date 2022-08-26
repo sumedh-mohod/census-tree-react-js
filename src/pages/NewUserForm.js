@@ -78,6 +78,7 @@ export default function NewUserForm(props) {
     const [accountNumber, setAccountNumber] = React.useState('');
     const [referredBy, setReferredBy] = React.useState('');
     const [noticePeriod, setNoticePeriod] = React.useState('');
+    const [salaryPerMonth, setSalaryPerMonth] = React.useState('');
     const [formValues, setFormValues] = useState([{ deductionType: "", amount : ""}])
     const [filePath, setFilePath] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -107,6 +108,7 @@ export default function NewUserForm(props) {
     const [emergencyContactNumberError, setEmergencyContactNumberError] = React.useState('');
     const [bankNameError, setBankNameError] = useState('');
     const [accountNumberError, setAccountNumberError] = React.useState('');
+    const [salaryPerMonthError, setSalaryPerMonthError] = React.useState('');
     const[ lastDayOfWork, setLastDayOfWork] = useState("");
     const [uploadClick, setUploadClick] = useState("");
     const [uploadClickError,setUploadClickError] = useState("") ;
@@ -808,6 +810,18 @@ setAccountNumber(e.target.value);
  setAadhaarNumber(e.target.value);
   }
 
+  const handleSalary = (e) => {
+    const  regex = /^[0-9]*$/;
+    if(regex.test(e.target.value)) {
+      setSalaryPerMonthError("");
+  }
+  else{
+    setSalaryPerMonthError("Please Enter Salary Containing Digits Only");
+    
+  }
+  setSalaryPerMonth(e.target.value);
+  }
+
   const handleDocumentValueChange = (e,index) => {
     if(uploadClick){
       // console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
@@ -1075,7 +1089,7 @@ const handleSubmitErrors = () =>{
       emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emergency Contact Number is required'),
       dateOfJoining: Yup.string().required('DateOfJoining is required'),
       designation: Yup.string().required('Designation is required'),
-      salaryPerMonth: Yup.string().required('Salary per month is required'),
+      salaryPerMonth: Yup.string().matches(/^[0-9]*$/, 'Phone number is not valid').required('Salary per month is required'),
       isAgreementDone: Yup.string().required('Is agreement done is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
       accountNumber: Yup.string().required('Account number is required'),
@@ -1881,16 +1895,19 @@ const handleSubmitErrors = () =>{
                    <Grid item xs={6}>
                  <DefaultInput
                   fullWidth
-                  id="commitedSalary"
-                  autoComplete="commitedSalary"
+                  id="salaryPerMonth"
+                  autoComplete="salaryPerMonth"
                   label="Commited Salary per Month*"
                   placeholder="Commited Salary per Month*"
+                  onChange={(e)=>{handleSalary(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.salaryPerMonth && errors.salaryPerMonth)}
                 helperText={touched.salaryPerMonth && errors.salaryPerMonth}
-                {...getFieldProps("salaryPerMonth")}
+               // {...getFieldProps("salaryPerMonth")}
                   // name="contact"
                   // value="contact"
                 />
+                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{salaryPerMonthError}</Typography>
                 </Grid>
                  <Grid item xs={6}>
                 <TextField
