@@ -622,6 +622,10 @@ import { ShowLoader } from '../actions/CommonAction';
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Location Type: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].location_type?.location_type}</td>
               </tr>
+              <tr>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Location Accuracy Needed: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy?treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy:"-"}</td>
+              </tr>
              <tr> 
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Property Type: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].property_type? treeCensusPendingQCStatus.data[selectedIndex].property_type?.property_type: "-"}</td>

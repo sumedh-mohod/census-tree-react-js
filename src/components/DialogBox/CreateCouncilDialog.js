@@ -129,8 +129,15 @@ export default function CreateCouncilDialog(props) {
     dispatch(GetActiveZones(1));
     dispatch(GetActiveWards(1));
     dispatch(GetActiveState(1));
-    dispatch(GetActiveDistricts(1));
-    dispatch(GetActiveTalukas(1));
+    // dispatch(GetActiveDistricts(1));
+    // dispatch(GetActiveTalukas(1));
+    if (data) {
+    //  console.log("console");
+      dispatch(GetAllActiveDistrictsByStateId(data.state_id,1));
+      dispatch(GetAllActiveTalukaByDistrictId(data.district_id.name,1))
+      setShowDistrict(true);
+      setShowTaluka(true);
+    }
   },[])
 
   const firstRun = React.useRef(true);
@@ -184,6 +191,7 @@ export default function CreateCouncilDialog(props) {
   //   setOpen(false);
   // };
 
+  // console.log("///", districts);
   const handleClose = () => {
     setLogoValue("");
     props.handleClose();

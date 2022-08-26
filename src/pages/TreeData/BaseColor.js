@@ -46,6 +46,7 @@ const TABLE_HEAD = [
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
   { id: 'propertyAddress', label: 'Property Address', alignRight: false },
   { id: 'treeLocation', label: 'Tree Location', alignRight: false },
+  { id: 'locationAccuracyNeeded', label: 'Location Accuracy Needed', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
   { id: 'images', label: 'Images', alignRight: false },
@@ -347,6 +348,7 @@ export default function BaseColor() {
                         <TableCell align="left">{option.property?.property_number?option.property?.property_number: "-"}</TableCell>
                         <TableCell align="left">{option.property?.address? option.property?.address: "-"}</TableCell>
                         <TableCell align="left">{option.location}</TableCell>
+                        <TableCell align="left">{option.location_accuracy}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
                         <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
                         <TableCell align="left">
