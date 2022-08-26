@@ -30,7 +30,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@das
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import NameOfTreeDialog from "../../components/DialogBox/NameOfTreeDialog";
+import NameOfTreeDialog from '../../components/DialogBox/NameOfTreeDialog';
 import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------

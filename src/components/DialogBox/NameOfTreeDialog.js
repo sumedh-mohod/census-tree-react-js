@@ -29,8 +29,6 @@ import { GetActiveTreeType } from '../../actions/TreeTypeActions';
 import {GetActiveTreeFamily} from "../../actions/TreeFamilyAction"
 import DefaultInput from '../Inputs/DefaultInput';
 
-
-
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
 

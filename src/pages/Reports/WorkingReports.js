@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { green } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import {
   Stack,
   Avatar,
@@ -22,8 +23,6 @@ import {
   Container,
   Drawer,
 } from '@mui/material';
-import CancelIcon from '@mui/icons-material/Cancel';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
@@ -52,7 +51,11 @@ const [showList,setShowList] = useState(false);
  const [showWorkType, setShowWorkType] = useState(false);
  const [showCouncil, setShowCouncil] = useState(false);
  const [showUser, setShowUser] = useState(false);
- const { isOpen, data } = props;
+ const [showTable, setShowTable] = useState(false)
+ const [fromDate, setFromDate] = useState("")
+ const[toDate,setTodate] =useState("")
+ const [showListUser, setShowListUser] = useState(false);
+ const [showWorkTypeTable,setShowWorkTypeTable] = useState(false)
  const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
 const [state, setState] = React.useState({
@@ -64,25 +67,7 @@ const [state, setState] = React.useState({
 
 const dispatch = useDispatch()
 
-const handleTypeChange = (event) =>{
-  setReportType(event.target.value)
-  console.log("value", event.target.value)
-  if(event.target.value === "by_work_types"){
-    setShowWorkType(true)
-    setShowCouncil(false)
-    setShowUser(false)
-  }else if(event.target.value === "by_councils"){
-  setShowWorkType(true);
-  setShowCouncil(true)
-  setShowUser(false)
-}else if (event.target.value === "by_users"){
-  setShowWorkType(true);
-  setShowCouncil(true)
-  setShowUser(true)
-}
 
-
-}
 
 const handleWorkTypeChange = (event) =>{
   setWorkType(event.target.value)
@@ -114,17 +99,22 @@ const reportValues = [
 
 const {
 workReports,
+pageInfo,
 } = useSelector((state) => ({
   workReports:state.workReports.workReports,
+  pageInfo: state.workReports. pageInfo,
 }));
 
+const handleTypeChange = (event) =>{
+  setReportType(event.target.value)
+  console.log("value", event.target.value)
+ if (event.target.value === "by_users"){
+  showListUser(true);
+}
 
-// useEffect(()=>{
-//   dispatch(GetWorkReports());
-//   console.log("workReports", workReports)
-  // dispatch(GetBaseColorTreeById(1));
-// },[])
-// console.log("workReports1", workReports)
+
+
+}
 
 const toggleDrawer = (anchor, open) => (event) => {
   if (
@@ -159,7 +149,15 @@ const formik = useFormik({
     console.log("in submit");
     console.log("VALUE",value);
     // setState({ ...state, "right": false });
-    dispatch(GetWorkReports(value.reportType, "28-07-2021", "28-07-2022"));
+    dispatch(GetWorkReports(value.reportType, "28-07-2021", "28-07-2022",0, 0));
+
+    if(value.reportType==="by_work_types"){
+      setShowWorkTypeTable(true)
+    }else if(value.reportType==="by_councils"){
+      setShowTable(true)
+    } else if(value.reportType==="by_users"){
+      setShowListUser(true)
+    }
     
   },
 });
@@ -171,15 +169,17 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
   return (
     <div>
        <Page title="Maps">
-        {/* <Button variant="outlined" onClick={handleClickOpen}>
-          Open max-width dialog
-        </Button> */}
         <Container>
-         {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}> */}
-          <Typography variant="h4" gutterBottom>
-          Working Reports
+         <div role="presentation" >
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Reports
           </Typography>
-          {/* </Stack> */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+       Work Reports
+          </Typography>
+      </Breadcrumbs>
+    </div>
           <Button
            variant='outlined'
             sx={{justifyContent:'end', display:'flex', position: 'fixed',right: 0,top:'100px',border:'2px solid black',backgroundColor:'black',zIndex:'999', 
@@ -234,7 +234,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
               ))}
             </TextField>
             </Grid>
-{showUser &&
+{/* {showListUser &&
    <Grid item xs={12}>
              <TextField
               select
@@ -261,7 +261,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
               ))}
             </TextField>
             </Grid>
-}
+} */}
 <Grid item xs={12}>
             <TextField
                 fullWidth
@@ -322,45 +322,26 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
             {/* <Button variant="contained" style={{marginLeft: 50, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}  onClick={handleSubmit}>Get Data</Button> */}
           </div>
           </Drawer>
-          {/* {showWorkType &&
-          <WorkTypeList/>
-} */}
-{/* {showWorkType &&
-<WorkTypeList/>
-}
-{showWorkType && showCouncil  &&
-
-<CouncilList/>
-}
-{showWorkType && showCouncil  && showUser &&
-<UserTypeList/>
-} */}
- {/* < WorkTypeList/> */}
-  {/* <CouncilList/> */}
-  {/* <WorkTypeList/> */}
-  {/* { showWorkType && showCouncil  && showUser ? (
-    <UserTypeList/>
-  ) : showWorkType && showCouncil ? (
-    <CouncilList/>
-  ): showWorkType ? (
-    <WorkTypeList/>
-  ):  <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%", marginTop: 40}}>
+          {/* {showWorkType && showCouncil  && showUser && */}
+         
+    {/* <UserTypeList/> */}
+{/* } */}
+{showTable? <CouncilList 
+reportType={reportType} 
+ fromDate={fromDate} 
+ toDate={toDate}/> : showListUser? 
+<UserTypeList
+ reportType={reportType} 
+ fromDate={fromDate} 
+ toDate={toDate}/>: showWorkTypeTable? <WorkTypeList/>:
+ <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%", marginTop: 40}}>
        
-  <h2>
-  Please Select Filter
-  </h2>
-  
-</div>
-    } */}
-   
-
-{/* {showCouncil &&
-<CouncilList/>
-
-} */}
-
-
-          {/* <CouncilList/> */}
+       <h2>
+       Please Select Filter
+       </h2>
+       
+     </div>
+     }
           </Container>
           </Page >
 
