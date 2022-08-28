@@ -151,7 +151,7 @@ export default function WorkTypeList() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { workReports.data?.map((option,index) => { 
+                     { workReports?.data?.map((option,index) => { 
                         return (
                         <TableRow
                         hover

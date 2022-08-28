@@ -34,7 +34,7 @@ import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
 import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
-import { GetWorkReports, SearchWorkReports } from '../../actions/WorkReportAction';
+import { GetAllWorkReports, GetWorkReports, SearchWorkReports } from '../../actions/WorkReportAction';
 
 // ----------------------------------------------------------------------
 
@@ -60,6 +60,7 @@ export default function CouncilList(props) {
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
+  const [downloadButtonPressed,setDownloadButtonPressed] = useState(false);
    const [searchValue,setSearchValue] = useState("");
    const [dropPage, setDropPage] = useState(3);
 
@@ -72,12 +73,21 @@ export default function CouncilList(props) {
     const {
       workReports,
       pageInfo,
+      excelWorkReports
       } = useSelector((state) => ({
         workReports:state.workReports.workReports,
         pageInfo: state.workReports.pageInfo,
+        excelWorkReports:state.workReports.excelWorkReports,
       }));
 
   console.log("workReportsCouncil",workReports);
+
+  useEffect(()=>{
+    if(excelWorkReports && downloadButtonPressed){
+      handleDownloadExcel()
+      setDownloadButtonPressed(false);
+    }
+  },[excelWorkReports])
  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -120,25 +130,33 @@ export default function CouncilList(props) {
     }, 1000);
 
   }
-  const dataValue =  workReports?.data;
-  const value1= [];
-  dataValue?.map((option, index) => {
-    const value2 = [index+1]
-    value2.push(option.name)
-    value2.push(option.base_color_trees_count)
-    value2.push(option.base_color_offsite_qc_count)
-    value2.push(option.base_color_onsite_qc_count)
-    value2.push(option.census_trees_count)
-    value2.push(option.census_trees_offsite_qc_count)
-    value2.push(option.census_trees_onsite_qc_count)
-    value1.push(value2)
-    return null
-  })
 
   const header = ["#", "Council", "Base Color Count", "Base Color Offsite QC Count", "Base Color Onsite QC Count", "Census Count",
-"Census Offsite Qc Count", "Census Onsite QC Count"];
+  "Census Offsite Qc Count", "Census Onsite QC Count"];
+ 
+const handleDownloadButtonPressed = () => {
+  setDownloadButtonPressed(true);
+  dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+}
 
   function handleDownloadExcel() {
+
+    const dataValue =  excelWorkReports;
+    const value1= [];
+    dataValue?.map((option, index) => {
+      const value2 = [index+1]
+      value2.push(option.name)
+      value2.push(option.base_color_trees_count)
+      value2.push(option.base_color_offsite_qc_count)
+      value2.push(option.base_color_onsite_qc_count)
+      value2.push(option.census_trees_count)
+      value2.push(option.census_trees_offsite_qc_count)
+      value2.push(option.census_trees_onsite_qc_count)
+      value1.push(value2)
+      return null
+    })
+
+    
     downloadExcel({
       fileName: "Report",
       sheet: "Report",
@@ -155,7 +173,7 @@ export default function CouncilList(props) {
       <Container>
         <Card style={{marginTop: 40}} >
         <ReportToolBar
-        handleExportexcel={()=>handleDownloadExcel()} 
+        handleExportexcel={()=>handleDownloadButtonPressed()} 
        placeHolder={"Search here..."} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -164,7 +182,7 @@ export default function CouncilList(props) {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody> 
-                     { workReports.data?.map((option,index) => {
+                     { workReports?.data?.map((option,index) => {
                         return (
                         <TableRow
                         hover

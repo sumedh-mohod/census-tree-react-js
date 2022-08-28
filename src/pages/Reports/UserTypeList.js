@@ -63,10 +63,11 @@ export default function UserTypeList(props) {
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
-   const [searchValue,setSearchValue] = useState("");
-   const [dropPage, setDropPage] = useState(3);
-   const userPermissions = [];
-   const {reportType, fromDate, toDate} = props;
+  const [searchValue,setSearchValue] = useState("");
+  const [dropPage, setDropPage] = useState(3);
+  const [downloadButtonPressed,setDownloadButtonPressed] = useState(false);
+  const userPermissions = [];
+  const {reportType, fromDate, toDate} = props;
 
 
 
@@ -103,9 +104,11 @@ export default function UserTypeList(props) {
   // },[addStateLog,editStateLog,deleteStateLog])
   const {
     workReports,
-    pageInfo
+    pageInfo,
+    excelWorkReports
     } = useSelector((state) => ({
       workReports:state.workReports.workReports,
+      excelWorkReports:state.workReports.excelWorkReports,
       pageInfo: state.workReports.pageInfo,
     }));
 
@@ -117,6 +120,13 @@ console.log("UserListType",workReports);
       setCount(pageInfo?.total)
     }
   },[pageInfo])
+
+  useEffect(()=>{
+    if(excelWorkReports && downloadButtonPressed){
+      handleDownloadExcel()
+      setDownloadButtonPressed(false);
+    }
+  },[excelWorkReports])
 
 
 
@@ -152,10 +162,15 @@ console.log("UserListType",workReports);
   const header = ["#", "User", "Current Role", "Base Color Count", "Base Color Offsite Qc Count", "Base Color Onsite QC Count",
 "Census Count", "Census Offsite Qc Count", "Census Onsite QC Count"];
 
-  function handleDownloadExcel() {
+  const handleDownloadButtonPressed = () => {
+    setDownloadButtonPressed(true);
     dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+  }
 
-    const dataValue =  workReports.data;
+  function handleDownloadExcel() {
+    // dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+
+    const dataValue =  excelWorkReports;
     const value1= [];
     dataValue?.map((option, index) => {
       const value2 = [index+1]
@@ -186,7 +201,7 @@ console.log("UserListType",workReports);
       <Container>
         <Card style={{marginTop: 40}}>
         <ReportToolBar 
-         handleExportexcel={()=>handleDownloadExcel()} 
+         handleExportexcel={()=>handleDownloadButtonPressed()} 
         numSelected={0} placeHolder={"Search here..."} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -195,7 +210,7 @@ console.log("UserListType",workReports);
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                   { workReports.data?.map((option,index) => {
+                   { workReports?.data?.map((option,index) => {
                         return ( 
                         <TableRow
                         hover

@@ -149,7 +149,14 @@ const formik = useFormik({
     console.log("in submit");
     console.log("VALUE",value);
     // setState({ ...state, "right": false });
-    dispatch(GetWorkReports(value.reportType, "28-07-2021", "28-07-2022",0, 0));
+    const convertedFromDate = value.fromDateForm.split("-").reverse().join("-")
+    const convertedToDate = value.toDateForm.split("-").reverse().join("-")
+    dispatch(GetWorkReports(value.reportType, convertedFromDate, convertedToDate,1, 10));
+
+    setFromDate(convertedFromDate)
+    setTodate(convertedToDate);
+    setReportType(value.reportType);
+
 
     if(value.reportType==="by_work_types"){
       setShowWorkTypeTable(true)
@@ -333,7 +340,9 @@ reportType={reportType}
 <UserTypeList
  reportType={reportType} 
  fromDate={fromDate} 
- toDate={toDate}/>: showWorkTypeTable? <WorkTypeList/>:
+ toDate={toDate}/>: showWorkTypeTable? <WorkTypeList reportType={reportType} 
+ fromDate={fromDate} 
+ toDate={toDate}/>:
  <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%", marginTop: 40}}>
        
        <h2>

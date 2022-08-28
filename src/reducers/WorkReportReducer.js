@@ -2,6 +2,7 @@ import {GET_WORK_REPORTS,GET_ALL_WORK_REPORTS, RESET_STATE } from "../actions/Ty
   
   const INIT_STATE = {
     workReports: null,
+    excelWorkReports:[],
     pageInfo:{},
  
   };
@@ -22,7 +23,7 @@ import {GET_WORK_REPORTS,GET_ALL_WORK_REPORTS, RESET_STATE } from "../actions/Ty
         case GET_ALL_WORK_REPORTS:
           return{
             ...state,
-            workReports: payload.data,
+            excelWorkReports: payload.data,
           }
 
     
