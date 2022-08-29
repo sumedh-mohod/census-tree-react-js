@@ -40,7 +40,7 @@ import {GetWorkReports} from "../../actions/WorkReportAction"
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'reportType', label: 'Report Type', alignRight: false },
+  { id: 'workType', label: 'Work Type', alignRight: false },
   { id: 'totalcount', label: 'Total Count', alignRight: false },
 //   { id: 'action', label: 'Action', alignRight: true },
 ];
@@ -78,66 +78,14 @@ export default function WorkTypeList() {
 
   console.log("aaaaa", workReports)
 
-  const handleNewUserClick = () => {
-    setDialogData(null);
-    setOpen(!open)
-  }
+// const keys = Object.keys(workReports);
+// console.log("keys", keys)
+//   const values = Object.values(workReports);
+//   console.log("values", values)
 
-  const handleEdit = (data) => {
-    setDialogData(data);
-    setOpen(!open);
-  };
+const newData = Object.entries(workReports);
+console.log("newData", newData)
 
-  const handleDelete = (data) => {
-    dispatch(DeleteState(data.id,data.status?0:1));
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-    if(search){
-      dispatch(SearchState(newPage,rowsPerPage,searchValue));
-    }
-    else {
-      dispatch(GetAllState(newPage,rowsPerPage));
-    }
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
-    if(search){
-      dispatch(SearchState(1,parseInt(event.target.value, 10),searchValue));
-    }
-    else {
-      dispatch(GetAllState(1,parseInt(event.target.value, 10)));
-    }
-  };
-
-  let timer = null;
-  const filterByName = (event) => {
-    const value = event.currentTarget.value;
-    clearTimeout(timer);
-    // Wait for X ms and then process the request
-    timer = setTimeout(() => {
-        if(value){
-          dispatch(SearchState(1,rowsPerPage,value))
-          setSearch(true)
-          setPage(1)
-          setSearchValue(value);
-
-        }
-        else{
-          dispatch(GetAllState(1,rowsPerPage));
-          setSearch(false);
-          setPage(1);
-        }
-    }, 1000);
-
-  }
-  function handleClick(event) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-  }
 
   return (
     <Page title="User">
@@ -151,32 +99,23 @@ export default function WorkTypeList() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { workReports?.data?.map((option,index) => { 
+                     { newData?.map((option,index) => { 
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                        <TableCell align="left">react</TableCell>
-                        <TableCell align="left">30</TableCell>
-                        {/* <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
-                        </TableCell> */}
+                            <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{option[0]}</TableCell>
+                        <TableCell align="left">{option[1]}</TableCell>
                         </TableRow>
                          )
                   })
-                }
+                } 
 
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-{workReports?(
-          <Pagination  variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
         </Card>
       </Container>
     </Page>
