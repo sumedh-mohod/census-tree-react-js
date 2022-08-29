@@ -39,6 +39,7 @@ ReportToolBar.propTypes = {
   handleCoucilChange:PropTypes.func,
   handleWardChange:PropTypes.func,
   handleZoneChange:PropTypes.func,
+  handleExportexcel: PropTypes.func,
   coucilId:PropTypes.any,
   zoneId:PropTypes.any,
   wardId:PropTypes.any
@@ -46,7 +47,7 @@ ReportToolBar.propTypes = {
 
 
 
-export default function ReportToolBar({ numSelected, filterName, onFilterName}) {
+export default function ReportToolBar({ numSelected, filterName, onFilterName,handleExportexcel}) {
   
     // const {
     //     council,
@@ -91,7 +92,7 @@ export default function ReportToolBar({ numSelected, filterName, onFilterName}) 
          <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
          ):null} */}
            <Grid item xs={2.7} justifyContent="flex-end">
-           <Button variant="contained"  style={{marginLeft: 30, marginTop: 5, height: 50, width: 150, marginRight: 2}}  >Export Report</Button> 
+           <Button variant="contained" onClick={()=>handleExportexcel()} style={{marginLeft: 30, marginTop: 5, height: 50, width: 150, marginRight: 2}}  >Export Report</Button> 
            </Grid>
            </Grid>
            </RootStyle>

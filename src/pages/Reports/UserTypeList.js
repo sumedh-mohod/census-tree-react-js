@@ -17,6 +17,7 @@ import {
   Pagination,
   Stack,
 } from '@mui/material';
+import { downloadExcel } from "react-export-table-to-excel";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +34,8 @@ import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
 import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
+import { GetAllWorkReports, GetWorkReports , SearchWorkReports} from '../../actions/WorkReportAction';
+
 
 
 // ----------------------------------------------------------------------
@@ -50,7 +53,7 @@ const TABLE_HEAD = [
 //   { id: 'action', label: 'Action', alignRight: true },
 ];
 
-export default function UserTypeList() {
+export default function UserTypeList(props) {
 
   const dispatch = useDispatch();
 
@@ -60,39 +63,57 @@ export default function UserTypeList() {
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
-   const [searchValue,setSearchValue] = useState("");
-   const [dropPage, setDropPage] = useState(3);
-   const userPermissions = [];
+  const [searchValue,setSearchValue] = useState("");
+  const [dropPage, setDropPage] = useState(3);
+  const [downloadButtonPressed,setDownloadButtonPressed] = useState(false);
+  const userPermissions = [];
+  const {reportType, fromDate, toDate} = props;
+
+
+
    const handleDropChange = (event) => {
      setDropPage(event.target.value);
     };
 
-  const {
-    states,
-    addStateLog,
-    editStateLog,
-    deleteStateLog,
-    pageInfo,
-    loggedUser
-  } = useSelector((state) => ({
-    states:state.master.states,
-    addStateLog:state.master.addStateLog,
-    editStateLog:state.master.editStateLog,
-    deleteStateLog:state.master.deleteStateLog,
-    pageInfo : state.master.pageInfo,
-    loggedUser:state.auth.loggedUser,
+  // const {
+  //   states,
+  //   addStateLog,
+  //   editStateLog,
+  //   deleteStateLog,
+  //   pageInfo,
+  //   loggedUser
+  // } = useSelector((state) => ({
+  //   states:state.master.states,
+  //   addStateLog:state.master.addStateLog,
+  //   editStateLog:state.master.editStateLog,
+  //   deleteStateLog:state.master.deleteStateLog,
+  //   pageInfo : state.master.pageInfo,
+  //   loggedUser:state.auth.loggedUser,
 
-  }));
+  // }));
 
-  console.log("STATES",states);
-  loggedUser.roles[0].permissions.map((item, index)=>(
-    userPermissions.push(item.name)
-  ))
+  // console.log("STATES",states);
+  // loggedUser.roles[0].permissions.map((item, index)=>(
+  //   userPermissions.push(item.name)
+  // ))
+
   
 
-  useEffect(()=>{
-    dispatch(GetAllState(page,rowsPerPage));
-  },[addStateLog,editStateLog,deleteStateLog])
+  // useEffect(()=>{
+  //   dispatch(GetAllState(page,rowsPerPage));
+  // },[addStateLog,editStateLog,deleteStateLog])
+  const {
+    workReports,
+    pageInfo,
+    excelWorkReports
+    } = useSelector((state) => ({
+      workReports:state.workReports.workReports,
+      excelWorkReports:state.workReports.excelWorkReports,
+      pageInfo: state.workReports.pageInfo,
+    }));
+
+console.log("UserListType",workReports);
+
 
   useEffect(()=>{
     if(pageInfo){
@@ -100,15 +121,14 @@ export default function UserTypeList() {
     }
   },[pageInfo])
 
-  const handleNewUserClick = () => {
-    setDialogData(null);
-    setOpen(!open)
-  }
+  useEffect(()=>{
+    if(excelWorkReports && downloadButtonPressed){
+      handleDownloadExcel()
+      setDownloadButtonPressed(false);
+    }
+  },[excelWorkReports])
 
-  const handleEdit = (data) => {
-    setDialogData(data);
-    setOpen(!open);
-  };
+
 
   const handleDelete = (data) => {
     dispatch(DeleteState(data.id,data.status?0:1));
@@ -116,24 +136,12 @@ export default function UserTypeList() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    if(search){
-      dispatch(SearchState(newPage,rowsPerPage,searchValue));
+    // if(search){
+    //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
+    // }
+    // else {
+      dispatch(GetWorkReports(reportType, fromDate,toDate, newPage,rowsPerPage));
     }
-    else {
-      dispatch(GetAllState(newPage,rowsPerPage));
-    }
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
-    if(search){
-      dispatch(SearchState(1,parseInt(event.target.value, 10),searchValue));
-    }
-    else {
-      dispatch(GetAllState(1,parseInt(event.target.value, 10)));
-    }
-  };
 
   let timer = null;
   const filterByName = (event) => {
@@ -141,31 +149,60 @@ export default function UserTypeList() {
     clearTimeout(timer);
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
-        if(value){
-          dispatch(SearchState(1,rowsPerPage,value))
-          setSearch(true)
-          setPage(1)
-          setSearchValue(value);
-
-        }
-        else{
-          dispatch(GetAllState(1,rowsPerPage));
+          dispatch(GetWorkReports(1,rowsPerPage));
           setSearch(false);
           setPage(1);
-        }
+        // }
     }, 1000);
 
   }
-  function handleClick(event) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+
+
+
+  const header = ["#", "User", "Current Role", "Base Color Count", "Base Color Offsite Qc Count", "Base Color Onsite QC Count",
+"Census Count", "Census Offsite Qc Count", "Census Onsite QC Count"];
+
+  const handleDownloadButtonPressed = () => {
+    setDownloadButtonPressed(true);
+    dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+  }
+
+  function handleDownloadExcel() {
+    // dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+
+    const dataValue =  excelWorkReports;
+    const value1= [];
+    dataValue?.map((option, index) => {
+      const value2 = [index+1]
+      value2.push(option.name)
+      value2.push(option.current_role)
+      value2.push(option.base_color_trees_count)
+      value2.push(option.base_color_off_site_qc_count)
+      value2.push(option.base_color_onsite_qc_count)
+      value2.push(option.census_trees_count)
+      value2.push(option.census_trees_offsite_qc_count)
+      value2.push(option.census_trees_onsite_qc_count)
+      value1.push(value2)
+      return null
+    })
+    downloadExcel({
+      fileName: "Report",
+      sheet: "Report",
+      tablePayload: {
+        header,
+        // accept two different data structures
+        body: value1
+      },
+    });
   }
 
   return (
     <Page title="User">
       <Container>
         <Card style={{marginTop: 40}}>
-        <ReportToolBar numSelected={0} placeHolder={"Search here..."} />
+        <ReportToolBar 
+         handleExportexcel={()=>handleDownloadButtonPressed()} 
+        numSelected={0} placeHolder={"Search here..."} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -173,33 +210,30 @@ export default function UserTypeList() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     {/* { states?.map((option,index) => { */}
-                        {/* return ( */}
+                   { workReports?.data?.map((option,index) => {
+                        return ( 
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">1</TableCell>
-                            <TableCell align="left">kalmeshwar Muncipal council</TableCell>
-                        <TableCell align="left">admin</TableCell>
-                        <TableCell align="left">40</TableCell>
-                        <TableCell align="left">30</TableCell>
-                        <TableCell align="left">22</TableCell>
-                        <TableCell align="left">40</TableCell>
-                        <TableCell align="left">34</TableCell>
-                        <TableCell align="left">23</TableCell>
-                        {/* <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
-                        </TableCell> */}
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">{option.current_role}</TableCell>
+                        <TableCell align="left">{option.base_color_trees_count}</TableCell>
+                        <TableCell align="left">{option.base_color_off_site_qc_count}</TableCell>
+                        <TableCell align="left">{option.base_color_onsite_qc_count}</TableCell>
+                        <TableCell align="left">{option.census_trees_count}</TableCell>
+                        <TableCell align="left">{option.census_trees_offsite_qc_count}</TableCell>
+                        <TableCell align="left">{option.census_trees_onsite_qc_count}</TableCell>
                         </TableRow>
-                        {/* )
-                  })
-                } */}
+              )
+               })
+                } 
 
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-{states?(
+{workReports?(
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",

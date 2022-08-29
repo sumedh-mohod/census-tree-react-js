@@ -72,11 +72,11 @@ export default function WorkTypeList() {
   console.log("workReportsCouncil",workReports);
   
 
-  useEffect(()=>{
-    dispatch(GetWorkReports(page,rowsPerPage));
-  },[workReports])
+  // useEffect(()=>{
+  //   dispatch(GetWorkReports(page,rowsPerPage));
+  // },[workReports])
 
-  console.log("workReportsCouncil1", workReports)
+  console.log("aaaaa", workReports)
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -151,13 +151,13 @@ export default function WorkTypeList() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { workReports?.map((option,index) => { 
+                     { workReports?.data?.map((option,index) => { 
                         return (
                         <TableRow
                         hover
                       >
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                        <TableCell align="left">r</TableCell>
+                        <TableCell align="left">react</TableCell>
                         <TableCell align="left">30</TableCell>
                         {/* <TableCell align="right">
                           <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>

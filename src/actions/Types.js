@@ -177,7 +177,8 @@ export const GET_SPECIFIC_TREE_LOCATION_DETAILS = "get-specific-tree-location-de
 
 export const GET_REPORTS = "get-reports";
 
-export const GET_WORK_REPORTS = "get-work-reports"
+export const GET_WORK_REPORTS = "get-work-reports";
+export const GET_ALL_WORK_REPORTS = "get-all-work-reports"
 
 
 export const GET_TREE_FAMILY = "get-tree-family";

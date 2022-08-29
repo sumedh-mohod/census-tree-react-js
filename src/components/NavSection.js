@@ -322,7 +322,7 @@ export default function NavSection({ navConfig, ...other }) {
   // if(isContainPermission("view-base-color-trees")){
     newReportObj.children.push(
     {
-      title: 'Working Reports',
+      title: 'Work Reports',
       path: '/dashboard/workingReports',
       icon: getIcon('eva:shopping-bag-fill'),
     }
