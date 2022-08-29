@@ -30,7 +30,7 @@ import Page from '../../components/Page';
 import CouncilList from './CouncilList';
 import WorkTypeList from './WorkTypeList';
 import UserTypeList from './UserTypeList';
-import { GetWorkReports } from '../../actions/WorkReportAction';
+import { GetWorkReports, GetWorkTypeWorkReports } from '../../actions/WorkReportAction';
 
 
 
@@ -163,7 +163,14 @@ const formik = useFormik({
     // setState({ ...state, "right": false });
     const convertedFromDate = value.fromDateForm.split("-").reverse().join("-")
     const convertedToDate = value.toDateForm.split("-").reverse().join("-")
-    dispatch(GetWorkReports(value.reportType, convertedFromDate, convertedToDate,1, 10));
+    if(value.reportType==="by_work_types"){
+      dispatch(GetWorkTypeWorkReports(value.reportType, convertedFromDate, convertedToDate,1, 10));
+
+    }
+    else {
+      dispatch(GetWorkReports(value.reportType, convertedFromDate, convertedToDate,1, 10));
+    }
+    
 
     setFromDate(convertedFromDate)
     setTodate(convertedToDate);
