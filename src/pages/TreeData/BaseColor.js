@@ -289,10 +289,13 @@ export default function BaseColor() {
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
+          component={RouterLink} to="/login"
           // href="#"
-        >
+        > 
+         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
           Tree Data
-        </Link>
+          </Typography>
+         </Link> 
         <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}

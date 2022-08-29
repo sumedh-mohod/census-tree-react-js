@@ -192,7 +192,14 @@ export default function TreeCensusHistory() {
             Tree Data
           </Typography>
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          <Link
+          underline="hover"
+         // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="/dashboard/census"
+        >
         Census
+        </Link>
           </Typography>
         {treeCensusName === "undefined" ? null :
             <Typography variant="h4" gutterBottom style={{color: "#000000"}}>

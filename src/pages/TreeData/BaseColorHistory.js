@@ -165,9 +165,16 @@ export default function BaseColorHistory() {
         Tree Data
         </Typography>
         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        <Link
+          underline="hover"
+         // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="/dashboard/base-color"
+        >
         Base Color
+        </Link>
         </Typography>
-        {baseColorName=== 'undefined' ? null : 
+        {/* {baseColorName=== 'undefined' ? null : 
         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link
           component={RouterLink}
@@ -181,7 +188,7 @@ export default function BaseColorHistory() {
               
         </Link>
         </Typography>
-        }
+        } */}
         {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}

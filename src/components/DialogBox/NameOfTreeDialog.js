@@ -291,8 +291,8 @@ const handleFamilyChange = (event) => {
 
 
   const DesignationsSchema = Yup.object().shape({
-    name: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Name is required'),
-    botanicalName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Botanical Name is required'),
+    name: Yup.string().matches(/^[a-zA-Z-_]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Name is required'),
+    botanicalName: Yup.string().matches(/^[a-zA-Z-_]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Botanical Name is required'),
     treeType: Yup.string().required('Tree Type is required'),
     treeFamily: Yup.string().required('Tree Family is required'),
     origin: Yup.string().required('origin is required'),
@@ -323,8 +323,7 @@ const handleFamilyChange = (event) => {
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      // console.log("Submit",value
-      //  )
+      console.log("Submit",value )
        const maxHeight = `${value.minHeight} - ${value.maxHeightx}`
        const maxData= data.max_height.split('-')
        const maxValue= maxData[1]
