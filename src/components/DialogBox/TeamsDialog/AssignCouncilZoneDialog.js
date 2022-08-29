@@ -273,7 +273,7 @@ export default function AssignCouncilZoneDialog(props) {
         onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>Assigned C-Z-W</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>Assign C-Z-W</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>

@@ -78,6 +78,7 @@ export default function NewUserForm(props) {
     const [accountNumber, setAccountNumber] = React.useState('');
     const [referredBy, setReferredBy] = React.useState('');
     const [noticePeriod, setNoticePeriod] = React.useState('');
+    const [salaryPerMonth, setSalaryPerMonth] = React.useState('');
     const [formValues, setFormValues] = useState([{ deductionType: "", amount : ""}])
     const [filePath, setFilePath] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -107,6 +108,8 @@ export default function NewUserForm(props) {
     const [emergencyContactNumberError, setEmergencyContactNumberError] = React.useState('');
     const [bankNameError, setBankNameError] = useState('');
     const [accountNumberError, setAccountNumberError] = React.useState('');
+    const [salaryPerMonthError, setSalaryPerMonthError] = React.useState('');
+    const [deductionValueError, setDeductionValueError] = React.useState('');
     const[ lastDayOfWork, setLastDayOfWork] = useState("");
     const [uploadClick, setUploadClick] = useState("");
     const [uploadClickError,setUploadClickError] = useState("") ;
@@ -579,6 +582,7 @@ export default function NewUserForm(props) {
     }
 
     const handleDeductionNameChange = (e,index) => {
+
         const newDeductionList = [...deductionList];
         const value = newDeductionList[index];
         value.deductionName = e.target.value;
@@ -588,11 +592,21 @@ export default function NewUserForm(props) {
     }
 
     const handleDeductionValueChange = (e,index) => {
-      const newDeductionList = [...deductionList];
+   
+      const  regex = /^[0-9]*$/;
+      if(regex.test(e.target.value)) {
+        setDeductionValueError("");
+        const newDeductionList = [...deductionList];
       const value = newDeductionList[index];
       value.deductionValue = e.target.value;
       newDeductionList[index] = value;
       setDeductionList(newDeductionList); 
+    }
+    else{
+      setDeductionValueError("Please Enter Deduction Value In Digits Only");
+      
+    }
+      
      
   }
 
@@ -806,6 +820,18 @@ setAccountNumber(e.target.value);
     
  }
  setAadhaarNumber(e.target.value);
+  }
+
+  const handleSalary = (e) => {
+    const  regex = /^[0-9]*$/;
+    if(regex.test(e.target.value)) {
+      setSalaryPerMonthError("");
+  }
+  else{
+    setSalaryPerMonthError("Please Enter Salary Containing Digits Only");
+    
+  }
+  setSalaryPerMonth(e.target.value);
   }
 
   const handleDocumentValueChange = (e,index) => {
@@ -1075,7 +1101,7 @@ const handleSubmitErrors = () =>{
       emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emergency Contact Number is required'),
       dateOfJoining: Yup.string().required('DateOfJoining is required'),
       designation: Yup.string().required('Designation is required'),
-      salaryPerMonth: Yup.string().required('Salary per month is required'),
+      salaryPerMonth: Yup.string().matches(/^[0-9]*$/, 'Phone number is not valid').required('Salary per month is required'),
       isAgreementDone: Yup.string().required('Is agreement done is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
       accountNumber: Yup.string().required('Account number is required'),
@@ -1437,6 +1463,7 @@ const handleSubmitErrors = () =>{
                   autoComplete="contact"
                   label="Mobile Number*"
                   placeholder="Mobile Number*"
+                  value={values.mobile}
                   onChange={(e)=>{handleMobile(e);
                     formik.handleChange(e)}}
                   error={Boolean(touched.mobile && errors.mobile)}
@@ -1454,6 +1481,7 @@ const handleSubmitErrors = () =>{
                 label="Email*" 
                 autoComplete="email" 
                 placeholder="Email*" 
+                value={values.email}
                 onChange={(e)=>{handleEmail(e);
                   formik.handleChange(e)}}
                  error={Boolean(touched.email && errors.email)}
@@ -1470,6 +1498,7 @@ const handleSubmitErrors = () =>{
                   autoComplete="addressLine1"
                   placeholder="Address Line 1*"
                   label="Address Line 1*"
+                  value={values.addressLine1}
                   error={Boolean(touched.addressLine1 && errors.addressLine1)}
                 helperText={touched.addressLine1 && errors.addressLine1}
                 {...getFieldProps("addressLine1")}
@@ -1486,6 +1515,7 @@ const handleSubmitErrors = () =>{
                   autoComplete="addressLine2"
                   label="Address Line 2"
                   placeholder="Address Line 2"
+                  value={values.addressLine2}
                   error={Boolean(touched.addressLine2 && errors.addressLine2)}
                 helperText={touched.addressLine2 && errors.addressLine2}
                 {...getFieldProps("addressLine2")}
@@ -1499,6 +1529,7 @@ const handleSubmitErrors = () =>{
                 autoComplete="city" 
                 label="City*" 
                 placeholder="City*" 
+                value={values.city}
                 onChange={(e)=>{handleCity(e);
                   formik.handleChange(e)}}
                  error={Boolean(touched.city && errors.city)}
@@ -1653,6 +1684,7 @@ const handleSubmitErrors = () =>{
                   autoComplete="aadhar"
                   label="Aadhaar Number*"
                   placeholder="Aadhaar Number*"
+                  value={values.aadhaarNumber}
                   onChange={(e)=>{handleAadharCard(e);
                     formik.handleChange(e)}}
                   error={Boolean(touched.aadhaarNumber && errors.aadhaarNumber)}
@@ -1738,6 +1770,7 @@ const handleSubmitErrors = () =>{
                   autoComplete="caste"
                   label="Caste*"
                   placeholder="Caste*"
+                  value={values.caste}
                   onChange={(e)=>{handleCasteChange(e);
                     formik.handleChange(e)}}
                   error={Boolean(touched.caste && errors.caste)}
@@ -1804,6 +1837,7 @@ const handleSubmitErrors = () =>{
                   autoComplete="emergencycontactName"
                   label={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
                   placeholder={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
+                  value={values.emergencyContactName}
                   onChange={(e)=>{handleEmgName(e);
                     formik.handleChange(e)}}
                   error={Boolean(touched.emergencyContactName && errors.emergencyContactName)}
@@ -1821,6 +1855,7 @@ const handleSubmitErrors = () =>{
                   autoComplete="emergencycontactMoNum"
                   label={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
                   placeholder={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
+                  value={values.emergencyContactNumber}
                   onChange={(e)=>{handleEmgNumber(e);
                     formik.handleChange(e)}}
                   error={Boolean(touched.emergencyContactNumber && errors.emergencyContactNumber)}
@@ -1881,16 +1916,20 @@ const handleSubmitErrors = () =>{
                    <Grid item xs={6}>
                  <DefaultInput
                   fullWidth
-                  id="commitedSalary"
-                  autoComplete="commitedSalary"
+                  id="salaryPerMonth"
+                  autoComplete="salaryPerMonth"
                   label="Commited Salary per Month*"
                   placeholder="Commited Salary per Month*"
+                  value={values.salaryPerMonth}
+                  onChange={(e)=>{handleSalary(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.salaryPerMonth && errors.salaryPerMonth)}
                 helperText={touched.salaryPerMonth && errors.salaryPerMonth}
-                {...getFieldProps("salaryPerMonth")}
+               // {...getFieldProps("salaryPerMonth")}
                   // name="contact"
                   // value="contact"
                 />
+                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{salaryPerMonthError}</Typography>
                 </Grid>
                  <Grid item xs={6}>
                 <TextField
@@ -2011,6 +2050,7 @@ const handleSubmitErrors = () =>{
                   id="bankName"
                   autoComplete="bankName"
                   label="Bank Name*"
+                  value={values.bankName}
                   placeholder="Bank Name*"
                   onChange={(e)=>{handleBankName(e);
                     formik.handleChange(e)}}
@@ -2028,6 +2068,7 @@ const handleSubmitErrors = () =>{
                   autoComplete="account"
                   label="Account Number*"
                   placeholder="Account Number*"
+                  value={values.accountNumber}
                   onChange={(e)=>{handleAccNumber(e);
                     formik.handleChange(e)}}
                   error={Boolean(touched.accountNumber && errors.accountNumber)}
@@ -2046,7 +2087,7 @@ const handleSubmitErrors = () =>{
                   name="ifscCode"
                   autoComplete="IFSC"
                   label="IFSC Code*"
-                  value={ifscCode}
+                  value={values.ifscCode}
                   placeholder="IFSC Code*"
                   onChange={(e)=>{handleIFSCCode(e);
                     formik.handleChange(e)}}
@@ -2064,7 +2105,7 @@ const handleSubmitErrors = () =>{
                   name="panCardNumber"
                   autoComplete="panCard"
                   label="Pan Card*"
-                  value={panCardNumber}
+                  value={values.panCardNumber}
                   placeholder="Pan Card*"
                   onChange={(e)=>{handlePancardNumber(e);
                     formik.handleChange(e)}}
@@ -2201,6 +2242,7 @@ const handleSubmitErrors = () =>{
                   // name="contact"
                   // value="contact"
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{deductionValueError}</Typography>
               </Grid>
               <Grid item xs={2}>
             
