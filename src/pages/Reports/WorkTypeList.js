@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
+import { downloadExcel } from "react-export-table-to-excel";
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteState, GetAllState, SearchState } from '../../actions/MasterActions';
 import Page from '../../components/Page';
@@ -32,8 +33,9 @@ import USERLIST from '../../_mock/user';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
 import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
-import {GetWorkReports} from "../../actions/WorkReportAction"
+import {GetAllWorkReports} from "../../actions/WorkReportAction"
 
 
 // ----------------------------------------------------------------------
@@ -45,7 +47,7 @@ const TABLE_HEAD = [
 //   { id: 'action', label: 'Action', alignRight: true },
 ];
 
-export default function WorkTypeList() {
+export default function WorkTypeList(props) {
 
   const dispatch = useDispatch();
 
@@ -58,6 +60,8 @@ export default function WorkTypeList() {
    const [searchValue,setSearchValue] = useState("");
    const [dropPage, setDropPage] = useState(3);
    const userPermissions = [];
+   const [downloadButtonPressed,setDownloadButtonPressed] = useState(false);
+   const {reportType, fromDate, toDate} = props;
    const handleDropChange = (event) => {
      setDropPage(event.target.value);
     };
@@ -65,33 +69,59 @@ export default function WorkTypeList() {
 
     const {
       workReports,
+      excelWorkReports
       } = useSelector((state) => ({
         workReports:state.workReports.workReports,
+        excelWorkReports:state.workReports.excelWorkReports,
       }));
 
   console.log("workReportsCouncil",workReports);
   
 
-  // useEffect(()=>{
-  //   dispatch(GetWorkReports(page,rowsPerPage));
-  // },[workReports])
-
   console.log("aaaaa", workReports)
-
-// const keys = Object.keys(workReports);
-// console.log("keys", keys)
-//   const values = Object.values(workReports);
-//   console.log("values", values)
 
 const newData = Object.entries(workReports);
 console.log("newData", newData)
+
+
+const header = ["#", "Work Type", "Total Count"];
+
+  const handleDownloadButtonPressed = () => {
+    setDownloadButtonPressed(true);
+    dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+  }
+
+  function handleDownloadExcel() {
+    // dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+
+    const dataValue =  newData;
+    const value1= [];
+    dataValue?.map((option, index) => {
+      const value2 = [index+1]
+      value2.push(option[0])
+      value2.push(option[1])
+      value1.push(value2)
+      return null
+    })
+    downloadExcel({
+      fileName: "Report",
+      sheet: "Report",
+      tablePayload: {
+        header,
+        // accept two different data structures
+        body: value1
+      },
+    });
+  }
 
 
   return (
     <Page title="User">
       <Container>
         <Card style={{marginTop: 40}}>
-        <ReportToolBar numSelected={0} placeHolder={"Search here..."} />
+        <ReportToolBar
+        handleExportexcel={()=>handleDownloadExcel()} 
+        numSelected={0} placeHolder={"Search here..."} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
