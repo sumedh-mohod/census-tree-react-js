@@ -61,6 +61,7 @@ export default function WorkTypeList(props) {
    const [dropPage, setDropPage] = useState(3);
    const userPermissions = [];
    const [downloadButtonPressed,setDownloadButtonPressed] = useState(false);
+   const [displyWorkList, setDisplayWorkList] = useState([])
    const {reportType, fromDate, toDate} = props;
    const handleDropChange = (event) => {
      setDropPage(event.target.value);
@@ -80,8 +81,20 @@ export default function WorkTypeList(props) {
 
   console.log("aaaaa", workReports)
 
-const newData = Object.entries(workReports);
-console.log("newData", newData)
+
+  useEffect(()=>{
+    if(workReports){
+      workList()
+    }
+    console.log("assdghasd", workReports)
+  },[workReports])
+
+
+const workList = () => {
+  const newData = Object.entries(workReports);
+  console.log("newData", newData)
+  setDisplayWorkList(newData)
+}
 
 
 const header = ["#", "Work Type", "Total Count"];
@@ -94,7 +107,7 @@ const header = ["#", "Work Type", "Total Count"];
   function handleDownloadExcel() {
     // dispatch(GetAllWorkReports(reportType, fromDate,toDate));
 
-    const dataValue =  newData;
+    const dataValue =  displyWorkList;
     const value1= [];
     dataValue?.map((option, index) => {
       const value2 = [index+1]
@@ -129,10 +142,11 @@ const header = ["#", "Work Type", "Total Count"];
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { newData?.map((option,index) => { 
+                     { displyWorkList?.map((option,index) => { 
                         return (
                         <TableRow
                         hover
+                      // key={index}  
                       >
                             <TableCell align="left">{index+1}</TableCell>
                         <TableCell align="left">{option[0]}</TableCell>

@@ -56,6 +56,7 @@ const [showList,setShowList] = useState(false);
  const[toDate,setTodate] =useState("")
  const [showListUser, setShowListUser] = useState(false);
  const [showWorkTypeTable,setShowWorkTypeTable] = useState(false)
+ const[showMessage, setShowMessage] = useState(true)
  const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
 const [state, setState] = React.useState({
@@ -106,11 +107,22 @@ pageInfo,
 }));
 
 const handleTypeChange = (event) =>{
+  
   setReportType(event.target.value)
   console.log("value", event.target.value)
- if (event.target.value === "by_users"){
-  showListUser(true);
-}
+  if(event.target.value==="by_work_types"){
+     setShowTable(false)
+      setShowListUser(false)
+    setShowWorkTypeTable(true)
+  }else if(event.target.value==="by_councils"){
+    setShowTable(true)
+       setShowWorkTypeTable(false)
+      setShowListUser(false)
+  } else if(event.target.value==="by_users"){
+    setShowListUser(true)
+      setShowTable(false)
+      setShowWorkTypeTable(false)
+  }
 
 
 
@@ -160,10 +172,19 @@ const formik = useFormik({
 
     if(value.reportType==="by_work_types"){
       setShowWorkTypeTable(true)
+      setShowMessage(false)
+      setShowTable(false)
+      setShowListUser(false)
     }else if(value.reportType==="by_councils"){
       setShowTable(true)
+      setShowMessage(false)
+      setShowWorkTypeTable(false)
+      setShowListUser(false)
     } else if(value.reportType==="by_users"){
       setShowListUser(true)
+      setShowMessage(false)
+      setShowTable(false)
+      setShowWorkTypeTable(false)
     }
     
   },
@@ -333,24 +354,32 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
          
     {/* <UserTypeList/> */}
 {/* } */}
-{showTable? <CouncilList 
+{showTable && <CouncilList 
 reportType={reportType} 
  fromDate={fromDate} 
- toDate={toDate}/> : showListUser? 
+ toDate={toDate}/>}
+
+{ showListUser &&
 <UserTypeList
  reportType={reportType} 
  fromDate={fromDate} 
- toDate={toDate}/>: showWorkTypeTable? <WorkTypeList reportType={reportType} 
+ toDate={toDate}/>
+}
+ 
+ {showWorkTypeTable &&
+ <WorkTypeList 
+ reportType={reportType} 
  fromDate={fromDate} 
- toDate={toDate}/>:
+ toDate={toDate}/>
+ } 
+ {showMessage &&
  <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%", marginTop: 40}}>
        
        <h2>
        Please Select Filter
        </h2>
        
-     </div>
-     }
+     </div>}
           </Container>
           </Page >
 
