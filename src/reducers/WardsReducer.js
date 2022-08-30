@@ -24,7 +24,7 @@ import {  ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, GET_ACTIVE_WARDS, GET_
         case GET_ACTIVE_WARDS:
           return{
               ...state,
-              activeWards: payload.data,
+              activeWardsByCID: payload.data,
               
         };
 

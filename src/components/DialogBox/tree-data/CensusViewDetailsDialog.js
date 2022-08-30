@@ -178,6 +178,10 @@ export default function CensusViewDetailsDialog(props) {
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.location_type?.location_type}</td>
   </tr>
   <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Location Accuracy Needed</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.location_accuracy}</td>
+  </tr>
+  <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Type</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property_type?.property_type}</td>
   </tr>
