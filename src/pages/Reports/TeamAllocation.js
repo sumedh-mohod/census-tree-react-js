@@ -42,9 +42,12 @@ import {GetAllWorkReports} from "../../actions/WorkReportAction"
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'workType', label: 'Work Type', alignRight: false },
-  { id: 'totalcount', label: 'Total Count', alignRight: false },
-//   { id: 'action', label: 'Action', alignRight: true },
+  { id: 'User', label: 'User', alignRight: false },
+  { id: 'Role', label: 'Role', alignRight: false },
+  { id: 'Team', label: 'Team', alignRight: false },
+  { id: 'fromDate', label: 'From Date', alignRight: false },
+  { id: 'toDate', label: 'To Date', alignRight: false },
+  { id: 'currentStatus', label: 'Current Status', alignRight: false },
 ];
 
 export default function WorkTypeList(props) {
@@ -72,11 +75,16 @@ export default function WorkTypeList(props) {
       workReports,
       excelWorkReports
       } = useSelector((state) => ({
-        workReports:state.workReports.workTypeWorkReports,
+        workReports:state.workReports.workReports,
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-      
+  console.log("workReportsCouncil",workReports);
+  
+
+  console.log("aaaaa", workReports)
+
+
   useEffect(()=>{
     if(workReports){
       workList()
@@ -137,19 +145,23 @@ const header = ["#", "Work Type", "Total Count"];
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { displyWorkList?.map((option,index) => { 
-                        return (
+                     {/* { displyWorkList?.map((option,index) => { 
+                        return ( */}
                         <TableRow
                         hover
                       // key={index}  
                       >
-                            <TableCell align="left">{index+1}</TableCell>
-                        <TableCell align="left">{option[0]}</TableCell>
-                        <TableCell align="left">{option[1]}</TableCell>
+                            <TableCell align="left">{1}</TableCell>
+                        <TableCell align="left">User</TableCell>
+                        <TableCell align="left">Admin</TableCell>
+                        <TableCell align="left">Team1</TableCell>
+                        <TableCell align="left">29/07/1998</TableCell>
+                        <TableCell align="left">29/07/1998</TableCell>
+                        <TableCell align="left">Active</TableCell>
                         </TableRow>
-                         )
+                          {/* )
                   })
-                } 
+                }  */}
 
                 </TableBody>
               </Table>
