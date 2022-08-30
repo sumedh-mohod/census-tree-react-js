@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
+import { downloadExcel } from "react-export-table-to-excel";
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteState, GetAllState, SearchState } from '../../actions/MasterActions';
 import Page from '../../components/Page';
@@ -32,20 +33,21 @@ import USERLIST from '../../_mock/user';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
 import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
-import {GetWorkReports} from "../../actions/WorkReportAction"
+import {GetAllWorkReports} from "../../actions/WorkReportAction"
 
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'reportType', label: 'Report Type', alignRight: false },
+  { id: 'workType', label: 'Work Type', alignRight: false },
   { id: 'totalcount', label: 'Total Count', alignRight: false },
 //   { id: 'action', label: 'Action', alignRight: true },
 ];
 
-export default function WorkTypeList() {
+export default function WorkTypeList(props) {
 
   const dispatch = useDispatch();
 
@@ -58,6 +60,8 @@ export default function WorkTypeList() {
    const [searchValue,setSearchValue] = useState("");
    const [dropPage, setDropPage] = useState(3);
    const userPermissions = [];
+   const [downloadButtonPressed,setDownloadButtonPressed] = useState(false);
+   const {reportType, fromDate, toDate} = props;
    const handleDropChange = (event) => {
      setDropPage(event.target.value);
     };
@@ -65,85 +69,59 @@ export default function WorkTypeList() {
 
     const {
       workReports,
+      excelWorkReports
       } = useSelector((state) => ({
         workReports:state.workReports.workReports,
+        excelWorkReports:state.workReports.excelWorkReports,
       }));
 
   console.log("workReportsCouncil",workReports);
   
 
-  // useEffect(()=>{
-  //   dispatch(GetWorkReports(page,rowsPerPage));
-  // },[workReports])
-
   console.log("aaaaa", workReports)
 
-  const handleNewUserClick = () => {
-    setDialogData(null);
-    setOpen(!open)
+const newData = Object.entries(workReports);
+console.log("newData", newData)
+
+
+const header = ["#", "Work Type", "Total Count"];
+
+  const handleDownloadButtonPressed = () => {
+    setDownloadButtonPressed(true);
+    dispatch(GetAllWorkReports(reportType, fromDate,toDate));
   }
 
-  const handleEdit = (data) => {
-    setDialogData(data);
-    setOpen(!open);
-  };
+  function handleDownloadExcel() {
+    // dispatch(GetAllWorkReports(reportType, fromDate,toDate));
 
-  const handleDelete = (data) => {
-    dispatch(DeleteState(data.id,data.status?0:1));
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-    if(search){
-      dispatch(SearchState(newPage,rowsPerPage,searchValue));
-    }
-    else {
-      dispatch(GetAllState(newPage,rowsPerPage));
-    }
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
-    if(search){
-      dispatch(SearchState(1,parseInt(event.target.value, 10),searchValue));
-    }
-    else {
-      dispatch(GetAllState(1,parseInt(event.target.value, 10)));
-    }
-  };
-
-  let timer = null;
-  const filterByName = (event) => {
-    const value = event.currentTarget.value;
-    clearTimeout(timer);
-    // Wait for X ms and then process the request
-    timer = setTimeout(() => {
-        if(value){
-          dispatch(SearchState(1,rowsPerPage,value))
-          setSearch(true)
-          setPage(1)
-          setSearchValue(value);
-
-        }
-        else{
-          dispatch(GetAllState(1,rowsPerPage));
-          setSearch(false);
-          setPage(1);
-        }
-    }, 1000);
-
+    const dataValue =  newData;
+    const value1= [];
+    dataValue?.map((option, index) => {
+      const value2 = [index+1]
+      value2.push(option[0])
+      value2.push(option[1])
+      value1.push(value2)
+      return null
+    })
+    downloadExcel({
+      fileName: "Report",
+      sheet: "Report",
+      tablePayload: {
+        header,
+        // accept two different data structures
+        body: value1
+      },
+    });
   }
-  function handleClick(event) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-  }
+
 
   return (
     <Page title="User">
       <Container>
         <Card style={{marginTop: 40}}>
-        <ReportToolBar numSelected={0} placeHolder={"Search here..."} />
+        <ReportToolBar
+        handleExportexcel={()=>handleDownloadExcel()} 
+        numSelected={0} placeHolder={"Search here..."} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -151,32 +129,23 @@ export default function WorkTypeList() {
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { workReports?.data?.map((option,index) => { 
+                     { newData?.map((option,index) => { 
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                        <TableCell align="left">react</TableCell>
-                        <TableCell align="left">30</TableCell>
-                        {/* <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
-                        </TableCell> */}
+                            <TableCell align="left">{index+1}</TableCell>
+                        <TableCell align="left">{option[0]}</TableCell>
+                        <TableCell align="left">{option[1]}</TableCell>
                         </TableRow>
                          )
                   })
-                }
+                } 
 
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-{workReports?(
-          <Pagination  variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
         </Card>
       </Container>
     </Page>
