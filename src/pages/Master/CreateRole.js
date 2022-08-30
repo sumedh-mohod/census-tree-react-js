@@ -169,10 +169,12 @@ export default function CreateRole() {
   let timer = null;
   const filterByName = (event) => {
     const value = event.currentTarget.value;
-    clearTimeout(timer);
+    // clearTimeout(timer);
+    console.log("---",value)
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
         if(value){
+          console.log("---...",value)
           dispatch(SearchRole(1,rowsPerPage,value))
           setSearch(true)
           setPage(1)
@@ -186,7 +188,7 @@ export default function CreateRole() {
           setSearchValue("")
         }
     }, 1000);
-
+    console.log("rolesss", roles)
   }
   function handleClick(event) {
     event.preventDefault();
@@ -205,12 +207,12 @@ export default function CreateRole() {
         }
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-
+        <div role="presentation" onClick={handleClick} >
           <MasterBreadCrum
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
           />
-
+</div>
     {userPermissions.includes("create-role")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
             Role

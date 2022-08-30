@@ -293,7 +293,7 @@ const handleFamilyChange = (event) => {
     botanicalName: Yup.string().matches(/^[a-zA-Z-_]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Botanical Name is required'),
     treeType: Yup.string().required('Tree Type is required'),
     treeFamily: Yup.string().required('Tree Family is required'),
-    origin: Yup.string().required('origin is required'),
+    origin: Yup.string().required('Origin is required'),
   });
 
 
@@ -323,10 +323,15 @@ const handleFamilyChange = (event) => {
     onSubmit: (value) => {
       console.log("Submit",value )
        const maxHeight = `${value.minHeight} - ${value.maxHeightx}`
-       const maxData= data.max_height.split('-')
-       const maxValue= maxData[1]
-       console.log("maxValue", maxValue)
-       const age = `${value.minAge} - ${value.maxAge} `
+       console.log("maxHeight", maxHeight)
+      //  let maxValue;
+      //  if(data.max_height){
+      //  const maxData= data.max_height.split('-')
+      //  maxValue= maxData[1]
+      //  console.log("maxValue", maxValue)
+      //  }
+      let age;
+       if(value.minAge !== "undefined"){ age = `${value.minAge} - ${value.maxAge} `}
        const growthFactor= `${value.minGrowth} - ${value.maxGrowth}`
        const floweringSeason= `${value.floweringStart } - ${value.floweringEnd}`
        const fruitingSeason= `${value.fruitingStart} - ${value.fruitingEnd}`
@@ -342,8 +347,8 @@ const handleFamilyChange = (event) => {
           "origin": value.origin,
           "oxygen_emit_rate": value.oxygenEmittrate,
           // "flowering_season": value.floweringSeason,
-          "flowering_season": floweringSeason,
-          "fruiting_season": fruitingSeason,
+          "flowering_season": floweringSeason==="undefined"? "kl" : floweringSeason,
+          "fruiting_season": fruitingSeason || "-",
           "max_height" : maxHeight,
           "max_age": age,
           "growth_factor": growthFactor,
@@ -394,7 +399,7 @@ const handleFamilyChange = (event) => {
               <DefaultInput
                 fullWidth
                 required
-                id="nameOfTree"
+                id="name"
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.name && errors.name)}
@@ -417,11 +422,12 @@ const handleFamilyChange = (event) => {
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Type*</FormLabel>
-            <Select
+            <TextField
+              select
               // SelectProps={{
               //   multiple:true
               // }}
-              id="typeOfTree"
+              id="treeType"
               // label="Tree Type*"
             //   name='status'
             displayEmpty
@@ -441,11 +447,12 @@ const handleFamilyChange = (event) => {
                   {option.tree_type}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Family*</FormLabel>
-            <Select
+            <TextField
+              select
               // SelectProps={{
               //   multiple:true
               // }}
@@ -469,7 +476,7 @@ const handleFamilyChange = (event) => {
                   {option.tree_family}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Uses*</FormLabel>
@@ -488,7 +495,8 @@ const handleFamilyChange = (event) => {
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Origin*</FormLabel>
-            <Select
+            <TextField
+              select
               // SelectProps={{
               //   multiple:true
               // }}
@@ -512,7 +520,7 @@ const handleFamilyChange = (event) => {
                   {option.label}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             </Grid>
             <Grid item xs={12}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Oxygen Emittrate(Pound)</FormLabel>
