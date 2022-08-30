@@ -30,7 +30,8 @@ import Page from '../../components/Page';
 import CouncilList from './CouncilList';
 import WorkTypeList from './WorkTypeList';
 import UserTypeList from './UserTypeList';
-import { GetWorkReports } from '../../actions/WorkReportAction';
+import TeamAllocation from "./TeamAllocation";
+import {GetWorkTypeWorkReports, GetWorkReports } from '../../actions/WorkReportAction';
 
 
 

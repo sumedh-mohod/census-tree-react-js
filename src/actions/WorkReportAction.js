@@ -131,8 +131,6 @@ const GetWorkReports = (reportType,formDate,toDate, page,limit,) => async (dispa
         payload: response.data,
       });
     } catch (e) {
-  
-        // console.log("CATCH GET ALL STATE",e.response);
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
