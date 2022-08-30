@@ -72,16 +72,11 @@ export default function WorkTypeList(props) {
       workReports,
       excelWorkReports
       } = useSelector((state) => ({
-        workReports:state.workReports.workReports,
+        workReports:state.workReports.workTypeWorkReports,
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  console.log("workReportsCouncil",workReports);
-  
-
-  console.log("aaaaa", workReports)
-
-
+      
   useEffect(()=>{
     if(workReports){
       workList()
