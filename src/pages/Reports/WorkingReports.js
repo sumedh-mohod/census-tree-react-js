@@ -31,6 +31,7 @@ import CouncilList from './CouncilList';
 import WorkTypeList from './WorkTypeList';
 import UserTypeList from './UserTypeList';
 import { GetWorkReports } from '../../actions/WorkReportAction';
+import TeamAllocation from "./TeamAllocation"
 
 
 
@@ -57,6 +58,7 @@ const [showList,setShowList] = useState(false);
  const [showListUser, setShowListUser] = useState(false);
  const [showWorkTypeTable,setShowWorkTypeTable] = useState(false)
  const[showMessage, setShowMessage] = useState(true)
+ const[teamAllocation, setTeamAllocation] = useState(false)
  const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
 const [state, setState] = React.useState({
@@ -95,6 +97,10 @@ const reportValues = [
     value: "by_users",
     label: "By Users"
   },
+  {
+    value: "by_team_allocation",
+    label: "By Team Allocation"
+  },
 ]
 
 
@@ -119,6 +125,11 @@ const handleTypeChange = (event) =>{
        setShowWorkTypeTable(false)
       setShowListUser(false)
   } else if(event.target.value==="by_users"){
+    setShowListUser(true)
+      setShowTable(false)
+      setShowWorkTypeTable(false)
+  }
+  else if(event.target.value==="by_team_allocation"){
     setShowListUser(true)
       setShowTable(false)
       setShowWorkTypeTable(false)
@@ -182,6 +193,12 @@ const formik = useFormik({
       setShowListUser(false)
     } else if(value.reportType==="by_users"){
       setShowListUser(true)
+      setShowMessage(false)
+      setShowTable(false)
+      setShowWorkTypeTable(false)
+    }else if(value.reportType==="by_team_allocation"){
+      setTeamAllocation(true)
+      setShowListUser(false)
       setShowMessage(false)
       setShowTable(false)
       setShowWorkTypeTable(false)
@@ -372,6 +389,9 @@ reportType={reportType}
  fromDate={fromDate} 
  toDate={toDate}/>
  } 
+ {teamAllocation && 
+ <TeamAllocation/>
+ }
  {showMessage &&
  <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%", marginTop: 40}}>
        
