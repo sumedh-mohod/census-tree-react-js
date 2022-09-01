@@ -1,7 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { GET_WORK_REPORTS, GET_ALL_WORK_REPORTS } from "./Types";
+import { GET_WORK_REPORTS, GET_ALL_WORK_REPORTS, GET_WORK_TYPES_WORK_REPORTS } from "./Types";
 
 const GetWorkReports = (reportType,formDate,toDate, page,limit,) => async (dispatch) => {
 
@@ -24,6 +24,36 @@ const GetWorkReports = (reportType,formDate,toDate, page,limit,) => async (dispa
       dispatch({
      
         type: GET_WORK_REPORTS,
+        payload: response.data,
+    
+      });
+
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetWorkTypeWorkReports = (reportType,formDate,toDate, page,limit,) => async (dispatch) => {
+
+    let url = `/api/reports/work-reports?`
+    if(reportType){
+      url = `${url}report_type=${reportType}`;
+    }
+    if(formDate){
+      url = `${url}&from_date=${formDate}`;
+    }
+    if(toDate){
+      url = `${url}&to_date=${toDate}`
+    }
+
+    console.log("council123",reportType)
+   
+    try {
+      const response = await JWTServer.get(`${url}&page=${page}&limit=${limit}`);
+      console.log("RESPONSE ____",response.data)
+      dispatch({
+     
+        type: GET_WORK_TYPES_WORK_REPORTS,
         payload: response.data,
     
       });
@@ -101,14 +131,13 @@ const GetWorkReports = (reportType,formDate,toDate, page,limit,) => async (dispa
         payload: response.data,
       });
     } catch (e) {
-  
-        // console.log("CATCH GET ALL STATE",e.response);
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
 
   export {
     GetWorkReports,
+    GetWorkTypeWorkReports,
     SearchWorkReports,
     GetAllWorkReports,
 }
