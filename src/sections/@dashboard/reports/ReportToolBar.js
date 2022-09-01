@@ -91,7 +91,7 @@ export default function ReportToolBar({ numSelected, filterName, onFilterName,ha
           {/* {(callType === "BaseColor")?(
          <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
          ):null} */}
-           <Grid item xs={2.7} justifyContent="flex-end">
+           <Grid item xs={2.7} justifyContent="flex-end" style={{marginRight: 20}}>
            <Button variant="contained" onClick={()=>handleExportexcel()} style={{marginLeft: 30, marginTop: 5, height: 50, width: 150, marginRight: 2}}  >Export Report</Button> 
            </Grid>
            </Grid>

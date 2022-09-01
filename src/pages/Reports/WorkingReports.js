@@ -56,6 +56,7 @@ const [showList,setShowList] = useState(false);
  const [fromDate, setFromDate] = useState("")
  const[toDate,setTodate] =useState("")
  const [showListUser, setShowListUser] = useState(false);
+ const [councilfield, setCouncilField] = useState(false)
  const [showWorkTypeTable,setShowWorkTypeTable] = useState(false)
  const[showMessage, setShowMessage] = useState(true)
  const[teamAllocation, setTeamAllocation] = useState(false)
@@ -113,7 +114,9 @@ pageInfo,
 }));
 
 const handleTypeChange = (event) =>{
-  
+
+  console.log("work type Check")
+  console.log("eventtype check", event.target.value)
   setReportType(event.target.value)
   console.log("value", event.target.value)
   if(event.target.value==="by_work_types"){
@@ -153,9 +156,10 @@ const toggleDrawer = (anchor, open) => (event) => {
 
 
 const FilterSchema = Yup.object().shape({
-  reportType: Yup.string().required('Please select report Type'),
-  // wardForm: Yup.string().required('Please select ward'),
-  // zoneForm: Yup.string().required('Please select zone'),
+  reportType: Yup.string().required('Please select report type'),
+
+  toDateForm: Yup.string().required('Please select from date'),
+  fromDateForm: Yup.string().required('Please select to date'),
 });
 
 
@@ -228,8 +232,18 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
             Reports
           </Typography>
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-       Work Reports
+    Work Reports
           </Typography>
+          {showTable ?
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Council Report
+          </Typography>: showListUser? 
+           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          User Report
+         </Typography>: showWorkTypeTable? 
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Work Report
+         </Typography>: ""}
       </Breadcrumbs>
     </div>
           <Button
@@ -272,8 +286,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
               // placeholder='*Status'
               onChange={handleTypeChange}
               // onChange={handleAddedByChange}
-              // error={Boolean(touched.reportType && errors.reportType)}
-              //   helperText={touched.reportType && errors.reportType}
+              error={Boolean(touched.reportType && errors.reportType)}
+                helperText={touched.reportType && errors.reportType}
                 {...getFieldProps("reportType")}
             >
                <MenuItem disabled value="">
@@ -327,8 +341,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 // label="Plantation Date"
                  value={values.fromDateForm || ""}
          
-                // helperText={
-                //     errors.toDateForm && touched.toDateForm
+                
                      
                 // }
                 InputLabelProps={{
@@ -336,6 +349,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                   
                 }}
                 inputProps={{ max: todayDate }}
+                error={Boolean(touched.fromDateForm && errors.fromDateForm)}
+                helperText={touched.fromDateForm && errors.fromDateForm}
                 {...getFieldProps("fromDateForm")}
               />
               
@@ -362,6 +377,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                   
                 }}
                 inputProps={{ max: todayDate }}
+                error={Boolean(touched.toDateForm && errors.toDateForm)}
+                helperText={touched.toDateForm && errors.toDateForm}
                 {...getFieldProps("toDateForm")}
               />
                </Grid>
