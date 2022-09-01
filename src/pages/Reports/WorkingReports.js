@@ -56,6 +56,7 @@ const [showList,setShowList] = useState(false);
  const [fromDate, setFromDate] = useState("")
  const[toDate,setTodate] =useState("")
  const [showListUser, setShowListUser] = useState(false);
+ const [councilfield, setCouncilField] = useState(false)
  const [showWorkTypeTable,setShowWorkTypeTable] = useState(false)
  const[showMessage, setShowMessage] = useState(true)
  const[teamAllocation, setTeamAllocation] = useState(false)
@@ -98,7 +99,7 @@ const reportValues = [
     label: "By Users"
   },
   {
-    value: "by_team_allocation",
+    value: "team_allocation",
     label: "By Team Allocation"
   },
 ]
@@ -113,24 +114,30 @@ pageInfo,
 }));
 
 const handleTypeChange = (event) =>{
-  
+
+  console.log("work type Check")
+  console.log("eventtype check", event.target.value)
   setReportType(event.target.value)
   console.log("value", event.target.value)
   if(event.target.value==="by_work_types"){
+    setShowWorkTypeTable(true)
      setShowTable(false)
       setShowListUser(false)
-    setShowWorkTypeTable(true)
+    setTeamAllocation(false)
   }else if(event.target.value==="by_councils"){
     setShowTable(true)
        setShowWorkTypeTable(false)
       setShowListUser(false)
+      setTeamAllocation(false)
   } else if(event.target.value==="by_users"){
     setShowListUser(true)
       setShowTable(false)
       setShowWorkTypeTable(false)
+      setTeamAllocation(false)
   }
-  else if(event.target.value==="by_team_allocation"){
-    setShowListUser(true)
+  else if(event.target.value==="team_allocation"){
+    setTeamAllocation(true)
+    setShowListUser(false)
       setShowTable(false)
       setShowWorkTypeTable(false)
   }
@@ -153,9 +160,10 @@ const toggleDrawer = (anchor, open) => (event) => {
 
 
 const FilterSchema = Yup.object().shape({
-  reportType: Yup.string().required('Please select report Type'),
-  // wardForm: Yup.string().required('Please select ward'),
-  // zoneForm: Yup.string().required('Please select zone'),
+  reportType: Yup.string().required('Please select report type'),
+
+  toDateForm: Yup.string().required('Please select from date'),
+  fromDateForm: Yup.string().required('Please select to date'),
 });
 
 
@@ -193,17 +201,20 @@ const formik = useFormik({
       setShowMessage(false)
       setShowTable(false)
       setShowListUser(false)
+      setTeamAllocation(false)
     }else if(value.reportType==="by_councils"){
       setShowTable(true)
       setShowMessage(false)
       setShowWorkTypeTable(false)
       setShowListUser(false)
+      setTeamAllocation(false)
     } else if(value.reportType==="by_users"){
       setShowListUser(true)
       setShowMessage(false)
       setShowTable(false)
       setShowWorkTypeTable(false)
-    }else if(value.reportType==="by_team_allocation"){
+      setTeamAllocation(false)
+    }else if(value.reportType==="team_allocation"){
       setTeamAllocation(true)
       setShowListUser(false)
       setShowMessage(false)
@@ -228,8 +239,21 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
             Reports
           </Typography>
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-       Work Reports
+    Work Reports
           </Typography>
+          {showTable ?
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Council Report
+          </Typography>: showListUser? 
+           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          User Report
+         </Typography>: showWorkTypeTable? 
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Work Report
+         </Typography> : teamAllocation?
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Team Allocation Report
+         </Typography>: ""}
       </Breadcrumbs>
     </div>
           <Button
@@ -265,15 +289,15 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
               select
               id="reportType"
               label="Report Type"
-              displayEmpty
+              displayempty
               value={reportType}
               style={{width:'100%',marginTop:5}}
               size="small"
               // placeholder='*Status'
               onChange={handleTypeChange}
               // onChange={handleAddedByChange}
-              // error={Boolean(touched.reportType && errors.reportType)}
-              //   helperText={touched.reportType && errors.reportType}
+              error={Boolean(touched.reportType && errors.reportType)}
+                helperText={touched.reportType && errors.reportType}
                 {...getFieldProps("reportType")}
             >
                <MenuItem disabled value="">
@@ -327,8 +351,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 // label="Plantation Date"
                  value={values.fromDateForm || ""}
          
-                // helperText={
-                //     errors.toDateForm && touched.toDateForm
+                
                      
                 // }
                 InputLabelProps={{
@@ -336,6 +359,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                   
                 }}
                 inputProps={{ max: todayDate }}
+                error={Boolean(touched.fromDateForm && errors.fromDateForm)}
+                helperText={touched.fromDateForm && errors.fromDateForm}
                 {...getFieldProps("fromDateForm")}
               />
               
@@ -362,6 +387,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                   
                 }}
                 inputProps={{ max: todayDate }}
+                error={Boolean(touched.toDateForm && errors.toDateForm)}
+                helperText={touched.toDateForm && errors.toDateForm}
                 {...getFieldProps("toDateForm")}
               />
                </Grid>
@@ -397,7 +424,11 @@ reportType={reportType}
  toDate={toDate}/>
  } 
  {teamAllocation && 
- <TeamAllocation/>
+ <TeamAllocation
+ reportType={reportType} 
+ fromDate={fromDate} 
+ toDate={toDate}
+ />
  }
  {showMessage &&
  <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%", marginTop: 40}}>

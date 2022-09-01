@@ -302,7 +302,7 @@ export default function NavSection({ navConfig, ...other }) {
   if(isContainPermission("view-report")){
     const obj =   {
       title: 'Reports',
-      path: '/dashboard/reports',
+      path: '/dashboard/reportold',
       icon: getIcon('eva:shopping-bag-fill'),
     }
     treeDataOuterObj.children.push(obj);
