@@ -66,20 +66,42 @@ export default function NameOfTreeDialog(props) {
   const [typeOfTree, SetTypeOfTree] = React.useState('');
   const [treeOfFamily, setTreeOfFamily] = React.useState('');
   const [origin, setOrigin] = React.useState('');
-  const [seasonStart, setSeasonStart] = React.useState('');
-  const [seasonEnd, setSeasonEnd] = React.useState('');
-  const [fruitSeason, setFruitSeason] = React.useState('');
-  const [fruitSeasonEnd, setFruitSeasonEnd] = React.useState('');
+  const [floweringStart, setFloweringStart] = React.useState('');
+  const [floweringEnd, setFloweringEnd] = React.useState('');
+  const [fruitingStart, setFruitingStart] = React.useState('');
+  const [fruitingEnd, setFruitingEnd] = React.useState('');
   const [minHeight, setMinHeight] = React.useState('');
   const [maxHeight, setMaxHeight] = React.useState('');
   const [val, setVal] = React.useState([40,80]);
   const [growth, setGrowth]= React.useState('');
+  const [minHtError, setMinHtError] = React.useState('');
+  const [maxHtError, setMaxHtError] = React.useState('');
+  const [minAgeError, setMinAgeError] = React.useState('');
+  const [maxAgeError, setMaxAgeError] = React.useState('');
+  const [minGrthError, setMinGrthError] = React.useState('');
+  const [maxGrthError, setMaxGrthError] = React.useState('');
+  let age;
+  let height;
+  let growthF;
+  let flowerSeason;
+  let fruitsSeason;
+  let minAg;
+  let maxAg;
+  let maxHt;
+  let minHt;
+  let maxGro;
+  let minGro;
+  let frtSt;
+  let frtEnd;
+  let flwSt;
+  let flwEnd;
 
   const updateChange =(e, item) =>{
 setVal(item)
   }
   
   const { isOpen, data } = props;
+  console.log("dataaa", data);
 
   const {
     addTreeNameLog,
@@ -236,6 +258,39 @@ const growthFactorValue = [
     props.handleClose();
   },[addTreeNameLog,editTreeNameLog])
 
+if(data){
+  if(data?.max_age){
+    const maxAgeData= data.max_age.split('-')
+    minAg= maxAgeData[0];
+    maxAg = maxAgeData[1];
+    console.log("max age", minAg, maxAg)
+  }
+  if(data?.max_height){
+    const maxHtData= data.max_height.split('-')
+    minHt= maxHtData[0];
+    maxHt = maxHtData[1];
+    console.log("max ht", minHt, maxHt)
+  }
+  if(data?.growth_factor){
+    const maxGrowData = data.growth_factor.split('-')
+    minGro= maxGrowData[0];
+    maxGro = maxGrowData[1];
+    console.log("max growth", minGro, maxGro)
+  }
+  if(data?.flowering_season){
+    const flwData= data.flowering_season.split('-')
+    flwSt= flwData[0];
+    flwEnd = flwData[1];
+    console.log("flowering", flwSt, flwEnd)
+  }
+  if(data?.fruiting_season){
+    const frtData= data.fruiting_season.split('-')
+    frtSt= frtData[0];
+    frtEnd = frtData[1];
+    console.log("fruiting", frtSt, frtEnd)
+  }
+}
+
 const handleStatusChange = (event) => {
 SetTypeOfTree(event.target.value);
 };
@@ -262,38 +317,61 @@ const handleFamilyChange = (event) => {
     );
   };
   const handleChange = (event) => {
-    setSeasonStart(event.target.value)
+    setFloweringStart(event.target.value)
   };
 
   const handleFruitSeasonChange = (event) => {
-    setFruitSeason(event.target.value)
+    setFruitingStart(event.target.value)
   };
 
 
   const handleFruitSeasonEnd = (event) => {
-    setFruitSeasonEnd(event.target.value)
+    setFruitingEnd(event.target.value)
   }
 
   const handleSeasonEndChange = (event) => {
-    setSeasonEnd(event.target.value)
+    console.log("iiii");
+    setFloweringEnd(event.target.value)
   }
 
-  const handleMinHeightChange =(event) => {
-    setMinHeight(event.target.value)
+  const handleMinHeightChange =(e) => {
+    const  regex = /^[0-9]*$/;
+    if(regex.test(e.target.value)) {
+      setMinHtError("");
+  }
+  else{
+     setMinHtError("Please Height Containing Digits Only");
+    
+  }
+    setMinHeight(e.target.value)
   }
 
-  const handleMaxHeightChange = (event) => {
-    setMaxHeight(event.target.value)
+  const handleMaxHeightChange = (e) => {
+    const  regex = /^[0-9]*$/;
+    if(regex.test(e.target.value)) {
+      setMaxHtError("");
+  }
+  else{
+     setMaxHtError("Please Enter Salary Containing Digits Only");
+    
+  }
+    setMaxHeight(e.target.value)
   }
 
 
 
   const DesignationsSchema = Yup.object().shape({
-    name: Yup.string().matches(/^[a-zA-Z-_]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Name is required'),
-    botanicalName: Yup.string().matches(/^[a-zA-Z-_]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Botanical Name is required'),
+    name: Yup.string().matches(/^[a-zA-Z- _]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Name is required'),
+    botanicalName: Yup.string().matches(/^[a-zA-Z- _]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Botanical Name is required'),
     treeType: Yup.string().required('Tree Type is required'),
     treeFamily: Yup.string().required('Tree Family is required'),
     origin: Yup.string().required('Origin is required'),
+    // minHeight:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
+    // maxHeightx:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
+    // minAge:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
+    // maxAge:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
+    // minGrowth:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
+    // maxGrowth:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
   });
 
 
@@ -306,23 +384,23 @@ const handleFamilyChange = (event) => {
       treeFamily: data? data.tree_family_id: "",
       uses:data? data.uses: "",
       origin: data? data.origin: "",
-      oxygenEmittrate: data? data.oxygenEmittrate: "",
-      floweringSeason: data? data.flowering_season: "",
-      minHeight: data? data.min_height: "",
-      maxHeightx: data? data.max_heightx: "",
-      minAge:data? data.min_age: "",
-      maxAge: data? data.max_age: "",
-      minGrowth: data? data.min_growth: "",
-      maxGrowth: data? data.max_growth: "",
-      floweringStart:data? data.flowering_start: "",
-      floweringEnd: data? data.flowering_end: "",
-      fruitingStart: data? data.fruitingStart: "",
-      fruitingEnd: data? data.fruitingEnd: "",
+      oxygenEmittrate: data? data.oxygen_emit_rate: "",
+     // floweringSeason: data? data.flowering_season: "",
+      minHeight: data? minHt: "",
+      maxHeightx: data? maxHt: "",
+      minAge:data? minAg: "",
+      maxAge: data? maxAg: "",
+      minGrowth: data? minGro: "",
+      maxGrowth: data? maxGro: "",
+      floweringStart:data? flwSt.trim(): "",
+      floweringEnd: data? flwEnd.trim(): "",
+      fruitingStart: data? frtSt.trim(): "",
+      fruitingEnd: data? frtEnd.trim(): "",
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
       console.log("Submit",value )
-       const maxHeight = `${value.minHeight} - ${value.maxHeightx}`
+       if (value.minHeight || value.maxHeightx){ height = `${value.minHeight} - ${value.maxHeightx}`}
        console.log("maxHeight", maxHeight)
       //  let maxValue;
       //  if(data.max_height){
@@ -330,11 +408,11 @@ const handleFamilyChange = (event) => {
       //  maxValue= maxData[1]
       //  console.log("maxValue", maxValue)
       //  }
-      let age;
-       if(value.minAge !== "undefined"){ age = `${value.minAge} - ${value.maxAge} `}
-       const growthFactor= `${value.minGrowth} - ${value.maxGrowth}`
-       const floweringSeason= `${value.floweringStart } - ${value.floweringEnd}`
-       const fruitingSeason= `${value.fruitingStart} - ${value.fruitingEnd}`
+     
+       if(value.minAge || value.maxAge){ age = `${value.minAge} - ${value.maxAge} `}
+       if(value.minGrowth || value.maxGrowth) {growthF= `${value.minGrowth} - ${value.maxGrowth}`}
+       if(value.floweringStart || value.floweringEnd) flowerSeason= `${value.floweringStart } - ${value.floweringEnd}`
+       if(value.fruitingStart || value.fruitingEnd) fruitsSeason= `${value.fruitingStart} - ${value.fruitingEnd}`
        console.log("maxHeight", maxHeight)
       //  console.log("maxData", maxData)
       if(data){
@@ -347,11 +425,11 @@ const handleFamilyChange = (event) => {
           "origin": value.origin,
           "oxygen_emit_rate": value.oxygenEmittrate,
           // "flowering_season": value.floweringSeason,
-          "flowering_season": floweringSeason==="undefined"? "kl" : floweringSeason,
-          "fruiting_season": fruitingSeason || "-",
-          "max_height" : maxHeight,
+          "flowering_season": flowerSeason,
+          "fruiting_season": fruitsSeason,
+          "max_height" : height,
           "max_age": age,
-          "growth_factor": growthFactor,
+          "growth_factor": growthF,
 
         },data.id))
       }
@@ -364,21 +442,21 @@ const handleFamilyChange = (event) => {
           "uses":value.uses,
           "origin": value.origin,
           "oxygen_emit_rate": value.oxygenEmittrate,
-          "flowering_season": floweringSeason,
-          "fruiting_season": fruitingSeason,
-          "max_height" :maxHeight,
+          "flowering_season": flowerSeason,
+          "fruiting_season": fruitsSeason,
+          "max_height" :height,
           "max_age": age,
-          "growth_factor": growthFactor
+          "growth_factor": growthF
         }))
       }
     },
  
   });
 
- 
+ console.log("////", floweringStart)
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
+  console.log("valuessss", values)
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -545,13 +623,18 @@ const handleFamilyChange = (event) => {
               <Select
           labelId="floweringStart"
           id="floweringStart"
-          value={seasonStart}
+          name='floweringStart'
+          value={values.floweringStart}
           displayEmpty
           // label="Age"
           // placeholder="Flowering Season Start"
-          onChange={handleChange}
+          // onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e)
+            formik.handleChange(e);
+          }}
           style={{ marginLeft: 48, width: 120}}
-          {...getFieldProps("floweringStart")}
+         //  {...getFieldProps("floweringStart")}
         >
             {/* <MenuItem disabled value="">
             <em>Flowering Season </em>
@@ -570,7 +653,8 @@ const handleFamilyChange = (event) => {
                 <Select
           labelId="floweringEnd"
           id="floweringEnd"
-          value={seasonEnd}
+          name='floweringEnd'
+          value={values.floweringEnd}
           displayEmpty
           // label="Age"
           placeholder="Flowering Season End"
@@ -597,7 +681,7 @@ const handleFamilyChange = (event) => {
               <Select
           labelId="fruitingStart"
           id="fruitingStart"
-          value={fruitSeason}
+          value={values.fruitingStart}
           displayEmpty
           // label="Age"
           placeholder="fruiting Season"
@@ -622,7 +706,8 @@ const handleFamilyChange = (event) => {
                 <Select
           labelId="fruitingEnd"
           id="fruitingEnd"
-          value={fruitSeasonEnd}
+          name="fruitingEnd"
+          value={values.fruitingEnd}
           displayEmpty
           // label="Age"
           placeholder="fruiting Season"
