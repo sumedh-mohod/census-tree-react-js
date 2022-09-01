@@ -46,6 +46,7 @@ import BaseColorPendingQC from './pages/TreeData/BaseColorPendingQC';
 import TreeFamilies from './pages/Master/TreeFamilies';
 import WorkingReports from './pages/Reports/WorkingReports';
 import TreeReports from './pages/Reports/TreeReports';
+import Reports from './pages/TreeData/Reports';
 
 // ----------------------------------------------------------------------
 
@@ -93,6 +94,7 @@ export default function Router() {
         { path: 'treeOnMap', element: <TreeOnMap /> },
         { path: 'censusQc', element: <NewUI/>},
         { path: 'baseColorPendingQC', element: <BaseColorPendingQC/>},
+        { path: 'reportold', element: <Reports/>},
         {path: "workingReports", element: <WorkingReports/>},
         {path: "treeReports", element:<TreeReports/>}
       ],
