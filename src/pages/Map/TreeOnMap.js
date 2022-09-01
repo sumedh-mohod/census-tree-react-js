@@ -35,6 +35,7 @@ import Page from '../../components/Page';
 import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import { GetAllTreeLocation } from '../../actions/TreeOnMapAction';
+import {GetActiveCouncil} from '../../actions/CouncilAction';
 
 export default function TreeOnMap(props) {
 
@@ -89,6 +90,9 @@ export default function TreeOnMap(props) {
     setShowList(true);
   },[treeLocation])
   
+  useEffect(()=>{
+    dispatch(GetActiveCouncil(1));
+  })
     const handleCouncilChange = (e) =>{
       setCouncilId(e.target.value);
       setZoneId("")
