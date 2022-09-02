@@ -113,7 +113,7 @@ const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Curren
 
   function handleDownloadExcel() {
     // dispatch(GetAllWorkReports(reportType, fromDate,toDate));
-    const dataValue =  workReports;
+    const dataValue =  workReports.data;
     const value1= [fromDate];
     dataValue?.map((option, index) => {
       const value2 = [index+1]
