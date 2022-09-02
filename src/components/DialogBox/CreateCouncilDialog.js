@@ -23,12 +23,14 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import moment from 'moment';
 import { GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState, GetAllActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
 import { AddCouncil, AddCouncilWithLogo, EditCouncil, EditCouncilWithLogo, GetCouncilById } from '../../actions/CouncilAction';
 import { GetActiveZones } from '../../actions/ZonesAction';
 import { GetActiveWards } from '../../actions/WardsActions';
 import DefaultInput from '../Inputs/DefaultInput';
 import { UploadImage } from '../../actions/UploadActions';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -93,7 +95,8 @@ export default function CreateCouncilDialog(props) {
   const [isImageRemoved, setIsImageRemoved] = React.useState(false);
   const [showDistrict, setShowDistrict] = React.useState(false);
   const [showTaluka, setShowTaluka] = React.useState(false);
-  
+  const todayDate = moment(new Date()).format('YYYY-MM-DD');
+  // console.log('data', data)
   const {
     addCouncilLog,
     editCouncilLog,
@@ -117,6 +120,7 @@ export default function CreateCouncilDialog(props) {
     uploadImage:state.upload.uploadImage,
     uploadImageLog:state.upload.uploadImageLog,
   }));
+  console.log('wards', wards);
 
   React.useEffect(()=>{
     if(data && isOpen){
@@ -287,6 +291,7 @@ export default function CreateCouncilDialog(props) {
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
       locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
+      project_start_date: Yup.string().required('Start Date is required'),
     }
     :{
     name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
@@ -305,6 +310,8 @@ export default function CreateCouncilDialog(props) {
     zones: Yup.array().min(1,'Zone is required'),
     wards: Yup.array().min(1,'Ward is required'),
     locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
+    project_start_date: Yup.string().required('Start Date is required'),
+    // "project_end_date": value.project_end_date
   });
 
 
@@ -321,6 +328,8 @@ export default function CreateCouncilDialog(props) {
       zones: data?zoneName:[],
       wards: data?wardName:[],
       locationAccuracyNeeded:data?data.location_accuracy_needed:"",
+      project_start_date: data?data.project_start_date:"",
+      project_end_date: data?data.project_end_date:""
     }
     :{
       district:data? data.district_id : "",
@@ -339,10 +348,13 @@ export default function CreateCouncilDialog(props) {
       zones: data?[]:[],
       wards: data?[]:[],
       locationAccuracyNeeded:data?data.location_accuracy_needed:"",
+      project_start_date: data?data.project_start_date:"",
+      project_end_date: data?data.project_end_date:""
 
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
+      // console.log(value)
       if(data){
         if(validateLogo() && isImageRemoved){
           const formData = new FormData();
@@ -357,6 +369,8 @@ export default function CreateCouncilDialog(props) {
               "base_color_target" : value.baseColorTarget,
               "census_target" : value.censusTarget,
               "location_accuracy_needed": value.locationAccuracyNeeded,
+              "project_start_date": value.project_start_date,
+              "project_end_date": value.project_end_date
               },
               "zones":value.zones,
               "wards": value.wards,
@@ -375,6 +389,8 @@ export default function CreateCouncilDialog(props) {
               "base_color_target" : value.baseColorTarget,
               "census_target" : value.censusTarget,
               "location_accuracy_needed": value.locationAccuracyNeeded,
+              "project_start_date": value.project_start_date,
+              "project_end_date": value.project_end_date
               },
               "zones":value.zones,
               "wards": value.wards,
@@ -397,6 +413,9 @@ export default function CreateCouncilDialog(props) {
                 "base_color_target" : value.baseColorTarget,
                 "census_target" : value.censusTarget,
                 "location_accuracy_needed": value.locationAccuracyNeeded,
+                "project_start_date": value.project_start_date,
+                "project_end_date": value.project_end_date
+
                 },
                 "contact_person" : {
                   "first_name" : value.firstName,
@@ -416,7 +435,7 @@ export default function CreateCouncilDialog(props) {
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
-
+  console.log("VALUES",values)
   return (
     <div>
       <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>
@@ -647,6 +666,46 @@ export default function CreateCouncilDialog(props) {
                 {...getFieldProps("locationAccuracyNeeded")}
               />
             </Grid>
+           
+            <Grid item xs={5}>
+                 <TextField
+                id="date"
+                // label="Date Of Birth"
+                type="date"
+                label="Start Date*"
+                placeholder='Start Date*'
+                // defaultValue="2017-05-24"
+                style={{ width: '81%', marginLeft: 40, marginTop:5 }}
+                // className={classes.textField}
+                error={Boolean(touched.project_start_date && errors.project_start_date)}
+                helperText={touched.project_start_date && errors.project_start_date}
+                {...getFieldProps("project_start_date")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{ min: todayDate }}
+              />
+              </Grid>
+              <Grid item xs={5}>
+              <TextField
+                id="date"
+                // value={toDate}
+                type="date"
+                label="End Date*"
+                placeholder= 'End Date*'
+                // defaultValue="2017-05-24"
+                style={{ width: '81%', marginLeft: 40, marginTop:5 }}
+                // className={classes.textField}
+                error={Boolean(touched.project_end_date && errors.project_end_date)}
+                helperText={touched.project_end_date && errors.project_end_date}
+                {...getFieldProps("project_end_date")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{ min: todayDate }}
+              />
+            </Grid>
+
             <Divider />
             {!data?
             <>

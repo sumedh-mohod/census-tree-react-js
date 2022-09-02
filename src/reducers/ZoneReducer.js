@@ -25,6 +25,7 @@ import { ADD_ZONES, DELETE_ZONES, EDIT_ZONES, GET_ZONES, GET_ACTIVE_ZONES, GET_A
           return{
               ...state,
               activeZonesByCID: payload.data,
+              activeZones: payload.data
              
         };
 
