@@ -92,7 +92,7 @@ export default function TreeOnMap(props) {
   
   useEffect(()=>{
     dispatch(GetActiveCouncil(1));
-  })
+  },[])
     const handleCouncilChange = (e) =>{
       setCouncilId(e.target.value);
       setZoneId("")
