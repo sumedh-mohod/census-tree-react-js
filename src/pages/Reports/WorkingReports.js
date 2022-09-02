@@ -162,10 +162,10 @@ const toggleDrawer = (anchor, open) => (event) => {
 
 const FilterSchema = Yup.object().shape({
   reportType: Yup.string().required('Please select report type'),
-
-  toDateForm: Yup.string().required('Please select From Date'),
-  fromDateForm: Yup.string().required('Please select To Date'),
+  fromDateForm: Yup.string().required('Please select Start Date'),
+  toDateForm: Yup.string().required('Please select End Date'),
 });
+
 
 
 const formik = useFormik({
