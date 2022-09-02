@@ -100,7 +100,7 @@ const reportValues = [
   },
   {
     value: "team_allocation",
-    label: "By Team Allocation"
+    label: "Team Allocation"
   },
 ]
 
@@ -162,8 +162,8 @@ const toggleDrawer = (anchor, open) => (event) => {
 const FilterSchema = Yup.object().shape({
   reportType: Yup.string().required('Please select report type'),
 
-  toDateForm: Yup.string().required('Please select from date'),
-  fromDateForm: Yup.string().required('Please select to date'),
+  toDateForm: Yup.string().required('Please select From Date'),
+  fromDateForm: Yup.string().required('Please select To Date'),
 });
 
 
@@ -249,7 +249,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
           User Report
          </Typography>: showWorkTypeTable? 
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          Work Report
+          Work Type
          </Typography> : teamAllocation?
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
           Team Allocation Report

@@ -288,7 +288,7 @@ const handleCoucilChange = (value) => {
             Tree Data
           </Typography>
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-        Reports
+        Census Reports
           </Typography>
       </Breadcrumbs>
     </div>
