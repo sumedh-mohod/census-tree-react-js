@@ -62,7 +62,7 @@ export default function TreeOnMap(props) {
     });
 
     const { isLoaded } = useLoadScript({
-      googleMapsApiKey: "AIzaSyCLYJVkpS7Y-N5OOglfLYLcJNmVUwQFY7E" // Add your API key
+      googleMapsApiKey: "AIzaSyAuqtG8XhmKQPGoYpFi9dqZmhZTDWGCxE0" // Add your API key
     });
 
     const {
