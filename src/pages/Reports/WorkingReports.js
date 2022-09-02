@@ -99,8 +99,8 @@ const reportValues = [
     label: "By Users"
   },
   {
-    value: "by_team_allocation",
-    label: "By Team Allocation"
+    value: "team_allocation",
+    label: "Team Allocation"
   },
 ]
 
@@ -120,20 +120,24 @@ const handleTypeChange = (event) =>{
   setReportType(event.target.value)
   console.log("value", event.target.value)
   if(event.target.value==="by_work_types"){
+    setShowWorkTypeTable(true)
      setShowTable(false)
       setShowListUser(false)
-    setShowWorkTypeTable(true)
+    setTeamAllocation(false)
   }else if(event.target.value==="by_councils"){
     setShowTable(true)
        setShowWorkTypeTable(false)
       setShowListUser(false)
+      setTeamAllocation(false)
   } else if(event.target.value==="by_users"){
     setShowListUser(true)
       setShowTable(false)
       setShowWorkTypeTable(false)
+      setTeamAllocation(false)
   }
-  else if(event.target.value==="by_team_allocation"){
-    setShowListUser(true)
+  else if(event.target.value==="team_allocation"){
+    setTeamAllocation(true)
+    setShowListUser(false)
       setShowTable(false)
       setShowWorkTypeTable(false)
   }
@@ -158,8 +162,8 @@ const toggleDrawer = (anchor, open) => (event) => {
 const FilterSchema = Yup.object().shape({
   reportType: Yup.string().required('Please select report type'),
 
-  toDateForm: Yup.string().required('Please select from date'),
-  fromDateForm: Yup.string().required('Please select to date'),
+  toDateForm: Yup.string().required('Please select From Date'),
+  fromDateForm: Yup.string().required('Please select To Date'),
 });
 
 
@@ -197,17 +201,20 @@ const formik = useFormik({
       setShowMessage(false)
       setShowTable(false)
       setShowListUser(false)
+      setTeamAllocation(false)
     }else if(value.reportType==="by_councils"){
       setShowTable(true)
       setShowMessage(false)
       setShowWorkTypeTable(false)
       setShowListUser(false)
+      setTeamAllocation(false)
     } else if(value.reportType==="by_users"){
       setShowListUser(true)
       setShowMessage(false)
       setShowTable(false)
       setShowWorkTypeTable(false)
-    }else if(value.reportType==="by_team_allocation"){
+      setTeamAllocation(false)
+    }else if(value.reportType==="team_allocation"){
       setTeamAllocation(true)
       setShowListUser(false)
       setShowMessage(false)
@@ -242,7 +249,10 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
           User Report
          </Typography>: showWorkTypeTable? 
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          Work Report
+          Work Type
+         </Typography> : teamAllocation?
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Team Allocation Report
          </Typography>: ""}
       </Breadcrumbs>
     </div>
@@ -279,7 +289,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
               select
               id="reportType"
               label="Report Type"
-              displayEmpty
+              displayempty
               value={reportType}
               style={{width:'100%',marginTop:5}}
               size="small"
@@ -414,7 +424,11 @@ reportType={reportType}
  toDate={toDate}/>
  } 
  {teamAllocation && 
- <TeamAllocation/>
+ <TeamAllocation
+ reportType={reportType} 
+ fromDate={fromDate} 
+ toDate={toDate}
+ />
  }
  {showMessage &&
  <div style={{display:'flex',justifyContent:'center',alignItems:"center",height:"100%",width:"100%", marginTop: 40}}>

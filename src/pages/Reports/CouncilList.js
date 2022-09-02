@@ -133,7 +133,7 @@ export default function CouncilList(props) {
   }
 
   const header = ["#", "Council", "Base Color Count", "Base Color Offsite QC Count", "Base Color Onsite QC Count", "Census Count",
-  "Census Offsite Qc Count", "Census Onsite QC Count"];
+  "Census Offsite Qc Count", "Census Onsite QC Count","From Date", "To Date"];
  
 const handleDownloadButtonPressed = () => {
   setDownloadButtonPressed(true);
@@ -149,7 +149,6 @@ const handleDownloadButtonPressed = () => {
     dataValue?.map((option, index) => {
     
       const value2 = [index+1]
-      value2.push(dateValue)
       value2.push(option.name)
       value2.push(option.base_color_trees_count)
       value2.push(option.base_color_offsite_qc_count)
@@ -157,6 +156,10 @@ const handleDownloadButtonPressed = () => {
       value2.push(option.census_trees_count)
       value2.push(option.census_trees_offsite_qc_count)
       value2.push(option.census_trees_onsite_qc_count)
+      if(index === 0){
+        value2.push(fromDate);
+        value2.push(toDate)
+      }
       value1.push(value2)
       return null
     })

@@ -92,7 +92,7 @@ const workList = () => {
 }
 
 
-const header = ["#", "Work Type", "Total Count"];
+const header = ["#", "Work Type", "Total Count", "From Date", "To Date"];
 
   const handleDownloadButtonPressed = () => {
     setDownloadButtonPressed(true);
@@ -108,6 +108,10 @@ const header = ["#", "Work Type", "Total Count"];
       const value2 = [index+1]
       value2.push(option[0])
       value2.push(option[1])
+      if(index === 0){
+        value2.push(fromDate);
+        value2.push(toDate)
+      }
       value1.push(value2)
       return null
     })
