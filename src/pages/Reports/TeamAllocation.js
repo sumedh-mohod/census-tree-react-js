@@ -87,19 +87,11 @@ export default function WorkTypeList(props) {
   console.log("teamallocation", workReports)
 
 
-//   useEffect(()=>{
-//     if(workReports){
-//       workList()
-//     }
-//     console.log("assdghasd", workReports)
-//   },[workReports])
+  // useEffect(()=>{
+  //   dispatch(GetWorkReports(reportType, fromDate,toDate));
+  //   console.log("assdghasd", workReports)
+  // },[workReports])
 
-
-// const workList = () => {
-//   const newData = Object.entries(workReports);
-//   console.log("newData", newData)
-//   setDisplayWorkList(newData)
-// }
 
 const handleChangePage = (event, newPage) => {
   setPage(newPage);
@@ -121,7 +113,7 @@ const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Curren
 
   function handleDownloadExcel() {
     // dispatch(GetAllWorkReports(reportType, fromDate,toDate));
-    const dataValue =  workReports.data;
+    const dataValue =  workReports;
     const value1= [fromDate];
     dataValue?.map((option, index) => {
       const value2 = [index+1]
@@ -168,7 +160,7 @@ const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Curren
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { workReports.data?.map((option,index) => { 
+                     { workReports?.data?.map((option,index) => { 
                         return (
                         <TableRow
                         hover
