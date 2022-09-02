@@ -80,6 +80,7 @@ export default function NameOfTreeDialog(props) {
   const [maxAgeError, setMaxAgeError] = React.useState('');
   const [minGrthError, setMinGrthError] = React.useState('');
   const [maxGrthError, setMaxGrthError] = React.useState('');
+  const submitErrors = [];
   let age;
   let height;
   let growthF;
@@ -358,6 +359,32 @@ const handleFamilyChange = (event) => {
     setMaxHeight(e.target.value)
   }
 
+  const handleSubmitErrors = () =>{
+    // console.log("in submit errors");
+    // console.log("Formiok submit errors", formik.errors);
+    const keys = Object.keys(formik.errors)
+    // const roleElement = document.getElementById("role-label");
+    // console.log("roleelement", roleElement);
+    // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
+    // console.log("keys", keys);
+        // Whenever there are errors and the form is submitting but finished validating.
+        if (keys.length > 0 ) {
+            // We grab the first input element that error by its name.
+            const errorElement = document.querySelector(
+                `input[name="${keys[0]}"]`
+            )
+              // console.log(errorElement);
+            if (errorElement) {
+                // When there is an input, scroll this input into view.
+                errorElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
+            }
+        }
+        else{
+          // const roleElement = document.getElementById("role-label");
+    // console.log("roleelement", roleElement);
+    // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" });
+        }
+  }
 
 
   const DesignationsSchema = Yup.object().shape({
@@ -453,7 +480,7 @@ const handleFamilyChange = (event) => {
  
   });
 
- console.log("////", floweringStart)
+ console.log("////", formik.errors);
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   console.log("valuessss", values)
@@ -756,6 +783,7 @@ const handleFamilyChange = (event) => {
       {/* </FormControl> */}
               <Grid item xs={4}>
               <TextField
+              type="number"
           id="minHeight"
           value={minHeight}
           onChange={handleMinHeightChange}
@@ -808,7 +836,8 @@ const handleFamilyChange = (event) => {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <Button onClick={() => { handleSubmit(); handleSubmitErrors();}}
+          >{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>
