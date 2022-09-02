@@ -108,8 +108,8 @@ export default function CreateCouncilDialog(props) {
   } = useSelector((state) => ({
     addCouncilLog:state.council.addCouncilLog,
     editCouncilLog:state.council.editCouncilLog,
-    zones:state.zones.activeZones,
-    wards:state.wards.activeWards,
+    zones:state.zones.activeZonesByCID,
+    wards:state.wards.activeWardsByCID,
     states:state.master.activeStates,
     districts:state.master.activeDistricts,
     talukas:state.master.activeTalukas,
