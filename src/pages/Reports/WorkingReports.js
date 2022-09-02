@@ -61,6 +61,7 @@ const [showList,setShowList] = useState(false);
  const[showMessage, setShowMessage] = useState(true)
  const[teamAllocation, setTeamAllocation] = useState(false)
  const todayDate = moment(new Date()).format('YYYY-MM-DD');
+//  const futureDate =
 
 const [state, setState] = React.useState({
   top: false,
@@ -386,7 +387,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                   shrink: true,
                   
                 }}
-                inputProps={{ max: todayDate }}
+                inputProps={{ min: todayDate }}
                 error={Boolean(touched.toDateForm && errors.toDateForm)}
                 helperText={touched.toDateForm && errors.toDateForm}
                 {...getFieldProps("toDateForm")}
