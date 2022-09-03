@@ -99,7 +99,7 @@ export default function TeamsTableDialog(props) {
       .min(4, 'Too Short! need exact 4 character')
       .max(4, 'Too Long! need exact 4 character')
       .required('Team Code required'),
-    // teamType: Yup.string().required('Name is required'),
+    teamType: Yup.string().required('Team Type is required'),
   });
 
   const formik = useFormik({
@@ -120,7 +120,7 @@ export default function TeamsTableDialog(props) {
             {
               name: value.name,
               team_code: value.code,
-              team_type: teamType,
+              team_type: value.teamType,
             },
             data.id
           )
@@ -130,7 +130,7 @@ export default function TeamsTableDialog(props) {
           AddTeam({
             name: value.name,
             team_code: value.code,
-            team_type: teamType,
+            team_type: value.teamType,
           })
         );
       }
@@ -191,8 +191,7 @@ export default function TeamsTableDialog(props) {
                 label="Team Type"
                 // displayEmpty
                 // value={values.teamType}
-                style={{ width: '82%',marginLeft: 40, marginTop: 7 }}
-                size="small"
+                style={{ width: '82.5%',marginLeft: 40, marginTop: 5 }}
                 
                 onChange={(e) => {
                   handleTeamTypeChange(e);
@@ -200,8 +199,8 @@ export default function TeamsTableDialog(props) {
                 }}
                 error={Boolean(touched.teamType && errors.teamType)}
                 helperText={touched.teamType && errors.teamType}
-                // {...getFieldProps('teamType')}
-                required
+                {...getFieldProps('teamType')}
+                
               >
                 <MenuItem disabled value="">
                   <em>Select Team type*</em>
