@@ -45,6 +45,8 @@ const TABLE_HEAD = [
   { id: 'contactPersonMoNumber', label: 'Contact Person Mobile Number', alignRight: false,whiteSpace:true },
   { id: 'contactPersonEmail', label: 'Contact Person Email', alignRight: false,whiteSpace:true },
   { id: 'userName', label: 'User Name', alignRight: false,whiteSpace:true },
+  { id: 'project_start_date', label: 'Project Start Date', alignRight: false,whiteSpace:true },
+  { id: 'project_end_date', label: 'Project End Date', alignRight: false,whiteSpace:true },
   // { id: 'password', label: 'Password', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false,whiteSpace:true },
   { id: 'action', label: 'Action', alignRight: true },
@@ -88,7 +90,7 @@ export default function CreateCouncil() {
   ))
   
 
-  // console.log("COUNCIL",council);
+  console.log("COUNCIL",council);
 
   useEffect(()=>{
     dispatch(GetCouncil(page,rowsPerPage));
@@ -213,7 +215,8 @@ export default function CreateCouncil() {
                         <TableCell align="center">{option.contact_person?.mobile}</TableCell>
                         <TableCell align="center">{option.contact_person?.email}</TableCell>
                         <TableCell align="center">{option.contact_person?.username}</TableCell>
-                        {/* <TableCell align="left">{option.password}</TableCell> */}
+                        <TableCell align="left">{option.project_start_date}</TableCell>
+                        <TableCell align="left">{option.project_end_date}</TableCell>
                         <TableCell align="center">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <CouncilMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} councilId={option.id} councilName={option.name} />

@@ -95,7 +95,7 @@ export default function WardDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    wards: Yup.string().required('Ward is required'),
+    wards: Yup.string().min(1, 'Too Short!').max(4, 'Too Long! max. 4 character').required('Name required'),
   });
 
 
