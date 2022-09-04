@@ -30,6 +30,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import WardDialog from "../../components/DialogBox/WardDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -71,7 +72,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Zone() {
+export default function Ward() {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -80,7 +81,11 @@ export default function Zone() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [dropPage, setDropPage] = useState(7);
    const userPermissions = [];
+   const handleDropChange = (event) => {
+     setDropPage(event.target.value);
+    };
 
   const {
     wards,
@@ -103,7 +108,7 @@ export default function Zone() {
     userPermissions.push(item.name)
   ))
   
-  console.log("WARDS",wards)
+  // console.log("WARDS",wards)
 
   useEffect(()=>{
     dispatch(GetWards(page,rowsPerPage));
@@ -189,32 +194,15 @@ export default function Zone() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
-        {/* <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-          Wards
-        </Link> */}
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-              Master
-          </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          Wards
-          </Typography>
-      </Breadcrumbs>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
+
     </div>
     {userPermissions.includes("create-ward")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Ward
+            Ward
 
           </Button>:null}
         </Stack>

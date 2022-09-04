@@ -69,7 +69,7 @@ export default function TypeOfLocationDialog(props) {
     editLocationTypesLog:state.locationTypes.editLocationTypesLog
   }));
 
-  console.log("addLocationTypesLog" , addLocationTypesLog)
+  // console.log("addLocationTypesLog" , addLocationTypesLog)
 
   const firstRun = React.useRef(true);
   React.useEffect(()=>{
@@ -81,7 +81,7 @@ export default function TypeOfLocationDialog(props) {
   },[addLocationTypesLog,editLocationTypesLog])
 
 
-  console.log("addLocationTypesLog" , addLocationTypesLog)
+  // console.log("addLocationTypesLog" , addLocationTypesLog)
 
   const handleClose = () => {
     props.handleClose();

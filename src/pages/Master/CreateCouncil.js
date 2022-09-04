@@ -28,6 +28,7 @@ import { CouncilMenu, UserListHead, UserListToolbar, UserMoreMenu } from '../../
 import USERLIST from '../../_mock/user';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import CreateCouncilDialog from "../../components/DialogBox/CreateCouncilDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +45,8 @@ const TABLE_HEAD = [
   { id: 'contactPersonMoNumber', label: 'Contact Person Mobile Number', alignRight: false,whiteSpace:true },
   { id: 'contactPersonEmail', label: 'Contact Person Email', alignRight: false,whiteSpace:true },
   { id: 'userName', label: 'User Name', alignRight: false,whiteSpace:true },
+  { id: 'project_start_date', label: 'Project Start Date', alignRight: false,whiteSpace:true },
+  { id: 'project_end_date', label: 'Project End Date', alignRight: false,whiteSpace:true },
   // { id: 'password', label: 'Password', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false,whiteSpace:true },
   { id: 'action', label: 'Action', alignRight: true },
@@ -60,7 +63,11 @@ export default function CreateCouncil() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
   const [searchValue,setSearchValue] = useState("");
+  const [dropPage, setDropPage] = useState(8);
   const userPermissions = [];
+  const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
 
   const {
     council,
@@ -170,34 +177,14 @@ export default function CreateCouncil() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}}separator='>'>
-        {/* <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
-        Councils
-        </Link> */}
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-              Master
-          </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-        Councils
-          </Typography>
-      </Breadcrumbs>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
     </div>
     {userPermissions.includes("create-council")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Council
+            Council
 
           </Button>:null}
         </Stack>
@@ -228,7 +215,8 @@ export default function CreateCouncil() {
                         <TableCell align="center">{option.contact_person?.mobile}</TableCell>
                         <TableCell align="center">{option.contact_person?.email}</TableCell>
                         <TableCell align="center">{option.contact_person?.username}</TableCell>
-                        {/* <TableCell align="left">{option.password}</TableCell> */}
+                        <TableCell align="left">{option.project_start_date}</TableCell>
+                        <TableCell align="left">{option.project_end_date}</TableCell>
                         <TableCell align="center">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <CouncilMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} councilId={option.id} councilName={option.name} />

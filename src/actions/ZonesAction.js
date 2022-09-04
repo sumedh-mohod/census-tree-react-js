@@ -6,7 +6,7 @@ import { ADD_ZONES, DELETE_ZONES,  EDIT_ZONES, GET_ZONES, GET_ACTIVE_ZONES, GET_
 const GetZones = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/zones?page=${page}&limit=${limit}`);
-      console.log("DESIGNATIONS RESPONSE",response.data);
+      // console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_ZONES,
         payload: response.data,
@@ -19,7 +19,7 @@ const GetZones = (page,limit) => async (dispatch) => {
   const GetActiveZones = (status) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/zones?status=${status}`);
-      console.log("active zones RESPONSE",response.data);
+      // console.log("active zones RESPONSE",response.data);
       dispatch({
         type: GET_ACTIVE_ZONES,
         payload: response.data,
@@ -55,7 +55,7 @@ const GetZones = (page,limit) => async (dispatch) => {
   const GetActiveZonesByCouncilId = (status,councilId) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/zones?status=${status}&council_id=${councilId}`);
-      console.log("Active zones council RESPONSE",response.data.data);
+      // console.log("Active zones council RESPONSE",response.data.data);
       dispatch({
         type: GET_ACTIVE_ZONES_BY_COUNCILID,
         payload: response.data,
@@ -94,10 +94,10 @@ const GetZones = (page,limit) => async (dispatch) => {
   };
 
   const EditZones = (params,districtsId) => async (dispatch) => {
-      console.log("EDIT ZONES",params);
+      // console.log("EDIT ZONES",params);
     try {
       const response = await JWTServer.put(`/api/zones/${districtsId}`,params);
-      console.log("EDIT STATE RESPONSE",response.data);
+      // console.log("EDIT STATE RESPONSE",response.data);
       dispatch({
         type: EDIT_ZONES,
         payload: response.data,
@@ -114,7 +114,7 @@ const GetZones = (page,limit) => async (dispatch) => {
   const DeleteZones = (params,status) => async (dispatch) => {
     try {
       const response = await JWTServer.delete(`/api/zones/${params}?status=${status}`);
-      console.log("DELETE STATE RESPONSE",response.data);
+      // console.log("DELETE STATE RESPONSE",response.data);
       dispatch({
         type: DELETE_ZONES,
         payload: response.data,

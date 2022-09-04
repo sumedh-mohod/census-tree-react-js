@@ -195,7 +195,7 @@ export default function ViewUser(props) {
       else {
         document.map((value,index)=>{
           const documentName = getNameById(userDocumentType,value.user_document_type_id,"type")
-          console.log("DOCUMENT PATH",value.document_path);
+          // console.log("DOCUMENT PATH",value.document_path);
           const infoToAdd = {
             'documentName':documentName,
             'documentValue':value.document_path,
@@ -206,7 +206,7 @@ export default function ViewUser(props) {
           return null;
         })
       }
-      console.log("DOCUMENT LIST",documentList);
+      // console.log("DOCUMENT LIST",documentList);
       setDocumentList(documentList)
     }
 
@@ -224,7 +224,7 @@ export default function ViewUser(props) {
       setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
     },[addUsersLog])
 
-    console.log("RELIGIONS",religions);
+    // console.log("RELIGIONS",religions);
 
     const diffentlyAbled = [
       {
@@ -311,7 +311,7 @@ export default function ViewUser(props) {
     };
   
     const handleRoleChange = (event) => {
-      console.log("EVENT VALUE",event.target.value);
+      // console.log("EVENT VALUE",event.target.value);
       const {
         target: { value },
       } = event;
@@ -433,7 +433,7 @@ export default function ViewUser(props) {
   }
 
     const handleDocumentButtonClick = (value,index) => {
-      console.log("HANDLE DOCUMENT BUTTONVCLICKED CALLED");
+      // console.log("HANDLE DOCUMENT BUTTONVCLICKED CALLED");
       if(value==='add'){
         const newDocumentList = [...documentList];
         const infoToAdd = {
@@ -462,7 +462,7 @@ export default function ViewUser(props) {
   }
 
   const handleDocumentValueChange = (e,index) => {
-    console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+    // console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
     const formData = new FormData();
     formData.append('upload_for', 'users');
     formData.append('file', e.target.files[0]);
@@ -570,7 +570,7 @@ const validateRole = () => {
     // eslint-disable-next-line consistent-return
     const findRole = (listOfObj,id) => {
       const found = listOfObj.find(e => e.id === id);
-      console.log("FOUND",found);
+      // console.log("FOUND",found);
       if(found){
         return found.role
       }

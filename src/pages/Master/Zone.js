@@ -30,6 +30,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import ZoneDialog from "../../components/DialogBox/ZoneDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -80,7 +81,11 @@ export default function Zone() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [dropPage, setDropPage] = useState(6);
    const userPermissions = [];
+   const handleDropChange = (event) => {
+     setDropPage(event.target.value);
+    };
 
   const {
     zones,
@@ -107,7 +112,7 @@ export default function Zone() {
     dispatch(GetZones(page,rowsPerPage));
   },[addZonesLog,editZonesLog,deleteZonesLog])
 
-  console.log("ZONES",zones);
+  // console.log("ZONES",zones);
 
   useEffect(()=>{
     if(pageInfo){
@@ -190,32 +195,14 @@ export default function Zone() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
-        {/* <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-          Zones
-        </Link> */}
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-              Master
-          </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          Zones
-          </Typography>
-      </Breadcrumbs>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
     </div>
     {userPermissions.includes("create-zone")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Zone
+            Zone
 
           </Button>:null}
         </Stack>

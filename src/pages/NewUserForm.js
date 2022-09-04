@@ -19,6 +19,8 @@ import {
   Avatar,
   Checkbox,
   CircularProgress,
+
+  InputAdornment,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -26,6 +28,7 @@ import { useFormik } from 'formik';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import Iconify from '../components/Iconify';
 import { GetActiveRole } from '../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../actions/UserAction';
 import { UploadFile, UploadImage } from '../actions/UploadActions';
@@ -60,15 +63,25 @@ export default function NewUserForm(props) {
     const [showTaluka, setShowTaluka]=  React.useState(false);
     const [panCardNumber, setPanCardNumber] = React.useState("");
     const [ifscCode, setIfscCode] = React.useState("");
+    const [aadhaarNumber, setAadhaarNumber] = React.useState('');
     const [agreementDone, setAgreementDone] = React.useState('');
     const [documentProvided, setDocumentProvided] = React.useState('');
     const [applicableDeducation, setApplicableDeducation] = React.useState('');
     const [designation, setDesignation] =  React.useState('');
+    const [city, setCity] = React.useState('');
     const [value, setValue] = React.useState(null);
+    const [mobile, setMobile] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [emergencyContactName, setEmergencyContactName] = React.useState('');
+    const [emergencyContactNumber, setEmergencyContactNumber] = React.useState('');
+    const [bankName, setBankName] = useState('');
+    const [accountNumber, setAccountNumber] = React.useState('');
     const [referredBy, setReferredBy] = React.useState('');
     const [noticePeriod, setNoticePeriod] = React.useState('');
+    const [salaryPerMonth, setSalaryPerMonth] = React.useState('');
     const [formValues, setFormValues] = useState([{ deductionType: "", amount : ""}])
     const [filePath, setFilePath] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
     const { isOpen, data } = props;
     const [deductionList,setDeductionList] = useState([{deductionName:"",deductionValue:"",errorName:"",errorValue:""}])
     const [documentList,setDocumentList] = useState([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
@@ -83,13 +96,25 @@ export default function NewUserForm(props) {
     const [dateLimitError, setDateLimitError] = useState("");
     const [panCardError, setPanCardError] = useState("");
     const [ifscCodeError, setIfscCodeError] = useState("");
+    const [aadharError, setAadharError] = useState('');
     const [firstNameError, setFirstNameError] = useState('');
     const [middleNameError, setMiddleNameError] = useState('');
     const [lastNameError, setLastNameError] = useState("");
+    const [cityError, setCityError] = useState('');
+    const [casteError, setCasteError] = React.useState('');
+    const [mobileError, setMobileError] = React.useState('');
+    const [emailError, setEmailError] = React.useState('');
+    const [emergencyContactNameError, setEmergencyContactNameError] = React.useState('');
+    const [emergencyContactNumberError, setEmergencyContactNumberError] = React.useState('');
+    const [bankNameError, setBankNameError] = useState('');
+    const [accountNumberError, setAccountNumberError] = React.useState('');
+    const [salaryPerMonthError, setSalaryPerMonthError] = React.useState('');
+    const [deductionValueError, setDeductionValueError] = React.useState('');
     const[ lastDayOfWork, setLastDayOfWork] = useState("");
     const [uploadClick, setUploadClick] = useState("");
     const [uploadClickError,setUploadClickError] = useState("") ;
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
+    const submitErrors = [];
     const {
       salaryDeductionType,
       userDocumentType,
@@ -126,8 +151,8 @@ export default function NewUserForm(props) {
       loggedUser:state.auth.loggedUser,
     }));
 
-    console.log(loggedUser.roles.role);
-    console.log("roles", roles)
+    // console.log(loggedUser.roles.role);
+    // console.log("roles", roles)
     
     useEffect(()=>{
       dispatch(GetDeductionType());
@@ -141,11 +166,11 @@ export default function NewUserForm(props) {
       dispatch(GetActiveDesignations(1));
     },[])
 
-    console.log("DeductionTypeId", salaryDeductionType)
+    // console.log("DeductionTypeId", salaryDeductionType)
 
     const { userId } = useParams();
     const { state } = useLocation();
-    console.log("STATE",state);
+    // console.log("STATE",state);
     useEffect(()=>{
       
       if(userId){
@@ -216,8 +241,13 @@ export default function NewUserForm(props) {
     }
 
     const handleLastDayChange = (event) => {
-      console.log("gadsgshfhds", event.target.value)
-      setLastDayOfWork(event.target.value)
+      if(event.target.value){
+        // console.log("gadsgshfhds", event.target.value)
+        setLastDayOfWork(event.target.value)
+      }
+      else{
+        submitErrors.push(event.target.value);
+      }
     }
 
     const seprateDeduction = (deduction) => {
@@ -306,7 +336,7 @@ export default function NewUserForm(props) {
       // navigate(-1);
     },[editUsersLog])
 
-    console.log("RELIGIONS",religions);
+    // console.log("RELIGIONS",religions);
    
     const diffentlyAbled = [
       {
@@ -367,11 +397,11 @@ export default function NewUserForm(props) {
 
     const noticePeriodValue =[
       {
-        value: '1',
+        value: 'Yes',
         label: 'Yes',
       },
       {
-        value: '0',
+        value: 'No',
         label: 'No',
     },
     ]
@@ -389,19 +419,23 @@ export default function NewUserForm(props) {
     };
 
     const handleTalukaChange = (event) => {
-      setNoticePeriod(event.target.value);
+      // setNoticePeriod(event.target.value);
     };
   
+    const handleShowPassword = () => {
+      setShowPassword((show) => !show);
+    };
+
     const handleDobChange = (event) => {
-      console.log("in dob  x",event.target.value);
-      console.log("in dob ",todayDate);
+      // console.log("in dob  x",event.target.value);
+      // console.log("in dob ",todayDate);
       const td =new Date( moment(todayDate).format('MM/DD/YYYY'));
       const gd = new Date(moment(event.target.value).format('MM/DD/YYYY'));
-      console.log(td);
+      // console.log(td);
       const ageDifMs = Date.now() - gd.getTime();
     const ageDate = new Date(ageDifMs); // miliseconds from epoch
     const ageLimit =  Math.abs(ageDate.getUTCFullYear() - 1970);
-    console.log("agelimit", ageLimit);
+    // console.log("agelimit", ageLimit);
       const diffTime = td-gd;
       if(ageLimit<18){
         setDateLimitError("Please select date for above 18 years");
@@ -474,6 +508,15 @@ export default function NewUserForm(props) {
     
   
     const handleCasteChange = (event) => {
+      const  regex = /^[a-zA-Z ]{2,30}$/;
+      if(regex.test(event.target.value)) {
+        setCasteError("");
+    }
+    else{
+    setCasteError("Please Enter Caste Containing Alphabets Only");
+      
+    }
+   
       setCaste(event.target.value);
     };
   
@@ -493,7 +536,7 @@ export default function NewUserForm(props) {
     };
 
     const handleDistrictChange = (event) => {
-      console.log("HANDLE DISTRICT CHANGE VALUE",event.target.value);
+      // console.log("HANDLE DISTRICT CHANGE VALUE",event.target.value);
       setDistrict(event.target.value);
       dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1));
       setShowTaluka(true);
@@ -539,6 +582,7 @@ export default function NewUserForm(props) {
     }
 
     const handleDeductionNameChange = (e,index) => {
+
         const newDeductionList = [...deductionList];
         const value = newDeductionList[index];
         value.deductionName = e.target.value;
@@ -548,16 +592,26 @@ export default function NewUserForm(props) {
     }
 
     const handleDeductionValueChange = (e,index) => {
-      const newDeductionList = [...deductionList];
+   
+      const  regex = /^[0-9]*$/;
+      if(regex.test(e.target.value)) {
+        setDeductionValueError("");
+        const newDeductionList = [...deductionList];
       const value = newDeductionList[index];
       value.deductionValue = e.target.value;
       newDeductionList[index] = value;
       setDeductionList(newDeductionList); 
+    }
+    else{
+      setDeductionValueError("Please Enter Deduction Value In Digits Only");
+      
+    }
+      
      
   }
 
     const handleDocumentButtonClick = (value,index) => {
-      console.log("HANDLE DOCUMENT BUTTONVCLICKED CALLED");
+      // console.log("HANDLE DOCUMENT BUTTONVCLICKED CALLED");
       if(value==='add'){
         const newDocumentList = [...documentList];
         const infoToAdd = {
@@ -581,7 +635,7 @@ export default function NewUserForm(props) {
       const value = newDocumentList[index];
       value.documentName = e.target.value;
       newDocumentList[index] = value;
-      console.log("DOCUMENT LIST",newDocumentList);
+      // console.log("DOCUMENT LIST",newDocumentList);
       setDocumentList(newDocumentList); 
       setUploadClick(true);
       setUploadClickError("");
@@ -595,18 +649,18 @@ export default function NewUserForm(props) {
 
   const handleViewDocument = (fpath) =>{
     if(fpath.includes(process.env.REACT_APP_BASE_URL)){
-      console.log("file path", fpath);
+      // console.log("file path", fpath);
       window.open(fpath, '_blank');
     }
     else{
    const fLink = process.env.REACT_APP_BASE_URL.concat('/').concat(fpath);
-   console.log("file path", fLink);
+  //  console.log("file path", fLink);
    window.open(fLink, '_blank');
     }
   }
 
 const handlePancardNumber = (e) => {
-      console.log("in pancard");
+      // console.log("in pancard");
       const  regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
       if(regex.test(e.target.value)) {
         setPanCardError("");
@@ -654,8 +708,96 @@ setLastNameError("Please Enter Last Name Containing Alphabets Only");
 setLastName(e.target.value);
 }
 
+const handleCity = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setCityError("");
+}
+else{
+setCityError("Please Enter City Name Containing Alphabets Only");
+  
+}
+setCity(e.target.value);
+}
+
+const handleEmgName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setEmergencyContactNameError("");
+}
+else{
+  setEmergencyContactNameError("Please Enter Emergency Contact Name Containing Alphabets Only");
+  
+}
+setEmergencyContactName(e.target.value);
+}
+
+const handleBankName = (e) => {
+  const  regex = /^[a-zA-Z ]{2,30}$/;
+  if(regex.test(e.target.value)) {
+    setBankNameError("");
+}
+else{
+setBankNameError("Please Enter Bank Name Containing Alphabets Only");
+  
+}
+setBankName(e.target.value);
+}
+
+const handleMobile = (e) => {
+  const  regex = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+  if(regex.test(e.target.value)) {
+    setMobileError("");
+}
+else{
+setMobileError("Please Enter Mobile Number Containing 10 Digits Only");
+  
+}
+setMobile(e.target.value);
+}
+
+const handleEmgNumber = (e) => {
+  const  regex = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+  if(regex.test(e.target.value)) {
+    setEmergencyContactNumberError("");
+}
+else{
+setEmergencyContactNumberError("Please Enter Emergency Contact Number Containing 10 Digits Only");
+  
+}
+setEmergencyContactNumber(e.target.value);
+}
+
+
+
+const handleEmail = (e) => {
+  const  regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  if(regex.test(e.target.value)) {
+    setEmailError("");
+}
+else{
+setEmailError("Please Enter Valid Email Address Only");
+  
+}
+setEmail(e.target.value);
+}
+
+
+
+const handleAccNumber = (e) => {
+  const  regex = /^\d{9,18}$/;
+  if(regex.test(e.target.value)) {
+    setAccountNumberError("");
+}
+else{
+setAccountNumberError("Please Enter Account Number In Standard Format(9-18 Digits) Only");
+  
+}
+setAccountNumber(e.target.value);
+}
+
+
   const handleIFSCCode = (e) => {
-    console.log("in ")
     const  regex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
     if(regex.test(e.target.value)) {
       setIfscCodeError("");
@@ -667,16 +809,41 @@ setLastName(e.target.value);
  setIfscCode(e.target.value);
   }
 
+
+  const handleAadharCard = (e) => {
+    const  regex = /^\d{12}$/;
+    if(regex.test(e.target.value)) {
+      setAadharError("");
+ }
+ else{
+  setAadharError("Please Enter Aadhar Card Number In Standard Format Only");
+    
+ }
+ setAadhaarNumber(e.target.value);
+  }
+
+  const handleSalary = (e) => {
+    const  regex = /^[0-9]*$/;
+    if(regex.test(e.target.value)) {
+      setSalaryPerMonthError("");
+  }
+  else{
+    setSalaryPerMonthError("Please Enter Salary Containing Digits Only");
+    
+  }
+  setSalaryPerMonth(e.target.value);
+  }
+
   const handleDocumentValueChange = (e,index) => {
     if(uploadClick){
-      console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
-      console.log(e.target.files[0].name);
-      console.log(e.target.files[0].size);
+      // console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+      // console.log(e.target.files[0].name);
+      // console.log(e.target.files[0].size);
       const i = parseInt((Math.floor(Math.log(e.target.files[0].size) / Math.log(1024))),10);
-      console.log("file size", i);
+      // console.log("file size", i);
       const validExtensions = ['png','jpeg','jpg', 'tiff', 'gif', 'pdf']
       const fileExtension = e.target.files[0].name.split('.')[1]
-      console.log(fileExtension);
+      // console.log(fileExtension);
       if(validExtensions.includes(fileExtension)){
         setFileUploadError("");
         if(e.target.files[0].size<5242880){
@@ -685,17 +852,17 @@ setLastName(e.target.value);
           formData.append('upload_for', 'users');
           formData.append('file', e.target.files[0]);
           dispatch(UploadFile(formData,index)).then((response) => {
-            console.log("upload file",response);
+            // console.log("upload file",response);
           });
           const newDocumentList = [...documentList];
           const value =  newDocumentList[index];
           value.documentValue = e.target.value;
-          console.log(value.documentValue,"||||||")
+          // console.log(value.documentValue,"||||||")
           newDocumentList[index] = value;
           setDocumentList(newDocumentList); 
-          console.log(e.target.value);
+          // console.log(e.target.value);
           setFilePath(e.target.value);
-          console.log(documentList);
+          // console.log(documentList);
         }
         else{
           setFileSizeError("Please upload documents within 5MB only");
@@ -726,6 +893,33 @@ const validateRole = () => {
     setRoleError("Role is required")
   }
   return validated;
+}
+
+const handleSubmitErrors = () =>{
+  // console.log("in submit errors");
+  // console.log("Formiok submit errors", formik.errors);
+  const keys = Object.keys(formik.errors)
+  // const roleElement = document.getElementById("role-label");
+  // console.log("roleelement", roleElement);
+  // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
+  // console.log("keys", keys);
+      // Whenever there are errors and the form is submitting but finished validating.
+      if (keys.length > 0 ) {
+          // We grab the first input element that error by its name.
+          const errorElement = document.querySelector(
+              `input[name="${keys[0]}"]`
+          )
+            // console.log(errorElement);
+          if (errorElement) {
+              // When there is an input, scroll this input into view.
+              errorElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
+          }
+      }
+      else{
+        const roleElement = document.getElementById("role-label");
+  // console.log("roleelement", roleElement);
+  roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" });
+      }
 }
 
     const validateDropDown = () => {
@@ -776,7 +970,7 @@ const validateRole = () => {
 
          // eslint-disable-next-line array-callback-return
         deductionList.map((value,index)=>{
-        console.log("VALUE IN VALIDATIONm",value);
+        // console.log("VALUE IN VALIDATIONm",value);
         const conditionName = `deductionName`;
         const conditionValue = `deductionValue`;
         if(!foundDeduction){
@@ -862,13 +1056,12 @@ const validateRole = () => {
     // eslint-disable-next-line consistent-return
     const findRole = (listOfObj,id) => {
       const found = listOfObj.find(e => e.id === id);
-      console.log("FOUND",found);
+      // console.log("FOUND",found);
       if(found){
         return found.role
       }
       
     }
-
     const aadharRegExp = /^\d{12}$/;
     const DistrictsSchema = Yup.object().shape(
       showCouncil?{
@@ -889,17 +1082,15 @@ const validateRole = () => {
     }:{
       role: Yup.string().required('Role is required'),
       firstName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid first name').required('First Name is required'),
-      middleName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name'),
+     // middleName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name'),
       lastName: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid last name').required('Last Name is required'),
-      email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Mobile number is required'),
+      email:Yup.string().email('Email must be a valid email address').required('Email is required'),
       addressLine1: Yup.string().required('Address Line 1 is required'),
-      city: Yup.string().required('City is required'),
+      city: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid city name').required('City is required'),
       states: Yup.string().required('State is required'),
       district: Yup.string().required('Districts is required'),
       // taluka: Yup.string().required('Taluka is required'),
-      username: Yup.string().required('Username is required'),
-      password: editUser?Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters'):Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
       aadhaarNumber: Yup.string().matches(aadharRegExp, 'Enter valid aadhar number').required('Aadhar Number is required'),
       education: Yup.string().required('Education is required'),
       dob: Yup.string().required('DOB is required'),
@@ -909,17 +1100,19 @@ const validateRole = () => {
       emergencyContactName: Yup.string().required('Emergency Contact Name is required'),
       emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emergency Contact Number is required'),
       dateOfJoining: Yup.string().required('DateOfJoining is required'),
-      // lastDayOfWork: Yup.string().required('Last Day of work is required'),
-      salaryPerMonth: Yup.string().required('Salary per month is required'),
       designation: Yup.string().required('Designation is required'),
+      salaryPerMonth: Yup.string().matches(/^[0-9]*$/, 'Phone number is not valid').required('Salary per month is required'),
       isAgreementDone: Yup.string().required('Is agreement done is required'),
-      panCardNumber: Yup.string().matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/, 'Pancard number is not valid').required('Pancard is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
       accountNumber: Yup.string().required('Account number is required'),
-      ifscCode: Yup.string().matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'IFSC Code is not valid').required('IFSC is required')
+      ifscCode: Yup.string().matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, 'IFSC Code is not valid').required('IFSC is required'),
+      panCardNumber: Yup.string().matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/, 'Pancard number is not valid').required('Pancard is required'),
+      username: Yup.string().required('Username is required'),
+      password: editUser?Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters'):Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
+      // lastDayOfWork: Yup.string().required('Last Day of work is required')
     }
     );
-console.log("-------",userById)
+// console.log("-------",userById)
     const formik = useFormik({
       enableReinitialize: true,
       initialValues: editUser ? {
@@ -929,14 +1122,14 @@ console.log("-------",userById)
       lastName: userById.last_name,
       email:userById.email,
       mobile: userById.mobile,
-      addressLine1: userById.address_line1,
-      addressLine2: userById?.address_line2,
-      city: userById?.city,
-      states: userById?.state_id,
-      district: userById.district_id,
-      taluka: userById.taluka_id,
-      council: userById?.council_id,
-      username: userById.username,
+      addressLine1: userById.address_line1?userById.address_line1:"",
+      addressLine2: userById?.address_line2?userById?.address_line2:"",
+      city: userById?.city?userById.city:"",
+      states: userById?.state_id?userById.state_id:"",
+      district: userById.district_id?userById.district_id:"",
+      taluka: userById.taluka_id?userById.taluka_id:"",
+      council: userById?.council_id?userById.council_id:"",
+      username: userById.username?userById.username:"",
       password: userById.password,
       aadhaarNumber: userById?.personal_details?.aadhaar_number,
       education: userById?.personal_details?.education,
@@ -998,7 +1191,8 @@ console.log("-------",userById)
       ,
       validationSchema: DistrictsSchema,
       onSubmit: (value) => {
-        console.log("INSIDE ON SUBMIT", value);
+        // console.log("INSIDE ON SUBMIT", value);
+        // console.log("Formiok errors sub", formik.errors);
         if(validateRole()){
           if(showCouncil){
             const obj = {
@@ -1022,12 +1216,12 @@ console.log("-------",userById)
             }
 
             if(editUser){
-              console.log("OBJ",obj);
+              // console.log("OBJ",obj);
               dispatch(EditUsers(obj,userById.id))
             }
             else {
               dispatch(AddUsers(obj)).then(()=>{
-                console.log("in DD  ");
+                // console.log("in DD  ");
               });
             }
 
@@ -1106,7 +1300,7 @@ console.log("-------",userById)
               "documents": aaplicableDocument
             }
             if(editUser){
-              console.log("OBJ",obj);
+              // console.log("OBJ",obj);
               dispatch(EditUsers(obj,userById.id));
              // window.history.go(-1);
 
@@ -1125,8 +1319,10 @@ console.log("-------",userById)
   
   
 
-    console.log("DEDUCTION LIST",deductionList);
-    console.log("error123", formik.errors.email)
+    // console.log("DEDUCTION LIST",deductionList);
+    // console.log("error123", formik.errors.email);
+    // console.log("Formiok errors", formik.errors);
+  
   
     return (
        showLoader ?
@@ -1262,23 +1458,37 @@ console.log("-------",userById)
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="contact"
+                  id="mobile"
+                  name='mobile'
                   autoComplete="contact"
                   label="Mobile Number*"
                   placeholder="Mobile Number*"
+                  value={values.mobile}
+                  onChange={(e)=>{handleMobile(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.mobile && errors.mobile)}
                 helperText={touched.mobile && errors.mobile}
-                {...getFieldProps("mobile")}
+                // {...getFieldProps("mobile")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{mobileError}</Typography>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="Email" label="Email*" autoComplete="email" placeholder="Email*" 
+                <DefaultInput 
+                fullWidth 
+                id="email" 
+                label="Email*" 
+                autoComplete="email" 
+                placeholder="Email*" 
+                value={values.email}
+                onChange={(e)=>{handleEmail(e);
+                  formik.handleChange(e)}}
                  error={Boolean(touched.email && errors.email)}
                  helperText={touched.email && errors.email}
-                 {...getFieldProps("email")}
+                //  {...getFieldProps("email")}
                  />
+                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{emailError}</Typography>
               </Grid>
 
               <Grid item xs={6}>
@@ -1288,6 +1498,7 @@ console.log("-------",userById)
                   autoComplete="addressLine1"
                   placeholder="Address Line 1*"
                   label="Address Line 1*"
+                  value={values.addressLine1}
                   error={Boolean(touched.addressLine1 && errors.addressLine1)}
                 helperText={touched.addressLine1 && errors.addressLine1}
                 {...getFieldProps("addressLine1")}
@@ -1304,17 +1515,28 @@ console.log("-------",userById)
                   autoComplete="addressLine2"
                   label="Address Line 2"
                   placeholder="Address Line 2"
+                  value={values.addressLine2}
                   error={Boolean(touched.addressLine2 && errors.addressLine2)}
                 helperText={touched.addressLine2 && errors.addressLine2}
                 {...getFieldProps("addressLine2")}
                 />
               </Grid>
               <Grid item xs={6}>
-                <DefaultInput fullWidth id="village" autoComplete="village" label="City*" placeholder="City*" 
+                <DefaultInput 
+                fullWidth 
+                id="city" 
+                name="city"
+                autoComplete="city" 
+                label="City*" 
+                placeholder="City*" 
+                value={values.city}
+                onChange={(e)=>{handleCity(e);
+                  formik.handleChange(e)}}
                  error={Boolean(touched.city && errors.city)}
                  helperText={touched.city && errors.city}
-                 {...getFieldProps("city")}
+                // {...getFieldProps("city")}
                  />
+                  <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{cityError}</Typography>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
@@ -1458,16 +1680,20 @@ console.log("-------",userById)
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="aadhar"
+                  id="aadhaarNumber"
                   autoComplete="aadhar"
                   label="Aadhaar Number*"
                   placeholder="Aadhaar Number*"
+                  value={values.aadhaarNumber}
+                  onChange={(e)=>{handleAadharCard(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.aadhaarNumber && errors.aadhaarNumber)}
                 helperText={touched.aadhaarNumber && errors.aadhaarNumber}
-                {...getFieldProps("aadhaarNumber")}
+                // {...getFieldProps("aadhaarNumber")}
                   // name="aadhar"
                   // value="aadhar"
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{aadharError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
@@ -1544,10 +1770,14 @@ console.log("-------",userById)
                   autoComplete="caste"
                   label="Caste*"
                   placeholder="Caste*"
+                  value={values.caste}
+                  onChange={(e)=>{handleCasteChange(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.caste && errors.caste)}
                 helperText={touched.caste && errors.caste}
-                {...getFieldProps("caste")}
+                // {...getFieldProps("caste")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{casteError}</Typography>
       </Grid>
               <Grid item xs={6}>
               <TextField
@@ -1603,28 +1833,36 @@ console.log("-------",userById)
               <Grid item xs={6}>
               <DefaultInput
                   fullWidth
-                  id="emergencycontactName"
+                  id="emergencyContactName"
                   autoComplete="emergencycontactName"
                   label={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
                   placeholder={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
+                  value={values.emergencyContactName}
+                  onChange={(e)=>{handleEmgName(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.emergencyContactName && errors.emergencyContactName)}
                 helperText={touched.emergencyContactName && errors.emergencyContactName}
-                {...getFieldProps("emergencyContactName")}
+                // {...getFieldProps("emergencyContactName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{emergencyContactNameError}</Typography>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <DefaultInput
                   fullWidth
-                  id="emergencycontactMoNum"
+                  id="emergencyContactNumber"
                   autoComplete="emergencycontactMoNum"
                   label={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
                   placeholder={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
+                  value={values.emergencyContactNumber}
+                  onChange={(e)=>{handleEmgNumber(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.emergencyContactNumber && errors.emergencyContactNumber)}
                 helperText={touched.emergencyContactNumber && errors.emergencyContactNumber}
-                {...getFieldProps("emergencyContactNumber")}
+                // {...getFieldProps("emergencyContactNumber")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{emergencyContactNumberError}</Typography>
             </Grid>
             </Grid>
             
@@ -1678,16 +1916,20 @@ console.log("-------",userById)
                    <Grid item xs={6}>
                  <DefaultInput
                   fullWidth
-                  id="commitedSalary"
-                  autoComplete="commitedSalary"
+                  id="salaryPerMonth"
+                  autoComplete="salaryPerMonth"
                   label="Commited Salary per Month*"
                   placeholder="Commited Salary per Month*"
+                  value={values.salaryPerMonth}
+                  onChange={(e)=>{handleSalary(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.salaryPerMonth && errors.salaryPerMonth)}
                 helperText={touched.salaryPerMonth && errors.salaryPerMonth}
-                {...getFieldProps("salaryPerMonth")}
+               // {...getFieldProps("salaryPerMonth")}
                   // name="contact"
                   // value="contact"
                 />
+                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{salaryPerMonthError}</Typography>
                 </Grid>
                  <Grid item xs={6}>
                 <TextField
@@ -1731,11 +1973,12 @@ console.log("-------",userById)
                 /> */}
 
                 <TextField
-                  id="lastdayOfWork"
+                  id="lastDayOfWork"
+                  name='lastDayOfWork'
                   type="date"
                   label="Last Day Of work"
                   placeholder='Last Day Of work'
-                  value={lastDayOfWork}
+                  value={values.lastDayOfWork}
                   style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                   onChange={(e)=>{handleLastDayChange(e);
                   formik.handleChange(e)}}
@@ -1747,7 +1990,7 @@ console.log("-------",userById)
                   // {...getFieldProps("lastDayOfWork")}
                  />
                 </Grid>
-                {lastDayOfWork ?  ( <>
+                {lastDayOfWork || values.lastDayOfWork ?  ( <>
                 <Grid item xs={6}>
           
               <TextField
@@ -1807,24 +2050,32 @@ console.log("-------",userById)
                   id="bankName"
                   autoComplete="bankName"
                   label="Bank Name*"
+                  value={values.bankName}
                   placeholder="Bank Name*"
+                  onChange={(e)=>{handleBankName(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.bankName && errors.bankName)}
                   helperText={touched.bankName && errors.bankName}
-                  {...getFieldProps("bankName")}
+                  // {...getFieldProps("bankName")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{bankNameError}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <DefaultInput
                   fullWidth
-                  id="account"
+                  id="accountNumber"
                   type='number'
                   autoComplete="account"
                   label="Account Number*"
                   placeholder="Account Number*"
+                  value={values.accountNumber}
+                  onChange={(e)=>{handleAccNumber(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.accountNumber && errors.accountNumber)}
                   helperText={touched.accountNumber && errors.accountNumber}
-                  {...getFieldProps("accountNumber")}
+                  // {...getFieldProps("accountNumber")}
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{accountNumberError}</Typography>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
@@ -1836,13 +2087,13 @@ console.log("-------",userById)
                   name="ifscCode"
                   autoComplete="IFSC"
                   label="IFSC Code*"
-                  value={ifscCode}
+                  value={values.ifscCode}
                   placeholder="IFSC Code*"
-                  // onChange={(e)=>{handleIFSCCode(e);
-                  //   formik.handleChange(e)}}
+                  onChange={(e)=>{handleIFSCCode(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.ifscCode && errors.ifscCode)}
                   helperText={touched.ifscCode && errors.ifscCode}
-                  {...getFieldProps("ifscCode")}
+                  // {...getFieldProps("ifscCode")}
                 />
                 
               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{ifscCodeError}</Typography>
@@ -1854,13 +2105,13 @@ console.log("-------",userById)
                   name="panCardNumber"
                   autoComplete="panCard"
                   label="Pan Card*"
-                  value={panCardNumber}
+                  value={values.panCardNumber}
                   placeholder="Pan Card*"
-                  // onChange={(e)=>{handlePancardNumber(e);
-                  //   formik.handleChange(e)}}
+                  onChange={(e)=>{handlePancardNumber(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.panCardNumber && errors.panCardNumber)}
                   helperText={touched.panCardNumber && errors.panCardNumber}
-                  {...getFieldProps("panCardNumber")}
+                  // {...getFieldProps("panCardNumber")}
                 />
                 
               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{panCardError}</Typography>
@@ -1887,12 +2138,23 @@ console.log("-------",userById)
                 editUser?
 
                 <Grid item xs={6}>
-              <DefaultInput
+              <TextField
                   fullWidth
                   id="password"
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="password"
                   label="Password"
                   placeholder="Password"
+                  style={{width:'93.8%', marginLeft: 40,marginTop:5}}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowPassword} edge="end">
+                          <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   // error={Boolean(touched.password && errors.password)}
                   // helperText={touched.password && errors.password}
                   {...getFieldProps("password")}
@@ -1902,14 +2164,25 @@ console.log("-------",userById)
                 :
              
               <Grid item xs={6}>
-              <DefaultInput
+              <TextField
                   fullWidth
                   id="password"
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="password"
                   label="Password*"
                   placeholder="Password*"
+                  style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                   error={Boolean(touched.password && errors.password)}
                   helperText={touched.password && errors.password}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowPassword} edge="end">
+                          <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   {...getFieldProps("password")}
                 />
               </Grid>
@@ -1969,6 +2242,7 @@ console.log("-------",userById)
                   // name="contact"
                   // value="contact"
                 />
+                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{deductionValueError}</Typography>
               </Grid>
               <Grid item xs={2}>
             
@@ -2094,7 +2368,7 @@ console.log("-------",userById)
               onClick={(e)=>{
                 validateDropDown();
                 formik.handleSubmit(e);
-                
+                handleSubmitErrors();
               }
                
               }

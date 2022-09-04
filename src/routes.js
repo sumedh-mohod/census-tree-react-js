@@ -40,9 +40,13 @@ import TreeDisease from './pages/Master/TreeDisease';
 import TreeCensusHistory from './pages/TreeData/TreeCensusHistory';
 import NoTreeProperty from './pages/TreeData/NoTreeProperty';
 import TreeOnMap from './pages/Map/TreeOnMap';
-import Reports from './pages/TreeData/Reports';
+// import Reports from './pages/TreeData/Reports';
 import NewUI from './pages/NewUI';
 import BaseColorPendingQC from './pages/TreeData/BaseColorPendingQC';
+import TreeFamilies from './pages/Master/TreeFamilies';
+import WorkingReports from './pages/Reports/WorkingReports';
+import TreeReports from './pages/Reports/TreeReports';
+import Reports from './pages/TreeData/Reports';
 
 // ----------------------------------------------------------------------
 
@@ -66,6 +70,7 @@ export default function Router() {
         { path: 'council', element: <CreateCouncil /> },
         { path: 'council/properties/:councilId/:councilName', element: <ViewProperties /> },
         { path: 'type-of-tree', element: <TypeOfTree /> },
+        { path: 'families', element: <TreeFamilies/> },
         { path: 'name-of-tree', element: <CreateNameOfTree /> },
         { path: 'tree-condition', element: <TreeConditions /> }, 
         { path: 'type-of-property', element: <TypeOfProperty /> },   
@@ -87,9 +92,11 @@ export default function Router() {
         { path: 'treeCensus/history/:treeCensusId/:treeCensusName', element: <TreeCensusHistory/> },
         { path: 'no-tree-properties', element: <NoTreeProperty/> },
         { path: 'treeOnMap', element: <TreeOnMap /> },
-        { path: 'reports', element: <Reports /> },
         { path: 'censusQc', element: <NewUI/>},
-        { path: 'baseColorPendingQC', element: <BaseColorPendingQC/>}
+        { path: 'baseColorPendingQC', element: <BaseColorPendingQC/>},
+        { path: 'reportold', element: <Reports/>},
+        {path: "workingReports", element: <WorkingReports/>},
+        {path: "treeReports", element:<TreeReports/>}
       ],
     },
     {

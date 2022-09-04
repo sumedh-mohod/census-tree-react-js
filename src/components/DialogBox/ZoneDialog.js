@@ -51,7 +51,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function WardDialog(props) {
+export default function ZoneDialog(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);

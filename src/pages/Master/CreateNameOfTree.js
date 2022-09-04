@@ -30,15 +30,25 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@das
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import NameOfTreeDialog from "../../components/DialogBox/NameOfTreeDialog";
+import NameOfTreeDialog from '../../components/DialogBox/NameOfTreeDialog';
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'nameOfTree', label: 'Name Of Tree', alignRight: false },
+  { id: 'localName', label: 'Local Name', alignRight: false },
   { id: 'botanicalName', label: 'Botanical Name', alignRight: false },
   { id: 'typeOfTree', label: 'Type Of Tree', alignRight: false },
+  { id: 'treeFamily', label: 'Tree Family', alignRight: false },
+  { id: 'Uses', label: 'Uses', alignRight: false },
+  { id: 'origin', label: 'Origin', alignRight: false },
+  { id: 'floweringSeason', label: 'Flowering Season', alignRight: false },
+  { id: 'fruitingSeason', label: 'Fruiting Season', alignRight: false },
+  { id: 'growthFactor', label: 'Growth Factor', alignRight: false },
+  { id: 'oxygenEmittrate', label: 'Oxygen Emittrate', alignRight: false },
+  { id: 'maximumHeight', label: 'Maximum Height', alignRight: false },
+  { id: 'maximunAge', label: 'Maximun Age', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
@@ -83,7 +93,12 @@ export default function CreateNameOfTree() {
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
   const [searchValue,setSearchValue] = useState("");
+  const [dropPage, setDropPage] = useState(11);
   const userPermissions = [];
+
+  const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
 
   const {
     treeName,
@@ -102,7 +117,7 @@ export default function CreateNameOfTree() {
    
   }));
 
-  console.log("TREE NAME",treeName)
+  // console.log("TREE NAME",treeName)
 
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
@@ -195,32 +210,14 @@ export default function CreateNameOfTree() {
        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
-        {/* <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-          Name Of Trees
-        </Link> */}
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-              Master
-          </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          Name Of Trees
-          </Typography>
-      </Breadcrumbs>
+         <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
     </div>
     {userPermissions.includes("create-tree-name")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Name Of Tree
+            Tree Name
 
           </Button>:null}
         </Stack>
@@ -238,12 +235,22 @@ export default function CreateNameOfTree() {
                      { treeName?.map((option,index) => {
                         return (
                         <TableRow
+                        key={index}
                         hover
                       >
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.botanical_name}</TableCell>
                         <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
+                        <TableCell align="left">{option.tree_family?.tree_family?option.tree_family?.tree_family: "-"}</TableCell>
+                        <TableCell align="left">{option.uses? option.uses: "-" }</TableCell>
+                        <TableCell align="left">{option.origin? option.origin: "-"}</TableCell>
+                        <TableCell align="left">{option.flowering_season? option.flowering_season: "NA"}</TableCell>
+                        <TableCell align="left">{option.fruiting_season? option.fruiting_season: "NA"}</TableCell>
+                        <TableCell align="left">{option.growth_factor? option.growth_factor: "NA"}</TableCell>
+                        <TableCell align="left">{option.oxygen_emit_rate? option.oxygen_emit_rate: "NA"}</TableCell>
+                        <TableCell align="left">{option.max_height? option.max_height: "NA"}</TableCell>
+                        <TableCell align="left">{option.max_age? option.max_age: "NA"}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />

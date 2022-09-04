@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
-import { AddTalukas, EditTalukas, GetActiveDistricts, GetActiveDistrictsByStateId, GetActiveState } from '../../actions/MasterActions';
+import { AddTalukas, EditTalukas, GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState } from '../../actions/MasterActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -60,6 +60,7 @@ export default function TalukasDialog(props) {
   const [status, setStatus] = React.useState('Status')
   const[state, setState]=  React.useState('State');
   const[district, setDistrict]=  React.useState('District');
+  const [showDistrict, setShowDistrict] = React.useState(false);
   const { isOpen, data } = props;
 
   const {
@@ -99,9 +100,11 @@ export default function TalukasDialog(props) {
 
    const handleStateChange = (event) => {
 
-     dispatch(GetActiveDistrictsByStateId(event.target.value,1,1000,1))
+    dispatch(GetAllActiveDistrictsByStateId(event.target.value,1));
+    setShowDistrict(true);
      setDistrict("District")
      setState(event.target.value);
+    //  console.log("Districts......", districts);
    };
 
    const handleDistrictChange = (event) => {
@@ -204,16 +207,20 @@ export default function TalukasDialog(props) {
             <Grid item xs={12}>
             <TextField
               select
-              id="taluka_state"
+              id="state"
               displayEmpty
               label="State*"
+              name="state"
               value={state}
               style={{width:'83%', marginLeft: 40}}
               placeholder='*Select State'
-              onChange={handleStateChange}
+              onChange={(e)=> {
+                handleStateChange(e);
+                formik.handleChange(e);
+              }}
               error={Boolean(touched.state && errors.state)}
                 helperText={touched.state && errors.state}
-                {...getFieldProps("state")}
+                // {...getFieldProps("state")}
             >
               <MenuItem disabled value="">
             <em>Select State*</em>
@@ -242,11 +249,11 @@ export default function TalukasDialog(props) {
                <MenuItem disabled value="">
             <em>Select District*</em>
           </MenuItem>
-              {districts?.map((option) => (
+          {showDistrict?districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>

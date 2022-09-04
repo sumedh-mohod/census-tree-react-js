@@ -150,8 +150,8 @@ export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
   const loggedUser = useSelector(state=> state.auth.loggedUser);
   const navConfigArray = [];
-  console.log(loggedUser);
-  console.log(loggedUser.roles[0].permissions);
+  // console.log(loggedUser);
+  // console.log(loggedUser.roles[0].permissions);
   const userPermissions = loggedUser.roles[0].permissions;
 
   const isContainPermission = (name) => {
@@ -171,7 +171,6 @@ export default function NavSection({ navConfig, ...other }) {
     icon: getIcon('eva:pie-chart-2-fill'),
   };
   navConfigArray.push(dashObj);
-
 
   if(isContainPermission("view-users")){
     const obj = {
@@ -196,157 +195,42 @@ export default function NavSection({ navConfig, ...other }) {
   //   icon: getIcon('eva:shopping-bag-fill'),
   //   children:[]}
 
+  // if(isContainPermission("view-teams")){
+  //   const obj =  {
+  //     title: 'Teams',
+  //     path: '/dashboard/teams',
+  //     icon: getIcon('bxl:microsoft-teams'),
+  // }
+  //   navConfigArray.push(obj);
+  // }
+
+  
+  if(isContainPermission("view-teams")){
   const outerObj =  {
       
     title: 'Master',
-    path: '/dashboard/products',
+    path: '/dashboard/role',
     icon: getIcon('eva:shopping-bag-fill'),
+    // children:[]
+    }
+    navConfigArray.push(outerObj)
+
+  }
+  const newReportsObj = {
+    title: 'Reports',
+    path: '/dashboard/home',
+    icon: getIcon('eva:pie-chart-2-fill'),
     children:[]
+  };
+  newReportsObj.children.push(
+    {
+      title: 'Working Tree',
+      path: '/dashboard/base-color',
+      icon: getIcon('eva:shopping-bag-fill'),
     }
+    )
 
-  if(isContainPermission("view-roles")){
  
-      outerObj.children.push(
-        {
-          title: 'Roles',
-          path: '/dashboard/role',
-          icon: getIcon('eva:shopping-bag-fill'),
-        }
-      )
-        
-   
-  //  navConfigArray.push(obj);
-  }
-  
-  // const masterNav = navConfigArray[2].children;
-  if(isContainPermission("view-designations")){
-    const obj =   {
-      title: 'Designations',
-      path: '/dashboard/designation',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    
-    outerObj.children.push(obj)
-    // navConfigArray.push(obj);
-  }
-
-  if(isContainPermission("view-states")){
-    const obj =   {
-      title: 'States',
-        path: '/dashboard/state',
-        icon: getIcon('eva:shopping-bag-fill'),
-
-    }
-   
-    outerObj.children.push(obj);
-    //  navConfigArray.push(obj);
-  }
-  if(isContainPermission("view-districts")){
-    const obj =   {
-      title: 'Districts',
-      path: '/dashboard/district',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-talukas")){
-    const obj =   {
-      title: 'Talukas',
-      path: '/dashboard/taluka',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-zones")){
-    const obj =   {
-      title: 'Zones',
-      path: '/dashboard/zone',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-wards")){
-    const obj =   {
-      title: 'Wards',
-      path: '/dashboard/ward',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-councils")){
-    const obj =   {
-      title: 'Councils',
-      path: '/dashboard/council',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-tree-types")){
-    const obj =   {
-      title: 'Tree Types',
-      path: '/dashboard/type-of-tree',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  
-  }
-  if(isContainPermission("view-tree-conditions")){
-    const obj =   {
-      title: 'Tree Conditions',
-      path: '/dashboard/tree-condition',
-      icon: getIcon('eva:shopping-bag-fill'),    
-    }
-    
-    outerObj.children.push(obj);
-  }
-  if(isContainPermission("view-tree-names")){
-    const obj =   {
-      title: 'Tree Names',
-      path: '/dashboard/name-of-tree',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-   
-  }
-  if(isContainPermission("view-location-types")){
-    const obj =   {
-      title: 'Location Types',
-      path: '/dashboard/location-type',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-   
-  }
-  if(isContainPermission("view-property-types")){
-    const obj =   {
-      title: 'Property Types',
-      path: '/dashboard/type-of-property',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-   
-  }
-  if(isContainPermission("view-qc-remarks")){
-    const obj =   {
-      title: 'QC Remarks',
-      path: '/dashboard/qc-remarks',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
- 
-  }
-  if(isContainPermission("view-tree-diseases")){
-    const obj =   {
-      title: 'Tree Diseases',
-      path: '/dashboard/treeDisease',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    outerObj.children.push(obj);
-  }
-
-  if(outerObj.children.length!==0){
-    navConfigArray.push(outerObj);
-  }
 
   const treeDataOuterObj =   {
     title: 'Trees Data',
@@ -363,7 +247,6 @@ export default function NavSection({ navConfig, ...other }) {
       icon: getIcon('eva:shopping-bag-fill'),
     }
     )
-
   }
   if(isContainPermission("view-census-trees")){
     const obj =   {
@@ -418,8 +301,8 @@ export default function NavSection({ navConfig, ...other }) {
   }
   if(isContainPermission("view-report")){
     const obj =   {
-      title: 'Reports',
-      path: '/dashboard/reports',
+      title: 'Census Reports',
+      path: '/dashboard/reportold',
       icon: getIcon('eva:shopping-bag-fill'),
     }
     treeDataOuterObj.children.push(obj);
@@ -429,7 +312,43 @@ export default function NavSection({ navConfig, ...other }) {
     navConfigArray.push(treeDataOuterObj);
   }
 
+  const newReportObj =   {
+    title: 'Reports',
+    path: '/dashboard/newReports',
+    icon: getIcon('carbon:report'),
+    children:[]
+  }
+
+  // if(isContainPermission("view-base-color-trees")){
+    newReportObj.children.push(
+    {
+      title: 'Work Reports',
+      path: '/dashboard/workingReports',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+    )
+    newReportObj.children.push(
+      {
+        title: 'Tree Reports',
+        path: '/dashboard/treeReports',
+        icon: getIcon('eva:shopping-bag-fill'),
+      }
+      )
+
+      if(newReportObj.children.length !==0){
+        navConfigArray.push(newReportObj);
+      }
+    
+
+  // const reportObj = {
+  //   title: 'Reports',
+  //   path: '/dashboard/workingReports',
+  //   icon: getIcon('carbon:report'),
+  // };
+  // navConfigArray.push(reportObj);
+
   console.log(navConfigArray);
+  // console.log(navConfigArray);
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
 
   return (

@@ -52,7 +52,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CreateRoleDialog(props) {
+export default function TypeOfTreeDialog(props) {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);

@@ -3,7 +3,7 @@ import { TextField ,FormControl, InputAdornment} from '@mui/material';
 
 
 function ViewInputField(props) {
-  console.log(props)
+  // console.log(props)
 
 //   const classes = useStyles();
     // const textBoxClass = useStyles();

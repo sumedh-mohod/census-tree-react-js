@@ -98,8 +98,8 @@ export default function User() {
 
   const { state } = useLocation();
   
-  console.log("STATE PAGE ",state);
-  
+  // console.log("STATE PAGE ",state);
+  // console.log("Current Page", page)
 
    const {
     users,
@@ -119,7 +119,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
   useEffect(()=>{
     if(state){
-      console.log("INSIDE STATE");
+      // console.log("INSIDE STATE");
       setPage(state.page);
     }
   },[])
@@ -150,8 +150,9 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   
 
   const handleChangePage = (event, newPage) => {
-    console.log(newPage);
+    // console.log(newPage);
     setPage(newPage);
+   
     if(search){
       dispatch(SearchUsers(newPage,rowsPerPage,searchValue));
     }
@@ -210,7 +211,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
           </Typography>
           {userPermissions.includes("create-user")? 
           <Button variant="contained" component={RouterLink} to="/dashboard/new-user-Form" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            New User
+            User
 
           </Button>
            :null} 

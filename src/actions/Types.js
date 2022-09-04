@@ -176,3 +176,14 @@ export const GET_TREE_LOCATION = "get-tree-location";
 export const GET_SPECIFIC_TREE_LOCATION_DETAILS = "get-specific-tree-location-details"
 
 export const GET_REPORTS = "get-reports";
+
+export const GET_WORK_REPORTS = "get-work-reports";
+export const GET_ALL_WORK_REPORTS = "get-all-work-reports";
+export const GET_WORK_TYPES_WORK_REPORTS = "get-work-types-work-reports";
+
+
+export const GET_TREE_FAMILY = "get-tree-family";
+export const GET_ACTIVE_TREE_FAMILY = "get-active-tree-family";
+export const EDIT_TREE_FAMILY = "edit-tree-family";
+export const ADD_TREE_FAMILY = "add-tree-family";
+export const DELETE_TREE_FAMILY = "delete-tree-family";

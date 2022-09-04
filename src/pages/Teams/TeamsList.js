@@ -40,6 +40,8 @@ import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'teamName', label: 'Team Name', alignRight: false },
+  { id: 'teamCode', label: 'Team Code', alignRight: false },
+  { id: 'teamType', label: 'Team Type', alignRight: false },
   { id: 'councilName', label: 'Council Name', alignRight: false },
   { id: 'zone', label: 'Zone', alignRight: false },
   { id: 'ward', label: 'Ward', alignRight: false },
@@ -251,17 +253,18 @@ export default function TeamsList() {
   return (
     <Page title="TeamList">
       <Container>
+        {open?
         <TeamsTableDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data={dialogData}
-        />
+        />:null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
            Teams
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Team
+            Team
           </Button>
         </Stack>
 
@@ -290,6 +293,8 @@ export default function TeamsList() {
                       >
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">{option.team_code}</TableCell>
+                        <TableCell align="left">{option.team_type}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>
                         <TableCell >{option?.zone}</TableCell>
                         <TableCell align="left">{option?.ward}</TableCell>

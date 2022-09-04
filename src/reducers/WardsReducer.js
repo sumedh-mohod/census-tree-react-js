@@ -20,11 +20,13 @@ import {  ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, GET_ACTIVE_WARDS, GET_
               wards: payload.data.data,
               pageInfo: payload.data
         };
+        
 
         case GET_ACTIVE_WARDS:
           return{
               ...state,
-              activeWards: payload.data,
+              activeWardsByCID: payload.data,
+              activeWards: payload.data
               
         };
 

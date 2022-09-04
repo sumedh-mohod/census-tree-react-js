@@ -6,7 +6,7 @@ import { ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, GET_ACTIVE_WARDS, GET_A
 const GetWards = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}`);
-      console.log("DESIGNATIONS RESPONSE",response.data);
+      // console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_WARDS,
         payload: response.data,
@@ -19,7 +19,7 @@ const GetWards = (page,limit) => async (dispatch) => {
   const GetActiveWards = (status) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/wards?status=${status}`);
-      console.log("active wards RESPONSE",response.data);
+      // console.log("active wards RESPONSE",response.data);
       dispatch({
         type: GET_ACTIVE_WARDS,
         payload: response.data,
@@ -95,7 +95,7 @@ const GetWards = (page,limit) => async (dispatch) => {
   const EditWards = (params,districtsId) => async (dispatch) => {
     try {
       const response = await JWTServer.put(`/api/wards/${districtsId}`,params);
-      console.log("EDIT STATE RESPONSE",response.data);
+      // console.log("EDIT STATE RESPONSE",response.data);
       dispatch({
         type: EDIT_WARDS,
         payload: response.data,
@@ -112,7 +112,7 @@ const GetWards = (page,limit) => async (dispatch) => {
   const DeleteWards = (params,status) => async (dispatch) => {
     try {
       const response = await JWTServer.delete(`/api/wards/${params}?status=${status}`);
-      console.log("DELETE STATE RESPONSE",response.data);
+      // console.log("DELETE STATE RESPONSE",response.data);
       dispatch({
         type: DELETE_WARDS,
         payload: response.data,

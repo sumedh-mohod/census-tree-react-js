@@ -96,7 +96,7 @@ export default function AssignUser() {
     pageInfo : state.teams.pageInfo
   }));
 
-  console.log("USER of team",userOfTeam)
+  // console.log("USER of team",userOfTeam)
   const { teamId, teamName } = useParams();
   
   useEffect(()=>{
@@ -184,17 +184,19 @@ export default function AssignUser() {
     console.info('You clicked a breadcrumb.');
   }
 
-  console.log("USERS OF TEAM",userOfTeam);
+  // console.log("USERS OF TEAM",userOfTeam);
 
   return (
     <Page title="User">
     <Container>
+      {open?
         <AssignUserDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data= {dialogData}
         teamId={teamId}
         />
+        :null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
@@ -253,7 +255,7 @@ export default function AssignUser() {
                         <TableCell align="left">{option.roles}</TableCell>
                         <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
+                        <TableCell align="left">{option.status?"Assigned":"Unassigned"}</TableCell>
                         </TableRow>
                         )
                   }):null

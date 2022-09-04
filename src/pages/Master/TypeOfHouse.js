@@ -28,6 +28,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfHouseDialog from "../../components/DialogBox/TypeOfHouseDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -80,7 +81,7 @@ export default function TypeOfTree() {
   };
 
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    // console.log("hiiii")
     setOpen(!open)
   }
 
@@ -131,7 +132,7 @@ export default function TypeOfTree() {
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Type Of House
 
           </Button>
         </Stack>

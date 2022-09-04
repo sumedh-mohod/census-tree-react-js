@@ -29,6 +29,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfTreeCuttingDialog from "../../components/DialogBox/TreeConditionDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -80,8 +81,11 @@ export default function TreeConditions() {
    const [dialogData,setDialogData] = useState(null);
    const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
-   const userPermissions = [];
-
+   const [dropPage, setDropPage] = useState(10);
+  const userPermissions = [];
+  const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
    const {
     treeConditions,
     addTreeConditionsLog,
@@ -103,7 +107,7 @@ export default function TreeConditions() {
     userPermissions.push(item.name)
   ))
   
-  console.log("TREE CONDITIONS",treeConditions)
+  // console.log("TREE CONDITIONS",treeConditions)
 
   useEffect(()=>{
     dispatch(GetTreeConditions(page,rowsPerPage));
@@ -126,7 +130,7 @@ export default function TreeConditions() {
   };
 
   const handleDelete = (data) => {
-    console.log("HANDLE DELETE",data);
+    // console.log("HANDLE DELETE",data);
     dispatch(DeleteTreeConditions(data.id,data.status?0:1));
   };
 
@@ -191,32 +195,14 @@ export default function TreeConditions() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
-        {/* <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-          Tree Conditions
-        </Link> */}
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-              Master
-          </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          Tree Conditions
-          </Typography>
-      </Breadcrumbs>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
     </div>
     {userPermissions.includes("create-tree-condition")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Tree Condition
+            Tree Condition
 
           </Button>:null}
         </Stack>

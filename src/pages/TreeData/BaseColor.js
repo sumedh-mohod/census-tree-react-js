@@ -46,6 +46,7 @@ const TABLE_HEAD = [
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
   { id: 'propertyAddress', label: 'Property Address', alignRight: false },
   { id: 'treeLocation', label: 'Tree Location', alignRight: false },
+  { id: 'locationAccuracyNeeded', label: 'Location Accuracy Needed', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
   { id: 'images', label: 'Images', alignRight: false },
@@ -288,10 +289,13 @@ export default function BaseColor() {
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
+          component={RouterLink} to="/login"
           // href="#"
-        >
+        > 
+         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
           Tree Data
-        </Link>
+          </Typography>
+         </Link> 
         <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
@@ -347,6 +351,7 @@ export default function BaseColor() {
                         <TableCell align="left">{option.property?.property_number?option.property?.property_number: "-"}</TableCell>
                         <TableCell align="left">{option.property?.address? option.property?.address: "-"}</TableCell>
                         <TableCell align="left">{option.location}</TableCell>
+                        <TableCell align="left">{option.location_accuracy}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
                         <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
                         <TableCell align="left">

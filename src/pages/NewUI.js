@@ -22,12 +22,13 @@ import {
   import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
   import  ImageGallery  from 'react-image-gallery';
   import { useDispatch, useSelector } from 'react-redux';
+  import moment from 'moment';
 import { CheckBox } from '@mui/icons-material';
  import TreeDetailsDialog from '../components/DialogBox/TreeDetailsDialog';
  import { GetTreeCensusPendingQCStatus, UpdateQCStatusOfTreeCensus, ReferToExpert} from '../actions/TreeCensusAction';
  import { GetActiveCouncil, SetActiveCouncil} from '../actions/CouncilAction';
- import { GetActiveZones, GetZonesByCouncilId, SetActiveZones} from '../actions/ZonesAction';
- import {GetActiveWards, GetWardsByCouncilId, SetActiveWards} from '../actions/WardsActions';
+ import { GetActiveZones, GetActiveZonesByCouncilId, SetActiveZones} from '../actions/ZonesAction';
+ import {GetActiveWards, GetActiveWardsByCouncilId, SetActiveWards} from '../actions/WardsActions';
  import { GetUsers, GetUsersByRoleID } from '../actions/UserAction';
 
  import Page from '../components/Page';
@@ -55,6 +56,7 @@ import { ShowLoader } from '../actions/CommonAction';
     const [checked, setChecked] = React.useState(0);
     const [showData, setShowData] = React.useState(false);
     const userPermissions = [];
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
     let selectedUsers;
 
     const [state, setState] = React.useState({
@@ -80,8 +82,8 @@ import { ShowLoader } from '../actions/CommonAction';
     } = useSelector((state) => ({
       users:state.users.users,
       council:state.council.activeCouncil,
-      zones:state.zones.activeZones,
-      wards:state.wards.activeWards,
+      zones:state.zones.activeZonesByCID,
+      wards:state.wards.activeWardsByCID,
       userByRoleID: state.users.userByRoleID,
       treeCensusPendingQCStatus: state.treeCensus.treeCensusPendingQCStatus,
       referToExpertLog: state.treeCensus.referToExpertLog,
@@ -96,7 +98,7 @@ import { ShowLoader } from '../actions/CommonAction';
       userPermissions.push(item.name)
     ))
     
-    console.log("in new", users);
+    // console.log("in new", users);
 //     if(users){
 //     selectedUsers= users.filter(
 //       (currentValue) => {if(currentValue.assigned_roles.includes("Census User") || currentValue.assigned_roles.includes("Census QC - Offsite")){
@@ -207,7 +209,7 @@ import { ShowLoader } from '../actions/CommonAction';
   //     // console.log(tree.tree_number)
   //     // console.log(tree.tree_name.name)
   //     ));
-  console.log("userByRoleID",userByRoleID)
+  // console.log("userByRoleID",userByRoleID)
     const handleDialogOpen = () => {
       setDialogOpen(true);
       setUpdateClick(true);
@@ -250,7 +252,7 @@ import { ShowLoader } from '../actions/CommonAction';
     }
 
     const handleApproveNext = () =>{
-      console.log("HANDLE APPROVE CALLED");
+      // console.log("HANDLE APPROVE CALLED");
       dispatch(UpdateQCStatusOfTreeCensus(treeCensusPendingQCStatus?.data[selectedIndex].id,{
         "qc_status" : "Approved"
       }))
@@ -258,15 +260,16 @@ import { ShowLoader } from '../actions/CommonAction';
 
 
     const handleRowClick = (tree) =>{
-      console.log(tree);
+      // console.log(tree);
     }
 
     const handleCouncilChange = (e) => {
       setCouncilID(e.target.value);
       setZoneID("")
       setWardID("")
-      dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-      dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+      dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+      dispatch(GetActiveWardsByCouncilId(1,e.target.value))
+      // console.log("Council change", e.target.value, zones, wards)
       };
 
     const handleZoneChange = (event) => {
@@ -281,7 +284,7 @@ import { ShowLoader } from '../actions/CommonAction';
       setAddedBy(event.target.value);
       };
 
-      console.log("PENDING QC STATUS",treeCensusPendingQCStatus);
+      // console.log("PENDING QC STATUS",treeCensusPendingQCStatus);
 
       const properties = {
         // thumbnailPosition: "left",
@@ -312,8 +315,8 @@ import { ShowLoader } from '../actions/CommonAction';
         },
         validationSchema: FilterSchema,
         onSubmit: (value) => {
-          console.log("in submit");
-          console.log("VALUE",value);
+          // console.log("in submit");
+          // console.log("VALUE",value);
           dispatch(GetTreeCensusPendingQCStatus(councilID,zoneID,wardID, value.fromDateForm, value.toDateForm,value.addedByForm,checked));
           setState({ ...state, "right": false });
         },
@@ -416,11 +419,11 @@ import { ShowLoader } from '../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Zone*</em>
           </MenuItem>
-              {zones?.map((option) => (
+              {councilID? zones?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>
@@ -445,11 +448,11 @@ import { ShowLoader } from '../actions/CommonAction';
                <MenuItem disabled value="">
             <em>Select Ward*</em>
           </MenuItem>
-              {wards?.map((option) => (
+              {councilID? wards?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>
@@ -505,6 +508,7 @@ import { ShowLoader } from '../actions/CommonAction';
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("fromDateForm")}
               />
               
@@ -526,11 +530,12 @@ import { ShowLoader } from '../actions/CommonAction';
                   shrink: true,
                   
                 }}
+                inputProps={{ max: todayDate }}
                 {...getFieldProps("toDateForm")}
               />
                </Grid>
                <Grid item xs={12}>
-               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only heritage trees" />
+               <FormControlLabel control={<Checkbox onChange={handleHeritage}/>} label="Show only Heritage Trees" />
                </Grid>
 
                <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:5}}>
@@ -616,6 +621,10 @@ import { ShowLoader } from '../actions/CommonAction';
              <tr>
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Location Type: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].location_type?.location_type}</td>
+              </tr>
+              <tr>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Location Accuracy Needed: </td>
+              <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy?treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy:"-"}</td>
               </tr>
              <tr> 
               <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Property Type: </td>

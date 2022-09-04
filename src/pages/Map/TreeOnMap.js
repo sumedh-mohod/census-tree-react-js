@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+import moment from 'moment';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
@@ -34,6 +35,7 @@ import Page from '../../components/Page';
 import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import { GetAllTreeLocation } from '../../actions/TreeOnMapAction';
+import {GetActiveCouncil} from '../../actions/CouncilAction';
 
 export default function TreeOnMap(props) {
 
@@ -50,6 +52,7 @@ export default function TreeOnMap(props) {
    const [showList,setShowList] = useState(false);
     const [editUser,setEditUser] = useState(false);  
     const { isOpen, data } = props;
+    const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
     const [state, setState] = React.useState({
       top: false,
@@ -59,7 +62,7 @@ export default function TreeOnMap(props) {
     });
 
     const { isLoaded } = useLoadScript({
-      googleMapsApiKey: "AIzaSyCLYJVkpS7Y-N5OOglfLYLcJNmVUwQFY7E" // Add your API key
+      googleMapsApiKey: "AIzaSyAuqtG8XhmKQPGoYpFi9dqZmhZTDWGCxE0" // Add your API key
     });
 
     const {
@@ -87,6 +90,9 @@ export default function TreeOnMap(props) {
     setShowList(true);
   },[treeLocation])
   
+  useEffect(()=>{
+    dispatch(GetActiveCouncil(1));
+  },[])
     const handleCouncilChange = (e) =>{
       setCouncilId(e.target.value);
       setZoneId("")
@@ -144,7 +150,7 @@ export default function TreeOnMap(props) {
       },
       validationSchema: treeNumber ? TreeSchema : DistrictsSchema,
       onSubmit: (value) => {
-        console.log("in on ");
+        // console.log("in on ");
         setState({ ...state, "right": false });
         dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate,treeNumber))
       },
@@ -304,6 +310,7 @@ export default function TreeOnMap(props) {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ max: todayDate }}
               />
                 <TextField
                 id="date"
@@ -320,6 +327,7 @@ export default function TreeOnMap(props) {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputProps={{ max: todayDate }}
               />
               <Divider style={{marginTop:10}}>OR</Divider>
               <TextField

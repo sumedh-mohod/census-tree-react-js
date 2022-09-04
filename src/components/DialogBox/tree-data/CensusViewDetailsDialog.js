@@ -72,7 +72,7 @@ export default function CensusViewDetailsDialog(props) {
   const [id, setId] = React.useState(null);
   const [viewOpen, setViewOpen ] = React.useState(false);
   const [imageList,setImageList] = React.useState([]);
-  console.log("data",props);
+  // console.log("data",props);
 //   const {
 //     baseColorRemarks,
 //     updateQCStatusLog,
@@ -106,7 +106,7 @@ export default function CensusViewDetailsDialog(props) {
   const handleViewOpen = (images) => {
     setViewOpen(!viewOpen)
     setImageList(images || []);
-    console.log("viewDetals")
+    // console.log("viewDetals")
   }
 
   // const handleViewImage = (data) => {
@@ -144,7 +144,7 @@ export default function CensusViewDetailsDialog(props) {
 //   const { errors, touched, values, isSubmitting, handleSubmit,getFieldProps} = formik;
 
 
-console.log("hii", isOpen, props.data);
+// console.log("hii", isOpen, props.data);
 
   return (
     <div>
@@ -176,6 +176,10 @@ console.log("hii", isOpen, props.data);
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Location Type</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.location_type?.location_type}</td>
+  </tr>
+  <tr>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Location Accuracy Needed</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.location_accuracy}</td>
   </tr>
   <tr>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Type</td>
