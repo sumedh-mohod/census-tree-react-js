@@ -41,22 +41,20 @@ function TreeReports() {
               </Breadcrumbs>
             </div>
           </Stack>
-          <Card>
+          {/* <Card>
             <Barchart />
             <br />
             <Grid container spacing={0} >
             <Grid item xs={3} >
-              {/* <Piechart /> */}
               </Grid>
               <Grid item xs={6} >
               <Piechart />
               </Grid>
               <Grid item xs={3} >
-              {/* <Piechart /> */}
               </Grid>
             </Grid>
           
-          </Card>
+          </Card> */}
         </Container>
       </Page>
     </>
