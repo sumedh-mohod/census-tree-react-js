@@ -95,7 +95,7 @@ export default function CreateCouncilDialog(props) {
   const [isImageRemoved, setIsImageRemoved] = React.useState(false);
   const [showDistrict, setShowDistrict] = React.useState(false);
   const [showTaluka, setShowTaluka] = React.useState(false);
-  const todayDate = moment(new Date()).format('YYYY-MM-DD');
+  // const todayDate = moment(new Date()).format('YYYY-MM-DD');
   // console.log('data', data)
   const {
     addCouncilLog,
@@ -683,7 +683,7 @@ export default function CreateCouncilDialog(props) {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                inputProps={{ min: todayDate }}
+                // inputProps={{ min: todayDate }}
               />
               </Grid>
               <Grid item xs={5}>
@@ -702,7 +702,7 @@ export default function CreateCouncilDialog(props) {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                inputProps={{ min: todayDate }}
+                // inputProps={{ min: todayDate }}
               />
             </Grid>
 
