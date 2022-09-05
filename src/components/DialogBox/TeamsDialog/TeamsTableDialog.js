@@ -61,7 +61,7 @@ export default function TeamsTableDialog(props) {
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [teamType, setTeamType] = React.useState('');
   const { isOpen, data } = props;
-  console.log('teamType',data)
+  // console.log('teamType',data)
 
   const { addTeamsLog, editTeamsLog } = useSelector((state) => ({
     addTeamsLog: state.teams.addTeamsLog,
@@ -112,7 +112,7 @@ export default function TeamsTableDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log('name', value.name, 'code', value.code, 'team', teamType);
+      // console.log('name', value.name, 'code', value.code, 'team', teamType);
       setButtonDisabled(true);
       if (data) {
         dispatch(
