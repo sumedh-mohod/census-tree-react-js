@@ -37,7 +37,7 @@ const Barchart = () => {
   return (
    <>
     <Bar options={options} data={data} />
-    <Button onClick={generatePdf}>Generate pdf</Button>
+    {/* <Button onClick={generatePdf}>Generate pdf</Button> */}
    </>
   )
 }

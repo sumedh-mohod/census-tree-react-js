@@ -21,7 +21,7 @@ import {
   Grid
 } from '@mui/material';
 import Page from '../../components/Page';
-import { Piechart } from './Chart/Piechart';
+import {Piechart}  from './Chart/Piechart';
 import Barchart from './Chart/Barchart';
 
 function TreeReports() {
@@ -42,8 +42,8 @@ function TreeReports() {
             </div>
           </Stack>
           <Card>
-            <Barchart />
-            <br />
+            <Barchart /><br/><hr/>
+            <br /><br />
             <Grid container spacing={0} >
             <Grid item xs={3} />
             

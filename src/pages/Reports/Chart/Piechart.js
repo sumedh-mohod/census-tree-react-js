@@ -1,6 +1,9 @@
-import React from 'react';
+import { useRef } from 'react';
+import html2canvas from 'html2canvas';
+import { jsPDF as Jspdf } from 'jspdf';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { Grid, Button } from '@mui/material';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -30,7 +33,30 @@ export const data = {
     },
   ],
 };
-
 export function Piechart() {
-  return <Pie data={data} />;
+  const inputRef = useRef(null);
+  const printDocument = () => {
+    html2canvas(inputRef.current).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new Jspdf();
+      pdf.addImage(imgData, 'JPEG', 0, 0);
+      pdf.save('download.pdf');
+    });
+  };
+  return (
+    <>
+      <Grid container spacing={0}>
+        <Grid item xs={4} />
+        <Grid item xs={8}>
+          <Button variant="contained" onClick={printDocument}>
+            Download pie chart
+          </Button>
+        </Grid>
+      </Grid>
+
+      <div ref={inputRef}>
+        <Pie data={data} />
+      </div>
+    </>
+  );
 }
