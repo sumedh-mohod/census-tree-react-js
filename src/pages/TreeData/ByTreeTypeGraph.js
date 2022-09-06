@@ -4,10 +4,28 @@ import { Bar } from 'react-chartjs-2';
 import {
     Button,
   } from '@mui/material';
+import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const Barchart = () => {
+const ByTreeTypeGraph = (props) => {
+  const {data: graph} = props;
+    // console.log('data_', graph);
+    const length = graph.length;
+    const x = [];
+    const y = [];
+    
+    for(let i=0;i<length;i+=1){
+      
+        x.push(graph[i].tree_type)
+     
+    }
+
+    for(let i=0;i<length;i+=1){
+      y.push(graph[i].census_trees_count)
+    }
+    // console.log(x)
+    // console.log(y)
     const options = {
         responsive: true,
         plugins: {
@@ -22,24 +40,22 @@ const Barchart = () => {
       };
     
       const data = {
-        labels: ['jan', 'feb', 'mar', 'apr','may', 'jun', 'july','aug', 'sep', 'oct', 'nov', 'dec'],
+        labels: x,
         datasets: [
           {
-            label: 'Dataset 1',
-            data: [10000, 20000, 30000, 90000, 110000, 150000, 10000, 150000, 10000, 20000, 50000, 40000],
+            label: 'Tree Type',
+            data: y,
             backgroundColor: "rgba(54, 162, 235, 0.2)",
           },
         ],
       };
-      const generatePdf =()=>{
-        
-      }
+      
   return (
    <>
     <Bar options={options} data={data} />
-    {/* <Button onClick={generatePdf}>Generate pdf</Button> */}
+  
    </>
   )
 }
 
-export default Barchart
+export default ByTreeTypeGraph
