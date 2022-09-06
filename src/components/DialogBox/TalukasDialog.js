@@ -213,7 +213,7 @@ export default function TalukasDialog(props) {
               name="state"
               value={state}
               style={{width:'83%', marginLeft: 40}}
-              placeholder='*Select State'
+              placeholder='Select State*'
               onChange={(e)=> {
                 handleStateChange(e);
                 formik.handleChange(e);
