@@ -35,7 +35,7 @@ import StateDialog from "../../components/DialogBox/StateDialog";
 import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
-import {GetAllWorkReports} from "../../actions/WorkReportAction"
+import {GetAllWorkReports,GetWorkReports} from "../../actions/WorkReportAction"
 
 
 // ----------------------------------------------------------------------
@@ -45,8 +45,8 @@ const TABLE_HEAD = [
   { id: 'User', label: 'User', alignRight: false },
   { id: 'Role', label: 'Role', alignRight: false },
   { id: 'Team', label: 'Team', alignRight: false },
-  { id: 'fromDate', label: 'From Date', alignRight: false },
-  { id: 'toDate', label: 'To Date', alignRight: false },
+  { id: 'allocated', label: 'Allocated', alignRight: false },
+  { id: 'deallocated', label: 'Deallocated', alignRight: false },
   { id: 'currentStatus', label: 'Current Status', alignRight: false },
 ];
 
@@ -73,34 +73,44 @@ export default function WorkTypeList(props) {
 
     const {
       workReports,
-      excelWorkReports
+      excelWorkReports,
+      pageInfo,
       } = useSelector((state) => ({
         workReports:state.workReports.workReports,
+          pageInfo: state.workReports.pageInfo,
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  console.log("workReportsCouncil",workReports);
+  console.log("teamAllocation",workReports);
   
 
-  console.log("aaaaa", workReports)
+  console.log("teamallocation", workReports)
 
 
+  // useEffect(()=>{
+  //   dispatch(GetWorkReports(reportType, fromDate,toDate));
+  //   console.log("assdghasd", workReports)
+  // },[workReports])
   useEffect(()=>{
-    if(workReports){
-      workList()
+    if(excelWorkReports && downloadButtonPressed){
+      handleDownloadExcel()
+      setDownloadButtonPressed(false);
     }
-    console.log("assdghasd", workReports)
-  },[workReports])
+  },[excelWorkReports])
 
 
-const workList = () => {
-  const newData = Object.entries(workReports);
-  console.log("newData", newData)
-  setDisplayWorkList(newData)
-}
+const handleChangePage = (event, newPage) => {
+  setPage(newPage);
+  // if(search){
+  //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
+  // }
+  // else {
+    dispatch(GetWorkReports(reportType, fromDate,toDate, newPage,rowsPerPage));
+  }
 
-
-const header = ["#", "Work Type", "Total Count"];
+const header1= ["report Type", "From Date" , "To Date"] 
+const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Current Status", "From Date", "To Date"];
+// const header1= ["from Date", "To Date"]
 
   const handleDownloadButtonPressed = () => {
     setDownloadButtonPressed(true);
@@ -109,14 +119,25 @@ const header = ["#", "Work Type", "Total Count"];
 
   function handleDownloadExcel() {
     // dispatch(GetAllWorkReports(reportType, fromDate,toDate));
-
-    const dataValue =  displyWorkList;
-    const value1= [];
+    const dataValue =  excelWorkReports;
+    const value1= [fromDate];
     dataValue?.map((option, index) => {
       const value2 = [index+1]
-      value2.push(option[0])
-      value2.push(option[1])
+      value2.push(option.user)
+      // value2.push(fromDate)
+      value2.push(option.role)
+      value2.push(option.team)
+      value2.push(option.assigned_at)
+      value2.push(option.deallocated_at)
+      value2.push(option.current_status)
+      if(index === 0){
+        value2.push(fromDate);
+        value2.push(toDate)
+      }
+
+    
       value1.push(value2)
+      // value1.push(fromDate)
       return null
     })
     downloadExcel({
@@ -125,7 +146,7 @@ const header = ["#", "Work Type", "Total Count"];
       tablePayload: {
         header,
         // accept two different data structures
-        body: value1
+        body: value1 ,
       },
     });
   }
@@ -136,7 +157,7 @@ const header = ["#", "Work Type", "Total Count"];
       <Container>
         <Card style={{marginTop: 40}}>
         <ReportToolBar
-        handleExportexcel={()=>handleDownloadExcel()} 
+        handleExportexcel={()=>handleDownloadButtonPressed()} 
         numSelected={0} placeHolder={"Search here..."} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -145,28 +166,34 @@ const header = ["#", "Work Type", "Total Count"];
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     {/* { displyWorkList?.map((option,index) => { 
-                        return ( */}
+                     { workReports?.data?.map((option,index) => { 
+                        return (
                         <TableRow
                         hover
-                      // key={index}  
+                      key={index}  
                       >
-                            <TableCell align="left">{1}</TableCell>
-                        <TableCell align="left">User</TableCell>
-                        <TableCell align="left">Admin</TableCell>
-                        <TableCell align="left">Team1</TableCell>
-                        <TableCell align="left">29/07/1998</TableCell>
-                        <TableCell align="left">29/07/1998</TableCell>
-                        <TableCell align="left">Active</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                        <TableCell align="left">{option.user}</TableCell>
+                        <TableCell align="left">{option.role}</TableCell>
+                        <TableCell align="left">{option.team}</TableCell>
+                        <TableCell align="left">{option.assigned_at}</TableCell>
+                        <TableCell align="left">{option.deallocated_at}</TableCell>
+                        <TableCell align="left">{option.current_status}</TableCell>
                         </TableRow>
-                          {/* )
+                        )
                   })
-                }  */}
+                } 
 
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
+          {workReports?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

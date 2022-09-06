@@ -97,17 +97,18 @@ export default function CouncilList(props) {
     // else {
       dispatch(GetWorkReports(reportType, fromDate,toDate, newPage,rowsPerPage));
     }
+  // }
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
-    if(search){
-      dispatch(SearchWorkReports(1,parseInt(event.target.value, 10),searchValue));
-    }
-    else {
+    // if(search){
+    //   dispatch(SearchWorkReports(1,parseInt(event.target.value, 10),searchValue));
+    // }
+    // else {
       dispatch(GetWorkReports(1,parseInt(event.target.value, 10)));
     }
-  };
+  // };
 
   let timer = null;
   const filterByName = (event) => {
@@ -132,7 +133,7 @@ export default function CouncilList(props) {
   }
 
   const header = ["#", "Council", "Base Color Count", "Base Color Offsite QC Count", "Base Color Onsite QC Count", "Census Count",
-  "Census Offsite Qc Count", "Census Onsite QC Count"];
+  "Census Offsite Qc Count", "Census Onsite QC Count","From Date", "To Date"];
  
 const handleDownloadButtonPressed = () => {
   setDownloadButtonPressed(true);
@@ -142,8 +143,11 @@ const handleDownloadButtonPressed = () => {
   function handleDownloadExcel() {
 
     const dataValue =  excelWorkReports;
+    console.log("excelWorkReports", excelWorkReports)
+    const dateValue= fromDate
     const value1= [];
     dataValue?.map((option, index) => {
+    
       const value2 = [index+1]
       value2.push(option.name)
       value2.push(option.base_color_trees_count)
@@ -152,6 +156,10 @@ const handleDownloadButtonPressed = () => {
       value2.push(option.census_trees_count)
       value2.push(option.census_trees_offsite_qc_count)
       value2.push(option.census_trees_onsite_qc_count)
+      if(index === 0){
+        value2.push(fromDate);
+        value2.push(toDate)
+      }
       value1.push(value2)
       return null
     })
@@ -174,7 +182,9 @@ const handleDownloadButtonPressed = () => {
         <Card style={{marginTop: 40}} >
         <ReportToolBar
         handleExportexcel={()=>handleDownloadButtonPressed()} 
-       placeHolder={"Search here..."} />
+       placeHolder={"Search here..."} 
+      //  onFilterName={filterByName}
+       />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -187,14 +197,14 @@ const handleDownloadButtonPressed = () => {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                            <TableCell align="left">{option?.name}</TableCell>
-                        <TableCell align="left">{option?.base_color_trees_count}</TableCell>
-                        <TableCell align="left">{option?.base_color_offsite_qc_count}</TableCell>
-                        <TableCell align="left">{option?.base_color_onsite_qc_count}</TableCell>
-                        <TableCell align="left">{option?.census_trees_count}</TableCell>
-                        <TableCell align="left">{option?.census_trees_offsite_qc_count}</TableCell>
-                        <TableCell align="left">{option?.census_trees_onsite_qc_count}</TableCell>
+                            <TableCell  style={{flexWrap: "wrap"}}>{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell style={{width: 40}}>{option?.name}</TableCell>
+                        <TableCell style={{flexWrap: "wrap"}}>{option?.base_color_trees_count}</TableCell>
+                        <TableCell style={{flexWrap: "wrap"}}>{option?.base_color_offsite_qc_count}</TableCell>
+                        <TableCell style={{flexWrap: "wrap"}}>{option?.base_color_onsite_qc_count}</TableCell>
+                        <TableCell style={{flexWrap: "wrap"}}>{option?.census_trees_count}</TableCell>
+                        <TableCell  style={{flexWrap: "wrap"}}>{option?.census_trees_offsite_qc_count}</TableCell>
+                        <TableCell  style={{flexWrap: "wrap"}}>{option?.census_trees_onsite_qc_count}</TableCell>
                         {/* <TableCell align="right">
                           <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>  */}

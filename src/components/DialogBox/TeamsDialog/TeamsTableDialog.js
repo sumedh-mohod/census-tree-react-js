@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import { TextField } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -54,35 +54,33 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function TeamsTableDialog(props) {
-
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const [maxWidth, setMaxWidth] = React.useState('sm');
+  const [teamType, setTeamType] = React.useState('');
   const { isOpen, data } = props;
+  console.log('teamType',data)
 
-  const {
-    addTeamsLog,
-    editTeamsLog,
-  } = useSelector((state) => ({
-    addTeamsLog:state.teams.addTeamsLog,
-    editTeamsLog:state.teams.editTeamsLog,
+  const { addTeamsLog, editTeamsLog } = useSelector((state) => ({
+    addTeamsLog: state.teams.addTeamsLog,
+    editTeamsLog: state.teams.editTeamsLog,
   }));
 
   const firstRun = React.useRef(true);
-  React.useEffect(()=>{
+  React.useEffect(() => {
     if (firstRun.current) {
       firstRun.current = false;
       return;
     }
-    props.handleClose()
-  },[addTeamsLog,editTeamsLog])
+    props.handleClose();
+  }, [addTeamsLog, editTeamsLog]);
+  // console.log('editTeamsLog',editTeamsLog);
 
   const handleClose = () => {
     props.handleClose();
   };
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -91,39 +89,65 @@ export default function TeamsTableDialog(props) {
   const handleMaxWidthChange = (event) => {
     setMaxWidth(
       // @ts-expect-error autofill of arbitrary value is not handled.
-      event.target.value,
+      event.target.value
     );
   };
 
   const DistrictsSchema = Yup.object().shape({
-    name: Yup.string().max(30, "Character limit is 30").required('Name is required'),
+    name: Yup.string().max(30, 'Character limit is 30').required('Name is required'),
+    code: Yup.string()
+      .min(4, 'Too Short! need exact 4 character')
+      .max(4, 'Too Long! need exact 4 character')
+      .required('Team Code required'),
+    teamType: Yup.string().required('Team Type is required'),
   });
 
-
   const formik = useFormik({
+    
     enableReinitialize: true,
     initialValues: {
-      name:data? data.name : ""
+      name: data ? data.name : '',
+      code: data ? data.team_code : '',
+      teamType: data ? data.team_type : '',
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
+      console.log('name', value.name, 'code', value.code, 'team', teamType);
       setButtonDisabled(true);
-      if(data){
-        dispatch(EditTeam({
-          "name":value.name,
-        },data.id))
-      }
-      else {
-        dispatch(AddTeam({
-          "name":value.name
-        }))
+      if (data) {
+        dispatch(
+          EditTeam(
+            {
+              name: value.name,
+              team_code: value.code,
+              team_type: value.teamType,
+            },
+            data.id
+          )
+        );
+      } else {
+        dispatch(
+          AddTeam({
+            name: value.name,
+            team_code: value.code,
+            team_type: value.teamType,
+          })
+        );
       }
     },
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
-
+  const handleTeamTypeChange = (e) => {
+    // console.log(e.target.value)
+    setTeamType(e.target.value);
+  };
+  const teamSelect = [
+    { id: 1, type: 'base_color', value: 'Base Color' },
+    { id: 2, type: 'census', value: 'Census' },
+    { id: 3, type: 'offsite_qc', value: 'Offsite QC' },
+    { id: 4, type: 'onsite_qc', value: 'Onsite QC' },
+  ];
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -133,14 +157,14 @@ export default function TeamsTableDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-      
+
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Team":"Add Team"}</BootstrapDialogTitle>
-        <Divider/>
+        <BootstrapDialogTitle onClose={handleClose}>{data ? 'Edit Team' : 'Add Team'}</BootstrapDialogTitle>
+        <Divider />
         <DialogContent>
-        <Grid container spacing={1}>
-        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="teamName"
@@ -149,22 +173,56 @@ export default function TeamsTableDialog(props) {
                 placeholder="Team Name*"
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
-                {...getFieldProps("name")}
+                {...getFieldProps('name')}
               />
+              <DefaultInput
+                fullWidth
+                id="teamCode"
+                autoComplete="teamCode"
+                label="Team Code*"
+                placeholder="Team Code*"
+                error={Boolean(touched.code && errors.code)}
+                helperText={touched.code && errors.code}
+                {...getFieldProps('code')}
+              />
+              <TextField
+                select
+                id="Team Type"
+                label="Team Type"
+                // displayEmpty
+                // value={values.teamType}
+                style={{ width: '82.5%',marginLeft: 40, marginTop: 5 }}
+                
+                onChange={(e) => {
+                  handleTeamTypeChange(e);
+                  // formik.handleChange(e);
+                }}
+                error={Boolean(touched.teamType && errors.teamType)}
+                helperText={touched.teamType && errors.teamType}
+                {...getFieldProps('teamType')}
+                
+              >
+                <MenuItem disabled value="">
+                  <em>Select Team type*</em>
+                </MenuItem>
+                {teamSelect?.map((option) => (
+                  <MenuItem key={option.id} value={option.type}>
+                    {option.value}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              
             </Grid>
           </Grid>
         </DialogContent>
-        <Divider/>
+        <Divider />
         <DialogActions>
-           <LoadingButton
-        
-      
-        loading={buttonDisabled}
-        loadingPosition="end"
-        
-       onClick={handleSubmit} >{data? `Save`: `Add`}</LoadingButton>
+          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={handleSubmit}>
+            {data ? `Save` : `Add`}
+          </LoadingButton>
         </DialogActions>
       </Dialog>
-      </div>
+    </div>
   );
 }

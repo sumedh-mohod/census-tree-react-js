@@ -40,6 +40,8 @@ import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'teamName', label: 'Team Name', alignRight: false },
+  { id: 'teamCode', label: 'Team Code', alignRight: false },
+  { id: 'teamType', label: 'Team Type', alignRight: false },
   { id: 'councilName', label: 'Council Name', alignRight: false },
   { id: 'zone', label: 'Zone', alignRight: false },
   { id: 'ward', label: 'Ward', alignRight: false },
@@ -117,7 +119,7 @@ export default function TeamsList() {
     activeWardsByCID:state.wards.activeWardsByCID,
   }));
 
-  // console.log("Teams",teams)
+  console.log("Teams",teams)
 
   useEffect(()=>{
     dispatch(GetTeam(page,rowsPerPage));
@@ -291,6 +293,8 @@ export default function TeamsList() {
                       >
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">{option.team_code}</TableCell>
+                        <TableCell align="left">{option.team_type}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>
                         <TableCell >{option?.zone}</TableCell>
                         <TableCell align="left">{option?.ward}</TableCell>

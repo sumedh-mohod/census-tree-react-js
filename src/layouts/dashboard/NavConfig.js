@@ -174,6 +174,11 @@ const navConfig = [
       path: '/dashboard/baseColorPendingQC',
       icon: getIcon('eva:shopping-bag-fill'),
     },
+    {
+      title: 'Census Reports',
+      path: '/dashboard/reportold',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
     // {
     //   title: 'Working Reports',
     //   path: '/dashboard/workingReports',
@@ -190,12 +195,7 @@ const navConfig = [
       title: 'Trees on Map',
       path: '/dashboard/treeOnMap',
       icon: getIcon('eva:shopping-bag-fill'),
-    },
-    {
-      title: 'Reports',
-      path: '/dashboard/reports',
-      icon: getIcon('eva:shopping-bag-fill'),
-    },
+    }
   ]
 },
 
