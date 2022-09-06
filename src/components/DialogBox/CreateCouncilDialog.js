@@ -288,6 +288,7 @@ export default function CreateCouncilDialog(props) {
       // taluka: Yup.string().required('Taluka is required'),
       baseColorTarget: Yup.string().required('Base Color Target is required'),
       censusTarget: Yup.string().required('Census Target is required'),
+      total_area: Yup.string().required('Total area is required'),
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
       locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
@@ -300,6 +301,7 @@ export default function CreateCouncilDialog(props) {
     // taluka: Yup.string().required('Taluka is required'),
     baseColorTarget: Yup.string().required('Base Color Target is required'),
     censusTarget: Yup.string().required('Census Target is required'),
+    total_area: Yup.string().required('Total area is required'),
     firstName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('First Name is required'),
     // middleName: Yup.string().required('Middle Name is required'),
     lastName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('Last Name is required'),
@@ -327,6 +329,7 @@ export default function CreateCouncilDialog(props) {
       censusTarget:data?data.census_target:"",
       zones: data?zoneName:[],
       wards: data?wardName:[],
+      total_area:data?data.total_area:"",
       locationAccuracyNeeded:data?data.location_accuracy_needed:"",
       project_start_date: data?data.project_start_date:"",
       project_end_date: data?data.project_end_date:""
@@ -338,6 +341,7 @@ export default function CreateCouncilDialog(props) {
       name:data?data.name:"",
       baseColorTarget:data?data.base_color_target:"",
       censusTarget:data?data.census_target:"",
+      total_area:data?data.total_area:"",
       firstName: data?data.contact_person.first_name:"",
       middleName: data?data.contact_person.middle_name:"",
       lastName: data?data.contact_person.last_name:"",
@@ -368,6 +372,7 @@ export default function CreateCouncilDialog(props) {
               "taluka_id" : value.taluka,
               "base_color_target" : value.baseColorTarget,
               "census_target" : value.censusTarget,
+              "total_area" : value.total_area,
               "location_accuracy_needed": value.locationAccuracyNeeded,
               "project_start_date": value.project_start_date,
               "project_end_date": value.project_end_date
@@ -388,6 +393,7 @@ export default function CreateCouncilDialog(props) {
               "taluka_id" : value.taluka,
               "base_color_target" : value.baseColorTarget,
               "census_target" : value.censusTarget,
+              "total_area" : value.total_area,
               "location_accuracy_needed": value.locationAccuracyNeeded,
               "project_start_date": value.project_start_date,
               "project_end_date": value.project_end_date
@@ -412,6 +418,7 @@ export default function CreateCouncilDialog(props) {
                 "taluka_id" : value.taluka,
                 "base_color_target" : value.baseColorTarget,
                 "census_target" : value.censusTarget,
+                "total_area" : value.total_area,
                 "location_accuracy_needed": value.locationAccuracyNeeded,
                 "project_start_date": value.project_start_date,
                 "project_end_date": value.project_end_date
@@ -563,6 +570,18 @@ export default function CreateCouncilDialog(props) {
                 error={Boolean(touched.censusTarget && errors.censusTarget)}
                 helperText={touched.censusTarget && errors.censusTarget}
                 {...getFieldProps("censusTarget")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="total_area"
+                autoComplete="name"
+                label="Total Area (sq km)*"
+                placeholder="Total Area(sq km)*"
+                error={Boolean(touched.total_area && errors.total_area)}
+                helperText={touched.total_area && errors.total_area}
+                {...getFieldProps("total_area")}
               />
             </Grid>
             <Grid item xs={12}>
