@@ -36,7 +36,12 @@ export default function AssignNewZoneWardConfirmationDialog(props) {
         <DialogTitle id="alert-dialog-title">
           {""}
         </DialogTitle>
+        
         <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          Assigning new CZW to the Team will expired the current session of the user in Team and might lose the offline data. Please synch all the Offline data before proceeding.
+          </DialogContentText>
+          <br />
           <DialogContentText id="alert-dialog-description">
           Assigning new Council-Zone-Ward will Inactivate the previously assinged Council-Zone-Ward for this team. Are you sure you want to continue? 
           </DialogContentText>

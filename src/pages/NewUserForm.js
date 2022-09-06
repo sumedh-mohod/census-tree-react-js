@@ -38,6 +38,7 @@ import { GetActiveState, GetActiveDistricts, GetActiveTalukas, GetAllActiveDistr
 import { GetActiveDesignations } from '../actions/DesignationAction';
 import { ShowLoader } from '../actions/CommonAction';
 import { SetNewAlert } from '../actions/AlertActions';
+import WarningMessageDialog from '../components/DialogBox/WarningMessageDialog';
 
 export default function NewUserForm(props) {
 
@@ -114,7 +115,10 @@ export default function NewUserForm(props) {
     const [uploadClick, setUploadClick] = useState("");
     const [uploadClickError,setUploadClickError] = useState("") ;
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
+    const [topModalOpen, setTopModalOpen] = useState(false);
+    const [tempRole, setTempRole] = useState(null)
     const submitErrors = [];
+    const message = "Changing user role will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding."
     const {
       salaryDeductionType,
       userDocumentType,
@@ -458,25 +462,23 @@ export default function NewUserForm(props) {
     };
 
     const handleRoleChange = (event) => {
-      // console.log("EVENT VALUE",event.target.value);
-      // const {
-      //   target: { value },
-      // } = event;
-      // setRole(
-      //   // On autofill we get a stringified value.
-      //   typeof value === 'string' ? value.split(',') : value,
-      // );
-
-      // const roleValue = event.target.value;
-
-      if(event.target.value===9){
-        setShowCouncil(true);
+      
+      if(userId){
+        handleTopModalClose();
+        setTempRole(event.target.value)
       }
       else {
-        setShowCouncil(false);
+        if(event.target.value===9){
+          setShowCouncil(true);
+        }
+        else {
+          setShowCouncil(false);
+        }
+  
+        setRole(event.target.value);
       }
 
-      setRole(event.target.value);
+      
     };
 
     const handleReferredChange = (event) => {
@@ -1317,11 +1319,24 @@ const handleSubmitErrors = () =>{
   
     const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,resetForm } = formik;
   
+    const handleTopModalClose = () => {
+      setTopModalOpen(!topModalOpen)
+    }
   
-
-    // console.log("DEDUCTION LIST",deductionList);
-    // console.log("error123", formik.errors.email);
-    // console.log("Formiok errors", formik.errors);
+    const handleTopModalAnswer = (answer) => {
+      if(answer){
+        // dispatch(UnlinkDevice(reqObj))
+        if(tempRole===9){
+          setShowCouncil(true);
+        }
+        else {
+          setShowCouncil(false);
+        }
+  
+        setRole(tempRole);
+      }
+      setTopModalOpen(!topModalOpen)
+    }
   
   
     return (
@@ -1331,9 +1346,11 @@ const handleSubmitErrors = () =>{
       </div>
       :
       <div>
-        {/* <Button variant="outlined" onClick={handleClickOpen}>
-          Open max-width dialog
-        </Button> */}
+        <WarningMessageDialog 
+        isOpenConfirm={topModalOpen}
+        message={message}
+        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+        />
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           {editUser?"Edit User":"Create User"}

@@ -24,6 +24,7 @@ import { TextField } from '@mui/material';
 import AssignUserConfirmationDialog from './AssignUserConfirmationDialog';
 import { GetUsers, GetActiveUsers, GetUsersByRoleID } from '../../../actions/UserAction';
 import { AddUserToTeam } from '../../../actions/TeamsAction';
+import { GetActiveRole } from '../../../actions/RoleAction';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -63,24 +64,22 @@ export default function AssignUserDialog(props) {
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const[state, setState]=  React.useState('');
   const [role, setRole] = React.useState([]);
-  const [roleID, setRoleID] = React.useState('');
+  const [roleID, setRoleID] = React.useState(null);
   const [topModalOpen, setTopModalOpen] = React.useState(false);
   const [reqObj, setReqObj] = React.useState(null)
   const [id, setId] = React.useState(null)
 
 
   const {
-    users,
     activeUsers,
     assignUserToTeamLog,
     roles,
     userByRoleID
   } = useSelector((state) => ({
-    users: state.users,
     activeUsers:state.users.activeUsers,
-    userByRoleID: state.users.userByRoleID,
     assignUserToTeamLog:state.teams.assignUserToTeamLog,
     roles:state.roles.roles,
+    userByRoleID: state.users.userByRoleID,
   }));
   // userById:state.users.userById,
   // if(users){
@@ -96,7 +95,7 @@ export default function AssignUserDialog(props) {
 // console.log("/////...", roles)
   React.useEffect(()=>{
     // dispatch(GetUsers(1,1000));
-    dispatch(GetActiveUsers(1));
+    dispatch(GetActiveRole(1));
   },[])
 
   const firstRun = React.useRef(true);
@@ -313,7 +312,7 @@ export default function AssignUserDialog(props) {
            <MenuItem disabled value="">
             <em>User*</em>
           </MenuItem>
-          {userByRoleID?.map((option) => (
+          {roleID && userByRoleID?.map((option) => (
             <MenuItem
               key={option.id}
               value={option.id}
