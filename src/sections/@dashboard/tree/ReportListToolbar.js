@@ -91,7 +91,8 @@ export default function ReportListToolbar({
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const inputRef = useRef(null);
   // console.log('chetna......', imageData);
-
+  // let imgData ='';
+ 
   // const { dataValue}= props;
   const handleCouncilChange = (e) => {
     setCouncilId(e.target.value);
@@ -164,7 +165,7 @@ export default function ReportListToolbar({
     value1.push(value2);
     return null;
   });
-  // console.log('value1',value1)
+
   const TreeName = reports?.by_tree_names;
   const treeNameValue1 = [];
   TreeName?.map((option, index) => {
@@ -174,7 +175,7 @@ export default function ReportListToolbar({
     treeNameValue1.push(treeNameValue2);
     return null;
   });
-
+  console.log('value1', treeNameValue1);
   const treeType = reports?.by_tree_types;
   const treeType1 = [];
   treeType?.map((option, index) => {
@@ -211,21 +212,24 @@ export default function ReportListToolbar({
     // console.log('typeCanvas', typeCanvas);
     // console.log('conditionCanvas', conditionCanvas);
 
-   
-    const header = [['BY WARDS'],['BY TREE NAMES'],['BY TREE TYPES'],['BY TREE CONDITIONS']];
-    const headerBody = [['#', 'Wards', 'Counts'],['#', 'Tree Names', 'Counts'],['#', 'Tree Types', 'Counts'],['#', 'Tree Conditions', 'Counts']];
+    const header = [['BY WARDS'], ['BY TREE NAMES'], ['BY TREE TYPES'], ['BY TREE CONDITIONS']];
+    const headerBody = [
+      ['#', 'Wards', 'Counts'],
+      ['#', 'Tree Names', 'Counts'],
+      ['#', 'Tree Types', 'Counts'],
+      ['#', 'Tree Conditions', 'Counts'],
+    ];
     const canvas = [img, treeCanvas, typeCanvas, conditionCanvas];
     const body_ = [value1, treeNameValue1, treeType1, TreeCondition1];
-   
 
     function push() {
       const masterArray = [];
-      for (let i = 0; i < body_.length; i+=1) {
+      for (let i = 0; i < body_.length; i += 1) {
         const master = {
           header: header[i],
           headerBody: headerBody[i],
           canvas: canvas[i],
-          body_: body_[i]
+          body_: body_[i],
         };
         masterArray.push(master);
       }
@@ -236,39 +240,53 @@ export default function ReportListToolbar({
     // console.log('canvas', body_);
 
     const doc = new JsPDF();
+    doc.page = 1; // use this as a counter.
+
+    function footer() {
+      doc.text(150, 285, `page, ${doc.page}`); // print number bottom right
+      doc.page += 1;
+    }
+    const base64Img =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEXMzMyWlpaqqqq3t7exsbGcnJy+vr6jo6PFxcUFpPI/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAQUlEQVQ4jWNgGAWjgP6ASdncAEaiAhaGiACmFhCJLsMaIiDAEQEi0WXYEiMCOCJAJIY9KuYGTC0gknpuHwXDGwAA5fsIZw0iYWYAAAAASUVORK5CYII=';
+
+    doc.addImage(base64Img, 'JPEG', 10, 30, 40, 30);
     doc.text(councilName, 60, 150);
+
     // doc.({`${council?.name}`})
     // doc.text1("Council Name : ", 20, 10);
     const margin_ = { top: 0, bottom: 0 };
     const headStyles_ = { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontSize: 15 };
     doc.addPage();
     // doc.text("By Wards", 20, 10);
-   
-    for(let i=0;i<arr.length;i+=1){
-      
-      Html2canvas(canvas[i]).then((canvas) => {
-       
-        const imgData = canvas.toDataURL('image/png');
-        // console.log('asda', i, imgData);
+
+    console.log(arr);
+    /* eslint-disable no-await-in-loop */
+    for (let i = 0; i < arr.length; i += 1) {
+     
+      await Html2canvas(canvas[i]).then((res) => {
+        //  imgData = await canvas_.toDataURL('image/png');
+
+        console.log('asda', i, res);
         autoTable(doc, {
-          margin: { top: 10, bottom: 10 },
+          margin: { top: 170, bottom: 10 },
           headStyles: headStyles_,
           head: [header[i]],
         });
+
         autoTable(doc, {
-          margin: { bottom: 10 },
+          margin: { top: 10, bottom: 10 },
           head: [headerBody[i]],
           body: body_[i],
         });
+        doc.addImage(res.toDataURL('image/png'), 'JPEG', 10, 10, 180, 150);
+
+        console.log('image', i, doc.addImage(res.toDataURL('image/png'), 'JPEG', 10, 10, 180, 150));
         // doc.output('dataurlnewwindow');
-        
-        doc.addImage(imgData, 'JPEG', 10, 10, 180, 150);
+        // footer();
         doc.save(`${councilName}.pdf`);
       });
-      
-      }
-      
-      
+    }
+    /* eslint-enable no-await-in-loop */
   };
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
