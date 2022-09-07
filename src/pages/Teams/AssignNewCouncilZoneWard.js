@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -102,6 +102,7 @@ export default function AssignNewCouncilZoneWard() {
 
   // console.log("CWZ of team",cwzOfTeam)
   const { teamId,teamName } = useParams();
+  const {state} = useLocation();
   
   useEffect(()=>{
     dispatch(GetCZWByTeam(teamId,page,rowsPerPage));
@@ -207,6 +208,7 @@ export default function AssignNewCouncilZoneWard() {
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link component={RouterLink}
         to ={`/dashboard/teams`}
+        state={state}
           underline="hover"
           // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"

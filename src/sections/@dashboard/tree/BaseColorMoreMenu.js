@@ -83,7 +83,7 @@ export default function BaseColorMoreMenu(props) {
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem> */}
 {(permissions.includes("view-base-color-tree-history"))?
-        <MenuItem component={RouterLink} to={`/dashboard/base-color/history/${props.baseColorId}/${props.baseColorName}`} sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to={`/dashboard/base-color/history/${props.baseColorId}/${props.baseColorName}`} state={{councilId:props.councilId,zoneId:props.zoneId,wardId:props.wardId,pageNumber:props.pageNumber}} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:eye-fill" width={24} height={24} />
           </ListItemIcon>
