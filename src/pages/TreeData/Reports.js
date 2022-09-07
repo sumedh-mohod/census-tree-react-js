@@ -78,6 +78,9 @@ export default function Reports() {
   const [councilName, setCouncilName] = useState('');
   const userPermissions = [];
   const inputRef = useRef(null);
+  const inputReftree = useRef(null);
+  const inputRefType = useRef(null);
+  const inputRefConditon = useRef(null);
 
   const {
     council,
@@ -98,25 +101,31 @@ export default function Reports() {
   loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
   const secondRun = React.useRef(true);
-  const image = ()=>{
-    console.log('inputRef.current',inputRef.current)
-     html2canvas(inputRef.current).then((canvas) => {
+  // const image = ()=>{
+  //   console.log('inputRef.current',inputRef.current)
+  //    html2canvas(inputRef.current).then((canvas) => {
       
-      return canvas.toDataURL("image/png");
-    })
-  }
+  //     return canvas.toDataURL("image/png");
+  //   })
+  // }
 
   
   const wardImage = async()=> {
-    console.log('inputRef.current', inputRef.current)
-    await html2canvas(inputRef.current).then((canvas)=> {
-      return canvas;
-      // console.log('canvas', canvas);
-      // const imgData = canvas.toDataURL("image/png");
-      // const pdf = new JsPDF();
-      // pdf.addImage(imgData, "JPEG", 0, 0);
-      // pdf.save("download.pdf");
-    });
+    console.log('WardImage', inputRef.current)
+    return inputRef.current;
+  }
+  const treeImage = async()=> {
+    console.log('treeImage', inputReftree.current)
+    return inputReftree.current;
+  }
+
+  const typeImage = async()=> {
+    console.log('typeImage', inputRefType.current)
+    return inputRefType.current;
+  }
+  const conditionImage = async()=> {
+    console.log('conditionImage', inputRefConditon.current)
+    return inputRefConditon.current;
   }
 
   useEffect(() => {
@@ -312,6 +321,9 @@ export default function Reports() {
             handleCouncil={(e) => separateId(e)}
             handleCoucilChange={(e) => handleCoucilChange(e)}
             wardImage={wardImage}
+            typeImage={typeImage}
+            treeImage={treeImage}
+            conditionImage={conditionImage}
             // coucilId={coucilId}
             // fromDate={""}
             // toDate={""}
@@ -332,6 +344,21 @@ export default function Reports() {
                       </TabList>
                     </Box>
                     <TabPanel value="1">
+                      {!councilName ? (<></>):(<>
+                        <div ref={inputRef}>
+                          <ByTreeWardGraph data={reports?.by_wards ? reports?.by_wards : []} />
+                      </div>
+                      <div ref={inputReftree}>
+                          <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
+                          </div>
+                          <div ref={inputRefType}>
+                        <ByTreeTypeGraph data={reports?.by_tree_types ? reports?.by_tree_types : []} />
+                        </div>
+                        <div ref={inputRefConditon}>
+                        <ByTreeConditionGraph data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []} />
+                        </div>
+                      </>)}
+                   
                       {!councilName ? (
                         <div align="center" fontWeight={700}>
                           Please select council to get data
@@ -340,9 +367,7 @@ export default function Reports() {
                         <>
                           
                           <ByWardReports data={reports?.by_wards ? reports?.by_wards : []} />
-                          <div ref={inputRef}>
-                          <ByTreeWardGraph data={reports?.by_wards ? reports?.by_wards : []} />
-                          </div>
+                          
                          
                         </>
                       )}
@@ -355,7 +380,7 @@ export default function Reports() {
                       ) : (
                         <>
                           <ByTreeNameReports data={reports?.by_tree_names ? reports?.by_tree_names : []} />
-                          <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
+                          
                         </>
                       )}
                     </TabPanel>
@@ -367,7 +392,8 @@ export default function Reports() {
                       ) : (
                        <>
                         <ByTreeTypeReports data={reports?.by_tree_types ? reports?.by_tree_types : []} />
-                        <ByTreeTypeGraph data={reports?.by_tree_types ? reports?.by_tree_types : []} />
+                        
+                        
                        </>
                       )}
                     </TabPanel>
@@ -379,7 +405,8 @@ export default function Reports() {
                       ) : (
                        <>
                         <ByTreeConditionReports data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []} />
-                      <ByTreeConditionGraph data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []} />
+                       
+                     
                        </>
                       )}
                     </TabPanel>

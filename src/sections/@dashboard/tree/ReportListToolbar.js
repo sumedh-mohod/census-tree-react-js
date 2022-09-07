@@ -26,7 +26,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Html2canvas from "html2canvas";
+import Html2canvas from 'html2canvas';
 import JsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { GetReports } from '../../../actions/ReportsAction';
@@ -74,18 +74,29 @@ ReportListToolbar.propTypes = {
   wardId: PropTypes.any,
 };
 
-export default function ReportListToolbar({ numSelected, handleGetData, handleCouncil, councilId, wardImage }) {
+export default function ReportListToolbar({
+  numSelected,
+  handleGetData,
+  handleCouncil,
+  councilId,
+  wardImage,
+  typeImage,
+  treeImage,
+  conditionImage,
+}) {
   const dispatch = useDispatch();
   const [coucilId, setCouncilId] = useState('');
   const [councilName, setCouncilName] = useState('');
+  const [imageData, setImageData] = useState('');
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const inputRef = useRef(null);
+  // console.log('chetna......', imageData);
 
   // const { dataValue}= props;
   const handleCouncilChange = (e) => {
     setCouncilId(e.target.value);
     handleCouncil(e.target.value);
-    
+
     council.map((value, index) => {
       if (value.id === e.target.value) {
         setCouncilName(value.name);
@@ -93,7 +104,7 @@ export default function ReportListToolbar({ numSelected, handleGetData, handleCo
       return null;
     });
     // councilId(e.target.value)
-    // console.log("councilName",councilName)
+    // // console.log("councilName",councilName)
     // setZoneId("")
     // setWardId("")
     // dispatch(GetZonesByCouncilId(1,1000,e.target.value))
@@ -153,7 +164,7 @@ export default function ReportListToolbar({ numSelected, handleGetData, handleCo
     value1.push(value2);
     return null;
   });
-// console.log('value1',value1)
+  // console.log('value1',value1)
   const TreeName = reports?.by_tree_names;
   const treeNameValue1 = [];
   TreeName?.map((option, index) => {
@@ -189,9 +200,41 @@ export default function ReportListToolbar({ numSelected, handleGetData, handleCo
   // console.log("treeType", treeType)
   // console.log("council1234", councilName)
 
-  const exportPdf = async() => {
+  const exportPdf = async () => {
     const img = await wardImage();
-    console.log("wardImage", img)
+    const treeCanvas = await treeImage();
+    const typeCanvas = await typeImage();
+    const conditionCanvas = await conditionImage();
+
+    // console.log('wardImage', img);
+    // console.log('treeCanvas', treeCanvas);
+    // console.log('typeCanvas', typeCanvas);
+    // console.log('conditionCanvas', conditionCanvas);
+
+   
+    const header = [['BY WARDS'],['BY TREE NAMES'],['BY TREE TYPES'],['BY TREE CONDITIONS']];
+    const headerBody = [['#', 'Wards', 'Counts'],['#', 'Tree Names', 'Counts'],['#', 'Tree Types', 'Counts'],['#', 'Tree Conditions', 'Counts']];
+    const canvas = [img, treeCanvas, typeCanvas, conditionCanvas];
+    const body_ = [value1, treeNameValue1, treeType1, TreeCondition1];
+   
+
+    function push() {
+      const masterArray = [];
+      for (let i = 0; i < body_.length; i+=1) {
+        const master = {
+          header: header[i],
+          headerBody: headerBody[i],
+          canvas: canvas[i],
+          body_: body_[i]
+        };
+        masterArray.push(master);
+      }
+      return masterArray;
+    }
+    const arr = push();
+    // console.log('arr', arr);
+    // console.log('canvas', body_);
+
     const doc = new JsPDF();
     doc.text(councilName, 60, 150);
     // doc.({`${council?.name}`})
@@ -200,63 +243,32 @@ export default function ReportListToolbar({ numSelected, handleGetData, handleCo
     const headStyles_ = { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontSize: 15 };
     doc.addPage();
     // doc.text("By Wards", 20, 10);
-    autoTable(doc, {
-      margin: { top: 15, bottom: 0 },
-      headStyles: headStyles_,
-      head: [['BY WARDS']],
-    });
-
-    autoTable(doc, {
-      margin: { bottom: 10 },
-      head: [['#', 'Wards', 'Counts']],
-      body: value1,
-    });
-
-    autoTable(doc, {
-      margin: margin_,
-      headStyles: headStyles_,
-      head: [['BY TREE NAMES']],
-    });
-
-    // const chartEl = document.getElementById('barChart123');
-    
-
-    autoTable(doc, {
-      margin: { bottom: 10 },
-      head: [['#', 'Tree Names', 'Counts']],
-      body: treeNameValue1,
-    });
-
-    autoTable(doc, {
-      margin: margin_,
-      headStyles: headStyles_,
-      head: [['BY TREE TYPES']],
-    });
-    autoTable(doc, {
-      margin: { bottom: 10 },
-      head: [['#', 'Tree Types', 'Counts']],
-      body: treeType1,
-    });
-
-    autoTable(doc, {
-      margin: margin_,
-      headStyles: headStyles_,
-      head: [['BY TREE CONDITIONS']],
-    });
-    autoTable(doc, {
-      margin: { bottom: 10 },
-      head: [['#', 'Tree Conditions', 'Counts']],
-      body: TreeCondition1,
-    });
-    doc.output('dataurlnewwindow');
-    // Html2canvas(inputRef.current).then((canvas) => {
-    //   const imgData = canvas.toDataURL("image/png");
-    //   doc.addImage(imgData, "JPEG", 0, 0);
-    //   // doc.output('dataurlnewwindow');
-    //   doc.save(`${councilName}.pdf`)
-    // });
-    
-  
+   
+    for(let i=0;i<arr.length;i+=1){
+      
+      Html2canvas(canvas[i]).then((canvas) => {
+       
+        const imgData = canvas.toDataURL('image/png');
+        // console.log('asda', i, imgData);
+        autoTable(doc, {
+          margin: { top: 10, bottom: 10 },
+          headStyles: headStyles_,
+          head: [header[i]],
+        });
+        autoTable(doc, {
+          margin: { bottom: 10 },
+          head: [headerBody[i]],
+          body: body_[i],
+        });
+        // doc.output('dataurlnewwindow');
+        
+        doc.addImage(imgData, 'JPEG', 10, 10, 180, 150);
+        doc.save(`${councilName}.pdf`);
+      });
+      
+      }
+      
+      
   };
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -374,7 +386,6 @@ export default function ReportListToolbar({ numSelected, handleGetData, handleCo
         </Grid>
 
         <Grid container justifyContent="flex-end">
-        
           {/* {(callType === "BaseColor")?(
          <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
          ):null} */}
@@ -383,14 +394,12 @@ export default function ReportListToolbar({ numSelected, handleGetData, handleCo
             </Grid> */}
         </Grid>
         <Grid container>
-        {/* <div ref={inputRef}>
+          {/* <div ref={inputRef}>
 
         <Barchart  id="barChart123" />
         </div> */}
         </Grid>
       </RootStyle>
-      
-      
     </>
   );
 }
