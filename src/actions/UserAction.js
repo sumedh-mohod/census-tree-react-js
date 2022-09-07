@@ -30,8 +30,17 @@ const GetUsers = (page,limit) => async (dispatch) => {
   };
 
   const GetUsersByRoleID = (status, roleid1, roleid2) => async (dispatch) => {
+    let url = `/api/users?status=${status}`;
+
+    if(roleid1){
+      url = `${url}&role_id[]=${roleid1}`;
+    }
+    if(roleid2){
+      url = `${url}&role_id[]=${roleid2}`;
+    }
+
     try {
-      const response = await JWTServer.get(`/api/users?status=${status}&role_id[]=${roleid1}&role_id[]=${roleid2}`);
+      const response = await JWTServer.get(`${url}`);
       // console.log("users by roles",response.data);
       dispatch({
         type: GET_USERS_BY_ROLEID,
