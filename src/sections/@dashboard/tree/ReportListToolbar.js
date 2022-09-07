@@ -92,7 +92,7 @@ export default function ReportListToolbar({
   const inputRef = useRef(null);
   // console.log('chetna......', imageData);
   // let imgData ='';
- 
+
   // const { dataValue}= props;
   const handleCouncilChange = (e) => {
     setCouncilId(e.target.value);
@@ -213,6 +213,9 @@ export default function ReportListToolbar({
     // console.log('conditionCanvas', conditionCanvas);
 
     const header = [['BY WARDS'], ['BY TREE NAMES'], ['BY TREE TYPES'], ['BY TREE CONDITIONS']];
+    const titleHeader = [
+      ['Sr. No', 'Table Content', '#']
+    ];
     const headerBody = [
       ['#', 'Wards', 'Counts'],
       ['#', 'Tree Names', 'Counts'],
@@ -221,6 +224,7 @@ export default function ReportListToolbar({
     ];
     const canvas = [img, treeCanvas, typeCanvas, conditionCanvas];
     const body_ = [value1, treeNameValue1, treeType1, TreeCondition1];
+    const titleBody = [[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2],[1,'Lorem', 2]];
 
     function push() {
       const masterArray = [];
@@ -246,24 +250,58 @@ export default function ReportListToolbar({
       doc.text(150, 285, `page, ${doc.page}`); // print number bottom right
       doc.page += 1;
     }
+    
     const base64Img =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEXMzMyWlpaqqqq3t7exsbGcnJy+vr6jo6PFxcUFpPI/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAQUlEQVQ4jWNgGAWjgP6ASdncAEaiAhaGiACmFhCJLsMaIiDAEQEi0WXYEiMCOCJAJIY9KuYGTC0gknpuHwXDGwAA5fsIZw0iYWYAAAAASUVORK5CYII=';
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEXMzMyWlpaqqqq3t7exsbGcnJy+vr6jo6PFxcUFpPI/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAQUlEQVQ4jWNgGAWjgP6ASdncAEaiAhaGiACmFhCJLsMaIiDAEQEi0WXYEiMCOCJAJIY9KuYGTC0gknpuHwXDGwAA5fsIZw0iYWYAAAAASUVORK5CYII=';
 
-    doc.addImage(base64Img, 'JPEG', 10, 30, 40, 30);
-    doc.text(councilName, 60, 150);
+   
+    doc.text(councilName, 60, 20);
+    doc.addImage(base64Img, 'JPEG', 80, 30, 40, 30);
+    doc.text('(2022-2023)', 85, 70);
+    doc.addImage(base64Img, 'JPEG', 80, 90, 40, 30);
+    doc.text('MAZI VASUNDHARA AHIYAN', 60, 130);
+    doc.text('(2022-2023)', 85, 140);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 30);
+    doc.text(councilName, 65, 120);
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 30);
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 30);
+    doc.text('TREE SENSUS REPORT (2022-2023)', 55, 150);
+    // // text paragraph start
+    // const lMargin = 30;
+    // const rMargin = 30;
+    // const pdfInMM = 210;
+    // const paragraph =
+    //   ' Pellentesque sit amet dolor vel felis tempus feugiat eu id arcu. Nam efficitur, arcu sit amet aliquam condimentum, nisi enim pharetra metus, sed convallis dui sem ac sapien. Aenean sed aliquam quam. Proin tristique nisi ac rutrum commodo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce elementum ex quis ipsum ultrices, nec commodo sem vulputate.In scelerisque volutpat purus. Duis a orci sit amet nulla porta feugiat eu ac nulla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc quis quam erat. Proin sed eleifend nulla, id lacinia risus. Suspendisse eleifend luctus lectus vitae aliquam. In consectetur enim quam, vel congue nulla ornare sit amet. Fusce nec iaculis sem. Donec semper mi dui, vitae bibendum massa volutpat sed.';
+    //  
+    //   const lines = doc.splitTextToSize(paragraph, pdfInMM - lMargin - rMargin);
+    // doc.text(lMargin, 20, lines);
+    // // text paragraph end
 
     // doc.({`${council?.name}`})
     // doc.text1("Council Name : ", 20, 10);
     const margin_ = { top: 0, bottom: 0 };
     const headStyles_ = { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontSize: 15 };
     doc.addPage();
+    autoTable(doc, {
+      margin: { top: 10, bottom: 10 },
+      headStyles: headStyles_,
+      head: [['TABLE CONTENT']],
+    });
+    autoTable(doc, {
+      margin: { top: 10, bottom: 10 },
+      head: titleHeader,
+      body: titleBody,
+    });
+
+    doc.addPage();
     // doc.text("By Wards", 20, 10);
 
     console.log(arr);
     /* eslint-disable no-await-in-loop */
     for (let i = 0; i < arr.length; i += 1) {
-     
-      await Html2canvas(canvas[i]).then((res) => {
+      const res = await Html2canvas(canvas[i])
+      // .then((res) => {
         //  imgData = await canvas_.toDataURL('image/png');
 
         console.log('asda', i, res);
@@ -283,9 +321,10 @@ export default function ReportListToolbar({
         console.log('image', i, doc.addImage(res.toDataURL('image/png'), 'JPEG', 10, 10, 180, 150));
         // doc.output('dataurlnewwindow');
         // footer();
-        doc.save(`${councilName}.pdf`);
-      });
+      
+      // });
     }
+    doc.save(`${councilName}.pdf`);
     /* eslint-enable no-await-in-loop */
   };
 
