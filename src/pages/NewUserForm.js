@@ -897,29 +897,32 @@ const validateRole = () => {
 
 const handleSubmitErrors = () =>{
   // console.log("in submit errors");
-  // console.log("Formiok submit errors", formik.errors);
+ //  console.log("Formiok submit errors", formik.errors);
   const keys = Object.keys(formik.errors)
   // const roleElement = document.getElementById("role-label");
   // console.log("roleelement", roleElement);
   // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
-  // console.log("keys", keys);
+//  console.log("keys", keys);
       // Whenever there are errors and the form is submitting but finished validating.
       if (keys.length > 0 ) {
+        // console.log("in keyssssssss")
           // We grab the first input element that error by its name.
           const errorElement = document.querySelector(
               `input[name="${keys[0]}"]`
           )
-            // console.log(errorElement);
+           //  console.log(errorElement);
           if (errorElement) {
               // When there is an input, scroll this input into view.
               errorElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
           }
       }
-      else{
+      else if(!role){
+        
         const roleElement = document.getElementById("role-label");
   // console.log("roleelement", roleElement);
   roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" });
-      }
+        }
+      
 }
 
     const validateDropDown = () => {
@@ -1445,6 +1448,7 @@ const handleSubmitErrors = () =>{
                   id="lastName"
                   autoComplete="lastName"
                   label="Last Name*"
+                  name='lastName'
                   placeholder="Last Name*"
                   value={values.lastName}
                   onChange={(e)=>{handleLastName(e);
@@ -1478,6 +1482,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput 
                 fullWidth 
                 id="email" 
+                name="email"
                 label="Email*" 
                 autoComplete="email" 
                 placeholder="Email*" 
@@ -1495,6 +1500,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="addressLine1"
+                  name="addressLine1"
                   autoComplete="addressLine1"
                   placeholder="Address Line 1*"
                   label="Address Line 1*"
@@ -1612,7 +1618,7 @@ const handleSubmitErrors = () =>{
                 <TextField
                 select
                 id="taluka"
-                // name='District'
+                name='taluka'
                 displayEmpty
                 label="Taluka"
                 style={{width:'93.8%', marginLeft: 45,marginTop:5}}
@@ -1639,7 +1645,7 @@ const handleSubmitErrors = () =>{
                 <TextField
                   select
                   id="council"
-                  // name='District'
+                  name='council'
                   label="Council*"
                   displayEmpty
                   defaultValue={data? data.district : ""}
@@ -1681,6 +1687,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="aadhaarNumber"
+                  name="aadhaarNumber"
                   autoComplete="aadhar"
                   label="Aadhaar Number*"
                   placeholder="Aadhaar Number*"
@@ -1699,6 +1706,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="education"
+                  name="education"
                   autoComplete="education"
                   placeholder="Education*"
                   label="Education*"
@@ -1767,6 +1775,7 @@ const handleSubmitErrors = () =>{
           <DefaultInput
                   fullWidth
                   id="caste"
+                  name="caste"
                   autoComplete="caste"
                   label="Caste*"
                   placeholder="Caste*"
@@ -1834,6 +1843,7 @@ const handleSubmitErrors = () =>{
               <DefaultInput
                   fullWidth
                   id="emergencyContactName"
+                  name="emergencyContactName"
                   autoComplete="emergencycontactName"
                   label={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
                   placeholder={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
@@ -1852,6 +1862,7 @@ const handleSubmitErrors = () =>{
               <DefaultInput
                   fullWidth
                   id="emergencyContactNumber"
+                  name="emergencyContactNumber"
                   autoComplete="emergencycontactMoNum"
                   label={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
                   placeholder={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
@@ -1872,7 +1883,8 @@ const handleSubmitErrors = () =>{
           <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <TextField
-      id="date"
+      id="dateOfJoining"
+      name="dateOfJoining"
       type="date"
       label="Date Of Joining*"
       placeholder='Date Of Joining*'
@@ -1917,6 +1929,7 @@ const handleSubmitErrors = () =>{
                  <DefaultInput
                   fullWidth
                   id="salaryPerMonth"
+                  name="salaryPerMonth"
                   autoComplete="salaryPerMonth"
                   label="Commited Salary per Month*"
                   placeholder="Commited Salary per Month*"
@@ -2022,7 +2035,8 @@ const handleSubmitErrors = () =>{
                   </MenuItem>
                 ))}
               </TextField>
-              </Grid></>) : null }
+              </Grid>
+              </>) : null }
                 </Grid>
                 </>
                 ):null}
@@ -2031,6 +2045,7 @@ const handleSubmitErrors = () =>{
                  <DefaultInput
                   fullWidth
                   id="note"
+                  name="note"
                   autoComplete="note"
                   label="Note"
                   placeholder="Note"
@@ -2048,6 +2063,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="bankName"
+                  name="bankName"
                   autoComplete="bankName"
                   label="Bank Name*"
                   value={values.bankName}
@@ -2064,6 +2080,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="accountNumber"
+                  name="accountNumber"
                   type='number'
                   autoComplete="account"
                   label="Account Number*"
@@ -2127,6 +2144,7 @@ const handleSubmitErrors = () =>{
               <DefaultInput
                   fullWidth
                   id="userName"
+                  name="userName"
                   autoComplete="userName"
                   label="Username*"
                   placeholder="Username*"
@@ -2141,6 +2159,7 @@ const handleSubmitErrors = () =>{
               <TextField
                   fullWidth
                   id="password"
+                  name="password"
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="password"
                   label="Password"
