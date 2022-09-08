@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import {  useEffect, useRef, useState } from 'react';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -98,6 +98,7 @@ export default function AssignUser() {
 
   // console.log("USER of team",userOfTeam)
   const { teamId, teamName } = useParams();
+  const {state} = useLocation();
   
   useEffect(()=>{
     dispatch(GetUserByTeam(teamId,page,rowsPerPage));
@@ -186,6 +187,8 @@ export default function AssignUser() {
 
   // console.log("USERS OF TEAM",userOfTeam);
 
+  
+
   return (
     <Page title="User">
     <Container>
@@ -207,6 +210,7 @@ export default function AssignUser() {
         <Link 
         component={RouterLink}
         to={`/dashboard/teams`}
+        state={state}
           underline="hover"
           // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"

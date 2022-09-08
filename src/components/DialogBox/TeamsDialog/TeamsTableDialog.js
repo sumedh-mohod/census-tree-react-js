@@ -212,7 +212,7 @@ export default function TeamsTableDialog(props) {
                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{teamNameError}</Typography>
               <DefaultInput
                 fullWidth
-                id="teamCode"
+                id="code"
                 autoComplete="teamCode"
                 label="Team Code*"
                 placeholder="Team Code*"
