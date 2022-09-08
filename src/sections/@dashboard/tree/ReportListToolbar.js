@@ -283,13 +283,14 @@ export default function ReportListToolbar({
     const margin_ = { top: 0, bottom: 0 };
     const headStyles_ = { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontSize: 15 };
     doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
     autoTable(doc, {
-      margin: { top: 10, bottom: 10 },
+      margin: { top: 20, bottom: 10 },
       headStyles: headStyles_,
       head: [['TABLE CONTENT']],
     });
     autoTable(doc, {
-      margin: { top: 10, bottom: 10 },
+      margin: { top: 0, bottom: 10 },
       head: titleHeader,
       body: titleBody,
     });
@@ -303,16 +304,16 @@ export default function ReportListToolbar({
       const res = await Html2canvas(canvas[i])
       // .then((res) => {
         //  imgData = await canvas_.toDataURL('image/png');
-
+        doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
         console.log('asda', i, res);
         autoTable(doc, {
-          margin: { top: i === 0 ? 10 : 170, bottom: 10 },
+          margin: { top: i === 0 ? 20 : 170, bottom: 10 },
           headStyles: headStyles_,
           head: [header[i]],
         });
 
         autoTable(doc, {
-          margin: { top: 10, bottom: 10 },
+          margin: { top: 0, bottom: 10 },
           head: [headerBody[i]],
           body: body_[i],
         });
