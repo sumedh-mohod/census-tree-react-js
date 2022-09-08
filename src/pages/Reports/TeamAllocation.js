@@ -45,6 +45,9 @@ const TABLE_HEAD = [
   { id: 'User', label: 'User', alignRight: false },
   { id: 'Role', label: 'Role', alignRight: false },
   { id: 'Team', label: 'Team', alignRight: false },
+  { id: 'Council', label: 'Council', alignRight: false },
+  { id: 'Zone', label: 'Zone', alignRight: false },
+  { id: 'Ward', label: 'Ward', alignRight: false },
   { id: 'allocated', label: 'Allocated', alignRight: false },
   { id: 'deallocated', label: 'Deallocated', alignRight: false },
   { id: 'currentStatus', label: 'Current Status', alignRight: false },
@@ -178,6 +181,9 @@ const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Curren
                         <TableCell align="left">{option.user}</TableCell>
                         <TableCell align="left">{option.role}</TableCell>
                         <TableCell align="left">{option.team}</TableCell>
+                        <TableCell align="left">{option.council}</TableCell>
+                        <TableCell align="left">{option.zone}</TableCell>
+                        <TableCell align="left">{option.ward}</TableCell>
                         <TableCell align="left">{option.assigned_at}</TableCell>
                         <TableCell align="left">{option.deallocated_at}</TableCell>
                         <TableCell align="left">{option.current_status}</TableCell>
