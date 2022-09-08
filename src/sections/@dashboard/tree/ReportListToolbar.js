@@ -224,7 +224,7 @@ export default function ReportListToolbar({
     ];
     const canvas = [img, treeCanvas, typeCanvas, conditionCanvas];
     const body_ = [value1, treeNameValue1, treeType1, TreeCondition1];
-    const titleBody = [[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2],[1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2], [1,'Lorem', 2],[1,'Lorem', 2],[1,'Lorem', 2]];
+    const titleBody = [[1,'Content 1', 2], [2,'Content 2', 2], [3,'Content 3', 2], [4,'Content 4', 2],[5,'Content 5', 2], [6,'Content 6', 2], [7,'Content 7', 2], [8,'Content 8', 2],[9,'Content 9', 2], [10,'Content 10', 2], [1,'Content 1', 2], [2,'Content 2', 2], [3,'Content 3', 2], [4,'Content 4', 2],[5,'Content 5', 2], [6,'Content 6', 2], [7,'Content 7', 2], [8,'Content 8', 2],[9,'Content 9', 2], [10,'Content 10']];
 
     function push() {
       const masterArray = [];
@@ -256,17 +256,17 @@ export default function ReportListToolbar({
 
    
     doc.text(councilName, 60, 20);
-    doc.addImage(base64Img, 'JPEG', 80, 30, 40, 30);
-    doc.text('(2022-2023)', 85, 70);
-    doc.addImage(base64Img, 'JPEG', 80, 90, 40, 30);
-    doc.text('MAZI VASUNDHARA AHIYAN', 60, 130);
-    doc.text('(2022-2023)', 85, 140);
+    doc.addImage(base64Img, 'JPEG', 75, 30, 50, 50);
+    doc.text('(2022-2023)', 85, 87);
+    doc.addImage(base64Img, 'JPEG', 75, 90, 50, 50);
+    doc.text('MAZI VASUNDHARA AHIYAN', 60, 160);
+    doc.text('(2022-2023)', 85, 170);
     doc.addPage();
-    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 30);
-    doc.text(councilName, 65, 120);
-    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 30);
-    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 30);
-    doc.text('TREE SENSUS REPORT (2022-2023)', 55, 150);
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 20);
+    doc.text(councilName, 65, 30);
+    doc.addImage(base64Img, 'JPEG', 55, 40, 100, 100);
+    doc.addImage(base64Img, 'JPEG', 55, 150, 100, 100);
+    doc.text('TREE CENSUS REPORT (2022-2023)', 55, 270);
     // // text paragraph start
     // const lMargin = 30;
     // const rMargin = 30;
@@ -306,7 +306,7 @@ export default function ReportListToolbar({
 
         console.log('asda', i, res);
         autoTable(doc, {
-          margin: { top: 170, bottom: 10 },
+          margin: { top: i === 0 ? 10 : 170, bottom: 10 },
           headStyles: headStyles_,
           head: [header[i]],
         });
@@ -316,8 +316,9 @@ export default function ReportListToolbar({
           head: [headerBody[i]],
           body: body_[i],
         });
+        doc.addPage();
         doc.addImage(res.toDataURL('image/png'), 'JPEG', 10, 10, 180, 150);
-
+        
         console.log('image', i, doc.addImage(res.toDataURL('image/png'), 'JPEG', 10, 10, 180, 150));
         // doc.output('dataurlnewwindow');
         // footer();

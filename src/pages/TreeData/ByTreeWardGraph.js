@@ -88,8 +88,9 @@ const ByTreeWardGraph=(props)=> {
     }
     console.log(x)
     console.log(y)
+    const customLabel = y.map((val,index)=> `${x[index]}, Count: ${val}`);
   const data = {
-    labels: x,
+    labels: customLabel,
     datasets: [
       {
         label: 'Wards',
@@ -101,6 +102,9 @@ const ByTreeWardGraph=(props)=> {
           'rgba(75, 192, 192, 0.2)',
           'rgba(153, 102, 255, 0.2)',
           'rgba(255, 159, 64, 0.2)',
+          'rgba(139, 255, 107, 0.2)',
+          'rgba(242, 50, 252,0.2)',
+          'rgba(0, 249, 216,0.2)'
           
         ],
         borderColor: [
@@ -110,6 +114,9 @@ const ByTreeWardGraph=(props)=> {
           'rgba(75, 192, 192, 1)',
           'rgba(153, 102, 255, 1)',
           'rgba(255, 159, 64, 1)',
+          'rgba(139, 255, 107, 1)',
+          'rgba(242, 50, 252,1)',
+          'rgba(0, 249, 216,1)'
         ],
         borderWidth: 1,
       },
