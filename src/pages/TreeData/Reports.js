@@ -304,7 +304,7 @@ export default function Reports() {
     Reports
         </Link> */}
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-                Tree Data
+                Census
               </Typography>
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
                 Reports
