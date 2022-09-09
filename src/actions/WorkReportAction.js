@@ -3,7 +3,7 @@ import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { GET_WORK_REPORTS, GET_ALL_WORK_REPORTS, GET_WORK_TYPES_WORK_REPORTS } from "./Types";
 
-const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,limit,) => async (dispatch) => {
+const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,limit) => async (dispatch) => {
 
     let url = `/api/reports/work-reports?`
     if(reportType){
@@ -19,17 +19,17 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
       url = `${url}&status=${status}`;
     }
     if(formDate){
-      url = `${url}&from_date=${formDate}`;
+      url = `${url}&from_date=${formDate.split('-').reverse().join('-')}`;
     }
     if(toDate){
-      url = `${url}&to_date=${toDate}`
+      url = `${url}&to_date=${toDate.split('-').reverse().join('-')}`
     }
 
     // console.log("council123",reportType)
    
     try {
       const response = await JWTServer.get(`${url}&page=${page}&limit=${limit}`);
-      // console.log("payload.data", response.data)
+      console.log("payload.data", response.data)
       dispatch({
      
         type: GET_WORK_REPORTS,
@@ -48,27 +48,27 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
     if(reportType){
       url = `${url}report_type=${reportType}`;
     }
-    if(userId){
-      url = `${url}&user_id=${userId}`;
-    }
-    if(teamId){
-      url = `${url}&team_id=${teamId}`;
-    }
-    if(status){
-      url = `${url}&status=${status}`;
-    }
+    // if(userId){
+    //   url = `${url}&user_id=${userId}`;
+    // }
+    // if(teamId){
+    //   url = `${url}&team_id=${teamId}`;
+    // }
+    // if(status){
+    //   url = `${url}&status=${status}`;
+    // }
     if(formDate){
-      url = `${url}&from_date=${formDate}`;
+      url = `${url}&from_date=${formDate.split('-').reverse().join('-')}`;
     }
     if(toDate){
-      url = `${url}&to_date=${toDate}`
+      url = `${url}&to_date=${toDate.split('-').reverse().join('-')}`
     }
 
     // console.log("council123",reportType)
    
     try {
       const response = await JWTServer.get(`${url}&page=${page}&limit=${limit}`);
-      // console.log("RESPONSE ____",response.data)
+      console.log("RESPONSE ____",response.data)
       dispatch({
      
         type: GET_WORK_TYPES_WORK_REPORTS,

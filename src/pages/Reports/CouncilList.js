@@ -91,12 +91,13 @@ export default function CouncilList(props) {
   },[excelWorkReports])
  
   const handleChangePage = (event, newPage) => {
+    console.log('reportType, fromDate,toDate, newPage,rowsPerPage',reportType, fromDate,toDate, newPage,rowsPerPage);
     setPage(newPage);
     // if(search){
     //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
     // }
     // else {
-      dispatch(GetWorkReports(reportType, fromDate,toDate, newPage,rowsPerPage));
+      dispatch(GetWorkReports(reportType,undefined,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
     }
   // }
 

@@ -86,10 +86,10 @@ export default function WorkingReports(props) {
       value: 'by_councils',
       label: 'By Councils',
     },
-    // {
-    //   value: 'by_users',
-    //   label: 'By Users',
-    // },
+    {
+      value: 'by_users',
+      label: 'By Users',
+    },
     {
       value: 'team_czw_allocation',
       label: 'Team CZW',
@@ -174,20 +174,20 @@ export default function WorkingReports(props) {
     validationSchema: FilterSchema,
     onSubmit: (value) => {
       // console.log('in submit');
-      // console.log('VALUE', value);
+      console.log('VALUE', value);
       // console.log(',,,,,',value.user_id,'value.status',value.status,'value.team_id',value.team_id)
       const userId = value.user_id;
       const status = value.status;
       const teamId = value.team_id;
       // setState({ ...state, "right": false });
-      const convertedFromDate = value.fromDateForm.split('-').reverse().join('-');
-      const convertedToDate = value.toDateForm.split('-').reverse().join('-');
+      // const convertedFromDate = value.fromDateForm.split('-').reverse().join('-');
+      // const convertedToDate = value.toDateForm.split('-').reverse().join('-');
       if (value.reportType === 'by_work_types') {
         dispatch(
-          GetWorkTypeWorkReports(value.reportType, userId, teamId, status, convertedFromDate, convertedToDate, 1, 10)
+          GetWorkTypeWorkReports(value.reportType, userId, teamId, status, value.fromDateForm, value.toDateForm, 1, 10)
         );
       } else {
-        dispatch(GetWorkReports(value.reportType, userId, teamId, status, convertedFromDate, convertedToDate, 1, 10));
+        dispatch(GetWorkReports(value.reportType, userId, teamId, status, value.fromDateForm, value.toDateForm, 1, 10));
       }
 
       // setFromDate(convertedFromDate);
@@ -516,10 +516,10 @@ export default function WorkingReports(props) {
               {/* <Button variant="contained" style={{marginLeft: 50, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}  onClick={handleSubmit}>Get Data</Button> */}
             </div>
           </Drawer>
-          {/* {showWorkType && showCouncil  && showUser && */}
+          {showWorkType && showCouncil  && showUser && 
 
-          {/* <UserTypeList/> */}
-          {/* } */}
+          <UserTypeList/> 
+          } 
           {showTable && <CouncilList reportType={reportType} fromDate={fromDate} toDate={toDate} />}
 
           {teamCzw && <Teamczw reportType={reportType} fromDate={fromDate} toDate={toDate} />}
