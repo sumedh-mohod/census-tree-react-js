@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -16,6 +16,7 @@ import {
   Pagination,
   Link,
   IconButton,
+  Grid,
 } from '@mui/material';
 
 import TabPanel from '@mui/lab/TabPanel';
@@ -26,11 +27,18 @@ import Tabs from '@mui/material/Tabs';
 import TabContext from '@mui/lab/TabContext';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material/styles';
+// import ReportListToolbar from './../../sections/@dashboard/tree/ReportListToolbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { Visibility } from '@mui/icons-material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import html2canvas from 'html2canvas';
+import { jsPDF as JsPDF } from 'jspdf';
+import ByTreeWardGraph from './ByTreeWardGraph';
+import ByTreeNameGraph from './ByTreeNameGraph';
+import ByTreeTypeGraph from './ByTreeTypeGraph';
+import ByTreeConditionGraph from './ByTreeConditionGraph';
+
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { GetReports } from '../../actions/ReportsAction';
@@ -70,6 +78,10 @@ export default function Reports() {
   const [value, setValue] = useState('1');
   const [councilName, setCouncilName] = useState('');
   const userPermissions = [];
+  const inputRef = useRef(null);
+  const inputReftree = useRef(null);
+  const inputRefType = useRef(null);
+  const inputRefConditon = useRef(null);
 
   const {
     council,
@@ -90,6 +102,32 @@ export default function Reports() {
   loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
   const secondRun = React.useRef(true);
+  // const image = ()=>{
+  //   console.log('inputRef.current',inputRef.current)
+  //    html2canvas(inputRef.current).then((canvas) => {
+
+  //     return canvas.toDataURL("image/png");
+  //   })
+  // }
+
+  const wardImage = async () => {
+    console.log('WardImage', inputRef.current);
+    return inputRef.current;
+  };
+  const treeImage = async () => {
+    console.log('treeImage', inputReftree.current);
+    return inputReftree.current;
+  };
+
+  const typeImage = async () => {
+    console.log('typeImage', inputRefType.current);
+    return inputRefType.current;
+  };
+  const conditionImage = async () => {
+    console.log('conditionImage', inputRefConditon.current);
+    return inputRefConditon.current;
+  };
+
   useEffect(() => {
     if (secondRun.current) {
       secondRun.current = false;
@@ -99,10 +137,6 @@ export default function Reports() {
   }, []);
   // console.log("reports", reports)
   // console.log("council", council)
-
-  // const handleNameCouncil = () => {
-
-  // }
 
   const separateId = (id) => {
     council.map((value, index) => {
@@ -204,7 +238,7 @@ export default function Reports() {
   // console.log("Council123", council?.id)
   const exportPdf = () => {
     // eslint-disable-next-line new-cap
-    const doc = new jsPDF();
+    const doc = new JsPDF();
     doc.text('Kalmeshwar Muncipal Council', 20, 10);
     // doc.({`${council?.name}`})
     // doc.text1("Council Name : ", 20, 10);
@@ -269,19 +303,23 @@ export default function Reports() {
         >
     Reports
         </Link> */}
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-            Tree Data
-          </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-        Census Reports
-          </Typography>
-      </Breadcrumbs>
-    </div>
+              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+                Census
+              </Typography>
+              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+                Reports
+              </Typography>
+            </Breadcrumbs>
+          </div>
         </Stack>
         <Card>
           <ReportListToolbar
             handleCouncil={(e) => separateId(e)}
             handleCoucilChange={(e) => handleCoucilChange(e)}
+            wardImage={wardImage}
+            typeImage={typeImage}
+            treeImage={treeImage}
+            conditionImage={conditionImage}
             // coucilId={coucilId}
             // fromDate={""}
             // toDate={""}
@@ -307,7 +345,9 @@ export default function Reports() {
                           Please select council to get data
                         </div>
                       ) : (
-                        <ByWardReports data={reports?.by_wards ? reports?.by_wards : []} />
+                        <>
+                          <ByWardReports data={reports?.by_wards ? reports?.by_wards : []} />
+                        </>
                       )}
                     </TabPanel>
                     <TabPanel value="2">
@@ -316,7 +356,9 @@ export default function Reports() {
                           Please select council to get data
                         </div>
                       ) : (
-                        <ByTreeNameReports data={reports?.by_tree_names ? reports?.by_tree_names : []} />
+                        <>
+                          <ByTreeNameReports data={reports?.by_tree_names ? reports?.by_tree_names : []} />
+                        </>
                       )}
                     </TabPanel>
                     <TabPanel value="3">
@@ -325,7 +367,9 @@ export default function Reports() {
                           Please select council to get data
                         </div>
                       ) : (
-                        <ByTreeTypeReports data={reports?.by_tree_types ? reports?.by_tree_types : []} />
+                        <>
+                          <ByTreeTypeReports data={reports?.by_tree_types ? reports?.by_tree_types : []} />
+                        </>
                       )}
                     </TabPanel>
                     <TabPanel value="4">
@@ -334,9 +378,40 @@ export default function Reports() {
                           Please select council to get data
                         </div>
                       ) : (
-                        <ByTreeConditionReports data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []} />
+                        <>
+                          <ByTreeConditionReports
+                            data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []}
+                          />
+                        </>
                       )}
                     </TabPanel>
+                    {!councilName ? (
+                      <></>
+                    ) : (
+                      <>
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} />
+
+                          <Grid item xs={6}>
+                            <div ref={inputRef}>
+                              <ByTreeWardGraph data={reports?.by_wards ? reports?.by_wards : []} />
+                            </div>
+                          </Grid>
+                          <Grid item xs={3} />
+                        </Grid>
+
+                        <div ref={inputReftree}>
+                          <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
+                        </div>
+                        <div ref={inputRefType}>
+                          <ByTreeTypeGraph data={reports?.by_tree_types ? reports?.by_tree_types : []} />
+                        </div>
+
+                        <div ref={inputRefConditon}>
+                          <ByTreeConditionGraph data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []} />
+                        </div>
+                      </>
+                    )}
                   </TabContext>
                 </Box>
               </Table>
