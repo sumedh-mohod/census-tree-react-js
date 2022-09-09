@@ -98,6 +98,7 @@ export default function ReportListToolbar({
   // const { dataValue}= props;
   const handleCouncilChange = (e) => {
     // consolelog('e.....',e.target.name);
+    console.log("HANDLE COUNCIL")
     setCouncilId(e.target.value);
     handleCouncil(e.target.value);
 
@@ -137,6 +138,7 @@ export default function ReportListToolbar({
   // console.log("Council123", council.name)
 
   const councilArr = council.find((val) => val.id === coucilId);
+  console.log("COUNCIL ARRAY",councilArr);
 
   // console.log( 'project_start_date',typeof councilArr?.project_start_date,'endDate..',typeof councilArr?.project_end_date);
 
@@ -149,16 +151,20 @@ export default function ReportListToolbar({
     });
   };
 
+  const formatDate = (date) => {
+    return date.split("-").reverse().join("-");
+  }
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      council: '',
+      council: councilArr?.id || coucilId,
       fromDate: councilArr?.project_start_date || todayDate,
       toDate: councilArr?.project_end_date || todayDate,
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      dispatch(GetReports(value.council,value.fromDate,value.toDate));
+      dispatch(GetReports(value.council,formatDate(value.fromDate),formatDate(value.toDate)));
       // console.log("value", value)
     },
   });

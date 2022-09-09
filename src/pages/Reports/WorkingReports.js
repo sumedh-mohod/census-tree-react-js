@@ -163,13 +163,13 @@ export default function WorkingReports(props) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      reportType: '',
+      reportType: reportType || "",
       // councilForm: councilID || "",
       team_id: teamBy,
       status: 1,
       user_id: userBy,
-      toDateForm: '',
-      fromDateForm: '',
+      toDateForm: toDate || "",
+      fromDateForm: fromDate || ""
     },
     validationSchema: FilterSchema,
     onSubmit: (value) => {
@@ -190,8 +190,8 @@ export default function WorkingReports(props) {
         dispatch(GetWorkReports(value.reportType, userId, teamId, status, convertedFromDate, convertedToDate, 1, 10));
       }
 
-      setFromDate(convertedFromDate);
-      setTodate(convertedToDate);
+      // setFromDate(convertedFromDate);
+      // setTodate(convertedToDate);
       setReportType(value.reportType);
 
       if (value.reportType === 'by_work_types') {
@@ -238,6 +238,14 @@ export default function WorkingReports(props) {
   };
   const handleTeamByChange = (event) => {
     setTeamBy(event.target.value);
+  };
+
+  const handleFromDateChange = (event) => {
+    setFromDate(event.target.value);
+  };
+
+  const handleToDateChange = (event) => {
+    setTodate(event.target.value);
   };
   // console.log('teamBy', teamBy);
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
@@ -385,6 +393,10 @@ export default function WorkingReports(props) {
                     label="Start Date*"
                     margin="normal"
                     name="fromDateForm"
+                    onChange={(e) => {
+                      handleFromDateChange(e);
+                      formik.handleChange(e);
+                    }}
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // label="Plantation Date"
@@ -396,7 +408,7 @@ export default function WorkingReports(props) {
                     inputProps={{ max: todayDate }}
                     error={Boolean(touched.fromDateForm && errors.fromDateForm)}
                     helperText={touched.fromDateForm && errors.fromDateForm}
-                    {...getFieldProps('fromDateForm')}
+                    // {...getFieldProps('fromDateForm')}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -407,6 +419,10 @@ export default function WorkingReports(props) {
                     type="date"
                     margin="normal"
                     name="toDateForm"
+                    onChange={(e) => {
+                      handleToDateChange(e);
+                      formik.handleChange(e);
+                    }}
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // label="Plantation Date"
@@ -421,7 +437,7 @@ export default function WorkingReports(props) {
                     inputProps={{ max: todayDate }}
                     error={Boolean(touched.toDateForm && errors.toDateForm)}
                     helperText={touched.toDateForm && errors.toDateForm}
-                    {...getFieldProps('toDateForm')}
+                    // {...getFieldProps('toDateForm')}
                   />
                 </Grid>
                 {reportType === "team_allocation"?
