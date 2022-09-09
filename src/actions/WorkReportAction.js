@@ -38,6 +38,11 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
       });
 
     } catch (e) {
+      dispatch({
+        type: GET_WORK_REPORTS,
+        payload: {data:null},
+    
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -77,6 +82,10 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
       });
 
     } catch (e) {
+      dispatch({
+        type: GET_WORK_TYPES_WORK_REPORTS,
+        payload: {data:null},
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };

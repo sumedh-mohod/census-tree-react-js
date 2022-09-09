@@ -83,6 +83,8 @@ export default function ReportListToolbar({
   typeImage,
   treeImage,
   conditionImage,
+  handleViewReport,
+  hideReport
 }) {
   const dispatch = useDispatch();
   const [coucilId, setCouncilId] = useState('');
@@ -101,6 +103,7 @@ export default function ReportListToolbar({
     console.log("HANDLE COUNCIL")
     setCouncilId(e.target.value);
     handleCouncil(e.target.value);
+    hideReport()
 
     council.map((value, index) => {
       if (value.id === e.target.value) {
@@ -137,8 +140,7 @@ export default function ReportListToolbar({
   // console.log("council1234", council)
   // console.log("Council123", council.name)
 
-  const councilArr = council.find((val) => val.id === coucilId);
-  console.log("COUNCIL ARRAY",councilArr);
+  const councilArr = council?.find((val) => val.id === coucilId);
 
   // console.log( 'project_start_date',typeof councilArr?.project_start_date,'endDate..',typeof councilArr?.project_end_date);
 
@@ -165,6 +167,7 @@ export default function ReportListToolbar({
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
       dispatch(GetReports(value.council,formatDate(value.fromDate),formatDate(value.toDate)));
+      handleViewReport();
       // console.log("value", value)
     },
   });

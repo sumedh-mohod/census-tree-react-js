@@ -77,6 +77,7 @@ export default function Reports() {
   const [baseColorId, setBaseColorId] = useState('');
   const [value, setValue] = useState('1');
   const [councilName, setCouncilName] = useState('');
+  const [showReport, setShowReport] = useState(false);
   const userPermissions = [];
   const inputRef = useRef(null);
   const inputReftree = useRef(null);
@@ -190,7 +191,16 @@ export default function Reports() {
 
   const handleCoucilChange = (value) => {
     setCouncilName(value);
+    setShowReport(false);
   };
+
+  const handleViewReport = () => {
+    setShowReport(true);
+  }
+
+  const hideReport = () => {
+    setShowReport(false);
+  }
 
   const dataValue = reports?.by_wards;
   const value1 = [];
@@ -321,6 +331,8 @@ export default function Reports() {
             typeImage={typeImage}
             treeImage={treeImage}
             conditionImage={conditionImage}
+            handleViewReport = {(e)=>handleViewReport(e)}
+            hideReport = {(e)=>hideReport(e)}
             // coucilId={coucilId}
             // fromDate={""}
             // toDate={""}
@@ -345,51 +357,58 @@ export default function Reports() {
                         <div align="center" fontWeight={700}>
                           Please select council to get data
                         </div>
-                      ) : (
-                        <>
+                      ) :showReport? (
+                        <> 
                           <ByWardReports data={reports?.by_wards ? reports?.by_wards : []} />
                         </>
-                      )}
+                      ):null}
                     </TabPanel>
                     <TabPanel value="2">
                       {!councilName ? (
                         <div align="center" fontWeight={700}>
                           Please select council to get data
                         </div>
-                      ) : (
+                      ) : showReport? (
                         <>
                           <ByTreeNameReports data={reports?.by_tree_names ? reports?.by_tree_names : []} />
                         </>
-                      )}
+                      ):null}
                     </TabPanel>
                     <TabPanel value="3">
                       {!councilName ? (
                         <div align="center" fontWeight={700}>
                           Please select council to get data
                         </div>
-                      ) : (
+                      ) : showReport?(
                         <>
                           <ByTreeTypeReports data={reports?.by_tree_types ? reports?.by_tree_types : []} />
                         </>
-                      )}
+                      ):null}
                     </TabPanel>
                     <TabPanel value="4">
                       {!councilName ? (
                         <div align="center" fontWeight={700}>
                           Please select council to get data
                         </div>
-                      ) : (
+                      ) : showReport?(
                         <>
                           <ByTreeConditionReports
                             data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []}
                           />
                         </>
-                      )}
+                      ):null}
                     </TabPanel>
-                    {!councilName ? (
+                                      </TabContext>
+                </Box>
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+        </Card>
+      </Container>
+      {!councilName ? (
                       <></>
-                    ) : (
-                      <>
+                    ) : showReport?(
+                      <div style={{clipPath: `inset(0 100% 0 0)`}}>
                         <Grid container spacing={0}>
                           <Grid item xs={3} />
 
@@ -411,15 +430,9 @@ export default function Reports() {
                         <div ref={inputRefConditon}>
                           <ByTreeConditionGraph data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []} />
                         </div>
-                      </>
-                    )}
-                  </TabContext>
-                </Box>
-              </Table>
-            </TableContainer>
-          </Scrollbar>
-        </Card>
-      </Container>
+                      </div>
+                    ):null}
+
     </Page>
   );
 }

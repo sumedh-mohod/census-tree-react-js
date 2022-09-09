@@ -330,7 +330,7 @@ export default function NavSection({ navConfig, ...other }) {
     newReportObj.children.push(
       {
         title: 'Census Report',
-        path: '/dashboard/reportold',
+        path: '/dashboard/census-report',
         icon: getIcon('eva:shopping-bag-fill'),
 
         // title: 'Tree Reports',

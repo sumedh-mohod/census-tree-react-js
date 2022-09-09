@@ -27,6 +27,8 @@ import WorkTypeList from './WorkTypeList';
 import UserTypeList from './UserTypeList';
 import TeamAllocation from './TeamAllocation';
 import { GetWorkTypeWorkReports, GetWorkReports } from '../../actions/WorkReportAction';
+import { GetAllActiveTeam } from '../../actions/TeamsAction';
+import { GetActiveUsers } from '../../actions/UserAction';
 
 export default function WorkingReports(props) {
   const [zoneId, setZoneId] = useState('');
@@ -100,49 +102,56 @@ export default function WorkingReports(props) {
     },
   ];
 
-  const { workReports, pageInfo, userByRoleID, teams } = useSelector((state) => ({
-    teams: state.teams.teams,
+  const { workReports, pageInfo, activeUsers, teams } = useSelector((state) => ({
+    teams: state.teams.activeTeams,
     workReports: state.workReports.workReports,
     pageInfo: state.workReports.pageInfo,
-    userByRoleID: state.users.userByRoleID,
+    activeUsers: state.users.activeUsers,
   }));
   // console.log('teamsByRoleID', teams);
   const handleTypeChange = (event) => {
     // console.log('...', event);
     // console.log('eventtype check', event.target.value);
     setReportType(event.target.value);
-    // console.log('value', event.target.value);
-    if (event.target.value === 'by_work_types') {
-      setShowWorkTypeTable(true);
-      setShowTable(false);
-      setTeamczw(false);
-      setShowListUser(false);
-      setTeamAllocation(false);
-    } else if (event.target.value === 'by_councils') {
-      setShowTable(true);
-      setTeamczw(false);
-      setShowWorkTypeTable(false);
-      setShowListUser(false);
-      setTeamAllocation(false);
-    } else if (event.target.value === 'by_users') {
-      setShowListUser(true);
-      setShowTable(false);
-      setTeamczw(false);
-      setShowWorkTypeTable(false);
-      setTeamAllocation(false);
-    } else if (event.target.value === 'team_czw_allocation') {
-      setShowListUser(false);
-      setShowTable(false);
-      setTeamczw(true);
-      setShowWorkTypeTable(false);
-      setTeamAllocation(false);
+
+     if (event.target.value === 'team_czw_allocation') {
+      dispatch(GetAllActiveTeam())
     } else if (event.target.value === 'team_allocation') {
-      setTeamAllocation(true);
-      setShowListUser(false);
-      setShowTable(false);
-      setShowWorkTypeTable(false);
-      setTeamczw(false);
+      dispatch(GetActiveUsers(1))
     }
+
+    // console.log('value', event.target.value);
+    // if (event.target.value === 'by_work_types') {
+    //   setShowWorkTypeTable(true);
+    //   setShowTable(false);
+    //   setTeamczw(false);
+    //   setShowListUser(false);
+    //   setTeamAllocation(false);
+    // } else if (event.target.value === 'by_councils') {
+    //   setShowTable(true);
+    //   setTeamczw(false);
+    //   setShowWorkTypeTable(false);
+    //   setShowListUser(false);
+    //   setTeamAllocation(false);
+    // } else if (event.target.value === 'by_users') {
+    //   setShowListUser(true);
+    //   setShowTable(false);
+    //   setTeamczw(false);
+    //   setShowWorkTypeTable(false);
+    //   setTeamAllocation(false);
+    // } else if (event.target.value === 'team_czw_allocation') {
+    //   setShowListUser(false);
+    //   setShowTable(false);
+    //   setTeamczw(true);
+    //   setShowWorkTypeTable(false);
+    //   setTeamAllocation(false);
+    // } else if (event.target.value === 'team_allocation') {
+    //   setTeamAllocation(true);
+    //   setShowListUser(false);
+    //   setShowTable(false);
+    //   setShowWorkTypeTable(false);
+    //   setTeamczw(false);
+    // }
   };
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -230,6 +239,7 @@ export default function WorkingReports(props) {
         setShowWorkTypeTable(false);
         setTeamczw(false);
       }
+      setState({ ...state, "right": false });
     },
   });
 
@@ -372,7 +382,7 @@ export default function WorkingReports(props) {
                         <MenuItem disabled value="">
                           <em>Select User </em>
                         </MenuItem>
-                        {userByRoleID?.map((option) => (
+                        {activeUsers?.map((option) => (
                           <MenuItem key={option.id} value={option.id}>
                             {option.first_name} {option.last_name}
                           </MenuItem>
@@ -463,7 +473,7 @@ export default function WorkingReports(props) {
                    <MenuItem disabled value="">
                      <em>Select User </em>
                    </MenuItem>
-                   {userByRoleID?.map((option) => (
+                   {activeUsers?.map((option) => (
                      <MenuItem key={option.id} value={option.id}>
                        {option.first_name} {option.last_name}
                      </MenuItem>
