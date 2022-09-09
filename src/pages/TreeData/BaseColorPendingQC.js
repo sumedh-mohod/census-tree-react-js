@@ -34,10 +34,6 @@ import { GetBaseColorPendingQCStatus, UpdateQCStatusOfBaseColorTrees } from '../
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import { ShowLoader } from '../../actions/CommonAction';
 
-
-
-  
-
   
   export default function BaseColorPendingQC(){
     const [dialogOpen, setDialogOpen] = React.useState(false);
