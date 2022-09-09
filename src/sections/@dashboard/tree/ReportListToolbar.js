@@ -158,7 +158,7 @@ export default function ReportListToolbar({
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      dispatch(GetReports(value.council, '01-01-2020', '30-12-2022'));
+      dispatch(GetReports(value.council,value.fromDate,value.toDate));
       // console.log("value", value)
     },
   });
