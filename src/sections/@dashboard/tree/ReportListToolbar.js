@@ -89,12 +89,15 @@ export default function ReportListToolbar({
   const [councilName, setCouncilName] = useState('');
   const [imageData, setImageData] = useState('');
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
+
   const inputRef = useRef(null);
-  // console.log('chetna......', imageData);
+  // consolelog('chetna......', coucilId);
+
   // let imgData ='';
 
   // const { dataValue}= props;
   const handleCouncilChange = (e) => {
+    // consolelog('e.....',e.target.name);
     setCouncilId(e.target.value);
     handleCouncil(e.target.value);
 
@@ -120,20 +123,6 @@ export default function ReportListToolbar({
     toDate: Yup.string().required('To Date is Required'),
   });
 
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      council: '',
-      fromDate: '',
-      toDate: '',
-    },
-    validationSchema: DistrictsSchema,
-    onSubmit: (value) => {
-      dispatch(GetReports(value.council, '01-01-2020', '30-12-2022'));
-      // console.log("value", value)
-    },
-  });
-
   const {
     council,
     // zones,
@@ -147,6 +136,10 @@ export default function ReportListToolbar({
   // console.log("council1234", council)
   // console.log("Council123", council.name)
 
+  const councilArr = council.find((val) => val.id === coucilId);
+
+  // console.log( 'project_start_date',typeof councilArr?.project_start_date,'endDate..',typeof councilArr?.project_end_date);
+
   const separateId = (id) => {
     council.map((value, index) => {
       if (value.id === id) {
@@ -155,6 +148,20 @@ export default function ReportListToolbar({
       return null;
     });
   };
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      council: '',
+      fromDate: councilArr?.project_start_date || todayDate,
+      toDate: councilArr?.project_end_date || todayDate,
+    },
+    validationSchema: DistrictsSchema,
+    onSubmit: (value) => {
+      dispatch(GetReports(value.council, '01-01-2020', '30-12-2022'));
+      // console.log("value", value)
+    },
+  });
 
   const dataValue = reports?.by_wards;
   const value1 = [];
@@ -213,9 +220,7 @@ export default function ReportListToolbar({
     // console.log('conditionCanvas', conditionCanvas);
 
     const header = [['BY WARDS'], ['BY TREE NAMES'], ['BY TREE TYPES'], ['BY TREE CONDITIONS']];
-    const titleHeader = [
-      ['Sr. No', 'Table Content', '#']
-    ];
+    const titleHeader = [['Sr. No', 'Table Content', '#']];
     const headerBody = [
       ['#', 'Wards', 'Counts'],
       ['#', 'Tree Names', 'Counts'],
@@ -224,7 +229,28 @@ export default function ReportListToolbar({
     ];
     const canvas = [img, treeCanvas, typeCanvas, conditionCanvas];
     const body_ = [value1, treeNameValue1, treeType1, TreeCondition1];
-    const titleBody = [[1,'Content 1', 2], [2,'Content 2', 2], [3,'Content 3', 2], [4,'Content 4', 2],[5,'Content 5', 2], [6,'Content 6', 2], [7,'Content 7', 2], [8,'Content 8', 2],[9,'Content 9', 2], [10,'Content 10', 2], [1,'Content 1', 2], [2,'Content 2', 2], [3,'Content 3', 2], [4,'Content 4', 2],[5,'Content 5', 2], [6,'Content 6', 2], [7,'Content 7', 2], [8,'Content 8', 2],[9,'Content 9', 2], [10,'Content 10']];
+    const titleBody = [
+      [1, 'Content 1', 2],
+      [2, 'Content 2', 2],
+      [3, 'Content 3', 2],
+      [4, 'Content 4', 2],
+      [5, 'Content 5', 2],
+      [6, 'Content 6', 2],
+      [7, 'Content 7', 2],
+      [8, 'Content 8', 2],
+      [9, 'Content 9', 2],
+      [10, 'Content 10', 2],
+      [1, 'Content 1', 2],
+      [2, 'Content 2', 2],
+      [3, 'Content 3', 2],
+      [4, 'Content 4', 2],
+      [5, 'Content 5', 2],
+      [6, 'Content 6', 2],
+      [7, 'Content 7', 2],
+      [8, 'Content 8', 2],
+      [9, 'Content 9', 2],
+      [10, 'Content 10'],
+    ];
 
     function push() {
       const masterArray = [];
@@ -250,11 +276,10 @@ export default function ReportListToolbar({
       doc.text(150, 285, `page, ${doc.page}`); // print number bottom right
       doc.page += 1;
     }
-    
+
     const base64Img =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEXMzMyWlpaqqqq3t7exsbGcnJy+vr6jo6PFxcUFpPI/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAQUlEQVQ4jWNgGAWjgP6ASdncAEaiAhaGiACmFhCJLsMaIiDAEQEi0WXYEiMCOCJAJIY9KuYGTC0gknpuHwXDGwAA5fsIZw0iYWYAAAAASUVORK5CYII=';
 
-   
     doc.text(councilName, 60, 20);
     doc.addImage(base64Img, 'JPEG', 75, 30, 50, 50);
     doc.text('(2022-2023)', 85, 87);
@@ -273,7 +298,7 @@ export default function ReportListToolbar({
     // const pdfInMM = 210;
     // const paragraph =
     //   ' Pellentesque sit amet dolor vel felis tempus feugiat eu id arcu. Nam efficitur, arcu sit amet aliquam condimentum, nisi enim pharetra metus, sed convallis dui sem ac sapien. Aenean sed aliquam quam. Proin tristique nisi ac rutrum commodo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce elementum ex quis ipsum ultrices, nec commodo sem vulputate.In scelerisque volutpat purus. Duis a orci sit amet nulla porta feugiat eu ac nulla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc quis quam erat. Proin sed eleifend nulla, id lacinia risus. Suspendisse eleifend luctus lectus vitae aliquam. In consectetur enim quam, vel congue nulla ornare sit amet. Fusce nec iaculis sem. Donec semper mi dui, vitae bibendum massa volutpat sed.';
-    //  
+    //
     //   const lines = doc.splitTextToSize(paragraph, pdfInMM - lMargin - rMargin);
     // doc.text(lMargin, 20, lines);
     // // text paragraph end
@@ -298,32 +323,32 @@ export default function ReportListToolbar({
     doc.addPage();
     // doc.text("By Wards", 20, 10);
 
-    console.log(arr);
+    // consolelog(arr);
     /* eslint-disable no-await-in-loop */
     for (let i = 0; i < arr.length; i += 1) {
-      const res = await Html2canvas(canvas[i])
+      const res = await Html2canvas(canvas[i]);
       // .then((res) => {
-        //  imgData = await canvas_.toDataURL('image/png');
-        doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
-        console.log('asda', i, res);
-        autoTable(doc, {
-          margin: { top: i === 0 ? 20 : 170, bottom: 10 },
-          headStyles: headStyles_,
-          head: [header[i]],
-        });
+      //  imgData = await canvas_.toDataURL('image/png');
+      doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+      // consolelog('asda', i, res);
+      autoTable(doc, {
+        margin: { top: i === 0 ? 20 : 170, bottom: 10 },
+        headStyles: headStyles_,
+        head: [header[i]],
+      });
 
-        autoTable(doc, {
-          margin: { top: 0, bottom: 10 },
-          head: [headerBody[i]],
-          body: body_[i],
-        });
-        doc.addPage();
-        doc.addImage(res.toDataURL('image/png'), 'JPEG', 10, 10, 180, 150);
-        
-        console.log('image', i, doc.addImage(res.toDataURL('image/png'), 'JPEG', 10, 10, 180, 150));
-        // doc.output('dataurlnewwindow');
-        // footer();
-      
+      autoTable(doc, {
+        margin: { top: 0, bottom: 10 },
+        head: [headerBody[i]],
+        body: body_[i],
+      });
+      doc.addPage();
+      doc.addImage(res.toDataURL('image/png'), 'JPEG', 10, 10, 180, 150);
+
+      // consolelog('image', i, doc.addImage(res.toDataURL('image/png'), 'JPEG', 10, 10, 180, 150));
+      // doc.output('dataurlnewwindow');
+      // footer();
+
       // });
     }
     doc.save(`${councilName}.pdf`);
@@ -376,73 +401,79 @@ export default function ReportListToolbar({
             ))}
           </TextField>
         </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="date"
-            // label="Date Of Birth"
-            type="date"
-            label="From Date*"
-            placeholder="From Date*"
-            // defaultValue="2017-05-24"
-            style={{ width: '90.5%', marginLeft: 20 }}
-            // className={classes.textField}
-            error={Boolean(touched.fromDate && errors.fromDate)}
-            helperText={touched.fromDate && errors.fromDate}
-            {...getFieldProps('fromDate')}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{ max: todayDate }}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            id="date"
-            // value={toDate}
-            type="date"
-            label="To Date*"
-            placeholder="To Date*"
-            // defaultValue="2017-05-24"
-            style={{ width: '90.5%', marginLeft: 30 }}
-            // className={classes.textField}
-            error={Boolean(touched.toDate && errors.toDate)}
-            helperText={touched.toDate && errors.toDate}
-            {...getFieldProps('toDate')}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{ max: todayDate }}
-          />
-        </Grid>
-        <Grid item sm={4}>
-          <Button
-            variant="contained"
-            onClick={handleSubmit}
-            style={{ marginLeft: 30, marginTop: 5, backgroundColor: '#008000', height: 50, width: 150 }}
-          >
-            View Report
-          </Button>
-        </Grid>
+        {coucilId ? (
+          <>
+            <Grid item xs={4}>
+              <TextField
+                id="date"
+                // label="Date Of Birth"
+                type="date"
+                label="From Date*"
+                placeholder="From Date*"
+                // defaultValue={councilArr?.project_start_date}
+                style={{ width: '90.5%', marginLeft: 20 }}
+                // className={classes.textField}
+                error={Boolean(touched.fromDate && errors.fromDate)}
+                helperText={touched.fromDate && errors.fromDate}
+                {...getFieldProps('fromDate')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{ max: todayDate }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                id="date"
+                // value={toDate}
+                type="date"
+                label="To Date*"
+                placeholder="To Date*"
+                // defaultValue={project_end_date}
+                style={{ width: '90.5%', marginLeft: 30 }}
+                // className={classes.textField}
+                error={Boolean(touched.toDate && errors.toDate)}
+                helperText={touched.toDate && errors.toDate}
+                {...getFieldProps('toDate')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{ max: todayDate }}
+              />
+            </Grid>
+            <Grid item sm={4}>
+              <Button
+                variant="contained"
+                onClick={handleSubmit}
+                style={{ marginLeft: 30, marginTop: 5, backgroundColor: '#008000', height: 50, width: 150 }}
+              >
+                View Report
+              </Button>
+            </Grid>
 
-        <Grid item sm={4}>
-          {!coucilId ? (
-            <Button
-              variant="contained"
-              onClick={handleSubmit}
-              style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150 }}
-            >
-              Export Report
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              onClick={exportPdf}
-              style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150 }}
-            >
-              Export Report
-            </Button>
-          )}
-        </Grid>
+            <Grid item sm={4}>
+              {!coucilId ? (
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit}
+                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150 }}
+                >
+                  Export Report
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={exportPdf}
+                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150 }}
+                >
+                  Export Report
+                </Button>
+              )}
+            </Grid>
+          </>
+        ) : (
+          <></>
+        )}
 
         <Grid container justifyContent="flex-end">
           {/* {(callType === "BaseColor")?(
