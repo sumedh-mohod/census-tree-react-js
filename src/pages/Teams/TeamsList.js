@@ -45,6 +45,7 @@ const TABLE_HEAD = [
   { id: 'councilName', label: 'Council Name', alignRight: false },
   { id: 'zone', label: 'Zone', alignRight: false },
   { id: 'ward', label: 'Ward', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -350,9 +351,9 @@ export default function TeamsList() {
                         <TableCell align="left">{option?.council}</TableCell>
                         <TableCell >{option?.zone}</TableCell>
                         <TableCell align="left">{option?.ward}</TableCell>
-                        {/* <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell> */}
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <TeamsMenu id={option.id} name={option.name} councilId={coucilId} zoneId={zoneId} wardId={wardId} pageNumber={page} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <TeamsMenu status={option.status} id={option.id} name={option.name} councilId={coucilId} zoneId={zoneId} wardId={wardId} pageNumber={page} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         ))
