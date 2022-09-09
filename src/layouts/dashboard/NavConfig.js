@@ -175,7 +175,7 @@ const navConfig = [
       icon: getIcon('eva:shopping-bag-fill'),
     },
     {
-      title: 'Reports',
+      title: 'Census Reports',
       path: '/dashboard/reportold',
       icon: getIcon('eva:shopping-bag-fill'),
     },

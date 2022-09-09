@@ -37,6 +37,10 @@ export default function AssignUserConfirmationDialog(props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
+          Assigning user to new team will expire the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding.
+          </DialogContentText>
+          <br />
+          <DialogContentText id="alert-dialog-description">
           Assigning User to the new team will remove him/her from the previously assigned team. Are you sure you want to continue?
           </DialogContentText>
         </DialogContent>

@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -119,10 +119,44 @@ export default function TeamsList() {
     activeWardsByCID:state.wards.activeWardsByCID,
   }));
 
-  console.log("Teamsaaa",teams)
+  const { state} = useLocation(); 
 
   useEffect(()=>{
-    dispatch(GetTeam(page,rowsPerPage));
+    let cId = null;
+    let wId = null;
+    let zId = null;
+    if(state?.councilId){
+      setCouncilId(state.councilId)
+      cId = state.councilId;
+    }
+    if(state?.wardId){
+      setWardId(state.wardId);
+      wId = state.wardId;
+    }
+    if(state?.zoneId){
+      setZoneId(state.zoneId)
+      zId = state.zoneId;
+    }
+    if(state?.pageNumber){
+      setPage(state.pageNumber)
+    }
+    if(state){
+      dispatch(GetTeamByFilter(state.pageNumber,rowsPerPage,cId,zId,wId))
+    }
+    else {
+      dispatch(GetTeam(page,rowsPerPage));
+    }
+    
+  },[])
+
+  const changeTeamRun = useRef(true);
+
+  useEffect(()=>{
+    if (changeTeamRun.current) {
+      changeTeamRun.current = false;
+      return;
+    }
+    dispatch(GetTeamByFilter(page,rowsPerPage,coucilId,zoneId,wardId));
   },[addTeamsLog,editTeamsLog,deleteTeamsLog])
 
   const fetchRun = useRef(true);
@@ -250,6 +284,24 @@ export default function TeamsList() {
     dispatch(GetTeamByFilter(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
+  const getValidTeamType = (teamType) => {
+    let updatedTeamType = teamType;
+
+    if(teamType==="base_color"){
+      updatedTeamType = "Base Color";
+    }
+    else if(teamType==="census"){
+      updatedTeamType = "Census";
+    }
+    else if(teamType==="offsite_qc"){
+      updatedTeamType = "Offsite QC";
+    }
+    else if(teamType==="onsite_qc"){
+      updatedTeamType = "Onsite QC";
+    }
+    return updatedTeamType;
+  }
+
   return (
     <Page title="TeamList">
       <Container>
@@ -294,13 +346,13 @@ export default function TeamsList() {
                             <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.team_code}</TableCell>
-                        <TableCell align="left">{option.team_type}</TableCell>
+                        <TableCell align="left">{getValidTeamType(option.team_type)}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>
                         <TableCell >{option?.zone}</TableCell>
                         <TableCell align="left">{option?.ward}</TableCell>
                         {/* <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell> */}
                         <TableCell align="right">
-                          <TeamsMenu id={option.id} name={option.name} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <TeamsMenu id={option.id} name={option.name} councilId={coucilId} zoneId={zoneId} wardId={wardId} pageNumber={page} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         ))

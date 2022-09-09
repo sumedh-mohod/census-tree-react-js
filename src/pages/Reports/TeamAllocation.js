@@ -35,7 +35,7 @@ import StateDialog from "../../components/DialogBox/StateDialog";
 import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
-import {GetWorkReports} from "../../actions/WorkReportAction"
+import {GetAllWorkReports,GetWorkReports} from "../../actions/WorkReportAction"
 
 
 // ----------------------------------------------------------------------
@@ -81,7 +81,7 @@ export default function WorkTypeList(props) {
       } = useSelector((state) => ({
         workReports:state.workReports.workReports,
           pageInfo: state.workReports.pageInfo,
-        // excelWorkReports:state.workReports.excelWorkReports,
+        excelWorkReports:state.workReports.excelWorkReports,
       }));
 
   console.log("teamAllocation",workReports);
@@ -90,19 +90,17 @@ export default function WorkTypeList(props) {
   console.log("teamallocation", workReports)
 
 
-//   useEffect(()=>{
-//     if(workReports){
-//       workList()
-//     }
-//     console.log("assdghasd", workReports)
-//   },[workReports])
+  // useEffect(()=>{
+  //   dispatch(GetWorkReports(reportType, fromDate,toDate));
+  //   console.log("assdghasd", workReports)
+  // },[workReports])
+  useEffect(()=>{
+    if(excelWorkReports && downloadButtonPressed){
+      handleDownloadExcel()
+      setDownloadButtonPressed(false);
+    }
+  },[excelWorkReports])
 
-
-// const workList = () => {
-//   const newData = Object.entries(workReports);
-//   console.log("newData", newData)
-//   setDisplayWorkList(newData)
-// }
 
 const handleChangePage = (event, newPage) => {
   setPage(newPage);
@@ -117,14 +115,14 @@ const header1= ["report Type", "From Date" , "To Date"]
 const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Current Status", "From Date", "To Date"];
 // const header1= ["from Date", "To Date"]
 
-  // const handleDownloadButtonPressed = () => {
-  //   setDownloadButtonPressed(true);
-  //   dispatch(GetAllWorkReports(reportType, fromDate,toDate));
-  // }
+  const handleDownloadButtonPressed = () => {
+    setDownloadButtonPressed(true);
+    dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+  }
 
   function handleDownloadExcel() {
     // dispatch(GetAllWorkReports(reportType, fromDate,toDate));
-    const dataValue =  workReports.data;
+    const dataValue =  excelWorkReports;
     const value1= [fromDate];
     dataValue?.map((option, index) => {
       const value2 = [index+1]
@@ -162,7 +160,7 @@ const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Curren
       <Container>
         <Card style={{marginTop: 40}}>
         <ReportToolBar
-        handleExportexcel={()=>handleDownloadExcel()} 
+        handleExportexcel={()=>handleDownloadButtonPressed()} 
         numSelected={0} placeHolder={"Search here..."} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -171,7 +169,7 @@ const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Curren
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
-                     { workReports.data?.map((option,index) => { 
+                     { workReports?.data?.map((option,index) => { 
                         return (
                         <TableRow
                         hover

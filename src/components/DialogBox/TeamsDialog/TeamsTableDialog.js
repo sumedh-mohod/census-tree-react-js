@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -58,6 +58,10 @@ export default function TeamsTableDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [teamName, setTeamName] = React.useState('');
+  const [teamNameError, setTeamNameError] = React.useState('');
+  const [teamCode, setTeamCode] = React.useState('');
+  const [teamCodeError, setTeamCodeError] = React.useState('');
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [teamType, setTeamType] = React.useState('');
   const { isOpen, data } = props;
@@ -86,6 +90,30 @@ export default function TeamsTableDialog(props) {
     setOpen(true);
   };
 
+  const handleTeamCode = (e) => {
+    const  regex = /^[a-zA-Z0-9]*$/;
+    if(regex.test(e.target.value)) {
+      setTeamCodeError("");
+  }
+  else{
+    setTeamCodeError("Please Enter Team Code In Alphanumeric format Only");
+    
+  }
+  setTeamCode(e.target.value);
+  }
+
+  const handleTeamName = (e) => {
+    const  regex = /^[a-zA-Z0-9]*$/;
+    if(regex.test(e.target.value)) {
+      setTeamNameError("");
+  }
+  else{
+    setTeamNameError("Please Enter Team Name In Alphanumeric format Only");
+    
+  }
+  setTeamName(e.target.value);
+  }
+
   const handleMaxWidthChange = (event) => {
     setMaxWidth(
       // @ts-expect-error autofill of arbitrary value is not handled.
@@ -99,7 +127,7 @@ export default function TeamsTableDialog(props) {
       .min(4, 'Too Short! need exact 4 character')
       .max(4, 'Too Long! need exact 4 character')
       .required('Team Code required'),
-    // teamType: Yup.string().required('Name is required'),
+    teamType: Yup.string().required('Team Type is required'),
   });
 
   const formik = useFormik({
@@ -120,7 +148,7 @@ export default function TeamsTableDialog(props) {
             {
               name: value.name,
               team_code: value.code,
-              team_type: teamType,
+              team_type: value.teamType,
             },
             data.id
           )
@@ -130,7 +158,7 @@ export default function TeamsTableDialog(props) {
           AddTeam({
             name: value.name,
             team_code: value.code,
-            team_type: teamType,
+            team_type: value.teamType,
           })
         );
       }
@@ -167,32 +195,44 @@ export default function TeamsTableDialog(props) {
             <Grid item xs={12}>
               <DefaultInput
                 fullWidth
-                id="teamName"
+                id="name"
+                name="name"
                 autoComplete="teamName"
                 label="Team Name*"
+                value={values.name}
                 placeholder="Team Name*"
+                onChange={(e) => {
+                  handleTeamName(e);
+                  formik.handleChange(e);
+                }}
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
-                {...getFieldProps('name')}
+                // {...getFieldProps('name')}
               />
+               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{teamNameError}</Typography>
               <DefaultInput
                 fullWidth
-                id="teamCode"
+                id="code"
                 autoComplete="teamCode"
                 label="Team Code*"
                 placeholder="Team Code*"
+                value={values.code}
+                onChange={(e) => {
+                  handleTeamCode(e);
+                  formik.handleChange(e);
+                }}
                 error={Boolean(touched.code && errors.code)}
                 helperText={touched.code && errors.code}
-                {...getFieldProps('code')}
+               // {...getFieldProps('code')}
               />
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{teamCodeError}</Typography>
               <TextField
                 select
                 id="Team Type"
                 label="Team Type"
                 // displayEmpty
                 // value={values.teamType}
-                style={{ width: '82%',marginLeft: 40, marginTop: 7 }}
-                size="small"
+                style={{ width: '82.5%',marginLeft: 40, marginTop: 5 }}
                 
                 onChange={(e) => {
                   handleTeamTypeChange(e);
@@ -200,8 +240,8 @@ export default function TeamsTableDialog(props) {
                 }}
                 error={Boolean(touched.teamType && errors.teamType)}
                 helperText={touched.teamType && errors.teamType}
-                // {...getFieldProps('teamType')}
-                required
+                {...getFieldProps('teamType')}
+                
               >
                 <MenuItem disabled value="">
                   <em>Select Team type*</em>

@@ -223,7 +223,7 @@ export default function CreateDestination() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">

@@ -111,8 +111,8 @@ export default function CreateCouncilDialog(props) {
   } = useSelector((state) => ({
     addCouncilLog:state.council.addCouncilLog,
     editCouncilLog:state.council.editCouncilLog,
-    zones:state.zones.activeZones,
-    wards:state.wards.activeWards,
+    zones:state.zones.activeZonesByCID,
+    wards:state.wards.activeWardsByCID,
     states:state.master.activeStates,
     districts:state.master.activeDistricts,
     talukas:state.master.activeTalukas,
@@ -120,7 +120,7 @@ export default function CreateCouncilDialog(props) {
     uploadImage:state.upload.uploadImage,
     uploadImageLog:state.upload.uploadImageLog,
   }));
-  console.log('wards', wards);
+ // console.log('wards', wards);
 
   React.useEffect(()=>{
     if(data && isOpen){
@@ -202,6 +202,7 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleDistrictChange = (event) => {
+    console.log("inn");
     dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1))
     setDistrict(event.target.value);
     setShowTaluka(true);
@@ -710,8 +711,8 @@ export default function CreateCouncilDialog(props) {
                 id="date"
                 // value={toDate}
                 type="date"
-                label="End Date*"
-                placeholder= 'End Date*'
+                label="End Date"
+                placeholder= 'End Date'
                 // defaultValue="2017-05-24"
                 style={{ width: '81%', marginLeft: 40, marginTop:5 }}
                 // className={classes.textField}

@@ -269,14 +269,14 @@ export default function Reports() {
         >
     Reports
         </Link> */}
-              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-                Tree Data
-              </Typography>
-              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-                Reports
-              </Typography>
-            </Breadcrumbs>
-          </div>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        Census Reports
+          </Typography>
+      </Breadcrumbs>
+    </div>
         </Stack>
         <Card>
           <ReportListToolbar

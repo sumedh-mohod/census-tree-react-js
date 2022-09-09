@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -81,6 +82,8 @@ export default function NameOfTreeDialog(props) {
   const [maxAgeError, setMaxAgeError] = React.useState('');
   const [minGrthError, setMinGrthError] = React.useState('');
   const [maxGrthError, setMaxGrthError] = React.useState('');
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const submitErrors = [];
   let age;
   let height;
   let growthF;
@@ -359,6 +362,32 @@ const handleFamilyChange = (event) => {
     setMaxHeight(e.target.value)
   }
 
+  const handleSubmitErrors = () =>{
+    // console.log("in submit errors");
+    // console.log("Formiok submit errors", formik.errors);
+    const keys = Object.keys(formik.errors)
+    // const roleElement = document.getElementById("role-label");
+    // console.log("roleelement", roleElement);
+    // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
+    // console.log("keys", keys);
+        // Whenever there are errors and the form is submitting but finished validating.
+        if (keys.length > 0 ) {
+            // We grab the first input element that error by its name.
+            const errorElement = document.querySelector(
+                `input[name="${keys[0]}"]`
+            )
+              // console.log(errorElement);
+            if (errorElement) {
+                // When there is an input, scroll this input into view.
+                errorElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
+            }
+        }
+        else{
+          // const roleElement = document.getElementById("role-label");
+    // console.log("roleelement", roleElement);
+    // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" });
+        }
+  }
 
 
   const DesignationsSchema = Yup.object().shape({
@@ -400,7 +429,8 @@ const handleFamilyChange = (event) => {
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("Submit",value )
+      // console.log("Submit",value )
+      setButtonDisabled(true);
        if (value.minHeight || value.maxHeightx){ height = `${value.minHeight} - ${value.maxHeightx}`}
       //  console.log("maxHeight", maxHeight)
       //  let maxValue;
@@ -757,6 +787,7 @@ const handleFamilyChange = (event) => {
       {/* </FormControl> */}
               <Grid item xs={4}>
               <TextField
+              type="number"
           id="minHeight"
           value={minHeight}
           onChange={handleMinHeightChange}
@@ -809,7 +840,9 @@ const handleFamilyChange = (event) => {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={() => { handleSubmit(); handleSubmitErrors();}}
+          >{data?"Save":"Add"}
+          </LoadingButton>
         </DialogActions>
       </Dialog>
       </div>

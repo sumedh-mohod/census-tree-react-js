@@ -31,6 +31,7 @@ import USERLIST from '../_mock/user';
 import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../components/JsonFiles/UserTableData.json';
 import { DeleteUsers, GetUsers, SearchUsers, UnlinkDevice } from '../actions/UserAction';
+import WarningMessageDialog from '../components/DialogBox/WarningMessageDialog';
 
 // ----------------------------------------------------------------------
 
@@ -94,7 +95,10 @@ export default function User() {
   const [search,setSearch] = useState(false);
   const [searchValue,setSearchValue] = useState("");
   const [pageCountError, setPageCountError]= useState(false);
+  const [topModalOpen, setTopModalOpen] = useState(false);
+  const [reqObj, setReqObj] = useState(null)
   const userPermissions = [];
+  const message = "Unlinking device will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding."
 
   const { state } = useLocation();
   
@@ -194,7 +198,20 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     const obj = {
       user_id: userId
     }
-    dispatch(UnlinkDevice(obj))
+    handleTopModalClose();
+    setReqObj(obj);
+    
+  }
+
+  const handleTopModalClose = () => {
+    setTopModalOpen(!topModalOpen)
+  }
+
+  const handleTopModalAnswer = (answer) => {
+    if(answer){
+      dispatch(UnlinkDevice(reqObj))
+    }
+    setTopModalOpen(!topModalOpen)
   }
 
   return (
@@ -205,6 +222,11 @@ loggedUser.roles[0].permissions.map((item, index)=>(
         data={dialogData}
         // isClose={}
         /> */}
+        <WarningMessageDialog 
+        isOpenConfirm={topModalOpen}
+        message={message}
+        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Users

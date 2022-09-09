@@ -176,8 +176,10 @@ export default function MasterBreadCrum({name, callType, numSelected, filterName
         onChange={handleDropChange}
       >
         {breadCrumDrop?.map((option) => (
-                 <MenuItem key={option.value} value={option.value} >
-               <NavLink to ={option.url} style={{textDecoration: "none", color: "black"}}>{option.label}</NavLink>
+                 <MenuItem component={RouterLink} key={option.value} value={option.value}  to ={option.url} >
+               {/* <NavLink to ={option.url} style={{textDecoration: "none", color: "black"}}> */}
+               {option.label}
+               {/* </NavLink>  */}
                 </MenuItem>
               ))}
       </Select>  
