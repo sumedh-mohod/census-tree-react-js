@@ -29,6 +29,8 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
+import AssignedUserMenu from '../../sections/@dashboard/user/AssignedUserMenu';
+import WarningMessageDialog from '../../components/DialogBox/WarningMessageDialog';
 
 // ----------------------------------------------------------------------
 
@@ -81,8 +83,11 @@ export default function AssignUser() {
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
-   const [searchValue,setSearchValue] = useState("");
-   const [showList,setShowList] = useState(false);
+  const [searchValue,setSearchValue] = useState("");
+  const [showList,setShowList] = useState(false);
+  const [topModalOpen, setTopModalOpen] = useState(false);
+  const [reqObj, setReqObj] = useState(null);
+  const message = "Unassigning the user will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding."
   
   const {
     userOfTeam,
@@ -130,7 +135,8 @@ export default function AssignUser() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteUserFromTeam(data.id,data.status?0:1));
+    handleTopModalClose();
+    setReqObj(data);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -187,11 +193,26 @@ export default function AssignUser() {
 
   // console.log("USERS OF TEAM",userOfTeam);
 
-  
+
+  const handleTopModalClose = () => {
+    setTopModalOpen(!topModalOpen)
+  }
+
+  const handleTopModalAnswer = (answer) => {
+    if(answer){
+      dispatch(DeleteUserFromTeam(reqObj.id,reqObj.status?0:1));
+    }
+    setTopModalOpen(!topModalOpen)
+  }
 
   return (
     <Page title="User">
     <Container>
+    <WarningMessageDialog 
+        isOpenConfirm={topModalOpen}
+        message={message}
+        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+        />
       {open?
         <AssignUserDialog
         isOpen={open}
@@ -260,6 +281,7 @@ export default function AssignUser() {
                         <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date}</TableCell>
                         <TableCell align="left">{option.status?"Assigned":"Unassigned"}</TableCell>
+                        <AssignedUserMenu status={option.status} disable={!option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableRow>
                         )
                   }):null

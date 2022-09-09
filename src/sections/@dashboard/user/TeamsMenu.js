@@ -56,6 +56,12 @@ export default function TeamsMenu(props) {
           </ListItemIcon>
           <ListItemText primary="Assigned Users" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} >
+          <ListItemIcon>
+            <Iconify icon="eva:activity-outline" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
       </Menu>
     </>
   );
