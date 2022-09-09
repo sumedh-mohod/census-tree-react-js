@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { SET_ALERT, REMOVE_ALERT } from "./Types";
+import { SET_ALERT, REMOVE_ALERT, REMOVE_SPECIFIC_ALERT } from "./Types";
 
 const SetNewAlert = (data) => {
   return (dispatch) => {
@@ -9,12 +9,13 @@ const SetNewAlert = (data) => {
       payload: { id, ...data },
     });
     if (!data.toHold) {
-      setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 4000);
+      setTimeout(() => dispatch({ type: REMOVE_SPECIFIC_ALERT, payload: id }), 4000);
     }
   };
 };
 
-const DeleteAlert = (data) => {
+const DeleteAlert = (data) => {       
+  // console.log("delete Button", data.id)
   return {
     type: REMOVE_ALERT,
     payload: data.id,

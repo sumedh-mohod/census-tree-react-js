@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,6 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Select from '@mui/material/Select';
+
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -80,6 +82,8 @@ export default function NameOfTreeDialog(props) {
   const [maxAgeError, setMaxAgeError] = React.useState('');
   const [minGrthError, setMinGrthError] = React.useState('');
   const [maxGrthError, setMaxGrthError] = React.useState('');
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const submitErrors = [];
   let age;
   let height;
   let growthF;
@@ -101,7 +105,7 @@ setVal(item)
   }
   
   const { isOpen, data } = props;
-  console.log("dataaa", data);
+  // console.log("dataaa", data);
 
   const {
     addTreeNameLog,
@@ -263,31 +267,31 @@ if(data){
     const maxAgeData= data.max_age.split('-')
     minAg= maxAgeData[0];
     maxAg = maxAgeData[1];
-    console.log("max age", minAg, maxAg)
+    // console.log("max age", minAg, maxAg)
   }
   if(data?.max_height){
     const maxHtData= data.max_height.split('-')
     minHt= maxHtData[0];
     maxHt = maxHtData[1];
-    console.log("max ht", minHt, maxHt)
+    // console.log("max ht", minHt, maxHt)
   }
   if(data?.growth_factor){
     const maxGrowData = data.growth_factor.split('-')
     minGro= maxGrowData[0];
     maxGro = maxGrowData[1];
-    console.log("max growth", minGro, maxGro)
+    // console.log("max growth", minGro, maxGro)
   }
   if(data?.flowering_season){
     const flwData= data.flowering_season.split('-')
     flwSt= flwData[0];
     flwEnd = flwData[1];
-    console.log("flowering", flwSt, flwEnd)
+    // console.log("flowering", flwSt, flwEnd)
   }
   if(data?.fruiting_season){
     const frtData= data.fruiting_season.split('-')
     frtSt= frtData[0];
     frtEnd = frtData[1];
-    console.log("fruiting", frtSt, frtEnd)
+    // console.log("fruiting", frtSt, frtEnd)
   }
 }
 
@@ -330,7 +334,7 @@ const handleFamilyChange = (event) => {
   }
 
   const handleSeasonEndChange = (event) => {
-    console.log("iiii");
+    // console.log("iiii");
     setFloweringEnd(event.target.value)
   }
 
@@ -358,6 +362,32 @@ const handleFamilyChange = (event) => {
     setMaxHeight(e.target.value)
   }
 
+  const handleSubmitErrors = () =>{
+    // console.log("in submit errors");
+    // console.log("Formiok submit errors", formik.errors);
+    const keys = Object.keys(formik.errors)
+    // const roleElement = document.getElementById("role-label");
+    // console.log("roleelement", roleElement);
+    // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
+    // console.log("keys", keys);
+        // Whenever there are errors and the form is submitting but finished validating.
+        if (keys.length > 0 ) {
+            // We grab the first input element that error by its name.
+            const errorElement = document.querySelector(
+                `input[name="${keys[0]}"]`
+            )
+              // console.log(errorElement);
+            if (errorElement) {
+                // When there is an input, scroll this input into view.
+                errorElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
+            }
+        }
+        else{
+          // const roleElement = document.getElementById("role-label");
+    // console.log("roleelement", roleElement);
+    // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" });
+        }
+  }
 
 
   const DesignationsSchema = Yup.object().shape({
@@ -399,9 +429,10 @@ const handleFamilyChange = (event) => {
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("Submit",value )
+      // console.log("Submit",value )
+      setButtonDisabled(true);
        if (value.minHeight || value.maxHeightx){ height = `${value.minHeight} - ${value.maxHeightx}`}
-       console.log("maxHeight", maxHeight)
+      //  console.log("maxHeight", maxHeight)
       //  let maxValue;
       //  if(data.max_height){
       //  const maxData= data.max_height.split('-')
@@ -413,7 +444,7 @@ const handleFamilyChange = (event) => {
        if(value.minGrowth || value.maxGrowth) {growthF= `${value.minGrowth} - ${value.maxGrowth}`}
        if(value.floweringStart || value.floweringEnd) flowerSeason= `${value.floweringStart } - ${value.floweringEnd}`
        if(value.fruitingStart || value.fruitingEnd) fruitsSeason= `${value.fruitingStart} - ${value.fruitingEnd}`
-       console.log("maxHeight", maxHeight)
+      //  console.log("maxHeight", maxHeight)
       //  console.log("maxData", maxData)
       if(data){
         dispatch(EditTreeName({
@@ -453,7 +484,7 @@ const handleFamilyChange = (event) => {
  
   });
 
- console.log("////", floweringStart)
+//  console.log("////", floweringStart)
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   console.log("valuessss", values)
@@ -756,6 +787,7 @@ const handleFamilyChange = (event) => {
       {/* </FormControl> */}
               <Grid item xs={4}>
               <TextField
+              type="number"
           id="minHeight"
           value={minHeight}
           onChange={handleMinHeightChange}
@@ -808,7 +840,9 @@ const handleFamilyChange = (event) => {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={() => { handleSubmit(); handleSubmitErrors();}}
+          >{data?"Save":"Add"}
+          </LoadingButton>
         </DialogActions>
       </Dialog>
       </div>

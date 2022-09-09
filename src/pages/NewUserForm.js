@@ -38,6 +38,7 @@ import { GetActiveState, GetActiveDistricts, GetActiveTalukas, GetAllActiveDistr
 import { GetActiveDesignations } from '../actions/DesignationAction';
 import { ShowLoader } from '../actions/CommonAction';
 import { SetNewAlert } from '../actions/AlertActions';
+import WarningMessageDialog from '../components/DialogBox/WarningMessageDialog';
 
 export default function NewUserForm(props) {
 
@@ -114,7 +115,10 @@ export default function NewUserForm(props) {
     const [uploadClick, setUploadClick] = useState("");
     const [uploadClickError,setUploadClickError] = useState("") ;
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
+    const [topModalOpen, setTopModalOpen] = useState(false);
+    const [tempRole, setTempRole] = useState(null)
     const submitErrors = [];
+    const message = "Changing user role will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding."
     const {
       salaryDeductionType,
       userDocumentType,
@@ -458,25 +462,23 @@ export default function NewUserForm(props) {
     };
 
     const handleRoleChange = (event) => {
-      // console.log("EVENT VALUE",event.target.value);
-      // const {
-      //   target: { value },
-      // } = event;
-      // setRole(
-      //   // On autofill we get a stringified value.
-      //   typeof value === 'string' ? value.split(',') : value,
-      // );
-
-      // const roleValue = event.target.value;
-
-      if(event.target.value===9){
-        setShowCouncil(true);
+      
+      if(userId){
+        handleTopModalClose();
+        setTempRole(event.target.value)
       }
       else {
-        setShowCouncil(false);
+        if(event.target.value===9){
+          setShowCouncil(true);
+        }
+        else {
+          setShowCouncil(false);
+        }
+  
+        setRole(event.target.value);
       }
 
-      setRole(event.target.value);
+      
     };
 
     const handleReferredChange = (event) => {
@@ -897,29 +899,32 @@ const validateRole = () => {
 
 const handleSubmitErrors = () =>{
   // console.log("in submit errors");
-  // console.log("Formiok submit errors", formik.errors);
+ //  console.log("Formiok submit errors", formik.errors);
   const keys = Object.keys(formik.errors)
   // const roleElement = document.getElementById("role-label");
   // console.log("roleelement", roleElement);
   // roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
-  // console.log("keys", keys);
+//  console.log("keys", keys);
       // Whenever there are errors and the form is submitting but finished validating.
       if (keys.length > 0 ) {
+        // console.log("in keyssssssss")
           // We grab the first input element that error by its name.
           const errorElement = document.querySelector(
               `input[name="${keys[0]}"]`
           )
-            // console.log(errorElement);
+           //  console.log(errorElement);
           if (errorElement) {
               // When there is an input, scroll this input into view.
               errorElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" })
           }
       }
-      else{
+      else if(!role){
+        
         const roleElement = document.getElementById("role-label");
   // console.log("roleelement", roleElement);
   roleElement.scrollIntoView({ behavior: 'smooth', block: "center", inline: "center" });
-      }
+        }
+      
 }
 
     const validateDropDown = () => {
@@ -1317,11 +1322,24 @@ const handleSubmitErrors = () =>{
   
     const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,resetForm } = formik;
   
+    const handleTopModalClose = () => {
+      setTopModalOpen(!topModalOpen)
+    }
   
-
-    // console.log("DEDUCTION LIST",deductionList);
-    // console.log("error123", formik.errors.email);
-    // console.log("Formiok errors", formik.errors);
+    const handleTopModalAnswer = (answer) => {
+      if(answer){
+        // dispatch(UnlinkDevice(reqObj))
+        if(tempRole===9){
+          setShowCouncil(true);
+        }
+        else {
+          setShowCouncil(false);
+        }
+  
+        setRole(tempRole);
+      }
+      setTopModalOpen(!topModalOpen)
+    }
   
   
     return (
@@ -1331,9 +1349,11 @@ const handleSubmitErrors = () =>{
       </div>
       :
       <div>
-        {/* <Button variant="outlined" onClick={handleClickOpen}>
-          Open max-width dialog
-        </Button> */}
+        <WarningMessageDialog 
+        isOpenConfirm={topModalOpen}
+        message={message}
+        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+        />
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           {editUser?"Edit User":"Create User"}
@@ -1445,6 +1465,7 @@ const handleSubmitErrors = () =>{
                   id="lastName"
                   autoComplete="lastName"
                   label="Last Name*"
+                  name='lastName'
                   placeholder="Last Name*"
                   value={values.lastName}
                   onChange={(e)=>{handleLastName(e);
@@ -1478,6 +1499,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput 
                 fullWidth 
                 id="email" 
+                name="email"
                 label="Email*" 
                 autoComplete="email" 
                 placeholder="Email*" 
@@ -1495,6 +1517,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="addressLine1"
+                  name="addressLine1"
                   autoComplete="addressLine1"
                   placeholder="Address Line 1*"
                   label="Address Line 1*"
@@ -1612,7 +1635,7 @@ const handleSubmitErrors = () =>{
                 <TextField
                 select
                 id="taluka"
-                // name='District'
+                name='taluka'
                 displayEmpty
                 label="Taluka"
                 style={{width:'93.8%', marginLeft: 45,marginTop:5}}
@@ -1639,7 +1662,7 @@ const handleSubmitErrors = () =>{
                 <TextField
                   select
                   id="council"
-                  // name='District'
+                  name='council'
                   label="Council*"
                   displayEmpty
                   defaultValue={data? data.district : ""}
@@ -1681,6 +1704,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="aadhaarNumber"
+                  name="aadhaarNumber"
                   autoComplete="aadhar"
                   label="Aadhaar Number*"
                   placeholder="Aadhaar Number*"
@@ -1699,6 +1723,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="education"
+                  name="education"
                   autoComplete="education"
                   placeholder="Education*"
                   label="Education*"
@@ -1767,6 +1792,7 @@ const handleSubmitErrors = () =>{
           <DefaultInput
                   fullWidth
                   id="caste"
+                  name="caste"
                   autoComplete="caste"
                   label="Caste*"
                   placeholder="Caste*"
@@ -1834,6 +1860,7 @@ const handleSubmitErrors = () =>{
               <DefaultInput
                   fullWidth
                   id="emergencyContactName"
+                  name="emergencyContactName"
                   autoComplete="emergencycontactName"
                   label={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
                   placeholder={editUser? "Emergency Contact Name" : "Emergency Contact Name*"}
@@ -1852,6 +1879,7 @@ const handleSubmitErrors = () =>{
               <DefaultInput
                   fullWidth
                   id="emergencyContactNumber"
+                  name="emergencyContactNumber"
                   autoComplete="emergencycontactMoNum"
                   label={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
                   placeholder={editUser? "Emergency Contact Mobile Number" : "Emergency Contact Mobile Number*"}
@@ -1872,7 +1900,8 @@ const handleSubmitErrors = () =>{
           <Grid container spacing={1} style={{marginTop: 5}}>
               <Grid item xs={6}>
               <TextField
-      id="date"
+      id="dateOfJoining"
+      name="dateOfJoining"
       type="date"
       label="Date Of Joining*"
       placeholder='Date Of Joining*'
@@ -1917,6 +1946,7 @@ const handleSubmitErrors = () =>{
                  <DefaultInput
                   fullWidth
                   id="salaryPerMonth"
+                  name="salaryPerMonth"
                   autoComplete="salaryPerMonth"
                   label="Commited Salary per Month*"
                   placeholder="Commited Salary per Month*"
@@ -2022,7 +2052,8 @@ const handleSubmitErrors = () =>{
                   </MenuItem>
                 ))}
               </TextField>
-              </Grid></>) : null }
+              </Grid>
+              </>) : null }
                 </Grid>
                 </>
                 ):null}
@@ -2031,6 +2062,7 @@ const handleSubmitErrors = () =>{
                  <DefaultInput
                   fullWidth
                   id="note"
+                  name="note"
                   autoComplete="note"
                   label="Note"
                   placeholder="Note"
@@ -2048,6 +2080,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="bankName"
+                  name="bankName"
                   autoComplete="bankName"
                   label="Bank Name*"
                   value={values.bankName}
@@ -2064,6 +2097,7 @@ const handleSubmitErrors = () =>{
                 <DefaultInput
                   fullWidth
                   id="accountNumber"
+                  name="accountNumber"
                   type='number'
                   autoComplete="account"
                   label="Account Number*"
@@ -2127,6 +2161,7 @@ const handleSubmitErrors = () =>{
               <DefaultInput
                   fullWidth
                   id="userName"
+                  name="userName"
                   autoComplete="userName"
                   label="Username*"
                   placeholder="Username*"
@@ -2141,6 +2176,7 @@ const handleSubmitErrors = () =>{
               <TextField
                   fullWidth
                   id="password"
+                  name="password"
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="password"
                   label="Password"
