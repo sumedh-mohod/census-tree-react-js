@@ -1,4 +1,4 @@
-import { SET_ALERT, REMOVE_ALERT, RESET_STATE } from "../actions/Types";
+import { SET_ALERT, REMOVE_ALERT, RESET_STATE, REMOVE_SPECIFIC_ALERT } from "../actions/Types";
 
 const INIT_STATE = []
 
@@ -8,6 +8,9 @@ export default function AlertReducer (state = INIT_STATE, action)  {
   switch (type) {
     case SET_ALERT:
       return [...state, payload];
+
+    case REMOVE_SPECIFIC_ALERT:
+      return state.filter((alt) => alt.id !== payload);
 
     case REMOVE_ALERT:
       return state.filter((alt) => alt.id === payload);

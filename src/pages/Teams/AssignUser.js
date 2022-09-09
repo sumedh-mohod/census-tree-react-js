@@ -234,7 +234,7 @@ export default function AssignUser() {
         </Link> */}
       </Breadcrumbs>
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button onClick={handleNewUserClick} variant="contained" startIcon={<Iconify icon="eva:plus-fill"  />}>
           Assign User
 
           </Button>
