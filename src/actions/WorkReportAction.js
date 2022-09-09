@@ -98,10 +98,10 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
       url = `${url}report_type=${reportType}`;
     }
     if(formDate){
-      url = `${url}&from_date=${formDate}`;
+      url = `${url}&from_date=${formDate.split('-').reverse().join('-')}`;
     }
     if(toDate){
-      url = `${url}&to_date=${toDate}`
+      url = `${url}&to_date=${toDate.split('-').reverse().join('-')}`
     }
 
     // console.log("council123",reportType)

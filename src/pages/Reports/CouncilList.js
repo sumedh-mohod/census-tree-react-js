@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -89,6 +89,16 @@ export default function CouncilList(props) {
       setDownloadButtonPressed(false);
     }
   },[excelWorkReports])
+
+  const secondRun = React.useRef(true);
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    setPage(1);
+  }, [fromDate,toDate]);
  
   const handleChangePage = (event, newPage) => {
     console.log('reportType, fromDate,toDate, newPage,rowsPerPage',reportType, fromDate,toDate, newPage,rowsPerPage);

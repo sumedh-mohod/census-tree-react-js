@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -44,9 +44,9 @@ const TABLE_HEAD = [
   { id: 'council', label: 'Council', alignRight: false },
   { id: 'zone', label: 'Zone', alignRight: false },
   { id: 'ward', label: 'Ward', alignRight: false },
-  { id: 'current_status', label: 'Current Status', alignRight: false },
   { id: 'allocated_at', label: 'Allocated At', alignRight: false },
   { id: 'deallocated_at', label: 'Deallocated At', alignRight: false },
+  { id: 'current_status', label: 'Current Status', alignRight: false },
 //   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -64,7 +64,7 @@ export default function Teamczw(props) {
    const [searchValue,setSearchValue] = useState("");
    const [dropPage, setDropPage] = useState(3);
 
-   const {reportType, fromDate, toDate} = props;
+   const {reportType, fromDate, toDate,teamBy} = props;
    // console.log('reporttype_czw....', reportType);
    const userPermissions = [];
    const handleDropChange = (event) => {
@@ -89,6 +89,16 @@ export default function Teamczw(props) {
       setDownloadButtonPressed(false);
     }
   },[excelWorkReports])
+
+  const secondRun = React.useRef(true);
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    setPage(1);
+  }, [teamBy,fromDate,toDate]);
  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -96,7 +106,7 @@ export default function Teamczw(props) {
     //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
     // }
     // else {
-      dispatch(GetWorkReports(reportType,undefined,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
+      dispatch(GetWorkReports(reportType,undefined,teamBy,undefined, fromDate,toDate, newPage,rowsPerPage));
     }
   // }
 
@@ -204,9 +214,9 @@ const handleDownloadButtonPressed = () => {
                         <TableCell style={{width: 40}}>{option?.council}</TableCell>
                         <TableCell style={{flexWrap: "wrap"}}>{option?.zone}</TableCell>
                         <TableCell style={{flexWrap: "wrap"}}>{option?.ward}</TableCell>
-                        <TableCell style={{flexWrap: "wrap"}}>{option?.current_status}</TableCell>
                         <TableCell  style={{flexWrap: "wrap"}}>{option?.allocated_at}</TableCell>
                         <TableCell  style={{flexWrap: "wrap"}}>{option?.deallocated_at}</TableCell>
+                        <TableCell style={{flexWrap: "wrap"}}>{option?.current_status}</TableCell>
                         {/* <TableCell align="right">
                           <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>  */}

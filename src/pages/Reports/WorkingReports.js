@@ -46,7 +46,9 @@ export default function WorkingReports(props) {
   const [showUser, setShowUser] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [fromDate, setFromDate] = useState('');
+  const [fromDateProps, setFromDateProps] = useState('');
   const [toDate, setTodate] = useState('');
+  const [toDateProps, setTodateProps] = useState('');
   const [showListUser, setShowListUser] = useState(false);
   const [councilfield, setCouncilField] = useState(false);
   const [showWorkTypeTable, setShowWorkTypeTable] = useState(false);
@@ -54,7 +56,9 @@ export default function WorkingReports(props) {
   const [teamAllocation, setTeamAllocation] = useState(false);
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const [userBy, setUserBy] = React.useState('');
+  const [userByProps, setUserByProps] = React.useState('');
   const [teamBy, setTeamBy] = React.useState('');
+  const [teamByProps, setTeamByProps] = React.useState('');
   const [teamCzw, setTeamczw] = React.useState(false);
   const [userField, setUserField] = React.useState(false);
   // console.log('userBy.....!', userBy);
@@ -94,7 +98,7 @@ export default function WorkingReports(props) {
     },
     {
       value: 'team_czw_allocation',
-      label: 'Team CZW',
+      label: 'Team-CZW Allocation',
     },
     {
       value: 'team_allocation',
@@ -113,6 +117,10 @@ export default function WorkingReports(props) {
     // console.log('...', event);
     // console.log('eventtype check', event.target.value);
     setReportType(event.target.value);
+    setUserBy("")
+    setTeamBy("")
+    setFromDate("")
+    setTodate("")
 
      if (event.target.value === 'team_czw_allocation') {
       dispatch(GetAllActiveTeam())
@@ -188,20 +196,25 @@ export default function WorkingReports(props) {
       const userId = value.user_id;
       const status = value.status;
       const teamId = value.team_id;
+
       // setState({ ...state, "right": false });
       // const convertedFromDate = value.fromDateForm.split('-').reverse().join('-');
       // const convertedToDate = value.toDateForm.split('-').reverse().join('-');
       if (value.reportType === 'by_work_types') {
         dispatch(
-          GetWorkTypeWorkReports(value.reportType, userId, teamId, status, value.fromDateForm, value.toDateForm, 1, 10)
+          GetWorkTypeWorkReports(value.reportType, userId, teamId, undefined, value.fromDateForm, value.toDateForm, 1, 10)
         );
       } else {
-        dispatch(GetWorkReports(value.reportType, userId, teamId, status, value.fromDateForm, value.toDateForm, 1, 10));
+        dispatch(GetWorkReports(value.reportType, userId, teamId, undefined, value.fromDateForm, value.toDateForm, 1, 10));
       }
 
       // setFromDate(convertedFromDate);
       // setTodate(convertedToDate);
       setReportType(value.reportType);
+      setFromDateProps(value.fromDateForm)
+      setTodateProps(value.toDateForm);
+      setTeamByProps(teamId)
+      setUserByProps(userId)
 
       if (value.reportType === 'by_work_types') {
         setShowWorkTypeTable(true);
@@ -289,7 +302,7 @@ export default function WorkingReports(props) {
                 </Typography>
               ) : teamCzw ? (
                 <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-                  Team CZW
+                  Team-CZW Allocation
                 </Typography>
               ) : (
                 ''
@@ -530,14 +543,14 @@ export default function WorkingReports(props) {
 
           <UserTypeList/> 
           } 
-          {showTable && <CouncilList reportType={reportType} fromDate={fromDate} toDate={toDate} />}
+          {showTable && <CouncilList reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} />}
 
-          {teamCzw && <Teamczw reportType={reportType} fromDate={fromDate} toDate={toDate} />}
+          {teamCzw && <Teamczw reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} teamBy={teamBy}/>}
 
-          {showListUser && <UserTypeList reportType={reportType} fromDate={fromDate} toDate={toDate} />}
+          {showListUser && <UserTypeList reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} />}
 
-          {showWorkTypeTable && <WorkTypeList reportType={reportType} fromDate={fromDate} toDate={toDate} />}
-          {teamAllocation && <TeamAllocation reportType={reportType} fromDate={fromDate} toDate={toDate} />}
+          {showWorkTypeTable && <WorkTypeList reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} />}
+          {teamAllocation && <TeamAllocation reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} userBy={userByProps} />}
           {showMessage && (
             <div
               style={{

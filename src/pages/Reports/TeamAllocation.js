@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -68,7 +68,7 @@ export default function WorkTypeList(props) {
    const userPermissions = [];
    const [downloadButtonPressed,setDownloadButtonPressed] = useState(false);
    const [displyWorkList, setDisplayWorkList] = useState([])
-   const {reportType, fromDate, toDate} = props;
+   const {reportType, fromDate, toDate,userBy} = props;
    const handleDropChange = (event) => {
      setDropPage(event.target.value);
     };
@@ -101,6 +101,16 @@ export default function WorkTypeList(props) {
     }
   },[excelWorkReports])
 
+  const secondRun = React.useRef(true);
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    setPage(1);
+  }, [userBy,fromDate,toDate]);
+
 
 const handleChangePage = (event, newPage) => {
   setPage(newPage);
@@ -108,7 +118,7 @@ const handleChangePage = (event, newPage) => {
   //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
   // }
   // else {
-    dispatch(GetWorkReports(reportType,undefined,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
+    dispatch(GetWorkReports(reportType,props?.userBy,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
   }
 
 const header1= ["report Type", "From Date" , "To Date"] 

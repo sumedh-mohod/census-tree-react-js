@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -133,6 +133,16 @@ console.log("UserListType",workReports);
   const handleDelete = (data) => {
     dispatch(DeleteState(data.id,data.status?0:1));
   };
+
+  const secondRun = React.useRef(true);
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    setPage(1);
+  }, [fromDate,toDate]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
