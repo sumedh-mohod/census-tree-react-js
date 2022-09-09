@@ -10,7 +10,7 @@ export default function AlertReducer (state = INIT_STATE, action)  {
       return [...state, payload];
 
     case REMOVE_ALERT:
-      return state.filter((alt) => alt.id !== payload);
+      return state.filter((alt) => alt.id === payload);
 
     case RESET_STATE:
       return [...INIT_STATE];

@@ -14,7 +14,8 @@ const SetNewAlert = (data) => {
   };
 };
 
-const DeleteAlert = (data) => {
+const DeleteAlert = (data) => {       
+  // console.log("delete Button", data.id)
   return {
     type: REMOVE_ALERT,
     payload: data.id,

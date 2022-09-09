@@ -9,13 +9,17 @@ export default function Alert() {
 
     const dispatch = useDispatch();
 
-    const handleClick = () => {
-        dispatch(DeleteAlert(alert))
-    }
 
     const {alerts } = useSelector((state) => ({
           alerts: state.alerts
         }));
+        // console.log("print",alerts)
+
+        const handleClick = () => {
+            dispatch(DeleteAlert(alert))
+            console.log("Alert")
+    
+        }
 
         if (!alerts || alerts.length <= 0) {
             return null;
