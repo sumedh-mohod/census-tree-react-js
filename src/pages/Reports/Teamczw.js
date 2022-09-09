@@ -40,13 +40,13 @@ import { GetAllWorkReports, GetWorkReports, SearchWorkReports } from '../../acti
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
+  { id: 'team', label: 'Team', alignRight: false },
   { id: 'council', label: 'Council', alignRight: false },
-  { id: 'baseCouncilCount', label: 'Base Color Count', alignRight: false },
-  { id: 'baseColorOffsiteQC', label: 'Base Color Offsite QC Count', alignRight: false },
-  { id: 'BaseColorOnsiteQCCount', label: 'Base Color Onsite QC Count', alignRight: false },
-  { id: 'censusCount', label: 'Census Count', alignRight: false },
-  { id: 'censusOffsiteQCCount', label: 'Census Offsite QC Count', alignRight: false },
-  { id: 'censusOnsiteQCCount', label: 'Census Onsite QC Count', alignRight: false },
+  { id: 'zone', label: 'Zone', alignRight: false },
+  { id: 'ward', label: 'Ward', alignRight: false },
+  { id: 'current_status', label: 'Current Status', alignRight: false },
+  { id: 'allocated_at', label: 'Allocated At', alignRight: false },
+  { id: 'deallocated_at', label: 'Deallocated At', alignRight: false },
 //   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -65,6 +65,7 @@ export default function Teamczw(props) {
    const [dropPage, setDropPage] = useState(3);
 
    const {reportType, fromDate, toDate} = props;
+   console.log('reporttype_czw....', reportType);
    const userPermissions = [];
    const handleDropChange = (event) => {
      setDropPage(event.target.value);
@@ -80,7 +81,7 @@ export default function Teamczw(props) {
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  console.log("workReportsCouncil",workReports);
+  // console.log("workReportsTeamczw",workReports);
 
   useEffect(()=>{
     if(excelWorkReports && downloadButtonPressed){
@@ -132,7 +133,7 @@ export default function Teamczw(props) {
 
   }
 
-  const header = ["#", "Council", "Base Color Count", "Base Color Offsite QC Count", "Base Color Onsite QC Count", "Census Count",
+  const header = ["#", "Councilaaaa", "Base Color Count", "Base Color Offsite QC Count", "Base Color Onsite QC Count", "Census Count",
   "Census Offsite Qc Count", "Census Onsite QC Count","From Date", "To Date"];
  
 const handleDownloadButtonPressed = () => {
@@ -198,13 +199,14 @@ const handleDownloadButtonPressed = () => {
                         hover
                       >
                             <TableCell  style={{flexWrap: "wrap"}}>{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                            <TableCell style={{width: 40}}>{option?.name}</TableCell>
-                        <TableCell style={{flexWrap: "wrap"}}>{option?.base_color_trees_count}</TableCell>
-                        <TableCell style={{flexWrap: "wrap"}}>{option?.base_color_offsite_qc_count}</TableCell>
-                        <TableCell style={{flexWrap: "wrap"}}>{option?.base_color_onsite_qc_count}</TableCell>
-                        <TableCell style={{flexWrap: "wrap"}}>{option?.census_trees_count}</TableCell>
-                        <TableCell  style={{flexWrap: "wrap"}}>{option?.census_trees_offsite_qc_count}</TableCell>
-                        <TableCell  style={{flexWrap: "wrap"}}>{option?.census_trees_onsite_qc_count}</TableCell>
+                            
+                        <TableCell style={{flexWrap: "wrap"}}>{option?.team}</TableCell>
+                        <TableCell style={{width: 40}}>{option?.council}</TableCell>
+                        <TableCell style={{flexWrap: "wrap"}}>{option?.zone}</TableCell>
+                        <TableCell style={{flexWrap: "wrap"}}>{option?.ward}</TableCell>
+                        <TableCell style={{flexWrap: "wrap"}}>{option?.current_status}</TableCell>
+                        <TableCell  style={{flexWrap: "wrap"}}>{option?.allocated_at}</TableCell>
+                        <TableCell  style={{flexWrap: "wrap"}}>{option?.deallocated_at}</TableCell>
                         {/* <TableCell align="right">
                           <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>  */}

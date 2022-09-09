@@ -3,14 +3,20 @@ import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { GET_WORK_REPORTS, GET_ALL_WORK_REPORTS, GET_WORK_TYPES_WORK_REPORTS } from "./Types";
 
-const GetWorkReports = (reportType,userByForm,formDate,toDate, page,limit,) => async (dispatch) => {
+const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,limit,) => async (dispatch) => {
 
     let url = `/api/reports/work-reports?`
     if(reportType){
       url = `${url}report_type=${reportType}`;
     }
-    if(userByForm){
-      url = `${url}user_type=${userByForm}`;
+    if(userId){
+      url = `${url}&user_id=${userId}`;
+    }
+    if(teamId){
+      url = `${url}&team_id=${teamId}`;
+    }
+    if(status){
+      url = `${url}&status=${status}`;
     }
     if(formDate){
       url = `${url}&from_date=${formDate}`;
@@ -36,14 +42,20 @@ const GetWorkReports = (reportType,userByForm,formDate,toDate, page,limit,) => a
     }
   };
 
-  const GetWorkTypeWorkReports = (reportType,userByForm,formDate,toDate, page,limit,) => async (dispatch) => {
+  const GetWorkTypeWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,limit,) => async (dispatch) => {
 
     let url = `/api/reports/work-reports?`
     if(reportType){
       url = `${url}report_type=${reportType}`;
     }
-    if(userByForm){
-      url = `${url}user_type=${userByForm}`;
+    if(userId){
+      url = `${url}&user_id=${userId}`;
+    }
+    if(teamId){
+      url = `${url}&team_id=${teamId}`;
+    }
+    if(status){
+      url = `${url}&status=${status}`;
     }
     if(formDate){
       url = `${url}&from_date=${formDate}`;

@@ -52,9 +52,10 @@ export default function WorkingReports(props) {
   const [teamAllocation, setTeamAllocation] = useState(false);
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const [userBy, setUserBy] = React.useState('');
+  const [teamBy, setTeamBy] = React.useState('');
   const [teamCzw, setTeamczw] = React.useState(false);
   const [userField, setUserField] = React.useState(false);
-
+  // console.log('userBy.....!', userBy);
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -85,12 +86,12 @@ export default function WorkingReports(props) {
       value: 'by_councils',
       label: 'By Councils',
     },
+    // {
+    //   value: 'by_users',
+    //   label: 'By Users',
+    // },
     {
-      value: 'by_users',
-      label: 'By Users',
-    },
-    {
-      value: 'by_councils',
+      value: 'team_czw_allocation',
       label: 'Team CZW',
     },
     {
@@ -99,17 +100,18 @@ export default function WorkingReports(props) {
     },
   ];
 
-  const { workReports, pageInfo, userByRoleID } = useSelector((state) => ({
+  const { workReports, pageInfo, userByRoleID, teams } = useSelector((state) => ({
+    teams: state.teams.teams,
     workReports: state.workReports.workReports,
     pageInfo: state.workReports.pageInfo,
     userByRoleID: state.users.userByRoleID,
   }));
-  console.log('userByRoleID', userByRoleID);
+  // console.log('teamsByRoleID', teams);
   const handleTypeChange = (event) => {
-    console.log('work type Check');
+    // console.log('...', event);
     console.log('eventtype check', event.target.value);
     setReportType(event.target.value);
-    console.log('value', event.target.value);
+    // console.log('value', event.target.value);
     if (event.target.value === 'by_work_types') {
       setShowWorkTypeTable(true);
       setShowTable(false);
@@ -128,7 +130,7 @@ export default function WorkingReports(props) {
       setTeamczw(false);
       setShowWorkTypeTable(false);
       setTeamAllocation(false);
-    } else if (event.target.value === 'team_czw') {
+    } else if (event.target.value === 'team_czw_allocation') {
       setShowListUser(false);
       setShowTable(false);
       setTeamczw(true);
@@ -163,21 +165,29 @@ export default function WorkingReports(props) {
     initialValues: {
       reportType: '',
       // councilForm: councilID || "",
-      userByForm: userBy || '',
+      team_id: teamBy,
+      status: 1,
+      user_id: userBy,
       toDateForm: '',
       fromDateForm: '',
     },
     validationSchema: FilterSchema,
     onSubmit: (value) => {
-      console.log('in submit');
-      console.log('VALUE', value);
+      // console.log('in submit');
+      // console.log('VALUE', value);
+      // console.log(',,,,,',value.user_id,'value.status',value.status,'value.team_id',value.team_id)
+      const userId = value.user_id;
+      const status = value.status;
+      const teamId = value.team_id;
       // setState({ ...state, "right": false });
       const convertedFromDate = value.fromDateForm.split('-').reverse().join('-');
       const convertedToDate = value.toDateForm.split('-').reverse().join('-');
       if (value.reportType === 'by_work_types') {
-        dispatch(GetWorkTypeWorkReports(value.reportType, value.userByForm, convertedFromDate, convertedToDate, 1, 10));
+        dispatch(
+          GetWorkTypeWorkReports(value.reportType, userId, teamId, status, convertedFromDate, convertedToDate, 1, 10)
+        );
       } else {
-        dispatch(GetWorkReports(value.reportType, value.userByForm, convertedFromDate, convertedToDate, 1, 10));
+        dispatch(GetWorkReports(value.reportType, userId, teamId, status, convertedFromDate, convertedToDate, 1, 10));
       }
 
       setFromDate(convertedFromDate);
@@ -190,30 +200,35 @@ export default function WorkingReports(props) {
         setShowTable(false);
         setShowListUser(false);
         setTeamAllocation(false);
+        setTeamczw(false);
       } else if (value.reportType === 'by_councils') {
         setShowTable(true);
         setShowMessage(false);
         setShowWorkTypeTable(false);
         setShowListUser(false);
         setTeamAllocation(false);
-      } else if (value.reportType === 'team_czw') {
-        setShowTable(true);
+        setTeamczw(false);
+      } else if (value.reportType === 'team_czw_allocation') {
+        setShowTable(false);
         setShowMessage(false);
         setShowWorkTypeTable(false);
         setShowListUser(false);
         setTeamAllocation(false);
+        setTeamczw(true);
       } else if (value.reportType === 'by_users') {
         setShowListUser(true);
         setShowMessage(false);
         setShowTable(false);
         setShowWorkTypeTable(false);
         setTeamAllocation(false);
+        setTeamczw(false);
       } else if (value.reportType === 'team_allocation') {
         setTeamAllocation(true);
         setShowListUser(false);
         setShowMessage(false);
         setShowTable(false);
         setShowWorkTypeTable(false);
+        setTeamczw(false);
       }
     },
   });
@@ -221,7 +236,10 @@ export default function WorkingReports(props) {
   const handleUserByChange = (event) => {
     setUserBy(event.target.value);
   };
-
+  const handleTeamByChange = (event) => {
+    setTeamBy(event.target.value);
+  };
+  // console.log('teamBy', teamBy);
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   return (
     <div>
@@ -299,17 +317,21 @@ export default function WorkingReports(props) {
                   <TextField
                     select
                     id="reportType"
-                    label="Report Type"
+                    label="Report Type*"
                     displayempty
                     value={reportType}
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // placeholder='*Status'
-                    onChange={handleTypeChange}
+                    onChange={(e) => {
+                      handleTypeChange(e);
+                      // console.log('chetna', e);
+                      formik.handleChange(e);
+                    }}
                     // onChange={handleAddedByChange}
                     error={Boolean(touched.reportType && errors.reportType)}
                     helperText={touched.reportType && errors.reportType}
-                    {...getFieldProps('reportType')}
+                    // {...getFieldProps('reportType')}
                   >
                     <MenuItem disabled value="">
                       <em>Select Report Type</em>
@@ -320,7 +342,7 @@ export default function WorkingReports(props) {
                       </MenuItem>
                     ))}
                   </TextField>
-                  {reportType.team_allocation ? (
+                  {/* {reportType.team_allocation ? (
                     <Grid item xs={12}>
                       <TextField
                         select
@@ -352,42 +374,16 @@ export default function WorkingReports(props) {
                     </Grid>
                   ) : (
                     <></>
-                  )}
+                  )} */}
                 </Grid>
-                {/* {showListUser &&
-   <Grid item xs={12}>
-             <TextField
-              select
-              id="council"
-              label="Council"
-              displayEmpty
-              value={council}
-              style={{width:'100%',marginTop:5}}
-              size="small"
-              // placeholder='*Status'
-              onChange={handleCouncilChange}
-              // onChange={handleAddedByChange}
-              // error={Boolean(touched.addedByForm && errors.councilForm)}
-              //   helperText={touched.councilForm && errors.councilForm}
-                // {...getFieldProps("addedByForm")}
-            >
-               <MenuItem disabled value="">
-            <em>Select Council</em>
-            </MenuItem>
-            {reportValues?.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            </Grid>
-} */}
+               
+
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
                     id="fromDate"
                     type="date"
-                    label="Start Date"
+                    label="Start Date*"
                     margin="normal"
                     name="fromDateForm"
                     style={{ width: '100%', marginTop: 5 }}
@@ -408,7 +404,7 @@ export default function WorkingReports(props) {
                   <TextField
                     fullWidth
                     id="toDate"
-                    label="End Date"
+                    label="End Date*"
                     type="date"
                     margin="normal"
                     name="toDateForm"
@@ -429,6 +425,70 @@ export default function WorkingReports(props) {
                     {...getFieldProps('toDateForm')}
                   />
                 </Grid>
+                {reportType === "team_allocation"?
+                 <Grid item xs={12}>
+                 <TextField
+                   select
+                   id="userBy"
+                   label="User"
+                   displayEmpty
+                   value={userBy}
+                   style={{ width: '100%', marginTop: 5 }}
+                   size="small"
+                   // placeholder='*Status'
+                   onChange={(e) => {
+                     handleUserByChange(e);
+                     formik.handleChange(e);
+                   }}
+                   // onChange={handleAddedByChange}
+                   // error={Boolean(touched.addedByForm && errors.councilForm)}
+                   //   helperText={touched.councilForm && errors.councilForm}
+                   // {...getFieldProps("addedByForm")}
+                 >
+                   <MenuItem disabled value="">
+                     <em>Select User </em>
+                   </MenuItem>
+                   {userByRoleID?.map((option) => (
+                     <MenuItem key={option.id} value={option.id}>
+                       {option.first_name} {option.last_name}
+                     </MenuItem>
+                   ))}
+                 </TextField>
+               </Grid>:<></>
+                }
+               
+                {reportType === "team_czw_allocation"? 
+                 <Grid item xs={12}>
+                 <TextField
+                   select
+                   id="teamBy"
+                   label="Team"
+                   displayEmpty
+                   value={teamBy}
+                   style={{ width: '100%', marginTop: 5 }}
+                   size="small"
+                   // placeholder='*Status'
+                   onChange={(e) => {
+                     handleTeamByChange(e);
+                     formik.handleChange(e);
+                   }}
+                   // onChange={handleAddedByChange}
+                   // error={Boolean(touched.addedByForm && errors.councilForm)}
+                   //   helperText={touched.councilForm && errors.councilForm}
+                   // {...getFieldProps("addedByForm")}
+                 >
+                   <MenuItem disabled value="">
+                     <em>Select Team </em>
+                   </MenuItem>
+                   {teams?.map((option) => (
+                     <MenuItem key={option.id} value={option.id}>
+                       {option.name}
+                     </MenuItem>
+                   ))}
+                 </TextField>
+               </Grid>:<></>
+              }
+               
                 <Button
                   onClick={handleSubmit}
                   variant="contained"

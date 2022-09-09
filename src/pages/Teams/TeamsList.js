@@ -119,7 +119,7 @@ export default function TeamsList() {
     activeWardsByCID:state.wards.activeWardsByCID,
   }));
 
-  console.log("Teams",teams)
+  console.log("Teamsaaa",teams)
 
   useEffect(()=>{
     dispatch(GetTeam(page,rowsPerPage));

@@ -65,6 +65,7 @@ export default function CouncilList(props) {
    const [dropPage, setDropPage] = useState(3);
 
    const {reportType, fromDate, toDate} = props;
+  //  console.log('councillist....', reportType);
    const userPermissions = [];
    const handleDropChange = (event) => {
      setDropPage(event.target.value);
@@ -80,7 +81,7 @@ export default function CouncilList(props) {
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  console.log("workReportsCouncil",workReports);
+  // console.log("workReportsCouncil",workReports);
 
   useEffect(()=>{
     if(excelWorkReports && downloadButtonPressed){
