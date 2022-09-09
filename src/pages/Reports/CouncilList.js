@@ -144,7 +144,7 @@ const handleDownloadButtonPressed = () => {
   function handleDownloadExcel() {
 
     const dataValue =  excelWorkReports;
-    console.log("excelWorkReports", excelWorkReports)
+    // console.log("excelWorkReports", excelWorkReports)
     const dateValue= fromDate
     const value1= [];
     dataValue?.map((option, index) => {

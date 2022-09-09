@@ -109,7 +109,7 @@ export default function WorkingReports(props) {
   // console.log('teamsByRoleID', teams);
   const handleTypeChange = (event) => {
     // console.log('...', event);
-    console.log('eventtype check', event.target.value);
+    // console.log('eventtype check', event.target.value);
     setReportType(event.target.value);
     // console.log('value', event.target.value);
     if (event.target.value === 'by_work_types') {
@@ -325,7 +325,6 @@ export default function WorkingReports(props) {
                     // placeholder='*Status'
                     onChange={(e) => {
                       handleTypeChange(e);
-                      // console.log('chetna', e);
                       formik.handleChange(e);
                     }}
                     // onChange={handleAddedByChange}

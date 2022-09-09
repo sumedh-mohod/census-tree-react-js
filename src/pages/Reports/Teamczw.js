@@ -65,7 +65,7 @@ export default function Teamczw(props) {
    const [dropPage, setDropPage] = useState(3);
 
    const {reportType, fromDate, toDate} = props;
-   console.log('reporttype_czw....', reportType);
+   // console.log('reporttype_czw....', reportType);
    const userPermissions = [];
    const handleDropChange = (event) => {
      setDropPage(event.target.value);
@@ -144,7 +144,7 @@ const handleDownloadButtonPressed = () => {
   function handleDownloadExcel() {
 
     const dataValue =  excelWorkReports;
-    console.log("excelWorkReports", excelWorkReports)
+    // console.log("excelWorkReports", excelWorkReports)
     const dateValue= fromDate
     const value1= [];
     dataValue?.map((option, index) => {
