@@ -98,6 +98,7 @@ export default function Reports() {
     reports: state.reports.reports,
     loggedUser: state.auth.loggedUser,
   }));
+  console.log('reports', reports, 'council', council,'loggedUser', loggedUser);
 
   loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 

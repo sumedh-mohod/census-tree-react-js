@@ -108,7 +108,7 @@ const handleChangePage = (event, newPage) => {
   //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
   // }
   // else {
-    dispatch(GetWorkReports(reportType, fromDate,toDate, newPage,rowsPerPage));
+    dispatch(GetWorkReports(reportType,undefined,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
   }
 
 const header1= ["report Type", "From Date" , "To Date"] 
