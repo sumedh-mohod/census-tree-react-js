@@ -148,7 +148,7 @@ export default function Teamczw(props) {
  
 const handleDownloadButtonPressed = () => {
   setDownloadButtonPressed(true);
-  dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+  dispatch(GetAllWorkReports(reportType,undefined,teamBy ,fromDate,toDate));
 }
 
   function handleDownloadExcel() {

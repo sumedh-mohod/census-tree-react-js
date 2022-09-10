@@ -41,6 +41,7 @@ const TABLE_HEAD = [
   { id: 'fromdate', label: 'From Date', alignRight: false },
   { id: 'todate', label: 'To Date', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -281,7 +282,9 @@ export default function AssignUser() {
                         <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date}</TableCell>
                         <TableCell align="left">{option.status?"Assigned":"Unassigned"}</TableCell>
+                        <TableCell align="right">
                         <AssignedUserMenu status={option.status} disable={!option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                        </TableCell>
                         </TableRow>
                         )
                   }):null

@@ -91,11 +91,17 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
   };
 
 
-  const GetAllWorkReports = (reportType,formDate,toDate) => async (dispatch) => {
+  const GetAllWorkReports = (reportType,userId,teamId,formDate,toDate) => async (dispatch) => {
 
     let url = `/api/reports/work-reports?`
     if(reportType){
       url = `${url}report_type=${reportType}`;
+    }
+    if(userId){
+      url = `${url}&user_id=${userId}`;
+    }
+    if(teamId){
+      url = `${url}&team_id=${teamId}`;
     }
     if(formDate){
       url = `${url}&from_date=${formDate.split('-').reverse().join('-')}`;

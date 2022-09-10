@@ -127,7 +127,7 @@ const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Curren
 
   const handleDownloadButtonPressed = () => {
     setDownloadButtonPressed(true);
-    dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+    dispatch(GetAllWorkReports(reportType,props?.userBy,undefined, fromDate,toDate));
   }
 
   function handleDownloadExcel() {
