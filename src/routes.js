@@ -94,7 +94,7 @@ export default function Router() {
         { path: 'treeOnMap', element: <TreeOnMap /> },
         { path: 'censusQc', element: <NewUI/>},
         { path: 'baseColorPendingQC', element: <BaseColorPendingQC/>},
-        { path: 'reportold', element: <Reports/>},
+        { path: 'census-report', element: <Reports/>},
         {path: "workingReports", element: <WorkingReports/>},
         {path: "treeReports", element:<TreeReports/>}
       ],

@@ -299,14 +299,14 @@ export default function NavSection({ navConfig, ...other }) {
       icon: getIcon('eva:shopping-bag-fill'),
     })
   }
-  if(isContainPermission("view-report")){
-    const obj =   {
-      title: 'Census Reports',
-      path: '/dashboard/reportold',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    treeDataOuterObj.children.push(obj);
-  }
+  // if(isContainPermission("view-report")){
+  //   const obj =   {
+  //     title: 'Census Reports',
+  //     path: '/dashboard/reportold',
+  //     icon: getIcon('eva:shopping-bag-fill'),
+  //   }
+  //   treeDataOuterObj.children.push(obj);
+  // }
 
   if(treeDataOuterObj.children.length !==0){
     navConfigArray.push(treeDataOuterObj);
@@ -329,9 +329,13 @@ export default function NavSection({ navConfig, ...other }) {
     )
     newReportObj.children.push(
       {
-        title: 'Tree Reports',
-        path: '/dashboard/treeReports',
+        title: 'Census Report',
+        path: '/dashboard/census-report',
         icon: getIcon('eva:shopping-bag-fill'),
+
+        // title: 'Tree Reports',
+        // path: '/dashboard/treeReports',
+        // icon: getIcon('eva:shopping-bag-fill'),
       }
       )
 

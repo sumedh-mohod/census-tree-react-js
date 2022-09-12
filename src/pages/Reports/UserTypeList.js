@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -134,13 +134,23 @@ console.log("UserListType",workReports);
     dispatch(DeleteState(data.id,data.status?0:1));
   };
 
+  const secondRun = React.useRef(true);
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    setPage(1);
+  }, [fromDate,toDate]);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     // if(search){
     //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
     // }
     // else {
-      dispatch(GetWorkReports(reportType, fromDate,toDate, newPage,rowsPerPage));
+      dispatch(GetWorkReports(reportType,undefined,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
     }
 
   let timer = null;

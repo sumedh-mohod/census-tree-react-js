@@ -16,6 +16,19 @@ const GetTeam = (page,limit) => async (dispatch) => {
     }
   };
 
+  const GetAllActiveTeam = () => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/teams?status=1`);
+      // console.log("DESIGNATIONS RESPONSE",response.data);
+      dispatch({
+        type: GET_ACTIVE_TEAM,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   const GetMyActiveTeam = () => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/my-active-team`);
@@ -229,6 +242,7 @@ const DeleteUserFromTeam = (params,status) => async (dispatch) => {
 
   export {
       GetTeam,
+      GetAllActiveTeam,
       GetMyActiveTeam,
       GetTeamByFilter,
       SearchTeam,

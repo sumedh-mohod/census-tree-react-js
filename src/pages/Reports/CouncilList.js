@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -65,6 +65,7 @@ export default function CouncilList(props) {
    const [dropPage, setDropPage] = useState(3);
 
    const {reportType, fromDate, toDate} = props;
+  //  console.log('councillist....', reportType);
    const userPermissions = [];
    const handleDropChange = (event) => {
      setDropPage(event.target.value);
@@ -80,7 +81,7 @@ export default function CouncilList(props) {
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  console.log("workReportsCouncil",workReports);
+  // console.log("workReportsCouncil",workReports);
 
   useEffect(()=>{
     if(excelWorkReports && downloadButtonPressed){
@@ -88,14 +89,25 @@ export default function CouncilList(props) {
       setDownloadButtonPressed(false);
     }
   },[excelWorkReports])
+
+  const secondRun = React.useRef(true);
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    setPage(1);
+  }, [fromDate,toDate]);
  
   const handleChangePage = (event, newPage) => {
+    console.log('reportType, fromDate,toDate, newPage,rowsPerPage',reportType, fromDate,toDate, newPage,rowsPerPage);
     setPage(newPage);
     // if(search){
     //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
     // }
     // else {
-      dispatch(GetWorkReports(reportType, fromDate,toDate, newPage,rowsPerPage));
+      dispatch(GetWorkReports(reportType,undefined,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
     }
   // }
 
@@ -143,7 +155,7 @@ const handleDownloadButtonPressed = () => {
   function handleDownloadExcel() {
 
     const dataValue =  excelWorkReports;
-    console.log("excelWorkReports", excelWorkReports)
+    // console.log("excelWorkReports", excelWorkReports)
     const dateValue= fromDate
     const value1= [];
     dataValue?.map((option, index) => {
