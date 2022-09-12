@@ -28,6 +28,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfHouseDialog from "../../components/DialogBox/TypeOfHouseDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -80,7 +81,7 @@ export default function TypeOfTree() {
   };
 
   const handleNewUserClick = () => {
-    console.log("hiiii")
+    // console.log("hiiii")
     setOpen(!open)
   }
 
@@ -107,8 +108,8 @@ export default function TypeOfTree() {
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+        {/* <Link
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -121,11 +122,17 @@ export default function TypeOfTree() {
           color="inherit"
         >
           Type Of Houses
-        </Link>
+        </Link> */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+              Master
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Type Of Houses
+          </Typography>
       </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Type Of House
 
           </Button>
         </Stack>

@@ -12,6 +12,11 @@ const navConfig = [
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
+    title: 'Reports',
+    path: '/dashboard/workingReports',
+    icon: getIcon('eva:shopping-bag-fill'),
+  },
+  {
     title: 'Users',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
@@ -24,8 +29,9 @@ const navConfig = [
   },
   {
     title: 'Master',
-    path: '/dashboard/products',
+    path: '/dashboard/role',
     icon: getIcon('eva:shopping-bag-fill'),
+
     children:[
       {
         title: 'Roles',
@@ -73,6 +79,11 @@ const navConfig = [
         icon: getIcon('eva:shopping-bag-fill'),
       },
       {
+        title: 'Tree Families',
+        path: '/dashboard/families',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
         title: 'Tree Conditions',
         path: '/dashboard/tree-condition',
         icon: getIcon('eva:shopping-bag-fill'),
@@ -97,14 +108,37 @@ const navConfig = [
         path: '/dashboard/qc-remarks',
         icon: getIcon('eva:shopping-bag-fill'),
       },
-      // {
-      //   title: 'Tree Density',
-      //   path: '/dashboard/tree-density',
-      //   icon: getIcon('eva:shopping-bag-fill'),
-      // },
+      {
+        title: 'Tree Density',
+        path: '/dashboard/tree-density',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Tree Diseases',
+        path: '/dashboard/treeDisease',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
       
     ]
+  },
+  {
+    title: 'Reports',
+    path: '/dashboard/reportsNew',
+    icon: getIcon('bi:tree-fill'),
+    children:[
+      {
+        title: 'Working Reports',
+        path: '/dashboard/workingReports',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+      {
+        title: 'Tree Reports',
+        path: '/dashboard/census',
+        icon: getIcon('eva:shopping-bag-fill'),
+      },
+    ],
 },
+
 {
   title: 'Trees Data',
   path: '/dashboard/tree-data',
@@ -115,18 +149,56 @@ const navConfig = [
       path: '/dashboard/base-color',
       icon: getIcon('eva:shopping-bag-fill'),
     },
-    // {
-    //   title: 'Census',
-    //   path: '/dashboard/census',
-    //   icon: getIcon('eva:shopping-bag-fill'),
-    // },
+    {
+      title: 'Census',
+      path: '/dashboard/census',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
     {
       title: 'Denied Entries',
       path: '/dashboard/denied-entry',
       icon: getIcon('eva:shopping-bag-fill'),
     },
+    {
+      title: 'No Tree Properties',
+      path: '/dashboard/no-tree-properties',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+    {
+      title: 'Census QC',
+      path: '/dashboard/censusQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+    {
+      title: 'Base Color QC',
+      path: '/dashboard/baseColorPendingQC',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+    {
+      title: 'Census Reports',
+      path: '/dashboard/census-report',
+      icon: getIcon('eva:shopping-bag-fill'),
+    },
+    // {
+    //   title: 'Working Reports',
+    //   path: '/dashboard/workingReports',
+    //   icon: getIcon('eva:shopping-bag-fill'),
+    // },
   ]
 },
+{
+  title: 'Map',
+  path: '/dashboard/map',
+  icon: getIcon('bxs:map'),
+  children:[
+    {
+      title: 'Trees on Map',
+      path: '/dashboard/treeOnMap',
+      icon: getIcon('eva:shopping-bag-fill'),
+    }
+  ]
+},
+
 ];
 
 export default navConfig;

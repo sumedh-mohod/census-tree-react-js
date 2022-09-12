@@ -69,7 +69,7 @@ export default function TypeOfLocationDialog(props) {
     editLocationTypesLog:state.locationTypes.editLocationTypesLog
   }));
 
-  console.log("addLocationTypesLog" , addLocationTypesLog)
+  // console.log("addLocationTypesLog" , addLocationTypesLog)
 
   const firstRun = React.useRef(true);
   React.useEffect(()=>{
@@ -81,7 +81,7 @@ export default function TypeOfLocationDialog(props) {
   },[addLocationTypesLog,editLocationTypesLog])
 
 
-  console.log("addLocationTypesLog" , addLocationTypesLog)
+  // console.log("addLocationTypesLog" , addLocationTypesLog)
 
   const handleClose = () => {
     props.handleClose();
@@ -100,7 +100,7 @@ export default function TypeOfLocationDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    locationTypes: Yup.string().required('Location Type is required'),
+    locationTypes: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Location Type is required'),
   });
 
 
@@ -136,7 +136,7 @@ export default function TypeOfLocationDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+      
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Location Type":"Add Location Type"}</BootstrapDialogTitle>

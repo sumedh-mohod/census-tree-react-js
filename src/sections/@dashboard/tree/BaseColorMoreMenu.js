@@ -10,6 +10,7 @@ import Iconify from '../../../components/Iconify';
 export default function BaseColorMoreMenu(props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const permissions = props.permissions;
 
   const handleClose = () => {
     setIsOpen(false);
@@ -47,7 +48,8 @@ export default function BaseColorMoreMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {props.qcStatus==="Approved"?null
+        {/* {(permissions.includes("approve-base-color-tree"))?
+        props.qcStatus==="Approved"?null
         :
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleApprove}>
         <ListItemIcon>
@@ -55,22 +57,24 @@ export default function BaseColorMoreMenu(props) {
         </ListItemIcon>
         <ListItemText primary="Approve" primaryTypographyProps={{ variant: 'body2' }} />
       </MenuItem>
-        }
-        {props.qcStatus==="Unapproved"?null:
+        :null}
+
+        {(permissions.includes("unapprove-base-color-tree"))?
+        props.qcStatus==="Unapproved"?null:
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleQcDialog}>
         <ListItemIcon>
           <Iconify icon="eva:close-circle-outline" width={24} height={24} />
         </ListItemIcon>
         <ListItemText primary="Unapprove" primaryTypographyProps={{ variant: 'body2' }} />
       </MenuItem>
-        }
+       :null } */}
         
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
+        {/* <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
           <ListItemIcon>
             <Iconify icon="eva:trash-2-outline" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        </MenuItem> */}
 
         {/* <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose}>
           <ListItemIcon>
@@ -78,13 +82,13 @@ export default function BaseColorMoreMenu(props) {
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem> */}
-
-        <MenuItem component={RouterLink} to={`/dashboard/base-color/history/${props.baseColorId}/${props.baseColorName}`} sx={{ color: 'text.secondary' }}>
+{(permissions.includes("view-base-color-tree-history"))?
+        <MenuItem component={RouterLink} to={`/dashboard/base-color/history/${props.baseColorId}/${props.baseColorName}`} state={{councilId:props.councilId,zoneId:props.zoneId,wardId:props.wardId,pageNumber:props.pageNumber}} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:eye-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View History" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        </MenuItem>:null}
       </Menu>
     </>
   );

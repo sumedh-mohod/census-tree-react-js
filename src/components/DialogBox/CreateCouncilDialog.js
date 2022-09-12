@@ -23,12 +23,14 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { GetActiveDistricts, GetActiveDistrictsByStateId, GetActiveState, GetActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
+import moment from 'moment';
+import { GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState, GetAllActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
 import { AddCouncil, AddCouncilWithLogo, EditCouncil, EditCouncilWithLogo, GetCouncilById } from '../../actions/CouncilAction';
 import { GetActiveZones } from '../../actions/ZonesAction';
 import { GetActiveWards } from '../../actions/WardsActions';
 import DefaultInput from '../Inputs/DefaultInput';
 import { UploadImage } from '../../actions/UploadActions';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -76,7 +78,6 @@ export default function CreateCouncilDialog(props) {
   const dispatch = useDispatch();
 
   const { isOpen, data } = props;
-  console.log(isOpen);
   const [open, setOpen] = React.useState(false);
   const [gender, setGender] = React.useState('');
   const [role, setRole] = React.useState('');
@@ -92,8 +93,10 @@ export default function CreateCouncilDialog(props) {
   const [logoError, setLogoError] = React.useState("");
   const [isEditable, setIsEditable] = React.useState(false);
   const [isImageRemoved, setIsImageRemoved] = React.useState(false);
-
-  
+  const [showDistrict, setShowDistrict] = React.useState(false);
+  const [showTaluka, setShowTaluka] = React.useState(false);
+  // const todayDate = moment(new Date()).format('YYYY-MM-DD');
+  // console.log('data', data)
   const {
     addCouncilLog,
     editCouncilLog,
@@ -108,15 +111,16 @@ export default function CreateCouncilDialog(props) {
   } = useSelector((state) => ({
     addCouncilLog:state.council.addCouncilLog,
     editCouncilLog:state.council.editCouncilLog,
-    zones:state.zones.zones,
-    wards:state.wards.wards,
-    states:state.master.states,
-    districts:state.master.districts,
-    talukas:state.master.talukas,
+    zones:state.zones.activeZonesByCID,
+    wards:state.wards.activeWardsByCID,
+    states:state.master.activeStates,
+    districts:state.master.activeDistricts,
+    talukas:state.master.activeTalukas,
     councilById:state.council.councilById,
     uploadImage:state.upload.uploadImage,
     uploadImageLog:state.upload.uploadImageLog,
   }));
+ // console.log('wards', wards);
 
   React.useEffect(()=>{
     if(data && isOpen){
@@ -126,11 +130,18 @@ export default function CreateCouncilDialog(props) {
   },[data])
 
   useEffect(()=>{
-    dispatch(GetActiveZones(1,1000,1));
-    dispatch(GetActiveWards(1,1000,1));
-    dispatch(GetActiveState(1,1000,1));
-    dispatch(GetActiveDistricts(1,1000,1));
-    dispatch(GetActiveTalukas(1,1000,1));
+    dispatch(GetActiveZones(1));
+    dispatch(GetActiveWards(1));
+    dispatch(GetActiveState(1));
+    // dispatch(GetActiveDistricts(1));
+    // dispatch(GetActiveTalukas(1));
+    if (data) {
+    //  console.log("console");
+      dispatch(GetAllActiveDistrictsByStateId(data.state_id,1));
+      dispatch(GetAllActiveTalukaByDistrictId(data.district_id.name,1))
+      setShowDistrict(true);
+      setShowTaluka(true);
+    }
   },[])
 
   const firstRun = React.useRef(true);
@@ -184,14 +195,17 @@ export default function CreateCouncilDialog(props) {
   //   setOpen(false);
   // };
 
+  // console.log("///", districts);
   const handleClose = () => {
     setLogoValue("");
     props.handleClose();
   };
 
   const handleDistrictChange = (event) => {
-    dispatch(GetActiveTalukaByDistrictId(event.target.value,1,1000,1))
+    console.log("inn");
+    dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1))
     setDistrict(event.target.value);
+    setShowTaluka(true);
     setTaluka("Taluka")
   };
 
@@ -209,7 +223,6 @@ export default function CreateCouncilDialog(props) {
   // };
 
   const handleWardChange = (event) => {
-    console.log("HANDLE WARD CHANGE CALLED");
     const {
       target: { value },
     } = event;
@@ -220,18 +233,15 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleStateChange = (event) => {
-    console.log("HANDLE STATE CHANGE");
-    dispatch(GetActiveDistrictsByStateId(event.target.value,1,1000,1))
+    dispatch(GetAllActiveDistrictsByStateId(event.target.value,1));
+    setShowDistrict(true);
     setDistrict("District")
     setTaluka("Taluka")
     setStateName(event.target.value);
   };
 
   const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
     if(found){
       return found.name
     }
@@ -273,31 +283,38 @@ export default function CreateCouncilDialog(props) {
   const DistrictsSchema = Yup.object().shape(
     data?
     {
-      name: Yup.string().required('Name is required'),
+      name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
       district: Yup.string().required('Districts is required'),
       state: Yup.string().required('State is required'),
       // taluka: Yup.string().required('Taluka is required'),
       baseColorTarget: Yup.string().required('Base Color Target is required'),
       censusTarget: Yup.string().required('Census Target is required'),
+      total_area: Yup.string().required('Total area is required'),
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
+      locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
+      project_start_date: Yup.string().required('Start Date is required'),
     }
     :{
-    name: Yup.string().required('Name is required'),
+    name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
     // taluka: Yup.string().required('Taluka is required'),
     baseColorTarget: Yup.string().required('Base Color Target is required'),
     censusTarget: Yup.string().required('Census Target is required'),
-    firstName: Yup.string().required('First Name is required'),
+    total_area: Yup.string().required('Total area is required'),
+    firstName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('First Name is required'),
     // middleName: Yup.string().required('Middle Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
+    lastName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('Last Name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Email is required'),
+    mobile: Yup.string().matches(/^[0-9]\d{9}$/, 'Mobile number is not valid').required('Mobile number is required'),
     username: Yup.string().required('Username is required'),
     password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     zones: Yup.array().min(1,'Zone is required'),
     wards: Yup.array().min(1,'Ward is required'),
+    locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
+    project_start_date: Yup.string().required('Start Date is required'),
+    // "project_end_date": value.project_end_date
   });
 
 
@@ -313,6 +330,10 @@ export default function CreateCouncilDialog(props) {
       censusTarget:data?data.census_target:"",
       zones: data?zoneName:[],
       wards: data?wardName:[],
+      total_area:data?data.total_area:"",
+      locationAccuracyNeeded:data?data.location_accuracy_needed:"",
+      project_start_date: data?data.project_start_date:"",
+      project_end_date: data?data.project_end_date:""
     }
     :{
       district:data? data.district_id : "",
@@ -321,6 +342,7 @@ export default function CreateCouncilDialog(props) {
       name:data?data.name:"",
       baseColorTarget:data?data.base_color_target:"",
       censusTarget:data?data.census_target:"",
+      total_area:data?data.total_area:"",
       firstName: data?data.contact_person.first_name:"",
       middleName: data?data.contact_person.middle_name:"",
       lastName: data?data.contact_person.last_name:"",
@@ -330,14 +352,16 @@ export default function CreateCouncilDialog(props) {
       password: data?data?.password:"",
       zones: data?[]:[],
       wards: data?[]:[],
+      locationAccuracyNeeded:data?data.location_accuracy_needed:"",
+      project_start_date: data?data.project_start_date:"",
+      project_end_date: data?data.project_end_date:""
 
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
+      // console.log(value)
       if(data){
         if(validateLogo() && isImageRemoved){
-          console.log("INSIDE IS IMAGE REMOVED");
           const formData = new FormData();
             formData.append('upload_for', 'councils');
             formData.append('image', files);
@@ -348,10 +372,15 @@ export default function CreateCouncilDialog(props) {
               "district_id" : value.district,
               "taluka_id" : value.taluka,
               "base_color_target" : value.baseColorTarget,
-              "census_target" : value.censusTarget
+              "census_target" : value.censusTarget,
+              "total_area" : value.total_area,
+              "location_accuracy_needed": value.locationAccuracyNeeded,
+              "project_start_date": value.project_start_date,
+              "project_end_date": value.project_end_date
               },
               "zones":value.zones,
-              "wards": value.wards
+              "wards": value.wards,
+              
           },data.id))
         }
 
@@ -364,10 +393,15 @@ export default function CreateCouncilDialog(props) {
               "district_id" : value.district,
               "taluka_id" : value.taluka,
               "base_color_target" : value.baseColorTarget,
-              "census_target" : value.censusTarget
+              "census_target" : value.censusTarget,
+              "total_area" : value.total_area,
+              "location_accuracy_needed": value.locationAccuracyNeeded,
+              "project_start_date": value.project_start_date,
+              "project_end_date": value.project_end_date
               },
               "zones":value.zones,
-              "wards": value.wards
+              "wards": value.wards,
+            
           },data.id))
         }
         
@@ -384,7 +418,12 @@ export default function CreateCouncilDialog(props) {
                 "district_id" : value.district,
                 "taluka_id" : value.taluka,
                 "base_color_target" : value.baseColorTarget,
-                "census_target" : value.censusTarget
+                "census_target" : value.censusTarget,
+                "total_area" : value.total_area,
+                "location_accuracy_needed": value.locationAccuracyNeeded,
+                "project_start_date": value.project_start_date,
+                "project_end_date": value.project_end_date
+
                 },
                 "contact_person" : {
                   "first_name" : value.firstName,
@@ -396,22 +435,20 @@ export default function CreateCouncilDialog(props) {
                   "password" : value.password
               },
               "zones":value.zones,
-              "wards": value.wards
+              "wards": value.wards,
+              
             }))
       }
     },
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
-
-
   console.log("VALUES",values)
-
   return (
     <div>
-      <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={isOpen}>
+      <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {data?"Edit Counci":"New Council"}
+          {data?"Edit Council":"New Council"}
         </BootstrapDialogTitle>
         <DialogContent dividers>
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
@@ -479,11 +516,11 @@ export default function CreateCouncilDialog(props) {
                <MenuItem disabled value="">
             <em>Select District*</em>
           </MenuItem>
-              {districts?.map((option) => (
+              {showDistrict?districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              ))}
+              )):null}
             </TextField>
             </Grid>
             <Grid item xs={12}>
@@ -505,11 +542,11 @@ export default function CreateCouncilDialog(props) {
                  <MenuItem disabled value="">
               <em>Select Taluka</em>
             </MenuItem>
-                {talukas?.map((option) => (
+                {showTaluka?talukas?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
-                ))}
+                )):null}
               </TextField>
             </Grid>
             <Grid item xs={12}>
@@ -537,6 +574,18 @@ export default function CreateCouncilDialog(props) {
               />
             </Grid>
             <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="total_area"
+                autoComplete="name"
+                label="Total Area (sq km)*"
+                placeholder="Total Area(sq km)*"
+                error={Boolean(touched.total_area && errors.total_area)}
+                helperText={touched.total_area && errors.total_area}
+                {...getFieldProps("total_area")}
+              />
+            </Grid>
+            <Grid item xs={12}>
             <TextField
               select
               SelectProps={{
@@ -548,7 +597,6 @@ export default function CreateCouncilDialog(props) {
               // onChange={handleChange}
               style={{ width: '81%', marginLeft: 40 , marginTop:5}}
               renderValue={(selected) => {
-                console.log("SELECTED",selected);
                 if (selected.length === 0) {
                   return <em>Zone*</em>;
                 }
@@ -626,6 +674,58 @@ export default function CreateCouncilDialog(props) {
           ))}
         </TextField>
             </Grid>
+            <Grid item xs={12}>
+              <DefaultInput
+                fullWidth
+                id="locationAccuracyNeeded"
+                autoComplete="name"
+                label="Location Accuracy Needed* (in meter)"
+                placeholder="Enter Location Accuracy Needed* (in meter)"
+                error={Boolean(touched.locationAccuracyNeeded && errors.locationAccuracyNeeded)}
+                helperText={touched.locationAccuracyNeeded && errors.locationAccuracyNeeded}
+                {...getFieldProps("locationAccuracyNeeded")}
+              />
+            </Grid>
+           
+            <Grid item xs={5}>
+                 <TextField
+                id="date"
+                // label="Date Of Birth"
+                type="date"
+                label="Start Date*"
+                placeholder='Start Date*'
+                // defaultValue="2017-05-24"
+                style={{ width: '81%', marginLeft: 40, marginTop:5 }}
+                // className={classes.textField}
+                error={Boolean(touched.project_start_date && errors.project_start_date)}
+                helperText={touched.project_start_date && errors.project_start_date}
+                {...getFieldProps("project_start_date")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                // inputProps={{ min: todayDate }}
+              />
+              </Grid>
+              <Grid item xs={5}>
+              <TextField
+                id="date"
+                // value={toDate}
+                type="date"
+                label="End Date"
+                placeholder= 'End Date'
+                // defaultValue="2017-05-24"
+                style={{ width: '81%', marginLeft: 40, marginTop:5 }}
+                // className={classes.textField}
+                error={Boolean(touched.project_end_date && errors.project_end_date)}
+                helperText={touched.project_end_date && errors.project_end_date}
+                {...getFieldProps("project_end_date")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                // inputProps={{ min: todayDate }}
+              />
+            </Grid>
+
             <Divider />
             {!data?
             <>
@@ -685,6 +785,7 @@ export default function CreateCouncilDialog(props) {
               <DefaultInput
                 fullWidth
                 id="contact"
+                type="number"
                 autoComplete="contact"
                 label="Mobile Number*"
                 placeholder="Enter Mobile No*"
@@ -764,7 +865,12 @@ export default function CreateCouncilDialog(props) {
         </DialogContent>
 
         <DialogActions>
-          <Button autoFocus onClick={handleSubmit}>
+          <Button autoFocus 
+          onClick={(e)=>{
+            validateLogo();
+            formik.handleSubmit(e)
+          }}
+            >
             Save changes
           </Button>
         </DialogActions>

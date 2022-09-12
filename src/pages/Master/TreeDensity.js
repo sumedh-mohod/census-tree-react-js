@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -30,6 +30,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import { DeleteDistricts, GetAllDistricts, SearchDistricts} from '../../actions/MasterActions';
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -77,7 +78,7 @@ export default function TreeDensity() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -85,6 +86,10 @@ export default function TreeDensity() {
    const [dialogData,setDialogData] = useState(null);
    const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [dropPage, setDropPage] = useState("");
+  const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
 
    const {
     districts,
@@ -100,10 +105,10 @@ export default function TreeDensity() {
     pageInfo : state.master.pageInfo
   }));
 
-  console.log("DISTRICTS",districts)
+  // console.log("DISTRICTS",districts)
 
   useEffect(()=>{
-    dispatch(GetAllDistricts(page+1,rowsPerPage));
+    dispatch(GetAllDistricts(page,rowsPerPage));
   },[addDistrictsLog,editDistrictsLog,deleteDistrictsLog])
 
   useEffect(()=>{
@@ -120,17 +125,17 @@ export default function TreeDensity() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchDistricts(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchDistricts(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetAllDistricts(newPage+1,rowsPerPage));
+      dispatch(GetAllDistricts(newPage,rowsPerPage));
     }
     
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchDistricts(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -158,14 +163,14 @@ export default function TreeDensity() {
         if(value){
           dispatch(SearchDistricts(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetAllDistricts(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -177,7 +182,7 @@ export default function TreeDensity() {
   }
 
   return (
-    <Page title="Tree Density">
+    <Page title="User">
       <Container>
         {open?
         <TreeDensityDialog
@@ -189,25 +194,14 @@ export default function TreeDensity() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-          Tree Density
-        </Link>
-      </Breadcrumbs>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
+
     </div>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Tree Density
 
           </Button>
         </Stack>
@@ -226,7 +220,7 @@ export default function TreeDensity() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.name}
                             </TableCell>
@@ -245,16 +239,12 @@ export default function TreeDensity() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {districts?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

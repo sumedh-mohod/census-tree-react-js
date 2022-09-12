@@ -26,7 +26,8 @@ export default function LoginForm() {
   }));
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    // email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    email: Yup.string().required('Username is required'),
     password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
   });
 
@@ -50,8 +51,7 @@ export default function LoginForm() {
     onSubmit: (value) => {
       dispatch(LoginUser({
         "username": value.email,
-        "password": value.password,
-        "imei_number" : "278782"
+        "password": value.password
       }))
       // navigate('/dashboard', { replace: true });
     },
@@ -70,8 +70,8 @@ export default function LoginForm() {
           <TextField
             fullWidth
             autoComplete="username"
-            type="email"
-            label="Email address"
+            // type="email"
+            label="Username"
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}

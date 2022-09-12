@@ -14,7 +14,7 @@ import { SetNewAlert } from "./AlertActions";
 const GetQcRemarks = (page,limit) => async (dispatch) => {
   try {
     const response = await JWTServer.get(`/api/qc-remarks?page=${page}&limit=${limit}`);
-    console.log("QCREMARKS RESPONSE",response.data);
+    // console.log("QCREMARKS RESPONSE",response.data);
     dispatch({
       type: GET_QCREMARKS,
       payload: response.data,
@@ -95,7 +95,7 @@ const GetActiveQcRemarks = (page,limit,status) => async (dispatch) => {
     const EditQcRemarks = (params,districtsId) => async (dispatch) => {
       try {
         const response = await JWTServer.put(`/api/qc-remarks/${districtsId}`,params);
-        console.log("EDIT QCREMARKS RESPONSE",response.data);
+        // console.log("EDIT QCREMARKS RESPONSE",response.data);
         dispatch({
           type: EDIT_QCREMARKS,
           payload: response.data,
@@ -112,7 +112,7 @@ const GetActiveQcRemarks = (page,limit,status) => async (dispatch) => {
     const DeleteQcRemarks = (params,status) => async (dispatch) => {
       try {
         const response = await JWTServer.delete(`/api/qc-remarks/${params}?status=${status}`);
-        console.log("DELETE QCREMARKS RESPONSE",response.data);
+        // console.log("DELETE QCREMARKS RESPONSE",response.data);
         dispatch({
           type: DELETE_QCREMARKS,
           payload: response.data,

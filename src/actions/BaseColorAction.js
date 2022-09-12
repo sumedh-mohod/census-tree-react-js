@@ -1,7 +1,8 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HISTORY, GET_QC_REMARKS_FOR_BASE_COLOR, UPDATE_QC_STATUS_BASE_COLOR_TREES } from "./Types";
+import { DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HISTORY, GET_QC_REMARKS_FOR_BASE_COLOR, UPDATE_QC_STATUS_BASE_COLOR_TREES,
+GET_BASE_COLOR_PENDING_QC_STATUS, UPDATE_BASE_COLOR_TREE } from "./Types";
 
 const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => {
 
@@ -89,7 +90,7 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
   const DeleteBaseColorTrees = (params,status) => async (dispatch) => {
     try {
       const response = await JWTServer.delete(`/api/base-color-trees/${params}?status=${status}`);
-      console.log("DELETE STATE RESPONSE",response.data);
+      // console.log("DELETE STATE RESPONSE",response.data);
       dispatch({
         type: DELETE_BASE_COLOR_TREES,
         payload: response.data,
@@ -118,11 +119,59 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
   const GetQcRemarksForBaseColor = (params) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/qc-remarks?where[remark_for]=${params}`);
-      console.log("QCREMARKS RESPONSE",response.data);
+      // console.log("QCREMARKS RESPONSE",response.data);
       dispatch({
         type: GET_QC_REMARKS_FOR_BASE_COLOR,
         payload: response.data,
       });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetBaseColorPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDate,addedBy) => async (dispatch) => {
+    
+    
+    let url = `/api/base-color-trees/qc/pending`;
+    if(councilId){
+      url = `${url}?where[council_id]=${councilId}`;
+    }
+    if(zoneId){
+      url = `${url}&where[zone_id]=${zoneId}`;
+    }
+    if(wardId){
+      url = `${url}&where[ward_id]=${wardId}`
+    }
+    if(addedBy){
+      url = `${url}&where[added_by_id]=${addedBy}`
+    }
+    if(fromDate && toDate){
+      url = `${url}&where[from_date]=${fromDate}&where[to_date]=${toDate}`
+    }
+    try {
+      const response = await JWTServer.get(`${url}`);
+      // console.log(response);
+      dispatch({
+        type: GET_BASE_COLOR_PENDING_QC_STATUS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const UpdateBaseColorTree = (params, id) => async (dispatch) => {
+    try {
+      const response = await JWTServer.put(`/api//base-color-trees/${id}`,params);
+      // console.log("Update Base color Tree",response.data);
+      dispatch({
+        type: UPDATE_BASE_COLOR_TREE,
+        payload: response.data,
+      });
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -136,5 +185,7 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
       SearchBaseColorTrees,
       DeleteBaseColorTrees,
       UpdateQCStatusOfBaseColorTrees,
-      GetQcRemarksForBaseColor
+      GetQcRemarksForBaseColor,
+      GetBaseColorPendingQCStatus,
+      UpdateBaseColorTree
   }

@@ -20,6 +20,13 @@ import BaseColorReducer from "./BaseColorReducer";
 import PropertyReducer from "./PropertyReducer";
 import DeniedEntryReducer from "./DeniedEntryReducer";
 import CommonReducer from "./CommonReducer";
+import TreeCensusReducer from './TreeCensusReducer';
+import TreeDiseaseReducer from './TreeDiseaseReducer';
+import NoTreePropertyReducer from "./NoTreePropertyReducer";
+import TreeOnMapReducer from "./TreeOnMapReducer";
+import ReportsReducer from './ReportsReducer';
+import TreeFamilyReducer from "./TreeFamilyReducer";
+import WorkRepotReducer from "./WorkReportReducer";
 
 
 export default combineReducers({
@@ -41,7 +48,14 @@ export default combineReducers({
   users:UserReducer,
   upload:UploadReducer,
   baseColor:BaseColorReducer,
+  treeCensus:TreeCensusReducer,
+  noTreeProperty:NoTreePropertyReducer,
   properties:PropertyReducer,
   deniedEntry:DeniedEntryReducer,
-  common:CommonReducer
+  treeDisease:TreeDiseaseReducer,
+  common:CommonReducer,
+  treeLocation:TreeOnMapReducer,
+  reports: ReportsReducer,
+  treeFamily: TreeFamilyReducer,
+  workReports: WorkRepotReducer
 });

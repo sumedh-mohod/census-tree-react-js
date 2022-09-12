@@ -95,7 +95,7 @@ export default function TreeConditionDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    treeConditions: Yup.string().required('Tree Condition is required'),
+    treeConditions: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Tree Condition is required'),
   });
 
 
@@ -131,7 +131,7 @@ export default function TreeConditionDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+       
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Tree Condition":"Add Tree Condition"}</BootstrapDialogTitle>

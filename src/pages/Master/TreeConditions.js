@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -29,6 +29,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfTreeCuttingDialog from "../../components/DialogBox/TreeConditionDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -72,7 +73,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function TreeConditions() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -80,25 +81,36 @@ export default function TreeConditions() {
    const [dialogData,setDialogData] = useState(null);
    const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
-
+   const [dropPage, setDropPage] = useState(10);
+  const userPermissions = [];
+  const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
    const {
     treeConditions,
     addTreeConditionsLog,
     editTreeConditionsLog,
     deleteTreeConditionsLog,
-    pageInfo
+    pageInfo,
+    loggedUser,
   } = useSelector((state) => ({
     treeConditions:state.treeConditions.treeConditions,
     addTreeConditionsLog:state.treeConditions.addTreeConditionsLog,
     editTreeConditionsLog:state.treeConditions.editTreeConditionsLog,
     deleteTreeConditionsLog:state.treeConditions.deleteTreeConditionsLog,
-    pageInfo : state.treeConditions.pageInfo
+    pageInfo : state.treeConditions.pageInfo,
+    loggedUser:state.auth.loggedUser,
+
   }));
 
-  console.log("TREE CONDITIONS",treeConditions)
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
+  // console.log("TREE CONDITIONS",treeConditions)
 
   useEffect(()=>{
-    dispatch(GetTreeConditions(page+1,rowsPerPage));
+    dispatch(GetTreeConditions(page,rowsPerPage));
   },[addTreeConditionsLog,editTreeConditionsLog,deleteTreeConditionsLog])
 
   useEffect(()=>{
@@ -118,23 +130,23 @@ export default function TreeConditions() {
   };
 
   const handleDelete = (data) => {
-    console.log("HANDLE DELETE",data);
+    // console.log("HANDLE DELETE",data);
     dispatch(DeleteTreeConditions(data.id,data.status?0:1));
   };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchTreeConditions(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchTreeConditions(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetTreeConditions(newPage+1,rowsPerPage));
+      dispatch(GetTreeConditions(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchTreeConditions(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -152,14 +164,14 @@ export default function TreeConditions() {
         if(value){
           dispatch(SearchTreeConditions(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetTreeConditions(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -171,7 +183,7 @@ export default function TreeConditions() {
   }
 
   return (
-    <Page title="Tree Conditions">
+    <Page title="User">
       <Container>
         {open?
         <TypeOfTreeCuttingDialog
@@ -183,27 +195,16 @@ export default function TreeConditions() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-          Tree Conditions
-        </Link>
-      </Breadcrumbs>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
     </div>
+    {userPermissions.includes("create-tree-condition")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Tree Condition
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -220,11 +221,11 @@ export default function TreeConditions() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.condition}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )
@@ -235,16 +236,12 @@ export default function TreeConditions() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={USERLIST.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {treeConditions?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

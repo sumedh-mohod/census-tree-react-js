@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import {  useEffect, useRef, useState } from 'react';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Link,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -29,6 +29,8 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
+import AssignedUserMenu from '../../sections/@dashboard/user/AssignedUserMenu';
+import WarningMessageDialog from '../../components/DialogBox/WarningMessageDialog';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +41,7 @@ const TABLE_HEAD = [
   { id: 'fromdate', label: 'From Date', alignRight: false },
   { id: 'todate', label: 'To Date', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -75,14 +78,17 @@ function applySortFilter(array, comparator, query) {
 export default function AssignUser() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
-   const [searchValue,setSearchValue] = useState("");
-   const [showList,setShowList] = useState(false);
+  const [searchValue,setSearchValue] = useState("");
+  const [showList,setShowList] = useState(false);
+  const [topModalOpen, setTopModalOpen] = useState(false);
+  const [reqObj, setReqObj] = useState(null);
+  const message = "Unassigning the user will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding."
   
   const {
     userOfTeam,
@@ -96,11 +102,12 @@ export default function AssignUser() {
     pageInfo : state.teams.pageInfo
   }));
 
-  console.log("USER of team",userOfTeam)
+  // console.log("USER of team",userOfTeam)
   const { teamId, teamName } = useParams();
+  const {state} = useLocation();
   
   useEffect(()=>{
-    dispatch(GetUserByTeam(teamId,page+1,rowsPerPage));
+    dispatch(GetUserByTeam(teamId,page,rowsPerPage));
   },[assignUserToTeamLog,deleteUserFromteamLog])
 
   useEffect(()=>{
@@ -129,24 +136,25 @@ export default function AssignUser() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteUserFromTeam(data.id,data.status?0:1));
+    handleTopModalClose();
+    setReqObj(data);
   };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchUserByTeam(teamId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchUserByTeam(teamId,newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetUserByTeam(teamId,newPage+1,rowsPerPage));
+      dispatch(GetUserByTeam(teamId,newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchUserByTeam(teamId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -165,7 +173,7 @@ export default function AssignUser() {
           setShowList(false);
           dispatch(SearchUserByTeam(teamId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -173,7 +181,7 @@ export default function AssignUser() {
           setShowList(false);
           dispatch(GetUserByTeam(teamId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -184,43 +192,60 @@ export default function AssignUser() {
     console.info('You clicked a breadcrumb.');
   }
 
-  console.log("USERS OF TEAM",userOfTeam);
+  // console.log("USERS OF TEAM",userOfTeam);
+
+
+  const handleTopModalClose = () => {
+    setTopModalOpen(!topModalOpen)
+  }
+
+  const handleTopModalAnswer = (answer) => {
+    if(answer){
+      dispatch(DeleteUserFromTeam(reqObj.id,reqObj.status?0:1));
+    }
+    setTopModalOpen(!topModalOpen)
+  }
 
   return (
-    <Page title="Teams">
+    <Page title="User">
     <Container>
+    <WarningMessageDialog 
+        isOpenConfirm={topModalOpen}
+        message={message}
+        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+        />
       {open?
-      <AssignUserDialog
-      isOpen={open}
-      handleClose = {handleNewUserClick}
-      data= {dialogData}
-      teamId={teamId}
-      />:null
-      }
-        
+        <AssignUserDialog
+        isOpen={open}
+        handleClose = {handleNewUserClick}
+        data= {dialogData}
+        teamId={teamId}
+        />
+        :null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Teams
-        </Link>
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+      <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+      Teams
+          </Typography>
+      <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link 
         component={RouterLink}
         to={`/dashboard/teams`}
+        state={state}
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           // href="#"
         >
           {teamName}
               
         </Link>
-        <Link
+        </Typography>
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        Assigned Users
+        </Typography>
+        {/* <Link
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
@@ -228,10 +253,10 @@ export default function AssignUser() {
         >
            Assigned Users
               
-        </Link>
+        </Link> */}
       </Breadcrumbs>
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button onClick={handleNewUserClick} variant="contained" startIcon={<Iconify icon="eva:plus-fill"  />}>
           Assign User
 
           </Button>
@@ -251,12 +276,15 @@ export default function AssignUser() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.roles}</TableCell>
                         <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
+                        <TableCell align="left">{option.status?"Assigned":"Unassigned"}</TableCell>
+                        <TableCell align="right">
+                        <AssignedUserMenu status={option.status} disable={!option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                        </TableCell>
                         </TableRow>
                         )
                   }):null
@@ -266,16 +294,12 @@ export default function AssignUser() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {userOfTeam?(
+          <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

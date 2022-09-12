@@ -73,11 +73,11 @@ export default function TypeOfPropertyDialog(props) {
     propertyTypes:state.propertyTypes.propertyTypes,
     addPropertyTypesLog:state.propertyTypes.addPropertyTypesLog,
     editPropertyTypesLog:state.propertyTypes.editPropertyTypesLog,
-    locationTypes:state.locationTypes.locationTypes,
+    locationTypes:state.locationTypes.activeLocationTypes,
   }));
 
   React.useEffect(()=>{
-    dispatch(GetActiveLocationType(1,1000,1));
+    dispatch(GetActiveLocationType(1));
   },[])
 
   const firstRun = React.useRef(true);
@@ -92,6 +92,7 @@ export default function TypeOfPropertyDialog(props) {
   const handleClose = () => {
     props.handleClose();
   };
+  
 
 
   const handleClickOpen = () => {
@@ -151,7 +152,6 @@ export default function TypeOfPropertyDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Property Type":"Add Property Type"}</BootstrapDialogTitle>

@@ -31,6 +31,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 TeamListToolbar.propTypes = {
+  callType: PropTypes.string,
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
@@ -45,16 +46,16 @@ TeamListToolbar.propTypes = {
 
 
 
-export default function TeamListToolbar({ numSelected, filterName, onFilterName, placeHolder,handleCoucilChange,handleWardChange,handleZoneChange,coucilId,zoneId,wardId }) {
+export default function TeamListToolbar({ callType, numSelected, filterName, onFilterName, placeHolder,handleCoucilChange,handleWardChange,handleZoneChange,coucilId,zoneId,wardId }) {
   
     const {
         council,
         zones,
         wards,
       } = useSelector((state) => ({
-        council:state.council.council,
-        zones:state.zones.zones,
-        wards:state.wards.wards,
+        council:state.council.activeCouncil,
+        zones:state.zones.activeZonesByCID,
+        wards:state.wards.activeWardsByCID,
       }));
   
     return (
@@ -84,7 +85,11 @@ export default function TeamListToolbar({ numSelected, filterName, onFilterName,
         />
       )}
 
+
          <Grid container justifyContent="flex-end">
+          {/* {(callType === "BaseColor")?(
+         <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
+         ):null} */}
          <Tooltip title="Filter list">
           <IconButton>
             <Iconify icon="ic:round-filter-list" />
@@ -103,9 +108,19 @@ export default function TeamListToolbar({ numSelected, filterName, onFilterName,
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
               >
-                 <MenuItem disabled value="">
+                { callType === "Teams"?(
+                  
+                    <MenuItem disabled value="">
+                  <em>Project Name</em>
+                </MenuItem>
+              
+                )
+                 :(
+                    <MenuItem disabled value="">
               <em>Council Name</em>
             </MenuItem>
+                 )
+                 }
                 {council?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
@@ -157,8 +172,13 @@ export default function TeamListToolbar({ numSelected, filterName, onFilterName,
                 )):null}
               </Select>
               </Grid>
+              {/* {(callType === "BaseColor" || "DeniedEntries")?(
+         <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
+         ):null} */}
               </Grid>
-              
+              {/* {(callType === "BaseColor")?(
+         <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
+         ):null} */}
     </RootStyle>
   );
 }

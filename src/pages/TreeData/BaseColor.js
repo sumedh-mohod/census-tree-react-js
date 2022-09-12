@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Link,
   IconButton,
 } from '@mui/material';
@@ -31,9 +31,9 @@ import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialo
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import { GetBaseColorTrees, DeleteBaseColorTrees, SearchBaseColorTrees, AddBaseColorTrees, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
-import { GetCouncil } from '../../actions/CouncilAction';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 
@@ -44,6 +44,9 @@ const TABLE_HEAD = [
   { id: 'locationType', label: 'Location Type', alignRight: false },
   { id: 'propertyType', label: 'Property Type', alignRight: false },
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
+  { id: 'propertyAddress', label: 'Property Address', alignRight: false },
+  { id: 'treeLocation', label: 'Tree Location', alignRight: false },
+  { id: 'locationAccuracyNeeded', label: 'Location Accuracy Needed', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
   { id: 'images', label: 'Images', alignRight: false },
@@ -51,6 +54,7 @@ const TABLE_HEAD = [
   { id: 'addedOn', label: 'Added On', alignRight: false },
   { id: 'qcStatus', label: 'QC Status', alignRight: false },
   { id: 'qcRemarks', label: 'QC Remarks', alignRight: false },
+  { id: 'qcBy', label: 'QC By', alignRight: false },
   { id: 'qcDate', label: 'QC Date', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
 ];
@@ -59,7 +63,7 @@ const TABLE_HEAD = [
 
 export default function BaseColor() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -75,6 +79,7 @@ export default function BaseColor() {
    const [showList,setShowList] = useState(false);
    const [qcDialogOpen,setQcDialogOpen] = useState(false);
    const [baseColorId,setBaseColorId] = useState("");
+   const userPermissions = [];
 
    const {
     council,
@@ -84,9 +89,10 @@ export default function BaseColor() {
     editBaseColorTreesLog,
     deleteBaseColorTreesLog,
     updateQCStatusLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     baseColorTrees:state.baseColor.baseColorTrees,
@@ -94,7 +100,39 @@ export default function BaseColor() {
     deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
     updateQCStatusLog:state.baseColor.updateQCStatusLog,
     pageInfo:state.baseColor.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
+
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+
+  const { state} = useLocation();
+
+  useEffect(()=>{
+    let cId = null;
+    let wId = null;
+    let zId = null;
+    if(state?.councilId){
+      setCouncilId(state.councilId)
+      cId = state.councilId;
+    }
+    if(state?.wardId){
+      setWardId(state.wardId);
+      wId = state.wardId;
+    }
+    if(state?.zoneId){
+      setZoneId(state.zoneId)
+      zId = state.zoneId;
+    }
+    if(state?.pageNumber){
+      setPage(state.pageNumber)
+    }
+    if(state){
+      dispatch(GetBaseColorTrees(state.pageNumber,rowsPerPage,cId,zId,wId))
+    }
+    
+  },[])
 
   const firstRun = React.useRef(true);
   useEffect(()=>{
@@ -103,8 +141,7 @@ export default function BaseColor() {
       return;
     }
     setShowList(true);
-    console.log("BEFORE FETCHING");
-    dispatch(GetBaseColorTrees(page+1,rowsPerPage,coucilId,zoneId,wardId));
+    dispatch(GetBaseColorTrees(page,rowsPerPage,coucilId,zoneId,wardId));
   },[editBaseColorTreesLog,deleteBaseColorTreesLog,updateQCStatusLog])
 
   const secondRun = React.useRef(true);
@@ -117,7 +154,7 @@ export default function BaseColor() {
   },[baseColorTrees])
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
 
@@ -171,17 +208,17 @@ export default function BaseColor() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchBaseColorTrees(newPage+1,rowsPerPage,coucilId,zoneId,wardId,searchValue));
+      dispatch(SearchBaseColorTrees(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetBaseColorTrees(newPage+1,rowsPerPage,coucilId,zoneId,wardId));
+      dispatch(GetBaseColorTrees(newPage,rowsPerPage,coucilId,zoneId,wardId));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setShowList(false)
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchBaseColorTrees(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
     }
@@ -191,7 +228,6 @@ export default function BaseColor() {
   };
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
   }
 
   let timer = null;
@@ -204,7 +240,7 @@ export default function BaseColor() {
           dispatch(SearchBaseColorTrees(1,rowsPerPage,coucilId,zoneId,wardId,value))
           setSearch(true)
           setShowList(false)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -212,7 +248,7 @@ export default function BaseColor() {
           dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,zoneId,wardId));
           setShowList(false)
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -223,16 +259,16 @@ export default function BaseColor() {
     setCouncilId(e.target.value);
     setZoneId("")
     setWardId("")
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetBaseColorTrees(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {
     setWardId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
@@ -240,13 +276,13 @@ export default function BaseColor() {
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
-    setPage(0);
+    setPage(1);
     dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
 
   return (
-    <Page title="Base Color">
+    <Page title="User">
       <Container>
         {open?
         <BaseColorDialog
@@ -275,23 +311,32 @@ export default function BaseColor() {
          
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+        {/* <Link
+          underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          href="#"
-        >
-          Trees Data
-        </Link>
+          component={RouterLink} to="/login"
+          // href="#"
+        > 
+         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Tree Data
+          </Typography>
+         </Link> 
         <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          href="#"
+          href="/dashboard/base-color"
         >
         Base Color
-        </Link>
+        </Link> */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Base Color
+          </Typography>
       </Breadcrumbs>
     </div>
         </Stack>
@@ -305,6 +350,7 @@ export default function BaseColor() {
         coucilId={coucilId}
         zoneId={zoneId}
         wardId={wardId}
+        callType="BaseColor"
         />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -312,16 +358,27 @@ export default function BaseColor() {
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
+                         {!coucilId?(
+                <TableRow>
+                  <TableCell align="right" colSpan={8} fontWeight={700}> 
+                  Please select council to get base color data
+                </TableCell>
+                </TableRow>
+                ):null
+}
                 <TableBody>
                      { showList? baseColorTrees?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
-                        <TableCell align="left">{option.property?.property_number}</TableCell>
+                        <TableCell align="left">{option.property?.property_number?option.property?.property_number: "-"}</TableCell>
+                        <TableCell align="left">{option.property?.address? option.property?.address: "-"}</TableCell>
+                        <TableCell align="left">{option.location}</TableCell>
+                        <TableCell align="left">{option.location_accuracy}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
                         <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
                         <TableCell align="left">
@@ -330,13 +387,14 @@ export default function BaseColor() {
                             <Visibility />
                           </IconButton>
                           </TableCell>
-                        <TableCell align="left">{option.added_by?.first_name}</TableCell>
+                        <TableCell align="left">{option.added_by?.first_name} {option.added_by?.last_name}</TableCell>
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.added_on_date}</TableCell>
                         <TableCell align="left">{option.qc_status?option.qc_status:"-"}</TableCell>
                         <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>
+                        <TableCell align="left">{option.qc_by? option.qc_by?.first_name: "-"} {option.qc_by? option.qc_by?.last_name: "-"}</TableCell>
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.qc_date?option.qc_date:"-"}</TableCell>
                         <TableCell align="right">
-                          <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
+                          <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} permissions={userPermissions} qcStatus={option.qc_status} councilId={coucilId} zoneId={zoneId} wardId={wardId} pageNumber={page} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )
@@ -347,16 +405,12 @@ export default function BaseColor() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {baseColorTrees?(
+          <Pagination count={showList? pageInfo.last_page : 0} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

@@ -1,7 +1,8 @@
-import { ADD_TREE_NAME, DELETE_TREE_NAME, EDIT_TREE_NAME, GET_TREE_NAME, RESET_STATE } from "../actions/Types";
+import { ADD_TREE_NAME, DELETE_TREE_NAME, EDIT_TREE_NAME, GET_TREE_NAME, GET_ACTIVE_TREE_NAME, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     treeName:null,
+    activeTreeName:null,
     addTreeNameLog:false,
     editTreeNameLog:false,
     deleteTreeNameLog:false,
@@ -17,6 +18,12 @@ import { ADD_TREE_NAME, DELETE_TREE_NAME, EDIT_TREE_NAME, GET_TREE_NAME, RESET_S
               ...state,
               treeName: payload.data.data,
               pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_TREE_NAME:
+          return{
+              ...state,
+              activeTreeName: payload.data,
         };
 
         case ADD_TREE_NAME:

@@ -10,14 +10,14 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
+  Link,
   IconButton,
   Breadcrumbs,
-  Link
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import {Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useParams} from 'react-router-dom';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead, UserListToolbar } from '../../sections/@dashboard/user';
@@ -42,6 +42,7 @@ const TABLE_HEAD = [
   { id: 'addedOn', label: 'Added On', alignRight: false },
   { id: 'qcStatus', label: 'QC Status', alignRight: false },
   { id: 'qcRemarks', label: 'QC Remarks', alignRight: false },
+  { id: 'qcBy', label: 'QC By', alignRight: false },
   { id: 'qcDate', label: 'QC Date', alignRight: false },
 ];
 
@@ -51,7 +52,7 @@ export default function BaseColorHistory() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -71,12 +72,10 @@ export default function BaseColorHistory() {
   }));
 
   const { baseColorId, baseColorName } = useParams();
-
-  console.log("baseColorName", baseColorName)
-  console.log("baseColorId",baseColorId)
+  const {state} = useLocation();
 
   useEffect(()=>{
-    dispatch(GetBaseColorTreeHistory(baseColorId,page+1,rowsPerPage));
+    dispatch(GetBaseColorTreeHistory(baseColorId,page,rowsPerPage));
   },[])
 
   useEffect(()=>{
@@ -105,17 +104,17 @@ export default function BaseColorHistory() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchBaseColorTreeHistory(baseColorId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchBaseColorTreeHistory(baseColorId,newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetBaseColorTreeHistory(baseColorId,newPage+1,rowsPerPage));
+      dispatch(GetBaseColorTreeHistory(baseColorId,newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchBaseColorTreeHistory(baseColorId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -134,7 +133,7 @@ export default function BaseColorHistory() {
           setShowList(false);
           dispatch(SearchBaseColorTreeHistory(baseColorId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -142,17 +141,16 @@ export default function BaseColorHistory() {
           setShowList(false);
           dispatch(GetBaseColorTreeHistory(baseColorId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
 
   }
 
-  console.log("BASE COLOR HISTORY",baseColorTreeHistory);
 
   return (
-    <Page title="Base Color">
+    <Page title="User">
       <Container>
       {viewOpen?
         <ViewImageDialog
@@ -163,33 +161,56 @@ export default function BaseColorHistory() {
         }
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation"  >
-        <Breadcrumbs aria-label="breadcrumb" separator='>'>
+        <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}}separator='>'>
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        Tree Data
+        </Typography>
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link
-          underline="none"
+        component={RouterLink}
+          to={`/dashboard/base-color`}
+          state={state}
+          underline="hover"
+         // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+        >
+        Base Color
+        </Link>
+        </Typography>
+        {/* {baseColorName=== 'undefined' ? null : 
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        <Link
+          component={RouterLink}
+          to={`/dashboard/base-color`}
+          underline="hover"
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          href="#"
+        >
+          {baseColorName}
+              
+        </Link>
+        </Typography>
+        } */}
+        {/* <Link
+          underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Trees Data
-        </Link>
-        <Link
-          underline="hover"
-          component={RouterLink}
-          to={`/dashboard/base-color`}
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
           Base Color
         </Link>
+        {baseColorName=== 'undefined' ? null : 
         <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
+          underline="hover"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          // href="#"
+          href="#"
         >
-           History
+          {baseColorName}
               
-        </Link>
+        </Link>} */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>  History</Typography>
       </Breadcrumbs>
 
     </div>
@@ -208,7 +229,7 @@ export default function BaseColorHistory() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
                         <TableCell align="left">{option.property?.property_number}</TableCell>
@@ -223,6 +244,7 @@ export default function BaseColorHistory() {
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.added_on_date}</TableCell>
                         <TableCell align="left">{option.qc_status?option.qc_status:"-"}</TableCell>
                         <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>
+                        <TableCell align="left">{option.qc_by? option.qc_by?.first_name: "-"}</TableCell>
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.qc_date?option.qc_date:"-"}</TableCell>
                         </TableRow>
                         )
@@ -233,16 +255,12 @@ export default function BaseColorHistory() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {baseColorTreeHistory?(
+          <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

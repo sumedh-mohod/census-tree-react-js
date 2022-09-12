@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -15,15 +15,15 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteTeam, GetTeam, SearchTeam,GetTeamByFilter } from '../../actions/TeamsAction';
-import { GetCouncil } from '../../actions/CouncilAction';
-import { GetZones, GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWards, GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
+import { GetActiveZones, GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWards, GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -40,9 +40,12 @@ import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'teamName', label: 'Team Name', alignRight: false },
+  { id: 'teamCode', label: 'Team Code', alignRight: false },
+  { id: 'teamType', label: 'Team Type', alignRight: false },
   { id: 'councilName', label: 'Council Name', alignRight: false },
   { id: 'zone', label: 'Zone', alignRight: false },
   { id: 'ward', label: 'Ward', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -79,7 +82,7 @@ function applySortFilter(array, comparator, query) {
 
 export default function TeamsList() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -102,21 +105,59 @@ export default function TeamsList() {
     council,
     zones,
     wards,
+    activeZonesByCID,
+    activeWardsByCID,
   } = useSelector((state) => ({
     teams:state.teams.teams,
     addTeamsLog:state.teams.addTeamsLog,
     editTeamsLog:state.teams.editTeamsLog,
     deleteTeamsLog:state.teams.deleteTeamsLog,
     pageInfo : state.teams.pageInfo,
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
+    activeZonesByCID:state.zones.activeZonesByCID,
+    activeWardsByCID:state.wards.activeWardsByCID,
   }));
 
-  console.log("Teams",teams)
+  const { state} = useLocation(); 
 
   useEffect(()=>{
-    dispatch(GetTeam(page+1,rowsPerPage));
+    let cId = null;
+    let wId = null;
+    let zId = null;
+    if(state?.councilId){
+      setCouncilId(state.councilId)
+      cId = state.councilId;
+    }
+    if(state?.wardId){
+      setWardId(state.wardId);
+      wId = state.wardId;
+    }
+    if(state?.zoneId){
+      setZoneId(state.zoneId)
+      zId = state.zoneId;
+    }
+    if(state?.pageNumber){
+      setPage(state.pageNumber)
+    }
+    if(state){
+      dispatch(GetTeamByFilter(state.pageNumber,rowsPerPage,cId,zId,wId))
+    }
+    else {
+      dispatch(GetTeam(page,rowsPerPage));
+    }
+    
+  },[])
+
+  const changeTeamRun = useRef(true);
+
+  useEffect(()=>{
+    if (changeTeamRun.current) {
+      changeTeamRun.current = false;
+      return;
+    }
+    dispatch(GetTeamByFilter(page,rowsPerPage,coucilId,zoneId,wardId));
   },[addTeamsLog,editTeamsLog,deleteTeamsLog])
 
   const fetchRun = useRef(true);
@@ -130,9 +171,9 @@ export default function TeamsList() {
   
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
-    dispatch(GetWards(1,1000));
-    dispatch(GetZones(1,1000));
+    dispatch(GetActiveCouncil(1));
+    dispatch(GetActiveWards(1));
+    dispatch(GetActiveZones(1));
   },[])
 
   useEffect(()=>{
@@ -174,16 +215,16 @@ export default function TeamsList() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchTeam(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchTeam(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetTeam(newPage+1,rowsPerPage));
+      dispatch(GetTeam(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     setShowList(false);
     if(search){
       dispatch(SearchTeam(1,parseInt(event.target.value, 10),searchValue));
@@ -203,7 +244,7 @@ export default function TeamsList() {
           setShowList(false);
           dispatch(SearchTeam(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -211,7 +252,7 @@ export default function TeamsList() {
           setShowList(false);
           dispatch(GetTeam(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -223,44 +264,60 @@ export default function TeamsList() {
     setCouncilId(e.target.value);
     setZoneId("")
     setWardId("")
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {
     setWardId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
 
   const handleZoneChange = (e) => {
     setZoneId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetTeamByFilter(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
+  const getValidTeamType = (teamType) => {
+    let updatedTeamType = teamType;
+
+    if(teamType==="base_color"){
+      updatedTeamType = "Base Color";
+    }
+    else if(teamType==="census"){
+      updatedTeamType = "Census";
+    }
+    else if(teamType==="offsite_qc"){
+      updatedTeamType = "Offsite QC";
+    }
+    else if(teamType==="onsite_qc"){
+      updatedTeamType = "Onsite QC";
+    }
+    return updatedTeamType;
+  }
+
   return (
-    <Page title="Teams">
+    <Page title="TeamList">
       <Container>
         {open?
         <TeamsTableDialog
         isOpen={open}
         handleClose = {handleNewUserClick}
         data={dialogData}
-        />:null
-        }
-        
+        />:null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
            Teams
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Team
           </Button>
         </Stack>
 
@@ -273,6 +330,7 @@ export default function TeamsList() {
         coucilId={coucilId}
         zoneId={zoneId}
         wardId={wardId}
+        callType="Teams"
         />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -286,14 +344,16 @@ export default function TeamsList() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">{option.team_code}</TableCell>
+                        <TableCell align="left">{getValidTeamType(option.team_type)}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>
                         <TableCell >{option?.zone}</TableCell>
                         <TableCell align="left">{option?.ward}</TableCell>
-                        {/* <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell> */}
+                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <TeamsMenu id={option.id} name={option.name} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <TeamsMenu status={option.status} id={option.id} name={option.name} councilId={coucilId} zoneId={zoneId} wardId={wardId} pageNumber={page} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         ))
@@ -303,8 +363,13 @@ export default function TeamsList() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
+          {teams?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
+          {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={count}
@@ -313,7 +378,7 @@ export default function TeamsList() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             render
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

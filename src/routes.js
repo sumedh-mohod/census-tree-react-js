@@ -35,6 +35,18 @@ import TreeDensity from './pages/Master/TreeDensity';
 import ViewUser from './pages/Users/ViewUser';
 import QcRemarks from './pages/Master/QcRemarks';
 import ViewProperties from './pages/Master/ViewProperties';
+import Census from './pages/TreeData/Census';
+import TreeDisease from './pages/Master/TreeDisease';
+import TreeCensusHistory from './pages/TreeData/TreeCensusHistory';
+import NoTreeProperty from './pages/TreeData/NoTreeProperty';
+import TreeOnMap from './pages/Map/TreeOnMap';
+// import Reports from './pages/TreeData/Reports';
+import NewUI from './pages/NewUI';
+import BaseColorPendingQC from './pages/TreeData/BaseColorPendingQC';
+import TreeFamilies from './pages/Master/TreeFamilies';
+import WorkingReports from './pages/Reports/WorkingReports';
+import TreeReports from './pages/Reports/TreeReports';
+import Reports from './pages/TreeData/Reports';
 
 // ----------------------------------------------------------------------
 
@@ -58,6 +70,7 @@ export default function Router() {
         { path: 'council', element: <CreateCouncil /> },
         { path: 'council/properties/:councilId/:councilName', element: <ViewProperties /> },
         { path: 'type-of-tree', element: <TypeOfTree /> },
+        { path: 'families', element: <TreeFamilies/> },
         { path: 'name-of-tree', element: <CreateNameOfTree /> },
         { path: 'tree-condition', element: <TreeConditions /> }, 
         { path: 'type-of-property', element: <TypeOfProperty /> },   
@@ -74,6 +87,16 @@ export default function Router() {
         { path: 'assignNewCouncilZoneWard/:teamId/:teamName', element: <AssignNewCouncilZoneWard /> },
         { path: 'assignUser/:teamId/:teamName', element: <AssignUser/> },
         { path: 'new-user-form', element: <NewUserForm/> },
+        { path: 'census', element: <Census/> },
+        { path: 'treeDisease', element: <TreeDisease/> },
+        { path: 'treeCensus/history/:treeCensusId/:treeCensusName', element: <TreeCensusHistory/> },
+        { path: 'no-tree-properties', element: <NoTreeProperty/> },
+        { path: 'treeOnMap', element: <TreeOnMap /> },
+        { path: 'censusQc', element: <NewUI/>},
+        { path: 'baseColorPendingQC', element: <BaseColorPendingQC/>},
+        { path: 'census-report', element: <Reports/>},
+        {path: "workingReports", element: <WorkingReports/>},
+        {path: "treeReports", element:<TreeReports/>}
       ],
     },
     {

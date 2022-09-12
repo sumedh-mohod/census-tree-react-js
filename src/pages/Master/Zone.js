@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -30,6 +30,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import ZoneDialog from "../../components/DialogBox/ZoneDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -73,33 +74,45 @@ function applySortFilter(array, comparator, query) {
 
 export default function Zone() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [dropPage, setDropPage] = useState(6);
+   const userPermissions = [];
+   const handleDropChange = (event) => {
+     setDropPage(event.target.value);
+    };
 
   const {
     zones,
     addZonesLog,
     editZonesLog,
     deleteZonesLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     zones:state.zones.zones,
     addZonesLog:state.zones.addZonesLog,
     editZonesLog:state.zones.editZonesLog,
     deleteZonesLog:state.zones.deleteZonesLog,
-    pageInfo : state.zones.pageInfo
+    pageInfo : state.zones.pageInfo,
+    loggedUser:state.auth.loggedUser,
   }));
 
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
+
   useEffect(()=>{
-    dispatch(GetZones(page+1,rowsPerPage));
+    dispatch(GetZones(page,rowsPerPage));
   },[addZonesLog,editZonesLog,deleteZonesLog])
 
-  console.log("ZONES",zones);
+  // console.log("ZONES",zones);
 
   useEffect(()=>{
     if(pageInfo){
@@ -115,16 +128,16 @@ export default function Zone() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchZones(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchZones(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetZones(newPage+1,rowsPerPage));
+      dispatch(GetZones(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchZones(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -151,14 +164,14 @@ export default function Zone() {
         if(value){
           dispatch(SearchZones(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetZones(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -170,7 +183,7 @@ export default function Zone() {
   }
 
   return (
-    <Page title="Zones">
+    <Page title="User">
       <Container>
         {open?
         <ZoneDialog
@@ -182,27 +195,16 @@ export default function Zone() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-          Zones
-        </Link>
-      </Breadcrumbs>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
     </div>
+    {userPermissions.includes("create-zone")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Zone
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -219,11 +221,11 @@ export default function Zone() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )
@@ -234,16 +236,12 @@ export default function Zone() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {zones?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

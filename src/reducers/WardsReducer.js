@@ -1,7 +1,9 @@
-import {  ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, RESET_STATE } from "../actions/Types";
+import {  ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, GET_ACTIVE_WARDS, GET_ACTIVE_WARDS_BY_COUNCILID, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     wards:null,
+    activeWards:null,
+    activeWardsByCID: null,
     addWardsLog:false,
     editWardsLog:false,
     deleteWardsLog:false,
@@ -17,6 +19,22 @@ import {  ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, RESET_STATE } from "..
               ...state,
               wards: payload.data.data,
               pageInfo: payload.data
+        };
+        
+
+        case GET_ACTIVE_WARDS:
+          return{
+              ...state,
+              activeWardsByCID: payload.data,
+              activeWards: payload.data
+              
+        };
+
+        case GET_ACTIVE_WARDS_BY_COUNCILID:
+          return{
+              ...state,
+              activeWardsByCID: payload.data,
+              
         };
 
         case ADD_WARDS:

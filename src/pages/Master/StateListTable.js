@@ -14,6 +14,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Pagination,
   Stack,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -30,6 +31,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -44,32 +46,44 @@ export default function StateListTable() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [dropPage, setDropPage] = useState(3);
+   const userPermissions = [];
+   const handleDropChange = (event) => {
+     setDropPage(event.target.value);
+    };
 
   const {
     states,
     addStateLog,
     editStateLog,
     deleteStateLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     states:state.master.states,
     addStateLog:state.master.addStateLog,
     editStateLog:state.master.editStateLog,
     deleteStateLog:state.master.deleteStateLog,
-    pageInfo : state.master.pageInfo
+    pageInfo : state.master.pageInfo,
+    loggedUser:state.auth.loggedUser,
+
   }));
 
-  console.log("STATES",states)
+  // console.log("STATES",states);
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
 
   useEffect(()=>{
-    dispatch(GetAllState(page+1,rowsPerPage));
+    dispatch(GetAllState(page,rowsPerPage));
   },[addStateLog,editStateLog,deleteStateLog])
 
   useEffect(()=>{
@@ -95,16 +109,16 @@ export default function StateListTable() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchState(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchState(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetAllState(newPage+1,rowsPerPage));
+      dispatch(GetAllState(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchState(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -122,14 +136,14 @@ export default function StateListTable() {
         if(value){
           dispatch(SearchState(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetAllState(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
         }
     }, 1000);
 
@@ -140,7 +154,7 @@ export default function StateListTable() {
   }
 
   return (
-    <Page title="States">
+    <Page title="User">
       <Container>
         {open?
         <StateDialog
@@ -152,27 +166,16 @@ export default function StateListTable() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-          States
-        </Link>
-      </Breadcrumbs>
+       <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
     </div>
+    {userPermissions.includes("create-state")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            State
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -189,11 +192,11 @@ export default function StateListTable() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )
@@ -204,16 +207,12 @@ export default function StateListTable() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+{states?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

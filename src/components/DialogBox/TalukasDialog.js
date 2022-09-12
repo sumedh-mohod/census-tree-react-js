@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
-import { AddTalukas, EditTalukas, GetActiveDistricts, GetActiveDistrictsByStateId, GetActiveState } from '../../actions/MasterActions';
+import { AddTalukas, EditTalukas, GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState } from '../../actions/MasterActions';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -60,6 +60,7 @@ export default function TalukasDialog(props) {
   const [status, setStatus] = React.useState('Status')
   const[state, setState]=  React.useState('State');
   const[district, setDistrict]=  React.useState('District');
+  const [showDistrict, setShowDistrict] = React.useState(false);
   const { isOpen, data } = props;
 
   const {
@@ -70,18 +71,17 @@ export default function TalukasDialog(props) {
   } = useSelector((state) => ({
     addTalukasLog:state.master.addTalukasLog,
     editTalukasLog:state.master.editTalukasLog,
-    states:state.master.states,
-    districts:state.master.districts,
+    states:state.master.activeStates,
+    districts:state.master.activeDistricts,
   }));
 
   React.useEffect(()=>{
-    dispatch(GetActiveState(1,1000,1));
-    dispatch(GetActiveDistricts(1,1000,1));
+    dispatch(GetActiveState(1));
+    dispatch(GetActiveDistricts(1));
   },[])
 
   React.useEffect(()=>{
     if(data){
-      console.log("DATA",data);
       setState(data.district.state_id);
       setDistrict(data.district_id);
     }
@@ -100,14 +100,14 @@ export default function TalukasDialog(props) {
 
    const handleStateChange = (event) => {
 
-     console.log("HANDLE STATE CHANGE CALLED");
-     dispatch(GetActiveDistrictsByStateId(event.target.value,1,1000,1))
+    dispatch(GetAllActiveDistrictsByStateId(event.target.value,1));
+    setShowDistrict(true);
      setDistrict("District")
      setState(event.target.value);
+    //  console.log("Districts......", districts);
    };
 
    const handleDistrictChange = (event) => {
-     console.log("DISTRICT CHANGE CALLED");
      setDistrict(event.target.value);
    };
 
@@ -150,7 +150,7 @@ export default function TalukasDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    talukas: Yup.string().required('Taluka is required'),
+    talukas: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Taluka is required'),
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
   });
@@ -197,7 +197,7 @@ export default function TalukasDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+      
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Taluka":"Add Taluka"}</BootstrapDialogTitle>
@@ -205,6 +205,62 @@ export default function TalukasDialog(props) {
         <DialogContent>
         <Grid container spacing={1}>
         <Grid item xs={12}>
+              <TextField
+                select
+                id="state"
+                name="state"
+                displayEmpty
+                label="State*"
+                value={values.state}
+                style={{ width: '83%', marginLeft: 40,marginTop:5 }}
+                onChange={(e)=> {
+                  handleStateChange(e);
+                  formik.handleChange(e);
+                }}
+                error={Boolean(touched.state && errors.state)}
+                helperText={touched.state && errors.state}
+                // {...getFieldProps("state")}
+              >
+                 <MenuItem disabled value="">
+              <em>State*</em>
+            </MenuItem>
+                {states?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
+            <TextField
+              select
+              id="district"
+              name='district'
+              label="District*"
+              displayEmpty
+              value={values.district}
+              style={{width:'83%', marginLeft: 40,marginTop:5}}
+              placeholder='*Select District'
+              onChange={(e) => {
+                handleDistrictChange(e)
+                formik.handleChange(e);
+              }}
+              error={Boolean(touched.district && errors.district)}
+                helperText={touched.district && errors.district}
+                // {...getFieldProps("district")}
+            >
+               <MenuItem disabled value="">
+            <em>Select District*</em>
+          </MenuItem>
+              {showDistrict?districts?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
+                </MenuItem>
+              )):null}
+            </TextField>
+            </Grid>
+           
+            <Grid item xs={12}>
               <DefaultInput
                 fullWidth
                 id="name"
@@ -215,54 +271,6 @@ export default function TalukasDialog(props) {
                 helperText={touched.talukas && errors.talukas}
                 {...getFieldProps("talukas")}
               />
-            </Grid>
-            <Grid item xs={12}>
-            <TextField
-              select
-              id="taluka_state"
-              displayEmpty
-              label="State*"
-              value={state}
-              style={{width:'83%', marginLeft: 40}}
-              placeholder='*Select State'
-              onChange={handleStateChange}
-              error={Boolean(touched.state && errors.state)}
-                helperText={touched.state && errors.state}
-                {...getFieldProps("state")}
-            >
-              <MenuItem disabled value="">
-            <em>Select State*</em>
-          </MenuItem>
-              {states?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
-            </Grid>
-            <Grid item xs={12}>
-            <TextField
-              select
-              id="taluka_district"
-              label="District*"
-              displayEmpty
-              value={district}
-              style={{width:'83%', marginLeft: 40}}
-              placeholder='Select District'
-              onChange={handleDistrictChange}
-              error={Boolean(touched.district && errors.district)}
-                helperText={touched.district && errors.district}
-                {...getFieldProps("district")}
-            >
-               <MenuItem disabled value="">
-            <em>Select District*</em>
-          </MenuItem>
-              {districts?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
             </Grid>
           </Grid>
         </DialogContent>

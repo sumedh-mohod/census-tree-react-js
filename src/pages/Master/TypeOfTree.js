@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
@@ -30,6 +30,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfTreeDialog from "../../components/DialogBox/TypeOfTreeDialog";
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -73,32 +74,42 @@ function applySortFilter(array, comparator, query) {
 
 export default function TypeOfTree() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
   const [search,setSearch] = useState(false);
    const [searchValue,setSearchValue] = useState("");
+   const [dropPage, setDropPage] = useState(9);
+   const userPermissions = [];
 
   const {
     treeType,
     addTreeTypeLog,
     editTreeTypeLog,
     deleteTreeTypeLog,
-    pageInfo
+    pageInfo,
+    loggedUser
   } = useSelector((state) => ({
     treeType:state.treeType.treeType,
     addTreeTypeLog:state.treeType.addTreeTypeLog,
     editTreeTypeLog:state.treeType.editTreeTypeLog,
     deleteTreeTypeLog:state.treeType.deleteTreeTypeLog,
-    pageInfo : state.treeType.pageInfo
+    pageInfo : state.treeType.pageInfo,
+    loggedUser:state.auth.loggedUser,
+
   }));
 
-  console.log("TREE TYPE",treeType)
+  loggedUser.roles[0].permissions.map((item, index)=>(
+    userPermissions.push(item.name)
+  ))
+  
+
+  // console.log("TREE TYPE",treeType)
 
   useEffect(()=>{
-    dispatch(GetTreeType(page+1,rowsPerPage));
+    dispatch(GetTreeType(page,rowsPerPage));
   },[addTreeTypeLog,editTreeTypeLog,deleteTreeTypeLog])
 
   useEffect(()=>{
@@ -124,16 +135,16 @@ export default function TypeOfTree() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     if(search){
-      dispatch(SearchTreeType(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchTreeType(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetTreeType(newPage+1,rowsPerPage));
+      dispatch(GetTreeType(newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchTreeType(1,parseInt(event.target.value, 10),searchValue));
     }
@@ -141,6 +152,7 @@ export default function TypeOfTree() {
       dispatch(GetTreeType(1,parseInt(event.target.value, 10)));
     }
   };
+
 
   let timer = null;
   const filterByName = (event) => {
@@ -151,14 +163,14 @@ export default function TypeOfTree() {
         if(value){
           dispatch(SearchTreeType(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetTreeType(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -168,9 +180,13 @@ export default function TypeOfTree() {
     event.preventDefault();
     console.info('You clicked a breadcrumb.');
   }
+  const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
+
 
   return (
-    <Page title="Tree Types">
+    <Page title="User">
       
       <Container>
         {open?
@@ -183,29 +199,17 @@ export default function TypeOfTree() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          // href="#"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          // href="#"
-        >
-        Tree Types
-        </Link>
-      </Breadcrumbs>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
     </div>
+  
+    {userPermissions.includes("create-tree-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            Tree Type 
 
-          </Button>
+          </Button>:null}
         </Stack>
 
         <Card>
@@ -223,11 +227,11 @@ export default function TypeOfTree() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.tree_type}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status}  handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>
                         </TableRow>
                         )
@@ -238,16 +242,12 @@ export default function TypeOfTree() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={USERLIST.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {treeType?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

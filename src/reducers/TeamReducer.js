@@ -1,7 +1,8 @@
-import {  ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZW, DELETE_ASSIGNED_USER, DELETE_DESIGNATIONS, DELETE_TEAM, EDIT_DESIGNATIONS, EDIT_TEAM, GET_CZW_BY_TEAM, GET_DESIGNATIONS, GET_TEAM, GET_USERS_BY_TEAM, RESET_STATE } from "../actions/Types";
+import {  ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZW, DELETE_ASSIGNED_USER, DELETE_DESIGNATIONS, DELETE_TEAM, EDIT_DESIGNATIONS, EDIT_TEAM, GET_ACTIVE_TEAM, GET_CZW_BY_TEAM, GET_DESIGNATIONS, GET_TEAM, GET_USERS_BY_TEAM, RESET_STATE } from "../actions/Types";
   
   const INIT_STATE = {
     teams:null,
+    activeTeams:null,
     addTeamsLog:false,
     editTeamsLog:false,
     deleteTeamsLog:false,
@@ -23,6 +24,12 @@ import {  ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZ
               ...state,
               teams: payload.data.data,
               pageInfo: payload.data
+        };
+
+        case GET_ACTIVE_TEAM:
+          return{
+              ...state,
+              activeTeams: payload.data
         };
 
         case ADD_TEAM:

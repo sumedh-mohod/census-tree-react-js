@@ -95,7 +95,7 @@ export default function WardDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    wards: Yup.string().required('Ward is required'),
+    wards: Yup.string().min(1, 'Too Short!').max(4, 'Too Long! max. 4 character').required('Name required'),
   });
 
 
@@ -131,7 +131,6 @@ export default function WardDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Ward":"Add Ward"}</BootstrapDialogTitle>

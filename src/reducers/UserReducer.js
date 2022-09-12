@@ -1,8 +1,10 @@
-import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_TYPES, GET_USER, GET_USER_BY_ID, GET_USER_DOCUMENT_TYPES, RESET_STATE, UNLINK_DEVICE } from "../actions/Types";
+import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_TYPES, GET_USER, GET_USER_BY_ID, GET_ACTIVE_USER, GET_USERS_BY_ROLEID, GET_USER_DOCUMENT_TYPES, RESET_STATE, UNLINK_DEVICE } from "../actions/Types";
   
   const INIT_STATE = {
     users:null,
+    activeUsers:null,
     userById:null,
+    userByRoleID:null,
     addUsersLog:false,
     editUsersLog:false,
     deleteUsersLog:false,
@@ -24,10 +26,22 @@ import { ADD_USER, DELETE_USER, EDIT_USER, GET_RELIGIONS, GET_SALARY_DEDUCTION_T
               pageInfo: payload.data
         };
 
+        case GET_ACTIVE_USER:
+          return{
+              ...state,
+              activeUsers: payload.data,
+        };
+
         case GET_USER_BY_ID:
           return{
               ...state,
               userById: payload.data,
+        };
+
+        case GET_USERS_BY_ROLEID:
+          return{
+              ...state,
+              userByRoleID: payload.data,
         };
 
         case ADD_USER:

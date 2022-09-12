@@ -1,12 +1,12 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS } from "./Types";
+import { ADD_WARDS, DELETE_WARDS, EDIT_WARDS, GET_WARDS, GET_ACTIVE_WARDS, GET_ACTIVE_WARDS_BY_COUNCILID } from "./Types";
 
 const GetWards = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}`);
-      console.log("DESIGNATIONS RESPONSE",response.data);
+      // console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_WARDS,
         payload: response.data,
@@ -16,12 +16,24 @@ const GetWards = (page,limit) => async (dispatch) => {
     }
   };
 
-  const GetActiveWards = (page,limit,status) => async (dispatch) => {
+  const GetActiveWards = (status) => async (dispatch) => {
     try {
-      const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}&status=${status}`);
+      const response = await JWTServer.get(`/api/wards?status=${status}`);
+      // console.log("active wards RESPONSE",response.data);
       dispatch({
-        type: GET_WARDS,
+        type: GET_ACTIVE_WARDS,
         payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const SetActiveWards = (obj) => async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_ACTIVE_WARDS,
+        payload: obj,
       });
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
@@ -33,6 +45,18 @@ const GetWards = (page,limit) => async (dispatch) => {
       const response = await JWTServer.get(`/api/wards?page=${page}&limit=${limit}&council_id=${wardId}`);
       dispatch({
         type: GET_WARDS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetActiveWardsByCouncilId = (status,councilId) => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/wards?status=${status}&council_id=${councilId}`);
+      dispatch({
+        type: GET_ACTIVE_WARDS_BY_COUNCILID,
         payload: response.data,
       });
     } catch (e) {
@@ -71,7 +95,7 @@ const GetWards = (page,limit) => async (dispatch) => {
   const EditWards = (params,districtsId) => async (dispatch) => {
     try {
       const response = await JWTServer.put(`/api/wards/${districtsId}`,params);
-      console.log("EDIT STATE RESPONSE",response.data);
+      // console.log("EDIT STATE RESPONSE",response.data);
       dispatch({
         type: EDIT_WARDS,
         payload: response.data,
@@ -88,7 +112,7 @@ const GetWards = (page,limit) => async (dispatch) => {
   const DeleteWards = (params,status) => async (dispatch) => {
     try {
       const response = await JWTServer.delete(`/api/wards/${params}?status=${status}`);
-      console.log("DELETE STATE RESPONSE",response.data);
+      // console.log("DELETE STATE RESPONSE",response.data);
       dispatch({
         type: DELETE_WARDS,
         payload: response.data,
@@ -101,7 +125,9 @@ const GetWards = (page,limit) => async (dispatch) => {
   export {
       GetWards,
       GetActiveWards,
+      SetActiveWards,
       GetWardsByCouncilId,
+      GetActiveWardsByCouncilId,
       SearchWards,
       AddWards,
       EditWards,

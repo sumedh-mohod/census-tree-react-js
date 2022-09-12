@@ -10,6 +10,7 @@ import Iconify from '../../../components/Iconify';
 export default function UserMoreMenu(props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const permissions = props.permissions;
 
   const handleClose = () => {
     setIsOpen(false);
@@ -37,7 +38,22 @@ export default function UserMoreMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-          {props.disable?
+
+          {((permissions.includes("delete-role")) || 
+          (permissions.includes("delete-designation")) || 
+          (permissions.includes("delete-state")) || 
+          (permissions.includes("delete-district")) ||
+          (permissions.includes("delete-taluka")) ||
+          (permissions.includes("delete-zone")) ||
+          (permissions.includes("delete-ward")) ||
+          (permissions.includes("delete-tree-type")) ||
+          (permissions.includes("delete-tree-condition")) ||
+          (permissions.includes("delete-tree-name")) ||
+          (permissions.includes("delete-location-type")) ||
+          (permissions.includes("delete-property-type")) ||
+          (permissions.includes("delete-qc-remark")) ||
+          (permissions.includes("delete-tree-disease")))?
+          props.disable?
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} disabled >
           <ListItemIcon>
             <Iconify icon="eva:activity-outline" width={24} height={24} />
@@ -50,9 +66,23 @@ export default function UserMoreMenu(props) {
         </ListItemIcon>
         <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />
       </MenuItem>
-}
+:null}
 
-        {(props.disable || props.status===0)?
+        {((permissions.includes("edit-role")) || 
+        (permissions.includes("edit-designation")) || 
+        (permissions.includes("edit-state")) || 
+        (permissions.includes("edit-district")) ||
+        (permissions.includes("edit-taluka")) ||
+        (permissions.includes("edit-zone")) ||
+        (permissions.includes("edit-ward")) ||
+        (permissions.includes("edit-tree-type")) ||
+        (permissions.includes("edit-tree-condition")) ||
+        (permissions.includes("edit-tree-name")) ||
+        (permissions.includes("edit-location-type")) ||
+        (permissions.includes("edit-property-type")) ||
+        (permissions.includes("edit-qc-remark")) ||
+        (permissions.includes("edit-tree-disease")))?
+        (props.disable || props.status===0)?
         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose} disabled >
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
@@ -64,7 +94,8 @@ export default function UserMoreMenu(props) {
              <Iconify icon="eva:edit-fill" width={24} height={24} />
            </ListItemIcon>
            <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-         </MenuItem>}
+         </MenuItem>
+         :null}
       </Menu>
     </>
   );

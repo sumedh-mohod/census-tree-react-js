@@ -71,11 +71,11 @@ export default function DistrictDialog(props) {
   } = useSelector((state) => ({
     addDistrictsLog:state.master.addDistrictsLog,
     editDistrictsLog:state.master.editDistrictsLog,
-    states:state.master.states,
+    states:state.master.activeStates,
   }));
 
   useEffect(()=>{
-    dispatch(GetActiveState(1,1000,1));
+    dispatch(GetActiveState(1));
   },[])
 
 
@@ -97,15 +97,15 @@ export default function DistrictDialog(props) {
 
   const handleStateChange = (event) => {
     // const states = {label:event.target.label,value:event.target.value}
-    console.log("HANDLE STATE CHANGE",event.target.value)
+    // console.log("HANDLE STATE CHANGE",event.target.value)
     // setState(event.target.value);
   };
 
   const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
+    // console.log("LIST OF OBJ",listOfObj);
+    // console.log("ID",id);
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
+    // console.log("FOUND",found);
     if(found){
       return found.name
     }
@@ -140,7 +140,7 @@ export default function DistrictDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    districts: Yup.string().required('Districts is required'),
+    districts: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Districts is required'),
     state: Yup.string().required('State is required'),
   });
 
@@ -153,7 +153,7 @@ export default function DistrictDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
+      // console.log("VALUE",value);
       if(data){
         dispatch(EditDistricts({
           "name":value.districts,
@@ -181,7 +181,7 @@ export default function DistrictDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+       
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit District":"Add District"}</BootstrapDialogTitle>

@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   Link,
   CircularProgress,
 } from '@mui/material';
@@ -33,6 +33,7 @@ import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
 import PropertyErrorDialog from '../../components/DialogBox/tree-data/PropertyErrorDialog';
 import { ShowLoader } from '../../actions/CommonAction';
+import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 
 // ----------------------------------------------------------------------
 
@@ -79,7 +80,7 @@ function applySortFilter(array, comparator, query) {
 export default function ViewProperties() {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -89,6 +90,10 @@ export default function ViewProperties() {
    const [showList,setShowList] = useState(false);
    const [showErrorModal,setShowErrorModal] = useState(false);
    const [fileValue,setFileValue] = useState("");
+   const [dropPage, setDropPage] = useState(8);
+   const handleDropChange = (event) => {
+    setDropPage(event.target.value);
+   };
   
   const {
     properties,
@@ -109,7 +114,7 @@ export default function ViewProperties() {
   const { councilId, councilName } = useParams();
   
   useEffect(()=>{
-    dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage));
+    dispatch(GetPropertyByCouncilId(councilId,page,rowsPerPage));
   },[])
 
 
@@ -136,7 +141,7 @@ export default function ViewProperties() {
       return;
     }
     dispatch(ShowLoader(false))
-    dispatch(GetPropertyByCouncilId(councilId,page+1,rowsPerPage))
+    dispatch(GetPropertyByCouncilId(councilId,page,rowsPerPage))
   },[importPropertyLog])
 
   const fourthRun = useRef(true);
@@ -151,7 +156,7 @@ export default function ViewProperties() {
     dispatch(ShowLoader(false))
   },[propertyErrorLog])
 
-  console.log("PROPERTY ERROR",propertyError);
+  // console.log("PROPERTY ERROR",propertyError);
 
   const handleNewUserClick = () => {
     setDialogData(null);
@@ -162,17 +167,17 @@ export default function ViewProperties() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchPropertyByCouncilId(councilId,newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchPropertyByCouncilId(councilId,newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetPropertyByCouncilId(councilId,newPage+1,rowsPerPage));
+      dispatch(GetPropertyByCouncilId(councilId,newPage,rowsPerPage));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setShowList(false);
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchPropertyByCouncilId(councilId,1,parseInt(event.target.value, 10),searchValue));
     }
@@ -191,7 +196,7 @@ export default function ViewProperties() {
           setShowList(false);
           dispatch(SearchPropertyByCouncilId(councilId,1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -199,7 +204,7 @@ export default function ViewProperties() {
           setShowList(false);
           dispatch(GetPropertyByCouncilId(councilId,1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -211,7 +216,7 @@ export default function ViewProperties() {
   }
 
   const handleUpload = (e) => {
-    console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+    // console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
     const formData = new FormData();
     formData.append('council_id', councilId);
     formData.append('file', e.target.files[0]);
@@ -225,21 +230,16 @@ export default function ViewProperties() {
 
   }
 
-  console.log("SHOW LOADER",showLoader);
+  // console.log("SHOW LOADER",showLoader);
 
   return (
     showLoader ?
-      <div className="loader-container">
-        <div className="loader-inner-div">
-          <div className="loader-text">
-            Uploading....
-            </div> 
-            {/* <div className="dot-elastic" /> */}
-            </div>
+      <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
+      <CircularProgress color="success" />
       </div>
       :
    
-    <Page title="Properties">
+    <Page title="User">
     <Container>
    
     
@@ -254,14 +254,10 @@ export default function ViewProperties() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Council
-        </Link>
+        <MasterBreadCrum
+          dropDownPage={dropPage}
+          handleDropChange={handleDropChange}
+          />
         <Link component={RouterLink}
         to={`/dashboard/council`}
           underline="hover"
@@ -309,7 +305,7 @@ export default function ViewProperties() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option?.zone?.name}</TableCell>
                         <TableCell align="left">{option?.ward?.name}</TableCell>
                         <TableCell align="left">{option.property_number}</TableCell>
@@ -324,16 +320,12 @@ export default function ViewProperties() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {showList?(
+          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

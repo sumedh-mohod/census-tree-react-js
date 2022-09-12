@@ -22,8 +22,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
 import AssignUserConfirmationDialog from './AssignUserConfirmationDialog';
-import { GetUsers } from '../../../actions/UserAction';
+import { GetUsers, GetActiveUsers, GetUsersByRoleID } from '../../../actions/UserAction';
 import { AddUserToTeam } from '../../../actions/TeamsAction';
+import { GetActiveRole } from '../../../actions/RoleAction';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -57,33 +58,44 @@ BootstrapDialogTitle.propTypes = {
 export default function AssignUserDialog(props) {
 
   const dispatch = useDispatch();
-
-    const roleName = [
-        'analyst',
-        'Admin',
-        'Super Admin',
-        'Tree Counting',
-      ];
   const { isOpen, data, isOpenConfirm,teamId } = props;
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const[state, setState]=  React.useState('');
   const [role, setRole] = React.useState([]);
+  const [roleID, setRoleID] = React.useState(null);
   const [topModalOpen, setTopModalOpen] = React.useState(false);
   const [reqObj, setReqObj] = React.useState(null)
   const [id, setId] = React.useState(null)
 
-  const {
-    users,
-    assignUserToTeamLog,
-  } = useSelector((state) => ({
-    users:state.users.users,
-    assignUserToTeamLog:state.teams.assignUserToTeamLog,
-  }));
 
+  const {
+    activeUsers,
+    assignUserToTeamLog,
+    roles,
+    userByRoleID
+  } = useSelector((state) => ({
+    activeUsers:state.users.activeUsers,
+    assignUserToTeamLog:state.teams.assignUserToTeamLog,
+    roles:state.roles.roles,
+    userByRoleID: state.users.userByRoleID,
+  }));
+  // userById:state.users.userById,
+  // if(users){
+  //   selectedUsers= users.filter(
+  //     (currentValue) => {if(currentValue.assigned_roles.includes("Census User") || currentValue.assigned_roles.includes("Census QC - Offsite")){
+  //       return currentValue;
+  //     }
+  //     return null;
+  // });
+//     console.log(":::::::::", activeUsers);
+// }
+
+// console.log("/////...", roles)
   React.useEffect(()=>{
-    dispatch(GetUsers(1,1000));
+    // dispatch(GetUsers(1,1000));
+    dispatch(GetActiveRole(1));
   },[])
 
   const firstRun = React.useRef(true);
@@ -98,29 +110,11 @@ export default function AssignUserDialog(props) {
 
 
   const handleRoleChange = (event) => {
-    const {
-        target: { value },
-      } = event;
-      setRole(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
-      );
+    // console.log("in role change", event.target.value);
+    setRoleID(event.target.value)
+    dispatch(GetUsersByRoleID(1, event.target.value));
   };
 
-  const handleStateChange = (event) => {
-    setState(event.target.value);
-  };
-
-  const stateValue = [
-    {
-      value: 'patna',
-      label: 'patna',
-    },
-    {
-      value: 'maharashtra',
-      label: 'Maharashtra',
-    },
-  ];
 
   const handleClose = () => {
     props.handleClose();
@@ -141,6 +135,7 @@ export default function AssignUserDialog(props) {
 
   const DistrictsSchema = Yup.object().shape({
     user: Yup.string().required('User is required'),
+    role: Yup.string().required('Role is required'),
   });
 
 
@@ -175,7 +170,7 @@ export default function AssignUserDialog(props) {
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
 
-
+  // console.log("active users", activeUsers);
 
   const handleTopModalClose = () => {
     setTopModalOpen(!topModalOpen)
@@ -183,7 +178,6 @@ export default function AssignUserDialog(props) {
 
   const handleTopModalAnswer = (answer) => {
     if(answer){
-      console.log("REQ OBJ",reqObj);
       if(data){
            dispatch(AddUserToTeam(reqObj))
       }
@@ -196,7 +190,6 @@ export default function AssignUserDialog(props) {
 
   const findValue = (listOfObj,id) => {
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
     if(found){
       return found.first_name
     }
@@ -223,6 +216,58 @@ export default function AssignUserDialog(props) {
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
+          <Grid item xs={12}>
+          <TextField
+              select
+             
+              id="role"
+              name='role'
+              label="Role*"
+              value={roleID}
+              displayEmpty
+              style={{ width: '83%', marginLeft: 40, marginTop:5 }}
+              // onChange={handleRoleChange}
+              onChange={(e) => {
+                handleRoleChange(e)
+                formik.handleChange(e);
+              }}
+              placeholder='Select Role*'
+              // defaultValue={data? data.role: ""}
+              // renderValue={(selected) => {
+              //   if (selected?.length === 0) {
+              //     return <em>Select Role*</em>;
+              //   }
+              //   const result = [];
+              //   selected?.map((value)=>{
+              //     const found = findRole(roles,value);
+              //     result.push(found);
+              //     return null;
+              //   })
+              //   return result.join(",");
+              // }}
+
+              // renderValue={(selected) => {
+              //   if (selected?.length === 0) {
+              //     return <em>Select Role*</em>;
+              //   }
+              //     const found = findRole(roles,role);
+              //   return found;
+              // }}
+
+              error={Boolean(touched.role && errors.role)}
+                helperText={touched.role && errors.role}
+
+            >
+               <MenuItem disabled value="">
+            <em>Select Role</em>
+          </MenuItem>
+              {roles?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.role}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
             <Grid item xs={12}>
               <TextField
               select
@@ -230,10 +275,10 @@ export default function AssignUserDialog(props) {
               //   multiple:true
               // }}
               label="User*"
-                id="role"
+                id="user"
                 multiple
                 displayEmpty
-                // name="role"
+                name="user"
                 value={role}
                 style={{ width: '83%', marginLeft: 40, marginTop:5 }}
                 defaultValue={data ? data.role : ''}
@@ -256,7 +301,7 @@ export default function AssignUserDialog(props) {
                   if (selected?.length === 0) {
                     return <em>Select Role*</em>;
                   }
-                    const found = findValue(users,values.user);
+                    const found = findValue(activeUsers,values.user);
                   return found;
                 }}
                 error={Boolean(touched.user && errors.user)}
@@ -267,13 +312,13 @@ export default function AssignUserDialog(props) {
            <MenuItem disabled value="">
             <em>User*</em>
           </MenuItem>
-          {users?.map((option) => (
+          {roleID && userByRoleID?.map((option) => (
             <MenuItem
               key={option.id}
               value={option.id}
               // style={getStyles(name, personName, theme)}
             >
-              {option.first_name} {option.last_name}
+              {option.first_name} {option.last_name} ({option.username})
             </MenuItem>
           ))}
               </TextField>

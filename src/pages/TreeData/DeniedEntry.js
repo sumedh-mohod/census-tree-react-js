@@ -14,7 +14,7 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+  Pagination,
   IconButton,
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -28,9 +28,9 @@ import USERLIST from '../../_mock/user';
 import TreeData from  '../../components/JsonFiles/TreeData.json';
 import WardDialog from "../../components/DialogBox/WardDialog";
 import { GetDeniedEntry, SearchDeniedEntry } from '../../actions/DeniedEntryAction';
-import { GetCouncil } from '../../actions/CouncilAction';
-import { GetZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
+import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 
@@ -50,7 +50,7 @@ const TABLE_HEAD = [
 
 export default function DeniedEntry() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [open, setOpen ] = useState(false);
@@ -70,7 +70,7 @@ export default function DeniedEntry() {
     deniedEntry,
     pageInfo
   } = useSelector((state) => ({
-    council:state.council.council,
+    council:state.council.activeCouncil,
     zones:state.zones.zones,
     wards:state.wards.wards,
     deniedEntry:state.deniedEntry.deniedEntry,
@@ -97,7 +97,7 @@ export default function DeniedEntry() {
   },[deniedEntry])
 
   useEffect(()=>{
-    dispatch(GetCouncil(1,1000));
+    dispatch(GetActiveCouncil(1));
     // dispatch(GetBaseColorTreeById(1));
   },[])
 
@@ -120,17 +120,17 @@ export default function DeniedEntry() {
     setPage(newPage);
     setShowList(false);
     if(search){
-      dispatch(SearchDeniedEntry(newPage+1,rowsPerPage,coucilId,zoneId,wardId,searchValue));
+      dispatch(SearchDeniedEntry(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetDeniedEntry(newPage+1,rowsPerPage,coucilId,zoneId,wardId));
+      dispatch(GetDeniedEntry(newPage,rowsPerPage,coucilId,zoneId,wardId));
     }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setShowList(false)
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
     if(search){
       dispatch(SearchDeniedEntry(1,parseInt(event.target.value, 10),coucilId,zoneId,wardId,searchValue));
     }
@@ -153,7 +153,7 @@ export default function DeniedEntry() {
           dispatch(SearchDeniedEntry(1,rowsPerPage,coucilId,zoneId,wardId,value))
           setSearch(true)
           setShowList(false)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
@@ -161,7 +161,7 @@ export default function DeniedEntry() {
           dispatch(GetDeniedEntry(1,rowsPerPage,coucilId,zoneId,wardId));
           setShowList(false)
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -172,16 +172,16 @@ export default function DeniedEntry() {
     setCouncilId(e.target.value);
     setZoneId("")
     setWardId("")
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetDeniedEntry(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetZonesByCouncilId(1,1000,e.target.value))
-    dispatch(GetWardsByCouncilId(1,1000,e.target.value))
+    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
+    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
   }
 
   const handleWardChange = (e) => {
     setWardId(e.target.value);
-    setPage(0);
+    setPage(1);
     setShowList(false);
     dispatch(GetDeniedEntry(1,rowsPerPage,coucilId,zoneId,e.target.value))
   }
@@ -189,23 +189,23 @@ export default function DeniedEntry() {
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
-    setPage(0);
+    setPage(1);
     dispatch(GetDeniedEntry(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
-  console.log("DENIED ENTRY",deniedEntry);
+  // console.log("DENIED ENTRY",deniedEntry);
 
   deniedEntry?.map((option,index)=>{
-    console.log("PROPRTY TYPE",option.property_type);
-    console.log("PROPERTY NUMBER",option.property?.property_number);
-    console.log("OWNER NAME",option.property?.owner_name);
-    console.log("REASON",option.reason);
-    console.log("DENIED FOR",option.denied_for);
+    // console.log("PROPRTY TYPE",option.property_type);
+    // console.log("PROPERTY NUMBER",option.property?.property_number);
+    // console.log("OWNER NAME",option.property?.owner_name);
+    // console.log("REASON",option.reason);
+    // console.log("DENIED FOR",option.denied_for);
     return null;
   })
 
   return (
-    <Page title="Denied Entries">
+    <Page title="User">
       <Container>
         <WardDialog
         isOpen={open}
@@ -220,14 +220,14 @@ export default function DeniedEntry() {
         }
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
+      <Breadcrumbs aria-label="breadcrumb" color={{color: "#000000"}} separator='>'>
+        {/* <Link
+          underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
-          Trees Data
+          Tree Data
         </Link>
         <Link
           underline="hover"
@@ -236,7 +236,13 @@ export default function DeniedEntry() {
           href="#"
         >
           Denied Entries
-        </Link>
+        </Link> */}
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          Denied Entries
+          </Typography>
       </Breadcrumbs>
     </div>
         </Stack>
@@ -250,20 +256,31 @@ export default function DeniedEntry() {
         coucilId={coucilId}
         zoneId={zoneId}
         wardId={wardId}
+        callType="DeniedEntries"
         />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
+                
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
+                {!coucilId?(
+                <TableRow>
+                  <TableCell align='center' colSpan={8} fontWeight={700}>
+               Please select council to get data
+                </TableCell>
+                </TableRow>
+                ):null
+}
                 <TableBody>
+                  
                      { showList? deniedEntry?.map((option,index) => {
                         return (
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type?option.property_type?.property_type:"-"}</TableCell>
                         <TableCell align="left">{option.property?.property_number?option.property?.property_number:"-"}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
@@ -283,16 +300,12 @@ export default function DeniedEntry() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+{deniedEntry?(
+          <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />
+  ):null}
         </Card>
       </Container>
     </Page>

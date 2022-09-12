@@ -69,10 +69,12 @@ export default function QcStatusDialog(props) {
 
   const {
     baseColorRemarks,
-    updateQCStatusLog
+    updateQCStatusLog,
+    updateCensusQCStatusLog,
   } = useSelector((state) => ({
     baseColorRemarks:state.baseColor.baseColorRemarks,
     updateQCStatusLog:state.baseColor.updateQCStatusLog,
+    updateCensusQCStatusLog:state.treeCensus.updateQCStatusLog,
   }));
 
   const firstRun = React.useRef(true);
@@ -81,9 +83,10 @@ export default function QcStatusDialog(props) {
       firstRun.current = false;
       return;
     }
-    console.log("INSIDE USEEFFECT");
+    // console.log("INSIDE USEEFFECT");
+    // console.log(localStorage.getItem("token"))
     props.handleClose()
-  },[updateQCStatusLog])
+  },[updateQCStatusLog, updateCensusQCStatusLog])
 
   React.useEffect(()=>{
     dispatch(GetQcRemarksForBaseColor("Base Color"))

@@ -70,11 +70,11 @@ export default function TreeDensityDialog(props) {
   } = useSelector((state) => ({
     addDistrictsLog:state.master.addDistrictsLog,
     editDistrictsLog:state.master.editDistrictsLog,
-    states:state.master.states,
+    states:state.master.activeStates,
   }));
 
   useEffect(()=>{
-    dispatch(GetActiveState(1,1000,1));
+    dispatch(GetActiveState(1));
   },[])
 
 
@@ -96,15 +96,13 @@ export default function TreeDensityDialog(props) {
 
   const handleStateChange = (event) => {
     // const states = {label:event.target.label,value:event.target.value}
-    console.log("HANDLE STATE CHANGE",event.target.value)
+    // console.log("HANDLE STATE CHANGE",event.target.value)
     // setState(event.target.value);
   };
 
   const findValue = (listOfObj,id) => {
-    console.log("LIST OF OBJ",listOfObj);
-    console.log("ID",id);
+   
     const found = listOfObj.find(e => e.id === id);
-    console.log("FOUND",found);
     if(found){
       return found.name
     }
@@ -152,7 +150,6 @@ export default function TreeDensityDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log("VALUE",value);
       if(data){
         dispatch(EditDistricts({
           "name":value.districts,
@@ -180,7 +177,7 @@ export default function TreeDensityDialog(props) {
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        onClose={handleClose}
+      
         // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>Add Tree Density</BootstrapDialogTitle>

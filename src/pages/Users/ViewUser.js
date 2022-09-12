@@ -31,7 +31,7 @@ import { GetActiveRole } from '../../actions/RoleAction';
 import { AddUsers, EditUsers, GetDeductionType, GetReligions, GetUserDocumentType, GetUsersById } from '../../actions/UserAction';
 import { UploadFile, UploadImage } from '../../actions/UploadActions';
 import DefaultInput from '../../components/Inputs/DefaultInput';
-import { GetCouncil } from '../../actions/CouncilAction';
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetActiveDesignations, GetDesignations } from '../../actions/DesignationAction';
 import { GetActiveDistricts,GetActiveTalukas } from '../../actions/MasterActions';
 import { ShowLoader } from '../../actions/CommonAction';
@@ -82,9 +82,9 @@ export default function ViewUser(props) {
       userDocumentType:state.users.userDocumentType,
       roles:state.roles.roles,
       religions:state.users.religions,
-      council:state.council.council,
-      districts:state.master.districts,
-      talukas:state.master.talukas,
+      council:state.council.activeCouncil,
+      districts:state.master.activeDistricts,
+      talukas:state.master.activeTalukas,
       userById:state.users.userById,
       designations:state.designations.designations,
       addUsersLog:state.users.addUsersLog,
@@ -96,10 +96,10 @@ export default function ViewUser(props) {
       dispatch(GetUserDocumentType());
       dispatch(GetActiveRole(1));
       dispatch(GetReligions())
-      dispatch(GetCouncil(1,1000));
-      dispatch(GetDesignations(1,1000));
-      dispatch(GetActiveDistricts(1,1000,1));
-      dispatch(GetActiveTalukas(1,1000,1));
+      dispatch(GetActiveCouncil(1));
+      dispatch(GetActiveDesignations(1));
+      dispatch(GetActiveDistricts(1));
+      dispatch(GetActiveTalukas(1));
     },[])
 
     const { userId } = useParams();
@@ -195,7 +195,7 @@ export default function ViewUser(props) {
       else {
         document.map((value,index)=>{
           const documentName = getNameById(userDocumentType,value.user_document_type_id,"type")
-          console.log("DOCUMENT PATH",value.document_path);
+          // console.log("DOCUMENT PATH",value.document_path);
           const infoToAdd = {
             'documentName':documentName,
             'documentValue':value.document_path,
@@ -206,7 +206,7 @@ export default function ViewUser(props) {
           return null;
         })
       }
-      console.log("DOCUMENT LIST",documentList);
+      // console.log("DOCUMENT LIST",documentList);
       setDocumentList(documentList)
     }
 
@@ -224,7 +224,7 @@ export default function ViewUser(props) {
       setDocumentList([{documentName:"",documentValue:"",errorName:"",errorValue:""}])
     },[addUsersLog])
 
-    console.log("RELIGIONS",religions);
+    // console.log("RELIGIONS",religions);
 
     const diffentlyAbled = [
       {
@@ -311,7 +311,7 @@ export default function ViewUser(props) {
     };
   
     const handleRoleChange = (event) => {
-      console.log("EVENT VALUE",event.target.value);
+      // console.log("EVENT VALUE",event.target.value);
       const {
         target: { value },
       } = event;
@@ -433,7 +433,7 @@ export default function ViewUser(props) {
   }
 
     const handleDocumentButtonClick = (value,index) => {
-      console.log("HANDLE DOCUMENT BUTTONVCLICKED CALLED");
+      // console.log("HANDLE DOCUMENT BUTTONVCLICKED CALLED");
       if(value==='add'){
         const newDocumentList = [...documentList];
         const infoToAdd = {
@@ -462,7 +462,7 @@ export default function ViewUser(props) {
   }
 
   const handleDocumentValueChange = (e,index) => {
-    console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
+    // console.log("HANDLE DOCMENT VALUE CAHNGE",e.target.files[0])
     const formData = new FormData();
     formData.append('upload_for', 'users');
     formData.append('file', e.target.files[0]);
@@ -570,7 +570,7 @@ const validateRole = () => {
     // eslint-disable-next-line consistent-return
     const findRole = (listOfObj,id) => {
       const found = listOfObj.find(e => e.id === id);
-      console.log("FOUND",found);
+      // console.log("FOUND",found);
       if(found){
         return found.role
       }
@@ -862,7 +862,7 @@ const validateRole = () => {
                   id="fName"
                   autoComplete="fName"
                   label="Full Name"
-                  value={`${values.firstName} ${ values.middleName} ${ values.lastName}`}
+                  value={`${values.firstName} ${ values.middleName? values.middleName:""} ${ values.lastName}`}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -904,7 +904,7 @@ const validateRole = () => {
 				    }
                   id="addressLine1"
                   label="Address"
-                  value={`${values.addressLine1 } ${ values.addressLine2 } ${ values.city}`}
+                  value={`${values.addressLine1? values.addressLine1: "" } ${values.addressLine2 ? values.addressLine2 : "" } ${values.city ? values.city : ""}`}
                 />
               </Grid>
               </Grid>

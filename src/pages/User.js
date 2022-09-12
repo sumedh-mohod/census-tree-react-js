@@ -1,6 +1,6 @@
-import { filter } from 'lodash';
+import { filter, includes } from 'lodash';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -14,7 +14,11 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
+ 
+  TextField,
+  Grid,
+  Box,
+  Pagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Page from '../components/Page';
@@ -27,6 +31,7 @@ import USERLIST from '../_mock/user';
 import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../components/JsonFiles/UserTableData.json';
 import { DeleteUsers, GetUsers, SearchUsers, UnlinkDevice } from '../actions/UserAction';
+import WarningMessageDialog from '../components/DialogBox/WarningMessageDialog';
 
 // ----------------------------------------------------------------------
 
@@ -76,7 +81,8 @@ export default function User() {
 
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
   const [order, setOrder] = useState('asc');
@@ -84,26 +90,54 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('Name');
   const [filterName, setFilterName] = useState('');
   const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState();
-   const [dialogData,setDialogData] = useState(null);
-   const [search,setSearch] = useState(false);
+  const [close, setClose] = useState();
+  const [dialogData,setDialogData] = useState(null);
+  const [search,setSearch] = useState(false);
   const [searchValue,setSearchValue] = useState("");
+  const [pageCountError, setPageCountError]= useState(false);
+  const [topModalOpen, setTopModalOpen] = useState(false);
+  const [reqObj, setReqObj] = useState(null)
+  const userPermissions = [];
+  const message = "Unlinking device will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding."
 
+  const { state } = useLocation();
+  
+  // console.log("STATE PAGE ",state);
+  // console.log("Current Page", page)
 
    const {
     users,
     pageInfo,
-    deleteUsersLog
+    deleteUsersLog,
+    loggedUser,
   } = useSelector((state) => ({
     users:state.users.users,
     pageInfo : state.users.pageInfo,
-    deleteUsersLog:state.users.deleteUsersLog
+    deleteUsersLog:state.users.deleteUsersLog,
+    loggedUser:state.auth.loggedUser,
   }));
 
-
+loggedUser.roles[0].permissions.map((item, index)=>(
+  userPermissions.push(item.name)
+))
 
   useEffect(()=>{
-    dispatch(GetUsers(page+1,rowsPerPage));
+    if(state){
+      // console.log("INSIDE STATE");
+      setPage(state.page);
+    }
+  },[])
+  
+
+  useEffect(()=>{
+    if(state){
+      setPage(state.page);
+      dispatch(GetUsers(state.page,rowsPerPage));
+    }
+    else {
+      dispatch(GetUsers(page,rowsPerPage));
+    }
+    
   },[deleteUsersLog])
 
   useEffect(()=>{
@@ -117,14 +151,17 @@ export default function User() {
     setDialogData(data);
     setOpen(!open);
   };
+  
 
   const handleChangePage = (event, newPage) => {
+    // console.log(newPage);
     setPage(newPage);
+   
     if(search){
-      dispatch(SearchUsers(newPage+1,rowsPerPage,searchValue));
+      dispatch(SearchUsers(newPage,rowsPerPage,searchValue));
     }
     else {
-      dispatch(GetUsers(newPage+1,rowsPerPage));
+      dispatch(GetUsers(newPage,rowsPerPage));
     }
   };
 
@@ -132,16 +169,7 @@ export default function User() {
     dispatch(DeleteUsers(data.id,data.status?0:1));
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-    if(search){
-      dispatch(SearchUsers(1,parseInt(event.target.value, 10),searchValue));
-    }
-    else {
-      dispatch(GetUsers(1,parseInt(event.target.value, 10)));
-    }
-  };
+
 
   let timer = null;
   const filterByName = (event) => {
@@ -152,14 +180,14 @@ export default function User() {
         if(value){
           dispatch(SearchUsers(1,rowsPerPage,value))
           setSearch(true)
-          setPage(0)
+          setPage(1)
           setSearchValue(value);
 
         }
         else{
           dispatch(GetUsers(1,rowsPerPage));
           setSearch(false);
-          setPage(0);
+          setPage(1);
           setSearchValue("")
         }
     }, 1000);
@@ -170,7 +198,20 @@ export default function User() {
     const obj = {
       user_id: userId
     }
-    dispatch(UnlinkDevice(obj))
+    handleTopModalClose();
+    setReqObj(obj);
+    
+  }
+
+  const handleTopModalClose = () => {
+    setTopModalOpen(!topModalOpen)
+  }
+
+  const handleTopModalAnswer = (answer) => {
+    if(answer){
+      dispatch(UnlinkDevice(reqObj))
+    }
+    setTopModalOpen(!topModalOpen)
   }
 
   return (
@@ -181,14 +222,21 @@ export default function User() {
         data={dialogData}
         // isClose={}
         /> */}
+        <WarningMessageDialog 
+        isOpenConfirm={topModalOpen}
+        message={message}
+        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+        />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Users
           </Typography>
+          {userPermissions.includes("create-user")? 
           <Button variant="contained" component={RouterLink} to="/dashboard/new-user-Form" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add New
+            User
 
           </Button>
+           :null} 
         </Stack>
 
         <Card>
@@ -207,7 +255,7 @@ export default function User() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{page*rowsPerPage+(index+1)}</TableCell>
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                             <TableCell align="left">
                               {option.first_name}  {option.last_name}
                             </TableCell>
@@ -218,7 +266,7 @@ export default function User() {
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
 
                         <TableCell align="right">
-                          <UserFormListMenu status={option.status} userId={option.id} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} handleUnlink={()=>handleUnlink(option.id)}/>
+                          <UserFormListMenu page={page} status={option.status} userId={option.id} userPermissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} handleUnlink={()=>handleUnlink(option.id)}/>
                         </TableCell>
                         </TableRow>
                         )
@@ -229,16 +277,14 @@ export default function User() {
               </Table>
             </TableContainer>
           </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <Box>
+ { users?(
+  <Pagination count={pageInfo.last_page} page={page} variant="outlined" shape="rounded"
+  onChange={handleChangePage}
+  sx={{justifyContent:"right",
+  display:'flex', mt:3, mb:3}} />):null
+ }
+          </Box>
         </Card>
       </Container>
     </Page>
