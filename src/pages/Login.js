@@ -1,5 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
+import { makeStyles } from '@material-ui/core/styles';
 import { styled } from '@mui/material/styles';
 import { Card, Link, Container, Typography } from '@mui/material';
 // hooks
@@ -37,12 +38,18 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 464,
+  maxWidth: 650,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2),
+  // margin: theme.spacing(2, 0, 2, 2),
+  backgroundImage : `url(${"/static/illustrations/Background.png"})`,
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  borderRadius: '0%',
+  color: '#fff'
 }));
+
 
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
@@ -61,24 +68,48 @@ export default function Login() {
 
   const mdUp = useResponsive('up', 'md');
 
+ 
+  const useStyles = makeStyles({
+    item: {
+      
+      // backgroundImage: `url(${"/static/illustrations/TopPlant.png"})`,
+      backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+    },
+    font: {
+      fontWeight: 400,
+      fontSize: 16,
+      marginBottom: 20
+    }
+  });
+  const classes = useStyles();
   return (
     <Page title="Login">
       <RootStyle>
-        <HeaderStyle>
-          <Logo />
-        </HeaderStyle>
+        {/* <HeaderStyle>
+         
+        </HeaderStyle> */}
 
         {mdUp && (
-          <SectionStyle>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+          <SectionStyle sx={{ px: 5,mb: -20 }}>
+             <Logo />
+            <Typography variant="h1"  sx={{ mb: 0, mt:1}}>
+              tree</Typography>
+              <Typography variant="h1"  sx={{ mt: -2 }}>
+              census
             </Typography>
-            <img src="/static/illustrations/illustration_login.png" alt="login" />
+            <Typography  className={classes.font}>
+              Welcome to the Tree <br/>Census Admin Portal
+            </Typography><br/><br/>
+            <img src="/static/illustrations/Quote.png" height='70' width='70'  alt="login" />
+            <Typography  className={classes.font}>
+              <i>The true meaning of life is to plant trees, under whose shade you do not expect to sit</i>
+            </Typography>
           </SectionStyle>
         )}
 
-        <Container maxWidth="sm">
-          <ContentStyle>
+        <Container className={classes.item}>
+          <ContentStyle  maxWidth="sm">
             <LoginForm />
           </ContentStyle>
         </Container>
