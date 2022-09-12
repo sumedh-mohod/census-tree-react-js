@@ -149,7 +149,7 @@ export default function CouncilList(props) {
  
 const handleDownloadButtonPressed = () => {
   setDownloadButtonPressed(true);
-  dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+  dispatch(GetAllWorkReports(reportType,undefined,undefined,fromDate,toDate));
 }
 
   function handleDownloadExcel() {
@@ -178,7 +178,7 @@ const handleDownloadButtonPressed = () => {
 
     
     downloadExcel({
-      fileName: "Report",
+      fileName: "By Councils Report",
       sheet: "Report",
       tablePayload: {
         header,

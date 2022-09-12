@@ -96,7 +96,7 @@ const header = ["#", "Work Type", "Total Count", "From Date", "To Date"];
 
   const handleDownloadButtonPressed = () => {
     setDownloadButtonPressed(true);
-    dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+    dispatch(GetAllWorkReports(reportType, undefined,undefined,fromDate,toDate));
   }
 
   function handleDownloadExcel() {
@@ -116,7 +116,7 @@ const header = ["#", "Work Type", "Total Count", "From Date", "To Date"];
       return null
     })
     downloadExcel({
-      fileName: "Report",
+      fileName: "By Work Type Report",
       sheet: "Report",
       tablePayload: {
         header,

@@ -81,7 +81,7 @@ export default function Teamczw(props) {
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  // console.log("workReportsTeamczw",workReports);
+  console.log("workReportsTeamczw",excelWorkReports);
 
   useEffect(()=>{
     if(excelWorkReports && downloadButtonPressed){
@@ -143,8 +143,8 @@ export default function Teamczw(props) {
 
   }
 
-  const header = ["#", "Councilaaaa", "Base Color Count", "Base Color Offsite QC Count", "Base Color Onsite QC Count", "Census Count",
-  "Census Offsite Qc Count", "Census Onsite QC Count","From Date", "To Date"];
+  const header = ["#", "Team", "Council", "Zone", "Ward", "Allocated At",
+  "Deallocated At", "Current Status","From Date", "To Date"];
  
 const handleDownloadButtonPressed = () => {
   setDownloadButtonPressed(true);
@@ -160,13 +160,13 @@ const handleDownloadButtonPressed = () => {
     dataValue?.map((option, index) => {
     
       const value2 = [index+1]
-      value2.push(option.name)
-      value2.push(option.base_color_trees_count)
-      value2.push(option.base_color_offsite_qc_count)
-      value2.push(option.base_color_onsite_qc_count)
-      value2.push(option.census_trees_count)
-      value2.push(option.census_trees_offsite_qc_count)
-      value2.push(option.census_trees_onsite_qc_count)
+      value2.push(option.team)
+      value2.push(option.council)
+      value2.push(option.zone)
+      value2.push(option.ward)
+      value2.push(option.allocated_at)
+      value2.push(option.deallocated_at)
+      value2.push(option.current_status)
       if(index === 0){
         value2.push(fromDate);
         value2.push(toDate)
@@ -177,7 +177,7 @@ const handleDownloadButtonPressed = () => {
 
     
     downloadExcel({
-      fileName: "Report",
+      fileName: "Team-CZW Allocation Report",
       sheet: "Report",
       tablePayload: {
         header,
