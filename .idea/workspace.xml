@@ -25,18 +25,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.a73c24ef.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.a73c24ef.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/main.a73c24ef.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/css/main.a73c24ef.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/static/js/498.89b9a3fa.chunk.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/static/js/498.89b9a3fa.chunk.js.LICENSE.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/static/js/498.89b9a3fa.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/513.068c906d.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/513.068c906d.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/787.1199a6d1.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/787.1199a6d1.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/513.068c906d.chunk.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/513.068c906d.chunk.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js.LICENSE.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/static/js/main.be6ec70d.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.be6ec70d.js.LICENSE.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/static/js/main.be6ec70d.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.be6ec70d.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/static/js/main.e6042180.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.e6042180.js.LICENSE.txt" afterDir="false" />
@@ -44,13 +39,6 @@
       <change beforePath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js.LICENSE.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/abell.79b47099c6e51c1d8e30.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/fail.5d4f11fe89a5de737148.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/fail.5d4f11fe89a5de737148a25e18846afb.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/info.5bd18e750e7f4601286e.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/notify.6298afe13c4ffe3095eb.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/success.c942aa220b72cb6da9b4.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/tree-fill.9553bf3b3dc9e3f0cfe3927f144f6c2a.svg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/actions/AlertActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/AlertActions.js" afterDir="false" />
