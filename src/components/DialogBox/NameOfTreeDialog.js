@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -81,6 +82,7 @@ export default function NameOfTreeDialog(props) {
   const [maxAgeError, setMaxAgeError] = React.useState('');
   const [minGrthError, setMinGrthError] = React.useState('');
   const [maxGrthError, setMaxGrthError] = React.useState('');
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const submitErrors = [];
   let age;
   let height;
@@ -103,7 +105,7 @@ setVal(item)
   }
   
   const { isOpen, data } = props;
-  console.log("dataaa", data);
+  // console.log("dataaa", data);
 
   const {
     addTreeNameLog,
@@ -265,31 +267,31 @@ if(data){
     const maxAgeData= data.max_age.split('-')
     minAg= maxAgeData[0];
     maxAg = maxAgeData[1];
-    console.log("max age", minAg, maxAg)
+    // console.log("max age", minAg, maxAg)
   }
   if(data?.max_height){
     const maxHtData= data.max_height.split('-')
     minHt= maxHtData[0];
     maxHt = maxHtData[1];
-    console.log("max ht", minHt, maxHt)
+    // console.log("max ht", minHt, maxHt)
   }
   if(data?.growth_factor){
     const maxGrowData = data.growth_factor.split('-')
     minGro= maxGrowData[0];
     maxGro = maxGrowData[1];
-    console.log("max growth", minGro, maxGro)
+    // console.log("max growth", minGro, maxGro)
   }
   if(data?.flowering_season){
     const flwData= data.flowering_season.split('-')
     flwSt= flwData[0];
     flwEnd = flwData[1];
-    console.log("flowering", flwSt, flwEnd)
+    // console.log("flowering", flwSt, flwEnd)
   }
   if(data?.fruiting_season){
     const frtData= data.fruiting_season.split('-')
     frtSt= frtData[0];
     frtEnd = frtData[1];
-    console.log("fruiting", frtSt, frtEnd)
+    // console.log("fruiting", frtSt, frtEnd)
   }
 }
 
@@ -332,7 +334,7 @@ const handleFamilyChange = (event) => {
   }
 
   const handleSeasonEndChange = (event) => {
-    console.log("iiii");
+    // console.log("iiii");
     setFloweringEnd(event.target.value)
   }
 
@@ -427,9 +429,10 @@ const handleFamilyChange = (event) => {
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("Submit",value )
+      // console.log("Submit",value )
+      setButtonDisabled(true);
        if (value.minHeight || value.maxHeightx){ height = `${value.minHeight} - ${value.maxHeightx}`}
-       console.log("maxHeight", maxHeight)
+      //  console.log("maxHeight", maxHeight)
       //  let maxValue;
       //  if(data.max_height){
       //  const maxData= data.max_height.split('-')
@@ -441,7 +444,7 @@ const handleFamilyChange = (event) => {
        if(value.minGrowth || value.maxGrowth) {growthF= `${value.minGrowth} - ${value.maxGrowth}`}
        if(value.floweringStart || value.floweringEnd) flowerSeason= `${value.floweringStart } - ${value.floweringEnd}`
        if(value.fruitingStart || value.fruitingEnd) fruitsSeason= `${value.fruitingStart} - ${value.fruitingEnd}`
-       console.log("maxHeight", maxHeight)
+      //  console.log("maxHeight", maxHeight)
       //  console.log("maxData", maxData)
       if(data){
         dispatch(EditTreeName({
@@ -481,7 +484,7 @@ const handleFamilyChange = (event) => {
  
   });
 
- console.log("////", formik.errors);
+//  console.log("////", floweringStart)
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   console.log("valuessss", values)
@@ -837,8 +840,9 @@ const handleFamilyChange = (event) => {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={() => { handleSubmit(); handleSubmitErrors();}}
-          >{data?"Save":"Add"}</Button>
+          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={() => { handleSubmit(); handleSubmitErrors();}}
+          >{data?"Save":"Add"}
+          </LoadingButton>
         </DialogActions>
       </Dialog>
       </div>

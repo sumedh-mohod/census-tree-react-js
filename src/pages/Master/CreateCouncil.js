@@ -41,6 +41,7 @@ const TABLE_HEAD = [
   { id: 'taluka', label: 'Taluka', alignRight: false,whiteSpace:true },
   { id: 'baseColorTarget', label: 'Base Color Target', alignRight: false,whiteSpace:true },
   { id: 'censusTarget', label: 'Census Target', alignRight: false,whiteSpace:true },
+  { id: 'total_area', label: 'Total Area(sq km)', alignRight: false,whiteSpace:true },
   { id: 'contactPersonName', label: 'Contact Person Name', alignRight: false,whiteSpace:true },
   { id: 'contactPersonMoNumber', label: 'Contact Person Mobile Number', alignRight: false,whiteSpace:true },
   { id: 'contactPersonEmail', label: 'Contact Person Email', alignRight: false,whiteSpace:true },
@@ -211,6 +212,7 @@ export default function CreateCouncil() {
                         <TableCell align="center">{option.taluka?.name}</TableCell>
                         <TableCell align="center">{option.base_color_target}</TableCell>
                         <TableCell align="center">{option.census_target}</TableCell>
+                        <TableCell align="center">{option.total_area}</TableCell>
                         <TableCell align="center" style={{flexWrap:"no-wrap"}}>{option.contact_person?.first_name} {option.contact_person?.last_name}</TableCell>
                         <TableCell align="center">{option.contact_person?.mobile}</TableCell>
                         <TableCell align="center">{option.contact_person?.email}</TableCell>

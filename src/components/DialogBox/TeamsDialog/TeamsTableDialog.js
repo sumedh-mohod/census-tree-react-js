@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -58,10 +58,14 @@ export default function TeamsTableDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [teamName, setTeamName] = React.useState('');
+  const [teamNameError, setTeamNameError] = React.useState('');
+  const [teamCode, setTeamCode] = React.useState('');
+  const [teamCodeError, setTeamCodeError] = React.useState('');
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [teamType, setTeamType] = React.useState('');
   const { isOpen, data } = props;
-  console.log('teamType',data)
+  // console.log('teamType',data)
 
   const { addTeamsLog, editTeamsLog } = useSelector((state) => ({
     addTeamsLog: state.teams.addTeamsLog,
@@ -85,6 +89,30 @@ export default function TeamsTableDialog(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const handleTeamCode = (e) => {
+    const  regex = /^[a-zA-Z0-9]*$/;
+    if(regex.test(e.target.value)) {
+      setTeamCodeError("");
+  }
+  else{
+    setTeamCodeError("Please Enter Team Code In Alphanumeric format Only");
+    
+  }
+  setTeamCode(e.target.value);
+  }
+
+  const handleTeamName = (e) => {
+    const  regex = /^[a-zA-Z0-9]*$/;
+    if(regex.test(e.target.value)) {
+      setTeamNameError("");
+  }
+  else{
+    setTeamNameError("Please Enter Team Name In Alphanumeric format Only");
+    
+  }
+  setTeamName(e.target.value);
+  }
 
   const handleMaxWidthChange = (event) => {
     setMaxWidth(
@@ -112,7 +140,7 @@ export default function TeamsTableDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log('name', value.name, 'code', value.code, 'team', teamType);
+      // console.log('name', value.name, 'code', value.code, 'team', teamType);
       setButtonDisabled(true);
       if (data) {
         dispatch(
@@ -167,24 +195,37 @@ export default function TeamsTableDialog(props) {
             <Grid item xs={12}>
               <DefaultInput
                 fullWidth
-                id="teamName"
+                id="name"
+                name="name"
                 autoComplete="teamName"
                 label="Team Name*"
+                value={values.name}
                 placeholder="Team Name*"
+                onChange={(e) => {
+                  handleTeamName(e);
+                  formik.handleChange(e);
+                }}
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
-                {...getFieldProps('name')}
+                // {...getFieldProps('name')}
               />
+               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{teamNameError}</Typography>
               <DefaultInput
                 fullWidth
-                id="teamCode"
+                id="code"
                 autoComplete="teamCode"
                 label="Team Code*"
                 placeholder="Team Code*"
+                value={values.code}
+                onChange={(e) => {
+                  handleTeamCode(e);
+                  formik.handleChange(e);
+                }}
                 error={Boolean(touched.code && errors.code)}
                 helperText={touched.code && errors.code}
-                {...getFieldProps('code')}
+               // {...getFieldProps('code')}
               />
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{teamCodeError}</Typography>
               <TextField
                 select
                 id="Team Type"

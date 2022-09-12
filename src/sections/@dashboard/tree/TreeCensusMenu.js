@@ -85,7 +85,7 @@ export default function TreeCensusMenu(props) {
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem> */}
  {(permissions.includes("view-census-tree-history"))?
-        <MenuItem component={RouterLink} to={`/dashboard/treeCensus/history/${props.treeCensusId}/${props.treeCensusName}`} sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to={`/dashboard/treeCensus/history/${props.treeCensusId}/${props.treeCensusName}`} state={{councilId:props.councilId,zoneId:props.zoneId,wardId:props.wardId,pageNumber:props.pageNumber}} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:eye-fill" width={24} height={24} />
           </ListItemIcon>
