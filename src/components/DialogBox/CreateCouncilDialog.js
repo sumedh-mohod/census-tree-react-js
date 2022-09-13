@@ -17,13 +17,14 @@ import MenuItem from '@mui/material/MenuItem';
 import CancelIcon from '@mui/icons-material/Cancel';
 // import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Link, TextField } from '@mui/material';
+import { Link, TextField, InputAdornment } from '@mui/material';
 // import SelectInput from '../Inputs/SelectInput';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import moment from 'moment';
+import Iconify from '../Iconify';
 import { GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState, GetAllActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
 import { AddCouncil, AddCouncilWithLogo, EditCouncil, EditCouncilWithLogo, GetCouncilById } from '../../actions/CouncilAction';
 import { GetActiveZones } from '../../actions/ZonesAction';
@@ -95,6 +96,7 @@ export default function CreateCouncilDialog(props) {
   const [isImageRemoved, setIsImageRemoved] = React.useState(false);
   const [showDistrict, setShowDistrict] = React.useState(false);
   const [showTaluka, setShowTaluka] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
   // const todayDate = moment(new Date()).format('YYYY-MM-DD');
   // console.log('data', data)
   const {
@@ -232,6 +234,10 @@ export default function CreateCouncilDialog(props) {
     );
   };
 
+  const handleShowPassword = () => {
+    setShowPassword((show) => !show);
+  }; 
+
   const handleStateChange = (event) => {
     dispatch(GetAllActiveDistrictsByStateId(event.target.value,1));
     setShowDistrict(true);
@@ -283,26 +289,28 @@ export default function CreateCouncilDialog(props) {
   const DistrictsSchema = Yup.object().shape(
     data?
     {
-      name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
+      name: Yup.string().matches(/^[A-Za-z]+$/, 'Please Use Alphabets Only').min(2, "Council Name Is Too Short!")
+    .max(30, "Council Name Is Too Long!").required('Name is required'),
       district: Yup.string().required('Districts is required'),
       state: Yup.string().required('State is required'),
       // taluka: Yup.string().required('Taluka is required'),
       baseColorTarget: Yup.string().required('Base Color Target is required'),
       censusTarget: Yup.string().required('Census Target is required'),
-      total_area: Yup.string().required('Total area is required'),
+      total_area: Yup.string().matches(/^(0|[1-9]\d*)(\.\d+)?$/, "Only Numbers & Decimals are allowed for this field ").required('Total area is required'),
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
-      locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
+      locationAccuracyNeeded: Yup.string().required('Accuracy Captured is required'),
       project_start_date: Yup.string().required('Start Date is required'),
     }
     :{
-    name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
+    name: Yup.string().matches(/^[a-zA-Z]+$/, 'Please Use Alphabets Only').min(2, "Council Name Is Too Short!")
+    .max(30, "Council Name Is Too Long!").required('Name is required'),
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
     // taluka: Yup.string().required('Taluka is required'),
     baseColorTarget: Yup.string().required('Base Color Target is required'),
     censusTarget: Yup.string().required('Census Target is required'),
-    total_area: Yup.string().required('Total area is required'),
+    total_area: Yup.string().matches(/^(0|[1-9]\d*)(\.\d+)?$/, "Only Numbers & Decimals are allowed for this field ").required('Total area is required'), 
     firstName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('First Name is required'),
     // middleName: Yup.string().required('Middle Name is required'),
     lastName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('Last Name is required'),
@@ -312,7 +320,7 @@ export default function CreateCouncilDialog(props) {
     password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     zones: Yup.array().min(1,'Zone is required'),
     wards: Yup.array().min(1,'Ward is required'),
-    locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
+    locationAccuracyNeeded: Yup.string().required('Accuracy Captured is required'),
     project_start_date: Yup.string().required('Start Date is required'),
     // "project_end_date": value.project_end_date
   });
@@ -679,8 +687,8 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="locationAccuracyNeeded"
                 autoComplete="name"
-                label="Location Accuracy Needed* (in meter)"
-                placeholder="Enter Location Accuracy Needed* (in meter)"
+                label="Accuracy Captured* (in meter)"
+                placeholder="Enter Accuracy Captured* (in meter)"
                 error={Boolean(touched.locationAccuracyNeeded && errors.locationAccuracyNeeded)}
                 helperText={touched.locationAccuracyNeeded && errors.locationAccuracyNeeded}
                 {...getFieldProps("locationAccuracyNeeded")}
@@ -692,8 +700,8 @@ export default function CreateCouncilDialog(props) {
                 id="date"
                 // label="Date Of Birth"
                 type="date"
-                label="Start Date*"
-                placeholder='Start Date*'
+                label="Project Start Date*"
+                placeholder='Project Start Date*'
                 // defaultValue="2017-05-24"
                 style={{ width: '81%', marginLeft: 40, marginTop:5 }}
                 // className={classes.textField}
@@ -711,8 +719,8 @@ export default function CreateCouncilDialog(props) {
                 id="date"
                 // value={toDate}
                 type="date"
-                label="End Date"
-                placeholder= 'End Date'
+                label="Project End Date"
+                placeholder= 'Project End Date'
                 // defaultValue="2017-05-24"
                 style={{ width: '81%', marginLeft: 40, marginTop:5 }}
                 // className={classes.textField}
@@ -807,15 +815,28 @@ export default function CreateCouncilDialog(props) {
               />
             </Grid>
             <Grid item xs={12}>
-              <DefaultInput
-                fullWidth
-                id="password"
-                autoComplete="password"
-                label="Password*"
-                placeholder="Password*"
-                error={Boolean(touched.password && errors.password)}
-                helperText={touched.password && errors.password}
-                {...getFieldProps("password")}
+              <TextField
+              fullWidth
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              autoComplete="password"
+              label="Password*"
+              placeholder="Password*"
+              style={{ width: '83%', marginLeft: 40, marginTop:5 }}
+              error={Boolean(touched.password && errors.password)}
+              helperText={touched.password && errors.password}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleShowPassword} edge="end">
+                      <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              {...getFieldProps("password")}
+          
+               
               />
             </Grid>
             </>
