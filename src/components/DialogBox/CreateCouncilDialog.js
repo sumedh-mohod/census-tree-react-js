@@ -289,21 +289,21 @@ export default function CreateCouncilDialog(props) {
   const DistrictsSchema = Yup.object().shape(
     data?
     {
-      name: Yup.string().matches(/^[A-Za-z]+$/, 'Please Use Alphabets Only').min(2, "Council Name Is Too Short!")
+      name: Yup.string().matches(/^[A-Za-z ]+$/, 'Please Use Alphabets Only').min(2, "Council Name Is Too Short!")
     .max(30, "Council Name Is Too Long!").required('Name is required'),
       district: Yup.string().required('Districts is required'),
       state: Yup.string().required('State is required'),
       // taluka: Yup.string().required('Taluka is required'),
       baseColorTarget: Yup.string().required('Base Color Target is required'),
       censusTarget: Yup.string().required('Census Target is required'),
-      total_area: Yup.string().matches(/^(0|[1-9]\d*)(\.\d+)?$/, "Only Numbers & Decimals are allowed for this field ").required('Total area is required'),
+      total_area: Yup.string().matches(/^(0|[1-9]\d*)(\.\d+)?$/, "Only Numbers & Decimals are allowed").required('Total area is required'),
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
       locationAccuracyNeeded: Yup.string().required('Accuracy Captured is required'),
       project_start_date: Yup.string().required('Start Date is required'),
     }
     :{
-    name: Yup.string().matches(/^[a-zA-Z]+$/, 'Please Use Alphabets Only').min(2, "Council Name Is Too Short!")
+    name: Yup.string().matches(/^[a-zA-Z ]+$/, 'Please Use Alphabets Only').min(2, "Council Name Is Too Short!")
     .max(30, "Council Name Is Too Long!").required('Name is required'),
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
@@ -582,12 +582,13 @@ export default function CreateCouncilDialog(props) {
               />
             </Grid>
             <Grid item xs={12}>
-              <DefaultInput
+              <TextField
                 fullWidth
                 id="total_area"
                 autoComplete="name"
                 label="Total Area (sq km)*"
                 placeholder="Total Area(sq km)*"
+                style={{ width: '81%', marginLeft: 40 , marginTop:5}}
                 error={Boolean(touched.total_area && errors.total_area)}
                 helperText={touched.total_area && errors.total_area}
                 {...getFieldProps("total_area")}
@@ -822,7 +823,7 @@ export default function CreateCouncilDialog(props) {
               autoComplete="password"
               label="Password*"
               placeholder="Password*"
-              style={{ width: '83%', marginLeft: 40, marginTop:5 }}
+              style={{ width: '81%', marginLeft: 40, marginTop:5 }}
               error={Boolean(touched.password && errors.password)}
               helperText={touched.password && errors.password}
               InputProps={{
