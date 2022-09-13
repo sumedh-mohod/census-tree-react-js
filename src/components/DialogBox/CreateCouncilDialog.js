@@ -322,6 +322,7 @@ export default function CreateCouncilDialog(props) {
     wards: Yup.array().min(1,'Ward is required'),
     locationAccuracyNeeded: Yup.string().required('Accuracy Captured is required'),
     project_start_date: Yup.string().required('Start Date is required'),
+
     // "project_end_date": value.project_end_date
   });
 
