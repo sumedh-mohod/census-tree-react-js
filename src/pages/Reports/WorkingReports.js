@@ -298,7 +298,7 @@ export default function WorkingReports(props) {
                 </Typography>
               ) : teamAllocation ? (
                 <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-                  Team Allocation Report
+                  Team-User Allocation Report
                 </Typography>
               ) : teamCzw ? (
                 <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
