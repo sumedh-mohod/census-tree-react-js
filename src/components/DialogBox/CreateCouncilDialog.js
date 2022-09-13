@@ -822,7 +822,7 @@ export default function CreateCouncilDialog(props) {
             :null
             }
             <BootstrapDialogTitle id="customized-dialog-title">
-          {logoValue?"Uploaded Logo":"Upload Logo"}
+          {logoValue?"Uploaded Logo":"Upload Logo*"}
         </BootstrapDialogTitle>
             {(isEditable && logoValue)?
 
