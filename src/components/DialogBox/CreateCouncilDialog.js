@@ -289,7 +289,7 @@ export default function CreateCouncilDialog(props) {
       // taluka: Yup.string().required('Taluka is required'),
       baseColorTarget: Yup.string().required('Base Color Target is required'),
       censusTarget: Yup.string().required('Census Target is required'),
-      total_area: Yup.string().required('Total area is required'),
+      total_area: Yup.string().matches(/^[a-zA-Z0-9_.-]*$/, "Please enter alphanumeric characters only").required('Total area is required'),
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
       locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
@@ -302,7 +302,7 @@ export default function CreateCouncilDialog(props) {
     // taluka: Yup.string().required('Taluka is required'),
     baseColorTarget: Yup.string().required('Base Color Target is required'),
     censusTarget: Yup.string().required('Census Target is required'),
-    total_area: Yup.string().required('Total area is required'),
+    total_area: Yup.string().matches(/^[a-zA-Z0-9_.-]*$/, "Please enter alphanumeric characters only").required('Total area is required'),
     firstName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('First Name is required'),
     // middleName: Yup.string().required('Middle Name is required'),
     lastName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('Last Name is required'),
@@ -314,6 +314,7 @@ export default function CreateCouncilDialog(props) {
     wards: Yup.array().min(1,'Ward is required'),
     locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
     project_start_date: Yup.string().required('Start Date is required'),
+
     // "project_end_date": value.project_end_date
   });
 

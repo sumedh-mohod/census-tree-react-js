@@ -46,6 +46,7 @@ const TABLE_HEAD = [
   { id: 'treeName', label: 'Tree Name', alignRight: false },
   { id: 'addedBy', label: 'Added By', alignRight: false },
   { id: 'addedOn', label: 'Added On', alignRight: false },
+  { id: 'age', label: 'Age', alignRight: false },
   { id: 'locationAccuracyNeeded', label: 'Location Accuracy Needed', alignRight: false },
   { id: 'isReferredToExpert', label: 'Is Referred To Expert?', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
@@ -382,6 +383,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                         <TableCell align="left">{option.tree_name?.name}</TableCell>
                         <TableCell align="left">{option.added_by?.first_name} {option.added_by?.last_name} </TableCell>
                         <TableCell align="left">{option.added_on_date}</TableCell>
+                        <TableCell align="left">{option.age}</TableCell>
                         <TableCell align="left">{option.location_accuracy}</TableCell>
                         <TableCell align="left">{option.referred_to_expert === 1 ? "Yes" : "No"}</TableCell>
                         {/* <TableCell align="left"> */}
