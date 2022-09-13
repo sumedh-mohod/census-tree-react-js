@@ -46,7 +46,7 @@ const TABLE_HEAD = [
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
   { id: 'propertyAddress', label: 'Property Address', alignRight: false },
   { id: 'treeLocation', label: 'Tree Location', alignRight: false },
-  { id: 'locationAccuracyNeeded', label: 'Location Accuracy Needed', alignRight: false },
+  { id: 'locationAccuracyNeeded', label: 'Accuracy Captured', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
   { id: 'images', label: 'Images', alignRight: false },
