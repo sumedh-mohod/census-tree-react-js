@@ -19,7 +19,7 @@ const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props
   height: 48,
   position: 'relative',
   textTransform: 'capitalize',
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.text,
   borderRadius: theme.shape.borderRadius,
 }));
 

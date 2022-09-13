@@ -16,6 +16,7 @@ const GREY = {
   400: '#C4CDD5',
   500: '#919EAB',
   600: '#fff',
+  650: '#214c50',
   700: '#454F5B',
   800: '#212B36',
   900: '#161C24',
@@ -112,7 +113,7 @@ const palette = {
   gradients: GRADIENTS,
   chart: CHART_COLORS,
   divider: GREY[500_24],
-  text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
+  text: { primary: GREY[800], secondary: GREY[650], text: GREY[600], disabled: GREY[500] },
   background: { paper: '#fff', default: GREY[100], neutral: GREY[200] },
   action: {
     active: GREY[600],
