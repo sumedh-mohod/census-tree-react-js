@@ -35,6 +35,7 @@ import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import TeamsTableDialog from "../../components/DialogBox/TeamsDialog/TeamsTableDialog";
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 
+
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -257,12 +258,14 @@ export default function TeamsList() {
         handleClose = {handleNewUserClick}
         data={dialogData}
         />:null}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
            Teams
+           <Typography variant="h6" style={{fontWeight: 400}}>It is showing list of all teams with its details</Typography>
+         
           </Typography>
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Team
+            Add Team
           </Button>
         </Stack>
 

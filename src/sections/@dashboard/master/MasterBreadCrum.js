@@ -1,8 +1,18 @@
-import React,{useState} from "react"
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // material
 import { styled } from '@mui/material/styles';
-import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment, Select, MenuItem, Grid } from '@mui/material';
+import {
+  Toolbar,
+  Tooltip,
+  IconButton,
+  Typography,
+  OutlinedInput,
+  InputAdornment,
+  Select,
+  MenuItem,
+  Grid,
+} from '@mui/material';
 // component
 import { useSelector } from 'react-redux';
 import FormControl from '@mui/material/FormControl';
@@ -32,118 +42,127 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   },
 }));
 
-
 // ----------------------------------------------------------------------
 const breadCrumDrop = [
   {
-    label: "Roles",
+    label: 'Roles',
     value: 1,
-    url:  "/dashboard/role"
+    url: '/dashboard/role',
   },
   {
-    label: "Designations",
+    label: 'Designations',
     value: 2,
-    url:  "/dashboard/designation"
+    url: '/dashboard/designation',
   },
   {
-    label: "States",
+    label: 'States',
     value: 3,
-    url:  "/dashboard/state"
+    url: '/dashboard/state',
   },
   {
-    label: "Districts",
+    label: 'Districts',
     value: 4,
-    url:  "/dashboard/district"
+    url: '/dashboard/district',
   },
   {
-    label: "Talukas",
+    label: 'Talukas',
     value: 5,
-    url:  "/dashboard/taluka"
+    url: '/dashboard/taluka',
   },
   {
-    label: "Zones",
+    label: 'Zones',
     value: 6,
-    url:  "/dashboard/zone"
+    url: '/dashboard/zone',
   },
   {
-    label: "Wards",
+    label: 'Wards',
     value: 7,
-    url:  "/dashboard/ward"
+    url: '/dashboard/ward',
   },
   {
-    label: "Councils",
+    label: 'Councils',
     value: 8,
-    url:  "/dashboard/council"
+    url: '/dashboard/council',
   },
   {
-    label: "Tree Types",
+    label: 'Tree Types',
     value: 9,
-    url:  "/dashboard/type-of-tree"
+    url: '/dashboard/type-of-tree',
   },
   {
-    label: "Tree Families",
+    label: 'Tree Families',
     value: 16,
-    url:  "/dashboard/families"
+    url: '/dashboard/families',
   },
   {
-    label: "Tree Conditions",
+    label: 'Tree Conditions',
     value: 10,
-    url:  "/dashboard/tree-condition"
+    url: '/dashboard/tree-condition',
   },
   {
-    label: "Tree Names",
+    label: 'Tree Names',
     value: 11,
-    url:  "/dashboard/name-of-tree"
+    url: '/dashboard/name-of-tree',
   },
   {
-    label: "Tree Diseases",
+    label: 'Tree Diseases',
     value: 15,
-    url:  "/dashboard/treeDisease"
+    url: '/dashboard/treeDisease',
   },
   {
-    label: "Location Types",
+    label: 'Location Types',
     value: 12,
-    url:  "/dashboard/location-type"
+    url: '/dashboard/location-type',
   },
   {
-    label: "Property Types",
+    label: 'Property Types',
     value: 13,
-    url:  "/dashboard/type-of-property"
+    url: '/dashboard/type-of-property',
   },
   {
-    label: "QC Remarks",
+    label: 'QC Remarks',
     value: 14,
-    url:  "/dashboard/qc-remarks"
-  }
-
-]
-
+    url: '/dashboard/qc-remarks',
+  },
+];
 
 MasterBreadCrum.propTypes = {
   callType: PropTypes.string,
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
-  placeHolder:PropTypes.string,
-  handleCoucilChange:PropTypes.func,
-  handleWardChange:PropTypes.func,
-  handleZoneChange:PropTypes.func,
-  coucilId:PropTypes.any,
-  zoneId:PropTypes.any,
-  wardId:PropTypes.any
+  placeHolder: PropTypes.string,
+  handleCoucilChange: PropTypes.func,
+  handleWardChange: PropTypes.func,
+  handleZoneChange: PropTypes.func,
+  coucilId: PropTypes.any,
+  zoneId: PropTypes.any,
+  wardId: PropTypes.any,
 };
 
+export default function MasterBreadCrum({
+  name,
+  callType,
+  numSelected,
+  filterName,
+  onFilterName,
+  placeHolder,
+  handleCoucilChange,
+  handleWardChange,
+  handleZoneChange,
+  coucilId,
+  zoneId,
+  wardId,
+  dropDownPage,
+  handleDropChange,
+}) {
+  const [dropPage, setDropPage] = useState('');
 
+  const handleChange = (event) => {
+    setDropPage(event.target.value);
+  };
 
-export default function MasterBreadCrum({name, callType, numSelected, filterName, onFilterName, placeHolder,handleCoucilChange,handleWardChange,handleZoneChange,coucilId,zoneId,wardId, dropDownPage, handleDropChange }) {
-    const [dropPage, setDropPage] = useState('');
-
-    const handleChange = (event) => {
-        setDropPage(event.target.value);
-       };
-
-  
-    return (
+  return (
     <RootStyle
       sx={{
         ...(numSelected > 0 && {
@@ -152,39 +171,55 @@ export default function MasterBreadCrum({name, callType, numSelected, filterName
         }),
       }}
     >
-
-         <Grid container >
-           <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-        >
-          Master
-        </Link>
-        <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-         
-             <Select
-        labelId="demo-select-small"
-        id="demo-select-small"
-        style={{width: "200px"}}
-        value={dropDownPage}
-        onChange={handleDropChange}
-      >
-        {breadCrumDrop?.map((option) => (
-                 <MenuItem key={option.value} value={option.value} >
-               <NavLink to ={option.url} style={{textDecoration: "none", color: "black"}}>{option.label}</NavLink>
+      <Grid container>
+        <Breadcrumbs aria-label="breadcrumb" separator=">">
+          <Link
+            underline="none"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              fontFamily: 'sans-serif',
+              fontWeight: 40,
+              fontSize: 20,
+              color: '#000000',
+              fontStyle: 'bold',
+            }}
+            color="inherit"
+          >
+             <Typography variant="h4" >Master</Typography>
+            
+          </Link>
+          <Link
+            underline="none"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              fontFamily: 'sans-serif',
+              fontWeight: 25,
+              fontSize: 24,
+              color: '#000000',
+              fontStyle: 'bold',
+            }}
+            color="inherit"
+          >
+            <Select
+              labelId="demo-select-small"
+              id="demo-select-small"
+              style={{ width: '200px' }}
+              value={dropDownPage}
+              onChange={handleDropChange}
+            >
+              {breadCrumDrop?.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  <NavLink to={option.url} style={{ textDecoration: 'none', color: 'black' }}>
+                    {option.label}
+                  </NavLink>
                 </MenuItem>
               ))}
-      </Select>  
-        </Link>
-      </Breadcrumbs>
-           
-              </Grid>
+            </Select>
+          </Link>
+        </Breadcrumbs>
+      </Grid>
     </RootStyle>
   );
 }

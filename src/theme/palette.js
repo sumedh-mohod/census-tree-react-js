@@ -9,12 +9,13 @@ function createGradient(color1, color2) {
 // SETUP COLORS
 const GREY = {
   0: '#FFFFFF',
-  100: '#fff',
+  100: '#f1f1f1',
+  150: '#ffffff',
   200: '#F4F6F8',
   300: '#DFE3E8',
   400: '#C4CDD5',
   500: '#919EAB',
-  600: '#637381',
+  600: '#fff',
   700: '#454F5B',
   800: '#212B36',
   900: '#161C24',
@@ -35,6 +36,7 @@ const PRIMARY = {
   dark: '#1b3f42',
   darker: '#132b2d',
   contrastText: '#fff',
+  main_active: '#eaf0f1'
 };
 
 const SECONDARY = {
@@ -114,7 +116,7 @@ const palette = {
   background: { paper: '#fff', default: GREY[100], neutral: GREY[200] },
   action: {
     active: GREY[600],
-    hover: GREY[500_8],
+    hover: GREY[500_56],
     selected: GREY[500_16],
     disabled: GREY[500_80],
     disabledBackground: GREY[500_24],

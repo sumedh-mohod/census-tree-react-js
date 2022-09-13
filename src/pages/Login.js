@@ -108,7 +108,7 @@ export default function Login() {
           </SectionStyle>
         )}
 
-        <Container className={classes.item}>
+        <Container className={classes.item} >
           <ContentStyle  maxWidth="sm">
             <LoginForm />
           </ContentStyle>

@@ -282,7 +282,7 @@ export default function BaseColor() {
         />:null
         }
          
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
         {/* <Link

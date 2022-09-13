@@ -198,23 +198,26 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   }
 
   return (
-    <Page title="User">
+    <Page title="User" >
       <Container>
         {/* <NewUserDialog
         isOpen={open}
         data={dialogData}
         // isClose={}
         /> */}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
-            Users
+            Users<br/>
+            <Typography variant="h6" style={{fontWeight: 400}}>It is showing list of all users with its details</Typography>
           </Typography>
+          
           {userPermissions.includes("create-user")? 
           <Button variant="contained" component={RouterLink} to="/dashboard/new-user-Form" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            User
+            Add User
 
           </Button>
            :null} 
+           
         </Stack>
 
         <Card>
