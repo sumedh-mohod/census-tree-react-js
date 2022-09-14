@@ -16,6 +16,7 @@ import {
   TableContainer,
   TablePagination,
   Pagination,
+  Chip
 } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -35,7 +36,9 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from '../../components/JsonFiles/UserTableData.json';
 import CreateRoleDialog from '../../components/DialogBox/CreateRoleDialog';
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import {MasterBreadCrum, breadCrumDrop} from '../../sections/@dashboard/master/MasterBreadCrum';
+import {MasterBreadCrumChip} from '../../sections/@dashboard/master/MasterBreadCrumChip';
+import StatusButton from '../../components/statusbutton/StatusButton';
 // import Menu from './Menu';
 
 // ----------------------------------------------------------------------
@@ -91,7 +94,8 @@ export default function CreateRole() {
   const [dropPage, setDropPage] = useState(1);
 
   const handleDropChange = (event) => {
-    setDropPage(event.target.value);
+    console.log(event);
+    setDropPage(event);
   };
   const userPermissions = [];
 
@@ -183,10 +187,14 @@ export default function CreateRole() {
       <Container>
         {open ? <CreateRoleDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={0.5}>
-          <div role="presentation" onClick={handleClick}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={5}>
+          {/* <div role="presentation" onClick={handleClick}>
             <MasterBreadCrum dropDownPage={dropPage} handleDropChange={handleDropChange} />
-          </div>
+          </div> */}
+        
+        <div role="presentation" onClick={handleClick}>
+        <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'roles'} />
+        </div>
           {userPermissions.includes('create-role') ? (
             <Button
               onClick={handleNewUserClick}
@@ -199,7 +207,7 @@ export default function CreateRole() {
             </Button>
           ) : null}
         </Stack>
-
+        
         <Card>
           <UserListToolbar numSelected={0} placeHolder={'Search role...'} onFilterName={filterByName} />
           <Scrollbar>
@@ -210,9 +218,11 @@ export default function CreateRole() {
                   {roles?.map((option, index) => {
                     return (
                       <TableRow hover>
-                        <TableCell align="left">{(page - 1) * rowsPerPage + (index + 1)}</TableCell>
+                        <TableCell align="left"><b>{(page - 1) * rowsPerPage + (index + 1)}</b></TableCell>
                         <TableCell align="left">{option.role}</TableCell>
-                        <TableCell align="left">{option.status ? 'Active' : 'Inactive'}</TableCell>
+                        <TableCell align="left">
+                          <StatusButton status={option.status}/>
+                        </TableCell>
                         <TableCell align="right">
                           <UserMoreMenu
                             status={option.status}

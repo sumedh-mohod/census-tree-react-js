@@ -276,7 +276,7 @@ export default function NoTreeProperty() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                         <TableCell align="left">{option.property_type?.property_type?option.property_type?.property_type:"-"}</TableCell>
                         <TableCell align="left">{option.property?.property_number}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>

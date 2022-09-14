@@ -32,7 +32,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import { MasterBreadCrum } from '../../sections/@dashboard/master/MasterBreadCrum';
 
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
 import {GetAllWorkReports} from "../../actions/WorkReportAction"
@@ -147,7 +147,7 @@ const header = ["#", "Work Type", "Total Count", "From Date", "To Date"];
                         hover
                       // key={index}  
                       >
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left"><b>{index+1}</b></TableCell>
                         <TableCell align="left">{option[0]}</TableCell>
                         <TableCell align="left">{option[1]}</TableCell>
                         </TableRow>

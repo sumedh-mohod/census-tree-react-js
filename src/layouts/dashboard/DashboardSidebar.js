@@ -17,7 +17,7 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
 import navConfig from './NavConfig';
-import PlantLogo from '../../Assets/plant_logo.png';
+import LogoGreen from '../../Assets/LogoGreen.png';
 
 // ----------------------------------------------------------------------
 
@@ -81,12 +81,12 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       }}
       className={classes.item}
     >
-      <Box sx={{ display: 'inline-flex', pt: 2.5,pl: 2.5, pr:2.5,pb: 2.5 }} style={{borderBottom: '1.5px dashed #f8f8f8'}} >
-      <img src={PlantLogo} alt="abell" height='40' width='40' style={{marginTop: '4px'}}/>
-      <Typography className={classes.middle} >tree census
-      <Typography className={classes.body} sx={{mt: -1}}>Tree on, global warming gone</Typography>
+      <Box sx={{ display: 'inline-flex', pt: 3.5,pl: 2.5, pr:2.5,pb: 3.5 }} style={{borderBottom: '1.5px dashed #f8f8f8',backgroundColor: '#143334'}} >
+      {/* <img src={PlantLogo} alt="abell" height='40' width='40' style={{marginTop: '4px'}}/> */}
+      <Typography className={classes.middle} >
+      <img src={LogoGreen} alt="abell" height="55" style={{marginTop: '4px'}}/> 
+      <Typography className={classes.body}>Believing thoughts Mirroring believes</Typography>
       </Typography>
-      {/* <Typography variant='h6'>tree census</Typography> */}
       </Box>
       <NavSection navConfig={navConfig} />
     </Scrollbar>

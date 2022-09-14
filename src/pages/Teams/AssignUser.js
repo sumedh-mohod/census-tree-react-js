@@ -250,7 +250,7 @@ export default function AssignUser() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.roles}</TableCell>
                         <TableCell align="left">{option.from_date}</TableCell>

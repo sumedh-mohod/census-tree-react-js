@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // material
+import { makeStyles } from '@material-ui/core/styles';
 import { styled } from '@mui/material/styles';
 import {
   Toolbar,
@@ -12,6 +13,8 @@ import {
   Select,
   MenuItem,
   Grid,
+  Chip,
+  Container,
 } from '@mui/material';
 // component
 import { useSelector } from 'react-redux';
@@ -48,21 +51,25 @@ export const breadCrumDrop = [
     label: 'Roles',
     value: 1,
     url: '/dashboard/role',
+    slug: 'roles',
   },
   {
     label: 'Designations',
     value: 2,
     url: '/dashboard/designation',
+    slug: 'designations',
   },
   {
     label: 'States',
     value: 3,
     url: '/dashboard/state',
+    slug: 'states',
   },
   {
     label: 'Districts',
     value: 4,
     url: '/dashboard/district',
+    slug: 'districts',
   },
   {
     label: 'Talukas',
@@ -126,30 +133,13 @@ export const breadCrumDrop = [
   },
 ];
 
-
-
-export const  MasterBreadCrum = ({
-  name,
-  callType,
-  numSelected,
-  filterName,
-  onFilterName,
-  placeHolder,
-  handleCoucilChange,
-  handleWardChange,
-  handleZoneChange,
-  coucilId,
-  zoneId,
-  wardId,
-  dropDownPage,
-  handleDropChange,
-}) =>{
+export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChange, slug }) => {
   const [dropPage, setDropPage] = useState('');
 
   const handleChange = (event) => {
     setDropPage(event.target.value);
   };
-  MasterBreadCrum.propTypes = {
+  MasterBreadCrumChip.propTypes = {
     callType: PropTypes.string,
     numSelected: PropTypes.number,
     filterName: PropTypes.string,
@@ -162,17 +152,32 @@ export const  MasterBreadCrum = ({
     zoneId: PropTypes.any,
     wardId: PropTypes.any,
   };
+  console.log('breadCrumDrop', breadCrumDrop);
+
+  const useStyles = makeStyles({
+    chipSelected: {
+      backgroundColor: '#214c50',
+      color: '#fff',
+    },
+    chip: {
+      backgroundColor: '#fff',
+      color: '#000',
+    },
+  });
+  const classes = useStyles();
+
   return (
-    <RootStyle
-      sx={{
-        ...(numSelected > 0 && {
-          color: 'primary.main',
-          bgcolor: 'primary.lighter',
-        }),
-      }}
-    >
-      <Grid container>
-        <Breadcrumbs aria-label="breadcrumb" separator=">">
+    <Container>
+      <RootStyle
+        sx={{
+          ...(numSelected > 0 && {
+            color: 'primary.main',
+            bgcolor: 'primary.lighter',
+          }),
+        }}
+      >
+        <Grid container>
+          {/* <Breadcrumbs aria-label="breadcrumb" separator=">"> */}
           <Link
             underline="none"
             sx={{
@@ -186,8 +191,12 @@ export const  MasterBreadCrum = ({
             }}
             color="inherit"
           >
-             <Typography variant="h4" >Master</Typography>
-            
+            <Typography variant="h4">
+              Master :
+              <Typography variant="h6" style={{ fontSize: '20px', fontWeight: '400' }}>
+                It is showing text of selected entity
+              </Typography>
+            </Typography>
           </Link>
           <Link
             underline="none"
@@ -202,24 +211,30 @@ export const  MasterBreadCrum = ({
             }}
             color="inherit"
           >
-            <Select
-              labelId="demo-select-small"
-              id="demo-select-small"
-              style={{ width: '200px' }}
-              value={dropDownPage}
-              onChange={handleDropChange}
-            >
-              {breadCrumDrop?.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  <NavLink to={option.url} style={{ textDecoration: 'none', color: 'black' }}>
-                    {option.label}
-                  </NavLink>
-                </MenuItem>
-              ))}
-            </Select>
+            {breadCrumDrop?.map((option, index) => (
+              <NavLink to={option.url} style={{ textDecoration: 'none' }}>
+                <Chip
+                  label={option.label}
+                  key={option.value}
+                  onClick={() => {
+                    handleDropChange(option.label);
+                  }}
+                  variant="outlined"
+                  value={dropDownPage}
+                  className={option.slug === slug ? classes.chipSelected : classes.chip}
+                  style={{
+                    fontWeight: '700',
+                    borderRadius: '7px',
+                    border: 'none',
+                  }}
+                  sx={{ ml: 1 }}
+                />
+              </NavLink>
+            ))}
           </Link>
-        </Breadcrumbs>
-      </Grid>
-    </RootStyle>
+          {/* </Breadcrumbs> */}
+        </Grid>
+      </RootStyle>
+    </Container>
   );
-}
+};

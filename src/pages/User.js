@@ -14,7 +14,6 @@ import {
   Container,
   Typography,
   TableContainer,
- 
   TextField,
   Grid,
   Box,
@@ -29,8 +28,9 @@ import Iconify from '../components/Iconify';
 import { UserListHead, UserListToolbar, UserFormListMenu } from '../sections/@dashboard/user';
 import USERLIST from '../_mock/user';
 import NewUserDialog from '../components/DialogBox/NewUserDialog';
-import UserTableData from  '../components/JsonFiles/UserTableData.json';
+import UserTableData from '../components/JsonFiles/UserTableData.json';
 import { DeleteUsers, GetUsers, SearchUsers, UnlinkDevice } from '../actions/UserAction';
+import StatusButton from '../components/statusbutton/StatusButton';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ const TABLE_HEAD = [
   { id: 'role', label: 'Role', alignRight: false },
   { id: 'username', label: 'Username', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: 'action',  label: 'Action', alignRight: true},
+  { id: 'action', label: 'Action', alignRight: true },
 ];
 
 // ----------------------------------------------------------------------
@@ -77,7 +77,6 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
-
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
@@ -88,84 +87,69 @@ export default function User() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('Name');
   const [filterName, setFilterName] = useState('');
-  const [open, setOpen ] = useState(false);
+  const [open, setOpen] = useState(false);
   const [close, setClose] = useState();
-  const [dialogData,setDialogData] = useState(null);
-  const [search,setSearch] = useState(false);
-  const [searchValue,setSearchValue] = useState("");
-  const [pageCountError, setPageCountError]= useState(false);
+  const [dialogData, setDialogData] = useState(null);
+  const [search, setSearch] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [pageCountError, setPageCountError] = useState(false);
   const userPermissions = [];
 
   const { state } = useLocation();
-  
+
   // console.log("STATE PAGE ",state);
   // console.log("Current Page", page)
 
-   const {
-    users,
-    pageInfo,
-    deleteUsersLog,
-    loggedUser,
-  } = useSelector((state) => ({
-    users:state.users.users,
-    pageInfo : state.users.pageInfo,
-    deleteUsersLog:state.users.deleteUsersLog,
-    loggedUser:state.auth.loggedUser,
+  const { users, pageInfo, deleteUsersLog, loggedUser } = useSelector((state) => ({
+    users: state.users.users,
+    pageInfo: state.users.pageInfo,
+    deleteUsersLog: state.users.deleteUsersLog,
+    loggedUser: state.auth.loggedUser,
   }));
 
-loggedUser.roles[0].permissions.map((item, index)=>(
-  userPermissions.push(item.name)
-))
+  loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
-  useEffect(()=>{
-    if(state){
+  useEffect(() => {
+    if (state) {
       // console.log("INSIDE STATE");
       setPage(state.page);
     }
-  },[])
-  
+  }, []);
 
-  useEffect(()=>{
-    if(state){
+  useEffect(() => {
+    if (state) {
       setPage(state.page);
-      dispatch(GetUsers(state.page,rowsPerPage));
+      dispatch(GetUsers(state.page, rowsPerPage));
+    } else {
+      dispatch(GetUsers(page, rowsPerPage));
     }
-    else {
-      dispatch(GetUsers(page,rowsPerPage));
-    }
-    
-  },[deleteUsersLog])
+  }, [deleteUsersLog]);
 
-  useEffect(()=>{
-    if(pageInfo){
-      setCount(pageInfo?.total)
+  useEffect(() => {
+    if (pageInfo) {
+      setCount(pageInfo?.total);
     }
-  },[pageInfo])
-
+  }, [pageInfo]);
 
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
   };
-  
 
   const handleChangePage = (event, newPage) => {
     // console.log(newPage);
     setPage(newPage);
-   
-    if(search){
-      dispatch(SearchUsers(newPage,rowsPerPage,searchValue));
-    }
-    else {
-      dispatch(GetUsers(newPage,rowsPerPage));
+
+    if (search) {
+      dispatch(SearchUsers(newPage, rowsPerPage, searchValue));
+    } else {
+      dispatch(GetUsers(newPage, rowsPerPage));
     }
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteUsers(data.id,data.status?0:1));
+    dispatch(DeleteUsers(data.id, data.status ? 0 : 1));
   };
-
-
 
   let timer = null;
   const filterByName = (event) => {
@@ -173,32 +157,29 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     clearTimeout(timer);
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
-        if(value){
-          dispatch(SearchUsers(1,rowsPerPage,value))
-          setSearch(true)
-          setPage(1)
-          setSearchValue(value);
-
-        }
-        else{
-          dispatch(GetUsers(1,rowsPerPage));
-          setSearch(false);
-          setPage(1);
-          setSearchValue("")
-        }
+      if (value) {
+        dispatch(SearchUsers(1, rowsPerPage, value));
+        setSearch(true);
+        setPage(1);
+        setSearchValue(value);
+      } else {
+        dispatch(GetUsers(1, rowsPerPage));
+        setSearch(false);
+        setPage(1);
+        setSearchValue('');
+      }
     }, 1000);
-
-  }
+  };
 
   const handleUnlink = (userId) => {
     const obj = {
-      user_id: userId
-    }
-    dispatch(UnlinkDevice(obj))
-  }
+      user_id: userId,
+    };
+    dispatch(UnlinkDevice(obj));
+  };
 
   return (
-    <Page title="User" >
+    <Page title="User">
       <Container>
         {/* <NewUserDialog
         isOpen={open}
@@ -207,64 +188,82 @@ loggedUser.roles[0].permissions.map((item, index)=>(
         /> */}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
-            Users<br/>
-            <Typography variant="h6" style={{fontWeight: 400}}>It is showing list of all users with its details</Typography>
+            Users
+            <br />
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+              It is showing list of all users with its details
+            </Typography>
           </Typography>
-          
-          {userPermissions.includes("create-user")? 
-          <Button variant="contained" component={RouterLink} to="/dashboard/new-user-Form" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add User
 
-          </Button>
-           :null} 
-           
+          {userPermissions.includes('create-user') ? (
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to="/dashboard/new-user-Form"
+              startIcon={<Iconify icon="eva:plus-fill" />}
+            >
+              Add User
+            </Button>
+          ) : null}
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search users..."} onFilterName={filterByName}/>
+          <UserListToolbar numSelected={0} placeHolder={'Search users...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
                   headLabel={TABLE_HEAD}
-                  data = {dialogData}
+                  data={dialogData}
                   // handleClose = {handleNewUserClick}
                 />
                 <TableBody>
-                     { users?.map((option,index) => {
-                        return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                            <TableCell align="left">
-                              {option.first_name}  {option.last_name}
-                            </TableCell>
+                  {users?.map((option, index) => {
+                    return (
+                      <TableRow hover>
+                        <TableCell align="left">
+                          <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                        </TableCell>
+                        <TableCell align="left">
+                          {option.first_name} {option.last_name}
+                        </TableCell>
                         <TableCell align="left">{option.email}</TableCell>
                         <TableCell align="left">{option.mobile}</TableCell>
                         <TableCell align="left">{option.assigned_roles}</TableCell>
                         <TableCell align="left">{option.username}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
-
-                        <TableCell align="right">
-                          <UserFormListMenu page={page} status={option.status} userId={option.id} userPermissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} handleUnlink={()=>handleUnlink(option.id)}/>
+                       
+                        <TableCell align="left">
+                          <StatusButton status={option.status} />
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
-
+                        <TableCell align="right">
+                          <UserFormListMenu
+                            page={page}
+                            status={option.status}
+                            userId={option.id}
+                            userPermissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                            handleUnlink={() => handleUnlink(option.id)}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
           <Box>
- { users?(
-  <Pagination count={pageInfo.last_page} page={page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />):null
- }
+            {users ? (
+              <Pagination
+                count={pageInfo.last_page}
+                page={page}
+                variant="outlined"
+                shape="rounded"
+                onChange={handleChangePage}
+                sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+              />
+            ) : null}
           </Box>
         </Card>
       </Container>

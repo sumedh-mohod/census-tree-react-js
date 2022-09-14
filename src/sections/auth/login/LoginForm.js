@@ -88,7 +88,7 @@ export default function LoginForm() {
 
   return (
     <>
-    <img src="/static/illustrations/TopPlant.png" height='500' style={{ position: 'absolute',right:'0',top: '0',zIndex: '-1'}} width='500'  alt="login" />
+    <img src="/static/illustrations/TopPlant.png" height='200' style={{ position: 'absolute',right:'0',top: '0'}} width='200'  alt="login" />
       <Typography variant="h4">
         <strong>Login</strong>
       </Typography>
@@ -118,7 +118,7 @@ export default function LoginForm() {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={handleShowPassword} edge="end">
+                    <IconButton onClick={handleShowPassword} edge="end" style={{color: '#1b3f42'}}>
                       <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
                     </IconButton>
                   </InputAdornment>

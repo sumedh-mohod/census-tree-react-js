@@ -33,7 +33,7 @@ import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
 import PropertyErrorDialog from '../../components/DialogBox/tree-data/PropertyErrorDialog';
 import { ShowLoader } from '../../actions/CommonAction';
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import { MasterBreadCrumChip } from '../../sections/@dashboard/master/MasterBreadCrumChip';
 
 // ----------------------------------------------------------------------
 
@@ -254,7 +254,7 @@ export default function ViewProperties() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <MasterBreadCrum
+        <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
           />
@@ -305,7 +305,7 @@ export default function ViewProperties() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                         <TableCell align="left">{option?.zone?.name}</TableCell>
                         <TableCell align="left">{option?.ward?.name}</TableCell>
                         <TableCell align="left">{option.property_number}</TableCell>

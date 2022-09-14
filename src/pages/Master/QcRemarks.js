@@ -31,7 +31,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import { DeleteQcRemarks, GetQcRemarks, SearchQcRemarks} from '../../actions/QcRemarksAction';
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import {MasterBreadCrumChip} from '../../sections/@dashboard/master/MasterBreadCrumChip';
 
 // ----------------------------------------------------------------------
 
@@ -200,7 +200,7 @@ export default function District() {
         }
        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <MasterBreadCrum
+        <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
           />
@@ -226,7 +226,7 @@ export default function District() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                             <TableCell align="left">
                               {option.remark}
                             </TableCell>

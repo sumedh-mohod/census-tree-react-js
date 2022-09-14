@@ -31,7 +31,8 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfLocationDialog from "../../components/DialogBox/TypeOfLocationDialog";
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import {MasterBreadCrumChip} from '../../sections/@dashboard/master/MasterBreadCrumChip';
+import StatusButton from '../../components/statusbutton/StatusButton';
 
 // ----------------------------------------------------------------------
 
@@ -196,7 +197,7 @@ export default function LocationType() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
 
-        <MasterBreadCrum
+        <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
           />
@@ -223,9 +224,11 @@ export default function LocationType() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                         <TableCell align="left">{option.location_type}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
+                        <TableCell align="left">
+                          <StatusButton status={option.status} />
+                        </TableCell>
                         <TableCell align="right">
                           <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>

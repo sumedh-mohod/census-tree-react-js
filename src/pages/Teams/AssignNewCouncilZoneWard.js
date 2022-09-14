@@ -32,6 +32,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignCouncilZoneDialog from "../../components/DialogBox/TeamsDialog/AssignCouncilZoneDialog";
+import StatusButton from '../../components/statusbutton/StatusButton'
 
 // ----------------------------------------------------------------------
 
@@ -240,13 +241,15 @@ export default function AssignNewCouncilZoneWard() {
                         <TableRow
                         hover
                       >
-                        <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                        <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                         <TableCell align="left">{option.council_name}</TableCell>
                         <TableCell align="left">{option.zone_name}</TableCell>
                         <TableCell align="left">{option.ward_name}</TableCell>
                         <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date?option.to_date:"-"}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
+                        <TableCell align="left">
+                          <StatusButton status={option.status} />
+                        </TableCell>
                         </TableRow>
                         )
                   }):null

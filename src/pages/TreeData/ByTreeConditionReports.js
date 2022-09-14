@@ -64,7 +64,7 @@ export default function ByTreeConditionReports(props) {
                       <TableRow
                       hover
                     >
-                          <TableCell align="left">{index+1}</TableCell>
+                          <TableCell align="left"><b>{index+1}</b></TableCell>
                       <TableCell align="left">{option.condition}</TableCell>
                       <TableCell align="left">{option.census_trees_count}</TableCell>
                       </TableRow>
