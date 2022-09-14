@@ -91,7 +91,7 @@ export default function TeamsTableDialog(props) {
   };
 
   const handleTeamCode = (e) => {
-    const  regex = /^[a-zA-Z0-9]*$/;
+    const  regex = /^[A-Za-z0-9? ,_-]+$/
     if(regex.test(e.target.value)) {
       setTeamCodeError("");
   }
@@ -103,7 +103,7 @@ export default function TeamsTableDialog(props) {
   }
 
   const handleTeamName = (e) => {
-    const  regex = /^[a-zA-Z0-9]*$/;
+    const  regex = /^[A-Za-z0-9? ,_-]+$/;
     if(regex.test(e.target.value)) {
       setTeamNameError("");
   }

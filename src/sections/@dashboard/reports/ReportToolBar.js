@@ -68,7 +68,7 @@ export default function ReportToolBar({ numSelected, filterName, onFilterName,ha
         }),
       }}
     >
-      {numSelected > 0 ? (
+      {/* {numSelected > 0 ? (
         <Typography component="div" variant="subtitle1">
           {numSelected} selected
         </Typography>
@@ -84,7 +84,7 @@ export default function ReportToolBar({ numSelected, filterName, onFilterName,ha
             </InputAdornment>
           }
         />
-      )}
+      )} */}
 
 
          <Grid container justifyContent="flex-end">
