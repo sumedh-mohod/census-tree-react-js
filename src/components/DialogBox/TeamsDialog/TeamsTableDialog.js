@@ -91,19 +91,19 @@ export default function TeamsTableDialog(props) {
   };
 
   const handleTeamCode = (e) => {
-
-    if(e.target.value.length<=45) {
+    const  regex = /^[A-Za-z0-9? ,_-]+$/
+    if(regex.test(e.target.value)) {
       setTeamCodeError("");
-    }
-    else{
-      setTeamCodeError("Maximum 45 Characters allowed ");
-      
-    }
-    setTeamCode(e.target.value);
+  }
+  else{
+    setTeamCodeError("Please Enter Team Code In Alphanumeric format Only");
+    
+  }
+  setTeamCode(e.target.value);
   }
 
   const handleTeamName = (e) => {
-    const  regex = /^[a-zA-Z0-9]*$/;
+    const  regex = /^[A-Za-z0-9? ,_-]+$/;
     if(regex.test(e.target.value)) {
       setTeamNameError("");
   }
@@ -122,7 +122,7 @@ export default function TeamsTableDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    name: Yup.string().max(45, 'Maximum 45 Characters allowed').required('Team Name is required'),
+    name: Yup.string().max(30, 'Character limit is 30').required('Name is required'),
     code: Yup.string()
       .min(4, 'Too Short! need exact 4 character')
       .max(4, 'Too Long! need exact 4 character')
