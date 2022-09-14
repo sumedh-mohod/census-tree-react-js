@@ -199,7 +199,7 @@ export default function District() {
          />:null
         }
        
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
@@ -207,7 +207,7 @@ export default function District() {
 
     {userPermissions.includes("create-qc-remark")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            QC Remark
+            Add QC Remark
 
           </Button>:null}
         </Stack>

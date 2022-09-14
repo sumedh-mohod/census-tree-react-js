@@ -194,7 +194,7 @@ export default function Zone() {
         />:null
         }
         
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
         <MasterBreadCrumChip
           dropDownPage={dropPage}
@@ -203,7 +203,7 @@ export default function Zone() {
     </div>
     {userPermissions.includes("create-zone")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Zone
+            Add Zone
 
           </Button>:null}
         </Stack>

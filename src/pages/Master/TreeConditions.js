@@ -194,7 +194,7 @@ export default function TreeConditions() {
         />:null
         }
         
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
         <MasterBreadCrumChip
           dropDownPage={dropPage}
@@ -203,7 +203,7 @@ export default function TreeConditions() {
     </div>
     {userPermissions.includes("create-tree-condition")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Tree Condition
+            Add Tree Condition
 
           </Button>:null}
         </Stack>

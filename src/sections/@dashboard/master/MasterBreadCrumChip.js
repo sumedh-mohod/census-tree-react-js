@@ -15,6 +15,7 @@ import {
   Grid,
   Chip,
   Container,
+  Card
 } from '@mui/material';
 // component
 import { useSelector } from 'react-redux';
@@ -135,7 +136,6 @@ export const breadCrumDrop = [
 
 export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChange, slug }) => {
   const [dropPage, setDropPage] = useState('');
-
   const handleChange = (event) => {
     setDropPage(event.target.value);
   };
@@ -167,7 +167,7 @@ export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChang
   const classes = useStyles();
 
   return (
-    <Container>
+    <Container style={{paddingLeft: '0px', paddingRight: '0px'}}>
       <RootStyle
         sx={{
           ...(numSelected > 0 && {
@@ -175,8 +175,9 @@ export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChang
             bgcolor: 'primary.lighter',
           }),
         }}
+        style={{ paddingLeft: '0px', paddingRight: '0px'}}
       >
-        <Grid container>
+        <Grid container >
           {/* <Breadcrumbs aria-label="breadcrumb" separator=">"> */}
           <Link
             underline="none"
@@ -192,7 +193,10 @@ export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChang
             color="inherit"
           >
             <Typography variant="h4">
-              Master :
+              Master :{' '}
+              <span style={{ fontWeight: '400' }}>
+                {slug === undefined ? 'Roles' : slug.charAt(0).toUpperCase() + slug.slice(1)}
+              </span>
               <Typography variant="h6" style={{ fontSize: '20px', fontWeight: '400' }}>
                 It is showing text of selected entity
               </Typography>
@@ -211,7 +215,8 @@ export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChang
             }}
             color="inherit"
           >
-            {breadCrumDrop?.map((option, index) => (
+            <Card style={{backgroundColor: '#f1f1f1',  boxShadow: 'none',borderRadius: '0px'}}>
+            {breadCrumDrop?.map((option) => (
               <NavLink to={option.url} style={{ textDecoration: 'none' }}>
                 <Chip
                   label={option.label}
@@ -227,10 +232,11 @@ export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChang
                     borderRadius: '7px',
                     border: 'none',
                   }}
-                  sx={{ ml: 1 }}
+                  sx={{ mr: 1.5,mb: 1.5 }}
                 />
               </NavLink>
             ))}
+            </Card>
           </Link>
           {/* </Breadcrumbs> */}
         </Grid>

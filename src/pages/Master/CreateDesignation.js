@@ -174,7 +174,7 @@ export default function CreateDestination() {
     <Page title="User">
       <Container>
         {open ? <CreateDesignationDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
           <div role="presentation" onClick={handleClick}>
             <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'designations'} />
           </div>
@@ -186,7 +186,7 @@ export default function CreateDestination() {
               to="#"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              Designation
+              Add Designation
             </Button>
           ) : null}
         </Stack>

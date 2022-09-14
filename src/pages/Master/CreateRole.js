@@ -184,15 +184,15 @@ export default function CreateRole() {
 
   return (
     <Page title="User">
-      <Container>
+      <Container >
         {open ? <CreateRoleDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={10} mt={5}>
           {/* <div role="presentation" onClick={handleClick}>
             <MasterBreadCrum dropDownPage={dropPage} handleDropChange={handleDropChange} />
           </div> */}
         
-        <div role="presentation" onClick={handleClick}>
+        <div role="presentation" onClick={handleClick} >
         <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'roles'} />
         </div>
           {userPermissions.includes('create-role') ? (

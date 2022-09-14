@@ -251,7 +251,7 @@ export default function ViewProperties() {
         data={propertyError}
         />:null
         }
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
         <MasterBreadCrumChip

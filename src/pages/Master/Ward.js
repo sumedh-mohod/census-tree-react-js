@@ -193,7 +193,7 @@ export default function Ward() {
         />:null
         }
         
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
         <MasterBreadCrumChip
           dropDownPage={dropPage}
@@ -203,7 +203,7 @@ export default function Ward() {
     </div>
     {userPermissions.includes("create-ward")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Ward
+            Add Ward
 
           </Button>:null}
         </Stack>

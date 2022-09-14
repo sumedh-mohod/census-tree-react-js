@@ -203,7 +203,7 @@ export default function District() {
         />:null
         }
         
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
           <div role="presentation" onClick={handleClick} >
           <MasterBreadCrumChip
           dropDownPage={dropPage}
@@ -213,7 +213,7 @@ export default function District() {
     </div>
     {userPermissions.includes("create-district")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            District
+            Add District
 
           </Button>:null}
         </Stack>

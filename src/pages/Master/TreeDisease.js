@@ -165,7 +165,7 @@ export default function TreeDisease() {
         />:null
         }
         
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
         <MasterBreadCrumChip
           dropDownPage={dropPage}
@@ -174,7 +174,7 @@ export default function TreeDisease() {
     </div>
     {userPermissions.includes("create-tree-disease")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Tree Disease
+            Add Tree Disease
 
           </Button>:null}
         </Stack>

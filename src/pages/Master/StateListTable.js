@@ -165,7 +165,7 @@ export default function StateListTable() {
         />:null
         }
         
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
        <MasterBreadCrumChip
           dropDownPage={dropPage}
@@ -175,7 +175,7 @@ export default function StateListTable() {
     </div>
     {userPermissions.includes("create-state")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            State
+            Add State
 
           </Button>:null}
         </Stack>

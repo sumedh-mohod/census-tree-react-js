@@ -194,7 +194,7 @@ export default function LocationType() {
          />:null
         }
        
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
 
         <MasterBreadCrumChip
@@ -205,7 +205,7 @@ export default function LocationType() {
     </div>
     {userPermissions.includes("create-location-type")? 
           <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-           Location Type
+           Add Location Type
 
           </Button>:null}
         </Stack>
