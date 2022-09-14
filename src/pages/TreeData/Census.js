@@ -46,8 +46,8 @@ const TABLE_HEAD = [
   { id: 'treeName', label: 'Tree Name', alignRight: false },
   { id: 'addedBy', label: 'Added By', alignRight: false },
   { id: 'addedOn', label: 'Added On', alignRight: false },
-  { id: 'age', label: 'Age', alignRight: false },
-  { id: 'locationAccuracyNeeded', label: 'Location Accuracy Needed', alignRight: false },
+  { id: 'age', label: 'Tree Age', alignRight: false },
+  { id: 'locationAccuracyNeeded', label: 'Location Accuracy Captured', alignRight: false },
   { id: 'isReferredToExpert', label: 'Is Referred To Expert?', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
 ];

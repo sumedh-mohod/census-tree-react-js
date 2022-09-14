@@ -425,10 +425,10 @@ const handleFamilyChange = (event) => {
       minGrowth: data? minGro: "",
       maxGrowth: data? maxGro: "",
       growthRatio: data? data.growth_ratio : "",
-      floweringStart:data? flwSt.trim(): "",
-      floweringEnd: data? flwEnd.trim(): "",
-      fruitingStart: data? frtSt.trim(): "",
-      fruitingEnd: data? frtEnd.trim(): "",
+      floweringStart:data? flwSt?.trim(): "",
+      floweringEnd: data? flwEnd?.trim(): "",
+      fruitingStart: data? frtSt?.trim(): "",
+      fruitingEnd: data? frtEnd?.trim(): "",
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
@@ -785,7 +785,7 @@ const handleFamilyChange = (event) => {
         />
           </Grid>
           </Grid>
-          <FormLabel style={{marginLeft: 48, marginTop: 20}}>Growth Ratio*</FormLabel>
+          <FormLabel style={{marginLeft: 48, marginTop: 20}}>Growth Ratio(To Calculate Age)*</FormLabel>
           <Grid item xs={12}>
           
             <TextField
