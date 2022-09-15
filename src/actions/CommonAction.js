@@ -1,5 +1,5 @@
 
-import { SHOW_LOADER } from "./Types";
+import { SHOW_LOADER, SHOW_LOADER_BUTTON } from "./Types";
 
 const ShowLoader = (data) => (dispatch) => {
     dispatch({
@@ -8,6 +8,15 @@ const ShowLoader = (data) => (dispatch) => {
     });
   };
 
+  const ShowLoadingButton = (data) => (dispatch) => {
+    dispatch({
+      type: SHOW_LOADER_BUTTON,
+      payload: data,
+    });
+  };
+
+
 export { 
-    ShowLoader
+    ShowLoader,
+    ShowLoadingButton,
 };
