@@ -174,7 +174,7 @@ console.log("UserListType",workReports);
 
   const handleDownloadButtonPressed = () => {
     setDownloadButtonPressed(true);
-    dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+    dispatch(GetAllWorkReports(reportType,undefined,undefined, fromDate,toDate));
   }
 
   function handleDownloadExcel() {
@@ -200,7 +200,7 @@ console.log("UserListType",workReports);
       return null
     })
     downloadExcel({
-      fileName: "Report",
+      fileName: "By User Report",
       sheet: "Report",
       tablePayload: {
         header,

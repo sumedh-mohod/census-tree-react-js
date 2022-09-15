@@ -48,9 +48,28 @@ const Logout = () => async (dispatch) => {
     }
   };
 
+  const SessionExpired = () => async (dispatch) => {
+    try {
+      localStorage.clear();
+      
+      dispatch({
+        type: LOG_OUT,
+        payload: null,
+      });
+      dispatch({
+        type: RESET_STATE,
+        payload: null,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+
 
 
 export {
   LoginUser,
-  Logout
+  Logout,
+  SessionExpired
 };

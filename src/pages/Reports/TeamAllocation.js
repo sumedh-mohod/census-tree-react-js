@@ -87,7 +87,7 @@ export default function WorkTypeList(props) {
   console.log("teamAllocation",workReports);
   
 
-  console.log("teamallocation", workReports)
+  console.log("excelwork report", excelWorkReports)
 
 
   // useEffect(()=>{
@@ -118,11 +118,11 @@ const handleChangePage = (event, newPage) => {
   //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
   // }
   // else {
-    dispatch(GetWorkReports(reportType,props?.userBy,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
+    dispatch(GetWorkReports(reportType,userBy,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
   }
 
 const header1= ["report Type", "From Date" , "To Date"] 
-const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Current Status", "From Date", "To Date"];
+const header = ["#", "User", "Role", "Team","Council","Zone","Ward","Allocated", "Deallocated", "Current Status", "From Date", "To Date"];
 // const header1= ["from Date", "To Date"]
 
   const handleDownloadButtonPressed = () => {
@@ -140,6 +140,9 @@ const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Curren
       // value2.push(fromDate)
       value2.push(option.role)
       value2.push(option.team)
+      value2.push(option.council)
+      value2.push(option.zone)
+      value2.push(option.ward)
       value2.push(option.assigned_at)
       value2.push(option.deallocated_at)
       value2.push(option.current_status)
@@ -154,7 +157,7 @@ const header = ["#", "User", "Role", "Team", "Allocated", "Deallocated", "Curren
       return null
     })
     downloadExcel({
-      fileName: "Report",
+      fileName: "Team-User Allocation Report",
       sheet: "Report",
       tablePayload: {
         header,

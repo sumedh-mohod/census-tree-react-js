@@ -56,6 +56,8 @@ export default function ZoneDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
+  const [teamCode, setZone] = React.useState('');
+  const [zoneError, setZoneError] = React.useState('');
   const { isOpen, data } = props;
 
   const {
@@ -94,7 +96,7 @@ export default function ZoneDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    zones: Yup.string().required('Zone Name is required'),
+    zones: Yup.string().matches(/^[A-Za-z0-9? ,_-]+$/, "Enter Zone In Alphanumeric format Only").required('Zone Name is required'),
   });
 
 
@@ -141,6 +143,11 @@ export default function ZoneDialog(props) {
               <DefaultInput
                 fullWidth
                 id="Zone"
+                // value={values.name}
+                // onChange={(e) => {
+                //   handleZone(e);
+                //   formik.handleChange(e);
+                // }}
                 // autoComplete="typeOfTree"
                 label="Zone*"
                 placeholder="Zone*"

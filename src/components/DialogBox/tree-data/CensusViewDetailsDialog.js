@@ -178,7 +178,7 @@ export default function CensusViewDetailsDialog(props) {
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.location_type?.location_type}</td>
   </tr>
   <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Location Accuracy Needed</td>
+    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Accuracy Captured</td>
     <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.location_accuracy}</td>
   </tr>
   <tr>
