@@ -196,6 +196,7 @@ export default function TypeOfProperty() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'property types'}
           />
     </div>
     {userPermissions.includes("create-property-type")? 

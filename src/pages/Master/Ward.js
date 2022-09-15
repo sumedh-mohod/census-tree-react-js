@@ -198,6 +198,7 @@ export default function Ward() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'wards'}
           />
 
     </div>

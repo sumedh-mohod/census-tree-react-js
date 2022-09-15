@@ -330,7 +330,7 @@ export default function NavSection({ navConfig, ...other }) {
   const newReportObj =   {
     title: 'Reports',
     path: '/dashboard/newReports',
-    icon: getIcon('carbon:report'),
+    icon: getIcon('eva:file-text-fill'),
     children:[]
   }
 

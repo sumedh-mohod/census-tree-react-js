@@ -201,6 +201,7 @@ export default function Taluka() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'talukas'}
           />
     </div>
     {userPermissions.includes("create-taluka")? 

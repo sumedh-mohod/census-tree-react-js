@@ -199,6 +199,7 @@ export default function TreeConditions() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'tree conditions'}
           />
     </div>
     {userPermissions.includes("create-tree-condition")? 

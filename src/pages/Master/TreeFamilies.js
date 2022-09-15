@@ -204,6 +204,7 @@ export default function TreeFamilies() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'tree families'}
           />
     </div>
   

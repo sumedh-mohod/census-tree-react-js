@@ -203,6 +203,7 @@ export default function District() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'qC remarks'}
           />
 
     {userPermissions.includes("create-qc-remark")? 

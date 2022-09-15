@@ -17,6 +17,8 @@ import {
   TableContainer,
   Pagination,
 } from '@mui/material';
+
+import { makeStyles } from '@material-ui/core/styles';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,10 +43,11 @@ import StatusButton from '../../components/statusbutton/StatusButton';
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'teamName', label: 'Team Name', alignRight: false },
+  { id: 'teamCode', label: 'Team Code', alignRight: false },
   { id: 'councilName', label: 'Council Name', alignRight: false },
   { id: 'zone', label: 'Zone', alignRight: false },
   { id: 'ward', label: 'Ward', alignRight: false },
-  { id: 'status', label: 'Ward', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -242,6 +245,18 @@ export default function TeamsList() {
     dispatch(GetTeamByFilter(1, rowsPerPage, coucilId, e.target.value, wardId));
   };
 
+  const useStyles = makeStyles({
+    button: {
+      backgroundColor: '#d0fae2',
+      borderRadius: '5px',
+      padding: '2px 10px',
+      color: '#000',
+      border: '1.5px solid #18a553',
+      fontFamily: 'Poppins',
+      width: '55px'
+    },
+  });
+  const classes = useStyles();
   return (
     <Page title="TeamList">
       <Container>
@@ -284,8 +299,13 @@ export default function TeamsList() {
                 <TableBody>
                   {teams?.map((option, index) => (
                     <TableRow hover>
-                      <TableCell align="left"><b>{(page - 1) * rowsPerPage + (index + 1)}</b></TableCell>
+                      <TableCell align="left">
+                        <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                      </TableCell>
                       <TableCell align="left">{option.name}</TableCell>
+                      <TableCell align="left">
+                        {option.team_code !== '' ? <button className={classes.button}>{option.team_code}</button> : ''}
+                      </TableCell>
                       <TableCell align="left">{option?.council}</TableCell>
                       <TableCell>{option?.zone}</TableCell>
                       <TableCell align="left">{option?.ward}</TableCell>

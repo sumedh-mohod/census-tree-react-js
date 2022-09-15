@@ -203,6 +203,7 @@ export default function TypeOfTree() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'tree types'}
           />
     </div>
   

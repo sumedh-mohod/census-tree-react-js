@@ -199,6 +199,7 @@ export default function Zone() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'zones'}
           />
     </div>
     {userPermissions.includes("create-zone")? 

@@ -200,6 +200,7 @@ export default function LocationType() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'location types'}
           />
 
     </div>

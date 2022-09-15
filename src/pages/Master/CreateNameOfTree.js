@@ -214,6 +214,7 @@ export default function CreateNameOfTree() {
          <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'tree names'}
           />
     </div>
     {userPermissions.includes("create-tree-name")? 

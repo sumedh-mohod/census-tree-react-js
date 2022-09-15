@@ -76,61 +76,73 @@ export const breadCrumDrop = [
     label: 'Talukas',
     value: 5,
     url: '/dashboard/taluka',
+    slug: 'talukas',
   },
   {
     label: 'Zones',
     value: 6,
     url: '/dashboard/zone',
+    slug: 'zones',
   },
   {
     label: 'Wards',
     value: 7,
     url: '/dashboard/ward',
+    slug: 'wards',
   },
   {
     label: 'Councils',
     value: 8,
     url: '/dashboard/council',
+    slug: 'councils',
   },
   {
     label: 'Tree Types',
     value: 9,
     url: '/dashboard/type-of-tree',
+    slug: 'tree types',
   },
   {
     label: 'Tree Families',
     value: 16,
     url: '/dashboard/families',
+    slug: 'tree families',
   },
   {
     label: 'Tree Conditions',
     value: 10,
     url: '/dashboard/tree-condition',
+    slug: 'tree conditions',
   },
   {
     label: 'Tree Names',
     value: 11,
     url: '/dashboard/name-of-tree',
+    slug: 'tree names',
   },
   {
     label: 'Tree Diseases',
     value: 15,
     url: '/dashboard/treeDisease',
+    slug: 'tree diseases',
   },
   {
     label: 'Location Types',
     value: 12,
     url: '/dashboard/location-type',
+    slug: 'location types',
   },
   {
     label: 'Property Types',
     value: 13,
     url: '/dashboard/type-of-property',
+    slug: 'property types',
   },
   {
     label: 'QC Remarks',
     value: 14,
     url: '/dashboard/qc-remarks',
+    slug: 'qC remarks',
   },
 ];
 

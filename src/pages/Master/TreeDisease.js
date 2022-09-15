@@ -170,6 +170,7 @@ export default function TreeDisease() {
         <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
+          slug={'tree diseases'}
           />
     </div>
     {userPermissions.includes("create-tree-disease")? 
