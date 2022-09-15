@@ -30,6 +30,7 @@ import USERLIST from '../_mock/user';
 import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from '../components/JsonFiles/UserTableData.json';
 import { DeleteUsers, GetUsers, SearchUsers, UnlinkDevice } from '../actions/UserAction';
+import WarningMessageDialog from '../components/DialogBox/WarningMessageDialog';
 import StatusButton from '../components/statusbutton/StatusButton';
 
 // ----------------------------------------------------------------------
@@ -89,11 +90,14 @@ export default function User() {
   const [filterName, setFilterName] = useState('');
   const [open, setOpen] = useState(false);
   const [close, setClose] = useState();
-  const [dialogData, setDialogData] = useState(null);
-  const [search, setSearch] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [pageCountError, setPageCountError] = useState(false);
+  const [dialogData,setDialogData] = useState(null);
+  const [search,setSearch] = useState(false);
+  const [searchValue,setSearchValue] = useState("");
+  const [pageCountError, setPageCountError]= useState(false);
+  const [topModalOpen, setTopModalOpen] = useState(false);
+  const [reqObj, setReqObj] = useState(null)
   const userPermissions = [];
+  const message = "Unlinking device will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding."
 
   const { state } = useLocation();
 
@@ -173,10 +177,23 @@ export default function User() {
 
   const handleUnlink = (userId) => {
     const obj = {
-      user_id: userId,
-    };
-    dispatch(UnlinkDevice(obj));
-  };
+      user_id: userId
+    }
+    handleTopModalClose();
+    setReqObj(obj);
+    
+  }
+
+  const handleTopModalClose = () => {
+    setTopModalOpen(!topModalOpen)
+  }
+
+  const handleTopModalAnswer = (answer) => {
+    if(answer){
+      dispatch(UnlinkDevice(reqObj))
+    }
+    setTopModalOpen(!topModalOpen)
+  }
 
   return (
     <Page title="User">
@@ -186,7 +203,12 @@ export default function User() {
         data={dialogData}
         // isClose={}
         /> */}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
+        <WarningMessageDialog 
+        isOpenConfirm={topModalOpen}
+        message={message}
+        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+        />
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Users
             <br />

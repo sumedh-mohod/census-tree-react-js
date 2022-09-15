@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead, UserListToolbar } from '../../sections/@dashboard/user';
@@ -78,6 +78,7 @@ export default function TreeCensusHistory() {
   }));
 
   const { treeCensusId, treeCensusName } = useParams();
+  const {state} = useLocation();
 
   useEffect(() => {
     dispatch(GetTreeCensusHistory(treeCensusId, page, rowsPerPage));
@@ -169,37 +170,41 @@ export default function TreeCensusHistory() {
         >
         Census
         </Link> */}
-              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-                Tree Data
-              </Typography>
-              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-                <Link
-                  underline="hover"
-                  // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-                  color="inherit"
-                  href="/dashboard/census"
-                >
-                  Census
-                </Link>
-              </Typography>
-              {treeCensusName === 'undefined' ? null : (
-                <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-                  <Link
-                    underline="hover"
-                    // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-                    color="inherit"
-                    href="#"
-                    // variant="h4" gutterBottom style={{color: "#000000"}}
-                  >
-                    {treeCensusName}
-                  </Link>
-                </Typography>
-              )}
-              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-                History
-              </Typography>
-            </Breadcrumbs>
-          </div>
+            <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            Tree Data
+          </Typography>
+          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          <Link
+          component={RouterLink}
+          to={`/dashboard/census`}
+          state={state}
+          underline="hover"
+         // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+        >
+        Census
+        </Link>
+          </Typography>
+        {treeCensusName === "undefined" ? null :
+            <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        <Link
+          underline="hover"
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          href="#"
+          // variant="h4" gutterBottom style={{color: "#000000"}}
+        >
+          {treeCensusName}
+              
+        </Link>
+        </Typography>
+        }
+        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+            History
+          </Typography>
+      </Breadcrumbs>
+
+    </div>
         </Stack>
 
         <Card>

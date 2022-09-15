@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -46,7 +46,7 @@ const TABLE_HEAD = [
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
   { id: 'propertyAddress', label: 'Property Address', alignRight: false },
   { id: 'treeLocation', label: 'Tree Location', alignRight: false },
-  { id: 'locationAccuracyNeeded', label: 'Location Accuracy Needed', alignRight: false },
+  { id: 'locationAccuracyNeeded', label: 'Accuracy Captured', alignRight: false },
   { id: 'ownerName', label: 'Owner Name', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
   { id: 'images', label: 'Images', alignRight: false },
@@ -106,6 +106,33 @@ export default function BaseColor() {
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
   ))
+
+  const { state} = useLocation();
+
+  useEffect(()=>{
+    let cId = null;
+    let wId = null;
+    let zId = null;
+    if(state?.councilId){
+      setCouncilId(state.councilId)
+      cId = state.councilId;
+    }
+    if(state?.wardId){
+      setWardId(state.wardId);
+      wId = state.wardId;
+    }
+    if(state?.zoneId){
+      setZoneId(state.zoneId)
+      zId = state.zoneId;
+    }
+    if(state?.pageNumber){
+      setPage(state.pageNumber)
+    }
+    if(state){
+      dispatch(GetBaseColorTrees(state.pageNumber,rowsPerPage,cId,zId,wId))
+    }
+    
+  },[])
 
   const firstRun = React.useRef(true);
   useEffect(()=>{
@@ -367,7 +394,7 @@ export default function BaseColor() {
                         <TableCell align="left">{option.qc_by? option.qc_by?.first_name: "-"} {option.qc_by? option.qc_by?.last_name: "-"}</TableCell>
                         <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.qc_date?option.qc_date:"-"}</TableCell>
                         <TableCell align="right">
-                          <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} permissions={userPermissions} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
+                          <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} permissions={userPermissions} qcStatus={option.qc_status} councilId={coucilId} zoneId={zoneId} wardId={wardId} pageNumber={page} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
                         </TableCell>
                         </TableRow>
                         )

@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -25,8 +24,8 @@ import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
-import TreeData from  '../../components/JsonFiles/TreeData.json';
-import WardDialog from "../../components/DialogBox/WardDialog";
+import TreeData from '../../components/JsonFiles/TreeData.json';
+import WardDialog from '../../components/DialogBox/WardDialog';
 import { GetNoTreeProperty, SearchNoTreeProperty } from '../../actions/NoTreePropertyAction';
 import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetZonesByCouncilId } from '../../actions/ZonesAction';
@@ -45,10 +44,9 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 export default function ByWardReports(props) {
+  const { data } = props;
 
-const {data} =props;
-
-// console.log("data", data)
+  console.log('data...', data);
 
   return (
     <Page title="User">
@@ -57,9 +55,7 @@ const {data} =props;
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
+                <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                 {data?.map((option, index) => {
                   return (

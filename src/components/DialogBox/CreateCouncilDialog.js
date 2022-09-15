@@ -17,18 +17,21 @@ import MenuItem from '@mui/material/MenuItem';
 import CancelIcon from '@mui/icons-material/Cancel';
 // import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Link, TextField } from '@mui/material';
+import { Link, TextField, InputAdornment } from '@mui/material';
 // import SelectInput from '../Inputs/SelectInput';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import moment from 'moment';
+import Iconify from '../Iconify';
 import { GetActiveDistricts, GetActiveDistrictsByStateId, GetAllActiveDistrictsByStateId, GetActiveState, GetAllActiveTalukaByDistrictId, GetActiveTalukas } from '../../actions/MasterActions';
 import { AddCouncil, AddCouncilWithLogo, EditCouncil, EditCouncilWithLogo, GetCouncilById } from '../../actions/CouncilAction';
 import { GetActiveZones } from '../../actions/ZonesAction';
 import { GetActiveWards } from '../../actions/WardsActions';
 import DefaultInput from '../Inputs/DefaultInput';
 import { UploadImage } from '../../actions/UploadActions';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -93,7 +96,9 @@ export default function CreateCouncilDialog(props) {
   const [isImageRemoved, setIsImageRemoved] = React.useState(false);
   const [showDistrict, setShowDistrict] = React.useState(false);
   const [showTaluka, setShowTaluka] = React.useState(false);
-  
+  const [showPassword, setShowPassword] = React.useState(false);
+  // const todayDate = moment(new Date()).format('YYYY-MM-DD');
+  // console.log('data', data)
   const {
     addCouncilLog,
     editCouncilLog,
@@ -108,8 +113,8 @@ export default function CreateCouncilDialog(props) {
   } = useSelector((state) => ({
     addCouncilLog:state.council.addCouncilLog,
     editCouncilLog:state.council.editCouncilLog,
-    zones:state.zones.activeZones,
-    wards:state.wards.activeWards,
+    zones:state.zones.activeZonesByCID,
+    wards:state.wards.activeWardsByCID,
     states:state.master.activeStates,
     districts:state.master.activeDistricts,
     talukas:state.master.activeTalukas,
@@ -117,6 +122,7 @@ export default function CreateCouncilDialog(props) {
     uploadImage:state.upload.uploadImage,
     uploadImageLog:state.upload.uploadImageLog,
   }));
+ // console.log('wards', wards);
 
   React.useEffect(()=>{
     if(data && isOpen){
@@ -198,6 +204,7 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleDistrictChange = (event) => {
+    console.log("inn");
     dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1))
     setDistrict(event.target.value);
     setShowTaluka(true);
@@ -226,6 +233,10 @@ export default function CreateCouncilDialog(props) {
       typeof value === 'string' ? value.split(',') : value,
     );
   };
+
+  const handleShowPassword = () => {
+    setShowPassword((show) => !show);
+  }; 
 
   const handleStateChange = (event) => {
     dispatch(GetAllActiveDistrictsByStateId(event.target.value,1));
@@ -278,23 +289,28 @@ export default function CreateCouncilDialog(props) {
   const DistrictsSchema = Yup.object().shape(
     data?
     {
-      name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
+      name: Yup.string().matches(/^[A-Za-z ]+$/, 'Please Use Alphabets Only').min(2, "Council Name Is Too Short!")
+    .max(30, "Council Name Is Too Long!").required('Name is required'),
       district: Yup.string().required('Districts is required'),
       state: Yup.string().required('State is required'),
       // taluka: Yup.string().required('Taluka is required'),
       baseColorTarget: Yup.string().required('Base Color Target is required'),
       censusTarget: Yup.string().required('Census Target is required'),
+      total_area: Yup.string().matches(/^(0|[1-9]\d*)(\.\d+)?$/, "Only Numbers & Decimals are allowed").required('Total area is required'),
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
-      locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
+      locationAccuracyNeeded: Yup.string().required('Accuracy Captured is required'),
+      project_start_date: Yup.string().required('Start Date is required'),
     }
     :{
-    name: Yup.string().matches(/^[a-zA-Z ]{2,30}$/, 'Please enter name upto 30 characters').required('Name is required'),
+    name: Yup.string().matches(/^[a-zA-Z ]+$/, 'Please Use Alphabets Only').min(2, "Council Name Is Too Short!")
+    .max(30, "Council Name Is Too Long!").required('Name is required'),
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
     // taluka: Yup.string().required('Taluka is required'),
     baseColorTarget: Yup.string().required('Base Color Target is required'),
     censusTarget: Yup.string().required('Census Target is required'),
+    total_area: Yup.string().matches(/^(0|[1-9]\d*)(\.\d+)?$/, "Only Numbers & Decimals are allowed for this field ").required('Total area is required'), 
     firstName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('First Name is required'),
     // middleName: Yup.string().required('Middle Name is required'),
     lastName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('Last Name is required'),
@@ -304,7 +320,10 @@ export default function CreateCouncilDialog(props) {
     password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     zones: Yup.array().min(1,'Zone is required'),
     wards: Yup.array().min(1,'Ward is required'),
-    locationAccuracyNeeded: Yup.string().required('Location Accuracy Needed is required'),
+    locationAccuracyNeeded: Yup.string().required('Accuracy Captured is required'),
+    project_start_date: Yup.string().required('Start Date is required'),
+
+    // "project_end_date": value.project_end_date
   });
 
 
@@ -320,7 +339,10 @@ export default function CreateCouncilDialog(props) {
       censusTarget:data?data.census_target:"",
       zones: data?zoneName:[],
       wards: data?wardName:[],
+      total_area:data?data.total_area:"",
       locationAccuracyNeeded:data?data.location_accuracy_needed:"",
+      project_start_date: data?data.project_start_date:"",
+      project_end_date: data?data.project_end_date:""
     }
     :{
       district:data? data.district_id : "",
@@ -329,6 +351,7 @@ export default function CreateCouncilDialog(props) {
       name:data?data.name:"",
       baseColorTarget:data?data.base_color_target:"",
       censusTarget:data?data.census_target:"",
+      total_area:data?data.total_area:"",
       firstName: data?data.contact_person.first_name:"",
       middleName: data?data.contact_person.middle_name:"",
       lastName: data?data.contact_person.last_name:"",
@@ -339,10 +362,13 @@ export default function CreateCouncilDialog(props) {
       zones: data?[]:[],
       wards: data?[]:[],
       locationAccuracyNeeded:data?data.location_accuracy_needed:"",
+      project_start_date: data?data.project_start_date:"",
+      project_end_date: data?data.project_end_date:""
 
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
+      // console.log(value)
       if(data){
         if(validateLogo() && isImageRemoved){
           const formData = new FormData();
@@ -356,7 +382,10 @@ export default function CreateCouncilDialog(props) {
               "taluka_id" : value.taluka,
               "base_color_target" : value.baseColorTarget,
               "census_target" : value.censusTarget,
+              "total_area" : value.total_area,
               "location_accuracy_needed": value.locationAccuracyNeeded,
+              "project_start_date": value.project_start_date,
+              "project_end_date": value.project_end_date
               },
               "zones":value.zones,
               "wards": value.wards,
@@ -374,7 +403,10 @@ export default function CreateCouncilDialog(props) {
               "taluka_id" : value.taluka,
               "base_color_target" : value.baseColorTarget,
               "census_target" : value.censusTarget,
+              "total_area" : value.total_area,
               "location_accuracy_needed": value.locationAccuracyNeeded,
+              "project_start_date": value.project_start_date,
+              "project_end_date": value.project_end_date
               },
               "zones":value.zones,
               "wards": value.wards,
@@ -396,7 +428,11 @@ export default function CreateCouncilDialog(props) {
                 "taluka_id" : value.taluka,
                 "base_color_target" : value.baseColorTarget,
                 "census_target" : value.censusTarget,
+                "total_area" : value.total_area,
                 "location_accuracy_needed": value.locationAccuracyNeeded,
+                "project_start_date": value.project_start_date,
+                "project_end_date": value.project_end_date
+
                 },
                 "contact_person" : {
                   "first_name" : value.firstName,
@@ -416,7 +452,7 @@ export default function CreateCouncilDialog(props) {
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
-
+  console.log("VALUES",values)
   return (
     <div>
       <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>
@@ -547,6 +583,19 @@ export default function CreateCouncilDialog(props) {
               />
             </Grid>
             <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id="total_area"
+                autoComplete="name"
+                label="Total Area (sq km)*"
+                placeholder="Total Area(sq km)*"
+                style={{ width: '81%', marginLeft: 40 , marginTop:5}}
+                error={Boolean(touched.total_area && errors.total_area)}
+                helperText={touched.total_area && errors.total_area}
+                {...getFieldProps("total_area")}
+              />
+            </Grid>
+            <Grid item xs={12}>
             <TextField
               select
               SelectProps={{
@@ -640,13 +689,53 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="locationAccuracyNeeded"
                 autoComplete="name"
-                label="Location Accuracy Needed* (in meter)"
-                placeholder="Enter Location Accuracy Needed* (in meter)"
+                label="Accuracy Captured* (in meter)"
+                placeholder="Enter Accuracy Captured* (in meter)"
                 error={Boolean(touched.locationAccuracyNeeded && errors.locationAccuracyNeeded)}
                 helperText={touched.locationAccuracyNeeded && errors.locationAccuracyNeeded}
                 {...getFieldProps("locationAccuracyNeeded")}
               />
             </Grid>
+           
+            <Grid item xs={5}>
+                 <TextField
+                id="date"
+                // label="Date Of Birth"
+                type="date"
+                label="Project Start Date*"
+                placeholder='Project Start Date*'
+                // defaultValue="2017-05-24"
+                style={{ width: '81%', marginLeft: 40, marginTop:5 }}
+                // className={classes.textField}
+                error={Boolean(touched.project_start_date && errors.project_start_date)}
+                helperText={touched.project_start_date && errors.project_start_date}
+                {...getFieldProps("project_start_date")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                // inputProps={{ min: todayDate }}
+              />
+              </Grid>
+              <Grid item xs={5}>
+              <TextField
+                id="date"
+                // value={toDate}
+                type="date"
+                label="Project End Date"
+                placeholder= 'Project End Date'
+                // defaultValue="2017-05-24"
+                style={{ width: '81%', marginLeft: 40, marginTop:5 }}
+                // className={classes.textField}
+                error={Boolean(touched.project_end_date && errors.project_end_date)}
+                helperText={touched.project_end_date && errors.project_end_date}
+                {...getFieldProps("project_end_date")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                // inputProps={{ min: todayDate }}
+              />
+            </Grid>
+
             <Divider />
             {!data?
             <>
@@ -728,22 +817,35 @@ export default function CreateCouncilDialog(props) {
               />
             </Grid>
             <Grid item xs={12}>
-              <DefaultInput
-                fullWidth
-                id="password"
-                autoComplete="password"
-                label="Password*"
-                placeholder="Password*"
-                error={Boolean(touched.password && errors.password)}
-                helperText={touched.password && errors.password}
-                {...getFieldProps("password")}
+              <TextField
+              fullWidth
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              autoComplete="password"
+              label="Password*"
+              placeholder="Password*"
+              style={{ width: '81%', marginLeft: 40, marginTop:5 }}
+              error={Boolean(touched.password && errors.password)}
+              helperText={touched.password && errors.password}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleShowPassword} edge="end">
+                      <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              {...getFieldProps("password")}
+          
+               
               />
             </Grid>
             </>
             :null
             }
             <BootstrapDialogTitle id="customized-dialog-title">
-          {logoValue?"Uploaded Logo":"Upload Logo"}
+          {logoValue?"Uploaded Logo":"Upload Logo*"}
         </BootstrapDialogTitle>
             {(isEditable && logoValue)?
 

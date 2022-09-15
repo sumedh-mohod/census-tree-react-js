@@ -44,17 +44,23 @@ export default function TeamsMenu(props) {
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        <MenuItem component={RouterLink}  to={`/dashboard/assignNewCouncilZoneWard/${props.id}/${props.name}`} sx={{ color: 'text.secondary' }} onClick={handleClose}>
+        <MenuItem component={RouterLink}  to={`/dashboard/assignNewCouncilZoneWard/${props.id}/${props.name}`} state={{councilId:props.councilId,zoneId:props.zoneId,wardId:props.wardId,pageNumber:props.pageNumber}} sx={{ color: 'text.secondary' }} onClick={handleClose}>
           <ListItemIcon style={{color: '#214c50'}}>
             <Iconify icon="ic:round-assignment-turned-in" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Assigned C-Z-W" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        <MenuItem component={RouterLink} to={`/dashboard/assignUser/${props.id}/${props.name}`} sx={{ color: 'text.secondary' }} onClick={handleClose}>
+        <MenuItem component={RouterLink} to={`/dashboard/assignUser/${props.id}/${props.name}`} state={{councilId:props.councilId,zoneId:props.zoneId,wardId:props.wardId,pageNumber:props.pageNumber}} sx={{ color: 'text.secondary' }} onClick={handleClose}>
           <ListItemIcon style={{color: '#214c50'}}>
             <Iconify icon="clarity:assign-user-solid" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Assigned Users" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} >
+          <ListItemIcon>
+            <Iconify icon="eva:activity-outline" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink, useParams} from 'react-router-dom';
+import { Link as RouterLink, useLocation, useParams} from 'react-router-dom';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead, UserListToolbar } from '../../sections/@dashboard/user';
@@ -72,6 +72,7 @@ export default function BaseColorHistory() {
   }));
 
   const { baseColorId, baseColorName } = useParams();
+  const {state} = useLocation();
 
   useEffect(()=>{
     dispatch(GetBaseColorTreeHistory(baseColorId,page,rowsPerPage));
@@ -166,10 +167,12 @@ export default function BaseColorHistory() {
         </Typography>
         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         <Link
+        component={RouterLink}
+          to={`/dashboard/base-color`}
+          state={state}
           underline="hover"
          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
-          href="/dashboard/base-color"
         >
         Base Color
         </Link>

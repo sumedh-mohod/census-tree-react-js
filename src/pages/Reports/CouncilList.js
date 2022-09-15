@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -63,11 +63,12 @@ export default function CouncilList(props) {
   const [searchValue, setSearchValue] = useState('');
   const [dropPage, setDropPage] = useState(3);
 
-  const { reportType, fromDate, toDate } = props;
-  const userPermissions = [];
-  const handleDropChange = (event) => {
-    setDropPage(event.target.value);
-  };
+   const {reportType, fromDate, toDate} = props;
+  //  console.log('councillist....', reportType);
+   const userPermissions = [];
+   const handleDropChange = (event) => {
+     setDropPage(event.target.value);
+    };
 
   const { workReports, pageInfo, excelWorkReports } = useSelector((state) => ({
     workReports: state.workReports.workReports,
@@ -75,23 +76,34 @@ export default function CouncilList(props) {
     excelWorkReports: state.workReports.excelWorkReports,
   }));
 
-  console.log('workReportsCouncil', workReports);
+  // console.log("workReportsCouncil",workReports);
 
   useEffect(() => {
     if (excelWorkReports && downloadButtonPressed) {
       handleDownloadExcel();
       setDownloadButtonPressed(false);
     }
-  }, [excelWorkReports]);
+  },[excelWorkReports])
 
+  const secondRun = React.useRef(true);
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    setPage(1);
+  }, [fromDate,toDate]);
+ 
   const handleChangePage = (event, newPage) => {
+    console.log('reportType, fromDate,toDate, newPage,rowsPerPage',reportType, fromDate,toDate, newPage,rowsPerPage);
     setPage(newPage);
     // if(search){
     //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
     // }
     // else {
-    dispatch(GetWorkReports(reportType, fromDate, toDate, newPage, rowsPerPage));
-  };
+      dispatch(GetWorkReports(reportType,undefined,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
+    }
   // }
 
   const handleChangeRowsPerPage = (event) => {
@@ -124,29 +136,22 @@ export default function CouncilList(props) {
     }, 1000);
   };
 
-  const header = [
-    '#',
-    'Council',
-    'Base Color Count',
-    'Base Color Offsite QC Count',
-    'Base Color Onsite QC Count',
-    'Census Count',
-    'Census Offsite Qc Count',
-    'Census Onsite QC Count',
-    'From Date',
-    'To Date',
-  ];
+  }
 
-  const handleDownloadButtonPressed = () => {
-    setDownloadButtonPressed(true);
-    dispatch(GetAllWorkReports(reportType, fromDate, toDate));
-  };
+  const header = ["#", "Council", "Base Color Count", "Base Color Offsite QC Count", "Base Color Onsite QC Count", "Census Count",
+  "Census Offsite Qc Count", "Census Onsite QC Count","From Date", "To Date"];
+ 
+const handleDownloadButtonPressed = () => {
+  setDownloadButtonPressed(true);
+  dispatch(GetAllWorkReports(reportType,undefined,undefined,fromDate,toDate));
+}
 
   function handleDownloadExcel() {
-    const dataValue = excelWorkReports;
-    console.log('excelWorkReports', excelWorkReports);
-    const dateValue = fromDate;
-    const value1 = [];
+
+    const dataValue =  excelWorkReports;
+    // console.log("excelWorkReports", excelWorkReports)
+    const dateValue= fromDate
+    const value1= [];
     dataValue?.map((option, index) => {
       const value2 = [index + 1];
       value2.push(option.name);
@@ -165,8 +170,8 @@ export default function CouncilList(props) {
     });
 
     downloadExcel({
-      fileName: 'Report',
-      sheet: 'Report',
+      fileName: "By Councils Report",
+      sheet: "Report",
       tablePayload: {
         header,
         // accept two different data structures

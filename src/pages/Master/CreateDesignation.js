@@ -198,12 +198,12 @@ export default function CreateDestination() {
               <Table>
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                  {designations?.map((option, index) => {
-                    return (
-                      <TableRow hover>
-                        <TableCell align="left">
-                          <b>{index + 1}</b>
-                        </TableCell>
+                     {designations?.map((option,index) => {
+                        return (
+                        <TableRow
+                        hover
+                      >
+                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">
                           <StatusButton status={option.status} />

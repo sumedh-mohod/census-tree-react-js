@@ -34,10 +34,6 @@ import { GetBaseColorPendingQCStatus, UpdateQCStatusOfBaseColorTrees } from '../
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import { ShowLoader } from '../../actions/CommonAction';
 
-
-
-  
-
   
   export default function BaseColorPendingQC(){
     const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -618,7 +614,7 @@ import { ShowLoader } from '../../actions/CommonAction';
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type}</td>
               </tr>
               <tr>
-              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Location Accuracy Needed: </td>
+              <td style={{fontWeight:700, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>Accuracy Captured: </td>
               <td style={{fontWeight:400, textAlign: "left",  padding: "10px",paddingTop:"0px"}}>{baseColorPendingQCStatus?.data[selectedIndex].location_accuracy?baseColorPendingQCStatus?.data[selectedIndex].location_accuracy:"-"}</td>
               </tr>
              <tr>

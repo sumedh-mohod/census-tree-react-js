@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -44,6 +44,7 @@ const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'teamName', label: 'Team Name', alignRight: false },
   { id: 'teamCode', label: 'Team Code', alignRight: false },
+  { id: 'teamType', label: 'Team Type', alignRight: false },
   { id: 'councilName', label: 'Council Name', alignRight: false },
   { id: 'zone', label: 'Zone', alignRight: false },
   { id: 'ward', label: 'Ward', alignRight: false },
@@ -121,11 +122,45 @@ export default function TeamsList() {
     activeWardsByCID: state.wards.activeWardsByCID,
   }));
 
-  // console.log("Teams",teams)
+  const { state} = useLocation(); 
 
-  useEffect(() => {
-    dispatch(GetTeam(page, rowsPerPage));
-  }, [addTeamsLog, editTeamsLog, deleteTeamsLog]);
+  useEffect(()=>{
+    let cId = null;
+    let wId = null;
+    let zId = null;
+    if(state?.councilId){
+      setCouncilId(state.councilId)
+      cId = state.councilId;
+    }
+    if(state?.wardId){
+      setWardId(state.wardId);
+      wId = state.wardId;
+    }
+    if(state?.zoneId){
+      setZoneId(state.zoneId)
+      zId = state.zoneId;
+    }
+    if(state?.pageNumber){
+      setPage(state.pageNumber)
+    }
+    if(state){
+      dispatch(GetTeamByFilter(state.pageNumber,rowsPerPage,cId,zId,wId))
+    }
+    else {
+      dispatch(GetTeam(page,rowsPerPage));
+    }
+    
+  },[])
+
+  const changeTeamRun = useRef(true);
+
+  useEffect(()=>{
+    if (changeTeamRun.current) {
+      changeTeamRun.current = false;
+      return;
+    }
+    dispatch(GetTeamByFilter(page,rowsPerPage,coucilId,zoneId,wardId));
+  },[addTeamsLog,editTeamsLog,deleteTeamsLog])
 
   const fetchRun = useRef(true);
   useEffect(() => {
@@ -257,6 +292,24 @@ export default function TeamsList() {
     },
   });
   const classes = useStyles();
+  const getValidTeamType = (teamType) => {
+    let updatedTeamType = teamType;
+
+    if(teamType==="base_color"){
+      updatedTeamType = "Base Color";
+    }
+    else if(teamType==="census"){
+      updatedTeamType = "Census";
+    }
+    else if(teamType==="offsite_qc"){
+      updatedTeamType = "Offsite QC";
+    }
+    else if(teamType==="onsite_qc"){
+      updatedTeamType = "Onsite QC";
+    }
+    return updatedTeamType;
+  }
+
   return (
     <Page title="TeamList">
       <Container>
@@ -297,31 +350,31 @@ export default function TeamsList() {
               <Table>
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                  {teams?.map((option, index) => (
-                    <TableRow hover>
-                      <TableCell align="left">
+                     { teams?.map((option,index) => (
+                        <TableRow
+                        hover
+                      >
+                          <TableCell align="left">
                         <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
                       </TableCell>
-                      <TableCell align="left">{option.name}</TableCell>
-                      <TableCell align="left">
+                        <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">
                         {option.team_code !== '' ? <button className={classes.button}>{option.team_code}</button> : ''}
                       </TableCell>
-                      <TableCell align="left">{option?.council}</TableCell>
-                      <TableCell>{option?.zone}</TableCell>
-                      <TableCell align="left">{option?.ward}</TableCell>
-                      <TableCell align="left">
+                        <TableCell align="left">{getValidTeamType(option.team_type)}</TableCell>
+                        <TableCell align="left">{option?.council}</TableCell>
+                        <TableCell >{option?.zone}</TableCell>
+                        <TableCell align="left">{option?.ward}</TableCell>
+                        <TableCell align="left">
                         <StatusButton status={option.status} />
                       </TableCell>
-                      <TableCell align="right">
-                        <TeamsMenu
-                          id={option.id}
-                          name={option.name}
-                          handleEdit={() => handleEdit(option)}
-                          handleDelete={() => handleDelete(option)}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                        <TableCell align="right">
+                          <TeamsMenu status={option.status} id={option.id} name={option.name} councilId={coucilId} zoneId={zoneId} wardId={wardId} pageNumber={page} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                        </TableCell>
+                        </TableRow>
+                        ))
+                }
+
                 </TableBody>
               </Table>
             </TableContainer>
