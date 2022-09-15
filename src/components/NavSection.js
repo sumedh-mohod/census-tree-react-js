@@ -319,7 +319,7 @@ export default function NavSection({ navConfig, ...other }) {
     children:[]
   }
 
-  // if(isContainPermission("view-base-color-trees")){
+  if(isContainPermission("view-work-report")){
     newReportObj.children.push(
     {
       title: 'Work Reports',
@@ -327,6 +327,8 @@ export default function NavSection({ navConfig, ...other }) {
       icon: getIcon('eva:shopping-bag-fill'),
     }
     )
+  }
+  if(isContainPermission("view-census-report")){
     newReportObj.children.push(
       {
         title: 'Census Report',
@@ -338,6 +340,7 @@ export default function NavSection({ navConfig, ...other }) {
         // icon: getIcon('eva:shopping-bag-fill'),
       }
       )
+    }
 
       if(newReportObj.children.length !==0){
         navConfigArray.push(newReportObj);

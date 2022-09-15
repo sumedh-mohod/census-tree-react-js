@@ -67,9 +67,10 @@ export default function TeamsTableDialog(props) {
   const { isOpen, data } = props;
   // console.log('teamType',data)
 
-  const { addTeamsLog, editTeamsLog } = useSelector((state) => ({
+  const { addTeamsLog, editTeamsLog ,showLoadingButton} = useSelector((state) => ({
     addTeamsLog: state.teams.addTeamsLog,
     editTeamsLog: state.teams.editTeamsLog,
+    showLoadingButton: state.common.showLoadingButton,
   }));
 
   const firstRun = React.useRef(true);
@@ -82,6 +83,10 @@ export default function TeamsTableDialog(props) {
   }, [addTeamsLog, editTeamsLog]);
   // console.log('editTeamsLog',editTeamsLog);
 
+  React.useEffect(() => {
+    setButtonDisabled(false)
+  }, [showLoadingButton ]);
+
   const handleClose = () => {
     props.handleClose();
   };
@@ -92,7 +97,10 @@ export default function TeamsTableDialog(props) {
 
   const handleTeamCode = (e) => {
     const  regex = /^[A-Za-z0-9? ,_-]+$/
-    if(regex.test(e.target.value)) {
+    // if(e.target.value.lenght === 4) {
+    // setTeamCodeError("")
+    // }
+    if(regex.test(e.target.value) ) {
       setTeamCodeError("");
   }
   else{
@@ -140,28 +148,31 @@ export default function TeamsTableDialog(props) {
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      // console.log('name', value.name, 'code', value.code, 'team', teamType);
-      setButtonDisabled(true);
-      if (data) {
-        dispatch(
-          EditTeam(
-            {
+      if(!(teamNameError || teamCodeError) ){
+        setButtonDisabled(true);
+        if (data) {
+          dispatch(
+            EditTeam(
+              {
+                name: value.name,
+                team_code: value.code,
+                team_type: value.teamType,
+              },
+              data.id
+            )
+          );
+        } else {
+          dispatch(
+            AddTeam({
               name: value.name,
               team_code: value.code,
               team_type: value.teamType,
-            },
-            data.id
-          )
-        );
-      } else {
-        dispatch(
-          AddTeam({
-            name: value.name,
-            team_code: value.code,
-            team_type: value.teamType,
-          })
-        );
+            })
+          );
+        }
       }
+      // console.log('name', value.name, 'code', value.code, 'team', teamType);
+     
     },
   });
 

@@ -155,6 +155,7 @@ export const SHOW_PROPERTY_IMPORT_ERROR = "show-property-import-error";
 export const GET_DENIED_ENTRY = "get-denied-entry";
 
 export const SHOW_LOADER = "show-loader";
+export const SHOW_LOADER_BUTTON = "show-loader-button"
 
 export const GET_TREE_CENSUS = "get-tree-census";
 export const GET_TREE_CENSUS_HISTORY = "get-tree-census-history";
