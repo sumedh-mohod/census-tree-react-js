@@ -190,12 +190,14 @@ const handleDownloadButtonPressed = () => {
   return (
     <Page title="User">
       <Container>
-        <Card style={{marginTop: 40}} >
-        <ReportToolBar
+      <Card style={{marginTop: 40}} >
+      <ReportToolBar
         handleExportexcel={()=>handleDownloadButtonPressed()} 
        placeHolder={"Search here..."} 
       //  onFilterName={filterByName}
        />
+       
+       
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

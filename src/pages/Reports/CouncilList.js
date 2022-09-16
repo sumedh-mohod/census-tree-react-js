@@ -35,6 +35,7 @@ import StateDialog from '../../components/DialogBox/StateDialog';
 import { MasterBreadCrumChip } from '../../sections/@dashboard/master/MasterBreadCrumChip';
 import ReportToolBar from '../../sections/@dashboard/reports/ReportToolBar';
 import { GetAllWorkReports, GetWorkReports, SearchWorkReports } from '../../actions/WorkReportAction';
+import CountButton from '../../components/statusbutton/CountButton';
 
 // ----------------------------------------------------------------------
 
@@ -136,7 +137,7 @@ export default function CouncilList(props) {
     }, 1000);
   };
 
-  }
+  
 
   const header = ["#", "Council", "Base Color Count", "Base Color Offsite QC Count", "Base Color Onsite QC Count", "Census Count",
   "Census Offsite Qc Count", "Census Onsite QC Count","From Date", "To Date"];
@@ -188,6 +189,7 @@ const handleDownloadButtonPressed = () => {
             handleExportexcel={() => handleDownloadButtonPressed()}
             placeHolder={'Search here...'}
             //  onFilterName={filterByName}
+          
           />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -199,12 +201,12 @@ const handleDownloadButtonPressed = () => {
                       <TableRow hover>
                         <TableCell style={{ flexWrap: 'wrap' }}><b>{(page - 1) * rowsPerPage + (index + 1)}</b></TableCell>
                         <TableCell style={{ width: 40 }}>{option?.name}</TableCell>
-                        <TableCell style={{ flexWrap: 'wrap' }}>{option?.base_color_trees_count}</TableCell>
-                        <TableCell style={{ flexWrap: 'wrap' }}>{option?.base_color_offsite_qc_count}</TableCell>
-                        <TableCell style={{ flexWrap: 'wrap' }}>{option?.base_color_onsite_qc_count}</TableCell>
-                        <TableCell style={{ flexWrap: 'wrap' }}>{option?.census_trees_count}</TableCell>
-                        <TableCell style={{ flexWrap: 'wrap' }}>{option?.census_trees_offsite_qc_count}</TableCell>
-                        <TableCell style={{ flexWrap: 'wrap' }}>{option?.census_trees_onsite_qc_count}</TableCell>
+                        <TableCell style={{ flexWrap: 'wrap' }}><CountButton count={option.base_color_trees_count} /></TableCell>
+                        <TableCell style={{ flexWrap: 'wrap' }}><CountButton count={option.base_color_offsite_qc_count} /></TableCell>
+                        <TableCell style={{ flexWrap: 'wrap' }}><CountButton count={option.base_color_onsite_qc_count} /></TableCell>
+                        <TableCell style={{ flexWrap: 'wrap' }}><CountButton count={option.census_trees_count} /></TableCell>
+                        <TableCell style={{ flexWrap: 'wrap' }}><CountButton count={option.census_trees_offsite_qc_count} /></TableCell>
+                        <TableCell style={{ flexWrap: 'wrap' }}><CountButton count={option.census_trees_onsite_qc_count} /></TableCell>
                         {/* <TableCell align="right">
                           <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>  */}

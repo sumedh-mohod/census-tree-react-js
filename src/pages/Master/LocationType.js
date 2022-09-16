@@ -186,68 +186,67 @@ export default function LocationType() {
   return (
     <Page title="User">
       <Container>
-        {open?
-         <TypeOfLocationDialog
-         isOpen={open}
-         handleClose = {handleNewUserClick}
-         data = {dialogData}
-         />:null
-        }
-       
+        {open ? <TypeOfLocationDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        {userPermissions.includes('create-location-type') ? (
+            <Button
+              onClick={handleNewUserClick}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+               sx={{float: 'right', mt: -4}}
+            >
+              Add Location Type
+            </Button>
+          ) : null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
-        <div role="presentation" onClick={handleClick} >
-
-        <MasterBreadCrumChip
-          dropDownPage={dropPage}
-          handleDropChange={handleDropChange}
-          slug={'location types'}
-          />
-
-    </div>
-    {userPermissions.includes("create-location-type")? 
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-           Add Location Type
-
-          </Button>:null}
+          <div role="presentation" onClick={handleClick}>
+            <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'location types'} />
+          </div>
+          
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search location type..."} onFilterName={filterByName}/>
+          <UserListToolbar numSelected={0} placeHolder={'Search location type...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
+                <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                     { locationTypes?.map((option,index) => {
-                        return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
+                  {locationTypes?.map((option, index) => {
+                    return (
+                      <TableRow hover>
+                        <TableCell align="left">
+                          <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                        </TableCell>
                         <TableCell align="left">{option.location_type}</TableCell>
                         <TableCell align="left">
                           <StatusButton status={option.status} />
                         </TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu
+                            status={option.status}
+                            permissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                          />
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
-
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-          {locationTypes?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
+          {locationTypes ? (
+            <Pagination
+              count={pageInfo.last_page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
           {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"

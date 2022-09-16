@@ -326,7 +326,7 @@ export default function TeamsList() {
             variant="contained"
             component={RouterLink}
             to="#"
-            startIcon={<Iconify icon="eva:plus-fill" />}
+            // startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Add Team
           </Button>
@@ -359,7 +359,7 @@ export default function TeamsList() {
                       </TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">
-                        {option.team_code !== '' ? <button className={classes.button}>{option.team_code}</button> : ''}
+                        {option.team_code !== '' ? <button className={classes.button}><b>{option.team_code}</b></button> : ''}
                       </TableCell>
                         <TableCell align="left">{getValidTeamType(option.team_type)}</TableCell>
                         <TableCell align="left">{option?.council}</TableCell>

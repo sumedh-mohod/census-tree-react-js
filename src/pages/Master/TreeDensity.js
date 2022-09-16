@@ -201,7 +201,7 @@ export default function TreeDensity() {
           />
 
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" >
           Add Tree Density
 
           </Button>

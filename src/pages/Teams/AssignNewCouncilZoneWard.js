@@ -203,11 +203,11 @@ export default function AssignNewCouncilZoneWard() {
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000", fontSize: '20px', fontWeight: 700}} separator=':'>
       <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
       Teams
           </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          <Typography variant="h4" gutterBottom style={{color: "#000000",fontWeight: 400}}>
         <Link component={RouterLink}
         to ={`/dashboard/teams`}
         state={state}
@@ -219,17 +219,20 @@ export default function AssignNewCouncilZoneWard() {
         {teamName}
         </Link>
         </Typography>
-        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        <Typography variant="h4" gutterBottom style={{color: "#000000", fontWeight: 400}}>
              Assigned Councils - Zones - Wards
     </Typography>
+    <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+    It is showing list of teams with its details
+              </Typography>
       </Breadcrumbs>
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button onClick={handleNewUserClick} variant="contained" >
           Assign C-Z-W
 
           </Button>
         </Stack>
-
+      
         <Card>
         <UserListToolbar numSelected={0} placeHolder={"Search c-z-w..."} onFilterName={filterByName}/>
           <Scrollbar>

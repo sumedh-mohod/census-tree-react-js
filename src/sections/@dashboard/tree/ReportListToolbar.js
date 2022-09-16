@@ -454,7 +454,7 @@ export default function ReportListToolbar({
               <Button
                 variant="contained"
                 onClick={handleSubmit}
-                style={{ marginLeft: 30, marginTop: 5, backgroundColor: '#008000', height: 50, width: 150 }}
+                style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150,boxShadow: 'none' }}
               >
                 View Report
               </Button>
@@ -465,7 +465,7 @@ export default function ReportListToolbar({
                 <Button
                   variant="contained"
                   onClick={handleSubmit}
-                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150 }}
+                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150, backgroundColor: '#DF6526',boxShadow: 'none' }}
                 >
                   Export Report
                 </Button>
@@ -473,7 +473,7 @@ export default function ReportListToolbar({
                 <Button
                   variant="contained"
                   onClick={exportPdf}
-                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150 }}
+                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150, backgroundColor: '#DF6526',boxShadow: 'none' }}
                 >
                   Export Report
                 </Button>

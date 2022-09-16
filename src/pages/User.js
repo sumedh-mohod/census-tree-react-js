@@ -208,7 +208,7 @@ export default function User() {
         message={message}
         handleClose = {(answer)=>handleTopModalAnswer(answer)}
         />
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
           <Typography variant="h4" gutterBottom>
             Users
             <br />
@@ -222,7 +222,7 @@ export default function User() {
               variant="contained"
               component={RouterLink}
               to="/dashboard/new-user-Form"
-              startIcon={<Iconify icon="eva:plus-fill" />}
+              // startIcon={<Iconify icon="eva:plus-fill" />}
             >
               Add User
             </Button>

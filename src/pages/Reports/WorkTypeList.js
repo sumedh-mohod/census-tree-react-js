@@ -17,6 +17,7 @@ import {
   Pagination,
   Stack,
 } from '@mui/material';
+import { deepOrange, green } from '@material-ui/core/colors'
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import { downloadExcel } from "react-export-table-to-excel";
@@ -33,7 +34,7 @@ import USERLIST from '../../_mock/user';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
 import { MasterBreadCrum } from '../../sections/@dashboard/master/MasterBreadCrum';
-
+import CountButton from '../../components/statusbutton/CountButton';
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
 import {GetAllWorkReports} from "../../actions/WorkReportAction"
 
@@ -130,10 +131,12 @@ const header = ["#", "Work Type", "Total Count", "From Date", "To Date"];
   return (
     <Page title="User">
       <Container>
-        <Card style={{marginTop: 40}}>
-        <ReportToolBar
+      <Card style={{marginTop: 40}}>
+      <ReportToolBar
         handleExportexcel={()=>handleDownloadExcel()} 
         numSelected={0} placeHolder={"Search here..."} />
+       
+     
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -149,7 +152,9 @@ const header = ["#", "Work Type", "Total Count", "From Date", "To Date"];
                       >
                             <TableCell align="left"><b>{index+1}</b></TableCell>
                         <TableCell align="left">{option[0]}</TableCell>
-                        <TableCell align="left">{option[1]}</TableCell>
+                        <TableCell align="left">
+                          <CountButton count={option[1]} />
+                          </TableCell>
                         </TableRow>
                          )
                   })

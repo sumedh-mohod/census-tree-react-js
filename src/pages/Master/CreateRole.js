@@ -186,8 +186,19 @@ export default function CreateRole() {
     <Page title="User">
       <Container >
         {open ? <CreateRoleDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={10} mt={5}>
+        {userPermissions.includes('create-role') ? (
+            <Button
+              onClick={handleNewUserClick}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+               sx={{float: 'right', mt: -4}}
+            >
+              Add Role
+            </Button>
+          ) : null}
+        <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={7} mt={5}>
           {/* <div role="presentation" onClick={handleClick}>
             <MasterBreadCrum dropDownPage={dropPage} handleDropChange={handleDropChange} />
           </div> */}
@@ -195,17 +206,7 @@ export default function CreateRole() {
         <div role="presentation" onClick={handleClick} >
         <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'roles'} />
         </div>
-          {userPermissions.includes('create-role') ? (
-            <Button
-              onClick={handleNewUserClick}
-              variant="contained"
-              component={RouterLink}
-              to="#"
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              Add Role
-            </Button>
-          ) : null}
+         
         </Stack>
         
         <Card>

@@ -188,70 +188,69 @@ export default function Taluka() {
   return (
     <Page title="User">
       <Container>
-        {open?
-        <TalukasDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data= {dialogData}
-        />:null
-        }
-        
+        {open ? <TalukasDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        {userPermissions.includes('create-taluka') ? (
+            <Button
+              onClick={handleNewUserClick}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+               sx={{float: 'right', mt: -4}}
+            >
+              Add Taluka
+            </Button>
+          ) : null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
-        <div role="presentation" onClick={handleClick} >
-        <MasterBreadCrumChip
-          dropDownPage={dropPage}
-          handleDropChange={handleDropChange}
-          slug={'talukas'}
-          />
-    </div>
-    {userPermissions.includes("create-taluka")? 
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Taluka
-
-          </Button>:null}
+          <div role="presentation" onClick={handleClick}>
+            <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'talukas'} />
+          </div>
+         
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search taluka..."} onFilterName={filterByName}/>
+          <UserListToolbar numSelected={0} placeHolder={'Search taluka...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
+                <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                     { talukas?.map((option,index) => {
-                        return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
-                            <TableCell align="left">
-                              {option.name}
-                            </TableCell>
+                  {talukas?.map((option, index) => {
+                    return (
+                      <TableRow hover>
+                        <TableCell align="left">
+                          <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                        </TableCell>
+                        <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.district?.name}</TableCell>
                         <TableCell align="left">{option.district?.state?.name}</TableCell>
                         <TableCell align="left">
                           <StatusButton status={option.status} />
                         </TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu
+                            status={option.status}
+                            permissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                          />
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
-
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-{talukas?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
+          {talukas ? (
+            <Pagination
+              count={pageInfo.last_page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
         </Card>
       </Container>
     </Page>

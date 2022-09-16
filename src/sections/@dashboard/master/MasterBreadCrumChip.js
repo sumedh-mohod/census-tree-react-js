@@ -209,7 +209,7 @@ export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChang
               <span style={{ fontWeight: '400' }}>
                 {slug === undefined ? 'Roles' : slug.charAt(0).toUpperCase() + slug.slice(1)}
               </span>
-              <Typography variant="h6" style={{ fontSize: '20px', fontWeight: '400' }}>
+              <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
                 It is showing text of selected entity
               </Typography>
             </Typography>
@@ -227,7 +227,7 @@ export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChang
             }}
             color="inherit"
           >
-            <Card style={{backgroundColor: '#f1f1f1',  boxShadow: 'none',borderRadius: '0px'}}>
+            <Card style={{backgroundColor: '#f1f1f1',  boxShadow: 'none',borderRadius: '0px', marginTop: '15px'}}>
             {breadCrumDrop?.map((option) => (
               <NavLink to={option.url} style={{ textDecoration: 'none' }}>
                 <Chip

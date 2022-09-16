@@ -174,21 +174,23 @@ export default function CreateDestination() {
     <Page title="User">
       <Container>
         {open ? <CreateDesignationDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
-          <div role="presentation" onClick={handleClick}>
-            <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'designations'} />
-          </div>
-          {userPermissions.includes('create-designation') ? (
+        {userPermissions.includes('create-designation') ? (
             <Button
               onClick={handleNewUserClick}
               variant="contained"
               component={RouterLink}
               to="#"
-              startIcon={<Iconify icon="eva:plus-fill" />}
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+               sx={{float: 'right', mt: -4}}
             >
               Add Designation
             </Button>
           ) : null}
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
+          <div role="presentation" onClick={handleClick}>
+            <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'designations'} />
+          </div>
+          
         </Stack>
 
         <Card>
@@ -203,7 +205,7 @@ export default function CreateDestination() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">
                           <StatusButton status={option.status} />

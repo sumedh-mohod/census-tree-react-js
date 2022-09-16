@@ -295,9 +295,9 @@ export default function Reports() {
   return (
     <Page title="User">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{ color: "#000000"}}separator='>'>
+      <Breadcrumbs aria-label="breadcrumb" style={{ color: "#000000", fontSize: '20px', fontWeight: 700}}separator=':'>
         {/* <Link
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <div role="presentation" onClick={handleClick}>
@@ -321,10 +321,13 @@ export default function Reports() {
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
                 Census
               </Typography>
-              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+              <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
                 Reports
               </Typography>
             </Breadcrumbs>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+                It will show census report
+              </Typography>
           </div>
         </Stack>
         <Card>
@@ -350,10 +353,10 @@ export default function Reports() {
                   <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                       <TabList onChange={handleChange} aria-label="lab API tabs example">
-                        <Tab label="By Wards" value="1" />
-                        <Tab label="By Tree Names" value="2" />
-                        <Tab label="By Tree Types" value="3" />
-                        <Tab label="By Tree Conditions" value="4" />
+                        <Tab label="By Wards" value="1" sx={{color: '#000'}}/>
+                        <Tab label="By Tree Names" value="2" sx={{color: '#000'}}/>
+                        <Tab label="By Tree Types" value="3" sx={{color: '#000'}}/>
+                        <Tab label="By Tree Conditions" value="4" sx={{color: '#000'}}/>
                       </TabList>
                     </Box>
                     <TabPanel value="1">

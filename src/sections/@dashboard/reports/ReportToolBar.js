@@ -1,7 +1,18 @@
 import PropTypes from 'prop-types';
 // material
 import { styled } from '@mui/material/styles';
-import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment, Select, MenuItem, Grid, Button } from '@mui/material';
+import {
+  Toolbar,
+  Tooltip,
+  IconButton,
+  Typography,
+  OutlinedInput,
+  InputAdornment,
+  Select,
+  MenuItem,
+  Grid,
+  Button,
+} from '@mui/material';
 // component
 import { useSelector } from 'react-redux';
 import Iconify from '../../../components/Iconify';
@@ -35,31 +46,28 @@ ReportToolBar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
-  placeHolder:PropTypes.string,
-  handleCoucilChange:PropTypes.func,
-  handleWardChange:PropTypes.func,
-  handleZoneChange:PropTypes.func,
+  placeHolder: PropTypes.string,
+  handleCoucilChange: PropTypes.func,
+  handleWardChange: PropTypes.func,
+  handleZoneChange: PropTypes.func,
   handleExportexcel: PropTypes.func,
-  coucilId:PropTypes.any,
-  zoneId:PropTypes.any,
-  wardId:PropTypes.any
+  coucilId: PropTypes.any,
+  zoneId: PropTypes.any,
+  wardId: PropTypes.any,
 };
 
+export default function ReportToolBar({ numSelected, filterName, onFilterName, handleExportexcel }) {
+  // const {
+  //     council,
+  //     zones,
+  //     wards,
+  //   } = useSelector((state) => ({
+  //     council:state.council.activeCouncil,
+  //     zones:state.zones.activeZonesByCID,
+  //     wards:state.wards.activeWardsByCID,
+  //   }));
 
-
-export default function ReportToolBar({ numSelected, filterName, onFilterName,handleExportexcel}) {
-  
-    // const {
-    //     council,
-    //     zones,
-    //     wards,
-    //   } = useSelector((state) => ({
-    //     council:state.council.activeCouncil,
-    //     zones:state.zones.activeZonesByCID,
-    //     wards:state.wards.activeWardsByCID,
-    //   }));
-  
-    return (
+  return (
     <RootStyle
       sx={{
         ...(numSelected > 0 && {
@@ -68,7 +76,7 @@ export default function ReportToolBar({ numSelected, filterName, onFilterName,ha
         }),
       }}
     >
-      {/* {numSelected > 0 ? (
+      {numSelected > 0 ? (
         <Typography component="div" variant="subtitle1">
           {numSelected} selected
         </Typography>
@@ -84,17 +92,22 @@ export default function ReportToolBar({ numSelected, filterName, onFilterName,ha
             </InputAdornment>
           }
         />
-      )} */}
+      )}
 
-
-         <Grid container justifyContent="flex-end">
-          {/* {(callType === "BaseColor")?(
-         <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5> 
+      <Grid container justifyContent="flex-end">
+        {/* {(callType === "BaseColor")?(
+         <h5 style={{marginTop: 10}}>Please select council to get  base color data</h5>
          ):null} */}
-           <Grid item xs={2.7} justifyContent="flex-end" style={{marginRight: 20}}>
-           <Button variant="contained" onClick={()=>handleExportexcel()} style={{marginLeft: 30, marginTop: 5, height: 50, width: 150, marginRight: 2}}  >Export Report</Button> 
-           </Grid>
-           </Grid>
-           </RootStyle>
+        <Grid item xs={2.7} justifyContent="flex-end" style={{ marginRight: 20 }}>
+          <Button
+            variant="contained"
+            onClick={() => handleExportexcel()}
+            style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150, marginRight: 2, backgroundColor: '#DF6526',boxShadow: 'none' }}
+          >
+            Export Report
+          </Button>
+        </Grid>
+      </Grid>
+    </RootStyle>
   );
 }

@@ -171,10 +171,12 @@ const header = ["#", "User", "Role", "Team","Council","Zone","Ward","Allocated",
   return (
     <Page title="User">
       <Container>
-        <Card style={{marginTop: 40}}>
-        <ReportToolBar
+      <Card style={{marginTop: 40}}>
+      <ReportToolBar
         handleExportexcel={()=>handleDownloadButtonPressed()} 
         numSelected={0} placeHolder={"Search here..."} />
+      
+      
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

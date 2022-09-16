@@ -36,6 +36,9 @@ import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
+import StatusPendngButton from '../../components/statusbutton/StatusPendngButton';
+import StatusApprovedButton from '../../components/statusbutton/StatusApprovedButton';
+import StatusUnapprovedButton from '../../components/statusbutton/StatusUnapprovedButton';
 
 // ----------------------------------------------------------------------
 
@@ -106,7 +109,6 @@ export default function BaseColor() {
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
   ))
-
   const { state} = useLocation();
 
   useEffect(()=>{
@@ -194,6 +196,7 @@ export default function BaseColor() {
 
   }
 
+  console.log('baseColorTrees',baseColorTrees);
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);
@@ -284,35 +287,23 @@ export default function BaseColor() {
   return (
     <Page title="User">
       <Container>
-        {open?
-        <BaseColorDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data={dialogData}
-        />:null
-        }
-        
-        {viewOpen?
-        <ViewImageDialog
-        isOpen={viewOpen}
-        handleClose = {handleViewOpen}
-        data={imageList}
-        />:null
-        }
-        
-        {qcDialogOpen?
-        <QcStatusDialog
-        isOpen={qcDialogOpen}
-        baseColorId={baseColorId}
-        handleClose = {()=>handleQcDialog(null)}
-        handleSubmit = {(data,id)=>handleQcSubmit(data,id)}
-        />:null
-        }
-         
+        {open ? <BaseColorDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+
+        {viewOpen ? <ViewImageDialog isOpen={viewOpen} handleClose={handleViewOpen} data={imageList} /> : null}
+
+        {qcDialogOpen ? (
+          <QcStatusDialog
+            isOpen={qcDialogOpen}
+            baseColorId={baseColorId}
+            handleClose={() => handleQcDialog(null)}
+            handleSubmit={(data, id) => handleQcSubmit(data, id)}
+          />
+        ) : null}
+
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
-        <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
-        {/* <Link
+          <div role="presentation" onClick={handleClick}>
+            <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000', fontWeight: 700 }} separator=":">
+              {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -331,86 +322,129 @@ export default function BaseColor() {
         >
         Base Color
         </Link> */}
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-            Tree Data
-          </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          Base Color
-          </Typography>
-      </Breadcrumbs>
-    </div>
+              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+                Tree Data
+              </Typography>
+              <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
+                Base Color
+              </Typography>
+            </Breadcrumbs>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+              It is showing list of trees with its details
+            </Typography>
+          </div>
         </Stack>
 
-        <Card>
-        <TeamListToolbar numSelected={0} placeHolder={"Search Base Color..."} 
-        onFilterName={filterByName} 
-        handleCoucilChange={(e)=>handleCoucilChange(e)} 
-        handleWardChange={(e)=>handleWardChange(e)}
-        handleZoneChange={(e)=>handleZoneChange(e)}
-        coucilId={coucilId}
-        zoneId={zoneId}
-        wardId={wardId}
-        callType="BaseColor"
-        />
+        <Card sx={{ mt: 2 }}>
+          <TeamListToolbar
+            numSelected={0}
+            placeHolder={'Search Base Color...'}
+            onFilterName={filterByName}
+            handleCoucilChange={(e) => handleCoucilChange(e)}
+            handleWardChange={(e) => handleWardChange(e)}
+            handleZoneChange={(e) => handleZoneChange(e)}
+            coucilId={coucilId}
+            zoneId={zoneId}
+            wardId={wardId}
+            callType="BaseColor"
+          />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
-                         {!coucilId?(
-                <TableRow>
-                  <TableCell align="right" colSpan={8} fontWeight={700}> 
-                  Please select council to get base color data
-                </TableCell>
-                </TableRow>
-                ):null
-}
+                <UserListHead headLabel={TABLE_HEAD} />
+                {!coucilId ? (
+                  <TableRow>
+                    <TableCell align="right" colSpan={8} fontWeight={700}>
+                      Please select council to get base color data
+                    </TableCell>
+                  </TableRow>
+                ) : null}
                 <TableBody>
-                     { showList? baseColorTrees?.map((option,index) => {
+                  {showList
+                    ? baseColorTrees?.map((option, index) => {
                         return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
+                          <TableRow hover>
+                            <TableCell align="left">
+                              <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                            </TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
-                        <TableCell align="left">{option.property_type?.property_type}</TableCell>
-                        <TableCell align="left">{option.property?.property_number?option.property?.property_number: "-"}</TableCell>
-                        <TableCell align="left">{option.property?.address? option.property?.address: "-"}</TableCell>
-                        <TableCell align="left">{option.location}</TableCell>
-                        <TableCell align="left">{option.location_accuracy}</TableCell>
-                        <TableCell align="left">{option.property?.owner_name}</TableCell>
-                        <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
-                        <TableCell align="left">
-                          {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
-                          <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
-                            <Visibility />
-                          </IconButton>
-                          </TableCell>
-                        <TableCell align="left">{option.added_by?.first_name} {option.added_by?.last_name}</TableCell>
-                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.added_on_date}</TableCell>
-                        <TableCell align="left">{option.qc_status?option.qc_status:"-"}</TableCell>
-                        <TableCell align="left">{option.qc_remark?option.qc_remark?.remark:"-"}</TableCell>
-                        <TableCell align="left">{option.qc_by? option.qc_by?.first_name: "-"} {option.qc_by? option.qc_by?.last_name: "-"}</TableCell>
-                        <TableCell align="left" style={{whiteSpace:'nowrap'}}>{option.qc_date?option.qc_date:"-"}</TableCell>
-                        <TableCell align="right">
-                          <BaseColorMoreMenu baseColorId={option.id} baseColorName={option.property?.owner_name} permissions={userPermissions} qcStatus={option.qc_status} councilId={coucilId} zoneId={zoneId} wardId={wardId} pageNumber={page} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleDelete={()=>handleDelete(option)} />
-                        </TableCell>
-                        </TableRow>
-                        )
-                  }):null
-                }
-
+                            <TableCell align="left">{option.property_type?.property_type}</TableCell>
+                            <TableCell align="left">
+                              {option.property?.property_number ? option.property?.property_number : '-'}
+                            </TableCell>
+                            <TableCell align="left">
+                              {option.property?.address ? option.property?.address : '-'}
+                            </TableCell>
+                            <TableCell align="left">{option.location}</TableCell>
+                            <TableCell align="left">{option.location_accuracy}</TableCell>
+                            <TableCell align="left">{option.property?.owner_name}</TableCell>
+                            <TableCell align="left">
+                              {option.property?.tenant_name ? option.property?.tenant_name : '-'}
+                            </TableCell>
+                            <TableCell align="left">
+                              {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
+                              <IconButton
+                                aria-label="delete"
+                                size="large"
+                                onClick={() => handleViewOpen(option.images)}
+                                color="success"
+                              >
+                                <Visibility />
+                              </IconButton>
+                            </TableCell>
+                            <TableCell align="left">
+                              {option.added_by?.first_name} {option.added_by?.last_name}
+                            </TableCell>
+                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>
+                              {option.added_on_date}
+                            </TableCell>
+                            <TableCell align="left">
+                              {option.qc_status === 'Pending'?<StatusPendngButton qcStatus={option.qc_status}/>: ''}
+                              {option.qc_status === 'Approved'?<StatusApprovedButton qcStatus={option.qc_status}/>: ''}
+                              {option.qc_status === 'Unapproved'?<StatusUnapprovedButton qcStatus={option.qc_status}/>: ''}
+                              {/* {option.qc_status ? option.qc_status : '-'} */}
+                              </TableCell>
+                            <TableCell align="left">{option.qc_remark ? option.qc_remark?.remark : '-'}</TableCell>
+                            <TableCell align="left">
+                              {option.qc_by ? option.qc_by?.first_name : '-'}{' '}
+                              {option.qc_by ? option.qc_by?.last_name : '-'}
+                            </TableCell>
+                            <TableCell align="left" style={{ whiteSpace: 'nowrap' }}>
+                              {option.qc_date ? option.qc_date : '-'}
+                            </TableCell>
+                            <TableCell align="right">
+                              <BaseColorMoreMenu
+                                baseColorId={option.id}
+                                baseColorName={option.property?.owner_name}
+                                permissions={userPermissions}
+                                qcStatus={option.qc_status}
+                                councilId={coucilId}
+                                zoneId={zoneId}
+                                wardId={wardId}
+                                pageNumber={page}
+                                handleEdit={() => handleEdit(option)}
+                                handleApprove={() => handleQcSubmit(null, option.id)}
+                                handleQcDialog={() => handleQcDialog(option.id)}
+                                handleDelete={() => handleDelete(option)}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    : null}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-          {baseColorTrees?(
-          <Pagination count={showList? pageInfo.last_page : 0} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
+          {baseColorTrees ? (
+            <Pagination
+              count={showList ? pageInfo.last_page : 0}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
         </Card>
       </Container>
     </Page>

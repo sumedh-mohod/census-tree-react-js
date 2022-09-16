@@ -218,9 +218,9 @@ export default function NoTreeProperty() {
         data={imageList}
         />:null
         }
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb"style={{color: "#000000"}}separator='>'>
+      <Breadcrumbs aria-label="breadcrumb"style={{color: "#000000", fontSize: '20px', fontWeight: 700}}separator=':'>
         {/* <Link
           underline="hover"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
@@ -240,10 +240,13 @@ export default function NoTreeProperty() {
             <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
             Tree Data
           </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          <Typography variant="h4" gutterBottom style={{color: "#000000",fontWeight: 400}}>
         No Tree Properties
           </Typography>
       </Breadcrumbs>
+      <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+              It is showing list of trees with its details
+            </Typography>
     </div>
         </Stack>
 
@@ -265,7 +268,7 @@ export default function NoTreeProperty() {
                 />
                         {!coucilId?(
                 <TableRow>
-                  <TableCell align='center' colSpan={8} fontWeight={700}>
+                  <TableCell align='center' colSpan={8} fontWeight={700} >
                Please select council to get data
                 </TableCell>
                 </TableRow>

@@ -32,6 +32,7 @@ import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
+import CountButton from '../../components/statusbutton/CountButton';
 
 // ----------------------------------------------------------------------
 
@@ -57,18 +58,19 @@ export default function ByWardReports(props) {
               <Table>
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                {data?.map((option, index) => {
-                  return (
-  <TableRow
-  hover
->
- 
-      <TableCell align="left"><b>{index+1}</b></TableCell>
-  <TableCell align="left">{option.name}</TableCell>
-  <TableCell align="left">{option.census_trees_count}</TableCell>
-  </TableRow>
-                  )
-                })}
+                  {data?.map((option, index) => {
+                    return (
+                      <TableRow hover>
+                        <TableCell align="left">
+                          <b>{index + 1}</b>
+                        </TableCell>
+                        <TableCell align="left">{option.name}</TableCell>
+                        <TableCell align="left">
+                          <CountButton count={option.census_trees_count} />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>

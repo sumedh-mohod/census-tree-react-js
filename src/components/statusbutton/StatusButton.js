@@ -1,9 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import {
+  Button,
+} from '@mui/material';
 import './style.css';
 
 export default function StatusButton(props) {
-  const { status } = props;
+  console.log('props....', props);
   const useStyles = makeStyles({
     active: {
       backgroundColor: '#214c50',
@@ -26,15 +29,17 @@ export default function StatusButton(props) {
   const classes = useStyles();
   return (
     <>
-      {status === 1 ? (
-        <button className={classes.active}>
+      {props.status === 1 ? (
+        <Button className={classes.active}>
           <b>Active</b>
-        </button>
+        </Button>
       ) : (
-        <button className={classes.inactive}>
+        <Button className={classes.inactive}>
           <b>Inactive</b>
-        </button>
+        </Button>
       )}
+     
+      
     </>
   );
 }

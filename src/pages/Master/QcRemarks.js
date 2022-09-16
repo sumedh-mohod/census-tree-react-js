@@ -190,66 +190,64 @@ export default function District() {
   return (
     <Page title="User">
       <Container>
-
-        {open?
-         <QcRemarksDialog
-         isOpen={open}
-         handleClose = {handleNewUserClick}
-         data = {dialogData}
-         />:null
-        }
-       
+        {open ? <QcRemarksDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        {userPermissions.includes('create-qc-remark') ? (
+            <Button
+              onClick={handleNewUserClick}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+               sx={{float: 'right', mt: -4}}
+            >
+              Add QC Remark
+            </Button>
+          ) : null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
-        <MasterBreadCrumChip
-          dropDownPage={dropPage}
-          handleDropChange={handleDropChange}
-          slug={'qC remarks'}
-          />
+          <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'qC remarks'} />
 
-    {userPermissions.includes("create-qc-remark")? 
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add QC Remark
-
-          </Button>:null}
+          
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search QcRemarks..."} onFilterName={filterByName} />
+          <UserListToolbar numSelected={0} placeHolder={'Search QcRemarks...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
+                <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                     { qcremarks?.map((option,index) => {
-                        return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
-                            <TableCell align="left">
-                              {option.remark}
-                            </TableCell>
+                  {qcremarks?.map((option, index) => {
+                    return (
+                      <TableRow hover>
+                        <TableCell align="left">
+                          <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                        </TableCell>
+                        <TableCell align="left">{option.remark}</TableCell>
                         <TableCell align="left">{option.remark_for}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                          <UserMoreMenu
+                            status={option.status}
+                            permissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                          />
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
-
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-          {qcremarks?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
+          {qcremarks ? (
+            <Pagination
+              count={pageInfo.last_page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
           {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"

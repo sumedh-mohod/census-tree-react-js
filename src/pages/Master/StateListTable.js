@@ -157,66 +157,67 @@ export default function StateListTable() {
   return (
     <Page title="User">
       <Container>
-        {open?
-        <StateDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data= {dialogData}
-        />:null
-        }
-        
+        {open ? <StateDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        {userPermissions.includes('create-state') ? (
+            <Button
+              onClick={handleNewUserClick}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+               sx={{float: 'right', mt: -4}}
+            >
+              Add State
+            </Button>
+          ) : null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
-        <div role="presentation" onClick={handleClick} >
-       <MasterBreadCrumChip
-          dropDownPage={dropPage}
-          handleDropChange={handleDropChange}
-          slug={'states'}
-          />
-    </div>
-    {userPermissions.includes("create-state")? 
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add State
-
-          </Button>:null}
+          <div role="presentation" onClick={handleClick}>
+            <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'states'} />
+          </div>
+          
         </Stack>
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search states..."} onFilterName={filterByName}/>
+          <UserListToolbar numSelected={0} placeHolder={'Search states...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
+                <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                     { states?.map((option,index) => {
-                        return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
+                  {states?.map((option, index) => {
+                    return (
+                      <TableRow hover>
+                        <TableCell align="left">
+                          <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                        </TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">
                           <StatusButton status={option.status} />
                         </TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                          <UserMoreMenu
+                            status={option.status}
+                            permissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                          />
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
-
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-{states?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
+          {states ? (
+            <Pagination
+              count={pageInfo.last_page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
         </Card>
       </Container>
     </Page>

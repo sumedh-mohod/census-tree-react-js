@@ -160,22 +160,22 @@ export default function CreateCouncil() {
             // isClose={}
           />
         ) : null}
-
+        {userPermissions.includes('create-council') ? (
+          <Button
+            onClick={handleNewUserClick}
+            variant="contained"
+            component={RouterLink}
+            to="#"
+            // startIcon={<Iconify icon="eva:plus-fill" />}
+            sx={{ float: 'right', mt: -4}}
+          >
+            Add Council
+          </Button>
+        ) : null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
           {/* <div role="presentation" onClick={handleClick}> */}
-            <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'councils'}/>
+          <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'councils'} />
           {/* </div> */}
-          {userPermissions.includes('create-council') ? (
-            <Button
-              onClick={handleNewUserClick}
-              variant="contained"
-              component={RouterLink}
-              to="#"
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              Add Council
-            </Button>
-          ) : null}
         </Stack>
 
         <Card>
@@ -199,7 +199,9 @@ export default function CreateCouncil() {
                         <TableCell align="center">{option.base_color_target}</TableCell>
                         <TableCell align="center">{option.census_target}</TableCell>
                         <TableCell align="center">{option.total_area}</TableCell>
-                        <TableCell align="center" style={{flexWrap:"no-wrap"}}>{option.contact_person?.first_name} {option.contact_person?.last_name}</TableCell>
+                        <TableCell align="center" style={{ flexWrap: 'no-wrap' }}>
+                          {option.contact_person?.first_name} {option.contact_person?.last_name}
+                        </TableCell>
                         <TableCell align="center">{option.contact_person?.mobile}</TableCell>
                         <TableCell align="center">{option.contact_person?.email}</TableCell>
                         <TableCell align="center">{option.contact_person?.username}</TableCell>
