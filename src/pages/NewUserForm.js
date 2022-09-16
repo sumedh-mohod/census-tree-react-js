@@ -51,6 +51,7 @@ export default function NewUserForm(props) {
     const [gender, setGender] = React.useState('');
     const [religion, setReligion] = React.useState('');
     const [caste, setCaste] = React.useState('');
+    const [education, setEducation] = React.useState('');
     const [whoseReference, setWhoseReference] = React.useState('');
     const [bloodGrp, setBloodGrp] = React.useState('');
     const[district, setDistrict]=  React.useState('');
@@ -103,6 +104,7 @@ export default function NewUserForm(props) {
     const [lastNameError, setLastNameError] = useState("");
     const [cityError, setCityError] = useState('');
     const [casteError, setCasteError] = React.useState('');
+    const [educationError, setEducationError] = React.useState('');
     const [mobileError, setMobileError] = React.useState('');
     const [emailError, setEmailError] = React.useState('');
     const [emergencyContactNameError, setEmergencyContactNameError] = React.useState('');
@@ -521,6 +523,21 @@ export default function NewUserForm(props) {
    
       setCaste(event.target.value);
     };
+
+
+    const handleEducationChange =(e) =>{
+      console.log("education in")
+      const  regex = /^[a-zA-Z_@./#&+-]*(?:\d[a-zA-Z_@./#&+-]*){0,2}$/;
+      if(regex.test(e.target.value)) {
+        setEducationError("");
+    }
+    else{
+    setEducationError("Education containg alphanumeric Format and it accept only 2 digits");
+      
+    }
+
+    setEducation(e.target.value);
+    }
   
     const handleClose = () => {
       props.handleClose();
@@ -1720,17 +1737,23 @@ const handleSubmitErrors = () =>{
                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{aadharError}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <DefaultInput
+              <DefaultInput
                   fullWidth
                   id="education"
                   name="education"
                   autoComplete="education"
-                  placeholder="Education*"
                   label="Education*"
+                  placeholder="Education*"
+                  value={values.education}
+                  onChange={(e)=>{handleEducationChange(e);
+                    formik.handleChange(e)}}
                   error={Boolean(touched.education && errors.education)}
                 helperText={touched.education && errors.education}
-                {...getFieldProps("education")}
+                // {...getFieldProps("aadhaarNumber")}
+                  // name="aadhar"
+                  // value="aadhar"
                 />
+                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{educationError}</Typography>
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
