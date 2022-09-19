@@ -67,9 +67,10 @@ export default function TeamsTableDialog(props) {
   const { isOpen, data } = props;
   // console.log('teamType',data)
 
-  const { addTeamsLog, editTeamsLog } = useSelector((state) => ({
+  const { addTeamsLog, editTeamsLog ,showLoadingButton} = useSelector((state) => ({
     addTeamsLog: state.teams.addTeamsLog,
     editTeamsLog: state.teams.editTeamsLog,
+    showLoadingButton: state.common.showLoadingButton,
   }));
 
   const firstRun = React.useRef(true);
@@ -82,6 +83,10 @@ export default function TeamsTableDialog(props) {
   }, [addTeamsLog, editTeamsLog]);
   // console.log('editTeamsLog',editTeamsLog);
 
+  React.useEffect(() => {
+    setButtonDisabled(false)
+  }, [showLoadingButton ]);
+
   const handleClose = () => {
     props.handleClose();
   };
@@ -91,26 +96,12 @@ export default function TeamsTableDialog(props) {
   };
 
   const handleTeamCode = (e) => {
-    const  regex = /^[a-zA-Z0-9]*$/;
-    if(regex.test(e.target.value)) {
-      setTeamCodeError("");
-  }
-  else{
-    setTeamCodeError("Please Enter Team Code In Alphanumeric format Only");
-    
-  }
+   
   setTeamCode(e.target.value);
   }
 
   const handleTeamName = (e) => {
-    const  regex = /^[a-zA-Z0-9]*$/;
-    if(regex.test(e.target.value)) {
-      setTeamNameError("");
-  }
-  else{
-    setTeamNameError("Please Enter Team Name In Alphanumeric format Only");
-    
-  }
+   
   setTeamName(e.target.value);
   }
 
@@ -122,8 +113,9 @@ export default function TeamsTableDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    name: Yup.string().max(30, 'Character limit is 30').required('Name is required'),
+    name: Yup.string().matches(/^[A-Za-z0-9? ,_-]+$/,'Please Enter Team Name In Alphanumeric format Only').max(30, 'Character limit is 30').required('Name is required'),
     code: Yup.string()
+      .matches(/^[A-Za-z0-9? ,_-]+$/,'Please Enter Team Code In Alphanumeric format Only')
       .min(4, 'Too Short! need exact 4 character')
       .max(4, 'Too Long! need exact 4 character')
       .required('Team Code required'),
@@ -138,30 +130,34 @@ export default function TeamsTableDialog(props) {
       code: data ? data.team_code : '',
       teamType: data ? data.team_type : '',
     },
+    
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      // console.log('name', value.name, 'code', value.code, 'team', teamType);
-      setButtonDisabled(true);
-      if (data) {
-        dispatch(
-          EditTeam(
-            {
+      if(!(teamNameError || teamCodeError) ){
+        setButtonDisabled(true);
+        if (data) {
+          dispatch(
+            EditTeam(
+              {
+                name: value.name,
+                team_code: value.code,
+                team_type: value.teamType,
+              },
+              data.id
+            )
+          );
+        } else {
+          dispatch(
+            AddTeam({
               name: value.name,
               team_code: value.code,
               team_type: value.teamType,
-            },
-            data.id
-          )
-        );
-      } else {
-        dispatch(
-          AddTeam({
-            name: value.name,
-            team_code: value.code,
-            team_type: value.teamType,
-          })
-        );
+            })
+          );
+        }
       }
+      // console.log('name', value.name, 'code', value.code, 'team', teamType);
+     
     },
   });
 
@@ -193,7 +189,7 @@ export default function TeamsTableDialog(props) {
         <DialogContent>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <DefaultInput
+              <TextField
                 fullWidth
                 id="name"
                 name="name"
@@ -201,6 +197,7 @@ export default function TeamsTableDialog(props) {
                 label="Team Name*"
                 value={values.name}
                 placeholder="Team Name*"
+                style={{ width: '82.5%',marginLeft: 40, marginTop: 5 }}
                 onChange={(e) => {
                   handleTeamName(e);
                   formik.handleChange(e);
@@ -210,12 +207,13 @@ export default function TeamsTableDialog(props) {
                 // {...getFieldProps('name')}
               />
                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{teamNameError}</Typography>
-              <DefaultInput
+              <TextField
                 fullWidth
                 id="code"
                 autoComplete="teamCode"
                 label="Team Code*"
                 placeholder="Team Code*"
+                style={{ width: '82.5%',marginLeft: 40, marginTop: 5 }}
                 value={values.code}
                 onChange={(e) => {
                   handleTeamCode(e);

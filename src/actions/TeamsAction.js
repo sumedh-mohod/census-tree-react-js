@@ -1,6 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
+import { ShowLoadingButton } from "./CommonAction";
 import { ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZW, DELETE_ASSIGNED_USER, DELETE_TEAM, EDIT_TEAM, GET_ACTIVE_TEAM, GET_CZW_BY_TEAM, GET_TEAM, GET_USERS_BY_TEAM } from "./Types";
 
 const GetTeam = (page,limit) => async (dispatch) => {
@@ -90,6 +91,7 @@ const GetTeam = (page,limit) => async (dispatch) => {
         alertType: "success",
       }));
     } catch (e) {
+      dispatch(ShowLoadingButton(true))
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -107,6 +109,7 @@ const GetTeam = (page,limit) => async (dispatch) => {
         alertType: "success",
       }));
     } catch (e) {
+      dispatch(ShowLoadingButton(true))
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };

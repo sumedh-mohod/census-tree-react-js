@@ -112,12 +112,13 @@ setVal(item)
     editTreeNameLog,
     treeType,
     treeFamily,
-
+    showLoadingButton
   } = useSelector((state) => ({
     addTreeNameLog:state.treeName.addTreeNameLog,
     editTreeNameLog:state.treeName.editTreeNameLog,
     treeType:state.treeType.activeTreeType,
     treeFamily:state.treeFamily.activeTreeFamily,
+    showLoadingButton: state.common.showLoadingButton,
   }));
 
   const treeFamilyValue = [
@@ -239,6 +240,10 @@ const growthFactorValue = [
       label: 5.5
     },
   ]
+
+  React.useEffect(() => {
+    setButtonDisabled(false)
+  }, [showLoadingButton ]);
 
   useEffect(()=>{
     dispatch(GetActiveTreeType(1));
@@ -396,6 +401,8 @@ const handleFamilyChange = (event) => {
     treeType: Yup.string().required('Tree Type is required'),
     treeFamily: Yup.string().required('Tree Family is required'),
     origin: Yup.string().required('Origin is required'),
+    growthRatio: Yup.string().matches(/^[1-9]\d*(\.\d+)?$/, "Only decimal value are allowed for this field ").required('Growth ratio is required'),
+    
     // minHeight:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
     // maxHeightx:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
     // minAge:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
@@ -422,10 +429,11 @@ const handleFamilyChange = (event) => {
       maxAge: data? maxAg: "",
       minGrowth: data? minGro: "",
       maxGrowth: data? maxGro: "",
-      floweringStart:data? flwSt.trim(): "",
-      floweringEnd: data? flwEnd.trim(): "",
-      fruitingStart: data? frtSt.trim(): "",
-      fruitingEnd: data? frtEnd.trim(): "",
+      growthRatio: data? data.growth_ratio : "",
+      floweringStart:data? flwSt?.trim(): "",
+      floweringEnd: data? flwEnd?.trim(): "",
+      fruitingStart: data? frtSt?.trim(): "",
+      fruitingEnd: data? frtEnd?.trim(): "",
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
@@ -461,6 +469,7 @@ const handleFamilyChange = (event) => {
           "max_height" : height,
           "max_age": age,
           "growth_factor": growthF,
+          "growth_ratio": value.growthRatio,
 
         },data.id))
       }
@@ -476,6 +485,7 @@ const handleFamilyChange = (event) => {
           "flowering_season": flowerSeason,
           "fruiting_season": fruitsSeason,
           "max_height" :height,
+          "growth_ratio": value.growthRatio,
           "max_age": age,
           "growth_factor": growthF
         }))
@@ -780,11 +790,29 @@ const handleFamilyChange = (event) => {
         />
           </Grid>
           </Grid>
+          <FormLabel style={{marginLeft: 48, marginTop: 20}}>Growth Ratio(To Calculate Age)*</FormLabel>
+          <Grid item xs={12}>
+          
+            <TextField
+                fullWidth
+                id="growth_ratio"
+                autoComplete="growth_ratio"
+                style={{  width: 310, marginLeft: 43, }}
+                // label="Botanical Name*"
+                // placeholder="Enter Botanical Name*"
+                error={Boolean(touched.growthRatio && errors.growthRatio)}
+                helperText={touched.growthRatio && errors.growthRatio}
+                {...getFieldProps("growthRatio")}
+              />
+            </Grid>
           <FormLabel style={{marginLeft: 48, marginTop: 20}}>Maximum Height (M)</FormLabel>
             <Grid container style={{display:"flex"}}>
             {/* <FormControl> */}
    
       {/* </FormControl> */}
+    
+
+
               <Grid item xs={4}>
               <TextField
               type="number"

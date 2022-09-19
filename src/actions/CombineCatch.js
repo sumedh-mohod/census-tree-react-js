@@ -1,4 +1,5 @@
 import { SetNewAlert } from "./AlertActions";
+import { Logout, SessionExpired } from "./AuthActions";
 import { ShowLoader } from "./CommonAction";
 
 const HandleExceptionWithSecureCatch = (exception) => {
@@ -8,12 +9,24 @@ const HandleExceptionWithSecureCatch = (exception) => {
     const message = exception.response.data.message;
     const statusCode = exception.response.status;
 
-    dispatch(SetNewAlert({
-      msg: message,
-      alertType: "danger",
-    }));
+    if(statusCode===401 && window.location.pathname!=="/login"){
+      dispatch(SetNewAlert({
+        msg: "Session Expired",
+        alertType: "danger",
+      }));
+      dispatch(SessionExpired())
+  
+      dispatch(ShowLoader(false))
+    }
 
-    dispatch(ShowLoader(false))
+    else {
+      dispatch(SetNewAlert({
+        msg: message,
+        alertType: "danger",
+      }));
+  
+      dispatch(ShowLoader(false))
+    }
 
     };
 };
