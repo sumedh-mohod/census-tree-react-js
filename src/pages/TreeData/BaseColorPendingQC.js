@@ -210,7 +210,7 @@ export default function BaseColorPendingQC() {
   //     // console.log(tree.tree_name.name)
   //     ));
   const handleDialogOpen = (id) => {
-    console.log('clicked')
+    console.log('clicked');
     setDialogOpen(true);
     setUpdateClick(true);
     setBaseColorId(id);
@@ -297,7 +297,7 @@ export default function BaseColorPendingQC() {
     // renderItem: this.myRenderItem.bind(this),
     items: imageList,
   };
-  console.log('imageList',imageList);
+  console.log('imageList', imageList);
   const FilterSchema = Yup.object().shape({
     councilForm: Yup.string().required('Please select council'),
     wardForm: Yup.string().required('Please select ward'),
@@ -327,17 +327,7 @@ export default function BaseColorPendingQC() {
 
   // console.log("ZONES",baseColorPendingQCStatus.data[0].location_accuracy);
   // console.log("WARDS",wards);
-  const useStyles = makeStyles({
-    
-    button: {
-      backgroundColor: '#3c52b2',
-      color: '#fff',
-      '&:hover': {
-        backgroundColor: '#fff',
-        color: '#3c52b2',
-    },
-  }})
-  const classes = useStyles()
+
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return showLoader ? (
@@ -345,296 +335,292 @@ export default function BaseColorPendingQC() {
       <CircularProgress color="success" />
     </div>
   ) : (
-    <Page title="User" sx={{mt: -4}}>
-    
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-          <Container sx={{pl: 0}}>
-            <Typography variant="h4" gutterBottom>
-              Base Color QC
-              <Typography variant="h6" style={{ fontWeight: 400 }}>
-                It is showing Base Color QC
-              </Typography>
+    <Page title="User" sx={{ mt: -4 }}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Container sx={{ pl: 0 }}>
+          <Typography variant="h4" gutterBottom>
+            Base Color QC
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+              It is showing Base Color QC
             </Typography>
-          </Container>
-          <Box
-            display="flex"
-            alignItems="flex-start"
-            // flexDirection="row" This is the default
-          >
-            <Box alignSelf="center">
-              <Box
-                sx={{
-                  // justifyContent: 'end',
-                  px: 3,
-                  py: 1,
-                  mt: -4,
-                  mr: 2,
-                  backgroundColor: '#E8762F',
-                  color: '#fff',
-                  fontWeight: 500,
-                  width: '280px',
-                  borderRadius: '7px',
-                  textAlign: 'center'
-                }}
-                // component={RouterLink}
-                to="#"
-              >
-                Total Pending Trees : <b>{totalTrees || 0}</b>
-              </Box>
-            </Box>
-            <Box alignSelf="flex-end">
-              <Button
-                onClick={toggleDrawer('right', true)}
-                variant="contained"
-                sx={{
-                  // justifyContent: 'end',
-                  px: 3,
-                  py: 1,
-                  mt: -4,
-                  boxShadow: 'none',
-                }}
-                // component={RouterLink}
-                to="#"
-                startIcon={<Iconify icon="eva:funnel-fill" />}
-              >
-                Filters
-              </Button>
-            </Box>
-          </Box>
-
-          <Box sx={{ height: '100',mr: 3 }}>
-            <Drawer
+          </Typography>
+        </Container>
+        <Box
+          display="flex"
+          alignItems="flex-start"
+          // flexDirection="row" This is the default
+        >
+          <Box alignSelf="center">
+            <Box
               sx={{
-                '& .MuiDrawer-paper': {
-                  width: '300px',
-                  maxWidth: '100%',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                },
+                // justifyContent: 'end',
+                px: 3,
+                py: 1,
+                mt: -4,
+                mr: 2,
+                backgroundColor: '#E8762F',
+                color: '#fff',
+                fontWeight: 500,
+                width: '280px',
+                borderRadius: '7px',
+                textAlign: 'center',
               }}
-              anchor={'right'}
-              open={state.right}
-              onClose={toggleDrawer('right', false)}
-              // sx={{
-              //   display: { xs: 'block', sm: 'none' },
-              //   '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-              // }}
+              // component={RouterLink}
+              to="#"
             >
-              <div>
-                <Grid container spacing={1} style={{ width: '90%', marginLeft: '5%', marginRight: '5%' }}>
-                  <Grid item xs={12}>
-                    <TextField
-                      select
-                      disabled={loggedUser?.roles[0]?.slug === 'qc_base_color_offsite'}
-                      id="councilForm"
-                      label="Council"
-                      displayEmpty
-                      value={councilID}
-                      style={{ width: '100%' }}
-                      size="small"
-                      onChange={(e) => {
-                        handleCouncilChange(e);
-                        formik.handleChange(e);
-                      }}
-                      // onChange={handleCouncilChange}
-                      error={Boolean(touched.councilForm && errors.councilForm)}
-                      helperText={touched.councilForm && errors.councilForm}
-                    >
-                      <MenuItem disabled value="">
-                        <em>Select Council*</em>
-                      </MenuItem>
-                      {council?.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                          {option.name}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      select
-                      disabled={loggedUser?.roles[0]?.slug === 'qc_base_color_offsite'}
-                      id="zoneForm"
-                      label="Zone"
-                      displayEmpty
-                      value={zoneID}
-                      style={{ width: '100%', marginTop: 5 }}
-                      size="small"
-                      onChange={(e) => {
-                        handleZoneChange(e);
-                        formik.handleChange(e);
-                      }}
-                      // onChange={handleZoneChange}
-                      error={Boolean(touched.zoneForm && errors.zoneForm)}
-                      helperText={touched.zoneForm && errors.zoneForm}
-                    >
-                      <MenuItem disabled value="">
-                        <em>Select Zone*</em>
-                      </MenuItem>
-                      {councilID
-                        ? zones?.map((option) => (
-                            <MenuItem key={option.id} value={option.id}>
-                              {option.name}
-                            </MenuItem>
-                          ))
-                        : null}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      select
-                      disabled={loggedUser?.roles[0]?.slug === 'qc_base_color_offsite'}
-                      id="wardForm"
-                      label="Ward"
-                      displayEmpty
-                      value={wardID}
-                      style={{ width: '100%', marginTop: 5 }}
-                      size="small"
-                      onChange={(e) => {
-                        handleWardChange(e);
-                        formik.handleChange(e);
-                      }}
-                      // onChange={handleWardChange}
-                      error={Boolean(touched.wardForm && errors.wardForm)}
-                      helperText={touched.wardForm && errors.wardForm}
-                    >
-                      <MenuItem disabled value="">
-                        <em>Select Ward*</em>
-                      </MenuItem>
-                      {councilID
-                        ? wards?.map((option) => (
-                            <MenuItem key={option.id} value={option.id}>
-                              {option.name}
-                            </MenuItem>
-                          ))
-                        : null}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      select
-                      id="addedBy"
-                      label="Added By"
-                      displayEmpty
-                      value={addedBy}
-                      style={{ width: '100%', marginTop: 5 }}
-                      size="small"
-                      // placeholder='*Status'
-                      onChange={(e) => {
-                        handleAddedByChange(e);
-                        formik.handleChange(e);
-                      }}
-                      // onChange={handleAddedByChange}
-                      // error={Boolean(touched.addedByForm && errors.councilForm)}
-                      //   helperText={touched.councilForm && errors.councilForm}
-                      // {...getFieldProps("addedByForm")}
-                    >
-                      <MenuItem disabled value="">
-                        <em>Select Added By</em>
-                      </MenuItem>
-                      {userByRoleID?.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                          {option.first_name} {option.last_name}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      id="fromDate"
-                      type="date"
-                      label="Start Date"
-                      margin="normal"
-                      name="fromDateForm"
-                      style={{ width: '100%', marginTop: 5 }}
-                      size="small"
-                      // label="Plantation Date"
-                      value={values.fromDateForm || ''}
-                      // helperText={
-                      //     errors.toDateForm && touched.toDateForm
-
-                      // }
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      inputProps={{ max: todayDate }}
-                      {...getFieldProps('fromDateForm')}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      id="toDate"
-                      label="End Date"
-                      type="date"
-                      margin="normal"
-                      name="toDateForm"
-                      style={{ width: '100%', marginTop: 5 }}
-                      size="small"
-                      // label="Plantation Date"
-                      value={values.toDateForm || ''}
-                      // helperText={
-                      //     errors.toDateForm && touched.toDateForm
-
-                      // }
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      inputProps={{ max: todayDate }}
-                      {...getFieldProps('toDateForm')}
-                    />
-                  </Grid>
-                  <Button
-                    onClick={handleSubmit}
-                    variant="contained"
-                    style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 }}
-                  >
-                    Apply
-                  </Button>
-                </Grid>
-              </div>
-              {/* <FilterDrawer data={toggleDrawer("right", false)}/> */}
-            </Drawer>
+              Total Pending Trees : <b>{totalTrees || 0}</b>
+            </Box>
           </Box>
-        </Stack>
+          <Box alignSelf="flex-end">
+            <Button
+              onClick={toggleDrawer('right', true)}
+              variant="contained"
+              sx={{
+                // justifyContent: 'end',
+                px: 3,
+                py: 1,
+                mt: -4,
+                boxShadow: 'none',
+              }}
+              // component={RouterLink}
+              to="#"
+              startIcon={<Iconify icon="eva:funnel-fill" />}
+            >
+              Filters
+            </Button>
+          </Box>
+        </Box>
 
-        {(baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data.length === 0) || !showData ? (
-          <Grid
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: '20%',
-              // margin: 'auto '
+        <Box sx={{ height: '100', mr: 3 }}>
+          <Drawer
+            sx={{
+              '& .MuiDrawer-paper': {
+                width: '300px',
+                maxWidth: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
             }}
+            anchor={'right'}
+            open={state.right}
+            onClose={toggleDrawer('right', false)}
+            // sx={{
+            //   display: { xs: 'block', sm: 'none' },
+            //   '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            // }}
           >
-            {/* <Typography><Iconify icon="eva:funnel-fill" /></Typography> */}
-            <Typography align="center">
-              <Typography sx={{ color: '#214C50', fontSize: '50px', mb: -2 }}>
-                <Iconify icon="eva:funnel-fill" />
-              </Typography>
-              <b style={{ fontSize: '20px' }}>Filter Data</b>
-              <Typography>Please filter Base Color QC data and here You will see the Base Color QC list</Typography>
+            <div>
+              <Grid container spacing={1} style={{ width: '90%', marginLeft: '5%', marginRight: '5%' }}>
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    disabled={loggedUser?.roles[0]?.slug === 'qc_base_color_offsite'}
+                    id="councilForm"
+                    label="Council"
+                    displayEmpty
+                    value={councilID}
+                    style={{ width: '100%' }}
+                    size="small"
+                    onChange={(e) => {
+                      handleCouncilChange(e);
+                      formik.handleChange(e);
+                    }}
+                    // onChange={handleCouncilChange}
+                    error={Boolean(touched.councilForm && errors.councilForm)}
+                    helperText={touched.councilForm && errors.councilForm}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Council*</em>
+                    </MenuItem>
+                    {council?.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    disabled={loggedUser?.roles[0]?.slug === 'qc_base_color_offsite'}
+                    id="zoneForm"
+                    label="Zone"
+                    displayEmpty
+                    value={zoneID}
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    onChange={(e) => {
+                      handleZoneChange(e);
+                      formik.handleChange(e);
+                    }}
+                    // onChange={handleZoneChange}
+                    error={Boolean(touched.zoneForm && errors.zoneForm)}
+                    helperText={touched.zoneForm && errors.zoneForm}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Zone*</em>
+                    </MenuItem>
+                    {councilID
+                      ? zones?.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.name}
+                          </MenuItem>
+                        ))
+                      : null}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    disabled={loggedUser?.roles[0]?.slug === 'qc_base_color_offsite'}
+                    id="wardForm"
+                    label="Ward"
+                    displayEmpty
+                    value={wardID}
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    onChange={(e) => {
+                      handleWardChange(e);
+                      formik.handleChange(e);
+                    }}
+                    // onChange={handleWardChange}
+                    error={Boolean(touched.wardForm && errors.wardForm)}
+                    helperText={touched.wardForm && errors.wardForm}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Ward*</em>
+                    </MenuItem>
+                    {councilID
+                      ? wards?.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.name}
+                          </MenuItem>
+                        ))
+                      : null}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    id="addedBy"
+                    label="Added By"
+                    displayEmpty
+                    value={addedBy}
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    // placeholder='*Status'
+                    onChange={(e) => {
+                      handleAddedByChange(e);
+                      formik.handleChange(e);
+                    }}
+                    // onChange={handleAddedByChange}
+                    // error={Boolean(touched.addedByForm && errors.councilForm)}
+                    //   helperText={touched.councilForm && errors.councilForm}
+                    // {...getFieldProps("addedByForm")}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Added By</em>
+                    </MenuItem>
+                    {userByRoleID?.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.first_name} {option.last_name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="fromDate"
+                    type="date"
+                    label="Start Date"
+                    margin="normal"
+                    name="fromDateForm"
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    // label="Plantation Date"
+                    value={values.fromDateForm || ''}
+                    // helperText={
+                    //     errors.toDateForm && touched.toDateForm
+
+                    // }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{ max: todayDate }}
+                    {...getFieldProps('fromDateForm')}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="toDate"
+                    label="End Date"
+                    type="date"
+                    margin="normal"
+                    name="toDateForm"
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    // label="Plantation Date"
+                    value={values.toDateForm || ''}
+                    // helperText={
+                    //     errors.toDateForm && touched.toDateForm
+
+                    // }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{ max: todayDate }}
+                    {...getFieldProps('toDateForm')}
+                  />
+                </Grid>
+                <Button
+                  onClick={handleSubmit}
+                  variant="contained"
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 }}
+                >
+                  Apply
+                </Button>
+              </Grid>
+            </div>
+            {/* <FilterDrawer data={toggleDrawer("right", false)}/> */}
+          </Drawer>
+        </Box>
+      </Stack>
+
+      {(baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data.length === 0) || !showData ? (
+        <Grid
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '20%',
+            // margin: 'auto '
+          }}
+        >
+          {/* <Typography><Iconify icon="eva:funnel-fill" /></Typography> */}
+          <Typography align="center">
+            <Typography sx={{ color: '#214C50', fontSize: '50px', mb: -2 }}>
+              <Iconify icon="eva:funnel-fill" />
             </Typography>
-          </Grid>
-        ) : (
-          <Container>
-                 <Card style={{ height: '600px', padding: '20px 0px' }}>
+            <b style={{ fontSize: '20px' }}>Filter Data</b>
+            <Typography>Please filter Base Color QC data and here You will see the Base Color QC list</Typography>
+          </Typography>
+        </Grid>
+      ) : (
+        <Container>
+          <Card style={{ height: '450px', padding: '20px 0px' }}>
             <Container>
               <div className="wrapper">
                 <div className="one">
-                  {/* <span className='column_height col1'>  Location Type:<br/>
-              <b>{baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type}</b></span>
-                <div className="one column_height">Location Accuracy Needed :<br/> <b>
-                {baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
-                                ? baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
-                                : '-'}
-                  </b></div> */}
                   <div className="wrapper">
                     <div className="one">
                       Location Type: <br />
-                      <b>{baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type?baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type: '-'}</b>
+                      <b>
+                        {baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type
+                          ? baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type
+                          : '-'}
+                      </b>
                     </div>
                     <div className="one">
                       {' '}
@@ -667,11 +653,19 @@ export default function BaseColorPendingQC() {
                     <div className="one">
                       {' '}
                       Owner Name: <br />
-                      <b>{baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name? baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name :'-'}</b>
+                      <b>
+                        {baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name
+                          ? baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name
+                          : '-'}
+                      </b>
                     </div>
                     <div className="one">
                       Tenant Name : <br />
-                      <b>{baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name? baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name: '-'}</b>
+                      <b>
+                        {baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name
+                          ? baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name
+                          : '-'}
+                      </b>
                     </div>
                     <div className="one">
                       Added by : <br />
@@ -682,16 +676,29 @@ export default function BaseColorPendingQC() {
                       </b>
                     </div>
                     <div className="one">
-                      Added On : <br /> <b>{baseColorPendingQCStatus?.data[selectedIndex].added_on_date?baseColorPendingQCStatus?.data[selectedIndex].added_on_date: '-'}</b>
+                      Added On : <br />{' '}
+                      <b>
+                        {baseColorPendingQCStatus?.data[selectedIndex].added_on_date
+                          ? baseColorPendingQCStatus?.data[selectedIndex].added_on_date
+                          : '-'}
+                      </b>
                     </div>
                     <div className="one">
-                    {userPermissions.includes('unapprove-base-color-tree') ? (
-                      <Button style={{ backgroundColor: '#E85454', boxShadow: 'none', color: '#fff',padding: '5px 20px' }} onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}>
-                        Unapproved & Next
-                      </Button>): null}
+                      {userPermissions.includes('unapprove-base-color-tree') ? (
+                        <Button
+                          style={{ backgroundColor: '#E85454', boxShadow: 'none', color: '#fff', padding: '5px 20px' }}
+                          onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}
+                        >
+                          Unapproved & Next
+                        </Button>
+                      ) : null}
                     </div>
                     <div className="one">
-                      <Button variant="contained" sx={{ boxShadow: 'none',padding: '5px 20px' }} onClick={handleApproveNext}>
+                      <Button
+                        variant="contained"
+                        sx={{ boxShadow: 'none', padding: '5px 20px' }}
+                        onClick={handleApproveNext}
+                      >
                         Approve & Next
                       </Button>
                     </div>
@@ -709,9 +716,20 @@ export default function BaseColorPendingQC() {
                   <div className="wrapper">
                     {imageList?.map((val, index) => {
                       return (
-                        <div className="one" key={index} style={{border: 'none',display: 'flex'}}>
-                          <img src={val.original} alt="gallery" height="160px" width="150px" style={{borderRadius: '7px'}} />
-                          <button onClick={handleOpen} style={{background: 'none', border: 'none',position: 'absolute',color: '#fff'}} ><Iconify icon="eva:expand-outline" height='50px' width='50px' /></button>
+                        <div className="one" key={index} style={{ border: 'none', display: 'flex' }}>
+                          <img
+                            src={val.original}
+                            alt="gallery"
+                            height="160px"
+                            width="150px"
+                            style={{ borderRadius: '7px' }}
+                          />
+                          <button
+                            onClick={handleOpen}
+                            style={{ background: 'none', border: 'none', position: 'absolute', color: '#fff' }}
+                          >
+                            <Iconify icon="eva:expand-outline" height="50px" width="50px" />
+                          </button>
                           <Modal
                             open={open}
                             onClose={handleClose}
@@ -719,7 +737,7 @@ export default function BaseColorPendingQC() {
                             aria-describedby="modal-modal-description"
                           >
                             <Box sx={style}>
-                            <img src={val.original} alt="gallery" height="100%" width="100%" />
+                              <img src={val.original} alt="gallery" height="100%" width="100%" />
                             </Box>
                           </Modal>
                         </div>
@@ -853,9 +871,8 @@ export default function BaseColorPendingQC() {
               </Stack>
             </Grid> */}
           </Card>
-          </Container>
-        )}
-  
+        </Container>
+      )}
     </Page>
   );
 }
