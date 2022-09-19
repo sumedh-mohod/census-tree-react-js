@@ -1,6 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
+import { ShowLoadingButton } from "./CommonAction";
 import { ADD_TREE_NAME, DELETE_TREE_NAME, EDIT_TREE_NAME, GET_TREE_NAME, GET_ACTIVE_TREE_NAME } from "./Types";
 
 const GetTreeName = (page,limit) => async (dispatch) => {
@@ -55,6 +56,7 @@ const GetTreeName = (page,limit) => async (dispatch) => {
         alertType: "success",
       }));
     } catch (e) {
+      dispatch(ShowLoadingButton(true))
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -72,6 +74,7 @@ const GetTreeName = (page,limit) => async (dispatch) => {
         alertType: "success",
       }));
     } catch (e) {
+      dispatch(ShowLoadingButton(true))
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };

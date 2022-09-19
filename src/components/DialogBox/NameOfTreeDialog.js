@@ -112,12 +112,13 @@ setVal(item)
     editTreeNameLog,
     treeType,
     treeFamily,
-
+    showLoadingButton
   } = useSelector((state) => ({
     addTreeNameLog:state.treeName.addTreeNameLog,
     editTreeNameLog:state.treeName.editTreeNameLog,
     treeType:state.treeType.activeTreeType,
     treeFamily:state.treeFamily.activeTreeFamily,
+    showLoadingButton: state.common.showLoadingButton,
   }));
 
   const treeFamilyValue = [
@@ -239,6 +240,10 @@ const growthFactorValue = [
       label: 5.5
     },
   ]
+
+  React.useEffect(() => {
+    setButtonDisabled(false)
+  }, [showLoadingButton ]);
 
   useEffect(()=>{
     dispatch(GetActiveTreeType(1));
