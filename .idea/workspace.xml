@@ -1,106 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="29759629-fd9f-4c62-9186-bacb0c15d50a" name="Default Changelist" comment="" />
-=======
     <list default="true" id="29759629-fd9f-4c62-9186-bacb0c15d50a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/build/static/illustrations/LogoWhite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/static/illustrations/Quote.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/static/illustrations/TopPlant.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/static/illustrations/login_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/illustrations/LogoWhite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/illustrations/Quote.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/illustrations/TopPlant.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/illustrations/login_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/DialogBox/WarningMessageDialog.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Reports/Chart/Barchart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Reports/Chart/Piechart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Reports/Teamczw.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/TreeData/ByTreeConditionGraph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/TreeData/ByTreeNameGraph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/TreeData/ByTreeTypeGraph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/TreeData/ByTreeWardGraph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sections/@dashboard/chart/Barchart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sections/@dashboard/tree/Untitled-1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sections/@dashboard/user/AssignedUserMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/asset-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.a73c24ef.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.a73c24ef.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/498.89b9a3fa.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/498.89b9a3fa.chunk.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/498.89b9a3fa.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/513.068c906d.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/513.068c906d.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/703.54fc7a51.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/787.1199a6d1.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/787.1199a6d1.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.be6ec70d.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.be6ec70d.js.LICENSE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.be6ec70d.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.be6ec70d.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.e6042180.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.e6042180.js.LICENSE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.e6042180.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.e6042180.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js.LICENSE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.ff952c7e.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/abell.79b47099c6e51c1d8e30.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/fail.5d4f11fe89a5de737148.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/fail.5d4f11fe89a5de737148a25e18846afb.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/info.5bd18e750e7f4601286e.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/notify.6298afe13c4ffe3095eb.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/success.c942aa220b72cb6da9b4.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/tree-fill.9553bf3b3dc9e3f0cfe3927f144f6c2a.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/AlertActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/AlertActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/ReportsAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/ReportsAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/TeamsAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/TeamsAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/Types.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/Types.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/UserAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/UserAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/WorkReportAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/WorkReportAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DialogBox/CreateCouncilDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DialogBox/CreateCouncilDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DialogBox/NameOfTreeDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DialogBox/NameOfTreeDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DialogBox/TalukasDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DialogBox/TalukasDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/AssignNewZoneWardConfirmationDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/AssignNewZoneWardConfirmationDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/AssignUserConfirmationDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/AssignUserConfirmationDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/AssignUserDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/AssignUserDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/TeamsTableDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/TeamsTableDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Alert.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Alert.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/dashboard/NavConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/dashboard/NavConfig.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Map/TreeOnMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Map/TreeOnMap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Master/CreateCouncil.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Master/CreateCouncil.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/NewUserForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/NewUserForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Reports/CouncilList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Reports/CouncilList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Reports/TeamAllocation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Reports/TeamAllocation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Reports/TreeReports.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Reports/TreeReports.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Reports/UserTypeList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Reports/UserTypeList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Reports/WorkingReports.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Reports/WorkingReports.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Teams/AssignNewCouncilZoneWard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Teams/AssignNewCouncilZoneWard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Teams/AssignUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Teams/AssignUser.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Teams/TeamsList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Teams/TeamsList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/BaseColor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/BaseColor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/BaseColorHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/BaseColorHistory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/BaseColorPendingQC.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/BaseColorPendingQC.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/ByTreeConditionReports.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/ByTreeConditionReports.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/ByWardReports.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/ByWardReports.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/Census.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/Census.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/Reports.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/Reports.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/TreeCensusHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/TreeCensusHistory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/AlertReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/AlertReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/tree/BaseColorMoreMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/tree/BaseColorMoreMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/tree/ReportListToolbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/tree/ReportListToolbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/tree/TreeCensusMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/tree/TreeCensusMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/user/TeamsMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/user/TeamsMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
->>>>>>> 2fc70c72470f70fdac655d5c5b91c878d54a9516
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,11 +25,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-<<<<<<< HEAD
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../xampp/htdocs/archslate_api" />
-=======
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
->>>>>>> 2fc70c72470f70fdac655d5c5b91c878d54a9516
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -148,14 +47,7 @@
       <workItem from="1656423827588" duration="2558000" />
       <workItem from="1658212767106" duration="1383000" />
       <workItem from="1659622506611" duration="1149000" />
-<<<<<<< HEAD
-      <workItem from="1662179906791" duration="1480000" />
-      <workItem from="1662308595562" duration="992000" />
-      <workItem from="1662310317736" duration="162000" />
-      <workItem from="1662400099780" duration="1806000" />
-      <workItem from="1662439994086" duration="122000" />
-=======
->>>>>>> 2fc70c72470f70fdac655d5c5b91c878d54a9516
+      <workItem from="1663556431752" duration="1694000" />
     </task>
     <servers />
   </component>
