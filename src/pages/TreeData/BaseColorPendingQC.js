@@ -60,6 +60,9 @@ export default function BaseColorPendingQC() {
   const [showData, setShowData] = React.useState(false);
   const userPermissions = [];
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   let selectedUsers;
 
   const [state, setState] = React.useState({
@@ -218,17 +221,14 @@ export default function BaseColorPendingQC() {
   };
 
   // console.log("BASE COLOR PENDING QC STATUS",baseColorPendingQCStatus);
-
   const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 800,
-    bgcolor: 'background.paper',
-    border: '1px solid #000',
-    boxShadow: 24,
-    p: 0,
+    width: 600,
+    border: 'none',
+    p: 4,
   };
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -291,17 +291,18 @@ export default function BaseColorPendingQC() {
     // thumbnailPosition: "left",
     useBrowserFullscreen: false,
     showPlayButton: false,
-    showBullets: true,
-    showIndex: true,
+    showBullets: false,
+    showIndex: false,
     // renderItem: this.myRenderItem.bind(this),
     items: imageList,
   };
+  console.log('imageList',imageList);
   const FilterSchema = Yup.object().shape({
     councilForm: Yup.string().required('Please select council'),
     wardForm: Yup.string().required('Please select ward'),
     zoneForm: Yup.string().required('Please select zone'),
   });
-console.log('properties',properties);
+  console.log('properties', properties);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -325,24 +326,7 @@ console.log('properties',properties);
 
   // console.log("ZONES",baseColorPendingQCStatus.data[0].location_accuracy);
   // console.log("WARDS",wards);
-  const useStyles = makeStyles((theme) => ({
-    container: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(12, 1fr)',
-      gridGap: theme.spacing(3),
-    },
-    paper: {
-      padding: theme.spacing(1),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-      whiteSpace: 'nowrap',
-      marginBottom: theme.spacing(1),
-    },
-    divider: {
-      margin: theme.spacing(2, 0),
-    },
-  }));
-  const classes = useStyles();
+  
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return showLoader ? (
@@ -353,69 +337,59 @@ console.log('properties',properties);
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-          <Typography variant="h4" gutterBottom>
-            Base Color QC
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-              It is showing Base Color QC
+          <Container>
+            <Typography variant="h4" gutterBottom>
+              Base Color QC
+              <Typography variant="h6" style={{ fontWeight: 400 }}>
+                It is showing Base Color QC
+              </Typography>
             </Typography>
-          </Typography>
+          </Container>
+          <Box
+            display="flex"
+            alignItems="flex-start"
+            // flexDirection="row" This is the default
+          >
+            <Box alignSelf="center">
+              <Button
+                sx={{
+                  // justifyContent: 'end',
+                  px: 3,
+                  py: 1,
+                  mt: -4,
+                  mr: 2,
+                  backgroundColor: '#E8762F',
+                  color: '#fff',
+                  fontWeight: 500,
+                  width: '280px',
+                }}
+                // component={RouterLink}
+                to="#"
+              >
+                Total Pending Trees :<b>{totalTrees || 0}</b>
+              </Button>
+            </Box>
+            <Box alignSelf="flex-end">
+              <Button
+                onClick={toggleDrawer('right', true)}
+                variant="contained"
+                sx={{
+                  // justifyContent: 'end',
+                  px: 3,
+                  py: 1,
+                  mt: -4,
+                  boxShadow: 'none',
+                }}
+                // component={RouterLink}
+                to="#"
+                startIcon={<Iconify icon="eva:funnel-fill" />}
+              >
+                Filters
+              </Button>
+            </Box>
+          </Box>
 
-          <Button
-          
-            sx={{
-              justifyContent: 'end',
-              display: 'flex',
-              px: 3,
-              py: 1,
-              float: 'right',
-              mt: -4,
-              backgroundColor: '#E8762F',
-              color: '#fff'
-            }}
-            // component={RouterLink}
-            to="#"
-          >
-            Total Pending Trees :
-             {/* {totalTrees? totalTrees: 0} */}
-          </Button>
-          <Button
-            onClick={toggleDrawer('right', true)}
-            variant="contained"
-            sx={{
-              justifyContent: 'end',
-              display: 'flex',
-              px: 3,
-              py: 1,
-              float: 'right',
-              mt: -4,
-            }}
-            // component={RouterLink}
-            to="#"
-            startIcon={<Iconify icon="eva:funnel-fill" />}
-          >
-            Filters
-          </Button>
           <Box sx={{ height: '100' }}>
-            {/* <Button
-            variant="outlined"
-            sx={{
-              justifyContent: 'end',
-              display: 'flex',
-              position: 'fixed',
-              right: 0,
-              top: '100px',
-              border: '2px solid black',
-              backgroundColor: 'black',
-              zIndex: '999',
-              '&.MuiButtonBase-root:hover': {
-                bgcolor: 'black',
-                border: '2px solid black',
-              },
-            }}
-            onClick={toggleDrawer('right', true)}
-          >
-            <FilterAltRoundedIcon sx={{ color: 'white' }} />
-          </Button> */}
             <Drawer
               sx={{
                 '& .MuiDrawer-paper': {
@@ -632,40 +606,106 @@ console.log('properties',properties);
             </Typography>
           </Grid>
         ) : (
-          <Card style={{height: '600px'}}>
-           <Container>
-           <div className="wrapper">
-              <div className="one">
-              <span className='column_height'>  Location Type:<br/>
-              {baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type}</span>
+          <Card style={{ height: '600px', padding: '20px 0px' }}>
+            <Container>
+              <div className="wrapper">
+                <div className="one">
+                  {/* <span className='column_height col1'>  Location Type:<br/>
+              <b>{baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type}</b></span>
                 <div className="one column_height">Location Accuracy Needed :<br/> <b>
                 {baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
                                 ? baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
                                 : '-'}
-                  </b></div>
-                <div className="wrapper">
-                  <div className="one">Property Type: <br/><b>{baseColorPendingQCStatus?.data[selectedIndex].property_type
-                                ? baseColorPendingQCStatus.data[selectedIndex].property_type?.property_type
-                                : '-'}</b></div>
-                  <div className="one"> Property Number: <br/><b>{baseColorPendingQCStatus?.data[selectedIndex].property?.property_number
-                                ? baseColorPendingQCStatus.data[selectedIndex].property?.property_number
-                                : '-'}</b></div>
-                  <div className="one">  Owner Name: <br/><b>{baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name}</b></div>
-                  <div className="one">Tenant Name : <br/><b>{baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name}</b></div>
-                  <div className="one">Added by : <br/><b>{baseColorPendingQCStatus?.data[selectedIndex].added_by
-                                ? `${baseColorPendingQCStatus?.data[selectedIndex].added_by?.first_name} ${baseColorPendingQCStatus?.data[selectedIndex].added_by?.last_name}`
-                                : '-'}</b></div>
-                  <div className="one">Added On : <br/> {baseColorPendingQCStatus?.data[selectedIndex].added_on_date}</div>
-                  <div className="one"><Button style={{backgroundColor: '#E85454', boxShadow: 'none',color: '#fff'}}>Unapproved & Next</Button></div> <div className="one"><Button  variant="contained" sx={{ boxShadow: 'none'}}>Approve & Next</Button></div>
+                  </b></div> */}
+                  <div className="wrapper">
+                    <div className="one">
+                      Location Type: <br />
+                      <b>{baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type?baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type: '-'}</b>
+                    </div>
+                    <div className="one">
+                      {' '}
+                      Accuracy Needed:
+                      <br />
+                      <b>
+                        {' '}
+                        {baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
+                          ? baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
+                          : '-'}
+                      </b>
+                    </div>
+                    <div className="one">
+                      Property Type: <br />
+                      <b>
+                        {baseColorPendingQCStatus?.data[selectedIndex].property_type
+                          ? baseColorPendingQCStatus.data[selectedIndex].property_type?.property_type
+                          : '-'}
+                      </b>
+                    </div>
+                    <div className="one">
+                      {' '}
+                      Property Number: <br />
+                      <b>
+                        {baseColorPendingQCStatus?.data[selectedIndex].property?.property_number
+                          ? baseColorPendingQCStatus.data[selectedIndex].property?.property_number
+                          : '-'}
+                      </b>
+                    </div>
+                    <div className="one">
+                      {' '}
+                      Owner Name: <br />
+                      <b>{baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name? baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name :'-'}</b>
+                    </div>
+                    <div className="one">
+                      Tenant Name : <br />
+                      <b>{baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name? baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name: '-'}</b>
+                    </div>
+                    <div className="one">
+                      Added by : <br />
+                      <b>
+                        {baseColorPendingQCStatus?.data[selectedIndex].added_by
+                          ? `${baseColorPendingQCStatus?.data[selectedIndex].added_by?.first_name} ${baseColorPendingQCStatus?.data[selectedIndex].added_by?.last_name}`
+                          : '-'}
+                      </b>
+                    </div>
+                    <div className="one">
+                      Added On : <br /> <b>{baseColorPendingQCStatus?.data[selectedIndex].added_on_date?baseColorPendingQCStatus?.data[selectedIndex].added_on_date: '-'}</b>
+                    </div>
+                    <div className="one">
+                      <Button style={{ backgroundColor: '#E85454', boxShadow: 'none', color: '#fff' }}>
+                        Unapproved & Next
+                      </Button>
+                    </div>
+                    <div className="one">
+                      <Button variant="contained" sx={{ boxShadow: 'none' }}>
+                        Approve & Next
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <div className="two">
+                  <div className="wrapper">
+                    {imageList?.map((val, index) => {
+                      return (
+                        <div className="one" key={index} style={{border: 'none',display: 'flex'}}>
+                          <img src={val.original} alt="gallery" height="160px" width="150px" />
+                          <button onClick={handleOpen} style={{background: 'none', border: 'none',position: 'absolute',color: '#fff'}} ><Iconify icon="eva:expand-outline" height='50px' width='50px' /></button>
+                          <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                          >
+                            <Box sx={style}>
+                            <img src={val.original} alt="gallery" height="100%" width="100%" />
+                            </Box>
+                          </Modal>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-              <div className="two">
-              <div className="wrapper">
-              <div className="one">  <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} /></div>
-              </div>
-              </div>
-            </div>
-           </Container>
+            </Container>
 
             {/* <Grid item xs={12}>
               <Stack spacing={2}>

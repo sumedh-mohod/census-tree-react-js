@@ -308,7 +308,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
           <div role="presentation" onClick={handleClick}>
-            <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000', fontWeight: 700 }} separator=":">
+            <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000', fontWeight: 900, fontSize: '20px' }} separator=":">
               {/* <Link
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}

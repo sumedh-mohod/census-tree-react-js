@@ -297,7 +297,7 @@ export default function Reports() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{ color: "#000000", fontSize: '20px', fontWeight: 700}}separator=':'>
+      <Breadcrumbs aria-label="breadcrumb" style={{ color: "#000000",  fontWeight: 900, fontSize: '20px'}}separator=':'>
         {/* <Link
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <div role="presentation" onClick={handleClick}>

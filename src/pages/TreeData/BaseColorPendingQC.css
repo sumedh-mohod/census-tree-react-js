@@ -1,12 +1,10 @@
-.wrapper {
+/* .wrapper {
 
     display: grid; 
     grid-template-columns: repeat(2,1fr); 
-    /* grid-gap: 10px;  */
+    grid-gap: 20px; 
     grid-auto-rows: 50px; 
-    border: '1px solid grey';
-    padding: '40px 20px';
-    margin-top: 15px;
+    border: '1px solid grey'
   }
   
   .wrapper_the_second{
@@ -14,16 +12,78 @@
     
     display: grid; 
     grid-template-columns: repeat(2,1fr); 
-    /* grid-gap: 10px;  */
     grid-auto-rows: 50px; 
     border: '1px solid grey'
   }
+  .one{
+    padding: '20px 20px';
+    
+  }
   .column_height{
-    height: '70px'
+    height: '90px'
+  }
+  .col1{
+    padding-top: 20px !important;
   }
  
   
 
   
 
+   */
+   .wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    /* with flexbox:
+    display: flex;
+    flex-wrap: wrap;
+    */
+  }
   
+  /* Add border bottom to all ones */
+  .one {
+    padding: 15px;
+    border-bottom: 1px solid #e9e8e8;
+    height: '120px';
+    /* with flexbox:
+    width: calc(50% - 21px);
+    */
+  }
+  .image-gallery {
+    width: 50%;
+    height: '200px';
+}
+
+.image-gallery-slide img {
+    width: 50%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: cover;
+    overflow: hidden;
+    object-position: center center;
+}
+
+.fullscreen .image-gallery-slide img {
+    max-height: 200vh;
+}
+  /* Remove border bottom from last one & from second last if its odd */
+  .one:last-child, .one:nth-last-child(2):nth-child(odd) {
+    border-bottom: none;
+  }
+ 
+  /* Add right border to every second one */
+  .one:nth-child(odd) {
+    border-right: 1px solid #e9e8e8;
+  }
+    /* .column_height{
+      height: '90px'
+    } */
+    .col1{
+      padding-top: 20px !important;
+    }
+   
+    
+  
+    
+  
+    
