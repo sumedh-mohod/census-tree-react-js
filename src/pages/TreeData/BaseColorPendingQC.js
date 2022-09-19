@@ -210,6 +210,7 @@ export default function BaseColorPendingQC() {
   //     // console.log(tree.tree_name.name)
   //     ));
   const handleDialogOpen = (id) => {
+    console.log('clicked')
     setDialogOpen(true);
     setUpdateClick(true);
     setBaseColorId(id);
@@ -326,7 +327,17 @@ export default function BaseColorPendingQC() {
 
   // console.log("ZONES",baseColorPendingQCStatus.data[0].location_accuracy);
   // console.log("WARDS",wards);
-  
+  const useStyles = makeStyles({
+    
+    button: {
+      backgroundColor: '#3c52b2',
+      color: '#fff',
+      '&:hover': {
+        backgroundColor: '#fff',
+        color: '#3c52b2',
+    },
+  }})
+  const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return showLoader ? (
@@ -334,10 +345,10 @@ export default function BaseColorPendingQC() {
       <CircularProgress color="success" />
     </div>
   ) : (
-    <Page title="User">
-      <Container>
+    <Page title="User" sx={{mt: -4}}>
+    
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-          <Container>
+          <Container sx={{pl: 0}}>
             <Typography variant="h4" gutterBottom>
               Base Color QC
               <Typography variant="h6" style={{ fontWeight: 400 }}>
@@ -351,7 +362,7 @@ export default function BaseColorPendingQC() {
             // flexDirection="row" This is the default
           >
             <Box alignSelf="center">
-              <Button
+              <Box
                 sx={{
                   // justifyContent: 'end',
                   px: 3,
@@ -362,12 +373,14 @@ export default function BaseColorPendingQC() {
                   color: '#fff',
                   fontWeight: 500,
                   width: '280px',
+                  borderRadius: '7px',
+                  textAlign: 'center'
                 }}
                 // component={RouterLink}
                 to="#"
               >
-                Total Pending Trees :<b>{totalTrees || 0}</b>
-              </Button>
+                Total Pending Trees : <b>{totalTrees || 0}</b>
+              </Box>
             </Box>
             <Box alignSelf="flex-end">
               <Button
@@ -389,7 +402,7 @@ export default function BaseColorPendingQC() {
             </Box>
           </Box>
 
-          <Box sx={{ height: '100' }}>
+          <Box sx={{ height: '100',mr: 3 }}>
             <Drawer
               sx={{
                 '& .MuiDrawer-paper': {
@@ -606,7 +619,8 @@ export default function BaseColorPendingQC() {
             </Typography>
           </Grid>
         ) : (
-          <Card style={{ height: '600px', padding: '20px 0px' }}>
+          <Container>
+                 <Card style={{ height: '600px', padding: '20px 0px' }}>
             <Container>
               <div className="wrapper">
                 <div className="one">
@@ -671,15 +685,24 @@ export default function BaseColorPendingQC() {
                       Added On : <br /> <b>{baseColorPendingQCStatus?.data[selectedIndex].added_on_date?baseColorPendingQCStatus?.data[selectedIndex].added_on_date: '-'}</b>
                     </div>
                     <div className="one">
-                      <Button style={{ backgroundColor: '#E85454', boxShadow: 'none', color: '#fff' }}>
+                    {userPermissions.includes('unapprove-base-color-tree') ? (
+                      <Button style={{ backgroundColor: '#E85454', boxShadow: 'none', color: '#fff',padding: '5px 20px' }} onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}>
                         Unapproved & Next
-                      </Button>
+                      </Button>): null}
                     </div>
                     <div className="one">
-                      <Button variant="contained" sx={{ boxShadow: 'none' }}>
+                      <Button variant="contained" sx={{ boxShadow: 'none',padding: '5px 20px' }} onClick={handleApproveNext}>
                         Approve & Next
                       </Button>
                     </div>
+                    {updateClick ? (
+                      <QcStatusDialog
+                        isOpen={updateClick}
+                        baseColorId={baseColorId}
+                        handleClose={() => handleDialogClose()}
+                        handleSubmit={(data, id) => handleQcSubmit(data, id)}
+                      />
+                    ) : null}
                   </div>
                 </div>
                 <div className="two">
@@ -687,7 +710,7 @@ export default function BaseColorPendingQC() {
                     {imageList?.map((val, index) => {
                       return (
                         <div className="one" key={index} style={{border: 'none',display: 'flex'}}>
-                          <img src={val.original} alt="gallery" height="160px" width="150px" />
+                          <img src={val.original} alt="gallery" height="160px" width="150px" style={{borderRadius: '7px'}} />
                           <button onClick={handleOpen} style={{background: 'none', border: 'none',position: 'absolute',color: '#fff'}} ><Iconify icon="eva:expand-outline" height='50px' width='50px' /></button>
                           <Modal
                             open={open}
@@ -830,8 +853,9 @@ export default function BaseColorPendingQC() {
               </Stack>
             </Grid> */}
           </Card>
+          </Container>
         )}
-      </Container>
+  
     </Page>
   );
 }
