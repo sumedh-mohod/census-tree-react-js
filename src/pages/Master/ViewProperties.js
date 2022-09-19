@@ -279,7 +279,7 @@ export default function ViewProperties() {
       </Breadcrumbs>
 
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" component="label"  startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button onClick={handleNewUserClick} disabled variant="contained" component="label"  startIcon={<Iconify icon="eva:plus-fill"  />}>
           Import Properties
           <input
             type="file"
