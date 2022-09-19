@@ -43,6 +43,10 @@ const TABLE_HEAD = [
   { id: 'role', label: 'Role', alignRight: false },
   { id: 'username', label: 'Username', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'activeTeam', label: 'Active Team', alignRight: false },
+  { id: 'activeCouncil', label: 'Active Council', alignRight: false },
+  { id: 'activeZone', label: 'Active Zone', alignRight: false },
+  { id: 'activeWard', label: 'Active Ward', alignRight: false },
   { id: 'action',  label: 'Action', alignRight: true},
 ];
 
@@ -264,7 +268,10 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                         <TableCell align="left">{option.assigned_roles}</TableCell>
                         <TableCell align="left">{option.username}</TableCell>
                         <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
-
+                        <TableCell align="left">{option.active_team?.[0]?.name? option.active_team?.[0]?.name: "-"}</TableCell>
+                        <TableCell align="left">{option.active_team?.[0]?.active_council?.[0]?.name? option.active_team?.[0]?.active_council?.[0]?.name: "-"}</TableCell>
+                        <TableCell align="left">{option.active_team?.[0]?.active_zone?.[0]?.name ? option.active_team?.[0]?.active_zone?.[0]?.name : "-"}</TableCell>
+                        <TableCell align="left">{option.active_team?.[0]?.active_ward?.[0]?.name ? option.active_team?.[0]?.active_ward?.[0]?.name: "-"}</TableCell>
                         <TableCell align="right">
                           <UserFormListMenu page={page} status={option.status} userId={option.id} userPermissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} handleUnlink={()=>handleUnlink(option.id)}/>
                         </TableCell>
