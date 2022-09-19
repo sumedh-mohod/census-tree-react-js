@@ -13,6 +13,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -26,6 +30,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_ACTIVE_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -62,6 +70,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -74,6 +86,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -138,6 +154,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_CZW_BY_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -152,6 +172,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_CZW_BY_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -195,6 +219,10 @@ const GetUserByTeam = (teamId,page,limit) => async (dispatch) => {
       payload: response.data,
     });
   } catch (e) {
+    dispatch({
+      type: GET_USERS_BY_TEAM,
+      payload: null,
+    });
     dispatch(HandleExceptionWithSecureCatch(e));
   }
 };
@@ -208,6 +236,10 @@ const SearchUserByTeam = (teamId,page,limit,search) => async (dispatch) => {
       payload: response.data,
     });
   } catch (e) {
+    dispatch({
+      type: GET_USERS_BY_TEAM,
+      payload: null,
+    });
     dispatch(HandleExceptionWithSecureCatch(e));
   }
 };
