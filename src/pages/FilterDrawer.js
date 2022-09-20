@@ -94,7 +94,7 @@ import {
 </FormControl>
 </Box>
           </Stack>
-          <Button variant="outlined" sx={{mt:25, alignContent:'center', ml:10}}>Apply</Button>
+          <Button variant="outlined" sx={{mt:25, alignContent:'center', ml:10}}  style={{boxShadow: 'none'}}>Apply</Button>
         </Container>
     );
   }

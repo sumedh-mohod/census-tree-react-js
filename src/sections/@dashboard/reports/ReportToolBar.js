@@ -16,6 +16,7 @@ import {
 // component
 import { useSelector } from 'react-redux';
 import Iconify from '../../../components/Iconify';
+import SearchImage from '../../../Assets/Search_Image.png';
 
 // ----------------------------------------------------------------------
 
@@ -88,7 +89,7 @@ export default function ReportToolBar({ numSelected, filterName, onFilterName, h
           placeholder="Search here"
           startAdornment={
             <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+              <img src={SearchImage} alt="abell" height='25' width='30' />
             </InputAdornment>
           }
         />

@@ -166,7 +166,7 @@ export default function BaseColorDialog(props) {
         </DialogContent>
         
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button autoFocus onClick={handleClose} style={{boxShadow: 'none'}}>
             Save
           </Button>
         </DialogActions>

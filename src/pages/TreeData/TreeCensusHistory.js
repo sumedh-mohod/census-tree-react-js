@@ -151,6 +151,7 @@ export default function TreeCensusHistory() {
     <Page title="User">
       <Container>
         {viewOpen ? <ViewImageDialog isOpen={viewOpen} handleClose={handleViewOpen} data={imageList} /> : null}
+        
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <div role="presentation">
             <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000' }} separator=">">

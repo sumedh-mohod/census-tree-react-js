@@ -30,11 +30,11 @@ export default function StatusButton(props) {
   return (
     <>
       {props.status === 1 ? (
-        <Button className={classes.active}>
+        <Button className={classes.active} style={{boxShadow: 'none'}}>
           <b>Active</b>
         </Button>
       ) : (
-        <Button className={classes.inactive}>
+        <Button className={classes.inactive} style={{boxShadow: 'none'}}>
           <b>Inactive</b>
         </Button>
       )}

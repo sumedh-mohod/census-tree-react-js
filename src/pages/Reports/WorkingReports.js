@@ -338,6 +338,7 @@ export default function WorkingReports(props) {
               py: 1,
               float: 'right',
               mt: -4,
+              boxShadow: 'none'
             }}
             // component={RouterLink}
             to="#"

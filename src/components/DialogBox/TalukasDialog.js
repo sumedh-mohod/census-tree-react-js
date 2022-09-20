@@ -276,7 +276,7 @@ export default function TalukasDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <Button onClick={handleSubmit}  style={{boxShadow: 'none'}}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

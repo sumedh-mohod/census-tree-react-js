@@ -372,7 +372,7 @@ export default function AssignCouncilZoneDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       />
-          <Button autoFocus onClick={handleSubmit }>
+          <Button autoFocus onClick={handleSubmit } style={{boxShadow: 'none', background: '#214c50',color: '#fff'}}>
             Save
           </Button>
         </DialogActions>

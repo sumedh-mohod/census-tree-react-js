@@ -338,7 +338,7 @@ export default function NewUI() {
       <CircularProgress color="success" />
     </div>
   ) : (
-    <Page title="Census QC" sx={{ mt: -4 }}>
+    <Page title="Census QC" sx={{ mt: -2 }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
         <Container sx={{ pl: 0 }}>
           <Typography variant="h4" gutterBottom>
@@ -397,6 +397,7 @@ export default function NewUI() {
               py: 1,
               mt: -4,
               boxShadow: 'none',
+              mr: 3,
               // backgroundColor: '#000'
             }}
             // component={RouterLink}
@@ -609,7 +610,7 @@ export default function NewUI() {
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
-                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 }}
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5,boxShadow: 'none' }}
                 >
                   Apply
                 </Button>
@@ -641,46 +642,63 @@ export default function NewUI() {
       ) : (
         <>
           <Container>
-            <Card style={{ height: '800px', padding: '20px 0px' }}>
+            <Card style={{ height: '750px', padding: '20px 0px' }}>
               <Container>
                 <div className="wrapper">
                   <div className="one">
                     <div className="wrapper">
                       <div className="one">
                         Tree Number: <br />
-                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].tree_number || '-'}</b>
+                        <Button variant="contained" sx={{ boxShadow: 'none' }}>
+                          {treeCensusPendingQCStatus?.data[selectedIndex].tree_number || '-'}
+                        </Button>
                       </div>
                       <div className="one">
                         Tree Name(Botanical Name): <br />
-                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].tree_name?.name || '-'}</b>
+                        <b>
+                          {' '}
+                          {treeCensusPendingQCStatus?.data[selectedIndex].tree_name?.name || '-'}(
+                          {treeCensusPendingQCStatus?.data[selectedIndex].tree_name?.botanical_name})
+                        </b>
                       </div>
                       <div className="one">
                         Tree Type: <br />
-                        <b>  {treeCensusPendingQCStatus?.data[selectedIndex].tree_type.tree_type || '-'}</b>
+                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].tree_type.tree_type || '-'}</b>
                       </div>
                       <div className="wrapper">
-                        <div className="one border-bottom">
+                        <div className="one border-bottom" style={{ borderBottom: '1px solid #e9e8e8' }}>
                           Location Type: <br />
                           <b>{treeCensusPendingQCStatus?.data[selectedIndex].location_type?.location_type || '-'}</b>
                         </div>
-                        <div className="one">
+                        <div className="one border-bottom">
                           LAN: <br />
-                          <b>2.40</b>
+                          <b>
+                            {' '}
+                            {treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy
+                              ? treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy
+                              : '-'}
+                          </b>
                         </div>
                       </div>
                       <div className="one">
                         Property Type: <br />
-                        <b>  {treeCensusPendingQCStatus?.data[selectedIndex].property_type
-                                ? treeCensusPendingQCStatus.data[selectedIndex].property_type?.property_type
-                                : '-'}</b>
+                        <b>
+                          {' '}
+                          {treeCensusPendingQCStatus?.data[selectedIndex].property_type
+                            ? treeCensusPendingQCStatus.data[selectedIndex].property_type?.property_type
+                            : '-'}
+                        </b>
                       </div>
                       <div className="one">
                         {' '}
                         Property Number:
                         <br />
-                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].property?.property_number
-                                ? treeCensusPendingQCStatus.data[selectedIndex].property?.property_number
-                                : '-'}</b>
+                        <b>
+                          {' '}
+                          {treeCensusPendingQCStatus?.data[selectedIndex].property?.property_number
+                            ? treeCensusPendingQCStatus.data[selectedIndex].property?.property_number
+                            : '-'}
+                        </b>
                       </div>
                       <div className="one">
                         Owner Name: <br />
@@ -694,62 +712,96 @@ export default function NewUI() {
                       <div className="one">
                         {' '}
                         Added By: <br />
-                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.first_name}{' '}
-                              {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.last_name}</b>
+                        <b>
+                          {' '}
+                          {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.first_name}{' '}
+                          {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.last_name}
+                        </b>
                       </div>
                       <div className="one">
                         Added On : <br />
                         <b> {treeCensusPendingQCStatus?.data[selectedIndex].added_on_date || '-'}</b>
                       </div>
                       <div className="wrapper">
-                        <div className="one">
+                        <div className="one border-bottom">
                           Girth : <br />
                           <b>{treeCensusPendingQCStatus?.data[selectedIndex].girth || '-'}</b>
                         </div>
-                        <div className="one">
+                        <div className="one border-bottom">
                           Canopy : <br />
                           <b> {treeCensusPendingQCStatus?.data[selectedIndex].canopy || '-'}</b>
                         </div>
                       </div>
                       <div className="wrapper">
-                        <div className="one">
-                          Height : <br /> <b>  {treeCensusPendingQCStatus?.data[selectedIndex].height || '-'}</b>
+                        <div className="one border-bottom border-left">
+                          Height : <br /> <b> {treeCensusPendingQCStatus?.data[selectedIndex].height || '-'}</b>
                         </div>
-                        <div className="one">
-                          Area(sq.Fit) : <br /> <b> {treeCensusPendingQCStatus?.data[selectedIndex].property?.area
-                                ? treeCensusPendingQCStatus.data[selectedIndex].property.area
-                                : '-'}</b>
+                        <div className="one border-bottom">
+                          Area(sq.Fit) : <br />{' '}
+                          <b>
+                            {' '}
+                            {treeCensusPendingQCStatus?.data[selectedIndex].property?.area
+                              ? treeCensusPendingQCStatus.data[selectedIndex].property.area
+                              : '-'}
+                          </b>
                         </div>
                       </div>
 
                       <div className="one">
-                        Tree Conditions : <br /> <b>{treeCensusPendingQCStatus?.data[selectedIndex].tree_condition.condition || '-'} </b>
+                        Tree Conditions : <br />{' '}
+                        <b>{treeCensusPendingQCStatus?.data[selectedIndex].tree_condition.condition || '-'} </b>
                       </div>
                       <div className="one">
-                        Plantation Date : <br /> <b>{treeCensusPendingQCStatus?.data[selectedIndex].plantation_date || '-'}</b>
+                        Plantation Date : <br />{' '}
+                        <b>{treeCensusPendingQCStatus?.data[selectedIndex].plantation_date || '-'}</b>
                       </div>
                       <div className="one">
                         <Button
-                        onClick={handleDialogOpen}
-                          style={{ backgroundColor: '#E85454', boxShadow: 'none', color: '#fff', padding: '5px 20px' }}
+                          onClick={handleDialogOpen}
+                          style={{
+                            backgroundColor: '#E85454',
+                            boxShadow: 'none',
+                            width: '100%',
+                            color: '#fff',
+                            padding: '5px 20px',
+                          }}
                         >
                           Unapproved & Next
                         </Button>
                       </div>
                       <div className="one">
-                        <Button variant="contained" sx={{ boxShadow: 'none', padding: '5px 20px' }} onClick={handleApproveNext}>
-                          Approve & Next
+                        <Button
+                          onClick={handleReferToExpert}
+                          sx={{
+                            boxShadow: 'none',
+                            width: '100%',
+                            padding: '5px 20px',
+                            alignContent: 'center',
+                            backgroundColor: '#E8762F',
+                            color: '#fff',
+                          }}
+                        >
+                          Refer To An Expert
                         </Button>
                       </div>
-                      <div className="wrapper" style={{marginTop: '20px'}}>
-                        <Button variant="contained" onClick={handleReferToExpert} sx={{ boxShadow: 'none', padding: '5px 20px',alignContent: 'center' }}>
-                        Refer To Expert
-                        </Button>
-                      </div>
+                      {updateClick ? (
+                      <TreeDetailsDialog
+                        isOpen={updateClick}
+                        handleClose={handleDialogClose}
+                        data={treeCensusPendingQCStatus.data[selectedIndex]}
+                      />
+                    ) : null}
+                      {/* <div className="wrapperb" style={{marginTop: '20px'}}>
+                     
+                      </div> */}
                     </div>
-                    
+                    <Container style={{ paddingLeft: '15px', paddingRight: '15px' }}>
+                      <Button variant="contained" sx={{ boxShadow: 'none', width: '100%' }} onClick={handleApproveNext}>
+                        Approve & Next
+                      </Button>
+                    </Container>
                   </div>
-                  
+
                   <div className="two">
                     <div className="wrappera">
                       {/* <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} /> */}
@@ -785,18 +837,31 @@ export default function NewUI() {
                     </div>
                     <div className="wrapper" style={{ border: 'none' }}>
                       <div className="one" style={{ border: 'none' }}>
-                        <table  className='bor'>
-                          <tr className='border-bottom'>
-                            <th style={{ textAlign: 'center', padding: '4px' }} className='border-bottom'>#</th>
-                            <th style={{ textAlign: 'center', padding: '4px' }} className='border-bottom'>Tree Number</th>
-                            <th style={{ textAlign: 'center', padding: '4px' }} className='border-bottom'> Name</th>
+                        <table className="bor" style={{ marginLeft: '30px' }}>
+                          <tr className="border-bottom">
+                            <th style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
+                              #
+                            </th>
+                            <th style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
+                              Tree Number
+                            </th>
+                            <th style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
+                              {' '}
+                              Name
+                            </th>
                           </tr>
 
                           {treeCensusPendingQCStatus?.data?.map((tree, index) => (
-                            <tr>
-                              <td style={{ textAlign: 'center', padding: '4px' }} className='border-bottom'><b>{index + 1}</b></td>
-                              <td style={{ textAlign: 'center', padding: '4px' }} className='border-bottom'><b>{tree.tree_number}</b></td>
-                              <td style={{ textAlign: 'center', padding: '4px' }} className='border-bottom'>{tree.tree_name.name}</td>
+                            <tr style={{backgroundColor:index===selectedIndex?"#dddbdb":""}}>
+                              <td style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
+                                <b>{index + 1}</b>
+                              </td>
+                              <td style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
+                                <b>{tree.tree_number}</b>
+                              </td>
+                              <td style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
+                                {tree.tree_name.name}
+                              </td>
                             </tr>
                           ))}
                         </table>

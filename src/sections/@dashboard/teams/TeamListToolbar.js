@@ -97,7 +97,7 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
             <Iconify icon="ic:round-filter-list" />
           </IconButton>
         </Tooltip>
-           <Grid item xs={2.7} justifyContent="flex-end">
+           <Grid item sm={2.7} justifyContent="flex-end">
            
             <Select
                 id="state"
@@ -130,7 +130,7 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 ))}
               </Select>
               </Grid>
-              <Grid item xs={2} justifyContent="flex-end">
+              <Grid item sm={2} justifyContent="flex-end">
               <Select
                 id="state"
                 displayEmpty
@@ -152,7 +152,7 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 )):null}
               </Select>
               </Grid>
-              <Grid item xs={2} justifyContent="flex-end">
+              <Grid item sm={2} justifyContent="flex-end">
               <Select
                 id="state"
                 displayEmpty

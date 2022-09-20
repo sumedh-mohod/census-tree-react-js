@@ -13,6 +13,7 @@ import {
   Pagination,
   Link,
   IconButton,
+  Button,
   Breadcrumbs,
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
@@ -160,7 +161,36 @@ export default function BaseColorHistory() {
         />:null
         }
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <div role="presentation"  >
+        <div role="presentation" >
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000", fontWeight: 700, fontSize: '25px'}} separator=':'>
+      <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+      Tree Data
+          </Typography>
+      <Typography variant="h4" gutterBottom style={{color: "#000000",fontWeight: 400}}>
+        <Link 
+        component={RouterLink}
+        to={`/dashboard/base-color`}
+        state={state}
+          underline="hover"
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          // href="#"
+        >
+       Base Color
+              
+        </Link>
+        </Typography>
+        <Typography variant="h4" gutterBottom style={{color: "#000000", fontWeight: 400}}>
+        History
+        </Typography>
+        
+      </Breadcrumbs>
+      <Typography variant="h6" style={{ fontWeight: 400,marginTop: '-8px' }}>
+              It is showing list of tree data with its details
+            </Typography>
+    </div>
+         
+        {/* <div role="presentation"  >
         <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}}separator='>'>
         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         Tree Data
@@ -177,43 +207,11 @@ export default function BaseColorHistory() {
         Base Color
         </Link>
         </Typography>
-        {/* {baseColorName=== 'undefined' ? null : 
-        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-        <Link
-          component={RouterLink}
-          to={`/dashboard/base-color`}
-          underline="hover"
-          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          {baseColorName}
-              
-        </Link>
-        </Typography>
-        } */}
-        {/* <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Base Color
-        </Link>
-        {baseColorName=== 'undefined' ? null : 
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          {baseColorName}
-              
-        </Link>} */}
+       
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>  History</Typography>
       </Breadcrumbs>
 
-    </div>
+    </div> */}
         </Stack>
 
         <Card>

@@ -25,7 +25,7 @@ import { useFormik } from 'formik';
 import { GetUsers } from '../../../actions/UserAction';
 import { AddUserToTeam } from '../../../actions/TeamsAction';
 import { GetQcRemarksForBaseColor } from '../../../actions/BaseColorAction';
-import ViewImageDialog from './ViewImageDialog'
+import ViewImageDialog from './ViewImageDialog';
 import Iconify from '../../Iconify';
 // import Typography from 'src/theme/overrides/Typography';
 
@@ -59,105 +59,92 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CensusViewDetailsDialog(props) {
-
   const dispatch = useDispatch();
-  const { isOpen, data, isOpenConfirm,teamId } = props;
+  const { isOpen, data, isOpenConfirm, teamId } = props;
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
-  const[state, setState]=  React.useState('');
+  const [state, setState] = React.useState('');
   const [role, setRole] = React.useState([]);
   const [topModalOpen, setTopModalOpen] = React.useState(false);
-  const [reqObj, setReqObj] = React.useState(null)
+  const [reqObj, setReqObj] = React.useState(null);
   const [id, setId] = React.useState(null);
-  const [viewOpen, setViewOpen ] = React.useState(false);
-  const [imageList,setImageList] = React.useState([]);
+  const [viewOpen, setViewOpen] = React.useState(false);
+  const [imageList, setImageList] = React.useState([]);
   // console.log("data",props);
-//   const {
-//     baseColorRemarks,
-//     updateQCStatusLog,
-//     updateCensusQCStatusLog,
-//   } = useSelector((state) => ({
-//     baseColorRemarks:state.baseColor.baseColorRemarks,
-//     updateQCStatusLog:state.baseColor.updateQCStatusLog,
-//     updateCensusQCStatusLog:state.treeCensus.updateQCStatusLog,
-//   }));
+  //   const {
+  //     baseColorRemarks,
+  //     updateQCStatusLog,
+  //     updateCensusQCStatusLog,
+  //   } = useSelector((state) => ({
+  //     baseColorRemarks:state.baseColor.baseColorRemarks,
+  //     updateQCStatusLog:state.baseColor.updateQCStatusLog,
+  //     updateCensusQCStatusLog:state.treeCensus.updateQCStatusLog,
+  //   }));
 
-//   const firstRun = React.useRef(true);
-//   React.useEffect(()=>{
-//     if (firstRun.current) {
-//       firstRun.current = false;
-//       return;
-//     }
-//     console.log("INSIDE USEEFFECT");
-//     console.log(localStorage.getItem("token"))
-//     props.handleClose()
-//   },[updateQCStatusLog, updateCensusQCStatusLog])
+  //   const firstRun = React.useRef(true);
+  //   React.useEffect(()=>{
+  //     if (firstRun.current) {
+  //       firstRun.current = false;
+  //       return;
+  //     }
+  //     console.log("INSIDE USEEFFECT");
+  //     console.log(localStorage.getItem("token"))
+  //     props.handleClose()
+  //   },[updateQCStatusLog, updateCensusQCStatusLog])
 
-//   React.useEffect(()=>{
-//     dispatch(GetQcRemarksForBaseColor("Base Color"))
-//   },[])
-
+  //   React.useEffect(()=>{
+  //     dispatch(GetQcRemarksForBaseColor("Base Color"))
+  //   },[])
 
   const handleClose = () => {
     props.handleClose();
   };
 
   const handleViewOpen = (images) => {
-    setViewOpen(!viewOpen)
+    setViewOpen(!viewOpen);
     setImageList(images || []);
     // console.log("viewDetals")
-  }
+  };
 
   // const handleViewImage = (data) => {
   //   // eslint-disable-next-line no-unused-expressions
   //   data.iamges
   // }
 
+  //   const handleMaxWidthChange = (event) => {
+  //     setMaxWidth(
+  //       // @ts-expect-error autofill of arbitrary value is not handled.
+  //       event.target.value,
+  //     );
+  //   };
 
+  //   const DistrictsSchema = Yup.object().shape({
+  //     remark: Yup.string().required("Remark is required"),
+  //   });
 
-//   const handleMaxWidthChange = (event) => {
-//     setMaxWidth(
-//       // @ts-expect-error autofill of arbitrary value is not handled.
-//       event.target.value,
-//     );
-//   };
+  //   const formik = useFormik({
+  //     enableReinitialize: true,
+  //     initialValues: {
+  //       remark:"",
 
+  //     },
+  //     validationSchema: DistrictsSchema,
+  //     onSubmit: (value) => {
+  //         props.handleSubmit(value.remark,props.baseColorId)
+  //     },
+  //   });
 
-//   const DistrictsSchema = Yup.object().shape({
-//     remark: Yup.string().required("Remark is required"),
-//   });
+  //   const { errors, touched, values, isSubmitting, handleSubmit,getFieldProps} = formik;
 
-
-//   const formik = useFormik({
-//     enableReinitialize: true,
-//     initialValues: {
-//       remark:"",
-      
-//     },
-//     validationSchema: DistrictsSchema,
-//     onSubmit: (value) => {
-//         props.handleSubmit(value.remark,props.baseColorId)
-//     },
-//   });
-
-//   const { errors, touched, values, isSubmitting, handleSubmit,getFieldProps} = formik;
-
-
-// console.log("hii", isOpen, props.data);
+  // console.log("hii", isOpen, props.data);
 
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Open max-width dialog
       </Button> */}
-        {viewOpen?
-    <ViewImageDialog
-    isOpen={viewOpen}
-    handleClose = {handleViewOpen}
-    data={imageList}
-    />:null
-    }
+      {viewOpen ? <ViewImageDialog isOpen={viewOpen} handleClose={handleViewOpen} data={imageList} /> : null}
       <Dialog
         fullWidth={fullWidth}
         maxWidth={maxWidth}
@@ -165,129 +152,181 @@ export default function CensusViewDetailsDialog(props) {
         // onClose={handleClose}
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle >View Details</BootstrapDialogTitle>
-        <Divider/>
+        <BootstrapDialogTitle>View Details</BootstrapDialogTitle>
+        <Divider />
         <DialogContent>
-{data?
+          {data ? (
             <div>
-              <table style={{ fontFamily: "arial, sans-serif",
-  borderCollapse: "collapse",
-  width: "100%"}}>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Location Type</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.location_type?.location_type}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Accuracy Captured</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.location_accuracy}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Type</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property_type?.property_type}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Number</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_number}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Owner</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property?.owner_name}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Address</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data?.property?.address? props.data?.property?.address: "-"}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Property Number</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data?.property?.property_number? props.data?.property?.property_number: "-"}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tenant Name </td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.property?.tenant_name}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Area(sq feet)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data?.property?.area}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Type</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_type.tree_type}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Name(local)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_name.name}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Name(Botanical)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_name.botanical_name}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Girth(cm)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.girth}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Height(Feet)</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.height}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Canopy</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.canopy}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Tree Condition</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_condition?.condition}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Disease</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.tree_disease?.tree_disease ? props.data.tree_disease?.tree_disease: "-"}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Plantation Date</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.plantation_date}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Referred To Expert?</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.referred_to_expert===1 ? "Yes" : "No"}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Action Need To Be Taken</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.action_need ? props.data.action_need: "-"}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Images</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}><IconButton onClick={()=>handleViewOpen(props.data.images)}>
-        <Iconify icon="clarity:eye-show-line" color="green" width={24} style={{marginTop: 5}} />
-        </IconButton></td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Added By</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.added_by?.first_name? props.data.added_by?.first_name: "-"} {props.data.added_by?.last_name? props.data.added_by?.last_name: "-"} </td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Updated By</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{props.data.updated_by?.first_name? props.data.updated_by?.first_name: "-"} {props.data.updated_by?.last_name? props.data.updated_by?.last_name: "-"}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>QC Status</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.qc_status}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Qc By</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.qc_by?props.data.qc_by.first_name: "-"} {" "} {data?.qc_by?props.data.qc_by.last_name: "-"}</td>
-  </tr>
-  <tr>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>Qc On Date</td>
-    <td style={{border: "1px solid #dddddd",  textAlign: "left",  padding: "8px"}}>{data?.qc_date? props.data.qc_date: "-"}</td>
-  </tr>
-  </table>
-  </div>
-            : null}
+              <table style={{ fontFamily: 'arial, sans-serif', borderCollapse: 'collapse', width: '100%' }}>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Location Type</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.location_type?.location_type}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Accuracy Captured</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.location_accuracy}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Property Type</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.property_type?.property_type}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Tree Number</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.tree_number}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Property Owner</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.property?.owner_name}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Property Address</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {props.data?.property?.address ? props.data?.property?.address : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Property Number</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {props.data?.property?.property_number ? props.data?.property?.property_number : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Tenant Name </td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.property?.tenant_name}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Area(sq feet)</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {props.data?.property?.area}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Tree Type</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.tree_type.tree_type}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Tree Name(local)</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.tree_name.name}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    Tree Name(Botanical)
+                  </td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.tree_name.botanical_name}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Girth(cm)</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>{data?.girth}</td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Height(Feet)</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>{data?.height}</td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Canopy</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>{data?.canopy}</td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Tree Condition</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.tree_condition?.condition}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Disease</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.tree_disease?.tree_disease ? props.data.tree_disease?.tree_disease : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Plantation Date</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.plantation_date}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    Referred To Expert?
+                  </td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.referred_to_expert === 1 ? 'Yes' : 'No'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    Action Need To Be Taken
+                  </td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.action_need ? props.data.action_need : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Images</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    <IconButton onClick={() => handleViewOpen(props.data.images)}>
+                      <Iconify icon="clarity:eye-show-line" color="green" width={24} style={{ marginTop: 5 }} />
+                    </IconButton>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Added By</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {props.data.added_by?.first_name ? props.data.added_by?.first_name : '-'}{' '}
+                    {props.data.added_by?.last_name ? props.data.added_by?.last_name : '-'}{' '}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Updated By</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {props.data.updated_by?.first_name ? props.data.updated_by?.first_name : '-'}{' '}
+                    {props.data.updated_by?.last_name ? props.data.updated_by?.last_name : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>QC Status</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>{data?.qc_status}</td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Qc By</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.qc_by ? props.data.qc_by.first_name : '-'} {data?.qc_by ? props.data.qc_by.last_name : '-'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Qc On Date</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
+                    {data?.qc_date ? props.data.qc_date : '-'}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          ) : null}
         </DialogContent>
-        <Divider/>
+        <Divider />
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={handleClose} style={{boxShadow: 'none',background: '#E85454', color: '#fff'}}>
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
-      </div>
+    </div>
   );
 }

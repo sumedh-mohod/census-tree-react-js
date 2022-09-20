@@ -36,6 +36,7 @@ import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import { GetAllTreeLocation } from '../../actions/TreeOnMapAction';
 import {GetActiveCouncil} from '../../actions/CouncilAction';
+import Iconify from '../../components/Iconify';
 
 export default function TreeOnMap(props) {
 
@@ -165,12 +166,26 @@ export default function TreeOnMap(props) {
           Open max-width dialog
         </Button> */}
         <Container>
-         {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}> */}
+       
+         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
           Trees On Map
+          <Typography variant="h6" style={{ fontWeight: 400 }}>
+              It is showing trees on the map
+            </Typography>
           </Typography>
-          {/* </Stack> */}
           <Button
+             onClick={toggleDrawer("right", true)} 
+            variant="contained"
+            to="#"
+            style={{boxShadow: 'none'}}
+            startIcon={<Iconify icon="eva:funnel-fill" />}
+          >
+            Filter
+          </Button>
+          </Stack>
+          
+          {/* <Button
            variant='outlined'
             sx={{justifyContent:'end', display:'flex', position: 'fixed',right: 0,top:'100px',border:'2px solid black',backgroundColor:'black',zIndex:'999', 
             "&.MuiButtonBase-root:hover": {
@@ -182,7 +197,7 @@ export default function TreeOnMap(props) {
            
           >
         <FilterAltRoundedIcon sx={{color:'white'}} />
-          </Button> 
+          </Button>  */}
           <Drawer
            sx= {
             {
@@ -350,8 +365,8 @@ export default function TreeOnMap(props) {
                 error={Boolean(touched.treeNumber && errors.treeNumber)}
                 helperText={touched.treeNumber && errors.treeNumber}
               />
-            <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:20}}>
-            Get Data
+            <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:20,boxShadow: 'none'}}>
+            Apply
 
           </Button>
 

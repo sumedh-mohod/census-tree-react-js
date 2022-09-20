@@ -326,6 +326,7 @@ export default function TeamsList() {
             variant="contained"
             component={RouterLink}
             to="#"
+            style={{boxShadow: 'none'}}
             // startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Add Team

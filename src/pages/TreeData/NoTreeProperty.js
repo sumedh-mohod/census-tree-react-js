@@ -285,7 +285,7 @@ export default function NoTreeProperty() {
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
                         <TableCell align="left">{option.property?.area ? option.property?.area: "-"}</TableCell>
                         <TableCell align="left">
-                        <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
+                        <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)}   sx={{color: '#214c50'}}>
                             <Visibility />
                           </IconButton>
                           </TableCell>

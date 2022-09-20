@@ -335,9 +335,10 @@ export default function BaseColorPendingQC() {
       <CircularProgress color="success" />
     </div>
   ) : (
-    <Page title="User" sx={{ mt: -4 }}>
+    <Page title="User" sx={{ mt: -2 }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-        <Container sx={{ pl: 0 }}>
+        <Container sx={{ pl: 0 }}
+        xs={12}>
           <Typography variant="h4" gutterBottom>
             Base Color QC
             <Typography variant="h6" style={{ fontWeight: 400 }}>
@@ -348,6 +349,7 @@ export default function BaseColorPendingQC() {
         <Box
           display="flex"
           alignItems="flex-start"
+          xs={12}
           // flexDirection="row" This is the default
         >
           <Box alignSelf="center">
@@ -391,7 +393,7 @@ export default function BaseColorPendingQC() {
           </Box>
         </Box>
 
-        <Box sx={{ height: '100', mr: 3 }}>
+        <Box sx={{ height: '100', mr: 3 }} xs={12}>
           <Drawer
             sx={{
               '& .MuiDrawer-paper': {
@@ -577,7 +579,7 @@ export default function BaseColorPendingQC() {
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
-                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 }}
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5, boxShadow: 'none'}}
                 >
                   Apply
                 </Button>

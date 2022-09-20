@@ -208,7 +208,7 @@ export default function CreateNameOfTree() {
               component={RouterLink}
               to="#"
               // startIcon={<Iconify icon="eva:plus-fill" />}
-                sx={{float: 'right', mt: -4}}
+                sx={{float: 'right', mt: -4,boxShadow: 'none'}}
             >
               Add Tree Name
             </Button>

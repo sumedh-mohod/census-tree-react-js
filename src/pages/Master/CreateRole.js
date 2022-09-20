@@ -186,6 +186,7 @@ export default function CreateRole() {
     <Page title="User">
       <Container >
         {open ? <CreateRoleDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        <Scrollbar>
         {userPermissions.includes('create-role') ? (
             <Button
               onClick={handleNewUserClick}
@@ -193,7 +194,7 @@ export default function CreateRole() {
               component={RouterLink}
               to="#"
               // startIcon={<Iconify icon="eva:plus-fill" />}
-               sx={{float: 'right', mt: -4}}
+               sx={{float: 'right',boxShadow: 'none'}}
             >
               Add Role
             </Button>
@@ -208,7 +209,7 @@ export default function CreateRole() {
         </div>
          
         </Stack>
-        
+        </Scrollbar>
         <Card>
           <UserListToolbar numSelected={0} placeHolder={'Search role...'} onFilterName={filterByName} />
           <Scrollbar>

@@ -386,7 +386,7 @@ const BootstrapDialogTitle = (props) => {
            </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button onClick={handleSubmit}  style={{boxShadow: 'none'}}>Save</Button>
         </DialogActions>
       </Dialog>
         //   <Button

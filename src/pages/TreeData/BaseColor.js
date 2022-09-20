@@ -387,7 +387,7 @@ export default function BaseColor() {
                                 aria-label="delete"
                                 size="large"
                                 onClick={() => handleViewOpen(option.images)}
-                                color="success"
+                                sx={{color: '#214c50'}}
                               >
                                 <Visibility />
                               </IconButton>

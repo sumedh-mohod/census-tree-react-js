@@ -101,7 +101,7 @@ export default function TypeOfHouseDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleClose} style={{boxShadow: 'none'}}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

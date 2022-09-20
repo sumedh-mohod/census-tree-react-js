@@ -288,7 +288,7 @@ export default function DeniedEntry() {
                         <TableCell align="left">{option.property?.property_number?option.property?.property_number:"-"}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
                         <TableCell align="left">
-                        <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
+                        <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)}   sx={{color: '#214c50'}}>
                             <Visibility />
                           </IconButton>
                           </TableCell>

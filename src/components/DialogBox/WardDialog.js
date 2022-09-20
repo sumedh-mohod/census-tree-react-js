@@ -153,7 +153,7 @@ export default function WardDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <Button variant="contained" onClick={handleSubmit} style={{boxShadow: 'none'}}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

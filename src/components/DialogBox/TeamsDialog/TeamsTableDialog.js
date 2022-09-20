@@ -194,7 +194,6 @@ export default function TeamsTableDialog(props) {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <DefaultInput
-                fullWidth
                 id="name"
                 name="name"
                 autoComplete="teamName"
@@ -211,7 +210,6 @@ export default function TeamsTableDialog(props) {
               />
                <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{teamNameError}</Typography>
               <DefaultInput
-                fullWidth
                 id="code"
                 autoComplete="teamCode"
                 label="Team Code*"
@@ -259,7 +257,7 @@ export default function TeamsTableDialog(props) {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={handleSubmit}>
+          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={handleSubmit} style={{background: '#214c50',color: '#fff'}} >
             {data ? `Save` : `Add`}
           </LoadingButton>
         </DialogActions>

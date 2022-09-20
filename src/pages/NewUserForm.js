@@ -26,6 +26,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
 import moment from 'moment';
+import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Iconify from '../components/Iconify';
@@ -1340,8 +1341,13 @@ const handleSubmitErrors = () =>{
       }
       setTopModalOpen(!topModalOpen)
     }
-  
-  
+    const useStyles = makeStyles({
+      icon: {
+        fill: '#214c50',
+    },
+    });
+    const classes = useStyles();
+    
     return (
        showLoader ?
       <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
@@ -1373,6 +1379,11 @@ const handleSubmitErrors = () =>{
               displayEmpty
               style={{width:'93.8%', marginLeft: 40,marginTop:5}}
               // onChange={handleRoleChange}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               onChange={(e) => {
                 handleRoleChange(e)
                 formik.handleChange(e);
@@ -1422,7 +1433,7 @@ const handleSubmitErrors = () =>{
            Basic Details
           </Typography>
             <Grid container spacing={1}>
-            <Grid item xs={6}>
+            <Grid item sm={6}>
                 <DefaultInput
                   // fullWidth
                    style={{width: '10%'}}
@@ -1441,7 +1452,7 @@ const handleSubmitErrors = () =>{
                 />
                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{firstNameError}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="middleName"
@@ -1459,7 +1470,7 @@ const handleSubmitErrors = () =>{
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="lastName"
@@ -1476,7 +1487,7 @@ const handleSubmitErrors = () =>{
                 />
                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{lastNameError}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="mobile"
@@ -1495,7 +1506,7 @@ const handleSubmitErrors = () =>{
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput 
                 fullWidth 
                 id="email" 
@@ -1513,7 +1524,7 @@ const handleSubmitErrors = () =>{
                  <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{emailError}</Typography>
               </Grid>
 
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="addressLine1"
@@ -1531,7 +1542,7 @@ const handleSubmitErrors = () =>{
               
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="addressLine2"
@@ -1544,7 +1555,7 @@ const handleSubmitErrors = () =>{
                 {...getFieldProps("addressLine2")}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput 
                 fullWidth 
                 id="city" 
@@ -1562,7 +1573,7 @@ const handleSubmitErrors = () =>{
                   <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{cityError}</Typography>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <TextField
                 select
                 id="states"
@@ -1577,7 +1588,11 @@ const handleSubmitErrors = () =>{
                   formik.handleChange(e);
                 }}
                 // placeholder='*Select District'
-              
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 error={Boolean(touched.states && errors.states)}
                 helperText={touched.states && errors.states}
                 
@@ -1594,7 +1609,7 @@ const handleSubmitErrors = () =>{
               
               </Grid>
 
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <TextField
                 
                 select
@@ -1610,7 +1625,11 @@ const handleSubmitErrors = () =>{
                 value={district}
                 style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                 // placeholder='*Select District'
-              
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 error={Boolean(touched.district && errors.district)}
                 helperText={touched.district && errors.district}
                 // {...getFieldProps("district")}
@@ -1631,7 +1650,7 @@ const handleSubmitErrors = () =>{
 
               <Grid container spacing={1} style={{marginTop: 5}}>
 
-                <Grid item xs={6}>
+                <Grid item sm={6}>
                 <TextField
                 select
                 id="taluka"
@@ -1640,7 +1659,11 @@ const handleSubmitErrors = () =>{
                 label="Taluka"
                 style={{width:'93.8%', marginLeft: 45,marginTop:5}}
                 // placeholder='*Select District'
-              
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 error={Boolean(touched.taluka && errors.taluka)}
                 helperText={touched.taluka && errors.taluka}
                 {...getFieldProps("taluka")}
@@ -1658,7 +1681,7 @@ const handleSubmitErrors = () =>{
 
                 {showCouncil?
                 
-                <Grid item xs={6}>
+                <Grid item sm={6}>
                 <TextField
                   select
                   id="council"
@@ -1667,18 +1690,23 @@ const handleSubmitErrors = () =>{
                   displayEmpty
                   defaultValue={data? data.district : ""}
                   value={district}
-                  style={{width:'93.8%', marginLeft: 40,marginTop:5}}
+                  style={{width:'93.8%', marginLeft: 40,marginTop:5,color: '#214C50'}}
                   placeholder='Select Council*'
-                
+                  inputProps={{
+                    classes: {
+                        icon: classes.icon,
+                    },
+                }}
                   error={Boolean(touched.council && errors.council)}
                 helperText={touched.council && errors.council}
                 {...getFieldProps("council")}
+
                 >
                    <MenuItem disabled value="">
                 <em>Council*</em>
               </MenuItem>
                   {council?.map((option) => (
-                    <MenuItem key={option.id} value={option.id}>
+                    <MenuItem key={option.id} value={option.id} >
                       {option.name}
                     </MenuItem>
                   ))}
@@ -1700,7 +1728,7 @@ const handleSubmitErrors = () =>{
           </Typography>
               <Grid container spacing={1} style={{marginTop: 5}}>
             
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="aadhaarNumber"
@@ -1719,7 +1747,7 @@ const handleSubmitErrors = () =>{
                 />
                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{aadharError}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="education"
@@ -1734,7 +1762,7 @@ const handleSubmitErrors = () =>{
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <TextField
                 id="dob"
                 name='dob'
@@ -1760,7 +1788,7 @@ const handleSubmitErrors = () =>{
               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{dobError}</Typography>
               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{dateLimitError}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <TextField
                 select
                 id="religion"
@@ -1788,7 +1816,7 @@ const handleSubmitErrors = () =>{
       </Grid>
       </Grid>
       <Grid container spacing={1} style={{marginTop: 5}}>
-      <Grid item xs={6}>
+      <Grid item sm={6}>
           <DefaultInput
                   fullWidth
                   id="caste"
@@ -1805,7 +1833,7 @@ const handleSubmitErrors = () =>{
                 />
                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{casteError}</Typography>
       </Grid>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <TextField
                 select
                 id="diffentlyAbled"
@@ -1831,7 +1859,7 @@ const handleSubmitErrors = () =>{
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <TextField
                 select
                 id="bloodgrp"
@@ -1856,7 +1884,7 @@ const handleSubmitErrors = () =>{
                 ))}
               </TextField>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <DefaultInput
                   fullWidth
                   id="emergencyContactName"
@@ -1875,7 +1903,7 @@ const handleSubmitErrors = () =>{
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <DefaultInput
                   fullWidth
                   id="emergencyContactNumber"
@@ -1898,7 +1926,7 @@ const handleSubmitErrors = () =>{
             Joining and Salary Details:
           </Typography>
           <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <TextField
       id="dateOfJoining"
       name="dateOfJoining"
@@ -1914,7 +1942,7 @@ const handleSubmitErrors = () =>{
       }}
     />
     </Grid>
-    <Grid item xs={6}>
+    <Grid item sm={6}>
     <TextField
                 select
                 id="designation"
@@ -1942,7 +1970,7 @@ const handleSubmitErrors = () =>{
               </Grid>
                  </Grid>
                  <Grid container spacing={1} style={{marginTop: 5}}>
-                   <Grid item xs={6}>
+                   <Grid item sm={6}>
                  <DefaultInput
                   fullWidth
                   id="salaryPerMonth"
@@ -1961,7 +1989,7 @@ const handleSubmitErrors = () =>{
                 />
                  <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{salaryPerMonthError}</Typography>
                 </Grid>
-                 <Grid item xs={6}>
+                 <Grid item sm={6}>
                 <TextField
                 select
                 id="referredBy"
@@ -1991,7 +2019,7 @@ const handleSubmitErrors = () =>{
                 {editUser?(
                   <>
                 <Grid container spacing={1} style={{marginTop: 5}}>
-                   <Grid item xs={6}>
+                   <Grid item sm={6}>
                  {/* <DefaultInput
                   fullWidth
                   id="lastDayOfWork"
@@ -2021,7 +2049,7 @@ const handleSubmitErrors = () =>{
                  />
                 </Grid>
                 {lastDayOfWork || values.lastDayOfWork ?  ( <>
-                <Grid item xs={6}>
+                <Grid item sm={6}>
           
               <TextField
                 select
@@ -2058,7 +2086,7 @@ const handleSubmitErrors = () =>{
                 </>
                 ):null}
                 <Grid container spacing={1} style={{marginTop: 5}}>
-                   <Grid item xs={6}>
+                   <Grid item sm={6}>
                  <DefaultInput
                   fullWidth
                   id="note"
@@ -2076,7 +2104,7 @@ const handleSubmitErrors = () =>{
             Bank Details
           </Typography>
           <Grid container spacing={1} style={{marginTop: 5}}>
-          <Grid item xs={6}>
+          <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="bankName"
@@ -2093,7 +2121,7 @@ const handleSubmitErrors = () =>{
                 />
                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{bankNameError}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="accountNumber"
@@ -2113,7 +2141,7 @@ const handleSubmitErrors = () =>{
               </Grid>
               </Grid>
               <Grid container spacing={1} style={{marginTop: 5}}>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                 
                   fullWidth
@@ -2132,7 +2160,7 @@ const handleSubmitErrors = () =>{
                 
               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{ifscCodeError}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item sm={6}>
                 <DefaultInput
                   fullWidth
                   id="panCardNumber"
@@ -2157,7 +2185,7 @@ const handleSubmitErrors = () =>{
            Login Details
           </Typography>
           <Grid container spacing={1} style={{marginTop: 5}}>
-          <Grid item xs={6}>
+          <Grid item sm={6}>
               <DefaultInput
                   fullWidth
                   id="userName"
@@ -2172,7 +2200,7 @@ const handleSubmitErrors = () =>{
               </Grid>{
                 editUser?
 
-                <Grid item xs={6}>
+                <Grid item sm={6}>
               <TextField
                   fullWidth
                   id="password"
@@ -2185,7 +2213,7 @@ const handleSubmitErrors = () =>{
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={handleShowPassword} edge="end">
+                        <IconButton onClick={handleShowPassword} edge="end" style={{color: '#214C50'}}>
                           <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
                         </IconButton>
                       </InputAdornment>
@@ -2199,7 +2227,7 @@ const handleSubmitErrors = () =>{
 
                 :
              
-              <Grid item xs={6}>
+              <Grid item sm={6}>
               <TextField
                   fullWidth
                   id="password"
@@ -2213,7 +2241,7 @@ const handleSubmitErrors = () =>{
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={handleShowPassword} edge="end">
+                        <IconButton onClick={handleShowPassword} edge="end" style={{color: '#214C50'}}>
                           <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
                         </IconButton>
                       </InputAdornment>
@@ -2232,7 +2260,7 @@ const handleSubmitErrors = () =>{
 
           {deductionList?.map((value,index)=>(
               <Grid container spacing={1} style={{marginTop: 5}} key={index} >
-              <Grid item xs={5}>
+              <Grid item sm={5}>
               <TextField
                 select
                 id="deductionType"
@@ -2262,7 +2290,7 @@ const handleSubmitErrors = () =>{
                 ))}
               </TextField>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item sm={5}>
               <TextField
                   fullWidth
                   id="panCard"
@@ -2280,7 +2308,7 @@ const handleSubmitErrors = () =>{
                 />
                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{deductionValueError}</Typography>
               </Grid>
-              <Grid item xs={2}>
+              <Grid item sm={2}>
             
                 <IconButton color={index+1===deductionLength?'success':'error'} aria-label={index+1===deductionLength?'add':'delete'} size="large" onClick={()=>handleDeductionButtonClick(index+1===deductionLength?'add':'delete',index)}>
                 {index+1===deductionLength?
@@ -2300,7 +2328,7 @@ const handleSubmitErrors = () =>{
           </Typography>
           {documentList?.map((value,index)=>(
             <Grid container spacing={1} style={{marginTop: 5}} key={index}>
-            <Grid item xs={5}>
+            <Grid item sm={5}>
             <TextField
               select
               label="Document Type*"
@@ -2329,10 +2357,10 @@ const handleSubmitErrors = () =>{
               ))}
             </TextField>
             </Grid>
-            <Grid item xs={5} style={{alignSelf:'center'}}>
+            <Grid item sm={5} style={{alignSelf:'center'}}>
              {editUser?
               value.documentValue?
-              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
+              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px',boxShadow: 'none'}}  >
               View Document
             </Button>:
             ( 
@@ -2360,7 +2388,7 @@ const handleSubmitErrors = () =>{
            </>
            ) :
            value.documentValue?
-              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
+              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px',boxShadow: 'none'}}  >
               View Document
             </Button>:
              (<>
@@ -2384,7 +2412,7 @@ const handleSubmitErrors = () =>{
            </>)
            }
             </Grid>
-            <Grid item xs={2}>
+            <Grid item sm={2}>
             <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>
                 {index+1===documentLength?
                 <AddCircleIcon fontSize="inherit" />:
@@ -2400,7 +2428,7 @@ const handleSubmitErrors = () =>{
           }
           
               
-              <Button variant="text" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} 
+              <Button variant="contained" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%",boxShadow: 'none'}} 
               onClick={(e)=>{
                 validateDropDown();
                 formik.handleSubmit(e);

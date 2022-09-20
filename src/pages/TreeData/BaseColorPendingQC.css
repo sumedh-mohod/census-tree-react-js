@@ -63,7 +63,10 @@
     }
    
     .border-bottom{
-      border-bottom: 1px solid #e9e8e8;
+      border-bottom: 1px solid #e9e8e8 !important;
+    }
+    .border-left{
+      border-left: 1px solid #e9e8e8 !important;
     }
     .bor{
       font-family: 'Poppins';
@@ -71,7 +74,14 @@
       padding: 15px;
       border-radius: 7px
     }
-  
+    @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+      .mob_button{
+        margin-top: 124px
+      }
+      .mob_breadcrumb{
+        margin-top: 2px
+      }
+      }
     
   
     

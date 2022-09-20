@@ -227,7 +227,7 @@ export default function AssignNewCouncilZoneWard() {
               </Typography>
       </Breadcrumbs>
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" >
+          <Button  style={{boxShadow: 'none'}} onClick={handleNewUserClick} variant="contained" >
           Assign C-Z-W
 
           </Button>

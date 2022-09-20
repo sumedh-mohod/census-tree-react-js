@@ -262,7 +262,7 @@ export default function CreateRoleDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <Button onClick={handleSubmit} style={{boxShadow: 'none',background: '#214c50', color: '#fff'}}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>
