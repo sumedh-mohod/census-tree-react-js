@@ -44,6 +44,7 @@ const TABLE_HEAD = [
   { id: 'propertyNumber', label: 'Property Number', alignRight: false },
   { id: 'propertyOwner', label: 'Property Owner', alignRight: false },
   { id: 'tenantName', label: 'Tenant Name', alignRight: false },
+  { id: 'area', label: 'Area', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -311,6 +312,7 @@ export default function ViewProperties() {
                         <TableCell align="left">{option.property_number}</TableCell>
                         <TableCell align="left">{option.owner_name}</TableCell>
                         <TableCell align="left">{option.tenant_name?option.tenant_name:"-"}</TableCell>
+                        <TableCell align="left">{option.area? option.area: "-"}</TableCell>
                         </TableRow>
                         )
                   }):null
