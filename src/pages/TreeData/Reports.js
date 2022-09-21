@@ -331,6 +331,7 @@ export default function Reports() {
           </div>
         </Stack>
         <Card>
+        <Scrollbar>
           <ReportListToolbar
             handleCouncil={(e) => separateId(e)}
             handleCoucilChange={(e) => handleCoucilChange(e)}
@@ -346,7 +347,7 @@ export default function Reports() {
             // handleGetData={handleSubmit}
             // callType="BaseColor"
           />
-          <Scrollbar>
+        
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <Box sx={{ width: '100%', typography: 'body1' }}>

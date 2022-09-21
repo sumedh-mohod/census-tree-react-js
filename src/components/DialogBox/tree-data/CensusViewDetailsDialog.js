@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import { Visibility } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -281,9 +282,10 @@ export default function CensusViewDetailsDialog(props) {
                 <tr>
                   <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Images</td>
                   <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
-                    <IconButton onClick={() => handleViewOpen(props.data.images)}>
-                      <Iconify icon="clarity:eye-show-line" color="green" width={24} style={{ marginTop: 5 }} />
-                    </IconButton>
+                  <IconButton aria-label="delete" size="large" onClick={() => handleViewOpen(props.data.images)}   sx={{color: '#214c50'}}>
+                            <Visibility />
+                          </IconButton>
+                   
                   </td>
                 </tr>
                 <tr>

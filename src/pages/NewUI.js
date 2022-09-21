@@ -339,15 +339,44 @@ export default function NewUI() {
     </div>
   ) : (
     <Page title="Census QC" sx={{ mt: -2 }}>
+       <Container>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
+          <Typography variant="h4" gutterBottom>
+          Census QC
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+            It is showing Census QC
+            </Typography>
+          </Typography>
+          <Button
+            to="#"
+            style={{boxShadow: 'none',width: '30%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
+            
+            // startIcon={<Iconify icon="eva:plus-fill" />}
+            className='desktop-button'
+          >
+            Total Pending Trees :  <b>{totalTrees || 0}</b>
+          </Button>
+          <Button
+           onClick={toggleDrawer('right', true)}
+            variant="contained"
+            to="#"
+            style={{boxShadow: 'none'}}
+            startIcon={<Iconify icon="eva:funnel-fill" />}
+          >
+            Filters
+          </Button>
+          
+        </Stack>
+      </Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-        <Container sx={{ pl: 0 }}>
+        {/* <Container sx={{ pl: 0 }}>
           <Typography variant="h4" gutterBottom>
             Census QC
             <Typography variant="h6" style={{ fontWeight: 400 }}>
               It is showing Census QC
             </Typography>
           </Typography>
-        </Container>
+        </Container> */}
         {/* <div role="presentation">
           <Breadcrumbs
             aria-label="breadcrumb"
@@ -362,7 +391,7 @@ export default function NewUI() {
         <Typography variant="h6" fontWeight={400} sx={{ mt: -1 }}>
           It is showing Census QC
         </Typography> */}
-        <Box
+        {/* <Box
           display="flex"
           alignItems="flex-start"
           // flexDirection="row" This is the default
@@ -406,7 +435,7 @@ export default function NewUI() {
           >
             Filters
           </Button>
-        </Box>
+        </Box> */}
         <Box sx={{ height: '100' }}>
           {/* <Button
            variant='outlined'

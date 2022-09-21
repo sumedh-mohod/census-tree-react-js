@@ -39,6 +39,7 @@ import CreateRoleDialog from '../../components/DialogBox/CreateRoleDialog';
 import {MasterBreadCrum, breadCrumDrop} from '../../sections/@dashboard/master/MasterBreadCrum';
 import {MasterBreadCrumChip} from '../../sections/@dashboard/master/MasterBreadCrumChip';
 import StatusButton from '../../components/statusbutton/StatusButton';
+import './style.css';
 // import Menu from './Menu';
 
 // ----------------------------------------------------------------------
@@ -194,7 +195,7 @@ export default function CreateRole() {
               component={RouterLink}
               to="#"
               // startIcon={<Iconify icon="eva:plus-fill" />}
-               sx={{float: 'right',boxShadow: 'none'}}
+               sx={{float: 'right',boxShadow: 'none',mt: 1}}
             >
               Add Role
             </Button>
@@ -204,7 +205,7 @@ export default function CreateRole() {
             <MasterBreadCrum dropDownPage={dropPage} handleDropChange={handleDropChange} />
           </div> */}
         
-        <div role="presentation" onClick={handleClick} >
+        <div role="presentation" className='mob-master' onClick={handleClick} >
         <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'roles'} />
         </div>
          

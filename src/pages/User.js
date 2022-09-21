@@ -141,7 +141,7 @@ export default function User() {
   };
 
   const handleChangePage = (event, newPage) => {
-    // console.log(newPage);
+    // console.log('newPage', newPage);
     setPage(newPage);
 
     if (search) {

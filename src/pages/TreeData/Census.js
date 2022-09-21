@@ -377,7 +377,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                             <TableCell align="left">{option.added_on_date}</TableCell>
                             <TableCell align="left">{option.age}</TableCell>
                             <TableCell align="left">{option.location_accuracy}</TableCell>
-                            <TableCell align="left">{option.referred_to_expert === 1 ? 'Yes' : 'No'}</TableCell>
+                            <TableCell align="left">{option.referred_to_expert === 1 ? <b style={{color: 'green'}}>Yes</b> : <b style={{color: '#E8762F'}}>No</b>}</TableCell>
                             {/* <TableCell align="left"> */}
                             {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
                             {/* <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">

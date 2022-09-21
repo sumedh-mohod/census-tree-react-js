@@ -570,7 +570,7 @@ export default function WorkingReports(props) {
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
-                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 }}
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 ,boxShadow: 'none'}}
                 >
                   Apply
                 </Button>

@@ -129,7 +129,7 @@ export default function TeamsTableDialog(props) {
       .required('Team Code required'),
     teamType: Yup.string().required('Team Type is required'),
   });
-
+console.log('data',data)
   const formik = useFormik({
     
     enableReinitialize: true,

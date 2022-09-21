@@ -26,6 +26,7 @@ import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
 import moment from 'moment';
 import ImageGallery from 'react-image-gallery';
 import { useDispatch, useSelector } from 'react-redux';
+import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
 import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
 import {
@@ -336,63 +337,37 @@ export default function BaseColorPendingQC() {
     </div>
   ) : (
     <Page title="User" sx={{ mt: -2 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-        <Container sx={{ pl: 0 }}
-        xs={12}>
+      <Container>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
-            Base Color QC
+          Base Color QC
             <Typography variant="h6" style={{ fontWeight: 400 }}>
-              It is showing Base Color QC
+            It is showing Base Color QC
             </Typography>
           </Typography>
-        </Container>
-        <Box
-          display="flex"
-          alignItems="flex-start"
-          xs={12}
-          // flexDirection="row" This is the default
-        >
-          <Box alignSelf="center">
-            <Box
-              sx={{
-                // justifyContent: 'end',
-                px: 3,
-                py: 1,
-                mt: -4,
-                mr: 2,
-                backgroundColor: '#E8762F',
-                color: '#fff',
-                fontWeight: 500,
-                width: '280px',
-                borderRadius: '7px',
-                textAlign: 'center',
-              }}
-              // component={RouterLink}
-              to="#"
-            >
-              Total Pending Trees : <b>{totalTrees || 0}</b>
-            </Box>
-          </Box>
-          <Box alignSelf="flex-end">
-            <Button
-              onClick={toggleDrawer('right', true)}
-              variant="contained"
-              sx={{
-                // justifyContent: 'end',
-                px: 3,
-                py: 1,
-                mt: -4,
-                boxShadow: 'none',
-              }}
-              // component={RouterLink}
-              to="#"
-              startIcon={<Iconify icon="eva:funnel-fill" />}
-            >
-              Filters
-            </Button>
-          </Box>
-        </Box>
-
+          <Button
+            to="#"
+            style={{boxShadow: 'none',width: '30%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
+            
+            // startIcon={<Iconify icon="eva:plus-fill" />}
+            className='desktop-button'
+          >
+            Total Pending Trees :  <b>{totalTrees || 0}</b>
+          </Button>
+          <Button
+          onClick={toggleDrawer('right', true)}
+            variant="contained"
+            to="#"
+            style={{boxShadow: 'none'}}
+            startIcon={<Iconify icon="eva:funnel-fill" />}
+          >
+            Filters
+          </Button>
+          
+        </Stack>
+      </Container>
+      
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
         <Box sx={{ height: '100', mr: 3 }} xs={12}>
           <Drawer
             sx={{
@@ -406,10 +381,6 @@ export default function BaseColorPendingQC() {
             anchor={'right'}
             open={state.right}
             onClose={toggleDrawer('right', false)}
-            // sx={{
-            //   display: { xs: 'block', sm: 'none' },
-            //   '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-            // }}
           >
             <div>
               <Grid container spacing={1} style={{ width: '90%', marginLeft: '5%', marginRight: '5%' }}>
@@ -612,6 +583,7 @@ export default function BaseColorPendingQC() {
       ) : (
         <Container>
           <Card style={{ height: '450px', padding: '20px 0px' }}>
+            <Scrollbar>
             <Container>
               <div className="wrapper">
                 <div className="one">
@@ -749,6 +721,8 @@ export default function BaseColorPendingQC() {
                 </div>
               </div>
             </Container>
+            </Scrollbar>
+           
 
             {/* <Grid item xs={12}>
               <Stack spacing={2}>
