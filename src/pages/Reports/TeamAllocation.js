@@ -33,7 +33,7 @@ import USERLIST from '../../_mock/user';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
 import { MasterBreadCrum } from '../../sections/@dashboard/master/MasterBreadCrum';
-
+import AllocateButton from '../../components/statusbutton/AllocateButton';
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
 import {GetAllWorkReports,GetWorkReports} from "../../actions/WorkReportAction"
 
@@ -199,7 +199,8 @@ const header = ["#", "User", "Role", "Team","Council","Zone","Ward","Allocated",
                         <TableCell align="left">{option.ward}</TableCell>
                         <TableCell align="left">{option.assigned_at}</TableCell>
                         <TableCell align="left">{option.deallocated_at}</TableCell>
-                        <TableCell align="left">{option.current_status}</TableCell>
+                        <TableCell align="left">
+                          <AllocateButton status={option.current_status}/></TableCell>
                         </TableRow>
                         )
                   })

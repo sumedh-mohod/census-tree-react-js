@@ -42,8 +42,8 @@ export default function WarningMessageDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleTrueClose} style={{boxShadow: 'none'}}>yes</Button>
-          <Button onClick={handleClose} style={{boxShadow: 'none'}} autoFocus>
+          <Button onClick={handleTrueClose} style={{boxShadow: 'none'}}   variant="contained">yes</Button>
+          <Button onClick={handleClose} style={{boxShadow: 'none',backgroundColor: '#e85454',color: '#fff'}}  autoFocus>
             Cancel
           </Button>
         </DialogActions>

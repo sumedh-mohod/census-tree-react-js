@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import './style.css';
 
-export default function StatusButton(props) {
+export default function AllocateButton(props) {
   console.log('props....', props);
   const useStyles = makeStyles({
     active: {
@@ -29,13 +29,13 @@ export default function StatusButton(props) {
   const classes = useStyles();
   return (
     <>
-      {props.status === 1 ? (
+      {props.status === 'Allocated' ? (
         <button className={classes.active} style={{boxShadow: 'none'}}>
-          <b>Active</b>
+          <b>Allocated</b>
         </button>
       ) : (
         <button className={classes.inactive} style={{boxShadow: 'none'}}>
-          <b>Inactive</b>
+          <b>Deallocated</b>
         </button>
       )}
      
