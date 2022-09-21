@@ -401,7 +401,7 @@ const handleFamilyChange = (event) => {
     treeType: Yup.string().required('Tree Type is required'),
     treeFamily: Yup.string().required('Tree Family is required'),
     origin: Yup.string().required('Origin is required'),
-    growthRatio: Yup.string().matches(/^[1-9]\d*(\.\d+)?$/, "Only decimal value are allowed for this field ").required('Growth ratio is required'),
+    growthRatio: Yup.string().matches(/^[1-9]\d*(\.\d+)?$/, "Only decimal value are allowed ").required('Growth ratio is required'),
    floweringSeason: Yup.string().matches(/^[a-zA-Z- _!@#$%^&*()_=+';:"/?>.<,-]*$/, "Alphabets are  allowed for this field ").max(45,"Maximum length 45 character only").required('Flowering Season is required'),
     fruitingSeason: Yup.string().matches(/^[a-zA-Z- _!@#$%^&*()_=+';:"/?>.<,-]*$/, "Alphabets are allowed for this field").max(45,"Maximum length 45 character only").required('Fruiting Season is required'),
     height:Yup.string().matches(/^[0-9-!@#$%*?]/, "Only Digits Are Allowed"),
