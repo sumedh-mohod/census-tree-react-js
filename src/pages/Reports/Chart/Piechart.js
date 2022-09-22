@@ -48,7 +48,7 @@ export function Piechart() {
       <Grid container spacing={0}>
         <Grid item xs={4} />
         <Grid item xs={8}>
-          <Button variant="contained"  style={{boxShadow: 'none'}} onClick={printDocument}>
+          <Button variant="contained"  onClick={printDocument}>
             Download pie chart
           </Button>
         </Grid>

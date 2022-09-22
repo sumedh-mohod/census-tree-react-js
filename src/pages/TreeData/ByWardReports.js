@@ -47,7 +47,7 @@ const TABLE_HEAD = [
 export default function ByWardReports(props) {
   const { data } = props;
 
-  console.log('data...', data);
+  // console.log('data...', data);
 
   return (
     <Page title="User">

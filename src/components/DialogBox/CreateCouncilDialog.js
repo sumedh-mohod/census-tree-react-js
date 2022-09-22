@@ -204,7 +204,7 @@ export default function CreateCouncilDialog(props) {
   };
 
   const handleDistrictChange = (event) => {
-    console.log("inn");
+    // console.log("inn");
     dispatch(GetAllActiveTalukaByDistrictId(event.target.value,1))
     setDistrict(event.target.value);
     setShowTaluka(true);
@@ -452,7 +452,7 @@ export default function CreateCouncilDialog(props) {
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
-  console.log("VALUES",values)
+  // console.log("VALUES",values)
   return (
     <div>
       <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>
@@ -893,7 +893,6 @@ export default function CreateCouncilDialog(props) {
             validateLogo();
             formik.handleSubmit(e)
           }}
-          style={{boxShadow: 'none'}}
             >
             Save changes
           </Button>

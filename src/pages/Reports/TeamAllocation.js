@@ -84,10 +84,10 @@ export default function WorkTypeList(props) {
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  console.log("teamAllocation",workReports);
+  // console.log("teamAllocation",workReports);
   
 
-  console.log("excelwork report", excelWorkReports)
+  // console.log("excelwork report", excelWorkReports)
 
 
   // useEffect(()=>{

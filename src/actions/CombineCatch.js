@@ -3,7 +3,7 @@ import { Logout, SessionExpired } from "./AuthActions";
 import { ShowLoader } from "./CommonAction";
 
 const HandleExceptionWithSecureCatch = (exception) => {
-  console.log("EXCEPTION",exception.response.data);
+  // console.log("EXCEPTION",exception.response.data);
   return (dispatch, getState) => {
 
     const message = exception.response.data.message;

@@ -97,7 +97,7 @@ export default function CouncilList(props) {
   }, [fromDate,toDate]);
  
   const handleChangePage = (event, newPage) => {
-    console.log('reportType, fromDate,toDate, newPage,rowsPerPage',reportType, fromDate,toDate, newPage,rowsPerPage);
+    // console.log('reportType, fromDate,toDate, newPage,rowsPerPage',reportType, fromDate,toDate, newPage,rowsPerPage);
     setPage(newPage);
     // if(search){
     //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));

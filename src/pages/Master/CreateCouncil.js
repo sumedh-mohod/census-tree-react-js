@@ -81,7 +81,7 @@ export default function CreateCouncil() {
 
   loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
-  console.log("COUNCIL",council);
+  // console.log("COUNCIL",council);
 
   useEffect(() => {
     dispatch(GetCouncil(page, rowsPerPage));
@@ -167,7 +167,7 @@ export default function CreateCouncil() {
             component={RouterLink}
             to="#"
             // startIcon={<Iconify icon="eva:plus-fill" />}
-            sx={{ float: 'right', mt: -4,boxShadow: 'none'}}
+            sx={{ float: 'right', mt: -4}}
           >
             Add Council
           </Button>

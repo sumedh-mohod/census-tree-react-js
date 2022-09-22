@@ -196,7 +196,7 @@ export default function BaseColor() {
 
   }
 
-  console.log('baseColorTrees',baseColorTrees);
+  // console.log('baseColorTrees',baseColorTrees);
   const handleEdit = (data) => {
     setDialogData(data);
     setOpen(!open);

@@ -1803,6 +1803,11 @@ const handleSubmitErrors = () =>{
                 error={Boolean(touched.religion && errors.religion)}
                 helperText={touched.religion && errors.religion}
                 {...getFieldProps("religion")}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
               >
                  <MenuItem disabled value="">
               <em>Religion*</em>
@@ -1845,6 +1850,11 @@ const handleSubmitErrors = () =>{
                 onChange={handleGenderChange}
                 error={Boolean(touched.differentlyAbled && errors.differentlyAbled)}
                 helperText={touched.differentlyAbled && errors.differentlyAbled}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 {...getFieldProps("differentlyAbled")}
               >
                  <MenuItem disabled value="">
@@ -1872,6 +1882,11 @@ const handleSubmitErrors = () =>{
                 onChange={handleBloodGrpChange}
                 error={Boolean(touched.bloodGroup && errors.bloodGroup)}
                 helperText={touched.bloodGroup && errors.bloodGroup}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 {...getFieldProps("bloodGroup")}
               >
                  <MenuItem disabled value="">
@@ -1956,6 +1971,11 @@ const handleSubmitErrors = () =>{
                 onChange={handleDesignationChange}
                 error={Boolean(touched.designation && errors.designation)}
                 helperText={touched.designation && errors.designation}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 {...getFieldProps("designation")}
               >
                  <MenuItem disabled value="">
@@ -2003,6 +2023,11 @@ const handleSubmitErrors = () =>{
                 onChange={handleReferredChange}
                 error={Boolean(touched.isAgreementDone && errors.isAgreementDone)}
                 helperText={touched.isAgreementDone && errors.isAgreementDone}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 {...getFieldProps("isAgreementDone")}
               >
                  <MenuItem disabled value="">
@@ -2273,6 +2298,11 @@ const handleSubmitErrors = () =>{
                 value={value.deductionName}
                 error={Boolean(value.errorName)}
                 helperText={value.errorName}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 // renderValue={(selected) => {
                 //   if (selected.length === 0) {
                 //     return <em>PF</em>;
@@ -2340,6 +2370,11 @@ const handleSubmitErrors = () =>{
               onChange={(e)=>handleDocumentNameChange(e,index)}
               error={Boolean(value.errorName)}
               helperText={value.errorName}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               // renderValue={(selected) => {
               //   if (selected?.length === 0) {
               //     return <em>Aadhar Card</em>;
@@ -2360,7 +2395,7 @@ const handleSubmitErrors = () =>{
             <Grid item sm={5} style={{alignSelf:'center'}}>
              {editUser?
               value.documentValue?
-              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px',boxShadow: 'none'}}  >
+              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
             ( 
@@ -2388,7 +2423,7 @@ const handleSubmitErrors = () =>{
            </>
            ) :
            value.documentValue?
-              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px',boxShadow: 'none'}}  >
+              <Button variant="outlined" target="_blank" rel="noopener" onClick={()=>{handleViewDocument(value.documentValue)}} style={{marginTop:'5px'}}  >
               View Document
             </Button>:
              (<>
@@ -2428,7 +2463,7 @@ const handleSubmitErrors = () =>{
           }
           
               
-              <Button variant="contained" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%",boxShadow: 'none'}} 
+              <Button variant="contained" style={{display:"flex", fontSize: 15,  marginTop: 20, alignSelf:"end", marginLeft:" 90%"}} 
               onClick={(e)=>{
                 validateDropDown();
                 formik.handleSubmit(e);

@@ -260,7 +260,7 @@ export default function AssignUser() {
               It is showing list of assigned users with its details
             </Typography>
     </div>
-          <Button  style={{boxShadow: 'none'}} onClick={handleNewUserClick} variant="contained" >
+          <Button onClick={handleNewUserClick} variant="contained" >
           Add assign User
 
           </Button>
@@ -296,7 +296,7 @@ export default function AssignUser() {
                                   color: '#fff',
                                   fontFamily: 'Poppins',
                                   fontWeight: 700,
-                                  boxShadow: 'none'
+                               
                                 }}
                               >
                                Assigned
@@ -309,7 +309,7 @@ export default function AssignUser() {
                                   color: '#fff',
                                   fontFamily: 'Poppins',
                                   fontWeight: 700,
-                                  boxShadow: 'none'
+                                
                                 }}
                               >
                                 Unassign

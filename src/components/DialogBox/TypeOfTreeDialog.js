@@ -168,7 +168,7 @@ export default function TypeOfTreeDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit} style={{boxShadow: 'none'}}>{data?"Save":"Add"}</Button>
+          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

@@ -171,7 +171,7 @@ export default function NotificationsPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Box sx={{ p: 1 }}>
-          <Button  style={{boxShadow: 'none'}} fullWidth disableRipple>
+          <Button  fullWidth disableRipple>
             View All
           </Button>
         </Box>

@@ -184,7 +184,7 @@ export default function TreeOnMap(props) {
              onClick={toggleDrawer("right", true)} 
             variant="contained"
             to="#"
-            style={{boxShadow: 'none'}}
+          
             startIcon={<Iconify icon="eva:funnel-fill" />}
           >
             Filter
@@ -386,7 +386,7 @@ export default function TreeOnMap(props) {
                 error={Boolean(touched.treeNumber && errors.treeNumber)}
                 helperText={touched.treeNumber && errors.treeNumber}
               />
-            <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:20,boxShadow: 'none'}}>
+            <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:20}}>
             Apply
 
           </Button>

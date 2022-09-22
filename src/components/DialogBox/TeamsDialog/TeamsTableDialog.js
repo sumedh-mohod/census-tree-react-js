@@ -13,6 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { TextField, Typography } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -23,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import DefaultInput from '../../Inputs/DefaultInput';
 import { AddTeam, EditTeam } from '../../../actions/TeamsAction';
+
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -129,7 +131,7 @@ export default function TeamsTableDialog(props) {
       .required('Team Code required'),
     teamType: Yup.string().required('Team Type is required'),
   });
-console.log('data',data)
+// console.log('data',data)
   const formik = useFormik({
     
     enableReinitialize: true,
@@ -176,6 +178,14 @@ console.log('data',data)
     { id: 3, type: 'offsite_qc', value: 'Offsite QC' },
     { id: 4, type: 'onsite_qc', value: 'Onsite QC' },
   ];
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -238,6 +248,11 @@ console.log('data',data)
                 }}
                 error={Boolean(touched.teamType && errors.teamType)}
                 helperText={touched.teamType && errors.teamType}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 {...getFieldProps('teamType')}
                 
               >

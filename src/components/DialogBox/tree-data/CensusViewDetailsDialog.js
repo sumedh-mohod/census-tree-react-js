@@ -324,7 +324,7 @@ export default function CensusViewDetailsDialog(props) {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <Button onClick={handleClose} style={{boxShadow: 'none',background: '#E85454', color: '#fff'}}>
+          <Button onClick={handleClose} style={{background: '#E85454', color: '#fff'}}>
             Close
           </Button>
         </DialogActions>

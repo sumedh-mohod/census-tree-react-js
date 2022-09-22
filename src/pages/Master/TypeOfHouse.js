@@ -131,7 +131,7 @@ export default function TypeOfTree() {
           </Typography>
       </Breadcrumbs>
     </div>
-          <Button  style={{boxShadow: 'none'}} onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" >
+          <Button   onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" >
             Type Of House
 
           </Button>

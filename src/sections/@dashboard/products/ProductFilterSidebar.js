@@ -58,7 +58,7 @@ ShopFilterSidebar.propTypes = {
 export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseFilter }) {
   return (
     <>
-      <Button disableRipple color="inherit" style={{boxShadow: 'none'}} endIcon={<Iconify icon="ic:round-filter-list" />} onClick={onOpenFilter}>
+      <Button disableRipple color="inherit" endIcon={<Iconify icon="ic:round-filter-list" />} onClick={onOpenFilter}>
         Filters&nbsp;
       </Button>
 
@@ -171,7 +171,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
             color="inherit"
             variant="outlined"
             startIcon={<Iconify icon="ic:round-clear-all" />}
-            style={{boxShadow: 'none'}}
+           
           >
             Clear All
           </Button>

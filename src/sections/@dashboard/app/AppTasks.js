@@ -21,7 +21,7 @@ export default function AppTasks({ title, subheader, list, ...other }) {
       checked: [list[2].id],
     },
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
     },
   });
 
@@ -65,22 +65,22 @@ function TaskItem({ formik, task, checked, ...other }) {
 
   const handleMarkComplete = () => {
     handleCloseMenu();
-    console.log('MARK COMPLETE', task);
+    // console.log('MARK COMPLETE', task);
   };
 
   const handleShare = () => {
     handleCloseMenu();
-    console.log('SHARE', task);
+    // console.log('SHARE', task);
   };
 
   const handleEdit = () => {
     handleCloseMenu();
-    console.log('EDIT', task);
+    // console.log('EDIT', task);
   };
 
   const handleDelete = () => {
     handleCloseMenu();
-    console.log('DELETE', task);
+    // console.log('DELETE', task);
   };
 
   return (

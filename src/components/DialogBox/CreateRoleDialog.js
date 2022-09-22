@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import { makeStyles } from '@material-ui/core/styles';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
@@ -180,6 +181,14 @@ export default function CreateRoleDialog(props) {
     },
   });
 
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
 
@@ -239,6 +248,11 @@ export default function CreateRoleDialog(props) {
               }}
               error={Boolean(touched.permission && errors.permission)}
                 helperText={touched.permission && errors.permission}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
               // MenuProps={MenuProps}
               {...getFieldProps("permission")}
               // inputProps={{ 'aria-label': 'Without label' }}
@@ -262,7 +276,7 @@ export default function CreateRoleDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit} style={{boxShadow: 'none',background: '#214c50', color: '#fff'}}>{data?"Save":"Add"}</Button>
+          <Button onClick={handleSubmit} style={{background: '#214c50', color: '#fff'}}>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

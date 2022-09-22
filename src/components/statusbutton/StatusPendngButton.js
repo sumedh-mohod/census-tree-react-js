@@ -6,7 +6,7 @@ import {
 import './style.css';
 
 export default function StatusPendngButton(props) {
-  console.log('props....', props);
+  // console.log('props....', props);
   
   return (
     <>
@@ -14,7 +14,7 @@ export default function StatusPendngButton(props) {
       {props.qcStatus === 'Pending'? 
        <Button
        variant="contained"
-       style={{ backgroundColor: '#E8762F',border: '1px solid #000',boxShadow: 'none' , fontSize: '11px',borderRadius: '5px',fontWeight: 600  }}
+       style={{ backgroundColor: '#E8762F',border: '1px solid #000',fontSize: '11px',borderRadius: '5px',fontWeight: 600  }}
      >
        {props.qcStatus}
      </Button>:''

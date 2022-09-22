@@ -104,7 +104,7 @@ export default function AssignNewCouncilZoneWard() {
   // console.log("CWZ of team",cwzOfTeam)
   const { teamId,teamName } = useParams();
   const {state} = useLocation();
-  console.log("STATE",state);
+  // console.log("STATE",state);
   
   useEffect(()=>{
     dispatch(GetCZWByTeam(teamId,page,rowsPerPage));
@@ -227,7 +227,7 @@ export default function AssignNewCouncilZoneWard() {
               </Typography>
       </Breadcrumbs>
     </div>
-          <Button  style={{boxShadow: 'none'}} onClick={handleNewUserClick} variant="contained" >
+          <Button onClick={handleNewUserClick} variant="contained" >
           Assign C-Z-W
 
           </Button>

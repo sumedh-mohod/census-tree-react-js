@@ -67,7 +67,7 @@
         for(let i=0;i<arr.length;i+=1){
             const canvas_ = await Html2canvas(canvas[i])
               //  imgData = await canvas_.toDataURL('image/png');
-              console.log('asda', i, canvas_);
+              // console.log('asda', i, canvas_);
               autoTable(doc, {
                 margin: { top: 170, bottom: 10 },
                 headStyles: headStyles_,

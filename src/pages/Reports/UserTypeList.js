@@ -112,7 +112,7 @@ export default function UserTypeList(props) {
       pageInfo: state.workReports.pageInfo,
     }));
 
-console.log("UserListType",workReports);
+// console.log("UserListType",workReports);
 
 
   useEffect(()=>{

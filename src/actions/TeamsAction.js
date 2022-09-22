@@ -80,7 +80,7 @@ const GetTeam = (page,limit) => async (dispatch) => {
   const AddTeam = (params) => async (dispatch) => {
     try {
       const response = await JWTServer.post("/api/teams",params);
-      console.log("ADD TEAM RESPONSE",response.data);
+      // console.log("ADD TEAM RESPONSE",response.data);
       dispatch({
         type: ADD_TEAM,
         payload: response.data,

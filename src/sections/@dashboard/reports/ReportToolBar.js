@@ -103,7 +103,7 @@ export default function ReportToolBar({ numSelected, filterName, onFilterName, h
           <Button
             variant="contained"
             onClick={() => handleExportexcel()}
-            style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150, marginRight: 2, backgroundColor: '#DF6526',boxShadow: 'none' }}
+            style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150, marginRight: 2, backgroundColor: '#DF6526' }}
           >
             Export Report
           </Button>

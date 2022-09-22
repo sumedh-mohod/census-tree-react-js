@@ -357,7 +357,7 @@ const classes = useStyles()
           </Typography>
           <Button
             to="#"
-            style={{boxShadow: 'none',width: '30%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
+            style={{width: '30%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
             
             // startIcon={<Iconify icon="eva:plus-fill" />}
             className='desktop-button-'
@@ -368,7 +368,7 @@ const classes = useStyles()
            onClick={toggleDrawer('right', true)}
             variant="contained"
             to="#"
-            style={{boxShadow: 'none'}}
+          
             startIcon={<Iconify icon="eva:funnel-fill" />}
           >
             Filters
@@ -667,7 +667,7 @@ const classes = useStyles()
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
-                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5,boxShadow: 'none' }}
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5}}
                 >
                   Apply
                 </Button>
@@ -706,7 +706,7 @@ const classes = useStyles()
                     <div className="wrapper">
                       <div className="one">
                         Tree Number: <br />
-                        <Button variant="contained" sx={{ boxShadow: 'none' }}>
+                        <Button variant="contained" >
                           {treeCensusPendingQCStatus?.data[selectedIndex].tree_number || '-'}
                         </Button>
                       </div>
@@ -817,7 +817,7 @@ const classes = useStyles()
                           onClick={handleDialogOpen}
                           style={{
                             backgroundColor: '#E85454',
-                            boxShadow: 'none',
+                          
                             width: '100%',
                             color: '#fff',
                             padding: '5px 20px',
@@ -830,7 +830,7 @@ const classes = useStyles()
                         <Button
                           onClick={handleReferToExpert}
                           sx={{
-                            boxShadow: 'none',
+                        
                             width: '100%',
                             padding: '5px 20px',
                             alignContent: 'center',

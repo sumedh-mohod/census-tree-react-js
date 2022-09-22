@@ -29,7 +29,7 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
    
     try {
       const response = await JWTServer.get(`${url}&page=${page}&limit=${limit}`);
-      console.log("payload.data", response.data)
+      // console.log("payload.data", response.data)
       dispatch({
      
         type: GET_WORK_REPORTS,
@@ -73,7 +73,7 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
    
     try {
       const response = await JWTServer.get(`${url}&page=${page}&limit=${limit}`);
-      console.log("RESPONSE ____",response.data)
+      // console.log("RESPONSE ____",response.data)
       dispatch({
      
         type: GET_WORK_TYPES_WORK_REPORTS,

@@ -38,7 +38,7 @@ export default function Page404() {
             to="/"
             size="large"
             variant="contained"
-            style={{ boxShadow: 'none', background: '#f1f1f1', color: '#214C50' }}
+            style={{background: '#f1f1f1', color: '#214C50' }}
             component={RouterLink}
           >
             Go to Home Page

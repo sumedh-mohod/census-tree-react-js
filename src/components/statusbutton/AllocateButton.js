@@ -6,7 +6,7 @@ import {
 import './style.css';
 
 export default function AllocateButton(props) {
-  console.log('props....', props);
+  // console.log('props....', props);
   const useStyles = makeStyles({
     active: {
       backgroundColor: '#214c50',
@@ -30,11 +30,11 @@ export default function AllocateButton(props) {
   return (
     <>
       {props.status === 'Allocated' ? (
-        <button className={classes.active} style={{boxShadow: 'none'}}>
+        <button className={classes.active} >
           <b>Allocated</b>
         </button>
       ) : (
-        <button className={classes.inactive} style={{boxShadow: 'none'}}>
+        <button className={classes.inactive} >
           <b>Deallocated</b>
         </button>
       )}

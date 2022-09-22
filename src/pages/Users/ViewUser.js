@@ -1362,7 +1362,7 @@ const validateRole = () => {
           {/* <IconButton aria-label="delete" target="_blank" rel="noopener" size="large" href={`${value.documentValue}`} color="success">
                             <Visibility />
               </IconButton> */}
-              <Button variant="outlined" target="_blank" rel="noopener" style={{marginTop:'5px',boxShadow: 'none'}}  href={`${value.documentValue}`}>
+              <Button variant="outlined" target="_blank" rel="noopener" style={{marginTop:'5px'}}  href={`${value.documentValue}`}>
               View Document
             </Button>
             </Grid>

@@ -95,7 +95,7 @@ export default function CreateRole() {
   const [dropPage, setDropPage] = useState(1);
 
   const handleDropChange = (event) => {
-    console.log(event);
+    // console.log(event);
     setDropPage(event);
   };
   const userPermissions = [];
@@ -195,7 +195,7 @@ export default function CreateRole() {
               component={RouterLink}
               to="#"
               // startIcon={<Iconify icon="eva:plus-fill" />}
-               sx={{float: 'right',boxShadow: 'none',mt: 1}}
+               sx={{float: 'right',mt: 1}}
             >
               Add Role
             </Button>

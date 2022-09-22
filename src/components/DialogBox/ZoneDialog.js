@@ -160,7 +160,7 @@ export default function ZoneDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}  style={{boxShadow: 'none'}}>{data?"Save":"Add"}</Button>
+          <Button onClick={handleSubmit} >{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

@@ -201,7 +201,7 @@ export default function TreeDensity() {
           />
 
     </div>
-          <Button onClick={handleNewUserClick} style={{boxShadow: 'none'}} variant="contained" component={RouterLink} to="#" >
+          <Button onClick={handleNewUserClick}  variant="contained" component={RouterLink} to="#" >
           Add Tree Density
 
           </Button>

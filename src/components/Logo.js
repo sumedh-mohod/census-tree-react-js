@@ -22,7 +22,7 @@ export default function Logo({ disabledLink = false, sx }) {
   const PRIMARY_DARK = theme.palette.primary.dark;
 
   const location = useLocation();
-  console.log("PATH NAME",location.pathname);
+  // console.log("PATH NAME",location.pathname);
 
   let notRedirect = false;
 

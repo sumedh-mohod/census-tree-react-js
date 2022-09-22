@@ -7,7 +7,7 @@ import {
 import './style.css';
 
 export default function StatusApprovedButton(props) {
-  console.log('props....', props);
+  // console.log('props....', props);
   
   return (
     <>
@@ -15,7 +15,7 @@ export default function StatusApprovedButton(props) {
       {props.qcStatus === 'Unapproved'? 
        <Button
        variant="contained"
-       style={{ backgroundColor: '#e85454',border: '1px solid #000',boxShadow: 'none', fontSize: '11px',borderRadius: '5px',fontWeight: 600  }}
+       style={{ backgroundColor: '#e85454',border: '1px solid #000',fontSize: '11px',borderRadius: '5px',fontWeight: 600  }}
      >
        {props.qcStatus}
      </Button>:''

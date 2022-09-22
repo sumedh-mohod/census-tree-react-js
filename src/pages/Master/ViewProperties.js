@@ -279,7 +279,7 @@ export default function ViewProperties() {
       </Breadcrumbs>
 
     </div>
-          <Button style={{boxShadow: 'none'}} onClick={handleNewUserClick} variant="contained" component="label"  >
+          <Button onClick={handleNewUserClick} variant="contained" component="label"  >
           Import Properties
           <input
             type="file"

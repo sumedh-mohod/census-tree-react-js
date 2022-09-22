@@ -94,14 +94,14 @@ export default function ReportListToolbar({
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
   const inputRef = useRef(null);
-  // consolelog('chetna......', coucilId);
+ 
 
   // let imgData ='';
 
   // const { dataValue}= props;
   const handleCouncilChange = (e) => {
     // consolelog('e.....',e.target.name);
-    console.log("HANDLE COUNCIL")
+    // console.log("HANDLE COUNCIL")
     setCouncilId(e.target.value);
     handleCouncil(e.target.value);
     hideReport()
@@ -192,7 +192,7 @@ export default function ReportListToolbar({
     treeNameValue1.push(treeNameValue2);
     return null;
   });
-  console.log('value1', treeNameValue1);
+  // console.log('value1', treeNameValue1);
   const treeType = reports?.by_tree_types;
   const treeType1 = [];
   treeType?.map((option, index) => {
@@ -467,7 +467,7 @@ const classes = useStyles()
               <Button
                 variant="contained"
                 onClick={handleSubmit}
-                style={{ marginLeft: 30, marginTop: 2, height: 50, width: 150,boxShadow: 'none' }}
+                style={{ marginLeft: 30, marginTop: 2, height: 50, width: 150 }}
               >
                 View Report
               </Button>
@@ -478,7 +478,7 @@ const classes = useStyles()
                 <Button
                   variant="contained"
                   onClick={handleSubmit}
-                  style={{ marginLeft: 30, marginTop: 2, height: 50, width: 150, backgroundColor: '#DF6526',boxShadow: 'none' }}
+                  style={{ marginLeft: 30, marginTop: 2, height: 50, width: 150, backgroundColor: '#DF6526'}}
                 >
                   Export Report
                 </Button>
@@ -486,7 +486,7 @@ const classes = useStyles()
                 <Button
                   variant="contained"
                   onClick={exportPdf}
-                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150, backgroundColor: '#DF6526',boxShadow: 'none' }}
+                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150, backgroundColor: '#DF6526'}}
                 >
                   Export Report
                 </Button>

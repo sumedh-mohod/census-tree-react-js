@@ -48,7 +48,7 @@ const TABLE_HEAD = [
 export default function ByTreeConditionReports(props) {
 
   const{data} = props;
-console.log('abc',data)
+// console.log('abc',data)
   return (
     <Page title="User">
       <Container>

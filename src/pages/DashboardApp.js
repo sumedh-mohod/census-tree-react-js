@@ -14,7 +14,7 @@ export default function DashboardApp() {
   const { loggedUser } = useSelector((state)=>({
     loggedUser:state.auth.loggedUser
   }))
-console.log('loggedUser',loggedUser);
+// console.log('loggedUser',loggedUser);
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">

@@ -282,7 +282,7 @@ export default function TreeDensityDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}  style={{boxShadow: 'none'}}>Add</Button>
+          <Button onClick={handleSubmit} >Add</Button>
         </DialogActions>
       </Dialog>
       </div>

@@ -82,7 +82,7 @@ export default function Teamczw(props) {
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  console.log("workReportsTeamczw",excelWorkReports);
+  // console.log("workReportsTeamczw",excelWorkReports);
 
   useEffect(()=>{
     if(excelWorkReports && downloadButtonPressed){

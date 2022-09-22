@@ -193,7 +193,7 @@ export default function WorkingReports(props) {
     validationSchema: FilterSchema,
     onSubmit: (value) => {
       // console.log('in submit');
-      console.log('VALUE', value);
+      // console.log('VALUE', value);
       // console.log(',,,,,',value.user_id,'value.status',value.status,'value.team_id',value.team_id)
       const userId = value.user_id;
       const status = value.status;
@@ -347,7 +347,7 @@ const classes = useStyles()
               py: 1,
               float: 'right',
               mt: -4,
-              boxShadow: 'none'
+             
             }}
             // component={RouterLink}
             to="#"
@@ -584,7 +584,7 @@ const classes = useStyles()
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
-                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 ,boxShadow: 'none'}}
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 }}
                 >
                   Apply
                 </Button>

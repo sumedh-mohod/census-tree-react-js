@@ -82,13 +82,13 @@ export default function WorkTypeList(props) {
     if(workReports){
       workList()
     }
-    console.log("assdghasd", workReports)
+    // console.log("assdghasd", workReports)
   },[workReports])
 
 
 const workList = () => {
   const newData = Object.entries(workReports);
-  console.log("newData", newData)
+  // console.log("newData", newData)
   setDisplayWorkList(newData)
 }
 

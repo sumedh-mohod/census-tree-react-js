@@ -6,7 +6,7 @@ import {
 import './style.css';
 
 export default function StatusButton(props) {
-  console.log('props....', props);
+  // console.log('props....', props);
   const useStyles = makeStyles({
     active: {
       backgroundColor: '#214c50',
@@ -30,11 +30,11 @@ export default function StatusButton(props) {
   return (
     <>
       {props.status === 1 ? (
-        <button className={classes.active} style={{boxShadow: 'none'}}>
+        <button className={classes.active} >
           <b>Active</b>
         </button>
       ) : (
-        <button className={classes.inactive} style={{boxShadow: 'none'}}>
+        <button className={classes.inactive} >
           <b>Inactive</b>
         </button>
       )}

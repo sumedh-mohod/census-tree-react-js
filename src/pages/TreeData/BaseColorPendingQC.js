@@ -211,7 +211,7 @@ export default function BaseColorPendingQC() {
   //     // console.log(tree.tree_name.name)
   //     ));
   const handleDialogOpen = (id) => {
-    console.log('clicked');
+    // console.log('clicked');
     setDialogOpen(true);
     setUpdateClick(true);
     setBaseColorId(id);
@@ -298,13 +298,13 @@ export default function BaseColorPendingQC() {
     // renderItem: this.myRenderItem.bind(this),
     items: imageList,
   };
-  console.log('imageList', imageList);
+  // console.log('imageList', imageList);
   const FilterSchema = Yup.object().shape({
     councilForm: Yup.string().required('Please select council'),
     wardForm: Yup.string().required('Please select ward'),
     zoneForm: Yup.string().required('Please select zone'),
   });
-  console.log('properties', properties);
+  // console.log('properties', properties);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -354,7 +354,7 @@ const classes = useStyles()
           </Typography>
           <Button
             to="#"
-            style={{boxShadow: 'none',width: '30%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
+            style={{width: '30%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
             
             // startIcon={<Iconify icon="eva:plus-fill" />}
             className='desktop-button'
@@ -365,7 +365,7 @@ const classes = useStyles()
           onClick={toggleDrawer('right', true)}
             variant="contained"
             to="#"
-            style={{boxShadow: 'none'}}
+           
             startIcon={<Iconify icon="eva:funnel-fill" />}
           >
             Filters
@@ -577,7 +577,7 @@ const classes = useStyles()
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
-                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5, boxShadow: 'none'}}
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5}}
                 >
                   Apply
                 </Button>
@@ -687,7 +687,7 @@ const classes = useStyles()
                     <div className="one">
                       {userPermissions.includes('unapprove-base-color-tree') ? (
                         <Button
-                          style={{ backgroundColor: '#E85454', boxShadow: 'none', color: '#fff', padding: '5px 20px' }}
+                          style={{ backgroundColor: '#E85454', color: '#fff', padding: '5px 20px',width: '100%' }}
                           onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}
                         >
                           Unapproved & Next
@@ -697,7 +697,7 @@ const classes = useStyles()
                     <div className="one">
                       <Button
                         variant="contained"
-                        sx={{ boxShadow: 'none', padding: '5px 20px' }}
+                        sx={{ padding: '5px 20px',width: '100%' }}
                         onClick={handleApproveNext}
                       >
                         Approve & Next

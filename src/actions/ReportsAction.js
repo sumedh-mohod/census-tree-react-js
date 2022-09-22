@@ -16,11 +16,11 @@ const GetReports = (council,fromDate,toDate) => async (dispatch) => {
       url = `${url}&to_date=${toDate}`
     }
 
-    console.log("council123",council)
+    // console.log("council123",council)
    
     try {
       const response = await JWTServer.get(`${url}`);
-      console.log("payload.data", response.data)
+      // console.log("payload.data", response.data)
       dispatch({
      
         type: GET_REPORTS,
