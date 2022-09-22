@@ -322,7 +322,7 @@ export default function ViewProperties() {
               </Table>
             </TableContainer>
           </Scrollbar>
-          {showList?(
+          { properties?(
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",

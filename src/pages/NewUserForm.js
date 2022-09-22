@@ -1123,7 +1123,7 @@ const handleSubmitErrors = () =>{
       emergencyContactNumber: Yup.string().matches(/^[0-9]\d{9}$/, 'Phone number is not valid').required('Emergency Contact Number is required'),
       dateOfJoining: Yup.string().required('DateOfJoining is required'),
       designation: Yup.string().required('Designation is required'),
-      salaryPerMonth: Yup.string().matches(/^[0-9]*$/, 'Please enter correct salaray').required('Salary per month is required'),
+      salaryPerMonth: Yup.string().matches(/^[0-9]*$/, 'Please enter correct salary').required('Salary per month is required'),
       isAgreementDone: Yup.string().required('Is agreement done is required'),
       bankName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('BankName is required'),
       accountNumber: Yup.string().required('Account number is required'),
