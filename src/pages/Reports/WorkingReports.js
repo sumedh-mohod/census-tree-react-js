@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -283,6 +284,14 @@ export default function WorkingReports(props) {
     setTodate(event.target.value);
   };
   // console.log('teamBy', teamBy);
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   return (
     <div>
@@ -399,6 +408,11 @@ export default function WorkingReports(props) {
                     error={Boolean(touched.reportType && errors.reportType)}
                     helperText={touched.reportType && errors.reportType}
                     // {...getFieldProps('reportType')}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Report Type</em>

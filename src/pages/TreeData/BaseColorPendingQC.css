@@ -84,9 +84,14 @@
       }
       @media only screen and (min-device-width : 1200px) and (max-device-width : 1800px) {
         .desktop-button{
-          margin-right: -360px !important;
+          margin-right: -345px !important;
         }
         }
+        @media only screen and (min-device-width : 1200px) and (max-device-width : 1800px) {
+          .desktop-button-{
+            margin-right: -375px !important;
+          }
+          }
     
   
     

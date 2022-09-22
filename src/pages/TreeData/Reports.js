@@ -18,7 +18,7 @@ import {
   IconButton,
   Grid,
 } from '@mui/material';
-
+import { makeStyles } from '@material-ui/core/styles';
 import TabPanel from '@mui/lab/TabPanel';
 import TabList from '@mui/lab/TabList';
 import PropTypes from 'prop-types';
@@ -288,7 +288,14 @@ export default function Reports() {
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
-
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   // console.log("reports1", reports?.by_wards)
   // const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 

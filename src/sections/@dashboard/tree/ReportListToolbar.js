@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 // material
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
@@ -363,7 +364,14 @@ export default function ReportListToolbar({
     doc.save(`${councilName}.pdf`);
     /* eslint-enable no-await-in-loop */
   };
-
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   return (
     <>
@@ -399,6 +407,11 @@ export default function ReportListToolbar({
             error={Boolean(touched.council && errors.council)}
             helperText={touched.council && errors.council}
             // {...getFieldProps("council")}
+            inputProps={{
+              classes: {
+                  icon: classes.icon,
+              },
+          }}
           >
             <MenuItem disabled value="">
               <em>Select Councils</em>

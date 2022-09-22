@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 // material
 import { styled } from '@mui/material/styles';
 import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment, Select, MenuItem, Grid } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 // component
 import { useSelector } from 'react-redux';
 import Iconify from '../../../components/Iconify';
@@ -48,7 +49,14 @@ TeamListToolbar.propTypes = {
 
 
 export default function TeamListToolbar({ callType, numSelected, filterName, onFilterName, placeHolder,handleCoucilChange,handleWardChange,handleZoneChange,coucilId,zoneId,wardId }) {
-  
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
     const {
         council,
         zones,
@@ -109,6 +117,12 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
+                
+                   inputProps={{
+                    classes: {
+                        icon: classes.icon,
+                    },
+                }}
               >
                 { callType === "Teams"?(
                   
@@ -141,6 +155,12 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
+               
+                   inputProps={{
+                    classes: {
+                        icon: classes.icon,
+                    },
+                }}
               >
                  <MenuItem disabled value="">
               <em>Zone</em>
@@ -163,6 +183,12 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
+                
+                   inputProps={{
+                    classes: {
+                        icon: classes.icon,
+                    },
+                }}
               >
                  <MenuItem disabled value="">
               <em>Ward</em>

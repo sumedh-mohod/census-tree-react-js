@@ -328,7 +328,14 @@ export default function BaseColorPendingQC() {
 
   // console.log("ZONES",baseColorPendingQCStatus.data[0].location_accuracy);
   // console.log("WARDS",wards);
-
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return showLoader ? (
@@ -352,7 +359,7 @@ export default function BaseColorPendingQC() {
             // startIcon={<Iconify icon="eva:plus-fill" />}
             className='desktop-button'
           >
-            Total Pending Trees :  <b>{totalTrees || 0}</b>
+            Total Pending Trees :  <b  style={{marginLeft: '5px'}}>{totalTrees || 0}</b>
           </Button>
           <Button
           onClick={toggleDrawer('right', true)}
@@ -401,6 +408,11 @@ export default function BaseColorPendingQC() {
                     // onChange={handleCouncilChange}
                     error={Boolean(touched.councilForm && errors.councilForm)}
                     helperText={touched.councilForm && errors.councilForm}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Council*</em>
@@ -429,6 +441,11 @@ export default function BaseColorPendingQC() {
                     // onChange={handleZoneChange}
                     error={Boolean(touched.zoneForm && errors.zoneForm)}
                     helperText={touched.zoneForm && errors.zoneForm}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Zone*</em>
@@ -459,6 +476,11 @@ export default function BaseColorPendingQC() {
                     // onChange={handleWardChange}
                     error={Boolean(touched.wardForm && errors.wardForm)}
                     helperText={touched.wardForm && errors.wardForm}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Ward*</em>
@@ -490,6 +512,11 @@ export default function BaseColorPendingQC() {
                     // error={Boolean(touched.addedByForm && errors.councilForm)}
                     //   helperText={touched.councilForm && errors.councilForm}
                     // {...getFieldProps("addedByForm")}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Added By</em>

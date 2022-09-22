@@ -22,6 +22,7 @@ import {
   Container,
   Drawer,
 } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
@@ -156,7 +157,12 @@ export default function TreeOnMap(props) {
         dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate,treeNumber))
       },
     });
-  
+    const useStyles = makeStyles({
+      icon: {
+          fill: '#214C50',
+      },
+  })
+  const classes = useStyles()
     const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   
 
@@ -234,6 +240,11 @@ export default function TreeOnMap(props) {
               }}
               error={Boolean(touched.council && errors.council)}
                 helperText={touched.council && errors.council}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
             >
                <MenuItem disabled value="">
             <em>Select Councils</em>
@@ -267,6 +278,11 @@ export default function TreeOnMap(props) {
               }}
               error={Boolean(touched.zone && errors.zone)}
                 helperText={touched.zone && errors.zone}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
             >
                <MenuItem disabled value="">
             <em>Select Zone</em>
@@ -299,6 +315,11 @@ export default function TreeOnMap(props) {
               }}
               error={Boolean(touched.ward && errors.ward)}
               helperText={touched.ward && errors.ward}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
             >
                <MenuItem disabled value="">
             <em>Select Ward</em>

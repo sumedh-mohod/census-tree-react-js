@@ -126,4 +126,4 @@
     transform: scale(1, 1);
   }
 }
-  
+select::-ms-expand { display: block; }

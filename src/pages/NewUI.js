@@ -21,6 +21,7 @@ import {
   Card,
   Breadcrumbs,
 } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
 import ImageGallery from 'react-image-gallery';
 import { useDispatch, useSelector } from 'react-redux';
@@ -330,7 +331,14 @@ export default function NewUI() {
   const handleHeritage = (e) => {
     setChecked(!checked * 1);
   };
-
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return showLoader ? (
@@ -352,9 +360,9 @@ export default function NewUI() {
             style={{boxShadow: 'none',width: '30%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
             
             // startIcon={<Iconify icon="eva:plus-fill" />}
-            className='desktop-button'
+            className='desktop-button-'
           >
-            Total Pending Trees :  <b>{totalTrees || 0}</b>
+            Total Pending Trees :  <b style={{marginLeft: '5px'}}>{totalTrees || 0}</b>
           </Button>
           <Button
            onClick={toggleDrawer('right', true)}
@@ -486,6 +494,11 @@ export default function NewUI() {
                     // onChange={handleCouncilChange}
                     error={Boolean(touched.councilForm && errors.councilForm)}
                     helperText={touched.councilForm && errors.councilForm}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Council*</em>
@@ -514,6 +527,11 @@ export default function NewUI() {
                     // onChange={handleZoneChange}
                     error={Boolean(touched.zoneForm && errors.zoneForm)}
                     helperText={touched.zoneForm && errors.zoneForm}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Zone*</em>
@@ -544,6 +562,11 @@ export default function NewUI() {
                     // onChange={handleWardChange}
                     error={Boolean(touched.wardForm && errors.wardForm)}
                     helperText={touched.wardForm && errors.wardForm}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Ward*</em>
@@ -575,6 +598,11 @@ export default function NewUI() {
                     // error={Boolean(touched.addedByForm && errors.councilForm)}
                     //   helperText={touched.councilForm && errors.councilForm}
                     // {...getFieldProps("addedByForm")}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Added By</em>
