@@ -893,6 +893,7 @@ export default function CreateCouncilDialog(props) {
             validateLogo();
             formik.handleSubmit(e)
           }}
+          variant='contained'
             >
             Save changes
           </Button>

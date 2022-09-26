@@ -43,6 +43,10 @@ const TABLE_HEAD = [
   { id: 'role', label: 'Role', alignRight: false },
   { id: 'username', label: 'Username', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'activeTeam', label: 'Active Team', alignRight: false },
+  { id: 'activeCouncil', label: 'Active Council', alignRight: false },
+  { id: 'activeZone', label: 'Active Zone', alignRight: false },
+  { id: 'activeWard', label: 'Active Ward', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -90,14 +94,15 @@ export default function User() {
   const [filterName, setFilterName] = useState('');
   const [open, setOpen] = useState(false);
   const [close, setClose] = useState();
-  const [dialogData,setDialogData] = useState(null);
-  const [search,setSearch] = useState(false);
-  const [searchValue,setSearchValue] = useState("");
-  const [pageCountError, setPageCountError]= useState(false);
+  const [dialogData, setDialogData] = useState(null);
+  const [search, setSearch] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [pageCountError, setPageCountError] = useState(false);
   const [topModalOpen, setTopModalOpen] = useState(false);
-  const [reqObj, setReqObj] = useState(null)
+  const [reqObj, setReqObj] = useState(null);
   const userPermissions = [];
-  const message = "Unlinking device will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding."
+  const message =
+    'Unlinking device will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding.';
 
   const { state } = useLocation();
 
@@ -177,23 +182,22 @@ export default function User() {
 
   const handleUnlink = (userId) => {
     const obj = {
-      user_id: userId
-    }
+      user_id: userId,
+    };
     handleTopModalClose();
     setReqObj(obj);
-    
-  }
+  };
 
   const handleTopModalClose = () => {
-    setTopModalOpen(!topModalOpen)
-  }
+    setTopModalOpen(!topModalOpen);
+  };
 
   const handleTopModalAnswer = (answer) => {
-    if(answer){
-      dispatch(UnlinkDevice(reqObj))
+    if (answer) {
+      dispatch(UnlinkDevice(reqObj));
     }
-    setTopModalOpen(!topModalOpen)
-  }
+    setTopModalOpen(!topModalOpen);
+  };
 
   return (
     <Page title="User">
@@ -203,10 +207,10 @@ export default function User() {
         data={dialogData}
         // isClose={}
         /> */}
-        <WarningMessageDialog 
-        isOpenConfirm={topModalOpen}
-        message={message}
-        handleClose = {(answer)=>handleTopModalAnswer(answer)}
+        <WarningMessageDialog
+          isOpenConfirm={topModalOpen}
+          message={message}
+          handleClose={(answer) => handleTopModalAnswer(answer)}
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
           <Typography variant="h4" gutterBottom>
@@ -254,9 +258,24 @@ export default function User() {
                         <TableCell align="left">{option.mobile}</TableCell>
                         <TableCell align="left">{option.assigned_roles}</TableCell>
                         <TableCell align="left">{option.username}</TableCell>
-                       
+                        <TableCell align="left">{option.status ? 'Active' : 'Inactive'}</TableCell>
                         <TableCell align="left">
-                          <StatusButton status={option.status} />
+                          {option.active_team?.[0]?.name ? option.active_team?.[0]?.name : '-'}
+                        </TableCell>
+                        <TableCell align="left">
+                          {option.active_team?.[0]?.active_council?.[0]?.name
+                            ? option.active_team?.[0]?.active_council?.[0]?.name
+                            : '-'}
+                        </TableCell>
+                        <TableCell align="left">
+                          {option.active_team?.[0]?.active_zone?.[0]?.name
+                            ? option.active_team?.[0]?.active_zone?.[0]?.name
+                            : '-'}
+                        </TableCell>
+                        <TableCell align="left">
+                          {option.active_team?.[0]?.active_ward?.[0]?.name
+                            ? option.active_team?.[0]?.active_ward?.[0]?.name
+                            : '-'}
                         </TableCell>
                         <TableCell align="right">
                           <UserFormListMenu
@@ -269,6 +288,17 @@ export default function User() {
                             handleUnlink={() => handleUnlink(option.id)}
                           />
                         </TableCell>
+                        {/* <TableCell align="right">
+                          <UserFormListMenu
+                            page={page}
+                            status={option.status}
+                            userId={option.id}
+                            userPermissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                            handleUnlink={() => handleUnlink(option.id)}
+                          />
+                        </TableCell> */}
                       </TableRow>
                     );
                   })}

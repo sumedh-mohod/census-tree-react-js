@@ -1,7 +1,8 @@
-import { SET_ALERT, REMOVE_ALERT, RESET_STATE, SHOW_LOADER } from "../actions/Types";
+import { SET_ALERT, REMOVE_ALERT, RESET_STATE, SHOW_LOADER, SHOW_LOADER_BUTTON } from "../actions/Types";
 
 const INIT_STATE = {
-    showLoader:false
+    showLoader:false,
+    showLoadingButton: false
 }
 
 export default function CommonReducer (state = INIT_STATE, action)  {
@@ -13,7 +14,12 @@ export default function CommonReducer (state = INIT_STATE, action)  {
         return{
             ...state,
             showLoader: payload,
-        }
+        };
+        case SHOW_LOADER_BUTTON:
+          return{
+              ...state,
+              showLoadingButton: !state.showLoadingButton,
+          }
     case RESET_STATE:
       return {...INIT_STATE};
 
