@@ -32,7 +32,7 @@ import JsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { GetReports } from '../../../actions/ReportsAction';
 import Iconify from '../../../components/Iconify';
-import Barchart from '../chart/Barchart';
+// import Barchart from '../chart/Barchart';
 
 // ----------------------------------------------------------------------
 
