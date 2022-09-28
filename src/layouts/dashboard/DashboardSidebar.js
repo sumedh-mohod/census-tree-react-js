@@ -18,6 +18,7 @@ import NavSection from '../../components/NavSection';
 //
 import navConfig from './NavConfig';
 import LogoGreen from '../../Assets/LogoGreen.png';
+import TopPlant from '../../Assets/toplant_dashboard.png';
 
 // ----------------------------------------------------------------------
 
@@ -81,14 +82,16 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       }}
       className={classes.item}
     >
-      <Box sx={{ display: 'inline-flex', pt: 3.5,pl: 2.5, pr:2.5,pb: 3.5 }} style={{borderBottom: '1.5px dashed #f8f8f8',backgroundColor: '#143334'}} >
+      <img src={TopPlant} alt="dash_plant" height='150'  style={{position: 'absolute',zIndex: 0,opacity: '0.5'}}/>  
+      <Box sx={{ display: 'inline-flex', pt: 3.5,pl: 2.5, pr:2.5,pb: 3.5 }} style={{zIndex: 1}}>
+    
       {/* <img src={PlantLogo} alt="abell" height='40' width='40' style={{marginTop: '4px'}}/> */}
       <Typography className={classes.middle} >
       <img src={LogoGreen} alt="abell" height="55" style={{marginTop: '4px'}}/> 
       <Typography className={classes.body}>Believing thoughts Mirroring believes</Typography>
       </Typography>
       </Box>
-      <NavSection navConfig={navConfig} />
+      <NavSection navConfig={navConfig} style={{paddingTop: '20px'}}/>
     </Scrollbar>
   );
 

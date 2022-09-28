@@ -11,10 +11,11 @@ import Page from '../components/Page';
 
 export default function DashboardApp() {
   const theme = useTheme();
-  const { loggedUser } = useSelector((state)=>({
-    loggedUser:state.auth.loggedUser
+  const { loggedUser, showLoader } = useSelector((state)=>({
+    loggedUser:state.auth.loggedUser,
+    showLoader: state.common.showLoader,
   }))
-// console.log('loggedUser',loggedUser);
+console.log('showLoader',showLoader);
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">

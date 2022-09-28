@@ -5,7 +5,7 @@ import { getIcon } from "@iconify/react";
 import { CircularProgress, IconButton, List, ListItem, ListItemText, Table, TableBody, TableCell,tableCellClasses,TableRow } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Visibility } from "@mui/icons-material";
-import TreeFill from '../../Assets/tree-fill.svg';
+import TreeFill from '../../Assets/tree_on_map.png';
 import { GetSpecificTreeInfo } from "../../actions/TreeOnMapAction";
 import { ShowLoader } from "../../actions/CommonAction";
 import ViewImageDialog from "../../components/DialogBox/tree-data/ViewImageDialog";

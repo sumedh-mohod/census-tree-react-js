@@ -222,10 +222,11 @@ export default function AssignNewCouncilZoneWard() {
         <Typography variant="h4" gutterBottom style={{color: "#000000", fontWeight: 400}}>
              Assigned Councils - Zones - Wards
     </Typography>
-    <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+  
+      </Breadcrumbs>
+      <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
     It is showing list of teams with its details
               </Typography>
-      </Breadcrumbs>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" >
           Assign C-Z-W

@@ -369,7 +369,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                             <TableCell align="left">
                               <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
                             </TableCell>
-                            <TableCell align="left">{option.tree_number ? option.tree_number : '-'}</TableCell>
+                            <TableCell align="left" ><b>{option.tree_number ? option.tree_number : '-'}</b></TableCell>
                             <TableCell align="left">{option.tree_name?.name}</TableCell>
                             <TableCell align="left">
                               {option.added_by?.first_name} {option.added_by?.last_name}{' '}

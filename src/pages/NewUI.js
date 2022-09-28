@@ -33,9 +33,10 @@ import { GetActiveCouncil, SetActiveCouncil } from '../actions/CouncilAction';
 import { GetActiveZones, GetActiveZonesByCouncilId, SetActiveZones } from '../actions/ZonesAction';
 import { GetActiveWards, GetActiveWardsByCouncilId, SetActiveWards } from '../actions/WardsActions';
 import { GetUsers, GetUsersByRoleID } from '../actions/UserAction';
-
+// import { ImageCarousel } from "./ImageCarousel";
 import Iconify from '../components/Iconify';
 import Page from '../components/Page';
+import ImageCarousel from '../components/ImageCarousel';
 import { GetMyActiveTeam } from '../actions/TeamsAction';
 import { ShowLoader } from '../actions/CommonAction';
 import './TreeData/BaseColorPendingQC.css';
@@ -699,10 +700,10 @@ const classes = useStyles()
       ) : (
         <>
           <Container>
-            <Card style={{ height: '750px', padding: '20px 0px' }}>
+            <Card style={{ height: '460px', padding: '0px 0px' }}>
               <Container>
-                <div className="wrapper">
-                  <div className="one">
+                <div className="wrapper" style={{paddingTop: '10px'}}>
+                  <div className="one" style={{paddingTop: '0px'}}>
                     <div className="wrapper">
                       <div className="one">
                         Tree Number: <br />
@@ -737,35 +738,7 @@ const classes = useStyles()
                           </b>
                         </div>
                       </div>
-                      <div className="one">
-                        Property Type: <br />
-                        <b>
-                          {' '}
-                          {treeCensusPendingQCStatus?.data[selectedIndex].property_type
-                            ? treeCensusPendingQCStatus.data[selectedIndex].property_type?.property_type
-                            : '-'}
-                        </b>
-                      </div>
-                      <div className="one">
-                        {' '}
-                        Property Number:
-                        <br />
-                        <b>
-                          {' '}
-                          {treeCensusPendingQCStatus?.data[selectedIndex].property?.property_number
-                            ? treeCensusPendingQCStatus.data[selectedIndex].property?.property_number
-                            : '-'}
-                        </b>
-                      </div>
-                      <div className="one">
-                        Owner Name: <br />
-                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].property?.owner_name || '-'}</b>
-                      </div>
-                      <div className="one">
-                        {' '}
-                        Tenant Name: <br />
-                        <b>{treeCensusPendingQCStatus?.data[selectedIndex].property?.tenant_name || '-'}</b>
-                      </div>
+                    
                       <div className="one">
                         {' '}
                         Added By: <br />
@@ -804,14 +777,7 @@ const classes = useStyles()
                         </div>
                       </div>
 
-                      <div className="one">
-                        Tree Conditions : <br />{' '}
-                        <b>{treeCensusPendingQCStatus?.data[selectedIndex].tree_condition.condition || '-'} </b>
-                      </div>
-                      <div className="one">
-                        Plantation Date : <br />{' '}
-                        <b>{treeCensusPendingQCStatus?.data[selectedIndex].plantation_date || '-'}</b>
-                      </div>
+                      
                       <div className="one">
                         <Button
                           onClick={handleDialogOpen}
@@ -885,6 +851,7 @@ const classes = useStyles()
                               aria-labelledby="modal-modal-title"
                               aria-describedby="modal-modal-description"
                             >
+                              {/* <ImageCarousel /> */}
                               <Box sx={style}>
                                 <img src={val.original} alt="gallery" height="650px" width="100%" />
                               </Box>
@@ -894,7 +861,44 @@ const classes = useStyles()
                       })}
                     </div>
                     <div className="wrapper" style={{ border: 'none' }}>
-                      <div className="one" style={{ border: 'none' }}>
+                    <div className="one">
+                        Property Type: <br />
+                        <b>
+                          {' '}
+                          {treeCensusPendingQCStatus?.data[selectedIndex].property_type
+                            ? treeCensusPendingQCStatus.data[selectedIndex].property_type?.property_type
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one">
+                        {' '}
+                        Property Number:
+                        <br />
+                        <b>
+                          {' '}
+                          {treeCensusPendingQCStatus?.data[selectedIndex].property?.property_number
+                            ? treeCensusPendingQCStatus.data[selectedIndex].property?.property_number
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one">
+                        Owner Name: <br />
+                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].property?.owner_name || '-'}</b>
+                      </div>
+                      <div className="one">
+                        {' '}
+                        Tenant Name: <br />
+                        <b>{treeCensusPendingQCStatus?.data[selectedIndex].property?.tenant_name || '-'}</b>
+                      </div>
+                      <div className="one">
+                        Tree Conditions : <br />{' '}
+                        <b>{treeCensusPendingQCStatus?.data[selectedIndex].tree_condition.condition || '-'} </b>
+                      </div>
+                      <div className="one">
+                        Plantation Date : <br />{' '}
+                        <b>{treeCensusPendingQCStatus?.data[selectedIndex].plantation_date || '-'}</b>
+                      </div>
+                      {/* <div className="one" style={{ border: 'none' }}>
                         <table className="bor" style={{ marginLeft: '30px' }}>
                           <tr className="border-bottom">
                             <th style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
@@ -923,7 +927,7 @@ const classes = useStyles()
                             </tr>
                           ))}
                         </table>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

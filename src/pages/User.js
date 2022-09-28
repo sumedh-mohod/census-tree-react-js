@@ -258,7 +258,8 @@ export default function User() {
                         <TableCell align="left">{option.mobile}</TableCell>
                         <TableCell align="left">{option.assigned_roles}</TableCell>
                         <TableCell align="left">{option.username}</TableCell>
-                        <TableCell align="left">{option.status ? 'Active' : 'Inactive'}</TableCell>
+                        <TableCell align="left">
+                          <StatusButton status={option.status}/></TableCell>
                         <TableCell align="left">
                           {option.active_team?.[0]?.name ? option.active_team?.[0]?.name : '-'}
                         </TableCell>

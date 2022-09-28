@@ -609,7 +609,7 @@ const classes = useStyles()
         </Grid>
       ) : (
         <Container>
-          <Card style={{ height: '450px', padding: '20px 0px' }}>
+          <Card style={{ height: '410px', padding: '0px 0px' }}>
             <Scrollbar>
             <Container>
               <div className="wrapper">
