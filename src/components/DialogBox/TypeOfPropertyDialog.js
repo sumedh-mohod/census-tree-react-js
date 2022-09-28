@@ -18,6 +18,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { AddPropertyType, EditPropertyType } from '../../actions/PropertyTypeAction';
@@ -139,7 +140,12 @@ export default function TypeOfPropertyDialog(props) {
       }
     },
   });
-
+  const useStyles = makeStyles({
+    icon: {
+      fill: '#214c50',
+  },
+  });
+  const classes = useStyles();
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
 
@@ -168,6 +174,11 @@ export default function TypeOfPropertyDialog(props) {
              displayEmpty
              placeholder="Location Type*"
              onChange={handleLocationTypeChange}
+             inputProps={{
+              classes: {
+                  icon: classes.icon,
+              },
+          }}
              //   return findValue(states,state)
              // }}
              error={Boolean(touched.location_type && errors.location_type)}

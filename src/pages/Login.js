@@ -80,7 +80,7 @@ export default function Login() {
       window.removeEventListener('resize', handleWindowResize);
     };
   }, []);
-  console.log('windowSize.innerHeight',windowSize.innerHeight);
+  // console.log('windowSize.innerHeight',windowSize.innerHeight);
   const smUp = useResponsive('up', 'sm');
 
   const mdUp = useResponsive('up', 'md');

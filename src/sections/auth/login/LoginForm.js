@@ -34,7 +34,7 @@ export default function LoginForm() {
     isLogged: state.auth.isLogged,
     showLoadingButton: state.common.showLoadingButton,
   }));
-  console.log('showLoadingButton', showLoadingButton);
+  // console.log('showLoadingButton', showLoadingButton);
   const LoginSchema = Yup.object().shape({
     // email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     email: Yup.string().required('Username is required'),

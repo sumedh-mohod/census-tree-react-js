@@ -11,7 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-
+import { makeStyles } from '@material-ui/core/styles';
 import {TextField} from '@mui/material';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
@@ -169,6 +169,12 @@ export default function DistrictDialog(props) {
     },
   });
 
+  const useStyles = makeStyles({
+    icon: {
+      fill: '#214c50',
+  },
+  });
+  const classes = useStyles();
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
 
@@ -212,6 +218,11 @@ export default function DistrictDialog(props) {
               displayEmpty
               placeholder="select State*"
               onChange={handleStateChange}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               // renderValue={(selected) => {
 
               //   console.log("SELECTED",state);

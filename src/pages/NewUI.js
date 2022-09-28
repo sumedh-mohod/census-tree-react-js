@@ -314,6 +314,7 @@ export default function NewUI() {
     onSubmit: (value) => {
       // console.log("in submit");
       // console.log("VALUE",value);
+      dispatch(ShowLoader(true));
       dispatch(
         GetTreeCensusPendingQCStatus(
           councilID,
@@ -342,11 +343,7 @@ export default function NewUI() {
 const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-  return showLoader ? (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-      <CircularProgress color="success" />
-    </div>
-  ) : (
+  return (
     <Page title="Census QC" sx={{ mt: -2 }}>
        <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
@@ -678,7 +675,14 @@ const classes = useStyles()
           </Drawer>
         </Box>
       </Stack>
-      {(treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data.length === 0) || !showData ? (
+      
+      {
+        showLoader ? (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <CircularProgress color="success" />
+          </div>
+        ) :
+      (treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data.length === 0) || !showData ? (
         <Grid
           style={{
             display: 'flex',

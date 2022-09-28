@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
-
+import { makeStyles } from '@material-ui/core/styles';
 import { AddTreeName, EditTreeName } from '../../actions/TreeNameAction';
 import { GetActiveTreeType } from '../../actions/TreeTypeActions';
 import {GetActiveTreeFamily} from "../../actions/TreeFamilyAction"
@@ -500,7 +500,12 @@ const handleFamilyChange = (event) => {
   });
 
 //  console.log("////", floweringStart)
-
+const useStyles = makeStyles({
+  icon: {
+    fill: '#214c50',
+},
+});
+const classes = useStyles();
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   // console.log("valuessss", values)
   return (
@@ -559,6 +564,11 @@ const handleFamilyChange = (event) => {
               style={{width:'83%', marginLeft: 40}}
               // placeholder='*Status'
               onChange={handleStatusChange}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               error={Boolean(touched.treeType && errors.treeType)}
                 helperText={touched.treeType && errors.treeType}
                 {...getFieldProps("treeType")}
@@ -588,6 +598,11 @@ const handleFamilyChange = (event) => {
               style={{width:'83%', marginLeft: 40}}
               placeholder='Tree family'
               onChange={handleFamilyChange}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               error={Boolean(touched.treeFamily && errors.treeFamily)}
                 helperText={touched.treeFamily && errors.treeFamily}
                 {...getFieldProps("treeFamily")}
@@ -632,6 +647,11 @@ const handleFamilyChange = (event) => {
               style={{width:'83%', marginLeft: 40}}
               // placeholder='Select Origin'
               onChange={handleOriginChange}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               error={Boolean(touched.origin && errors.origin)}
                 helperText={touched.origin && errors.origin}
                 {...getFieldProps("origin")}
