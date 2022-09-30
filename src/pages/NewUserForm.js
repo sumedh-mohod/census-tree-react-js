@@ -1368,7 +1368,7 @@ const handleSubmitErrors = () =>{
     return (
        showLoader ?
       <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
-      <CircularProgress color="success" />
+      <CircularProgress style={{color: '#214c50'}} />
       </div>
       :
       <div>

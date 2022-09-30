@@ -100,7 +100,7 @@ export default function BaseColorPendingQC() {
     showLoader: state.common.showLoader,
   }));
 
-  // console.log("showLoader",showLoader);
+  // console.log("zones",zones);
 
   loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
