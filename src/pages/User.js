@@ -18,6 +18,8 @@ import {
   Grid,
   Box,
   Pagination,
+  CircularProgress,
+  Backdrop,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Page from '../components/Page';
@@ -212,11 +214,14 @@ export default function User() {
           message={message}
           handleClose={(answer) => handleTopModalAnswer(answer)}
         />
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4" gutterBottom>
             Users
-            <br />
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
+            
+            <Typography variant="h6" style={{ fontWeight: 400 }}  >
               It is showing list of all users with its details
             </Typography>
           </Typography>
@@ -238,7 +243,7 @@ export default function User() {
           <UserListToolbar numSelected={0} placeHolder={'Search users...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                   data={dialogData}
@@ -259,7 +264,8 @@ export default function User() {
                         <TableCell align="left">{option.assigned_roles}</TableCell>
                         <TableCell align="left">{option.username}</TableCell>
                         <TableCell align="left">
-                          <StatusButton status={option.status}/></TableCell>
+                          <StatusButton status={option.status} />
+                        </TableCell>
                         <TableCell align="left">
                           {option.active_team?.[0]?.name ? option.active_team?.[0]?.name : '-'}
                         </TableCell>

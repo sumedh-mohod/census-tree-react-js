@@ -187,6 +187,7 @@ export default function Zone() {
     <Page title="User">
       <Container>
         {open ? <ZoneDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        <Scrollbar className='padscreen_'>
         {userPermissions.includes('create-zone') ? (
             <Button
               onClick={handleNewUserClick}
@@ -195,22 +196,23 @@ export default function Zone() {
               to="#"
               // startIcon={<Iconify icon="eva:plus-fill" />}
                sx={{float: 'right', mt: -4}}
+               className='padscreenadd mobbutton'
             >
               Add Zone
             </Button>
           ) : null}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
-          <div role="presentation" onClick={handleClick}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={6} mt={5}>
+          <div role="presentation" className='mob-master' onClick={handleClick}>
             <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'zones'} />
           </div>
           
         </Stack>
-
+        </Scrollbar>
         <Card>
           <UserListToolbar numSelected={0} placeHolder={'Search zone...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                   {zones?.map((option, index) => {

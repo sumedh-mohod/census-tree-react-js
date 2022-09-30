@@ -348,7 +348,7 @@ export default function TeamsList() {
           />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                      { teams?.map((option,index) => (

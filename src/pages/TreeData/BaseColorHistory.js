@@ -15,6 +15,7 @@ import {
   IconButton,
   Button,
   Breadcrumbs,
+  Modal
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +29,7 @@ import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialo
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import { GetBaseColorTreeHistory, SearchBaseColorTreeHistory } from '../../actions/BaseColorAction';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
+import ImageCarousel from '../../components/ImageCarousel';
 
 // ----------------------------------------------------------------------
 
@@ -63,6 +65,9 @@ export default function BaseColorHistory() {
    const [searchValue,setSearchValue] = useState("");
    const [showList,setShowList] = useState(false);
    const [imageList,setImageList] = useState([]);
+   const [openImageList, setOpenImageList] = useState(false);
+   const handleOpenImageList = (e) => setOpenImageList(true);
+   const handleCloseImageList = () => setOpenImageList(false);
 
    const {
     baseColorTreeHistory,
@@ -217,7 +222,7 @@ export default function BaseColorHistory() {
         <Card>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
@@ -234,7 +239,13 @@ export default function BaseColorHistory() {
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
                         <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
                         <TableCell align="left">
-                        <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
+                        <IconButton aria-label="delete" size="large" 
+                        // onClick={()=>handleViewOpen(option.images)}
+                        onClick={(e) => {
+                          setImageList(option.images || []);
+                          handleOpenImageList(e);
+                        }}
+                         color="success">
                             <Visibility />
                           </IconButton>
                           </TableCell>
@@ -252,6 +263,19 @@ export default function BaseColorHistory() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <Modal
+              open={openImageList}
+              onClose={handleCloseImageList}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Container style={{ width: '526px' }}>
+                <ImageCarousel imagelist={imageList} />
+              </Container>
+              {/* <Box sx={style}>
+                                <img src={val.original} alt="gallery" height="650px" width="100%" />
+                              </Box> */}
+            </Modal>
           </Scrollbar>
           {baseColorTreeHistory?(
           <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"

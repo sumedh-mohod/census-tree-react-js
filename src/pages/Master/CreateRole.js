@@ -187,7 +187,7 @@ export default function CreateRole() {
     <Page title="User">
       <Container >
         {open ? <CreateRoleDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
-        <Scrollbar>
+        <Scrollbar className='padscreen_'>
         {userPermissions.includes('create-role') ? (
             <Button
               onClick={handleNewUserClick}
@@ -196,16 +196,17 @@ export default function CreateRole() {
               to="#"
               // startIcon={<Iconify icon="eva:plus-fill" />}
                sx={{float: 'right',mt: 1}}
+               className='padscreenadd'
             >
               Add Role
             </Button>
           ) : null}
-        <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={7} mt={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={2} mt={5}>
           {/* <div role="presentation" onClick={handleClick}>
             <MasterBreadCrum dropDownPage={dropPage} handleDropChange={handleDropChange} />
           </div> */}
         
-        <div role="presentation" className='mob-master' onClick={handleClick} >
+        <div role="presentation" className='mob-master-' onClick={handleClick} >
         <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'roles'} />
         </div>
          
@@ -215,7 +216,7 @@ export default function CreateRole() {
           <UserListToolbar numSelected={0} placeHolder={'Search role...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                   {roles?.map((option, index) => {

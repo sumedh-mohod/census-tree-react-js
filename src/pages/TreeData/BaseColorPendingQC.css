@@ -22,7 +22,7 @@
   
   /* Add border bottom to all ones */
   .one {
-    padding: 15px;
+    padding: 10px 15px;
     border-bottom: 1px solid #e9e8e8;
     height: '120px';
     /* with flexbox:

@@ -14,7 +14,7 @@ export default function StatusPendngButton(props) {
       {props.qcStatus === 'Pending'? 
        <Button
        variant="contained"
-       style={{ backgroundColor: '#E8762F',border: '1px solid #000',fontSize: '11px',borderRadius: '5px',fontWeight: 600  }}
+       style={{ backgroundColor: '#F8EED4',border: '1px solid #B6781A',color: '#B6781A',fontSize: '12px',borderRadius: '5px',fontWeight: 600  }}
      >
        {props.qcStatus}
      </Button>:''

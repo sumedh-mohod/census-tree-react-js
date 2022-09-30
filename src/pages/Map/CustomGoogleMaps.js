@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { getIcon } from "@iconify/react";
-
-import { CircularProgress, IconButton, List, ListItem, ListItemText, Table, TableBody, TableCell,tableCellClasses,TableRow } from "@mui/material";
+import { CircularProgress, IconButton, List, ListItem,  Container,
+  Modal, ListItemText, Table, TableBody, TableCell,tableCellClasses,TableRow } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Visibility } from "@mui/icons-material";
 import TreeFill from '../../Assets/tree_on_map.png';
 import { GetSpecificTreeInfo } from "../../actions/TreeOnMapAction";
 import { ShowLoader } from "../../actions/CommonAction";
 import ViewImageDialog from "../../components/DialogBox/tree-data/ViewImageDialog";
+import ImageCarousel from "../../components/ImageCarousel";
 
 const markers = [
   {
@@ -55,6 +56,9 @@ function Map(props) {
   const [activeMarker, setActiveMarker] = useState(null);
   const [viewOpen, setViewOpen ] = useState(false);
   const [imageList,setImageList] = useState([]);
+  const [openImageList, setOpenImageList] = useState(false);
+  const handleOpenImageList = (e) => setOpenImageList(true);
+  const handleCloseImageList = () => setOpenImageList(false);
   const {
     treeDetails,
     showLoader
@@ -96,7 +100,7 @@ function Map(props) {
 
   const icon = {
     url: TreeFill,
-    scaledSize: new window.google.maps.Size(90, 42)
+    scaledSize: new window.google.maps.Size(50, 42)
   };
 
   // console.log("PROPS TREE LOCATION",props.treeLocation);
@@ -229,7 +233,13 @@ function Map(props) {
                   <TableRow>
                     <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'0px'}}>Images</TableCell>
                     <TableCell align="left" style={{paddingTop:'0px'}}>
-                    <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(treeDetails.images)} color="success">
+                    <IconButton aria-label="delete" size="large" 
+                    // onClick={()=>handleViewOpen(treeDetails.images)}
+                    onClick={(e) => {
+                      setImageList(treeDetails.images || []);
+                      handleOpenImageList(e);
+                    }}
+                     style={{color: '#214c50'}}>
                             <Visibility />
                           </IconButton>
                     </TableCell>
@@ -243,6 +253,19 @@ function Map(props) {
           ) : null}
         </Marker>
       ))}
+       <Modal
+              open={openImageList}
+              onClose={handleCloseImageList}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Container style={{ width: '526px' }}>
+                <ImageCarousel imagelist={imageList} />
+              </Container>
+              {/* <Box sx={style}>
+                                <img src={val.original} alt="gallery" height="650px" width="100%" />
+                              </Box> */}
+            </Modal>
     </GoogleMap>
   );
 }

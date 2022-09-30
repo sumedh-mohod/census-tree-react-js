@@ -306,7 +306,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
           />
         ) : null}
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <div role="presentation" onClick={handleClick}>
             <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000', fontWeight: 900, fontSize: '20px' }} separator=":">
               {/* <Link
@@ -352,7 +352,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
           />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 {!coucilId ? (
                   <TableRow>

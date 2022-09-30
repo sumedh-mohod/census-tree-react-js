@@ -139,7 +139,7 @@ const header = ["#", "Work Type", "Total Count", "From Date", "To Date"];
      
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />

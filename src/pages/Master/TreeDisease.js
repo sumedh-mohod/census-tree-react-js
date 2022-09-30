@@ -158,6 +158,7 @@ export default function TreeDisease() {
     <Page title="Tree Disease">
       <Container>
         {open ? <TreeDiaseasDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        <Scrollbar className='padscreen_'>
         {userPermissions.includes('create-tree-disease') ? (
             <Button
               onClick={handleNewUserClick}
@@ -166,22 +167,25 @@ export default function TreeDisease() {
               to="#"
               // startIcon={<Iconify icon="eva:plus-fill" />}
                 sx={{float: 'right', mt: -4}}
+                className='padscreenadd mobbutton'
             >
               Add Tree Disease
             </Button>
           ) : null}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
-          <div role="presentation" onClick={handleClick}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={6} mt={5}>
+          <div role="presentation" className='mob-master' onClick={handleClick}>
             <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'tree diseases'} />
           </div>
          
         </Stack>
+        </Scrollbar>
+        
 
         <Card>
           <UserListToolbar numSelected={0} placeHolder={'Search states...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                   {treeDisease?.map((option, index) => {

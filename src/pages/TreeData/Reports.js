@@ -117,16 +117,16 @@ export default function Reports() {
     return inputRef.current;
   };
   const treeImage = async () => {
-    console.log('treeImage', inputReftree.current);
+    // console.log('treeImage', inputReftree.current);
     return inputReftree.current;
   };
 
   const typeImage = async () => {
-    console.log('typeImage', inputRefType.current);
+    // console.log('typeImage', inputRefType.current);
     return inputRefType.current;
   };
   const conditionImage = async () => {
-    console.log('conditionImage', inputRefConditon.current);
+    // console.log('conditionImage', inputRefConditon.current);
     return inputRefConditon.current;
   };
 
@@ -297,7 +297,7 @@ const classes = useStyles()
   return (
     <Page title="User">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" style={{ color: "#000000",  fontWeight: 900, fontSize: '20px'}}separator=':'>
         {/* <Link
@@ -351,7 +351,7 @@ const classes = useStyles()
           />
         
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                   <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

@@ -19,6 +19,7 @@ import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import {Modal,Container} from '@mui/material';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -28,6 +29,7 @@ import { AddUserToTeam } from '../../../actions/TeamsAction';
 import { GetQcRemarksForBaseColor } from '../../../actions/BaseColorAction';
 import ViewImageDialog from './ViewImageDialog';
 import Iconify from '../../Iconify';
+import ImageCarousel from '../../ImageCarousel';
 // import Typography from 'src/theme/overrides/Typography';
 
 const BootstrapDialogTitle = (props) => {
@@ -72,6 +74,9 @@ export default function CensusViewDetailsDialog(props) {
   const [id, setId] = React.useState(null);
   const [viewOpen, setViewOpen] = React.useState(false);
   const [imageList, setImageList] = React.useState([]);
+  const [openImageList, setOpenImageList] = React.useState(false);
+  const handleOpenImageList = (e) => setOpenImageList(true);
+  const handleCloseImageList = () => setOpenImageList(false);
   // console.log("data",props);
   //   const {
   //     baseColorRemarks,
@@ -282,7 +287,13 @@ export default function CensusViewDetailsDialog(props) {
                 <tr>
                   <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Images</td>
                   <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>
-                  <IconButton aria-label="delete" size="large" onClick={() => handleViewOpen(props.data.images)}   sx={{color: '#214c50'}}>
+                  <IconButton aria-label="delete" size="large" 
+                  // onClick={() => handleViewOpen(props.data.images)} 
+                  onClick={(e) => {
+                    setImageList(props.data.images || []);
+                    handleOpenImageList(e);
+                  }}
+                    sx={{color: '#214c50'}}>
                             <Visibility />
                           </IconButton>
                    
@@ -322,6 +333,19 @@ export default function CensusViewDetailsDialog(props) {
             </div>
           ) : null}
         </DialogContent>
+        <Modal
+              open={openImageList}
+              onClose={handleCloseImageList}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Container style={{ width: '526px' }}>
+                <ImageCarousel imagelist={imageList} />
+              </Container>
+              {/* <Box sx={style}>
+                                <img src={val.original} alt="gallery" height="650px" width="100%" />
+                              </Box> */}
+            </Modal>
         <Divider />
         <DialogActions>
           <Button onClick={handleClose} style={{background: '#E85454', color: '#fff'}}>

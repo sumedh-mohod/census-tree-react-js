@@ -13,6 +13,7 @@ import {
   Link,
   IconButton,
   Breadcrumbs,
+  Modal
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,6 +27,7 @@ import BaseColorDialog from '../../components/DialogBox/tree-data/BaseColorDialo
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import { GetTreeCensusHistory, SearchTreeCensusHistory } from '../../actions/TreeCensusAction';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
+import ImageCarousel from '../../components/ImageCarousel';
 
 // ----------------------------------------------------------------------
 
@@ -71,6 +73,9 @@ export default function TreeCensusHistory() {
   const [searchValue, setSearchValue] = useState('');
   const [showList, setShowList] = useState(false);
   const [imageList, setImageList] = useState([]);
+  const [openImageList, setOpenImageList] = useState(false);
+  const handleOpenImageList = (e) => setOpenImageList(true);
+  const handleCloseImageList = () => setOpenImageList(false);
 
   const { treeCensusHistory, pageInfo } = useSelector((state) => ({
     treeCensusHistory: state.treeCensus.treeCensusHistory,
@@ -211,7 +216,7 @@ export default function TreeCensusHistory() {
         <Card>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                   {showList
@@ -243,7 +248,11 @@ export default function TreeCensusHistory() {
                               <IconButton
                                 aria-label="delete"
                                 size="large"
-                                onClick={() => handleViewOpen(option.images)}
+                                // onClick={() => handleViewOpen(option.images)}
+                                onClick={(e) => {
+                                  setImageList(option.images || []);
+                                  handleOpenImageList(e);
+                                }}
                                 color="success"
                               >
                                 <Visibility />
@@ -261,6 +270,19 @@ export default function TreeCensusHistory() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <Modal
+              open={openImageList}
+              onClose={handleCloseImageList}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Container style={{ width: '526px' }}>
+                <ImageCarousel imagelist={imageList} />
+              </Container>
+              {/* <Box sx={style}>
+                                <img src={val.original} alt="gallery" height="650px" width="100%" />
+                              </Box> */}
+            </Modal>
           </Scrollbar>
           {treeCensusHistory ? (
             <Pagination

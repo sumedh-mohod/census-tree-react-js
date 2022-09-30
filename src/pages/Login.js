@@ -93,7 +93,7 @@ export default function Login() {
       backgroundColor: '#fff'
     },
     item1: {
-      height: windowSize.innerHeight
+      height: windowSize.innerHeight + 20
     },
     font: {
       fontWeight: 400,
@@ -117,7 +117,7 @@ export default function Login() {
 
         {mdUp && (
           <SectionStyle sx={{ px: 5,}} className={classes.item1}>
-            <Typography style={{ top: '20px', position: 'absolute', height: '50px' }}>
+            <Typography style={{ top: '40px', position: 'absolute', height: '50px' }}>
               <Logo />
             </Typography>
             <Typography variant="h1" sx={{ mb: 0, mt: 1 }}>

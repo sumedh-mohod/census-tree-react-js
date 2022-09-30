@@ -191,6 +191,7 @@ export default function District() {
     <Page title="User">
       <Container>
         {open ? <QcRemarksDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        <Scrollbar className='padscreen_'>
         {userPermissions.includes('create-qc-remark') ? (
             <Button
               onClick={handleNewUserClick}
@@ -199,21 +200,23 @@ export default function District() {
               to="#"
               // startIcon={<Iconify icon="eva:plus-fill" />}
                sx={{float: 'right', mt: -4}}
+               className='padscreenadd mobbutton'
             >
               Add QC Remark
             </Button>
           ) : null}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
+        <Stack direction="row" alignItems="center" className='mob-master' justifyContent="space-between" mb={6} mt={5}>
           <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'qC remarks'} />
 
           
         </Stack>
+        </Scrollbar>
 
         <Card>
           <UserListToolbar numSelected={0} placeHolder={'Search QcRemarks...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                   {qcremarks?.map((option, index) => {

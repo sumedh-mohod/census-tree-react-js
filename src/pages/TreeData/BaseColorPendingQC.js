@@ -18,6 +18,7 @@ import {
   CircularProgress,
   Breadcrumbs,
   Card,
+  Backdrop
 } from '@mui/material';
 import './BaseColorPendingQC.css';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,6 +27,7 @@ import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
 import moment from 'moment';
 import ImageGallery from 'react-image-gallery';
 import { useDispatch, useSelector } from 'react-redux';
+import FullLoader from '../../components/Loader/FullLoader';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
 import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
@@ -43,6 +45,7 @@ import { GetMyActiveTeam } from '../../actions/TeamsAction';
 import { GetBaseColorPendingQCStatus, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import { ShowLoader } from '../../actions/CommonAction';
+import ImageCarousel from '../../components/ImageCarousel';
 
 export default function BaseColorPendingQC() {
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -62,10 +65,10 @@ export default function BaseColorPendingQC() {
   const userPermissions = [];
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (e) => setOpen(true);
   const handleClose = () => setOpen(false);
   let selectedUsers;
-
+ 
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -339,39 +342,38 @@ export default function BaseColorPendingQC() {
 const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-  return  (
+  return (
     <Page title="User" sx={{ mt: -2 }}>
       <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
+      <FullLoader showLoader={showLoader}/>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
-          Base Color QC
+            Base Color QC
             <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing Base Color QC
+              It is showing Base Color QC
             </Typography>
           </Typography>
+        
           <Button
             to="#"
-            style={{width: '30%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
-            
+            style={{ width: '30%', fontWeight: 500, fontSize: '15px', backgroundColor: '#E8762F', color: '#fff' }}
             // startIcon={<Iconify icon="eva:plus-fill" />}
-            className='desktop-button'
+            className="desktop-button"
           >
-            Total Pending Trees :  <b  style={{marginLeft: '5px'}}>{totalTrees || 0}</b>
+            Total Pending Trees : <b style={{ marginLeft: '5px' }}>{totalTrees || 0}</b>
           </Button>
           <Button
-          onClick={toggleDrawer('right', true)}
+            onClick={toggleDrawer('right', true)}
             variant="contained"
             to="#"
-           
             startIcon={<Iconify icon="eva:funnel-fill" />}
           >
             Filters
           </Button>
-          
         </Stack>
       </Container>
-      
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
         <Box sx={{ height: '100', mr: 3 }} xs={12}>
           <Drawer
             sx={{
@@ -407,9 +409,9 @@ const classes = useStyles()
                     helperText={touched.councilForm && errors.councilForm}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Council*</em>
@@ -440,9 +442,9 @@ const classes = useStyles()
                     helperText={touched.zoneForm && errors.zoneForm}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Zone*</em>
@@ -475,9 +477,9 @@ const classes = useStyles()
                     helperText={touched.wardForm && errors.wardForm}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Ward*</em>
@@ -511,9 +513,9 @@ const classes = useStyles()
                     // {...getFieldProps("addedByForm")}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Added By</em>
@@ -574,7 +576,7 @@ const classes = useStyles()
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
-                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5}}
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 }}
                 >
                   Apply
                 </Button>
@@ -584,37 +586,31 @@ const classes = useStyles()
           </Drawer>
         </Box>
       </Stack>
-      {
-        showLoader ? (
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-            <CircularProgress color="success" />
-          </div>
-        ) :
-        (baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data.length === 0) || !showData ? (
-          <Grid
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: '20%',
-              // margin: 'auto '
-            }}
-          >
-            {/* <Typography><Iconify icon="eva:funnel-fill" /></Typography> */}
-            <Typography align="center">
-              <Typography sx={{ color: '#214C50', fontSize: '50px', mb: -2 }}>
-                <Iconify icon="eva:funnel-fill" />
-              </Typography>
-              <b style={{ fontSize: '20px' }}>Filter Data</b>
-              <Typography>Please filter Base Color QC data and here You will see the Base Color QC list</Typography>
+      {(baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data.length === 0) || !showData ? (
+        <Grid
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '20%',
+            // margin: 'auto '
+          }}
+        >
+          {/* <Typography><Iconify icon="eva:funnel-fill" /></Typography> */}
+          <Typography align="center">
+            <Typography sx={{ color: '#214C50', fontSize: '50px', mb: -2 }}>
+              <Iconify icon="eva:funnel-fill" />
             </Typography>
-          </Grid>
-        ) : (
-          <Container>
-            <Card style={{ height: '410px', padding: '0px 0px' }}>
-              <Scrollbar>
+            <b style={{ fontSize: '20px' }}>Filter Data</b>
+            <Typography>Please filter Base Color QC data and here You will see the Base Color QC list</Typography>
+          </Typography>
+        </Grid>
+      ) : (
+        <Container>
+          <Card style={{ height: '375px', padding: '10px 0px 0px 0px' }}>
+            <Scrollbar>
               <Container>
-                <div className="wrapper">
+                <div className="wrapper" >
                   <div className="one">
                     <div className="wrapper">
                       <div className="one">
@@ -689,7 +685,7 @@ const classes = useStyles()
                       <div className="one">
                         {userPermissions.includes('unapprove-base-color-tree') ? (
                           <Button
-                            style={{ backgroundColor: '#E85454', color: '#fff', padding: '5px 20px',width: '100%' }}
+                            style={{ backgroundColor: '#E85454', color: '#fff', padding: '5px 20px', width: '100%' }}
                             onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}
                           >
                             Unapproved & Next
@@ -699,7 +695,7 @@ const classes = useStyles()
                       <div className="one">
                         <Button
                           variant="contained"
-                          sx={{ padding: '5px 20px',width: '100%' }}
+                          sx={{ padding: '5px 20px', width: '100%' }}
                           onClick={handleApproveNext}
                         >
                           Approve & Next
@@ -719,7 +715,15 @@ const classes = useStyles()
                     <div className="wrapper">
                       {imageList?.map((val, index) => {
                         return (
-                          <div className="one" key={index} style={{ border: 'none', display: 'flex' }}>
+                          <div
+                            className="one"
+                            key={index}
+                            style={{ border: 'none', display: 'flex', padding: '5px', cursor: 'pointer' }}
+                            onClick={(e) => handleOpen(e)}
+                            onKeyDown={(e) => handleOpen(e)}
+                            role="button"
+                            tabIndex={0}
+                          >
                             <img
                               src={val.original}
                               alt="gallery"
@@ -727,33 +731,35 @@ const classes = useStyles()
                               width="150px"
                               style={{ borderRadius: '7px' }}
                             />
-                            <button
+                            {/* <button
                               onClick={handleOpen}
                               style={{ background: 'none', border: 'none', position: 'absolute', color: '#fff' }}
                             >
                               <Iconify icon="eva:expand-outline" height="50px" width="50px" />
-                            </button>
-                            <Modal
-                              open={open}
-                              onClose={handleClose}
-                              aria-labelledby="modal-modal-title"
-                              aria-describedby="modal-modal-description"
-                            >
-                              <Box sx={style}>
-                                <img src={val.original} alt="gallery" height="100%" width="100%" />
-                              </Box>
-                            </Modal>
+                            </button> */}
                           </div>
                         );
                       })}
                     </div>
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Container style={{width: '526px'}}>
+                        <ImageCarousel imagelist={imageList} />
+                      </Container>
+                      {/* <Box sx={style}>
+                                <img src={val.original} alt="gallery" height="100%" width="100%" />
+                              </Box> */}
+                    </Modal>
                   </div>
                 </div>
               </Container>
-              </Scrollbar>
-             
-  
-              {/* <Grid item xs={12}>
+            </Scrollbar>
+
+            {/* <Grid item xs={12}>
                 <Stack spacing={2}>
                   <Typography variant="h4" gutterBottom align="center">
                     Total Pending Trees: {totalTrees}
@@ -875,11 +881,9 @@ const classes = useStyles()
                   </Box>
                 </Stack>
               </Grid> */}
-            </Card>
-          </Container>
-        )
-      }
-     
+          </Card>
+        </Container>
+      )}
     </Page>
   );
 }

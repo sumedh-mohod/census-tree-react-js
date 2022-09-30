@@ -174,6 +174,7 @@ export default function CreateDestination() {
     <Page title="User">
       <Container>
         {open ? <CreateDesignationDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        <Scrollbar className='padscreen_'>
         {userPermissions.includes('create-designation') ? (
             <Button
               onClick={handleNewUserClick}
@@ -182,22 +183,23 @@ export default function CreateDestination() {
               to="#"
               // startIcon={<Iconify icon="eva:plus-fill" />}
                sx={{float: 'right', mt: -4}}
+               className='padscreenadd mobbutton'
             >
               Add Designation
             </Button>
           ) : null}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
-          <div role="presentation" onClick={handleClick}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={6} mt={5}>
+          <div role="presentation" className='mob-master' onClick={handleClick}>
             <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'designations'} />
           </div>
           
         </Stack>
-
+      </Scrollbar>
         <Card>
           <UserListToolbar numSelected={0} placeHolder={'Search designations...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                      {designations?.map((option,index) => {

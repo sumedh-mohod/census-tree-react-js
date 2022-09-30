@@ -14,12 +14,13 @@ import {
   form,
   Modal,
   Select,
-  MenuItem,
+  MenuItem, 
   FormControlLabel,
   Checkbox,
   CircularProgress,
   Card,
   Breadcrumbs,
+ 
 } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
@@ -40,6 +41,7 @@ import ImageCarousel from '../components/ImageCarousel';
 import { GetMyActiveTeam } from '../actions/TeamsAction';
 import { ShowLoader } from '../actions/CommonAction';
 import './TreeData/BaseColorPendingQC.css';
+import FullLoader from '../components/Loader/FullLoader';
 
 export default function NewUI() {
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -56,12 +58,14 @@ export default function NewUI() {
   const [totalTrees, setTotalTrees] = React.useState('');
   const [checked, setChecked] = React.useState(0);
   const [showData, setShowData] = React.useState(false);
+  const [index, setIndex] = React.useState(0);
   const userPermissions = [];
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (e) => setOpen(true);
   const handleClose = () => setOpen(false);
   let selectedUsers;
+
 
   const [state, setState] = React.useState({
     top: false,
@@ -110,7 +114,7 @@ export default function NewUI() {
   //   });
   //     console.log(":::::::::", selectedUsers);
   // }
-
+console.log('index....', index);
   const firstRun = React.useRef(true);
   useEffect(() => {
     if (firstRun.current) {
@@ -142,6 +146,7 @@ export default function NewUI() {
     dispatch(SetActiveZones(activeZoneObj));
     setSelectedIndex(0);
   }, [activeTeams]);
+  
 
   const secondRun = React.useRef(true);
   useEffect(() => {
@@ -170,6 +175,7 @@ export default function NewUI() {
       setImageList(imageList);
     }
   }, [updateQCStatusLog, updateCensusTreeLog, referToExpertLog]);
+  console.log("imageList",imageList);
 
   const thirdRun = React.useRef(true);
   useEffect(() => {
@@ -345,6 +351,7 @@ const classes = useStyles()
 
   return (
     <Page title="Census QC" sx={{ mt: -2 }}>
+        <FullLoader showLoader={showLoader}/>
        <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
@@ -374,7 +381,7 @@ const classes = useStyles()
           
         </Stack>
       </Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
         {/* <Container sx={{ pl: 0 }}>
           <Typography variant="h4" gutterBottom>
             Census QC
@@ -676,13 +683,7 @@ const classes = useStyles()
         </Box>
       </Stack>
       
-      {
-        showLoader ? (
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-            <CircularProgress color="success" />
-          </div>
-        ) :
-      (treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data.length === 0) || !showData ? (
+      {(treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data.length === 0) || !showData ? (
         <Grid
           style={{
             display: 'flex',
@@ -704,7 +705,7 @@ const classes = useStyles()
       ) : (
         <>
           <Container>
-            <Card style={{ height: '460px', padding: '0px 0px' }}>
+            <Card style={{ padding: '0px 0px 10px 0px' }} >
               <Container>
                 <div className="wrapper" style={{paddingTop: '10px'}}>
                   <div className="one" style={{paddingTop: '0px'}}>
@@ -790,7 +791,7 @@ const classes = useStyles()
                           
                             width: '100%',
                             color: '#fff',
-                            padding: '5px 20px',
+                            padding: '5px 40px',
                           }}
                         >
                           Unapproved & Next
@@ -835,35 +836,43 @@ const classes = useStyles()
                       {/* <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} /> */}
                       {imageList?.map((val, index) => {
                         return (
-                          <div className="one" key={index} style={{ border: 'none', display: 'flex' }}>
+                          <div className="one" key={index} style={{ border: 'none', display: 'flex', padding: '5px', cursor: 'pointer'  }} onClick={(e)=>{handleOpen(e);setIndex(index)}} 
+                          onKeyDown={(e)=>handleOpen(e)} role='button' tabIndex={0}>
+                           
                             <img
                               src={val.original}
                               alt="gallery"
                               height="100px"
                               width="90px"
                               style={{ borderRadius: '7px' }}
+                           
                             />
-                            <button
+                          
+                            
+                            {/* <button
                               onClick={handleOpen}
                               style={{ background: 'none', border: 'none', position: 'absolute', color: '#fff' }}
                             >
                               <Iconify icon="eva:expand-outline" height="50px" width="50px" />
-                            </button>
-                            <Modal
+                            </button> */}
+                           
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <Modal
                               open={open}
                               onClose={handleClose}
                               aria-labelledby="modal-modal-title"
                               aria-describedby="modal-modal-description"
                             >
-                              {/* <ImageCarousel /> */}
-                              <Box sx={style}>
+                             <Container style={{width: '526px'}}>
+                             <ImageCarousel imagelist={imageList} activeindex={index}/>
+                             </Container>
+                              {/* <Box sx={style}>
                                 <img src={val.original} alt="gallery" height="650px" width="100%" />
-                              </Box>
+                              </Box> */}
                             </Modal>
-                          </div>
-                        );
-                      })}
-                    </div>
                     <div className="wrapper" style={{ border: 'none' }}>
                     <div className="one">
                         Property Type: <br />
