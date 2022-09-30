@@ -327,7 +327,7 @@ const classes = useStyles()
                 Reports
               </Typography>
             </Breadcrumbs>
-            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400', marginTop: '-8px'  }}>
                 It will show census report
               </Typography>
           </div>

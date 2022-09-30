@@ -233,7 +233,7 @@ export default function NoTreeProperty() {
                 No Tree Properties
               </Typography>
             </Breadcrumbs>
-            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400', marginTop: '-8px'  }}>
               It is showing list of trees with its details
             </Typography>
           </div>

@@ -232,7 +232,7 @@ export default function DeniedEntry() {
                 Denied Entries
               </Typography>
             </Breadcrumbs>
-            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400', marginTop: '-8px'  }}>
               It is showing list of tree data with its details
             </Typography>
           </div>
