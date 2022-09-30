@@ -58,7 +58,7 @@ export default function NewUI() {
   const [totalTrees, setTotalTrees] = React.useState('');
   const [checked, setChecked] = React.useState(0);
   const [showData, setShowData] = React.useState(false);
-  const [index, setIndex] = React.useState(0);
+  const [activeIndex, setActiveIndex] = React.useState(0);
   const userPermissions = [];
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const [open, setOpen] = React.useState(false);
@@ -114,7 +114,7 @@ export default function NewUI() {
   //   });
   //     console.log(":::::::::", selectedUsers);
   // }
-console.log('index....', index);
+// console.log('index....', index);
   const firstRun = React.useRef(true);
   useEffect(() => {
     if (firstRun.current) {
@@ -836,7 +836,7 @@ const classes = useStyles()
                       {/* <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} /> */}
                       {imageList?.map((val, index) => {
                         return (
-                          <div className="one" key={index} style={{ border: 'none', display: 'flex', padding: '5px', cursor: 'pointer'  }} onClick={(e)=>{handleOpen(e);setIndex(index)}} 
+                          <div className="one" key={index} style={{ border: 'none', display: 'flex', padding: '5px', cursor: 'pointer'  }} onClick={(e)=>{handleOpen(e);setActiveIndex(index)}} 
                           onKeyDown={(e)=>handleOpen(e)} role='button' tabIndex={0}>
                            
                             <img
@@ -867,7 +867,7 @@ const classes = useStyles()
                               aria-describedby="modal-modal-description"
                             >
                              <Container style={{width: '526px'}}>
-                             <ImageCarousel imagelist={imageList} activeindex={index}/>
+                             <ImageCarousel imagelist={imageList} activeindex={activeIndex}/>
                              </Container>
                               {/* <Box sx={style}>
                                 <img src={val.original} alt="gallery" height="650px" width="100%" />

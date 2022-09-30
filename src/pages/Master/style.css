@@ -29,6 +29,7 @@
     @media only screen and (min-device-width : 1224px) and (max-device-width : 1824px) {
         .padscreenadd{
             margin-top: 4px;
+            z-index: 1;
         }
         }
         
