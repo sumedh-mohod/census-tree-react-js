@@ -1380,7 +1380,7 @@ const handleSubmitErrors = () =>{
         />
        
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" style={{marginBottom: '-20px'}}>
+          <Typography variant="h4" style={{marginBottom: '-20px',marginLeft: '10px'}}>
           {editUser?"Edit User":"Create User"}
           </Typography>
           </Stack>
