@@ -613,7 +613,7 @@ const classes = useStyles()
                 <div className="wrapper" >
                   <div className="one">
                     <div className="wrapper">
-                      <div className="one">
+                      <div className="one mob-cen">
                         Location Type: <br />
                         <b>
                           {baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type
@@ -621,7 +621,7 @@ const classes = useStyles()
                             : '-'}
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         {' '}
                         Accuracy Needed:
                         <br />
@@ -632,7 +632,7 @@ const classes = useStyles()
                             : '-'}
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         Property Type: <br />
                         <b>
                           {baseColorPendingQCStatus?.data[selectedIndex].property_type
@@ -640,7 +640,7 @@ const classes = useStyles()
                             : '-'}
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         {' '}
                         Property Number: <br />
                         <b>
@@ -649,7 +649,7 @@ const classes = useStyles()
                             : '-'}
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         {' '}
                         Owner Name: <br />
                         <b>
@@ -658,7 +658,7 @@ const classes = useStyles()
                             : '-'}
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         Tenant Name : <br />
                         <b>
                           {baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name
@@ -666,7 +666,7 @@ const classes = useStyles()
                             : '-'}
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         Added by : <br />
                         <b>
                           {baseColorPendingQCStatus?.data[selectedIndex].added_by
@@ -674,7 +674,7 @@ const classes = useStyles()
                             : '-'}
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         Added On : <br />{' '}
                         <b>
                           {baseColorPendingQCStatus?.data[selectedIndex].added_on_date
@@ -682,7 +682,7 @@ const classes = useStyles()
                             : '-'}
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         {userPermissions.includes('unapprove-base-color-tree') ? (
                           <Button
                             style={{ backgroundColor: '#E85454', color: '#fff', padding: '5px 20px', width: '100%' }}
@@ -692,7 +692,7 @@ const classes = useStyles()
                           </Button>
                         ) : null}
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         <Button
                           variant="contained"
                           sx={{ padding: '5px 20px', width: '100%' }}
@@ -716,7 +716,7 @@ const classes = useStyles()
                       {imageList?.map((val, index) => {
                         return (
                           <div
-                            className="one"
+                            className="one "
                             key={index}
                             style={{ border: 'none', display: 'flex', padding: '5px', cursor: 'pointer' }}
                             onClick={(e) => handleOpen(e)}

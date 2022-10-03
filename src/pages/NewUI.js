@@ -710,13 +710,13 @@ const classes = useStyles()
                 <div className="wrapper" style={{paddingTop: '10px'}}>
                   <div className="one" style={{paddingTop: '0px'}}>
                     <div className="wrapper">
-                      <div className="one">
+                      <div className="one mob-cen">
                         Tree Number: <br />
                         <Button variant="contained" >
                           {treeCensusPendingQCStatus?.data[selectedIndex].tree_number || '-'}
                         </Button>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         Tree Name(Botanical Name): <br />
                         <b>
                           {' '}
@@ -724,16 +724,16 @@ const classes = useStyles()
                           {treeCensusPendingQCStatus?.data[selectedIndex].tree_name?.botanical_name})
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         Tree Type: <br />
                         <b> {treeCensusPendingQCStatus?.data[selectedIndex].tree_type.tree_type || '-'}</b>
                       </div>
                       <div className="wrapper">
-                        <div className="one border-bottom" style={{ borderBottom: '1px solid #e9e8e8' }}>
+                        <div className="one border-bottom mob-cen" style={{ borderBottom: '1px solid #e9e8e8' }}>
                           Location Type: <br />
                           <b>{treeCensusPendingQCStatus?.data[selectedIndex].location_type?.location_type || '-'}</b>
                         </div>
-                        <div className="one border-bottom">
+                        <div className="one border-bottom mob-cen">
                           Accuracy captured: <br />
                           <b>
                             {' '}
@@ -744,7 +744,7 @@ const classes = useStyles()
                         </div>
                       </div>
                     
-                      <div className="one">
+                      <div className="one mob-cen">
                         {' '}
                         Added By: <br />
                         <b>
@@ -753,31 +753,31 @@ const classes = useStyles()
                           {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.last_name}
                         </b>
                       </div>
-                      <div className="wrapper">
-                      <div className="one border-bottom">
+                      <div className="wrapper ">
+                      <div className="one border-bottom mob-cen">
                         Added On : <br />
                         <b> {treeCensusPendingQCStatus?.data[selectedIndex].added_on_date || '-'}</b>
                       </div>
-                      <div className="one border-bottom">
+                      <div className="one border-bottom mob-cen">
                         Age : <br />
                         <b> {treeCensusPendingQCStatus?.data[selectedIndex].age || '-'}</b>
                       </div>
                       </div>
                       <div className="wrapper">
-                        <div className="one border-bottom">
+                        <div className="one border-bottom mob-cen">
                           Girth : <br />
                           <b>{treeCensusPendingQCStatus?.data[selectedIndex].girth || '-'}</b>
                         </div>
-                        <div className="one border-bottom">
+                        <div className="one border-bottom mob-cen">
                           Canopy : <br />
                           <b> {treeCensusPendingQCStatus?.data[selectedIndex].canopy || '-'}</b>
                         </div>
                       </div>
                       <div className="wrapper">
-                        <div className="one border-bottom border-left">
+                        <div className="one border-bottom border-left mob-cen">
                           Height : <br /> <b> {treeCensusPendingQCStatus?.data[selectedIndex].height || '-'}</b>
                         </div>
-                        <div className="one border-bottom">
+                        <div className="one border-bottom mob-cen">
                           Area(Sq. Feet) : <br />{' '}
                           <b>
                             {' '}
@@ -789,7 +789,7 @@ const classes = useStyles()
                       </div>
 
                       
-                      <div className="one">
+                      <div className="one mob-cen">
                         <Button
                           onClick={handleDialogOpen}
                           style={{
@@ -804,7 +804,7 @@ const classes = useStyles()
                           Unapproved & Next
                         </Button>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         <Button
                           onClick={handleReferToExpert}
                           sx={{
@@ -831,7 +831,7 @@ const classes = useStyles()
                      
                       </div> */}
                     </div>
-                    <Container style={{ paddingLeft: '15px', paddingRight: '15px' }}>
+                    <Container style={{ paddingLeft: '15px', paddingRight: '15px' }} className='mob-cen'>
                       <Button variant="contained" sx={{ boxShadow: 'none', width: '100%' }} onClick={handleApproveNext}>
                         Approve & Next
                       </Button>
