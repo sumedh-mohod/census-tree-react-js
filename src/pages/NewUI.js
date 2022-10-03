@@ -114,7 +114,7 @@ export default function NewUI() {
   //   });
   //     console.log(":::::::::", selectedUsers);
   // }
-// console.log('index....', index);
+console.log('treeCensusPendingQCStatus....', treeCensusPendingQCStatus);
   const firstRun = React.useRef(true);
   useEffect(() => {
     if (firstRun.current) {
@@ -734,7 +734,7 @@ const classes = useStyles()
                           <b>{treeCensusPendingQCStatus?.data[selectedIndex].location_type?.location_type || '-'}</b>
                         </div>
                         <div className="one border-bottom">
-                          LAN: <br />
+                          Accuracy captured: <br />
                           <b>
                             {' '}
                             {treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy
@@ -753,9 +753,15 @@ const classes = useStyles()
                           {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.last_name}
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="wrapper">
+                      <div className="one border-bottom">
                         Added On : <br />
                         <b> {treeCensusPendingQCStatus?.data[selectedIndex].added_on_date || '-'}</b>
+                      </div>
+                      <div className="one border-bottom">
+                        Age : <br />
+                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].age || '-'}</b>
+                      </div>
                       </div>
                       <div className="wrapper">
                         <div className="one border-bottom">
@@ -772,7 +778,7 @@ const classes = useStyles()
                           Height : <br /> <b> {treeCensusPendingQCStatus?.data[selectedIndex].height || '-'}</b>
                         </div>
                         <div className="one border-bottom">
-                          Area(sq.Fit) : <br />{' '}
+                          Area(Sq. Feet) : <br />{' '}
                           <b>
                             {' '}
                             {treeCensusPendingQCStatus?.data[selectedIndex].property?.area
@@ -791,8 +797,9 @@ const classes = useStyles()
                           
                             width: '100%',
                             color: '#fff',
-                            padding: '5px 40px',
+                          
                           }}
+                          className='unapproved'
                         >
                           Unapproved & Next
                         </Button>

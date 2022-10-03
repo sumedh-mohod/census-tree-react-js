@@ -143,7 +143,7 @@ function Map(props) {
             <InfoWindow onCloseClick={() => setActiveMarker(null)}>
               {showLoader ?
               <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%',minHeight:'100px',minWidth:'100px' }}>
-              <CircularProgress color="success" />
+              <CircularProgress style={{color: '#214c50'}} />
               </div>
               :
               <div>

@@ -165,6 +165,7 @@ const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDat
     });
     dispatch(ShowLoader(false));
   } catch (e) {
+    dispatch(ShowLoader(false));
     dispatch(HandleExceptionWithSecureCatch(e));
   }
 };

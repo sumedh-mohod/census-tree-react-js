@@ -288,7 +288,9 @@ export default function BaseColor() {
     dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
-
+  console.log('council...', council)
+  console.log('coucilId', coucilId);
+  console.log('zones', zones);
   return (
     <Page title="User">
       <Container>
