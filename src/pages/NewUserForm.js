@@ -1380,7 +1380,7 @@ const handleSubmitErrors = () =>{
         />
        
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" style={{marginBottom: '-20px'}}>
           {editUser?"Edit User":"Create User"}
           </Typography>
           </Stack>
@@ -1560,7 +1560,7 @@ const handleSubmitErrors = () =>{
              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4}>
                 <TextField
                   fullWidth
-                  style={{width: "110%"}}
+                  style={{width: "115%"}}
                   id="addressLine2"
                   autoComplete="addressLine2"
                   label="Address Line 2"
@@ -1574,7 +1574,7 @@ const handleSubmitErrors = () =>{
                 fullWidth 
                 id="city" 
                 name="city"
-                style={{width: "105% "}}
+                style={{width: "110% "}}
                 // style={{marginRight: 30}}
                 autoComplete="city" 
                 label="City*" 
@@ -1763,6 +1763,7 @@ const handleSubmitErrors = () =>{
                   label="Education*"
                   placeholder="Education*"
                   value={values.education}
+                  
                   onChange={(e)=>{handleEducationChange(e);
                     formik.handleChange(e)}}
                   error={Boolean(touched.education && errors.education)}
@@ -2295,6 +2296,7 @@ const handleSubmitErrors = () =>{
                 id="deductionType"
                 name='deductionType'
                 label="Deduction Type*"
+                style={{marginBottom: '20px'}}
                 displayEmpty
                 // style={{width: '87%',}}
                 defaultValue={data? data.noticedPeriods: ""}
