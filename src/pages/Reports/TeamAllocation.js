@@ -179,7 +179,7 @@ const header = ["#", "User", "Role", "Team","Council","Zone","Ward","Allocated",
       
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />

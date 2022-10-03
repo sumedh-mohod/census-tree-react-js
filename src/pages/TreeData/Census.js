@@ -306,7 +306,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
           />
         ) : null}
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <div role="presentation" onClick={handleClick}>
             <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000', fontWeight: 900, fontSize: '20px' }} separator=":">
               {/* <Link
@@ -332,7 +332,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                 Census
               </Typography>
             </Breadcrumbs>
-            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400', marginTop: '-8px'  }}>
               It is showing list of trees with its details
             </Typography>
           </div>
@@ -352,7 +352,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
           />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 {!coucilId ? (
                   <TableRow>
@@ -369,7 +369,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                             <TableCell align="left">
                               <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
                             </TableCell>
-                            <TableCell align="left">{option.tree_number ? option.tree_number : '-'}</TableCell>
+                            <TableCell align="left" ><b>{option.tree_number ? option.tree_number : '-'}</b></TableCell>
                             <TableCell align="left">{option.tree_name?.name}</TableCell>
                             <TableCell align="left">
                               {option.added_by?.first_name} {option.added_by?.last_name}{' '}

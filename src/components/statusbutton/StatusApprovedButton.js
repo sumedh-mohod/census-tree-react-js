@@ -14,7 +14,7 @@ export default function StatusApprovedButton(props) {
       {props.qcStatus === 'Approved'? 
        <Button
        variant="contained"
-       style={{ backgroundColor: '#3B8038',border: '1px solid #000', fontSize: '11px',borderRadius: '5px',fontWeight: 600 }}
+       style={{ backgroundColor: '#DDFAD1',color: '#43901C',border: '1px solid #43901C', fontSize: '12px',borderRadius: '5px',fontWeight: 600 }}
      >
        {props.qcStatus}
      </Button>:''

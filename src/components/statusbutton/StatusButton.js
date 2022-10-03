@@ -15,6 +15,7 @@ export default function StatusButton(props) {
       color: '#fff',
       border: 'none',
       fontFamily: 'Poppins',
+      fontSize: '12px',
     },
 
     inactive: {
@@ -24,6 +25,7 @@ export default function StatusButton(props) {
       color: '#fff',
       border: 'none',
       fontFamily: 'Poppins',
+      fontSize: '12px',
     },
   });
   const classes = useStyles();

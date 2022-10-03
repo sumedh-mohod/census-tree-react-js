@@ -19,6 +19,8 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
+  height: 44,
+  backgroundColor: '#F8F8F8 !important',
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
@@ -45,7 +47,6 @@ TeamListToolbar.propTypes = {
   zoneId:PropTypes.any,
   wardId:PropTypes.any
 };
-
 
 
 export default function TeamListToolbar({ callType, numSelected, filterName, onFilterName, placeHolder,handleCoucilChange,handleWardChange,handleZoneChange,coucilId,zoneId,wardId }) {
@@ -88,7 +89,7 @@ const classes = useStyles()
           placeholder="Search here"
           startAdornment={
             <InputAdornment position="start">
-               <img src={SearchImage} alt="abell" height='25' width='30' />
+               <img src={SearchImage} alt="abell" height='25' width='35' />
               {/* <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} /> */}
             </InputAdornment>
           }

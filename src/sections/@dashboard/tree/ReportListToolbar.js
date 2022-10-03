@@ -45,6 +45,7 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
+  height: 44,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
@@ -433,7 +434,7 @@ const classes = useStyles()
                 label="From Date*"
                 placeholder="From Date*"
                 // defaultValue={councilArr?.project_start_date}
-                style={{ width: '90.5%', marginLeft: 20 }}
+                style={{ width: '90.5%',marginLeft: '15px' }}
                 // className={classes.textField}
                 error={Boolean(touched.fromDate && errors.fromDate)}
                 helperText={touched.fromDate && errors.fromDate}
@@ -452,7 +453,7 @@ const classes = useStyles()
                 label="To Date*"
                 placeholder="To Date*"
                 // defaultValue={project_end_date}
-                style={{ width: '90.5%', marginLeft: 30 }}
+                style={{ width: '90.5%', marginLeft: '15px',  }}
                 // className={classes.textField}
                 error={Boolean(touched.toDate && errors.toDate)}
                 helperText={touched.toDate && errors.toDate}
@@ -467,7 +468,7 @@ const classes = useStyles()
               <Button
                 variant="contained"
                 onClick={handleSubmit}
-                style={{ marginLeft: 30, marginTop: 2, height: 50, width: 150 }}
+                style={{ marginLeft: '15px', marginTop: 2, height: 50, width: 150 }}
               >
                 View Report
               </Button>
@@ -478,7 +479,7 @@ const classes = useStyles()
                 <Button
                   variant="contained"
                   onClick={handleSubmit}
-                  style={{ marginLeft: 30, marginTop: 2, height: 50, width: 150, backgroundColor: '#DF6526'}}
+                  style={{ marginLeft: '15px', marginTop: 2, height: 50, width: 150, backgroundColor: '#DF6526'}}
                 >
                   Export Report
                 </Button>
@@ -486,7 +487,7 @@ const classes = useStyles()
                 <Button
                   variant="contained"
                   onClick={exportPdf}
-                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150, backgroundColor: '#DF6526'}}
+                  style={{ marginLeft: '15px', marginTop: 5, height: 50, width: 150, backgroundColor: '#DF6526'}}
                 >
                   Export Report
                 </Button>

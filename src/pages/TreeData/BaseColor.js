@@ -17,6 +17,7 @@ import {
   Pagination,
   Link,
   IconButton,
+  Modal
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Visibility } from '@mui/icons-material';
@@ -39,6 +40,7 @@ import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog'
 import StatusPendngButton from '../../components/statusbutton/StatusPendngButton';
 import StatusApprovedButton from '../../components/statusbutton/StatusApprovedButton';
 import StatusUnapprovedButton from '../../components/statusbutton/StatusUnapprovedButton';
+import ImageCarousel from '../../components/ImageCarousel';
 
 // ----------------------------------------------------------------------
 
@@ -83,6 +85,9 @@ export default function BaseColor() {
    const [qcDialogOpen,setQcDialogOpen] = useState(false);
    const [baseColorId,setBaseColorId] = useState("");
    const userPermissions = [];
+   const [openImageList, setOpenImageList] = useState(false);
+   const handleOpenImageList = (e) => setOpenImageList(true);
+   const handleCloseImageList = () => setOpenImageList(false);
 
    const {
     council,
@@ -110,7 +115,7 @@ export default function BaseColor() {
     userPermissions.push(item.name)
   ))
   const { state} = useLocation();
-
+// console.log('imageList',imageList);
   useEffect(()=>{
     let cId = null;
     let wId = null;
@@ -283,7 +288,9 @@ export default function BaseColor() {
     dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
-
+  console.log('council...', council)
+  console.log('coucilId', coucilId);
+  console.log('zones', zones);
   return (
     <Page title="User">
       <Container>
@@ -329,7 +336,7 @@ export default function BaseColor() {
                 Base Color
               </Typography>
             </Breadcrumbs>
-            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400', marginTop: '-8px' }}>
               It is showing list of trees with its details
             </Typography>
           </div>
@@ -350,7 +357,7 @@ export default function BaseColor() {
           />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 {!coucilId ? (
                   <TableRow>
@@ -386,7 +393,11 @@ export default function BaseColor() {
                               <IconButton
                                 aria-label="delete"
                                 size="large"
-                                onClick={() => handleViewOpen(option.images)}
+                                // onClick={() => handleViewOpen(option.images)}
+                                onClick={(e) => {
+                                  setImageList(option.images || []);
+                                  handleOpenImageList(e);
+                                }}
                                 sx={{color: '#214c50'}}
                               >
                                 <Visibility />
@@ -435,6 +446,19 @@ export default function BaseColor() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <Modal
+              open={openImageList}
+              onClose={handleCloseImageList}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Container style={{ width: '526px' }}>
+                <ImageCarousel imagelist={imageList} />
+              </Container>
+              {/* <Box sx={style}>
+                                <img src={val.original} alt="gallery" height="650px" width="100%" />
+                              </Box> */}
+            </Modal>
           </Scrollbar>
           {baseColorTrees ? (
             <Pagination

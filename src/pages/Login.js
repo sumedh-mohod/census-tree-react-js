@@ -1,3 +1,4 @@
+import { useState , useEffect} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { makeStyles } from '@material-ui/core/styles';
@@ -41,7 +42,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
   maxWidth: 650,
   display: 'flex',
-  height: 657,
+  // height: 657,
   flexDirection: 'column',
   justifyContent: 'center',
   // margin: theme.spacing(2, 0, 2, 2),
@@ -55,7 +56,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
   margin: 'auto',
-  minHeight: '100vh',
+  // minHeight: '100vh',
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
@@ -65,6 +66,21 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+  // console.log('windowSize.innerHeight',windowSize.innerHeight);
   const smUp = useResponsive('up', 'sm');
 
   const mdUp = useResponsive('up', 'md');
@@ -75,6 +91,9 @@ export default function Login() {
       // backgroundRepeat: 'no-repeat',
       // backgroundSize: 'cover',
       backgroundColor: '#fff'
+    },
+    item1: {
+      height: windowSize.innerHeight + 20
     },
     font: {
       fontWeight: 400,
@@ -88,15 +107,17 @@ export default function Login() {
   });
   const classes = useStyles();
   return (
-    <Page title="Login">
-      <RootStyle>
+    <Page title="Login" >
+      <RootStyle >
+         <img src="/static/illustrations/TopPlant.png" height='200' style={{ position: 'absolute',right:'0',top: '0'}} width='200'  alt="login" />
+    
         {/* <HeaderStyle>
          
         </HeaderStyle> */}
 
         {mdUp && (
-          <SectionStyle sx={{ px: 5, mb: -20 }}>
-            <Typography style={{ top: '20px', position: 'absolute', height: '50px' }}>
+          <SectionStyle sx={{ px: 5,}} className={classes.item1}>
+            <Typography style={{ top: '40px', position: 'absolute', height: '50px' }}>
               <Logo />
             </Typography>
             <Typography variant="h1" sx={{ mb: 0, mt: 1 }}>
@@ -118,12 +139,17 @@ export default function Login() {
           </SectionStyle>
         )}
 
+
         <Container className={classes.item}>
-          <ContentStyle maxWidth="sm">
+          <ContentStyle maxWidth="sm" style={{padding: '180px 0px'}}>
             <LoginForm />
           </ContentStyle>
         </Container>
       </RootStyle>
     </Page>
   );
+}
+function getWindowSize() {
+  const {innerWidth, innerHeight} = window;
+  return {innerWidth, innerHeight};
 }

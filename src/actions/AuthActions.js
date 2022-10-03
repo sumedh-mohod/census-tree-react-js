@@ -9,6 +9,7 @@ import {
 
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { SetNewAlert } from "./AlertActions";
+import { ShowLoader, ShowLoadingButton } from './CommonAction';
 
 const ResetState = () => ({
     type: RESET_STATE,
@@ -24,7 +25,9 @@ const LoginUser = (params) => async (dispatch) => {
         type: LOGIN,
         payload: response.data,
       });
+      dispatch(ShowLoadingButton(false));
     } catch (e) {
+      dispatch(ShowLoadingButton(false));
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };

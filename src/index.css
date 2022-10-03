@@ -127,3 +127,12 @@
   }
 }
 select::-ms-expand { display: block; }
+/* .table-cell{
+  font-size: 5px;
+} */
+h4 {
+  font-size: 20px !important;
+}
+h6 {
+  font-size: 14px !important;
+}

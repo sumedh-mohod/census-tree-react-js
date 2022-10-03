@@ -136,7 +136,7 @@ export default function PropertyErrorDialog(props) {
     <Card>
     <Scrollbar>
             <TableContainer sx={{ minWidth: 800,minHeight:'90vh' }}>
-              <Table>
+              <Table size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />

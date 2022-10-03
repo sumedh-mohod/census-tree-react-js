@@ -13,10 +13,12 @@ import {
   InputAdornment,
   FormControlLabel,
   Typography,
+  CircularProgress,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
 import { useDispatch, useSelector } from 'react-redux';
+import { ShowLoadingButton } from '../../../actions/CommonAction';
 import { LoginUser } from '../../../actions/AuthActions';
 import Iconify from '../../../components/Iconify';
 // ----------------------------------------------------------------------
@@ -28,10 +30,11 @@ export default function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { isLogged } = useSelector((state) => ({
+  const { isLogged, showLoadingButton } = useSelector((state) => ({
     isLogged: state.auth.isLogged,
+    showLoadingButton: state.common.showLoadingButton,
   }));
-
+  // console.log('showLoadingButton', showLoadingButton);
   const LoginSchema = Yup.object().shape({
     // email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     email: Yup.string().required('Username is required'),
@@ -57,6 +60,7 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: (value) => {
+      dispatch(ShowLoadingButton(true));
       dispatch(
         LoginUser({
           username: value.email,
@@ -88,7 +92,7 @@ export default function LoginForm() {
 
   return (
     <>
-    <img src="/static/illustrations/TopPlant.png" height='200' style={{ position: 'absolute',right:'0',top: '0'}} width='200'  alt="login" />
+    {/* <img src="/static/illustrations/TopPlant.png" height='200' style={{ position: 'absolute',right:'0',top: '0'}} width='200'  alt="login" /> */}
       <Typography variant="h4">
         <strong>Login</strong>
       </Typography>
@@ -134,8 +138,12 @@ export default function LoginForm() {
             Forgot password?
           </Link> */}
           </Stack>
-
-          <LoadingButton
+          {
+             showLoadingButton ? (
+              <div style={{ display: 'flex',paddingLeft: '150px', alignItems: 'center'}}>
+                <CircularProgress  style={{color: '#214c50'}} />
+              </div>
+            ) :  <LoadingButton
             fullWidth
             size="large"
             type="submit"
@@ -144,6 +152,8 @@ export default function LoginForm() {
           >
             Login
           </LoadingButton>
+          }
+         
         </Form>
       </FormikProvider>
     </>

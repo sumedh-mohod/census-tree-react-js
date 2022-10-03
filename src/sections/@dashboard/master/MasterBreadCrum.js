@@ -31,6 +31,7 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
+  height: 44,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,

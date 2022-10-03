@@ -270,7 +270,7 @@ export default function AssignUser() {
         <UserListToolbar numSelected={0} placeHolder={"Search user..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />

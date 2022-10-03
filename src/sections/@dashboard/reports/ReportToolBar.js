@@ -29,6 +29,8 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
+  height: 44,
+  backgroundColor: '#F8F8F8 !important',
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
@@ -89,7 +91,7 @@ export default function ReportToolBar({ numSelected, filterName, onFilterName, h
           placeholder="Search here"
           startAdornment={
             <InputAdornment position="start">
-              <img src={SearchImage} alt="abell" height='25' width='30' />
+              <img src={SearchImage} alt="abell" height='25' width='35' />
             </InputAdornment>
           }
         />

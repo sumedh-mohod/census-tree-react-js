@@ -1,8 +1,13 @@
+
+
+
 // theme
 import { createTheme } from "@material-ui/core";
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useRoutes } from 'react-router-dom';
 import ThemeProvider from './theme'
 // routes
-import Router from './routes';
+import routes from './routes';
 
 // components
 import ScrollToTop from './components/ScrollToTop';
@@ -17,11 +22,16 @@ export default function App() {
       'sans-serif'
     ].join('')
   })
+  const { isLogged } = useSelector((state) => ({
+    isLogged: state.auth.isLogged,
+  }));
+  const routing = useRoutes(routes(isLogged));
+  console.log('isLogged', isLogged);
   return (
     <ThemeProvider theme={theme}>
       <ScrollToTop />
       <BaseOptionChartStyle />
-      <Router />
+      {routing}
     </ThemeProvider>
   );
 }

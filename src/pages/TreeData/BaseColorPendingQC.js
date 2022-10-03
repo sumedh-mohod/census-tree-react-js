@@ -18,6 +18,7 @@ import {
   CircularProgress,
   Breadcrumbs,
   Card,
+  Backdrop
 } from '@mui/material';
 import './BaseColorPendingQC.css';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,6 +27,7 @@ import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
 import moment from 'moment';
 import ImageGallery from 'react-image-gallery';
 import { useDispatch, useSelector } from 'react-redux';
+import FullLoader from '../../components/Loader/FullLoader';
 import Scrollbar from '../../components/Scrollbar';
 import Iconify from '../../components/Iconify';
 import TreeDetailsDialog from '../../components/DialogBox/TreeDetailsDialog';
@@ -43,6 +45,7 @@ import { GetMyActiveTeam } from '../../actions/TeamsAction';
 import { GetBaseColorPendingQCStatus, UpdateQCStatusOfBaseColorTrees } from '../../actions/BaseColorAction';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import { ShowLoader } from '../../actions/CommonAction';
+import ImageCarousel from '../../components/ImageCarousel';
 
 export default function BaseColorPendingQC() {
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -62,10 +65,10 @@ export default function BaseColorPendingQC() {
   const userPermissions = [];
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (e) => setOpen(true);
   const handleClose = () => setOpen(false);
   let selectedUsers;
-
+ 
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -97,7 +100,7 @@ export default function BaseColorPendingQC() {
     showLoader: state.common.showLoader,
   }));
 
-  // console.log("Logged user",loggedUser);
+  // console.log("zones",zones);
 
   loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
@@ -320,6 +323,7 @@ export default function BaseColorPendingQC() {
       // console.log("in submit");
       // console.log("VALUE",value);
       setState({ ...state, right: false });
+      dispatch(ShowLoader(true));
       dispatch(
         GetBaseColorPendingQCStatus(councilID, zoneID, wardID, value.fromDateForm, value.toDateForm, value.addedByForm)
       );
@@ -338,43 +342,38 @@ export default function BaseColorPendingQC() {
 const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-  return showLoader ? (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-      <CircularProgress color="success" />
-    </div>
-  ) : (
+  return (
     <Page title="User" sx={{ mt: -2 }}>
       <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
+      <FullLoader showLoader={showLoader}/>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
-          Base Color QC
+            Base Color QC
             <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing Base Color QC
+              It is showing Base Color QC
             </Typography>
           </Typography>
+        
           <Button
             to="#"
-            style={{width: '30%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
-            
+            style={{ width: '30%', fontWeight: 500, fontSize: '15px', backgroundColor: '#E8762F', color: '#fff' }}
             // startIcon={<Iconify icon="eva:plus-fill" />}
-            className='desktop-button'
+            className="desktop-button"
           >
-            Total Pending Trees :  <b  style={{marginLeft: '5px'}}>{totalTrees || 0}</b>
+            Total Pending Trees : <b style={{ marginLeft: '5px' }}>{totalTrees || 0}</b>
           </Button>
           <Button
-          onClick={toggleDrawer('right', true)}
+            onClick={toggleDrawer('right', true)}
             variant="contained"
             to="#"
-           
             startIcon={<Iconify icon="eva:funnel-fill" />}
           >
             Filters
           </Button>
-          
         </Stack>
       </Container>
-      
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
         <Box sx={{ height: '100', mr: 3 }} xs={12}>
           <Drawer
             sx={{
@@ -410,9 +409,9 @@ const classes = useStyles()
                     helperText={touched.councilForm && errors.councilForm}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Council*</em>
@@ -443,9 +442,9 @@ const classes = useStyles()
                     helperText={touched.zoneForm && errors.zoneForm}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Zone*</em>
@@ -478,9 +477,9 @@ const classes = useStyles()
                     helperText={touched.wardForm && errors.wardForm}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Ward*</em>
@@ -514,9 +513,9 @@ const classes = useStyles()
                     // {...getFieldProps("addedByForm")}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Added By</em>
@@ -577,7 +576,7 @@ const classes = useStyles()
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
-                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5}}
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 }}
                 >
                   Apply
                 </Button>
@@ -587,7 +586,6 @@ const classes = useStyles()
           </Drawer>
         </Box>
       </Stack>
-
       {(baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data.length === 0) || !showData ? (
         <Grid
           style={{
@@ -609,270 +607,280 @@ const classes = useStyles()
         </Grid>
       ) : (
         <Container>
-          <Card style={{ height: '450px', padding: '20px 0px' }}>
+          <Card style={{ height: '375px', padding: '10px 0px 0px 0px' }}>
             <Scrollbar>
-            <Container>
-              <div className="wrapper">
-                <div className="one">
-                  <div className="wrapper">
-                    <div className="one">
-                      Location Type: <br />
-                      <b>
-                        {baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type
-                          ? baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type
-                          : '-'}
-                      </b>
-                    </div>
-                    <div className="one">
-                      {' '}
-                      Accuracy Needed:
-                      <br />
-                      <b>
+              <Container>
+                <div className="wrapper" >
+                  <div className="one">
+                    <div className="wrapper">
+                      <div className="one mob-cen">
+                        Location Type: <br />
+                        <b>
+                          {baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type
+                            ? baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one mob-cen">
                         {' '}
-                        {baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
-                          ? baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
-                          : '-'}
-                      </b>
-                    </div>
-                    <div className="one">
-                      Property Type: <br />
-                      <b>
-                        {baseColorPendingQCStatus?.data[selectedIndex].property_type
-                          ? baseColorPendingQCStatus.data[selectedIndex].property_type?.property_type
-                          : '-'}
-                      </b>
-                    </div>
-                    <div className="one">
-                      {' '}
-                      Property Number: <br />
-                      <b>
-                        {baseColorPendingQCStatus?.data[selectedIndex].property?.property_number
-                          ? baseColorPendingQCStatus.data[selectedIndex].property?.property_number
-                          : '-'}
-                      </b>
-                    </div>
-                    <div className="one">
-                      {' '}
-                      Owner Name: <br />
-                      <b>
-                        {baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name
-                          ? baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name
-                          : '-'}
-                      </b>
-                    </div>
-                    <div className="one">
-                      Tenant Name : <br />
-                      <b>
-                        {baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name
-                          ? baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name
-                          : '-'}
-                      </b>
-                    </div>
-                    <div className="one">
-                      Added by : <br />
-                      <b>
-                        {baseColorPendingQCStatus?.data[selectedIndex].added_by
-                          ? `${baseColorPendingQCStatus?.data[selectedIndex].added_by?.first_name} ${baseColorPendingQCStatus?.data[selectedIndex].added_by?.last_name}`
-                          : '-'}
-                      </b>
-                    </div>
-                    <div className="one">
-                      Added On : <br />{' '}
-                      <b>
-                        {baseColorPendingQCStatus?.data[selectedIndex].added_on_date
-                          ? baseColorPendingQCStatus?.data[selectedIndex].added_on_date
-                          : '-'}
-                      </b>
-                    </div>
-                    <div className="one">
-                      {userPermissions.includes('unapprove-base-color-tree') ? (
-                        <Button
-                          style={{ backgroundColor: '#E85454', color: '#fff', padding: '5px 20px',width: '100%' }}
-                          onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}
-                        >
-                          Unapproved & Next
-                        </Button>
-                      ) : null}
-                    </div>
-                    <div className="one">
-                      <Button
-                        variant="contained"
-                        sx={{ padding: '5px 20px',width: '100%' }}
-                        onClick={handleApproveNext}
-                      >
-                        Approve & Next
-                      </Button>
-                    </div>
-                    {updateClick ? (
-                      <QcStatusDialog
-                        isOpen={updateClick}
-                        baseColorId={baseColorId}
-                        handleClose={() => handleDialogClose()}
-                        handleSubmit={(data, id) => handleQcSubmit(data, id)}
-                      />
-                    ) : null}
-                  </div>
-                </div>
-                <div className="two">
-                  <div className="wrapper">
-                    {imageList?.map((val, index) => {
-                      return (
-                        <div className="one" key={index} style={{ border: 'none', display: 'flex' }}>
-                          <img
-                            src={val.original}
-                            alt="gallery"
-                            height="160px"
-                            width="150px"
-                            style={{ borderRadius: '7px' }}
-                          />
-                          <button
-                            onClick={handleOpen}
-                            style={{ background: 'none', border: 'none', position: 'absolute', color: '#fff' }}
-                          >
-                            <Iconify icon="eva:expand-outline" height="50px" width="50px" />
-                          </button>
-                          <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                          >
-                            <Box sx={style}>
-                              <img src={val.original} alt="gallery" height="100%" width="100%" />
-                            </Box>
-                          </Modal>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </Container>
-            </Scrollbar>
-           
-
-            {/* <Grid item xs={12}>
-              <Stack spacing={2}>
-                <Typography variant="h4" gutterBottom align="center">
-                  Total Pending Trees: {totalTrees}
-                </Typography>
-                <Box sx={{ height: 'auto', width: '100%', mr: 5 }}>
-                  <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} />
-                </Box>
-                <Box sx={{ height: 400, width: '100%' }}>
-                  <Box sx={{ width: '100%' }}>
-                    <Typography variant="h4" gutterBottom style={{ textAlign: 'center' }}>
-                      Base Color Details:
-                    </Typography>
-                    {baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data?.length !== 0 ? (
-                      <>
-                        <table style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20 }}>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Location Type:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Accuracy Captured:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
-                                ? baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
-                                : '-'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Property Type:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {baseColorPendingQCStatus?.data[selectedIndex].property_type
-                                ? baseColorPendingQCStatus.data[selectedIndex].property_type?.property_type
-                                : '-'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Property Number:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {baseColorPendingQCStatus?.data[selectedIndex].property?.property_number
-                                ? baseColorPendingQCStatus.data[selectedIndex].property?.property_number
-                                : '-'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Owner Name:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Tenant Name:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Added By:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {baseColorPendingQCStatus?.data[selectedIndex].added_by
-                                ? `${baseColorPendingQCStatus?.data[selectedIndex].added_by?.first_name} ${baseColorPendingQCStatus?.data[selectedIndex].added_by?.last_name}`
-                                : '-'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Added On:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {baseColorPendingQCStatus?.data[selectedIndex].added_on_date}
-                            </td>
-                          </tr>
-                        </table>
-                      </>
-                    ) : null}
-                    <Box sx={{ height: 200, width: '100%', mt: 5 }}>
-                      <Stack direction="row" spacing={4} style={{ justifyContent: 'center' }}>
-                        {userPermissions.includes('approve-base-color-tree') ? (
-                          <Button size="medium" variant="contained" onClick={handleApproveNext}>
-                            Approve & Next
-                          </Button>
-                        ) : null}
+                        Accuracy Needed:
+                        <br />
+                        <b>
+                          {' '}
+                          {baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
+                            ? baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one mob-cen">
+                        Property Type: <br />
+                        <b>
+                          {baseColorPendingQCStatus?.data[selectedIndex].property_type
+                            ? baseColorPendingQCStatus.data[selectedIndex].property_type?.property_type
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one mob-cen">
+                        {' '}
+                        Property Number: <br />
+                        <b>
+                          {baseColorPendingQCStatus?.data[selectedIndex].property?.property_number
+                            ? baseColorPendingQCStatus.data[selectedIndex].property?.property_number
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one mob-cen">
+                        {' '}
+                        Owner Name: <br />
+                        <b>
+                          {baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name
+                            ? baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one mob-cen">
+                        Tenant Name : <br />
+                        <b>
+                          {baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name
+                            ? baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one mob-cen">
+                        Added by : <br />
+                        <b>
+                          {baseColorPendingQCStatus?.data[selectedIndex].added_by
+                            ? `${baseColorPendingQCStatus?.data[selectedIndex].added_by?.first_name} ${baseColorPendingQCStatus?.data[selectedIndex].added_by?.last_name}`
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one mob-cen">
+                        Added On : <br />{' '}
+                        <b>
+                          {baseColorPendingQCStatus?.data[selectedIndex].added_on_date
+                            ? baseColorPendingQCStatus?.data[selectedIndex].added_on_date
+                            : '-'}
+                        </b>
+                      </div>
+                      <div className="one mob-cen">
                         {userPermissions.includes('unapprove-base-color-tree') ? (
                           <Button
-                            size="medium"
-                            variant="contained"
+                            style={{ backgroundColor: '#E85454', color: '#fff', padding: '5px 20px', width: '100%' }}
                             onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}
                           >
-                            Unapprove & Next
+                            Unapproved & Next
                           </Button>
                         ) : null}
-                      </Stack>
-                    </Box>
+                      </div>
+                      <div className="one mob-cen">
+                        <Button
+                          variant="contained"
+                          sx={{ padding: '5px 20px', width: '100%' }}
+                          onClick={handleApproveNext}
+                        >
+                          Approve & Next
+                        </Button>
+                      </div>
+                      {updateClick ? (
+                        <QcStatusDialog
+                          isOpen={updateClick}
+                          baseColorId={baseColorId}
+                          handleClose={() => handleDialogClose()}
+                          handleSubmit={(data, id) => handleQcSubmit(data, id)}
+                        />
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="two">
+                    <div className="wrapper">
+                      {imageList?.map((val, index) => {
+                        return (
+                          <div
+                            className="one "
+                            key={index}
+                            style={{ border: 'none', display: 'flex', padding: '5px', cursor: 'pointer' }}
+                            onClick={(e) => handleOpen(e)}
+                            onKeyDown={(e) => handleOpen(e)}
+                            role="button"
+                            tabIndex={0}
+                          >
+                            <img
+                              src={val.original}
+                              alt="gallery"
+                              height="160px"
+                              width="150px"
+                              style={{ borderRadius: '7px' }}
+                            />
+                            {/* <button
+                              onClick={handleOpen}
+                              style={{ background: 'none', border: 'none', position: 'absolute', color: '#fff' }}
+                            >
+                              <Iconify icon="eva:expand-outline" height="50px" width="50px" />
+                            </button> */}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Container style={{width: '526px'}}>
+                        <ImageCarousel imagelist={imageList} />
+                      </Container>
+                      {/* <Box sx={style}>
+                                <img src={val.original} alt="gallery" height="100%" width="100%" />
+                              </Box> */}
+                    </Modal>
+                  </div>
+                </div>
+              </Container>
+            </Scrollbar>
 
-                    {updateClick ? (
-                      <QcStatusDialog
-                        isOpen={updateClick}
-                        baseColorId={baseColorId}
-                        handleClose={() => handleDialogClose()}
-                        handleSubmit={(data, id) => handleQcSubmit(data, id)}
-                      />
-                    ) : null}
+            {/* <Grid item xs={12}>
+                <Stack spacing={2}>
+                  <Typography variant="h4" gutterBottom align="center">
+                    Total Pending Trees: {totalTrees}
+                  </Typography>
+                  <Box sx={{ height: 'auto', width: '100%', mr: 5 }}>
+                    <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} />
                   </Box>
-                </Box>
-              </Stack>
-            </Grid> */}
+                  <Box sx={{ height: 400, width: '100%' }}>
+                    <Box sx={{ width: '100%' }}>
+                      <Typography variant="h4" gutterBottom style={{ textAlign: 'center' }}>
+                        Base Color Details:
+                      </Typography>
+                      {baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data?.length !== 0 ? (
+                        <>
+                          <table style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20 }}>
+                            <tr>
+                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                Location Type:{' '}
+                              </td>
+                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                {baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                Accuracy Captured:{' '}
+                              </td>
+                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                {baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
+                                  ? baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
+                                  : '-'}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                Property Type:{' '}
+                              </td>
+                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                {baseColorPendingQCStatus?.data[selectedIndex].property_type
+                                  ? baseColorPendingQCStatus.data[selectedIndex].property_type?.property_type
+                                  : '-'}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                Property Number:{' '}
+                              </td>
+                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                {baseColorPendingQCStatus?.data[selectedIndex].property?.property_number
+                                  ? baseColorPendingQCStatus.data[selectedIndex].property?.property_number
+                                  : '-'}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                Owner Name:{' '}
+                              </td>
+                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                {baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                Tenant Name:{' '}
+                              </td>
+                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                {baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                Added By:{' '}
+                              </td>
+                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                {baseColorPendingQCStatus?.data[selectedIndex].added_by
+                                  ? `${baseColorPendingQCStatus?.data[selectedIndex].added_by?.first_name} ${baseColorPendingQCStatus?.data[selectedIndex].added_by?.last_name}`
+                                  : '-'}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                Added On:{' '}
+                              </td>
+                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
+                                {baseColorPendingQCStatus?.data[selectedIndex].added_on_date}
+                              </td>
+                            </tr>
+                          </table>
+                        </>
+                      ) : null}
+                      <Box sx={{ height: 200, width: '100%', mt: 5 }}>
+                        <Stack direction="row" spacing={4} style={{ justifyContent: 'center' }}>
+                          {userPermissions.includes('approve-base-color-tree') ? (
+                            <Button size="medium" variant="contained" onClick={handleApproveNext}>
+                              Approve & Next
+                            </Button>
+                          ) : null}
+                          {userPermissions.includes('unapprove-base-color-tree') ? (
+                            <Button
+                              size="medium"
+                              variant="contained"
+                              onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}
+                            >
+                              Unapprove & Next
+                            </Button>
+                          ) : null}
+                        </Stack>
+                      </Box>
+  
+                      {updateClick ? (
+                        <QcStatusDialog
+                          isOpen={updateClick}
+                          baseColorId={baseColorId}
+                          handleClose={() => handleDialogClose()}
+                          handleSubmit={(data, id) => handleQcSubmit(data, id)}
+                        />
+                      ) : null}
+                    </Box>
+                  </Box>
+                </Stack>
+              </Grid> */}
           </Card>
         </Container>
       )}

@@ -1,97 +1,201 @@
 
-   .wrapper {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    /* with flexbox:
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .mob_button {
+    margin-top: 124px
+  }
+
+  .mob_breadcrumb {
+    margin-top: 2px
+  }
+  .mob-cen{
+    padding: 10px;
+  }
+}
+
+@media only screen and (min-device-width : 1200px) and (max-device-width : 1800px) {
+  .desktop-button {
+    margin-right: -345px !important;
+  }
+}
+
+@media only screen and (min-device-width : 1200px) and (max-device-width : 1800px) {
+  .desktop-button- {
+    margin-right: -375px !important;
+  }
+  .wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  /* with flexbox:
     display: flex;
     flex-wrap: wrap;
     */
-  }
-  .wrapperb {
-    display: grid;
-    grid-template-columns: repeat(1, auto);
-  }
-  .wrappera {
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    /* with flexbox:
+}
+
+.wrapperb {
+  display: grid;
+  grid-template-columns: repeat(1, auto);
+}
+
+.wrappera {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  /* with flexbox:
     display: flex;
     flex-wrap: wrap;
     */
-  }
-  
-  /* Add border bottom to all ones */
-  .one {
-    padding: 15px;
-    border-bottom: 1px solid #e9e8e8;
-    height: '120px';
-    /* with flexbox:
+}
+
+/* Add border bottom to all ones */
+.one {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e9e8e8;
+  height: '120px';
+  /* with flexbox:
     width: calc(50% - 21px);
     */
-  }
-  .image-gallery {
-    width: 50%;
-    height: '200px';
+}
+
+.image-gallery {
+  width: 50%;
+  height: '200px';
 }
 
 .image-gallery-slide img {
-    width: 50%;
-    height: auto;
-    max-height: 80vh;
-    object-fit: cover;
-    overflow: hidden;
-    object-position: center center;
+  width: 50%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: center center;
 }
 
 .fullscreen .image-gallery-slide img {
-    max-height: 200vh;
+  max-height: 200vh;
 }
-  /* Remove border bottom from last one & from second last if its odd */
-  .one:last-child, .one:nth-last-child(2):nth-child(odd) {
-    border-bottom: none;
-  }
- 
-  /* Add right border to every second one */
-  .one:nth-child(odd) {
-    border-right: 1px solid #e9e8e8;
-  }
-    /* .column_height{
+
+/* Remove border bottom from last one & from second last if its odd */
+.one:last-child,
+.one:nth-last-child(2):nth-child(odd) {
+  border-bottom: none;
+}
+
+/* Add right border to every second one */
+.one:nth-child(odd) {
+  border-right: 1px solid #e9e8e8;
+}
+
+/* .column_height{
       height: '90px'
     } */
-    .col1{
-      padding-top: 20px !important;
-    }
-   
-    .border-bottom{
-      border-bottom: 1px solid #e9e8e8 !important;
-    }
-    .border-left{
-      border-left: 1px solid #e9e8e8 !important;
-    }
-    .bor{
-      font-family: 'Poppins';
-      border: 2px solid #e9e8e8;
-      padding: 15px;
-      border-radius: 7px
-    }
-    @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-      .mob_button{
-        margin-top: 124px
-      }
-      .mob_breadcrumb{
-        margin-top: 2px
-      }
-      }
-      @media only screen and (min-device-width : 1200px) and (max-device-width : 1800px) {
-        .desktop-button{
-          margin-right: -345px !important;
-        }
-        }
-        @media only screen and (min-device-width : 1200px) and (max-device-width : 1800px) {
-          .desktop-button-{
-            margin-right: -375px !important;
-          }
-          }
-    
+.col1 {
+  padding-top: 20px !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e9e8e8 !important;
+}
+
+.border-left {
+  border-left: 1px solid #e9e8e8 !important;
+}
+
+.bor {
+  font-family: 'Poppins';
+  border: 2px solid #e9e8e8;
+  padding: 15px;
+  border-radius: 7px
+}
+}
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+
+  .wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  /* with flexbox:
+    display: flex;
+    flex-wrap: wrap;
+    */
+}
+
+.wrapperb {
+  display: grid;
+  grid-template-columns: repeat(1, auto);
+}
+
+.wrappera {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  /* with flexbox:
+    display: flex;
+    flex-wrap: wrap;
+    */
+}
+
+/* Add border bottom to all ones */
+.one {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e9e8e8;
+  height: '120px';
+  /* with flexbox:
+    width: calc(50% - 21px);
+    */
+}
+
+.image-gallery {
+  width: 50%;
+  height: '200px';
+}
+
+.image-gallery-slide img {
+  width: 50%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: center center;
+}
+
+.fullscreen .image-gallery-slide img {
+  max-height: 200vh;
+}
+
+/* Remove border bottom from last one & from second last if its odd */
+.one:last-child,
+.one:nth-last-child(2):nth-child(odd) {
+  border-bottom: none;
+}
+
+/* Add right border to every second one */
+.one:nth-child(odd) {
+  border-right: 1px solid #e9e8e8;
+}
+
+/* .column_height{
+      height: '90px'
+    } */
+.col1 {
+  padding-top: 20px !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e9e8e8 !important;
+}
+
+.border-left {
+  border-left: 1px solid #e9e8e8 !important;
+}
+
+.bor {
+  font-family: 'Poppins';
+  border: 2px solid #e9e8e8;
+  padding: 15px;
+  border-radius: 7px
+}
+  }
   
-    
+@media only screen and (min-device-width : 1224px) and (max-device-width : 1824px) {
+  .unapproved {
+    padding: 5px 40px !important;
+  }
+}

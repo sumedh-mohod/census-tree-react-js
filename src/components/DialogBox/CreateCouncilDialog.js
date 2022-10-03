@@ -18,6 +18,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 // import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Link, TextField, InputAdornment } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 // import SelectInput from '../Inputs/SelectInput';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
@@ -450,7 +451,12 @@ export default function CreateCouncilDialog(props) {
       }
     },
   });
-
+  const useStyles = makeStyles({
+    icon: {
+      fill: '#214c50',
+  },
+  });
+  const classes = useStyles();
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
   // console.log("VALUES",values)
   return (
@@ -486,6 +492,11 @@ export default function CreateCouncilDialog(props) {
                 label="State*"
                 value={values.state}
                 style={{ width: '81%', marginLeft: 40,marginTop:5 }}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 onChange={(e)=> {
                   handleStateChange(e);
                   formik.handleChange(e);
@@ -514,6 +525,11 @@ export default function CreateCouncilDialog(props) {
               value={values.district}
               style={{width:'81%', marginLeft: 40,marginTop:5}}
               placeholder='*Select District'
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               onChange={(e) => {
                 handleDistrictChange(e)
                 formik.handleChange(e);
@@ -544,6 +560,11 @@ export default function CreateCouncilDialog(props) {
                 style={{ width: '81%', marginLeft: 40,marginTop:5 }}
                 defaultValue={data ? data.taluka : ''}
                 onChange={handleTalukaChange}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 error={Boolean(touched.taluka && errors.taluka)}
                 helperText={touched.taluka && errors.taluka}
                 {...getFieldProps("taluka")}
@@ -606,6 +627,11 @@ export default function CreateCouncilDialog(props) {
               value={zoneName}
               // onChange={handleChange}
               style={{ width: '81%', marginLeft: 40 , marginTop:5}}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               renderValue={(selected) => {
                 if (selected.length === 0) {
                   return <em>Zone*</em>;
@@ -651,6 +677,11 @@ export default function CreateCouncilDialog(props) {
               value={wardName}
               onChange={handleWardChange}
               style={{ width: '81%', marginLeft: 40, marginTop:5 }}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               renderValue={(selected) => {
                 if (selected.length === 0) {
                   return <em>Ward*</em>;
@@ -827,11 +858,15 @@ export default function CreateCouncilDialog(props) {
               style={{ width: '81%', marginLeft: 40, marginTop:5 }}
               error={Boolean(touched.password && errors.password)}
               helperText={touched.password && errors.password}
+             
               InputProps={{
+                classes: {
+                  icon: classes.icon,
+              },
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={handleShowPassword} edge="end">
-                      <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                      <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} style={{color: '#214c50'}}/>
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -895,7 +930,7 @@ export default function CreateCouncilDialog(props) {
           }}
           variant='contained'
             >
-            Save changes
+           Add
           </Button>
         </DialogActions>
       </BootstrapDialog>

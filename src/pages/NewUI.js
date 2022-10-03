@@ -14,12 +14,13 @@ import {
   form,
   Modal,
   Select,
-  MenuItem,
+  MenuItem, 
   FormControlLabel,
   Checkbox,
   CircularProgress,
   Card,
   Breadcrumbs,
+ 
 } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
@@ -33,12 +34,14 @@ import { GetActiveCouncil, SetActiveCouncil } from '../actions/CouncilAction';
 import { GetActiveZones, GetActiveZonesByCouncilId, SetActiveZones } from '../actions/ZonesAction';
 import { GetActiveWards, GetActiveWardsByCouncilId, SetActiveWards } from '../actions/WardsActions';
 import { GetUsers, GetUsersByRoleID } from '../actions/UserAction';
-
+// import { ImageCarousel } from "./ImageCarousel";
 import Iconify from '../components/Iconify';
 import Page from '../components/Page';
+import ImageCarousel from '../components/ImageCarousel';
 import { GetMyActiveTeam } from '../actions/TeamsAction';
 import { ShowLoader } from '../actions/CommonAction';
 import './TreeData/BaseColorPendingQC.css';
+import FullLoader from '../components/Loader/FullLoader';
 
 export default function NewUI() {
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -55,12 +58,14 @@ export default function NewUI() {
   const [totalTrees, setTotalTrees] = React.useState('');
   const [checked, setChecked] = React.useState(0);
   const [showData, setShowData] = React.useState(false);
+  const [activeIndex, setActiveIndex] = React.useState(0);
   const userPermissions = [];
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (e) => setOpen(true);
   const handleClose = () => setOpen(false);
   let selectedUsers;
+
 
   const [state, setState] = React.useState({
     top: false,
@@ -109,7 +114,7 @@ export default function NewUI() {
   //   });
   //     console.log(":::::::::", selectedUsers);
   // }
-
+console.log('treeCensusPendingQCStatus....', treeCensusPendingQCStatus);
   const firstRun = React.useRef(true);
   useEffect(() => {
     if (firstRun.current) {
@@ -141,6 +146,7 @@ export default function NewUI() {
     dispatch(SetActiveZones(activeZoneObj));
     setSelectedIndex(0);
   }, [activeTeams]);
+  
 
   const secondRun = React.useRef(true);
   useEffect(() => {
@@ -169,6 +175,7 @@ export default function NewUI() {
       setImageList(imageList);
     }
   }, [updateQCStatusLog, updateCensusTreeLog, referToExpertLog]);
+  console.log("imageList",imageList);
 
   const thirdRun = React.useRef(true);
   useEffect(() => {
@@ -313,6 +320,7 @@ export default function NewUI() {
     onSubmit: (value) => {
       // console.log("in submit");
       // console.log("VALUE",value);
+      dispatch(ShowLoader(true));
       dispatch(
         GetTreeCensusPendingQCStatus(
           councilID,
@@ -341,12 +349,9 @@ export default function NewUI() {
 const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
-  return showLoader ? (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-      <CircularProgress color="success" />
-    </div>
-  ) : (
+  return (
     <Page title="Census QC" sx={{ mt: -2 }}>
+        <FullLoader showLoader={showLoader}/>
        <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
@@ -376,7 +381,7 @@ const classes = useStyles()
           
         </Stack>
       </Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
         {/* <Container sx={{ pl: 0 }}>
           <Typography variant="h4" gutterBottom>
             Census QC
@@ -677,6 +682,7 @@ const classes = useStyles()
           </Drawer>
         </Box>
       </Stack>
+      
       {(treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data.length === 0) || !showData ? (
         <Grid
           style={{
@@ -699,18 +705,18 @@ const classes = useStyles()
       ) : (
         <>
           <Container>
-            <Card style={{ height: '750px', padding: '20px 0px' }}>
+            <Card style={{ padding: '0px 0px 10px 0px' }} >
               <Container>
-                <div className="wrapper">
-                  <div className="one">
+                <div className="wrapper" style={{paddingTop: '10px'}}>
+                  <div className="one" style={{paddingTop: '0px'}}>
                     <div className="wrapper">
-                      <div className="one">
+                      <div className="one mob-cen">
                         Tree Number: <br />
                         <Button variant="contained" >
                           {treeCensusPendingQCStatus?.data[selectedIndex].tree_number || '-'}
                         </Button>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         Tree Name(Botanical Name): <br />
                         <b>
                           {' '}
@@ -718,17 +724,17 @@ const classes = useStyles()
                           {treeCensusPendingQCStatus?.data[selectedIndex].tree_name?.botanical_name})
                         </b>
                       </div>
-                      <div className="one">
+                      <div className="one mob-cen">
                         Tree Type: <br />
                         <b> {treeCensusPendingQCStatus?.data[selectedIndex].tree_type.tree_type || '-'}</b>
                       </div>
                       <div className="wrapper">
-                        <div className="one border-bottom" style={{ borderBottom: '1px solid #e9e8e8' }}>
+                        <div className="one border-bottom mob-cen" style={{ borderBottom: '1px solid #e9e8e8' }}>
                           Location Type: <br />
                           <b>{treeCensusPendingQCStatus?.data[selectedIndex].location_type?.location_type || '-'}</b>
                         </div>
-                        <div className="one border-bottom">
-                          LAN: <br />
+                        <div className="one border-bottom mob-cen">
+                          Accuracy captured: <br />
                           <b>
                             {' '}
                             {treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy
@@ -737,7 +743,145 @@ const classes = useStyles()
                           </b>
                         </div>
                       </div>
-                      <div className="one">
+                    
+                      <div className="one mob-cen">
+                        {' '}
+                        Added By: <br />
+                        <b>
+                          {' '}
+                          {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.first_name}{' '}
+                          {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.last_name}
+                        </b>
+                      </div>
+                      <div className="wrapper ">
+                      <div className="one border-bottom mob-cen">
+                        Added On : <br />
+                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].added_on_date || '-'}</b>
+                      </div>
+                      <div className="one border-bottom mob-cen">
+                        Age : <br />
+                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].age || '-'}</b>
+                      </div>
+                      </div>
+                      <div className="wrapper">
+                        <div className="one border-bottom mob-cen">
+                          Girth : <br />
+                          <b>{treeCensusPendingQCStatus?.data[selectedIndex].girth || '-'}</b>
+                        </div>
+                        <div className="one border-bottom mob-cen">
+                          Canopy : <br />
+                          <b> {treeCensusPendingQCStatus?.data[selectedIndex].canopy || '-'}</b>
+                        </div>
+                      </div>
+                      <div className="wrapper">
+                        <div className="one border-bottom border-left mob-cen">
+                          Height : <br /> <b> {treeCensusPendingQCStatus?.data[selectedIndex].height || '-'}</b>
+                        </div>
+                        <div className="one border-bottom mob-cen">
+                          Area(Sq. Feet) : <br />{' '}
+                          <b>
+                            {' '}
+                            {treeCensusPendingQCStatus?.data[selectedIndex].property?.area
+                              ? treeCensusPendingQCStatus.data[selectedIndex].property.area
+                              : '-'}
+                          </b>
+                        </div>
+                      </div>
+
+                      
+                      <div className="one mob-cen">
+                        <Button
+                          onClick={handleDialogOpen}
+                          style={{
+                            backgroundColor: '#E85454',
+                          
+                            width: '100%',
+                            color: '#fff',
+                          
+                          }}
+                          className='unapproved'
+                        >
+                          Unapproved & Next
+                        </Button>
+                      </div>
+                      <div className="one mob-cen">
+                        <Button
+                          onClick={handleReferToExpert}
+                          sx={{
+                        
+                            width: '100%',
+                            padding: '5px 20px',
+                            alignContent: 'center',
+                            backgroundColor: '#E8762F',
+                            color: '#fff',
+                            
+                          }}
+                        >
+                          Refer To An Expert
+                        </Button>
+                      </div>
+                      {updateClick ? (
+                      <TreeDetailsDialog
+                        isOpen={updateClick}
+                        handleClose={handleDialogClose}
+                        data={treeCensusPendingQCStatus.data[selectedIndex]}
+                      />
+                    ) : null}
+                      {/* <div className="wrapperb" style={{marginTop: '20px'}}>
+                     
+                      </div> */}
+                    </div>
+                    <Container style={{ paddingLeft: '15px', paddingRight: '15px' }} className='mob-cen'>
+                      <Button variant="contained" sx={{ boxShadow: 'none', width: '100%' }} onClick={handleApproveNext}>
+                        Approve & Next
+                      </Button>
+                    </Container>
+                  </div>
+
+                  <div className="two">
+                    <div className="wrappera">
+                      {/* <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} /> */}
+                      {imageList?.map((val, index) => {
+                        return (
+                          <div className="one" key={index} style={{ border: 'none', display: 'flex', padding: '5px', cursor: 'pointer'  }} onClick={(e)=>{handleOpen(e);setActiveIndex(index)}} 
+                          onKeyDown={(e)=>handleOpen(e)} role='button' tabIndex={0}>
+                           
+                            <img
+                              src={val.original}
+                              alt="gallery"
+                              height="100px"
+                              width="90px"
+                              style={{ borderRadius: '7px' }}
+                           
+                            />
+                          
+                            
+                            {/* <button
+                              onClick={handleOpen}
+                              style={{ background: 'none', border: 'none', position: 'absolute', color: '#fff' }}
+                            >
+                              <Iconify icon="eva:expand-outline" height="50px" width="50px" />
+                            </button> */}
+                           
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <Modal
+                              open={open}
+                              onClose={handleClose}
+                              aria-labelledby="modal-modal-title"
+                              aria-describedby="modal-modal-description"
+                            >
+                             <Container style={{width: '526px'}}>
+                             <ImageCarousel imagelist={imageList} activeindex={activeIndex}/>
+                             </Container>
+                              {/* <Box sx={style}>
+                                <img src={val.original} alt="gallery" height="650px" width="100%" />
+                              </Box> */}
+                            </Modal>
+                    <div className="wrapper" style={{ border: 'none' }}>
+                    <div className="one">
                         Property Type: <br />
                         <b>
                           {' '}
@@ -767,44 +911,6 @@ const classes = useStyles()
                         <b>{treeCensusPendingQCStatus?.data[selectedIndex].property?.tenant_name || '-'}</b>
                       </div>
                       <div className="one">
-                        {' '}
-                        Added By: <br />
-                        <b>
-                          {' '}
-                          {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.first_name}{' '}
-                          {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.last_name}
-                        </b>
-                      </div>
-                      <div className="one">
-                        Added On : <br />
-                        <b> {treeCensusPendingQCStatus?.data[selectedIndex].added_on_date || '-'}</b>
-                      </div>
-                      <div className="wrapper">
-                        <div className="one border-bottom">
-                          Girth : <br />
-                          <b>{treeCensusPendingQCStatus?.data[selectedIndex].girth || '-'}</b>
-                        </div>
-                        <div className="one border-bottom">
-                          Canopy : <br />
-                          <b> {treeCensusPendingQCStatus?.data[selectedIndex].canopy || '-'}</b>
-                        </div>
-                      </div>
-                      <div className="wrapper">
-                        <div className="one border-bottom border-left">
-                          Height : <br /> <b> {treeCensusPendingQCStatus?.data[selectedIndex].height || '-'}</b>
-                        </div>
-                        <div className="one border-bottom">
-                          Area(sq.Fit) : <br />{' '}
-                          <b>
-                            {' '}
-                            {treeCensusPendingQCStatus?.data[selectedIndex].property?.area
-                              ? treeCensusPendingQCStatus.data[selectedIndex].property.area
-                              : '-'}
-                          </b>
-                        </div>
-                      </div>
-
-                      <div className="one">
                         Tree Conditions : <br />{' '}
                         <b>{treeCensusPendingQCStatus?.data[selectedIndex].tree_condition.condition || '-'} </b>
                       </div>
@@ -812,89 +918,7 @@ const classes = useStyles()
                         Plantation Date : <br />{' '}
                         <b>{treeCensusPendingQCStatus?.data[selectedIndex].plantation_date || '-'}</b>
                       </div>
-                      <div className="one">
-                        <Button
-                          onClick={handleDialogOpen}
-                          style={{
-                            backgroundColor: '#E85454',
-                          
-                            width: '100%',
-                            color: '#fff',
-                            padding: '5px 20px',
-                          }}
-                        >
-                          Unapproved & Next
-                        </Button>
-                      </div>
-                      <div className="one">
-                        <Button
-                          onClick={handleReferToExpert}
-                          sx={{
-                        
-                            width: '100%',
-                            padding: '5px 20px',
-                            alignContent: 'center',
-                            backgroundColor: '#E8762F',
-                            color: '#fff',
-                            
-                          }}
-                        >
-                          Refer To An Expert
-                        </Button>
-                      </div>
-                      {updateClick ? (
-                      <TreeDetailsDialog
-                        isOpen={updateClick}
-                        handleClose={handleDialogClose}
-                        data={treeCensusPendingQCStatus.data[selectedIndex]}
-                      />
-                    ) : null}
-                      {/* <div className="wrapperb" style={{marginTop: '20px'}}>
-                     
-                      </div> */}
-                    </div>
-                    <Container style={{ paddingLeft: '15px', paddingRight: '15px' }}>
-                      <Button variant="contained" sx={{ boxShadow: 'none', width: '100%' }} onClick={handleApproveNext}>
-                        Approve & Next
-                      </Button>
-                    </Container>
-                  </div>
-
-                  <div className="two">
-                    <div className="wrappera">
-                      {/* <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} /> */}
-                      {imageList?.map((val, index) => {
-                        return (
-                          <div className="one" key={index} style={{ border: 'none', display: 'flex' }}>
-                            <img
-                              src={val.original}
-                              alt="gallery"
-                              height="100px"
-                              width="90px"
-                              style={{ borderRadius: '7px' }}
-                            />
-                            <button
-                              onClick={handleOpen}
-                              style={{ background: 'none', border: 'none', position: 'absolute', color: '#fff' }}
-                            >
-                              <Iconify icon="eva:expand-outline" height="50px" width="50px" />
-                            </button>
-                            <Modal
-                              open={open}
-                              onClose={handleClose}
-                              aria-labelledby="modal-modal-title"
-                              aria-describedby="modal-modal-description"
-                            >
-                              <Box sx={style}>
-                                <img src={val.original} alt="gallery" height="650px" width="100%" />
-                              </Box>
-                            </Modal>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="wrapper" style={{ border: 'none' }}>
-                      <div className="one" style={{ border: 'none' }}>
+                      {/* <div className="one" style={{ border: 'none' }}>
                         <table className="bor" style={{ marginLeft: '30px' }}>
                           <tr className="border-bottom">
                             <th style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
@@ -923,7 +947,7 @@ const classes = useStyles()
                             </tr>
                           ))}
                         </table>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

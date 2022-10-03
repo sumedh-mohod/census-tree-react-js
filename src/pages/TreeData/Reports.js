@@ -117,16 +117,16 @@ export default function Reports() {
     return inputRef.current;
   };
   const treeImage = async () => {
-    console.log('treeImage', inputReftree.current);
+    // console.log('treeImage', inputReftree.current);
     return inputReftree.current;
   };
 
   const typeImage = async () => {
-    console.log('typeImage', inputRefType.current);
+    // console.log('typeImage', inputRefType.current);
     return inputRefType.current;
   };
   const conditionImage = async () => {
-    console.log('conditionImage', inputRefConditon.current);
+    // console.log('conditionImage', inputRefConditon.current);
     return inputRefConditon.current;
   };
 
@@ -242,11 +242,6 @@ export default function Reports() {
     return null;
   });
 
-  // console.log("dataValue", dataValue)
-  // console.log("TreeName", TreeName)
-  // console.log("treeType", treeType)
-  // console.log("council1234", councilName)
-  // console.log("Council123", council?.id)
   const exportPdf = () => {
     // eslint-disable-next-line new-cap
     const doc = new JsPDF();
@@ -302,7 +297,7 @@ const classes = useStyles()
   return (
     <Page title="User">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" style={{ color: "#000000",  fontWeight: 900, fontSize: '20px'}}separator=':'>
         {/* <Link
@@ -332,7 +327,7 @@ const classes = useStyles()
                 Reports
               </Typography>
             </Breadcrumbs>
-            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400', marginTop: '-8px'  }}>
                 It will show census report
               </Typography>
           </div>
@@ -356,7 +351,7 @@ const classes = useStyles()
           />
         
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                   <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -423,28 +418,52 @@ const classes = useStyles()
       {!councilName ? (
                       <></>
                     ) : showReport?(
-                      <div style={{clipPath: `inset(0 100% 0 0)`}}>
+                      <div >
                         <Grid container spacing={0}>
                           <Grid item xs={3} />
 
-                          <Grid item xs={6}>
+                          <Grid item xs={6} style={{ position: 'absolute', clipPath: 'inset(0 100% 0 0)'}}>
                             <div ref={inputRef}>
                               <ByTreeWardGraph data={reports?.by_wards ? reports?.by_wards : []} />
                             </div>
                           </Grid>
                           <Grid item xs={3} />
                         </Grid>
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} />
 
-                        <div ref={inputReftree}>
-                          <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
-                        </div>
-                        <div ref={inputRefType}>
+                          <Grid item xs={6} style={{ position: 'absolute', width: '70%', height: '20%', clipPath: 'inset(0 100% 0 0)'}}>
+                            <div ref={inputReftree}>
+                            <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
+                            </div>
+                          </Grid>
+                          <Grid item xs={3} />
+                        </Grid>
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} />
+
+                          <Grid item xs={6} style={{ position: 'absolute', width: '70%', height: '20%', clipPath: 'inset(0 100% 0 0)'}}>
+                          <div ref={inputRefType} >
                           <ByTreeTypeGraph data={reports?.by_tree_types ? reports?.by_tree_types : []} />
                         </div>
+                          </Grid>
+                          <Grid item xs={3} />
+                        </Grid>
+                        {/* <div ref={inputReftree} style={{position: 'absolute', clipPath: 'inset(100%)'}}>
+                          <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
+                        </div> */}
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} />
 
-                        <div ref={inputRefConditon}>
+                          <Grid item xs={6} style={{ position: 'absolute', width: '70%', height: '20%', clipPath: 'inset(0 100% 0 0)'}}>
+                          <div ref={inputRefConditon}>
                           <ByTreeConditionGraph data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []} />
                         </div>
+                          </Grid>
+                          <Grid item xs={3} />
+                        </Grid>
+
+                       
                       </div>
                     ):null}
 

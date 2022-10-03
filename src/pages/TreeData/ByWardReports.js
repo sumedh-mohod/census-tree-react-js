@@ -55,7 +55,7 @@ export default function ByWardReports(props) {
         <Card>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                   {data?.map((option, index) => {

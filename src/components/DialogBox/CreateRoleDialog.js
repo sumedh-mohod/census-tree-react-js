@@ -153,7 +153,7 @@ export default function CreateRoleDialog(props) {
   }
 
   const DistrictsSchema = Yup.object().shape({
-    roles: Yup.string().max(20,"Maximum length 20 character only").required('Role is required'),
+    roles: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").required('Role is required'),
     permission: Yup.array().min(1, "Permission in Required").required('Permission is required'),
   });
 
