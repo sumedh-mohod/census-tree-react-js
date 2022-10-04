@@ -174,7 +174,7 @@ export default function QcStatusDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Unapprove</Button>
+          <Button onClick={handleSubmit}  style={{backgroundColor: '#E85454',color: '#fff'}}>Unapprove</Button>
         </DialogActions>
       </Dialog>
       </div>

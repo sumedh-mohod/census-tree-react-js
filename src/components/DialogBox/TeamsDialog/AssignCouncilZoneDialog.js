@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import * as Yup from 'yup';
+
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -19,11 +20,13 @@ import Select from '@mui/material/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import { AddCZWToTeam } from '../../../actions/TeamsAction';
 import AssignNewZoneWardConfirmationDialog from './AssignNewZoneWardConfirmationDialog';
 import { GetActiveCouncil } from '../../../actions/CouncilAction';
 import { GetZones, GetActiveZones, GetActiveZonesByCouncilId } from '../../../actions/ZonesAction';
 import { GetWards, GetActiveWards, GetActiveWardsByCouncilId } from '../../../actions/WardsActions';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -239,7 +242,14 @@ export default function AssignCouncilZoneDialog(props) {
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
-
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
 
   const handleTopModalClose = () => {
     setTopModalOpen(!topModalOpen)
@@ -300,6 +310,11 @@ export default function AssignCouncilZoneDialog(props) {
                 error={Boolean(touched.council && errors.council)}
                 helperText={touched.council && errors.council}
                 
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
               >
                  <MenuItem disabled value="">
               <em>Select Council Name*</em>
@@ -325,6 +340,12 @@ export default function AssignCouncilZoneDialog(props) {
           {...getFieldProps("zones")}
           // MenuProps={MenuProps}
           // inputProps={{ 'aria-label': 'Without label' }}
+          
+          inputProps={{
+            classes: {
+                icon: classes.icon,
+            },
+        }}
         >
           <MenuItem disabled value="">
             <em>Select Zone*</em>
@@ -349,6 +370,12 @@ export default function AssignCouncilZoneDialog(props) {
           {...getFieldProps("wards")}
           // MenuProps={MenuProps}
           // inputProps={{ 'aria-label': 'Without label' }}
+          
+          inputProps={{
+            classes: {
+                icon: classes.icon,
+            },
+        }}
         >
           <MenuItem disabled value="">
             <em>Select Ward*</em>
@@ -372,7 +399,7 @@ export default function AssignCouncilZoneDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       />
-          <Button autoFocus onClick={handleSubmit }>
+          <Button autoFocus onClick={handleSubmit } style={{ background: '#214c50',color: '#fff'}}>
             Save
           </Button>
         </DialogActions>

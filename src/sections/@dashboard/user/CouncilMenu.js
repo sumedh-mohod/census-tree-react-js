@@ -26,7 +26,7 @@ export default function CouncilMenu(props) {
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-        <Iconify icon="eva:more-vertical-fill" width={20} height={20} />
+        <Iconify icon="eva:more-vertical-fill" width={20} height={20} style={{color: '#000'}}/>
       </IconButton>
 
       <Menu
@@ -42,13 +42,13 @@ export default function CouncilMenu(props) {
           {(permissions.includes("delete-council"))?
           props.disable?
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} disabled >
-          <ListItemIcon>
+          <ListItemIcon style={{color: "#214c50"}}>
             <Iconify icon="eva:activity-outline" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
         : <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} >
-        <ListItemIcon>
+        <ListItemIcon style={{color: "#214c50"}}>
           <Iconify icon="eva:activity-outline" width={24} height={24} />
         </ListItemIcon>
         <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />
@@ -58,13 +58,13 @@ export default function CouncilMenu(props) {
         {(permissions.includes("edit-council"))?
         (props.disable || props.status===0)?
         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose} disabled >
-          <ListItemIcon>
+          <ListItemIcon style={{color: "#214c50"}}>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>:
            <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose} >
-           <ListItemIcon>
+           <ListItemIcon style={{color: "#214c50"}}>
              <Iconify icon="eva:edit-fill" width={24} height={24} />
            </ListItemIcon>
            <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
@@ -73,13 +73,13 @@ export default function CouncilMenu(props) {
          {(permissions.includes("view-properties"))?
           props.status===0?
           <MenuItem component={RouterLink} to={`/dashboard/council/properties/${props.councilId}/${props.councilName}`} sx={{ color: 'text.secondary' }} onClick={handleClose}disabled >
-          <ListItemIcon>
+          <ListItemIcon style={{color: "#214c50"}}>
               <Iconify icon="bi:building" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View Properties" primaryTypographyProps={{ variant: 'body2' }} />
        </MenuItem>:
        <MenuItem component={RouterLink} to={`/dashboard/council/properties/${props.councilId}/${props.councilName}`} sx={{ color: 'text.secondary' }} onClick={handleClose} >
-       <ListItemIcon>
+       <ListItemIcon style={{color: "#214c50"}}>
            <Iconify icon="bi:building" width={24} height={24} />
        </ListItemIcon>
        <ListItemText primary="View Properties" primaryTypographyProps={{ variant: 'body2' }} />

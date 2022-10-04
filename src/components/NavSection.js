@@ -19,7 +19,7 @@ const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props
   height: 48,
   position: 'relative',
   textTransform: 'capitalize',
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.text,
   borderRadius: theme.shape.borderRadius,
 }));
 
@@ -55,7 +55,7 @@ function NavItem({ item, active }) {
   const activeRootStyle = {
     color: 'primary.main',
     fontWeight: 'fontWeightMedium',
-    bgcolor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+    bgcolor: theme.palette.primary.main_active,
   };
 
   const activeSubStyle = {
@@ -70,6 +70,11 @@ function NavItem({ item, active }) {
           onClick={handleOpen}
           sx={{
             ...(isActiveRoot && activeRootStyle),
+            transition: (theme) => theme.transitions.create('transform'),
+            // ...(isActiveRoot && {
+              
+            //   bgcolor: 'primary.main_active'
+            // }),
           }}
         >
           <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
@@ -86,7 +91,6 @@ function NavItem({ item, active }) {
             {children.map((item) => {
               const { title, path } = item;
               const isActiveSub = active(path);
-
               return (
                 <ListItemStyle
                   key={title}
@@ -110,12 +114,23 @@ function NavItem({ item, active }) {
                         transition: (theme) => theme.transitions.create('transform'),
                         ...(isActiveSub && {
                           transform: 'scale(2)',
-                          bgcolor: 'primary.main',
+                          bgcolor: 'primary.main_active',
                         }),
                       }}
                     />
                   </ListItemIconStyle>
-                  <ListItemText disableTypography primary={title} />
+                  <ListItemText
+                   disableTypography
+                    primary={title}
+                    sx={{
+                      
+                      transition: (theme) => theme.transitions.create('transform'),
+                      ...(isActiveSub && {
+                        
+                        color: 'primary.main_active'
+                      }),
+                    }}
+                     />
                 </ListItemStyle>
               );
             })}
@@ -315,7 +330,7 @@ export default function NavSection({ navConfig, ...other }) {
   const newReportObj =   {
     title: 'Reports',
     path: '/dashboard/newReports',
-    icon: getIcon('carbon:report'),
+    icon: getIcon('eva:file-text-fill'),
     children:[]
   }
 
@@ -354,7 +369,7 @@ export default function NavSection({ navConfig, ...other }) {
   // };
   // navConfigArray.push(reportObj);
 
-  console.log(navConfigArray);
+  // console.log(navConfigArray);
   // console.log(navConfigArray);
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
 

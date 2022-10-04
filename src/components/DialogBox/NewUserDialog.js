@@ -865,7 +865,7 @@ export default function NewUserDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleClose} >Add</Button>
         </DialogActions>
       </Dialog>
       </div>

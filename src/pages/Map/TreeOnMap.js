@@ -22,6 +22,7 @@ import {
   Container,
   Drawer,
 } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useFormik } from 'formik';
@@ -36,6 +37,7 @@ import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import { GetAllTreeLocation } from '../../actions/TreeOnMapAction';
 import {GetActiveCouncil} from '../../actions/CouncilAction';
+import Iconify from '../../components/Iconify';
 
 export default function TreeOnMap(props) {
 
@@ -155,7 +157,12 @@ export default function TreeOnMap(props) {
         dispatch(GetAllTreeLocation(value.council,value.zone,value.ward,value.fromDate,value.toDate,treeNumber))
       },
     });
-  
+    const useStyles = makeStyles({
+      icon: {
+          fill: '#214C50',
+      },
+  })
+  const classes = useStyles()
     const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   
 
@@ -165,12 +172,26 @@ export default function TreeOnMap(props) {
           Open max-width dialog
         </Button> */}
         <Container>
-         {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}> */}
+       
+         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
           Trees On Map
+          <Typography variant="h6" style={{ fontWeight: 400 }}>
+              It is showing trees on the map
+            </Typography>
           </Typography>
-          {/* </Stack> */}
           <Button
+             onClick={toggleDrawer("right", true)} 
+            variant="contained"
+            to="#"
+          
+            startIcon={<Iconify icon="eva:funnel-fill" />}
+          >
+            Filter
+          </Button>
+          </Stack>
+          
+          {/* <Button
            variant='outlined'
             sx={{justifyContent:'end', display:'flex', position: 'fixed',right: 0,top:'100px',border:'2px solid black',backgroundColor:'black',zIndex:'999', 
             "&.MuiButtonBase-root:hover": {
@@ -182,7 +203,7 @@ export default function TreeOnMap(props) {
            
           >
         <FilterAltRoundedIcon sx={{color:'white'}} />
-          </Button> 
+          </Button>  */}
           <Drawer
            sx= {
             {
@@ -219,6 +240,11 @@ export default function TreeOnMap(props) {
               }}
               error={Boolean(touched.council && errors.council)}
                 helperText={touched.council && errors.council}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
             >
                <MenuItem disabled value="">
             <em>Select Councils</em>
@@ -252,6 +278,11 @@ export default function TreeOnMap(props) {
               }}
               error={Boolean(touched.zone && errors.zone)}
                 helperText={touched.zone && errors.zone}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
             >
                <MenuItem disabled value="">
             <em>Select Zone</em>
@@ -284,6 +315,11 @@ export default function TreeOnMap(props) {
               }}
               error={Boolean(touched.ward && errors.ward)}
               helperText={touched.ward && errors.ward}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
             >
                <MenuItem disabled value="">
             <em>Select Ward</em>
@@ -351,7 +387,7 @@ export default function TreeOnMap(props) {
                 helperText={touched.treeNumber && errors.treeNumber}
               />
             <Button onClick={handleSubmit} variant="contained" style={{width:'60%',marginLeft:"20%",marginRight:"20%",marginTop:20}}>
-            Get Data
+            Apply
 
           </Button>
 

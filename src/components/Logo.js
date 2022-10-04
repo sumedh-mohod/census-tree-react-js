@@ -3,7 +3,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
-import abell from '../Assets/abell.png';
+import LogoGreen from '../Assets/LogoGreen.png';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ export default function Logo({ disabledLink = false, sx }) {
   const PRIMARY_DARK = theme.palette.primary.dark;
 
   const location = useLocation();
-  console.log("PATH NAME",location.pathname);
+  // console.log("PATH NAME",location.pathname);
 
   let notRedirect = false;
 
@@ -34,7 +34,7 @@ export default function Logo({ disabledLink = false, sx }) {
   // const logo = <Box component="img" src="/static/logo.svg" sx={{ width: 40, height: 40, ...sx }} />
 
   const logo = (
-    <Box sx={{ width: 100, height: 100, ...sx }}>
+    <Box sx={{ width: 100, height: 30, ...sx }} >
       {/* <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
         <defs>
           <linearGradient id="BG1" x1="100%" x2="50%" y1="9.946%" y2="50%">
@@ -66,7 +66,7 @@ export default function Logo({ disabledLink = false, sx }) {
           />
         </g>
       </svg> */}
-      <img src={abell} alt="abell" />
+      <img src={LogoGreen} alt="abell" />
     </Box>
   );
 

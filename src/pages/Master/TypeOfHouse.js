@@ -28,7 +28,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfHouseDialog from "../../components/DialogBox/TypeOfHouseDialog";
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import { MasterBreadCrumChip } from '../../sections/@dashboard/master/MasterBreadCrumChip';
 
 // ----------------------------------------------------------------------
 
@@ -131,7 +131,7 @@ export default function TypeOfTree() {
           </Typography>
       </Breadcrumbs>
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button   onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" >
             Type Of House
 
           </Button>
@@ -140,7 +140,7 @@ export default function TypeOfTree() {
         <Card>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
@@ -150,7 +150,7 @@ export default function TypeOfTree() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{option.srno}</TableCell>
+                            <TableCell align="left"><b>{option.srno}</b></TableCell>
                         <TableCell align="left">{option.typeOfHouse}</TableCell>
                         <TableCell align="right">
                           <UserMoreMenu handleEdit={()=>handleEdit(option)}/>

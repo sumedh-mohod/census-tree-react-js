@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -20,6 +21,7 @@ import { Stack, Avatar, Checkbox, Container, Drawer } from '@mui/material';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
+import Iconify from '../../components/Iconify';
 import Page from '../../components/Page';
 import CouncilList from './CouncilList';
 import Teamczw from './Teamczw';
@@ -117,15 +119,15 @@ export default function WorkingReports(props) {
     // console.log('...', event);
     // console.log('eventtype check', event.target.value);
     setReportType(event.target.value);
-    setUserBy("")
-    setTeamBy("")
-    setFromDate("")
-    setTodate("")
+    setUserBy('');
+    setTeamBy('');
+    setFromDate('');
+    setTodate('');
 
-     if (event.target.value === 'team_czw_allocation') {
-      dispatch(GetAllActiveTeam())
+    if (event.target.value === 'team_czw_allocation') {
+      dispatch(GetAllActiveTeam());
     } else if (event.target.value === 'team_allocation') {
-      dispatch(GetActiveUsers(1))
+      dispatch(GetActiveUsers(1));
     }
 
     // console.log('value', event.target.value);
@@ -180,18 +182,18 @@ export default function WorkingReports(props) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      reportType: reportType || "",
+      reportType: reportType || '',
       // councilForm: councilID || "",
       team_id: teamBy,
       status: 1,
       user_id: userBy,
-      toDateForm: toDate || "",
-      fromDateForm: fromDate || ""
+      toDateForm: toDate || '',
+      fromDateForm: fromDate || '',
     },
     validationSchema: FilterSchema,
     onSubmit: (value) => {
       // console.log('in submit');
-      console.log('VALUE', value);
+      // console.log('VALUE', value);
       // console.log(',,,,,',value.user_id,'value.status',value.status,'value.team_id',value.team_id)
       const userId = value.user_id;
       const status = value.status;
@@ -202,19 +204,30 @@ export default function WorkingReports(props) {
       // const convertedToDate = value.toDateForm.split('-').reverse().join('-');
       if (value.reportType === 'by_work_types') {
         dispatch(
-          GetWorkTypeWorkReports(value.reportType, userId, teamId, undefined, value.fromDateForm, value.toDateForm, 1, 10)
+          GetWorkTypeWorkReports(
+            value.reportType,
+            userId,
+            teamId,
+            undefined,
+            value.fromDateForm,
+            value.toDateForm,
+            1,
+            10
+          )
         );
       } else {
-        dispatch(GetWorkReports(value.reportType, userId, teamId, undefined, value.fromDateForm, value.toDateForm, 1, 10));
+        dispatch(
+          GetWorkReports(value.reportType, userId, teamId, undefined, value.fromDateForm, value.toDateForm, 1, 10)
+        );
       }
 
       // setFromDate(convertedFromDate);
       // setTodate(convertedToDate);
       setReportType(value.reportType);
-      setFromDateProps(value.fromDateForm)
+      setFromDateProps(value.fromDateForm);
       setTodateProps(value.toDateForm);
-      setTeamByProps(teamId)
-      setUserByProps(userId)
+      setTeamByProps(teamId);
+      setUserByProps(userId);
 
       if (value.reportType === 'by_work_types') {
         setShowWorkTypeTable(true);
@@ -252,7 +265,7 @@ export default function WorkingReports(props) {
         setShowWorkTypeTable(false);
         setTeamczw(false);
       }
-      setState({ ...state, "right": false });
+      setState({ ...state, right: false });
     },
   });
 
@@ -271,37 +284,49 @@ export default function WorkingReports(props) {
     setTodate(event.target.value);
   };
   // console.log('teamBy', teamBy);
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   return (
     <div>
       <Page title="Maps">
         <Container>
           <div role="presentation">
-            <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000' }} separator=">">
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              style={{ color: '#000000', fontWeight: 900, fontSize: '20px' }}
+              separator=":"
+            >
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
                 Reports
               </Typography>
-              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+              <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
                 Work Reports
               </Typography>
               {showTable ? (
-                <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+                <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
                   Council Report
                 </Typography>
               ) : showListUser ? (
-                <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+                <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
                   User Report
                 </Typography>
               ) : showWorkTypeTable ? (
-                <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+                <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
                   Work Report
                 </Typography>
               ) : teamAllocation ? (
-                <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+                <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
                   Team-User Allocation Report
                 </Typography>
               ) : teamCzw ? (
-                <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+                <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
                   Team-CZW Allocation
                 </Typography>
               ) : (
@@ -309,7 +334,28 @@ export default function WorkingReports(props) {
               )}
             </Breadcrumbs>
           </div>
+          <Typography variant="h6" fontWeight={400} sx={{ mt: -1 }}>
+            It is showing list of work report according to type
+          </Typography>
           <Button
+            onClick={toggleDrawer('right', true)}
+            variant="contained"
+            sx={{
+              justifyContent: 'end',
+              display: 'flex',
+              px: 3,
+              py: 1,
+              float: 'right',
+              mt: -4,
+             
+            }}
+            // component={RouterLink}
+            to="#"
+            startIcon={<Iconify icon="eva:funnel-fill" />}
+          >
+            Filters
+          </Button>
+          {/* <Button
             variant="outlined"
             sx={{
               justifyContent: 'end',
@@ -328,7 +374,7 @@ export default function WorkingReports(props) {
             onClick={toggleDrawer('right', true)}
           >
             <FilterAltRoundedIcon sx={{ color: 'white' }} />
-          </Button>
+          </Button> */}
           <Drawer
             sx={{
               '& .MuiDrawer-paper': {
@@ -362,6 +408,11 @@ export default function WorkingReports(props) {
                     error={Boolean(touched.reportType && errors.reportType)}
                     helperText={touched.reportType && errors.reportType}
                     // {...getFieldProps('reportType')}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Report Type</em>
@@ -406,7 +457,6 @@ export default function WorkingReports(props) {
                     <></>
                   )} */}
                 </Grid>
-               
 
                 <Grid item xs={12}>
                   <TextField
@@ -463,107 +513,121 @@ export default function WorkingReports(props) {
                     // {...getFieldProps('toDateForm')}
                   />
                 </Grid>
-                {reportType === "team_allocation"?
-                 <Grid item xs={12}>
-                 <TextField
-                   select
-                   id="userBy"
-                   label="User"
-                   displayEmpty
-                   value={userBy}
-                   style={{ width: '100%', marginTop: 5 }}
-                   size="small"
-                   // placeholder='*Status'
-                   onChange={(e) => {
-                     handleUserByChange(e);
-                     formik.handleChange(e);
-                   }}
-                   // onChange={handleAddedByChange}
-                   // error={Boolean(touched.addedByForm && errors.councilForm)}
-                   //   helperText={touched.councilForm && errors.councilForm}
-                   // {...getFieldProps("addedByForm")}
-                 >
-                   <MenuItem disabled value="">
-                     <em>Select User </em>
-                   </MenuItem>
-                   {activeUsers?.map((option) => (
-                     <MenuItem key={option.id} value={option.id}>
-                       {option.first_name} {option.last_name}
-                     </MenuItem>
-                   ))}
-                 </TextField>
-               </Grid>:<></>
-                }
-               
-                {reportType === "team_czw_allocation"? 
-                 <Grid item xs={12}>
-                 <TextField
-                   select
-                   id="teamBy"
-                   label="Team"
-                   displayEmpty
-                   value={teamBy}
-                   style={{ width: '100%', marginTop: 5 }}
-                   size="small"
-                   // placeholder='*Status'
-                   onChange={(e) => {
-                     handleTeamByChange(e);
-                     formik.handleChange(e);
-                   }}
-                   // onChange={handleAddedByChange}
-                   // error={Boolean(touched.addedByForm && errors.councilForm)}
-                   //   helperText={touched.councilForm && errors.councilForm}
-                   // {...getFieldProps("addedByForm")}
-                 >
-                   <MenuItem disabled value="">
-                     <em>Select Team </em>
-                   </MenuItem>
-                   {teams?.map((option) => (
-                     <MenuItem key={option.id} value={option.id}>
-                       {option.name}
-                     </MenuItem>
-                   ))}
-                 </TextField>
-               </Grid>:<></>
-              }
-               
+                {reportType === 'team_allocation' ? (
+                  <Grid item xs={12}>
+                    <TextField
+                      select
+                      id="userBy"
+                      label="User"
+                      displayEmpty
+                      value={userBy}
+                      style={{ width: '100%', marginTop: 5 }}
+                      size="small"
+                      // placeholder='*Status'
+                      onChange={(e) => {
+                        handleUserByChange(e);
+                        formik.handleChange(e);
+                      }}
+                      // onChange={handleAddedByChange}
+                      // error={Boolean(touched.addedByForm && errors.councilForm)}
+                      //   helperText={touched.councilForm && errors.councilForm}
+                      // {...getFieldProps("addedByForm")}
+                    >
+                      <MenuItem disabled value="">
+                        <em>Select User </em>
+                      </MenuItem>
+                      {activeUsers?.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.first_name} {option.last_name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                ) : (
+                  <></>
+                )}
+
+                {reportType === 'team_czw_allocation' ? (
+                  <Grid item xs={12}>
+                    <TextField
+                      select
+                      id="teamBy"
+                      label="Team"
+                      displayEmpty
+                      value={teamBy}
+                      style={{ width: '100%', marginTop: 5 }}
+                      size="small"
+                      // placeholder='*Status'
+                      onChange={(e) => {
+                        handleTeamByChange(e);
+                        formik.handleChange(e);
+                      }}
+                      // onChange={handleAddedByChange}
+                      // error={Boolean(touched.addedByForm && errors.councilForm)}
+                      //   helperText={touched.councilForm && errors.councilForm}
+                      // {...getFieldProps("addedByForm")}
+                    >
+                      <MenuItem disabled value="">
+                        <em>Select Team </em>
+                      </MenuItem>
+                      {teams?.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                ) : (
+                  <></>
+                )}
+
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
                   style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5 }}
                 >
-                  Get Data
+                  Apply
                 </Button>
               </Grid>
 
               {/* <Button variant="contained" style={{marginLeft: 50, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}  onClick={handleSubmit}>Get Data</Button> */}
             </div>
           </Drawer>
-          {showWorkType && showCouncil  && showUser && 
-
-          <UserTypeList/> 
-          } 
+          {showWorkType && showCouncil && showUser && <UserTypeList />}
           {showTable && <CouncilList reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} />}
 
-          {teamCzw && <Teamczw reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} teamBy={teamBy}/>}
+          {teamCzw && <Teamczw reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} teamBy={teamBy} />}
 
           {showListUser && <UserTypeList reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} />}
 
           {showWorkTypeTable && <WorkTypeList reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} />}
-          {teamAllocation && <TeamAllocation reportType={reportType} fromDate={fromDateProps} toDate={toDateProps} userBy={userByProps} />}
+          {teamAllocation && (
+            <TeamAllocation
+              reportType={reportType}
+              fromDate={fromDateProps}
+              toDate={toDateProps}
+              userBy={userByProps}
+            />
+          )}
           {showMessage && (
-            <div
+            <Grid
               style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                height: '100%',
-                width: '100%',
-                marginTop: 40,
+                marginTop: '20%',
+                // margin: 'auto '
               }}
             >
-              <h2>Please Select Filter</h2>
-            </div>
+              {/* <Typography><Iconify icon="eva:funnel-fill" /></Typography> */}
+              <Typography align="center">
+                <Typography sx={{ color: '#214C50', fontSize: '50px', mb: -2 }}>
+                  <Iconify icon="eva:funnel-fill" />
+                </Typography>
+                <b style={{ fontSize: '20px' }}>Filter Data</b>
+                <Typography>Please filter tree data and here You will see the tree list</Typography>
+              </Typography>
+            </Grid>
           )}
         </Container>
       </Page>

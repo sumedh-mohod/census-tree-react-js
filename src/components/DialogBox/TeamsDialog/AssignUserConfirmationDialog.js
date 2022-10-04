@@ -46,7 +46,7 @@ export default function AssignUserConfirmationDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleTrueClose}>yes</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleClose}  autoFocus>
             Cancel
           </Button>
         </DialogActions>

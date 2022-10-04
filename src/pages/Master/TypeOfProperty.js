@@ -30,7 +30,8 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfPropertyDialog from "../../components/DialogBox/TypeOfPropertyDialog";
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import { MasterBreadCrumChip } from '../../sections/@dashboard/master/MasterBreadCrumChip';
+import StatusButton from '../../components/statusbutton/StatusButton';
 
 // ----------------------------------------------------------------------
 
@@ -184,62 +185,72 @@ export default function TypeOfProperty() {
   return (
     <Page title="User">
       <Container>
-      {open?
-        <TypeOfPropertyDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data = {dialogData}
-        />: null}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <div role="presentation" onClick={handleClick} >
-        <MasterBreadCrum
-          dropDownPage={dropPage}
-          handleDropChange={handleDropChange}
-          />
-    </div>
-    {userPermissions.includes("create-property-type")? 
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Property Type
-
-          </Button>:null}
+        {open ? <TypeOfPropertyDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        <Scrollbar className='padscreen_'>
+        {userPermissions.includes('create-property-type') ? (
+            <Button
+              onClick={handleNewUserClick}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+               sx={{float: 'right', mt: -4}}
+               className='padscreenadd mobbutton'
+            >
+              Add Property Type
+            </Button>
+          ) : null}
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={6} mt={5}>
+          <div role="presentation" className='mob-master' onClick={handleClick}>
+            <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'property types'} />
+          </div>
+          
         </Stack>
+        </Scrollbar>
+       
 
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search property type..."} onFilterName={filterByName}/>
+          <UserListToolbar numSelected={0} placeHolder={'Search property type...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
+              <Table size="small" aria-label="a dense table">
+                <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                     { propertyTypes?.map((option,index) => {
-                        return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                  {propertyTypes?.map((option, index) => {
+                    return (
+                      <TableRow hover>
+                        <TableCell align="left">
+                          <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                        </TableCell>
                         <TableCell align="left">{option.property_type}</TableCell>
                         <TableCell align="left">{option.location_type?.location_type}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
-                        <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                        <TableCell align="left">
+                          <StatusButton status={option.status} />
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
-
+                        <TableCell align="right">
+                          <UserMoreMenu
+                            status={option.status}
+                            permissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-          {propertyTypes?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
+          {propertyTypes ? (
+            <Pagination
+              count={pageInfo.last_page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
         </Card>
       </Container>
     </Page>

@@ -72,7 +72,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
  
 const ByTreeWardGraph=(props)=> {
     const {data: graph} = props;
-    console.log('data_', graph);
+    // console.log('data_', graph);
     const length = graph.length;
     const x = [];
     const y = [];
@@ -86,8 +86,8 @@ const ByTreeWardGraph=(props)=> {
     for(let i=0;i<length;i+=1){
       y.push(graph[i].census_trees_count)
     }
-    console.log(x)
-    console.log(y)
+    // console.log(x)
+    // console.log(y)
     const customLabel = y.map((val,index)=> `${x[index]}, Count: ${val}`);
   const data = {
     labels: customLabel,

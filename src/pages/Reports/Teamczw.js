@@ -34,6 +34,7 @@ import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
 import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
+import AllocateButton from '../../components/statusbutton/AllocateButton';
 import { GetAllWorkReports, GetWorkReports, SearchWorkReports } from '../../actions/WorkReportAction';
 
 // ----------------------------------------------------------------------
@@ -81,7 +82,7 @@ export default function Teamczw(props) {
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  console.log("workReportsTeamczw",excelWorkReports);
+  // console.log("workReportsTeamczw",excelWorkReports);
 
   useEffect(()=>{
     if(excelWorkReports && downloadButtonPressed){
@@ -190,15 +191,17 @@ const handleDownloadButtonPressed = () => {
   return (
     <Page title="User">
       <Container>
-        <Card style={{marginTop: 40}} >
-        <ReportToolBar
+      <Card style={{marginTop: 40}} >
+      <ReportToolBar
         handleExportexcel={()=>handleDownloadButtonPressed()} 
        placeHolder={"Search here..."} 
       //  onFilterName={filterByName}
        />
+       
+       
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
@@ -216,7 +219,9 @@ const handleDownloadButtonPressed = () => {
                         <TableCell style={{flexWrap: "wrap"}}>{option?.ward}</TableCell>
                         <TableCell  style={{flexWrap: "wrap"}}>{option?.allocated_at}</TableCell>
                         <TableCell  style={{flexWrap: "wrap"}}>{option?.deallocated_at}</TableCell>
-                        <TableCell style={{flexWrap: "wrap"}}>{option?.current_status}</TableCell>
+                        <TableCell style={{flexWrap: "wrap"}}>
+                          <AllocateButton status={option?.current_status}/>
+                          </TableCell>
                         {/* <TableCell align="right">
                           <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
                         </TableCell>  */}

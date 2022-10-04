@@ -33,7 +33,7 @@ import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
 import PropertyErrorDialog from '../../components/DialogBox/tree-data/PropertyErrorDialog';
 import { ShowLoader } from '../../actions/CommonAction';
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import { MasterBreadCrumChip } from '../../sections/@dashboard/master/MasterBreadCrumChip';
 
 // ----------------------------------------------------------------------
 
@@ -236,7 +236,7 @@ export default function ViewProperties() {
   return (
     showLoader ?
       <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%' }}>
-      <CircularProgress color="success" />
+      <CircularProgress style={{color: '#214c50'}} />
       </div>
       :
    
@@ -252,10 +252,10 @@ export default function ViewProperties() {
         data={propertyError}
         />:null
         }
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <MasterBreadCrum
+        <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
           />
@@ -296,7 +296,7 @@ export default function ViewProperties() {
         <UserListToolbar numSelected={0} placeHolder={"Search user..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
@@ -306,7 +306,7 @@ export default function ViewProperties() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                         <TableCell align="left">{option?.zone?.name}</TableCell>
                         <TableCell align="left">{option?.ward?.name}</TableCell>
                         <TableCell align="left">{option.property_number}</TableCell>

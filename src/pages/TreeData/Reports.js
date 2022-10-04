@@ -18,7 +18,7 @@ import {
   IconButton,
   Grid,
 } from '@mui/material';
-
+import { makeStyles } from '@material-ui/core/styles';
 import TabPanel from '@mui/lab/TabPanel';
 import TabList from '@mui/lab/TabList';
 import PropTypes from 'prop-types';
@@ -99,7 +99,7 @@ export default function Reports() {
     reports: state.reports.reports,
     loggedUser: state.auth.loggedUser,
   }));
-  console.log('reports', reports, 'council', council,'loggedUser', loggedUser);
+  // console.log('reports', reports, 'council', council,'loggedUser', loggedUser);
 
   loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
@@ -113,20 +113,20 @@ export default function Reports() {
   // }
 
   const wardImage = async () => {
-    console.log('WardImage', inputRef.current);
+    // console.log('WardImage', inputRef.current);
     return inputRef.current;
   };
   const treeImage = async () => {
-    console.log('treeImage', inputReftree.current);
+    // console.log('treeImage', inputReftree.current);
     return inputReftree.current;
   };
 
   const typeImage = async () => {
-    console.log('typeImage', inputRefType.current);
+    // console.log('typeImage', inputRefType.current);
     return inputRefType.current;
   };
   const conditionImage = async () => {
-    console.log('conditionImage', inputRefConditon.current);
+    // console.log('conditionImage', inputRefConditon.current);
     return inputRefConditon.current;
   };
 
@@ -242,11 +242,6 @@ export default function Reports() {
     return null;
   });
 
-  // console.log("dataValue", dataValue)
-  // console.log("TreeName", TreeName)
-  // console.log("treeType", treeType)
-  // console.log("council1234", councilName)
-  // console.log("Council123", council?.id)
   const exportPdf = () => {
     // eslint-disable-next-line new-cap
     const doc = new JsPDF();
@@ -288,13 +283,24 @@ export default function Reports() {
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
-
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   // console.log("reports1", reports?.by_wards)
   // const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return (
     <Page title="User">
       <Container>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+        <div role="presentation" onClick={handleClick} >
+      <Breadcrumbs aria-label="breadcrumb" style={{ color: "#000000",  fontWeight: 900, fontSize: '20px'}}separator=':'>
+        {/* <Link
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <div role="presentation" onClick={handleClick}>
             <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000' }} separator=">">
@@ -317,13 +323,17 @@ export default function Reports() {
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
                 Census
               </Typography>
-              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+              <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
                 Reports
               </Typography>
             </Breadcrumbs>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400', marginTop: '-8px'  }}>
+                It will show census report
+              </Typography>
           </div>
         </Stack>
         <Card>
+        <Scrollbar>
           <ReportListToolbar
             handleCouncil={(e) => separateId(e)}
             handleCoucilChange={(e) => handleCoucilChange(e)}
@@ -339,17 +349,17 @@ export default function Reports() {
             // handleGetData={handleSubmit}
             // callType="BaseColor"
           />
-          <Scrollbar>
+        
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                   <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                       <TabList onChange={handleChange} aria-label="lab API tabs example">
-                        <Tab label="By Wards" value="1" />
-                        <Tab label="By Tree Names" value="2" />
-                        <Tab label="By Tree Types" value="3" />
-                        <Tab label="By Tree Conditions" value="4" />
+                        <Tab label="By Wards" value="1" sx={{color: '#000'}}/>
+                        <Tab label="By Tree Names" value="2" sx={{color: '#000'}}/>
+                        <Tab label="By Tree Types" value="3" sx={{color: '#000'}}/>
+                        <Tab label="By Tree Conditions" value="4" sx={{color: '#000'}}/>
                       </TabList>
                     </Box>
                     <TabPanel value="1">
@@ -408,28 +418,52 @@ export default function Reports() {
       {!councilName ? (
                       <></>
                     ) : showReport?(
-                      <div style={{clipPath: `inset(0 100% 0 0)`}}>
+                      <div >
                         <Grid container spacing={0}>
                           <Grid item xs={3} />
 
-                          <Grid item xs={6}>
+                          <Grid item xs={6} style={{ position: 'absolute', clipPath: 'inset(0 100% 0 0)'}}>
                             <div ref={inputRef}>
                               <ByTreeWardGraph data={reports?.by_wards ? reports?.by_wards : []} />
                             </div>
                           </Grid>
                           <Grid item xs={3} />
                         </Grid>
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} />
 
-                        <div ref={inputReftree}>
-                          <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
-                        </div>
-                        <div ref={inputRefType}>
+                          <Grid item xs={6} style={{ position: 'absolute', width: '70%', height: '20%', clipPath: 'inset(0 100% 0 0)'}}>
+                            <div ref={inputReftree}>
+                            <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
+                            </div>
+                          </Grid>
+                          <Grid item xs={3} />
+                        </Grid>
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} />
+
+                          <Grid item xs={6} style={{ position: 'absolute', width: '70%', height: '20%', clipPath: 'inset(0 100% 0 0)'}}>
+                          <div ref={inputRefType} >
                           <ByTreeTypeGraph data={reports?.by_tree_types ? reports?.by_tree_types : []} />
                         </div>
+                          </Grid>
+                          <Grid item xs={3} />
+                        </Grid>
+                        {/* <div ref={inputReftree} style={{position: 'absolute', clipPath: 'inset(100%)'}}>
+                          <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
+                        </div> */}
+                        <Grid container spacing={0}>
+                          <Grid item xs={3} />
 
-                        <div ref={inputRefConditon}>
+                          <Grid item xs={6} style={{ position: 'absolute', width: '70%', height: '20%', clipPath: 'inset(0 100% 0 0)'}}>
+                          <div ref={inputRefConditon}>
                           <ByTreeConditionGraph data={reports?.by_tree_conditions ? reports?.by_tree_conditions : []} />
                         </div>
+                          </Grid>
+                          <Grid item xs={3} />
+                        </Grid>
+
+                       
                       </div>
                     ):null}
 
