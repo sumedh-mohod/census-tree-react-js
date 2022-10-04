@@ -1382,9 +1382,13 @@ const handleSubmitErrors = () =>{
          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" style={{marginBottom: '-20px',marginLeft: '10px'}}>
           {editUser?"Edit User":"Create User"}
+          <Typography variant="h6" style={{fontWeight: '400'}}>
+         Please Provide the details.
           </Typography>
+          </Typography>
+         
           </Stack>
-           <Card variant="outlined" style={{padding: "20px 10px", margin : 10,  boxShadow: "4px 4px 4px, 4px" ,}}>
+           <Card variant="outlined" style={{padding: "20px", margin : 10,  boxShadow: "none" ,}}>
           <Stack spacing={3}>
           <Stack direction= 'row' spacing={2} >
             <Grid container xs={12}>
@@ -1459,6 +1463,9 @@ const handleSubmitErrors = () =>{
           </Typography> */}
            <Typography variant="h5" style={{marginTop: 20,marginBottom: 20}} gutterBottom>
            Basic Details
+           <Typography variant="h6" style={{fontWeight: '400'}}>
+         Please Provide basic details.
+          </Typography>
           </Typography>
             <Stack spacing={3}>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -1729,12 +1736,15 @@ const handleSubmitErrors = () =>{
               
               </Stack>
               
-                
+                <hr style={{color: '#000', opacity: 0.3, marginTop: '20px'}}/>
               
                 {showCouncil?null:
                <>
               <Typography variant="h5" style={{marginTop: 20, marginBottom: 20}} gutterBottom>
             Personal Details:
+            <Typography variant="h6" style={{fontWeight: '400'}}>
+         Please Provide personal details.
+          </Typography>
           </Typography>
           <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -1950,9 +1960,12 @@ const handleSubmitErrors = () =>{
                 <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{emergencyContactNumberError}</Typography>
             </Stack>
             </Stack>
-            
+            <hr style={{color: '#000', opacity: 0.3, marginTop: '20px'}}/>
             <Typography variant="h5" style={{marginTop: 20, marginBottom: 20}} gutterBottom>
             Joining and Salary Details:
+            <Typography variant="h6" style={{fontWeight: '400'}}>
+         Please Provide joining and salary details.
+          </Typography>
           </Typography>
           <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4}>
@@ -2138,8 +2151,12 @@ const handleSubmitErrors = () =>{
                 </Grid>
                 </Stack>
                 </Stack>
+                <hr style={{color: '#000', opacity: 0.3, marginTop: '20px'}}/>
                 <Typography  style={{marginTop: 20, marginBottom: 20}} variant="h5" gutterBottom>
             Bank Details
+            <Typography variant="h6" style={{fontWeight: '400'}}>
+         Please Provide bank details.
+          </Typography>
           </Typography>
           <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -2213,8 +2230,12 @@ const handleSubmitErrors = () =>{
               </Stack>
                 </>
             }
+               <hr style={{color: '#000', opacity: 0.3, marginTop: '20px'}}/>
                 <Typography variant="h5" style={{marginTop: 20, marginBottom: 20}} gutterBottom>
            Login Details
+           <Typography variant="h6" style={{fontWeight: '400'}}>
+         Please Provide login details.
+          </Typography>
           </Typography>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4}>
               <TextField
@@ -2279,10 +2300,14 @@ const handleSubmitErrors = () =>{
                 />
                }
               </Stack>
+              <hr style={{color: '#000', opacity: 0.3, marginTop: '20px'}}/>
               {showCouncil?null:
               <>
                 <Typography variant="h5" style={{marginTop: 20, marginBottom: 20}} gutterBottom>
                 Applicable Deduction
+                <Typography variant="h6" style={{fontWeight: '400'}}>
+         Please Provide applicable deduction details.
+          </Typography>
           </Typography>
 
           {deductionList?.map((value,index)=>(
@@ -2357,9 +2382,12 @@ const handleSubmitErrors = () =>{
               </Grid>
               </Grid>
             ))}
-          
+            <hr style={{color: '#000', opacity: 0.3, marginTop: '20px'}}/>
               <Typography variant="h5" style={{marginTop: 20, marginBottom: 20,}} gutterBottom>
            Upload Document
+           <Typography variant="h6" style={{fontWeight: '400'}}>
+         Please Provide upload document.
+          </Typography>
           </Typography>
          
           {documentList?.map((value,index)=>(
