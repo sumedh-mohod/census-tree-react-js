@@ -128,7 +128,7 @@ export default function Login() {
             </Typography>
             <Typography className={classes.font}>
               Welcome to the <b>Tree  Census</b><br />
-             Admin Portal
+             Web Portal
             </Typography>
             <Typography className={classes.bottom}>
               <img src="/static/illustrations/Quote.png" height="70" width="70" alt="login" />
