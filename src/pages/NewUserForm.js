@@ -2069,22 +2069,14 @@ const handleSubmitErrors = () =>{
                 {editUser?(
                   <>
                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4}>
-                 {/* <DefaultInput
-                  fullWidth
-                  id="lastDayOfWork"
-                  autoComplete="lastDayOfWork"
-                  placeholder="Last Day Of Work"
-                  defaultValue={data? data.lastDayOfWork: ""}
-                  // name="contact"
-                  // value="contact"
-                /> */}
+             
 
                 <TextField
                 fullWidth
                   id="lastDayOfWork"
                   name='lastDayOfWork'
                   type="date"
-                  label="Last Day Of work"
+                  label="Last Day Of worka"
                   placeholder='Last Day Of work'
                   value={values.lastDayOfWork}
                   // style={{width:'93.8%', marginLeft: 40,marginTop:5}}

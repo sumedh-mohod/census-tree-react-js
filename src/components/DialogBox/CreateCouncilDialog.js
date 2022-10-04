@@ -295,12 +295,12 @@ export default function CreateCouncilDialog(props) {
       district: Yup.string().required('Districts is required'),
       state: Yup.string().required('State is required'),
       // taluka: Yup.string().required('Taluka is required'),
-      baseColorTarget: Yup.string().required('Base Color Target is required'),
-      censusTarget: Yup.string().required('Census Target is required'),
+      baseColorTarget: Yup.number().required('Base Color Target is required'),
+      censusTarget: Yup.number().required('Census Target is required'),
       total_area: Yup.string().matches(/^(0|[1-9]\d*)(\.\d+)?$/, "Only Numbers & Decimals are allowed").required('Total area is required'),
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
-      locationAccuracyNeeded: Yup.string().required('Accuracy Captured is required'),
+      locationAccuracyNeeded: Yup.string().required('Accuracy Needed is required'),
       project_start_date: Yup.string().required('Start Date is required'),
     }
     :{
@@ -309,8 +309,8 @@ export default function CreateCouncilDialog(props) {
     district: Yup.string().required('Districts is required'),
     state: Yup.string().required('State is required'),
     // taluka: Yup.string().required('Taluka is required'),
-    baseColorTarget: Yup.string().required('Base Color Target is required'),
-    censusTarget: Yup.string().required('Census Target is required'),
+    baseColorTarget: Yup.number().required('Base Color Target is required'),
+    censusTarget: Yup.number().required('Census Target is required'),
     total_area: Yup.string().matches(/^(0|[1-9]\d*)(\.\d+)?$/, "Only Numbers & Decimals are allowed for this field ").required('Total area is required'), 
     firstName: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('First Name is required'),
     // middleName: Yup.string().required('Middle Name is required'),
@@ -321,7 +321,7 @@ export default function CreateCouncilDialog(props) {
     password: Yup.string().matches(/^.{6,}$/, 'password should have at least 6 characters').required('Password is required'),
     zones: Yup.array().min(1,'Zone is required'),
     wards: Yup.array().min(1,'Ward is required'),
-    locationAccuracyNeeded: Yup.string().required('Accuracy Captured is required'),
+    locationAccuracyNeeded: Yup.number().required('Accuracy Needed is required'),
     project_start_date: Yup.string().required('Start Date is required'),
 
     // "project_end_date": value.project_end_date
@@ -458,7 +458,7 @@ export default function CreateCouncilDialog(props) {
   });
   const classes = useStyles();
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
-  // console.log("VALUES",values)
+  console.log("errors",errors)
   return (
     <div>
       <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>
@@ -720,8 +720,8 @@ export default function CreateCouncilDialog(props) {
                 fullWidth
                 id="locationAccuracyNeeded"
                 autoComplete="name"
-                label="Accuracy Captured* (in meter)"
-                placeholder="Enter Accuracy Captured* (in meter)"
+                label="Accuracy Needed* (in meter)"
+                placeholder="Accuracy Needed* (in meter)"
                 error={Boolean(touched.locationAccuracyNeeded && errors.locationAccuracyNeeded)}
                 helperText={touched.locationAccuracyNeeded && errors.locationAccuracyNeeded}
                 {...getFieldProps("locationAccuracyNeeded")}

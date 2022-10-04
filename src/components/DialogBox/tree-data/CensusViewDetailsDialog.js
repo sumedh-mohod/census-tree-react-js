@@ -77,7 +77,7 @@ export default function CensusViewDetailsDialog(props) {
   const [openImageList, setOpenImageList] = React.useState(false);
   const handleOpenImageList = (e) => setOpenImageList(true);
   const handleCloseImageList = () => setOpenImageList(false);
-  // console.log("data",props);
+  // console.log("data",data);
   //   const {
   //     baseColorRemarks,
   //     updateQCStatusLog,
@@ -243,7 +243,7 @@ export default function CensusViewDetailsDialog(props) {
                   <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>{data?.girth}</td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Height(Feet)</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Height</td>
                   <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>{data?.height}</td>
                 </tr>
                 <tr>

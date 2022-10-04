@@ -86,7 +86,7 @@ export default function LoginForm() {
     },
     button: {
       width: 317,
-      marginTop: 15,
+      marginTop: 15
     }
   });
   const classes = useStyles();
