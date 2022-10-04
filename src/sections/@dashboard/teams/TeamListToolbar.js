@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 // material
 import { styled } from '@mui/material/styles';
 import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment, Select, MenuItem, Grid } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 // component
 import { useSelector } from 'react-redux';
 import Iconify from '../../../components/Iconify';
+import SearchImage from '../../../Assets/Search_Image.png';
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +19,8 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
+  height: 44,
+  backgroundColor: '#F8F8F8 !important',
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
@@ -45,9 +49,15 @@ TeamListToolbar.propTypes = {
 };
 
 
-
 export default function TeamListToolbar({ callType, numSelected, filterName, onFilterName, placeHolder,handleCoucilChange,handleWardChange,handleZoneChange,coucilId,zoneId,wardId }) {
-  
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
     const {
         council,
         zones,
@@ -79,7 +89,8 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
           placeholder="Search here"
           startAdornment={
             <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+               <img src={SearchImage} alt="abell" height='25' width='35' />
+              {/* <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} /> */}
             </InputAdornment>
           }
         />
@@ -95,7 +106,7 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
             <Iconify icon="ic:round-filter-list" />
           </IconButton>
         </Tooltip>
-           <Grid item xs={2.7} justifyContent="flex-end">
+           <Grid item sm={2.7} justifyContent="flex-end">
            
             <Select
                 id="state"
@@ -107,6 +118,12 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
+                
+                   inputProps={{
+                    classes: {
+                        icon: classes.icon,
+                    },
+                }}
               >
                 { callType === "Teams"?(
                   
@@ -128,7 +145,7 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 ))}
               </Select>
               </Grid>
-              <Grid item xs={2} justifyContent="flex-end">
+              <Grid item sm={2} justifyContent="flex-end">
               <Select
                 id="state"
                 displayEmpty
@@ -139,6 +156,12 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
+               
+                   inputProps={{
+                    classes: {
+                        icon: classes.icon,
+                    },
+                }}
               >
                  <MenuItem disabled value="">
               <em>Zone</em>
@@ -150,7 +173,7 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 )):null}
               </Select>
               </Grid>
-              <Grid item xs={2} justifyContent="flex-end">
+              <Grid item sm={2} justifyContent="flex-end">
               <Select
                 id="state"
                 displayEmpty
@@ -161,6 +184,12 @@ export default function TeamListToolbar({ callType, numSelected, filterName, onF
                 // error={Boolean(touched.state && errors.state)}
                 // helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
+                
+                   inputProps={{
+                    classes: {
+                        icon: classes.icon,
+                    },
+                }}
               >
                  <MenuItem disabled value="">
               <em>Ward</em>

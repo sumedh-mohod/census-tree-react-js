@@ -34,8 +34,8 @@ export default function BaseColorMoreMenu(props) {
 
   return (
     <>
-      <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-        <Iconify icon="eva:more-vertical-fill" width={20} height={20} />
+      <IconButton ref={ref} onClick={() => setIsOpen(true)} >
+        <Iconify icon="eva:more-vertical-fill" width={20} height={20} style={{color: '#000'}}/>
       </IconButton>
 
       <Menu
@@ -84,7 +84,7 @@ export default function BaseColorMoreMenu(props) {
         </MenuItem> */}
 {(permissions.includes("view-base-color-tree-history"))?
         <MenuItem component={RouterLink} to={`/dashboard/base-color/history/${props.baseColorId}/${props.baseColorName}`} state={{councilId:props.councilId,zoneId:props.zoneId,wardId:props.wardId,pageNumber:props.pageNumber}} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
+          <ListItemIcon style={{color: '#214c50'}}>
             <Iconify icon="eva:eye-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View History" primaryTypographyProps={{ variant: 'body2' }} />

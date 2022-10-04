@@ -33,6 +33,7 @@ import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
+import CountButton from '../../components/statusbutton/CountButton';
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +54,7 @@ export default function ByTreeTypeReports(props) {
         <Card>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
@@ -63,9 +64,11 @@ export default function ByTreeTypeReports(props) {
                       <TableRow
                       hover
                     >
-                          <TableCell align="left">{index+1}</TableCell>
+                          <TableCell align="left"><b>{index+1}</b></TableCell>
                           <TableCell align="left">{option.tree_type}</TableCell>
-                      <TableCell align="left">{option.census_trees_count}</TableCell>
+                      <TableCell align="left">
+                      <CountButton count={option.census_trees_count} />
+                        </TableCell>
                       </TableRow>
                     )
                   })}

@@ -32,8 +32,8 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
-
+import { MasterBreadCrum } from '../../sections/@dashboard/master/MasterBreadCrum';
+import AllocateButton from '../../components/statusbutton/AllocateButton';
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
 import {GetAllWorkReports,GetWorkReports} from "../../actions/WorkReportAction"
 
@@ -84,10 +84,10 @@ export default function WorkTypeList(props) {
         excelWorkReports:state.workReports.excelWorkReports,
       }));
 
-  console.log("teamAllocation",workReports);
+  // console.log("teamAllocation",workReports);
   
 
-  console.log("excelwork report", excelWorkReports)
+  // console.log("excelwork report", excelWorkReports)
 
 
   // useEffect(()=>{
@@ -171,13 +171,15 @@ const header = ["#", "User", "Role", "Team","Council","Zone","Ward","Allocated",
   return (
     <Page title="User">
       <Container>
-        <Card style={{marginTop: 40}}>
-        <ReportToolBar
+      <Card style={{marginTop: 40}}>
+      <ReportToolBar
         handleExportexcel={()=>handleDownloadButtonPressed()} 
         numSelected={0} placeHolder={"Search here..."} />
+      
+      
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
@@ -188,7 +190,7 @@ const header = ["#", "User", "Role", "Team","Council","Zone","Ward","Allocated",
                         hover
                       key={index}  
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                         <TableCell align="left">{option.user}</TableCell>
                         <TableCell align="left">{option.role}</TableCell>
                         <TableCell align="left">{option.team}</TableCell>
@@ -197,7 +199,8 @@ const header = ["#", "User", "Role", "Team","Council","Zone","Ward","Allocated",
                         <TableCell align="left">{option.ward}</TableCell>
                         <TableCell align="left">{option.assigned_at}</TableCell>
                         <TableCell align="left">{option.deallocated_at}</TableCell>
-                        <TableCell align="left">{option.current_status}</TableCell>
+                        <TableCell align="left">
+                          <AllocateButton status={option.current_status}/></TableCell>
                         </TableRow>
                         )
                   })

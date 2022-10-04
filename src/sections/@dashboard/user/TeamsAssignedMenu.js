@@ -19,8 +19,8 @@ export default function TeamsAssignedMenu(props) {
 
   return (
     <>
-      <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-        <Iconify icon="eva:more-vertical-fill" width={20} height={20} />
+      <IconButton ref={ref} onClick={() => setIsOpen(true)} >
+        <Iconify icon="eva:more-vertical-fill" width={20} height={20} style={{color: '#000'}}/>
       </IconButton>
 
       <Menu
@@ -35,13 +35,13 @@ export default function TeamsAssignedMenu(props) {
       >
           {props.disable?
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} disabled >
-          <ListItemIcon>
+          <ListItemIcon style={{color: '#214c50'}}>
             <Iconify icon="eva:activity-outline" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
         : <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete} >
-        <ListItemIcon>
+        <ListItemIcon style={{color: '#214c50'}}>
           <Iconify icon="eva:activity-outline" width={24} height={24} />
         </ListItemIcon>
         <ListItemText primary={props.status===1?"Inactivate":"Activate"} primaryTypographyProps={{ variant: 'body2' }} />

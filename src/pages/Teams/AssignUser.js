@@ -224,11 +224,11 @@ export default function AssignUser() {
         :null}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000", fontWeight: 700, fontSize: '25px'}} separator=':'>
       <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
       Teams
           </Typography>
-      <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+      <Typography variant="h4" gutterBottom style={{color: "#000000",fontWeight: 400}}>
         <Link 
         component={RouterLink}
         to={`/dashboard/teams`}
@@ -242,7 +242,7 @@ export default function AssignUser() {
               
         </Link>
         </Typography>
-        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        <Typography variant="h4" gutterBottom style={{color: "#000000", fontWeight: 400}}>
         Assigned Users
         </Typography>
         {/* <Link
@@ -254,10 +254,14 @@ export default function AssignUser() {
            Assigned Users
               
         </Link> */}
+        
       </Breadcrumbs>
+      <Typography variant="h6" style={{ fontWeight: 400,marginTop: '-8px' }}>
+              It is showing list of assigned users with its details
+            </Typography>
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" startIcon={<Iconify icon="eva:plus-fill"  />}>
-          Assign User
+          <Button onClick={handleNewUserClick} variant="contained" >
+          Add assign User
 
           </Button>
         </Stack>
@@ -266,27 +270,61 @@ export default function AssignUser() {
         <UserListToolbar numSelected={0} placeHolder={"Search user..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
                 <TableBody>
                      { showList? userOfTeam?.map((option,index) => {
                         return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                        <TableCell align="left">{option.name}</TableCell>
-                        <TableCell align="left">{option.roles}</TableCell>
-                        <TableCell align="left">{option.from_date}</TableCell>
-                        <TableCell align="left">{option.to_date}</TableCell>
-                        <TableCell align="left">{option.status?"Assigned":"Unassigned"}</TableCell>
-                        <TableCell align="right">
-                        <AssignedUserMenu status={option.status} disable={!option.status} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
-                        </TableCell>
-                        </TableRow>
-                        )
+                          <TableRow hover>
+                            <TableCell align="left">
+                              <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                            </TableCell>
+                            <TableCell align="left">{option.name}</TableCell>
+                            <TableCell align="left">{option.roles}</TableCell>
+                            <TableCell align="left">{option.from_date}</TableCell>
+                            <TableCell align="left">{option.to_date}</TableCell>
+                            <TableCell align="left">
+                              {option.status?
+                              <button
+                                style={{
+                                  backgroundColor: '#3b8038',
+                                  border: 'none',
+                                  borderRadius: '5px',
+                                  padding: '5px 10px',
+                                  color: '#fff',
+                                  fontFamily: 'Poppins',
+                                  fontWeight: 700,
+                               
+                                }}
+                              >
+                               Assigned
+                              </button>:<button
+                                style={{
+                                  backgroundColor: '#737373',
+                                  border: 'none',
+                                  borderRadius: '5px',
+                                  padding: '5px 10px',
+                                  color: '#fff',
+                                  fontFamily: 'Poppins',
+                                  fontWeight: 700,
+                                
+                                }}
+                              >
+                                Unassign
+                              </button>}
+                            </TableCell>
+                            <TableCell align="right">
+                              <AssignedUserMenu
+                                status={option.status}
+                                disable={!option.status}
+                                handleEdit={() => handleEdit(option)}
+                                handleDelete={() => handleDelete(option)}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        );
                   }):null
                 }
 

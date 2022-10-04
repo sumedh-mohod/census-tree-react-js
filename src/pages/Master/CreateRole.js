@@ -16,6 +16,7 @@ import {
   TableContainer,
   TablePagination,
   Pagination,
+  Chip
 } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -33,11 +34,13 @@ import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user';
 import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
-import UserTableData from  '../../components/JsonFiles/UserTableData.json';
-import CreateRoleDialog from "../../components/DialogBox/CreateRoleDialog";
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import UserTableData from '../../components/JsonFiles/UserTableData.json';
+import CreateRoleDialog from '../../components/DialogBox/CreateRoleDialog';
+import {MasterBreadCrum, breadCrumDrop} from '../../sections/@dashboard/master/MasterBreadCrum';
+import {MasterBreadCrumChip} from '../../sections/@dashboard/master/MasterBreadCrumChip';
+import StatusButton from '../../components/statusbutton/StatusButton';
+import './style.css';
 // import Menu from './Menu';
-
 
 // ----------------------------------------------------------------------
 
@@ -80,69 +83,57 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function CreateRole() {
-
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
-  const [open, setOpen ] = useState(false);
-   const [close, setClose] = useState()
-   const [dialogData,setDialogData] = useState(null);
-   const [search,setSearch] = useState(false);
-   const [searchValue,setSearchValue] = useState("");
-   const [dropPage, setDropPage] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [close, setClose] = useState();
+  const [dialogData, setDialogData] = useState(null);
+  const [search, setSearch] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [dropPage, setDropPage] = useState(1);
 
-   const handleDropChange = (event) => {
-    setDropPage(event.target.value);
-   };
-   const userPermissions = [];
+  const handleDropChange = (event) => {
+    // console.log(event);
+    setDropPage(event);
+  };
+  const userPermissions = [];
 
-   const {
-    roles,
-    addRolesLog,
-    editRolesLog,
-    deleteRolesLog,
-    pageInfo,
-    loggedUser,
-  } = useSelector((state) => ({
-    roles:state.roles.roles,
-    addRolesLog:state.roles.addRolesLog,
-    editRolesLog:state.roles.editRolesLog,
-    deleteRolesLog:state.roles.deleteRolesLog,
-    pageInfo : state.roles.pageInfo,
-    loggedUser:state.auth.loggedUser,
+  const { roles, addRolesLog, editRolesLog, deleteRolesLog, pageInfo, loggedUser } = useSelector((state) => ({
+    roles: state.roles.roles,
+    addRolesLog: state.roles.addRolesLog,
+    editRolesLog: state.roles.editRolesLog,
+    deleteRolesLog: state.roles.deleteRolesLog,
+    pageInfo: state.roles.pageInfo,
+    loggedUser: state.auth.loggedUser,
   }));
 
   // console.log("ROLES",roles);
 
-  loggedUser.roles[0].permissions.map((item, index)=>(
-    userPermissions.push(item.name)
-  ))
-  
+  loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
-  useEffect(()=>{
-    dispatch(GetRole(page,rowsPerPage));
-  },[addRolesLog,editRolesLog,deleteRolesLog])
+  useEffect(() => {
+    dispatch(GetRole(page, rowsPerPage));
+  }, [addRolesLog, editRolesLog, deleteRolesLog]);
 
-  
-  useEffect(()=>{
-    if(pageInfo){
-      setCount(pageInfo?.total)
+  useEffect(() => {
+    if (pageInfo) {
+      setCount(pageInfo?.total);
     }
-  },[pageInfo])
+  }, [pageInfo]);
 
-   const handleNewUserClick = () => {
+  const handleNewUserClick = () => {
     setDialogData(null);
-    setOpen(!open)
-  }
+    setOpen(!open);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    if(search){
-      dispatch(SearchRole(newPage,rowsPerPage,searchValue));
-    }
-    else {
-      dispatch(GetRole(newPage,rowsPerPage));
+    if (search) {
+      dispatch(SearchRole(newPage, rowsPerPage, searchValue));
+    } else {
+      dispatch(GetRole(newPage, rowsPerPage));
     }
   };
 
@@ -152,17 +143,16 @@ export default function CreateRole() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteRole(data.id,data.status?0:1));
+    dispatch(DeleteRole(data.id, data.status ? 0 : 1));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
-    if(search){
-      dispatch(SearchRole(1,parseInt(event.target.value, 10),searchValue));
-    }
-    else {
-      dispatch(GetRole(1,parseInt(event.target.value, 10)));
+    if (search) {
+      dispatch(SearchRole(1, parseInt(event.target.value, 10), searchValue));
+    } else {
+      dispatch(GetRole(1, parseInt(event.target.value, 10)));
     }
   };
 
@@ -173,23 +163,21 @@ export default function CreateRole() {
     // console.log("---",value)
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
-        if(value){
-          // console.log("---...",value)
-          dispatch(SearchRole(1,rowsPerPage,value))
-          setSearch(true)
-          setPage(1)
-          setSearchValue(value);
-
-        }
-        else{
-          dispatch(GetRole(1,rowsPerPage));
-          setSearch(false);
-          setPage(1);
-          setSearchValue("")
-        }
+      if (value) {
+        // console.log("---...",value)
+        dispatch(SearchRole(1, rowsPerPage, value));
+        setSearch(true);
+        setPage(1);
+        setSearchValue(value);
+      } else {
+        dispatch(GetRole(1, rowsPerPage));
+        setSearch(false);
+        setPage(1);
+        setSearchValue('');
+      }
     }, 1000);
     // console.log("rolesss", roles)
-  }
+  };
   function handleClick(event) {
     event.preventDefault();
     console.info('You clicked a breadcrumb.');
@@ -197,64 +185,73 @@ export default function CreateRole() {
 
   return (
     <Page title="User">
-      <Container>
-        {open?
-        <CreateRoleDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data= {dialogData}
-        />:null
-        }
+      <Container >
+        {open ? <CreateRoleDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        <Scrollbar className='padscreen_'>
+        {userPermissions.includes('create-role') ? (
+            <Button
+              onClick={handleNewUserClick}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+               sx={{float: 'right',mt: 1}}
+               className='padscreenadd'
+            >
+              Add Role
+            </Button>
+          ) : null}
+        <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={2} mt={5}>
+          {/* <div role="presentation" onClick={handleClick}>
+            <MasterBreadCrum dropDownPage={dropPage} handleDropChange={handleDropChange} />
+          </div> */}
         
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <div role="presentation" onClick={handleClick} >
-          <MasterBreadCrum
-          dropDownPage={dropPage}
-          handleDropChange={handleDropChange}
-          />
-</div>
-    {userPermissions.includes("create-role")? 
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Role
-
-          </Button>:null}
+        <div role="presentation" className='mob-master-' onClick={handleClick} >
+        <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'roles'} />
+        </div>
+         
         </Stack>
-
+        </Scrollbar>
         <Card>
-        <UserListToolbar numSelected={0} placeHolder={"Search role..."} onFilterName={filterByName} />
+          <UserListToolbar numSelected={0} placeHolder={'Search role...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
+              <Table size="small" aria-label="a dense table">
+                <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                     { roles?.map((option,index) => {
-                        return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                  {roles?.map((option, index) => {
+                    return (
+                      <TableRow hover>
+                        <TableCell align="left"><b>{(page - 1) * rowsPerPage + (index + 1)}</b></TableCell>
                         <TableCell align="left">{option.role}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
-                        <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} disable={option.is_protected} />
+                        <TableCell align="left">
+                          <StatusButton status={option.status}/>
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
-
+                        <TableCell align="right">
+                          <UserMoreMenu
+                            status={option.status}
+                            permissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                            disable={option.is_protected}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-          {roles?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
+          {roles ? (
+            <Pagination
+              count={pageInfo.last_page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
           {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"

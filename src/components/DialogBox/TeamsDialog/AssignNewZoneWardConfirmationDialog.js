@@ -47,8 +47,8 @@ export default function AssignNewZoneWardConfirmationDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleTrueClose}>yes</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleTrueClose} >yes</Button>
+          <Button onClick={handleClose}  autoFocus>
             Cancel
           </Button>
         </DialogActions>

@@ -13,7 +13,9 @@ import {
   Pagination,
   Link,
   IconButton,
+  Button,
   Breadcrumbs,
+  Modal
 } from '@mui/material';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,6 +29,7 @@ import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialo
 import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu';
 import { GetBaseColorTreeHistory, SearchBaseColorTreeHistory } from '../../actions/BaseColorAction';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
+import ImageCarousel from '../../components/ImageCarousel';
 
 // ----------------------------------------------------------------------
 
@@ -62,6 +65,9 @@ export default function BaseColorHistory() {
    const [searchValue,setSearchValue] = useState("");
    const [showList,setShowList] = useState(false);
    const [imageList,setImageList] = useState([]);
+   const [openImageList, setOpenImageList] = useState(false);
+   const handleOpenImageList = (e) => setOpenImageList(true);
+   const handleCloseImageList = () => setOpenImageList(false);
 
    const {
     baseColorTreeHistory,
@@ -160,7 +166,36 @@ export default function BaseColorHistory() {
         />:null
         }
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <div role="presentation"  >
+        <div role="presentation" >
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000", fontWeight: 700, fontSize: '25px'}} separator=':'>
+      <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+      Tree Data
+          </Typography>
+      <Typography variant="h4" gutterBottom style={{color: "#000000",fontWeight: 400}}>
+        <Link 
+        component={RouterLink}
+        to={`/dashboard/base-color`}
+        state={state}
+          underline="hover"
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
+          color="inherit"
+          // href="#"
+        >
+       Base Color
+              
+        </Link>
+        </Typography>
+        <Typography variant="h4" gutterBottom style={{color: "#000000", fontWeight: 400}}>
+        History
+        </Typography>
+        
+      </Breadcrumbs>
+      <Typography variant="h6" style={{ fontWeight: 400,marginTop: '-8px' }}>
+              It is showing list of tree data with its details
+            </Typography>
+    </div>
+         
+        {/* <div role="presentation"  >
         <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}}separator='>'>
         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
         Tree Data
@@ -177,49 +212,17 @@ export default function BaseColorHistory() {
         Base Color
         </Link>
         </Typography>
-        {/* {baseColorName=== 'undefined' ? null : 
-        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-        <Link
-          component={RouterLink}
-          to={`/dashboard/base-color`}
-          underline="hover"
-          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          {baseColorName}
-              
-        </Link>
-        </Typography>
-        } */}
-        {/* <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Base Color
-        </Link>
-        {baseColorName=== 'undefined' ? null : 
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          {baseColorName}
-              
-        </Link>} */}
+       
           <Typography variant="h4" gutterBottom style={{color: "#000000"}}>  History</Typography>
       </Breadcrumbs>
 
-    </div>
+    </div> */}
         </Stack>
 
         <Card>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
@@ -229,14 +232,20 @@ export default function BaseColorHistory() {
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                             <TableCell align="left">{option.location_type?.location_type}</TableCell>
                         <TableCell align="left">{option.property_type?.property_type}</TableCell>
                         <TableCell align="left">{option.property?.property_number}</TableCell>
                         <TableCell align="left">{option.property?.owner_name}</TableCell>
                         <TableCell align="left">{option.property?.tenant_name?option.property?.tenant_name:"-"}</TableCell>
                         <TableCell align="left">
-                        <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
+                        <IconButton aria-label="delete" size="large" 
+                        // onClick={()=>handleViewOpen(option.images)}
+                        onClick={(e) => {
+                          setImageList(option.images || []);
+                          handleOpenImageList(e);
+                        }}
+                         color="success">
                             <Visibility />
                           </IconButton>
                           </TableCell>
@@ -254,6 +263,19 @@ export default function BaseColorHistory() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <Modal
+              open={openImageList}
+              onClose={handleCloseImageList}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Container style={{ width: '526px' }}>
+                <ImageCarousel imagelist={imageList} />
+              </Container>
+              {/* <Box sx={style}>
+                                <img src={val.original} alt="gallery" height="650px" width="100%" />
+                              </Box> */}
+            </Modal>
           </Scrollbar>
           {baseColorTreeHistory?(
           <Pagination count={showList ? pageInfo.last_page : 0} variant="outlined" shape="rounded"

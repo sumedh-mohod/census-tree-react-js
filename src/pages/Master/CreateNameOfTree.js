@@ -31,7 +31,8 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import NameOfTreeDialog from '../../components/DialogBox/NameOfTreeDialog';
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import {MasterBreadCrumChip} from '../../sections/@dashboard/master/MasterBreadCrumChip';
+import StatusButton from '../../components/statusbutton/StatusButton';
 
 // ----------------------------------------------------------------------
 
@@ -193,83 +194,90 @@ export default function CreateNameOfTree() {
   }
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+    // console.info('You clicked a breadcrumb.');
   }
 
   return (
     <Page title="User">
       <Container>
-        {open?
-        <NameOfTreeDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data={dialogData}
-        />:null
-        }
-        
-       
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <div role="presentation" onClick={handleClick} >
-         <MasterBreadCrum
-          dropDownPage={dropPage}
-          handleDropChange={handleDropChange}
-          />
-    </div>
-    {userPermissions.includes("create-tree-name")? 
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Tree Name
-
-          </Button>:null}
+        {open ? <NameOfTreeDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        <Scrollbar className='padscreen_'>
+        {userPermissions.includes('create-tree-name') ? (
+            <Button
+              onClick={handleNewUserClick}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+                sx={{float: 'right', mt: -4}}
+                className='padscreenadd mobbutton'
+            >
+              Add Tree Name
+            </Button>
+          ) : null}
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={6} mt={5}>
+          <div role="presentation" className='mob-master' onClick={handleClick}>
+            <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'tree names'} />
+          </div>
+         
         </Stack>
+        </Scrollbar>
+        
 
         <Card>
-
-        <UserListToolbar numSelected={0} placeHolder={"Search tree..."} onFilterName={filterByName} />
+          <UserListToolbar numSelected={0} placeHolder={'Search tree...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
+              <Table size="small" aria-label="a dense table">
+                <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                     { treeName?.map((option,index) => {
-                        return (
-                        <TableRow
-                        key={index}
-                        hover
-                      >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                  {treeName?.map((option, index) => {
+                    return (
+                      <TableRow key={index} hover>
+                        <TableCell align="left">
+                          <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                        </TableCell>
                         <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.botanical_name}</TableCell>
                         <TableCell align="left">{option.tree_type?.tree_type}</TableCell>
-                        <TableCell align="left">{option.tree_family?.tree_family?option.tree_family?.tree_family: "-"}</TableCell>
-                        <TableCell align="left">{option.uses? option.uses: "-" }</TableCell>
-                        <TableCell align="left">{option.origin? option.origin: "-"}</TableCell>
-                        <TableCell align="left">{option.flowering_season? option.flowering_season: "NA"}</TableCell>
-                        <TableCell align="left">{option.fruiting_season? option.fruiting_season: "NA"}</TableCell>
-                        <TableCell align="left">{option.growth_factor? option.growth_factor: "NA"}</TableCell>
-                        <TableCell align="left">{option.oxygen_emit_rate? option.oxygen_emit_rate: "NA"}</TableCell>
-                        <TableCell align="left">{option.max_height? option.max_height: "NA"}</TableCell>
-                        <TableCell align="left">{option.max_age? option.max_age: "NA"}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
-                        <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)} />
+                        <TableCell align="left">
+                          {option.tree_family?.tree_family ? option.tree_family?.tree_family : '-'}
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
-
+                        <TableCell align="left">{option.uses ? option.uses : '-'}</TableCell>
+                        <TableCell align="left">{option.origin ? option.origin : '-'}</TableCell>
+                        <TableCell align="left">{option.flowering_season ? option.flowering_season : 'NA'}</TableCell>
+                        <TableCell align="left">{option.fruiting_season ? option.fruiting_season : 'NA'}</TableCell>
+                        <TableCell align="left">{option.growth_factor ? option.growth_factor : 'NA'}</TableCell>
+                        <TableCell align="left">{option.oxygen_emit_rate ? option.oxygen_emit_rate : 'NA'}</TableCell>
+                        <TableCell align="left">{option.max_height ? option.max_height : 'NA'}</TableCell>
+                        <TableCell align="left">{option.max_age ? option.max_age : 'NA'}</TableCell>
+                        <TableCell align="left">
+                          <StatusButton status={option.status} />
+                        </TableCell>
+                        <TableCell align="right">
+                          <UserMoreMenu
+                            status={option.status}
+                            permissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-          {treeName?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
+          {treeName ? (
+            <Pagination
+              count={pageInfo.last_page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
           {/* <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
             component="div"

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 // material
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
@@ -31,7 +32,7 @@ import JsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { GetReports } from '../../../actions/ReportsAction';
 import Iconify from '../../../components/Iconify';
-import Barchart from '../chart/Barchart';
+// import Barchart from '../chart/Barchart';
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +45,7 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
+  height: 44,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
@@ -93,14 +95,14 @@ export default function ReportListToolbar({
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
   const inputRef = useRef(null);
-  // consolelog('chetna......', coucilId);
+ 
 
   // let imgData ='';
 
   // const { dataValue}= props;
   const handleCouncilChange = (e) => {
     // consolelog('e.....',e.target.name);
-    console.log("HANDLE COUNCIL")
+    // console.log("HANDLE COUNCIL")
     setCouncilId(e.target.value);
     handleCouncil(e.target.value);
     hideReport()
@@ -191,7 +193,7 @@ export default function ReportListToolbar({
     treeNameValue1.push(treeNameValue2);
     return null;
   });
-  console.log('value1', treeNameValue1);
+  // console.log('value1', treeNameValue1);
   const treeType = reports?.by_tree_types;
   const treeType1 = [];
   treeType?.map((option, index) => {
@@ -363,7 +365,14 @@ export default function ReportListToolbar({
     doc.save(`${councilName}.pdf`);
     /* eslint-enable no-await-in-loop */
   };
-
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   return (
     <>
@@ -399,6 +408,11 @@ export default function ReportListToolbar({
             error={Boolean(touched.council && errors.council)}
             helperText={touched.council && errors.council}
             // {...getFieldProps("council")}
+            inputProps={{
+              classes: {
+                  icon: classes.icon,
+              },
+          }}
           >
             <MenuItem disabled value="">
               <em>Select Councils</em>
@@ -420,7 +434,7 @@ export default function ReportListToolbar({
                 label="From Date*"
                 placeholder="From Date*"
                 // defaultValue={councilArr?.project_start_date}
-                style={{ width: '90.5%', marginLeft: 20 }}
+                style={{ width: '90.5%',marginLeft: '15px' }}
                 // className={classes.textField}
                 error={Boolean(touched.fromDate && errors.fromDate)}
                 helperText={touched.fromDate && errors.fromDate}
@@ -439,7 +453,7 @@ export default function ReportListToolbar({
                 label="To Date*"
                 placeholder="To Date*"
                 // defaultValue={project_end_date}
-                style={{ width: '90.5%', marginLeft: 30 }}
+                style={{ width: '90.5%', marginLeft: '15px',  }}
                 // className={classes.textField}
                 error={Boolean(touched.toDate && errors.toDate)}
                 helperText={touched.toDate && errors.toDate}
@@ -454,7 +468,7 @@ export default function ReportListToolbar({
               <Button
                 variant="contained"
                 onClick={handleSubmit}
-                style={{ marginLeft: 30, marginTop: 5, backgroundColor: '#008000', height: 50, width: 150 }}
+                style={{ marginLeft: '15px', marginTop: 2, height: 50, width: 150 }}
               >
                 View Report
               </Button>
@@ -465,7 +479,7 @@ export default function ReportListToolbar({
                 <Button
                   variant="contained"
                   onClick={handleSubmit}
-                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150 }}
+                  style={{ marginLeft: '15px', marginTop: 2, height: 50, width: 150, backgroundColor: '#DF6526'}}
                 >
                   Export Report
                 </Button>
@@ -473,7 +487,7 @@ export default function ReportListToolbar({
                 <Button
                   variant="contained"
                   onClick={exportPdf}
-                  style={{ marginLeft: 30, marginTop: 5, height: 50, width: 150 }}
+                  style={{ marginLeft: '15px', marginTop: 5, height: 50, width: 150, backgroundColor: '#DF6526'}}
                 >
                   Export Report
                 </Button>

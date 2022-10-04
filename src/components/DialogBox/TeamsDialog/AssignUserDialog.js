@@ -327,7 +327,7 @@ export default function AssignUserDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit} style={{background: '#214c50', color: '#fff'}}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>

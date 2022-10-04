@@ -14,33 +14,34 @@ const ContentStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
-  padding: theme.spacing(12, 0)
+  padding: theme.spacing(12, 0),
 }));
 
 // ----------------------------------------------------------------------
 
 export default function Page404() {
   return (
-    <Page title="404 Page Not Found">
+    <Page title="404 Page Not Found" sx={{ background: '#214c50' }}>
       <Container>
         <ContentStyle sx={{ textAlign: 'center', alignItems: 'center' }}>
-          <Typography variant="h3" paragraph>
-            Sorry, page not found!
-          </Typography>
-
-          <Typography sx={{ color: 'text.secondary' }}>
-            Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be
-            sure to check your spelling.
-          </Typography>
-
+          
           <Box
             component="img"
-            src="/static/illustrations/illustration_404.svg"
+            src="/static/illustrations/404 Image.png"
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
-
-          <Button to="/" size="large" variant="contained" component={RouterLink}>
-            Go to Home
+          <Typography sx={{ mt: -10, fontWeight: 400, color: '#f1f1f1',fontSize: 18 }}>
+            <Typography sx={{ fontSize: 24, fontWeight: 800 }}>Page Not Found</Typography>
+            Something went wrong man! We cannot found what you are looking for.
+          </Typography><br/>
+          <Button
+            to="/"
+            size="large"
+            variant="contained"
+            style={{background: '#f1f1f1', color: '#214C50' }}
+            component={RouterLink}
+          >
+            Go to Home Page
           </Button>
         </ContentStyle>
       </Container>
