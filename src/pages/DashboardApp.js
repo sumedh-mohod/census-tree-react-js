@@ -38,7 +38,7 @@ console.log('showLoader',showLoader);
             </Typography>
           </Typography>
         </Stack>
-        <Grid container spacing={3}>
+        {/* <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
             <AppWidgetSummary title="Weekly Sales" total={714000} color='info' icon={'ant-design:android-filled'} />
           </Grid>
@@ -51,7 +51,7 @@ console.log('showLoader',showLoader);
             <AppWidgetSummary title="Item Orders" total={1723315} color="info" icon={'ant-design:windows-filled'} />
           </Grid>
 
-       </Grid>
+       </Grid> */}
       </Container>
     </Page>
   );

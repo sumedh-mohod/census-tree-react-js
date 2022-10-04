@@ -21,10 +21,12 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import AssignUserConfirmationDialog from './AssignUserConfirmationDialog';
 import { GetUsers, GetActiveUsers, GetUsersByRoleID } from '../../../actions/UserAction';
 import { AddUserToTeam } from '../../../actions/TeamsAction';
 import { GetActiveRole } from '../../../actions/RoleAction';
+
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -195,7 +197,14 @@ export default function AssignUserDialog(props) {
     }
     
   }
-
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -232,6 +241,11 @@ export default function AssignUserDialog(props) {
                 formik.handleChange(e);
               }}
               placeholder='Select Role*'
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               // defaultValue={data? data.role: ""}
               // renderValue={(selected) => {
               //   if (selected?.length === 0) {
@@ -282,6 +296,11 @@ export default function AssignUserDialog(props) {
                 value={role}
                 style={{ width: '83%', marginLeft: 40, marginTop:5 }}
                 defaultValue={data ? data.role : ''}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 // renderValue={(selected) => {
                 //   console.log("SELECTED",selected);
                 //   if (selected.length === 0) {
