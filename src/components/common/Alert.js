@@ -17,7 +17,7 @@ export default function Alert() {
 
         const handleClick = () => {
             dispatch(DeleteAlert(alert))
-            console.log("Alert")
+            // console.log("Alert")
     
         }
 
@@ -31,20 +31,19 @@ export default function Alert() {
                     key={alert.id}
                     className={
                         alert.alertType !== "danger-stay"
-                        ? "alertpage-alert"
+                        ? `alertpage-alert-${alert.alertType}`
                         : "alertpage-alertnone"
                     }
                     >
-                    <span className={`alertpage-alert-alertspan-${alert.alertType}`} />
+                        
                     <span className="alertpage-alert-msg">{alert.msg}</span>
+                    {/* <span className={`alertpage-alert-alertspan-${alert.alertType}`} /> */}
                     <div
                         aria-hidden
-                        className="alertpage-alert-close"
-                        onClick={handleClick}
-                       
-                    >
-                        X
-                    </div>
+                        className={`alertpage-alert-alertspan-${alert.alertType}`}
+                        onClick={handleClick} />
+                
+                    {/* </div> */}
                     </div>
                 ))}
             </div>

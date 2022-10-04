@@ -13,6 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -166,7 +167,12 @@ export default function DistrictDialog(props) {
       }
     },
   });
-
+  const useStyles = makeStyles({
+    icon: {
+      fill: '#214c50',
+  },
+  });
+  const classes = useStyles();
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
 
@@ -209,6 +215,11 @@ export default function DistrictDialog(props) {
               displayEmpty
               placeholder="Remark for*"
               onChange={handleRemarksForChange}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               //   return findValue(states,state)
               // }}
               renderValue={(selected) => {
@@ -235,7 +246,7 @@ export default function DistrictDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <Button variant='contained' onClick={handleSubmit} >{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

@@ -1,0 +1,35 @@
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .mob-master{
+        height: 360px;
+        padding-top: 150px 
+    }
+    .mob-master-{
+        height: 400px;
+        padding-top: 150px 
+    }
+    .mobbutton{
+        margin-top: 4px;
+    }
+    }
+
+    @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+        .padscreen{
+            margin-top: 20px;
+            height: 201px;
+        }  
+        .padscreen_{
+            padding-top: 35px;
+            height: 230px;
+        }    
+        .padscreenadd{
+            margin-top: 0px;
+        }
+    }
+    @media only screen and (min-device-width : 1224px) and (max-device-width : 1824px) {
+        .padscreenadd{
+            margin-top: 4px;
+            z-index: 1;
+        }
+        }
+        

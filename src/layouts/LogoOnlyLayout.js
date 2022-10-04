@@ -25,7 +25,7 @@ export default function LogoOnlyLayout() {
   return (
     <>
       <HeaderStyle>
-     <img src={abell} alt="Abell" style={{width: 80, height: 80}}/>
+     {/* <img src={abell} alt="Abell" style={{width: 80, height: 80}}/> */}
       </HeaderStyle>
       <Outlet />
     </>

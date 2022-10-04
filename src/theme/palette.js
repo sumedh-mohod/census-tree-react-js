@@ -9,12 +9,14 @@ function createGradient(color1, color2) {
 // SETUP COLORS
 const GREY = {
   0: '#FFFFFF',
-  100: '#F9FAFB',
+  100: '#f1f1f1',
+  150: '#ffffff',
   200: '#F4F6F8',
   300: '#DFE3E8',
   400: '#C4CDD5',
   500: '#919EAB',
-  600: '#637381',
+  600: '#fff',
+  650: '#214c50',
   700: '#454F5B',
   800: '#212B36',
   900: '#161C24',
@@ -29,12 +31,13 @@ const GREY = {
 };
 
 const PRIMARY = {
-  lighter: '#D1E9FC',
-  light: '#76B0F1',
-  main: '#2065D1',
-  dark: '#103996',
-  darker: '#061B64',
+  lighter: '#50bfc9',
+  light: '#38858c',
+  main: '#214c50',
+  dark: '#1b3f42',
+  darker: '#132b2d',
   contrastText: '#fff',
+  main_active: '#eaf0f1'
 };
 
 const SECONDARY = {
@@ -110,11 +113,11 @@ const palette = {
   gradients: GRADIENTS,
   chart: CHART_COLORS,
   divider: GREY[500_24],
-  text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
+  text: { primary: GREY[800], secondary: GREY[650], text: GREY[600], disabled: GREY[500] },
   background: { paper: '#fff', default: GREY[100], neutral: GREY[200] },
   action: {
     active: GREY[600],
-    hover: GREY[500_8],
+    hover: GREY[500_56],
     selected: GREY[500_16],
     disabled: GREY[500_80],
     disabledBackground: GREY[500_24],

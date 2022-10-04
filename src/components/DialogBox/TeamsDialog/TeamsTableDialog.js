@@ -13,6 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { TextField, Typography } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -23,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import DefaultInput from '../../Inputs/DefaultInput';
 import { AddTeam, EditTeam } from '../../../actions/TeamsAction';
+
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -113,7 +115,7 @@ export default function TeamsTableDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    name: Yup.string().matches(/^[A-Za-z0-9? ,_-]+$/,'Please Enter Team Name In Alphanumeric format Only').max(30, 'Character limit is 30').required('Name is required'),
+    name: Yup.string().matches(/^[a-zA-Z]+$/,'Only alphabets are allowed for this field ').max(30, 'Character limit is 30').required('Name is required'),
     code: Yup.string()
       .matches(/^[A-Za-z0-9? ,_-]+$/,'Please Enter Team Code In Alphanumeric format Only')
       .min(4, 'Too Short! need exact 4 character')
@@ -121,7 +123,7 @@ export default function TeamsTableDialog(props) {
       .required('Team Code required'),
     teamType: Yup.string().required('Team Type is required'),
   });
-
+// console.log('data',data)
   const formik = useFormik({
     
     enableReinitialize: true,
@@ -172,6 +174,14 @@ export default function TeamsTableDialog(props) {
     { id: 3, type: 'offsite_qc', value: 'Offsite QC' },
     { id: 4, type: 'onsite_qc', value: 'Onsite QC' },
   ];
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -238,6 +248,11 @@ export default function TeamsTableDialog(props) {
                 }}
                 error={Boolean(touched.teamType && errors.teamType)}
                 helperText={touched.teamType && errors.teamType}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 {...getFieldProps('teamType')}
                 
               >
@@ -257,7 +272,7 @@ export default function TeamsTableDialog(props) {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={handleSubmit}>
+          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={handleSubmit} style={{background: '#214c50',color: '#fff'}} >
             {data ? `Save` : `Add`}
           </LoadingButton>
         </DialogActions>

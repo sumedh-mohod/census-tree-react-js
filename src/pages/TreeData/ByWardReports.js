@@ -32,6 +32,7 @@ import { GetZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetWardsByCouncilId } from '../../actions/WardsActions';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
+import CountButton from '../../components/statusbutton/CountButton';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +47,7 @@ const TABLE_HEAD = [
 export default function ByWardReports(props) {
   const { data } = props;
 
-  console.log('data...', data);
+  // console.log('data...', data);
 
   return (
     <Page title="User">
@@ -54,15 +55,19 @@ export default function ByWardReports(props) {
         <Card>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
                   {data?.map((option, index) => {
                     return (
                       <TableRow hover>
-                        <TableCell align="left">{index + 1}</TableCell>
+                        <TableCell align="left">
+                          <b>{index + 1}</b>
+                        </TableCell>
                         <TableCell align="left">{option.name}</TableCell>
-                        <TableCell align="left">{option.census_trees_count}</TableCell>
+                        <TableCell align="left">
+                          <CountButton count={option.census_trees_count} />
+                        </TableCell>
                       </TableRow>
                     );
                   })}
