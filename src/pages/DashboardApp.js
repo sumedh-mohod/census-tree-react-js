@@ -39,7 +39,7 @@ export default function DashboardApp() {
             </Typography>
           </Typography>
         </Stack>
-        <AssociateZeroTree />
+        {/* <AssociateZeroTree />
         <br />
         <YesterdayLoggedIn />
         <br />
@@ -64,7 +64,7 @@ export default function DashboardApp() {
               </Grid>
             </Grid>
           </Card>
-        </Container>
+        </Container> */}
       </Container>
     </Page>
   );
