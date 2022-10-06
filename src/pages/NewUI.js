@@ -765,7 +765,7 @@ const classes = useStyles()
                       </div>
                       <div className="wrapper">
                         <div className="one border-bottom mob-cen">
-                          Girth : <br />
+                          Girth(cm) : <br />
                           <b>{treeCensusPendingQCStatus?.data[selectedIndex].girth || '-'}</b>
                         </div>
                         <div className="one border-bottom mob-cen">
@@ -775,7 +775,7 @@ const classes = useStyles()
                       </div>
                       <div className="wrapper">
                         <div className="one border-bottom border-left mob-cen">
-                          Height : <br /> <b> {treeCensusPendingQCStatus?.data[selectedIndex].height || '-'}</b>
+                          Height(m) : <br /> <b> {treeCensusPendingQCStatus?.data[selectedIndex].height || '-'}</b>
                         </div>
                         <div className="one border-bottom mob-cen">
                           Area(Sq. Feet) : <br />{' '}

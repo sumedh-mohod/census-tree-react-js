@@ -58,6 +58,7 @@ const SearchTreeCensus = (page,limit,council,zone,ward,searchValue) => async (di
 const GetTreeCensusHistory = (params,page,limit) => async (dispatch) => {
   try {
     const response = await JWTServer.get(`/api/census-trees/history/${params}?page=${page}&limit=${limit}`);
+    console.log('GetTreeCensusHistory',response);
     dispatch({
       type:  GET_TREE_CENSUS_HISTORY,
       payload: response.data,
@@ -70,6 +71,7 @@ const GetTreeCensusHistory = (params,page,limit) => async (dispatch) => {
 const SearchTreeCensusHistory = (params,page,limit,searchValue) => async (dispatch) => {
   try {
     const response = await JWTServer.get(`/api/census-trees/history/${params}?page=${page}&limit=${limit}&search=${searchValue}`);
+    console.log('SearchTreeCensusHistory',response);
     dispatch({
       type: GET_TREE_CENSUS_HISTORY,
       payload: response.data,
