@@ -37,7 +37,7 @@ import StatusButton from '../../components/statusbutton/StatusButton';
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'TypeofTree', label: 'Type Of Tree', alignRight: false },
+  { id: 'TypeofTree', label: 'Tree Type', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
@@ -215,7 +215,7 @@ export default function TypeOfTree() {
        
 
         <Card>
-          <UserListToolbar numSelected={0} placeHolder={'Search type of tree...'} onFilterName={filterByName} />
+          <UserListToolbar numSelected={0} placeHolder={'Search tree type...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table size="small" aria-label="a dense table">

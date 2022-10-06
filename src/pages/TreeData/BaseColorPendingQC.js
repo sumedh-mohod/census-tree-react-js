@@ -623,7 +623,7 @@ const classes = useStyles()
                       </div>
                       <div className="one mob-cen">
                         {' '}
-                        Accuracy Needed:
+                        Accuracy Captured:
                         <br />
                         <b>
                           {' '}

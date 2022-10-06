@@ -37,6 +37,9 @@ import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import CencusViewDetailsDialog from '../../components/DialogBox/tree-data/CensusViewDetailsDialog';
+import StatusPendngButton from '../../components/statusbutton/StatusPendngButton';
+import StatusApprovedButton from '../../components/statusbutton/StatusApprovedButton';
+import StatusUnapprovedButton from '../../components/statusbutton/StatusUnapprovedButton';
 
 // ----------------------------------------------------------------------
 
@@ -48,6 +51,7 @@ const TABLE_HEAD = [
   { id: 'addedOn', label: 'Added On', alignRight: false },
   { id: 'age', label: 'Tree Age', alignRight: false },
   { id: 'locationAccuracyNeeded', label: 'Location Accuracy Captured', alignRight: false },
+  { id: 'QCStatus', label: 'QC Status', alignRight: false },
   { id: 'isReferredToExpert', label: 'Is Referred To Expert?', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
 ];
@@ -377,6 +381,11 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                             <TableCell align="left">{option.added_on_date}</TableCell>
                             <TableCell align="left">{option.age}</TableCell>
                             <TableCell align="left">{option.location_accuracy}</TableCell>
+                            <TableCell align="left">
+                            {option.qc_status === 'Pending'?<StatusPendngButton qcStatus={option.qc_status}/>: ''}
+                              {option.qc_status === 'Approved'?<StatusApprovedButton qcStatus={option.qc_status}/>: ''}
+                              {option.qc_status === 'Unapproved'?<StatusUnapprovedButton qcStatus={option.qc_status}/>: ''}
+                          </TableCell>
                             <TableCell align="left">{option.referred_to_expert === 1 ? <b style={{color: 'green'}}>Yes</b> : <b style={{color: '#E8762F'}}>No</b>}</TableCell>
                             {/* <TableCell align="left"> */}
                             {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
