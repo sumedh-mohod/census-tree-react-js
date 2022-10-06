@@ -243,7 +243,7 @@ export default function CensusViewDetailsDialog(props) {
                   <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>{data?.girth}</td>
                 </tr>
                 <tr>
-                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Height</td>
+                  <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>Height(m)</td>
                   <td style={{ border: '1px solid #dddddd', textAlign: 'left', padding: '8px' }}>{data?.height}</td>
                 </tr>
                 <tr>

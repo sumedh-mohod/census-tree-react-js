@@ -340,7 +340,8 @@ export default function NewUserForm(props) {
     setRoleError('');
     setDeductionList([{ deductionName: '', deductionValue: '', errorName: '', errorValue: '' }]);
     setDocumentList([{ documentName: '', documentValue: '', errorName: '', errorValue: '' }]);
-    navigate('/dashboard/user', { replace: true, state: { page: page } });
+    // navigate('/dashboard/user', { replace: true, state: { page: page } });
+    navigate('/dashboard/user', { replace: true });
     // navigate(-1);
   }, [editUsersLog]);
 
