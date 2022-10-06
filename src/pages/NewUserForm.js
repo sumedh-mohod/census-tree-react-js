@@ -532,6 +532,7 @@ export default function NewUserForm(props) {
   // };
 
   const handleStatesChange = (event) => {
+    formik.setFieldValue('district', '');
     dispatch(GetAllActiveDistrictsByStateId(event.target.value, 1));
     setShowDistrict(true);
     setShowTaluka(false);
@@ -1021,7 +1022,7 @@ export default function NewUserForm(props) {
           addressLine1: Yup.string().required('Address Line 1 is required'),
           city: Yup.string().required('City is required'),
           states: Yup.string().required('State is required'),
-          district: Yup.string().required('Districts is required'),
+          district: Yup.string().required('District is required'),
           // taluka: Yup.string().required('Taluka is required'),
           council: Yup.string().required('Council is required'),
           username: Yup.string().required('Username is required'),
