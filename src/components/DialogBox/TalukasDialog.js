@@ -63,7 +63,7 @@ export default function TalukasDialog(props) {
   const[district, setDistrict]=  React.useState('District');
   const [showDistrict, setShowDistrict] = React.useState(false);
   const { isOpen, data } = props;
-
+console.log('showDistrict', showDistrict);
   const {
     addTalukasLog,
     editTalukasLog,
@@ -100,7 +100,7 @@ export default function TalukasDialog(props) {
  
 
    const handleStateChange = (event) => {
-
+    formik.setFieldValue('district', '');
     dispatch(GetAllActiveDistrictsByStateId(event.target.value,1));
     setShowDistrict(true);
      setDistrict("District")
@@ -262,17 +262,22 @@ export default function TalukasDialog(props) {
                 },
             }}
               error={Boolean(touched.district && errors.district)}
-                helperText={touched.district && errors.district}
+              helperText={touched.district && errors.district}
                 // {...getFieldProps("district")}
             >
                <MenuItem disabled value="">
             <em>Select District*</em>
           </MenuItem>
-              {!showDistrict?districts?.map((option) => (
+              {/* {!showDistrict?districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
-              )):null}
+              )):null} */}
+               {districts?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
+                </MenuItem>
+              ))}
             </TextField>
             </Grid>
            
@@ -280,6 +285,7 @@ export default function TalukasDialog(props) {
               <DefaultInput
                 fullWidth
                 id="name"
+                name='name'
                 label="Taluka Name*"
                 autoComplete="name"
                 placeholder="Enter Taluka Name*"
