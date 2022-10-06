@@ -20,7 +20,9 @@ import {
 import AssociateZeroTree from './Dashboardsection/AssociateZeroTree';
 import YesterdayLoggedIn from './Dashboardsection/YesterdayLoggedIn';
 import Quotes from '../Assets/quotes.png';
-import TreeBottom from '../Assets/trees_bottom.png'; 
+import TreeBottom from '../Assets/trees_bottom.png';
+import LightCard from './Dashboardsection/LightCard';
+import DarkCard from './Dashboardsection/DarkCard';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -32,7 +34,7 @@ export default function DashboardApp() {
   console.log('showLoader', showLoader);
   return (
     <Page title="Dashboard">
-      <Container maxWidth="xl" style={{borderBottom: '1px solid #dbd9d9'}}>
+      <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
             Welcome {loggedUser?.name},
@@ -41,7 +43,25 @@ export default function DashboardApp() {
             </Typography>
           </Typography>
         </Stack>
-        {/* <AssociateZeroTree />
+        <br />
+        <br />
+
+        {/* <Container>
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={4}>
+                <LightCard />
+              </Grid>
+              <Grid item xs={4}>
+                <LightCard />
+              </Grid>
+              <Grid item xs={4}>
+                <DarkCard />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <AssociateZeroTree />
         <br />
         <YesterdayLoggedIn />
         <br />
@@ -49,7 +69,7 @@ export default function DashboardApp() {
         <br />
         <Container>
           <Card style={{ padding: '20px', background: 'none', boxShadow: 'none' }}>
-            <Grid container spacing={3} style={{ marginBottom: '70px'}}>
+            <Grid container spacing={3} style={{ marginBottom: '70px' }}>
               <Grid item xs={12} sm={6} md={3} mt={2}>
                 <span style={{ fontSize: '50px', fontWeight: 600, color: '#819881', lineHeight: '0.5' }}>
                   tree
@@ -62,20 +82,24 @@ export default function DashboardApp() {
               </Grid>
 
               <Grid item xs={12} sm={6} md={9}>
-              <img src={Quotes} alt="img" height="30px" width='30px'/>
-               <i>
-               It is not so much for its beauty that the forest makes a claim upon men’s hearts, as for that subtle
-                something,that quality of air that emanation from old trees,that so wonderfully changes and renews
-                aweary spirit.
-               </i>
+                <img src={Quotes} alt="img" height="30px" width="30px" />
+                <i>
+                  It is not so much for its beauty that the forest makes a claim upon men’s hearts, as for that subtle
+                  something,that quality of air that emanation from old trees,that so wonderfully changes and renews
+                  aweary spirit.
+                </i>
               </Grid>
             </Grid>
-            <img src={TreeBottom} alt="img" height="70px" width='200px' style={{position: 'absolute', bottom: '0', right: '0'}} />
-            
+            <img
+              src={TreeBottom}
+              alt="img"
+              height="70px"
+              width="200px"
+              style={{ position: 'absolute', bottom: '0', right: '0' }}
+            />
           </Card>
         </Container> */}
       </Container>
-   
     </Page>
   );
 }
