@@ -45,7 +45,7 @@ export default function AssociateZeroTree() {
           successDark: {
             backgroundColor: '#DDFAD1',
             borderRadius: '5px',
-            padding: '2px 5px',
+            padding: '3px',
             color: '#507C59',
             border: '1.5px solid #507C59',
             fontFamily: 'Poppins',
@@ -69,7 +69,7 @@ export default function AssociateZeroTree() {
         <Card>
          
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 800 }} style={{padding: '10px 0px'}}>
               <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>

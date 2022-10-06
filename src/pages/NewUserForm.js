@@ -1684,16 +1684,9 @@ export default function NewUserForm(props) {
                 : null}
             </TextField>
           </Grid>
-        </Grid>
-        <Stack spacing={3}>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4}>
-            <Grid container xs={12}>
-              <Grid item xs={5.8}>
-                {/* </Grid> */}
-              </Grid>
-
+          <Grid item xs={6}>
               {showCouncil ? (
-                <Grid item xs={5.8}>
+               
                   <TextField
                     select
                     fullWidth
@@ -1703,7 +1696,7 @@ export default function NewUserForm(props) {
                     displayEmpty
                     defaultValue={data ? data.district : ''}
                     value={district}
-                    style={{ marginLeft: 30, color: '#214C50' }}
+                    style={{ color: '#214C50' }}
                     placeholder="Select Council*"
                     inputProps={{
                       classes: {
@@ -1723,11 +1716,12 @@ export default function NewUserForm(props) {
                       </MenuItem>
                     ))}
                   </TextField>
-                </Grid>
+               
               ) : null}
-            </Grid>
-          </Stack>
-        </Stack>
+              </Grid>
+        </Grid>
+       
+       
 
         <hr style={{ color: '#000', opacity: 0.3, marginTop: '20px' }} />
 
@@ -2284,9 +2278,11 @@ export default function NewUserForm(props) {
                 </Typography>
               </Grid>
             </Grid>
+            <hr style={{ color: '#000', opacity: 0.3, marginTop: '20px' }} />
           </>
+          
         )}
-        <hr style={{ color: '#000', opacity: 0.3, marginTop: '20px' }} />
+       
         <Typography variant="h5" style={{ marginTop: 20, marginBottom: 20 }} gutterBottom>
           Login Details
           <Typography variant="h6" style={{ fontWeight: '400' }}>
@@ -2464,6 +2460,7 @@ export default function NewUserForm(props) {
                     id="aadharCard"
                     name="aadharCard"
                     value={value.documentName}
+                    style={{marginBottom: '20px'}}
                     displayEmpty
                     // style={{width: '110%'}}
                     onChange={(e) => handleDocumentNameChange(e, index)}

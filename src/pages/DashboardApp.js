@@ -51,7 +51,7 @@ export default function DashboardApp() {
           <Card style={{ padding: '20px', background: 'none', boxShadow: 'none' }}>
             <Grid container spacing={3} style={{ marginBottom: '70px'}}>
               <Grid item xs={12} sm={6} md={3} mt={2}>
-                <span style={{ fontSize: '40px', fontWeight: 600, color: '#819881', lineHeight: '1px' }}>
+                <span style={{ fontSize: '50px', fontWeight: 600, color: '#819881', lineHeight: '0.5' }}>
                   tree
                   {'\n'}census
                 </span>
