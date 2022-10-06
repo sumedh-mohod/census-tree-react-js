@@ -54,9 +54,10 @@ const GetCouncil = (page,limit) => async (dispatch) => {
   };
 
   const GetCouncilById = (id) => async (dispatch) => {
+    console.log('id', id);
     try {
       const response = await JWTServer.get(`/api/councils/${id}`);
-      // console.log("GET COUNCIL BY ID RESPONSE",response.data);
+      console.log("GET COUNCIL BY ID RESPONSE",response.data);
       dispatch({
         type: GET_COUNCIL_BY_ID,
         payload: response.data,

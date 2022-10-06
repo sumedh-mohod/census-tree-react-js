@@ -268,7 +268,7 @@ export default function TalukasDialog(props) {
                <MenuItem disabled value="">
             <em>Select District*</em>
           </MenuItem>
-              {showDistrict?districts?.map((option) => (
+              {!showDistrict?districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>

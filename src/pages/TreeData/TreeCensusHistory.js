@@ -18,6 +18,9 @@ import {
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
+import StatusApprovedButton from '../../components/statusbutton/StatusApprovedButton';
+import StatusPendngButton from '../../components/statusbutton/StatusPendngButton';
+import StatusUnapprovedButton from '../../components/statusbutton/StatusUnapprovedButton';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead, UserListToolbar } from '../../sections/@dashboard/user';
@@ -28,6 +31,7 @@ import BaseColorMoreMenu from '../../sections/@dashboard/tree/BaseColorMoreMenu'
 import { GetTreeCensusHistory, SearchTreeCensusHistory } from '../../actions/TreeCensusAction';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import ImageCarousel from '../../components/ImageCarousel';
+
 
 // ----------------------------------------------------------------------
 
@@ -84,7 +88,7 @@ export default function TreeCensusHistory() {
 
   const { treeCensusId, treeCensusName } = useParams();
   const {state} = useLocation();
-
+console.log('treeCensusId',treeCensusId, 'page',page,'rowsPerPage',rowsPerPage)
   useEffect(() => {
     dispatch(GetTreeCensusHistory(treeCensusId, page, rowsPerPage));
   }, []);
@@ -151,7 +155,7 @@ export default function TreeCensusHistory() {
       }
     }, 1000);
   };
-
+console.log('treeCensusHistory', treeCensusHistory);
   return (
     <Page title="User">
       <Container>
@@ -159,56 +163,44 @@ export default function TreeCensusHistory() {
         
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <div role="presentation">
-            <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000' }} separator=">">
-              {/* <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Tree Data
-        </Link>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-        Census
-        </Link> */}
-            <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-            Tree Data
+          <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000", fontWeight: 700, fontSize: '25px'}} separator=':'>
+      <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+      Teams
           </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          <Link
-          component={RouterLink}
-          to={`/dashboard/census`}
-          state={state}
-          underline="hover"
-         // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-        Census
-        </Link>
-          </Typography>
-        {treeCensusName === "undefined" ? null :
-            <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-        <Link
+      <Typography variant="h4" gutterBottom style={{color: "#000000",fontWeight: 400}}>
+        <Link 
+        component={RouterLink}
+        to={`/`}
+        state={state}
           underline="hover"
           // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
-          href="#"
-          // variant="h4" gutterBottom style={{color: "#000000"}}
+          // href="#"
         >
-          {treeCensusName}
+          Assigned
               
         </Link>
         </Typography>
-        }
-        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-            History
-          </Typography>
+        <Typography variant="h4" gutterBottom style={{color: "#000000", fontWeight: 400}}>
+        History
+        </Typography>
+        {/* <Link
+          underline="none"
+          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+          href="#"
+        >
+           Assigned Users
+              
+        </Link> */}
+        
       </Breadcrumbs>
+      <Typography variant="h6" style={{ fontWeight: 400,marginTop: '-8px' }}>
+              It is showing list of census history with its details
+            </Typography>
+
+
+         
 
     </div>
         </Stack>
@@ -253,12 +245,17 @@ export default function TreeCensusHistory() {
                                   setImageList(option.images || []);
                                   handleOpenImageList(e);
                                 }}
-                                color="success"
+                                style={{color: '#214C50'}}
                               >
                                 <Visibility />
                               </IconButton>
                             </TableCell>
-                            <TableCell align="left">{option.qc_status}</TableCell>
+                        
+                            <TableCell align="left">
+                            {option.qc_status === 'Pending'?<StatusPendngButton qcStatus={option.qc_status}/>: ''}
+                              {option.qc_status === 'Approved'?<StatusApprovedButton qcStatus={option.qc_status}/>: ''}
+                              {option.qc_status === 'Unapproved'?<StatusUnapprovedButton qcStatus={option.qc_status}/>: ''}
+                              </TableCell>
                             <TableCell align="left">
                               {option.qc_by?.first_name ? option.qc_by?.first_name : '-'}
                             </TableCell>
