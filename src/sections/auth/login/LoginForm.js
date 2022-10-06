@@ -85,7 +85,8 @@ export default function LoginForm() {
       
     },
     button: {
-      width: 317
+      width: 317,
+      marginTop: 15
     }
   });
   const classes = useStyles();
@@ -96,7 +97,7 @@ export default function LoginForm() {
       <Typography variant="h4">
         <strong>Login</strong>
       </Typography>
-      <Typography variant="h4" className={classes.item}>
+      <Typography variant="h6" className={classes.item}>
         Please provide credentials to proceed.
       </Typography>
       <FormikProvider value={formik} >
@@ -133,14 +134,14 @@ export default function LoginForm() {
             />
                  </Stack>
 
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-            {/* <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
+          {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+            <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
             Forgot password?
-          </Link> */}
-          </Stack>
+          </Link>
+          </Stack> */}
           {
              showLoadingButton ? (
-              <div style={{ display: 'flex',paddingLeft: '150px', alignItems: 'center'}}>
+              <div style={{ display: 'flex',paddingLeft: '150px', alignItems: 'center', marginTop: '15px'}}>
                 <CircularProgress  style={{color: '#214c50'}} />
               </div>
             ) :  <LoadingButton

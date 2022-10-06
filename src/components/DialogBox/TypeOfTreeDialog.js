@@ -157,8 +157,8 @@ export default function TypeOfTreeDialog(props) {
                 fullWidth
                 id="typeOfTree"
                 // autoComplete="typeOfTree"
-                label="Type Of Tree*"
-                placeholder="Type Of Tree*"
+                label="Tree Type*"
+                placeholder="Tree Type*"
                 error={Boolean(touched.treeType && errors.treeType)}
                 helperText={touched.treeType && errors.treeType}
                 {...getFieldProps("treeType")}
