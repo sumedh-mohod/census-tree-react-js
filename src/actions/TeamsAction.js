@@ -1,6 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
+import { ShowLoadingButton } from "./CommonAction";
 import { ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZW, DELETE_ASSIGNED_USER, DELETE_TEAM, EDIT_TEAM, GET_ACTIVE_TEAM, GET_CZW_BY_TEAM, GET_TEAM, GET_USERS_BY_TEAM } from "./Types";
 
 const GetTeam = (page,limit) => async (dispatch) => {
@@ -12,6 +13,27 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_TEAM,
+        payload: null,
+      });
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+  const GetAllActiveTeam = () => async (dispatch) => {
+    try {
+      const response = await JWTServer.get(`/api/teams?status=1`);
+      // console.log("DESIGNATIONS RESPONSE",response.data);
+      dispatch({
+        type: GET_ACTIVE_TEAM,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch({
+        type: GET_ACTIVE_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -48,6 +70,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -60,6 +86,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -67,7 +97,7 @@ const GetTeam = (page,limit) => async (dispatch) => {
   const AddTeam = (params) => async (dispatch) => {
     try {
       const response = await JWTServer.post("/api/teams",params);
-      console.log("ADD TEAM RESPONSE",response.data);
+      // console.log("ADD TEAM RESPONSE",response.data);
       dispatch({
         type: ADD_TEAM,
         payload: response.data,
@@ -77,6 +107,7 @@ const GetTeam = (page,limit) => async (dispatch) => {
         alertType: "success",
       }));
     } catch (e) {
+      dispatch(ShowLoadingButton(true))
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -94,6 +125,7 @@ const GetTeam = (page,limit) => async (dispatch) => {
         alertType: "success",
       }));
     } catch (e) {
+      dispatch(ShowLoadingButton(true))
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -122,6 +154,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_CZW_BY_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -136,6 +172,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         payload: response.data,
       });
     } catch (e) {
+      dispatch({
+        type: GET_CZW_BY_TEAM,
+        payload: null,
+      });
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -179,6 +219,10 @@ const GetUserByTeam = (teamId,page,limit) => async (dispatch) => {
       payload: response.data,
     });
   } catch (e) {
+    dispatch({
+      type: GET_USERS_BY_TEAM,
+      payload: null,
+    });
     dispatch(HandleExceptionWithSecureCatch(e));
   }
 };
@@ -192,6 +236,10 @@ const SearchUserByTeam = (teamId,page,limit,search) => async (dispatch) => {
       payload: response.data,
     });
   } catch (e) {
+    dispatch({
+      type: GET_USERS_BY_TEAM,
+      payload: null,
+    });
     dispatch(HandleExceptionWithSecureCatch(e));
   }
 };
@@ -229,6 +277,7 @@ const DeleteUserFromTeam = (params,status) => async (dispatch) => {
 
   export {
       GetTeam,
+      GetAllActiveTeam,
       GetMyActiveTeam,
       GetTeamByFilter,
       SearchTeam,

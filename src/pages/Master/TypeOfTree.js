@@ -30,13 +30,14 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import TypeOfTreeDialog from "../../components/DialogBox/TypeOfTreeDialog";
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import { MasterBreadCrumChip } from '../../sections/@dashboard/master/MasterBreadCrumChip';
+import StatusButton from '../../components/statusbutton/StatusButton';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
-  { id: 'TypeofTree', label: 'Type Of Tree', alignRight: false },
+  { id: 'TypeofTree', label: 'Tree Type', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
@@ -187,67 +188,73 @@ export default function TypeOfTree() {
 
   return (
     <Page title="User">
-      
       <Container>
-        {open?
-        <TypeOfTreeDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data= {dialogData}
-        />:null
-        }
-        
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <div role="presentation" onClick={handleClick} >
-        <MasterBreadCrum
-          dropDownPage={dropPage}
-          handleDropChange={handleDropChange}
-          />
-    </div>
-  
-    {userPermissions.includes("create-tree-type")? 
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Tree Type 
+        {open ? <TypeOfTreeDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
+        <Scrollbar className='padscreen_'>
+        {userPermissions.includes('create-tree-type') ? (
+            <Button
+              onClick={handleNewUserClick}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              // startIcon={<Iconify icon="eva:plus-fill" />}
+                sx={{float: 'right', mt: -4}}
+                className='padscreenadd mobbutton'
+            >
+              Add Tree Type
+            </Button>
+          ) : null}
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={6} mt={5}>
+          <div role="presentation" className='mob-master' onClick={handleClick}>
+            <MasterBreadCrumChip dropDownPage={dropPage} handleDropChange={handleDropChange} slug={'tree types'} />
+          </div>
 
-          </Button>:null}
+          
         </Stack>
+        </Scrollbar>
+       
 
         <Card>
-
-        <UserListToolbar numSelected={0} placeHolder={"Search type of tree..."} onFilterName={filterByName}/>
+          <UserListToolbar numSelected={0} placeHolder={'Search tree type...'} onFilterName={filterByName} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
+              <Table size="small" aria-label="a dense table">
+                <UserListHead headLabel={TABLE_HEAD} />
                 <TableBody>
-                     {treeType?.map((option,index) => {
-                        return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                        <TableCell align="left">{option.tree_type}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
-                        <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
+                  {treeType?.map((option, index) => {
+                    return (
+                      <TableRow hover>
+                        <TableCell align="left">
+                          <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
                         </TableCell>
-                        </TableRow>
-                        )
-                  })
-                }
-
+                        <TableCell align="left">{option.tree_type}</TableCell>
+                        <TableCell align="left">
+                          <StatusButton status={option.status} />
+                        </TableCell>
+                        <TableCell align="right">
+                          <UserMoreMenu
+                            status={option.status}
+                            permissions={userPermissions}
+                            handleEdit={() => handleEdit(option)}
+                            handleDelete={() => handleDelete(option)}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
-          {treeType?(
-          <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  ):null}
+          {treeType ? (
+            <Pagination
+              count={pageInfo.last_page}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
         </Card>
       </Container>
     </Page>

@@ -9,6 +9,7 @@ import {
 
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { SetNewAlert } from "./AlertActions";
+import { ShowLoader, ShowLoadingButton } from './CommonAction';
 
 const ResetState = () => ({
     type: RESET_STATE,
@@ -24,7 +25,9 @@ const LoginUser = (params) => async (dispatch) => {
         type: LOGIN,
         payload: response.data,
       });
+      dispatch(ShowLoadingButton(false));
     } catch (e) {
+      dispatch(ShowLoadingButton(false));
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };
@@ -48,9 +51,28 @@ const Logout = () => async (dispatch) => {
     }
   };
 
+  const SessionExpired = () => async (dispatch) => {
+    try {
+      localStorage.clear();
+      
+      dispatch({
+        type: LOG_OUT,
+        payload: null,
+      });
+      dispatch({
+        type: RESET_STATE,
+        payload: null,
+      });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
+
 
 
 export {
   LoginUser,
-  Logout
+  Logout,
+  SessionExpired
 };

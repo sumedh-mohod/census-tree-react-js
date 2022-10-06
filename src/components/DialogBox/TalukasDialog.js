@@ -13,6 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -182,7 +183,12 @@ export default function TalukasDialog(props) {
       }
     },
   });
-
+  const useStyles = makeStyles({
+    icon: {
+      fill: '#214c50',
+  },
+  });
+  const classes = useStyles();
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
@@ -204,58 +210,72 @@ export default function TalukasDialog(props) {
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-            <Grid item xs={12}>
-            <TextField
-              select
-              id="state"
-              displayEmpty
-              label="State*"
-              name="state"
-              value={state}
-              style={{width:'83%', marginLeft: 40}}
-              placeholder='*Select State'
-              onChange={(e)=> {
-                handleStateChange(e);
-                formik.handleChange(e);
+        <Grid item xs={12}>
+              <TextField
+                select
+                id="state"
+                name="state"
+                displayEmpty
+                label="State*"
+                value={values.state}
+                style={{ width: '83%', marginLeft: 40,marginTop:5 }}
+                onChange={(e)=> {
+                  handleStateChange(e);
+                  formik.handleChange(e);
+                }}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
               }}
-              error={Boolean(touched.state && errors.state)}
+                error={Boolean(touched.state && errors.state)}
                 helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
-            >
-              <MenuItem disabled value="">
-            <em>Select State*</em>
-          </MenuItem>
-              {states?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
+              >
+                 <MenuItem disabled value="">
+              <em>State*</em>
+            </MenuItem>
+                {states?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item xs={12}>
             <TextField
               select
-              id="taluka_district"
+              id="district"
+              name='district'
               label="District*"
               displayEmpty
-              value={district}
-              style={{width:'83%', marginLeft: 40}}
-              placeholder='Select District'
-              onChange={handleDistrictChange}
+              value={values.district}
+              style={{width:'83%', marginLeft: 40,marginTop:5}}
+              placeholder='*Select District'
+              onChange={(e) => {
+                handleDistrictChange(e)
+                formik.handleChange(e);
+              }}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               error={Boolean(touched.district && errors.district)}
                 helperText={touched.district && errors.district}
-                {...getFieldProps("district")}
+                // {...getFieldProps("district")}
             >
                <MenuItem disabled value="">
             <em>Select District*</em>
           </MenuItem>
-          {showDistrict?districts?.map((option) => (
+              {!showDistrict?districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
                 </MenuItem>
               )):null}
             </TextField>
             </Grid>
+           
             <Grid item xs={12}>
               <DefaultInput
                 fullWidth
@@ -272,7 +292,7 @@ export default function TalukasDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <Button onClick={handleSubmit}  variant='contained'>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

@@ -95,7 +95,7 @@ export default function WardDialog(props) {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    wards: Yup.string().min(1, 'Too Short!').max(4, 'Too Long! max. 4 character').required('Name required'),
+    wards: Yup.string().matches(/^[A-Za-z0-9? ,_-]+$/, "Enter Ward In Alphanumeric format Only").min(1, 'Too Short!').max(4, 'Too Long! max. 4 character').required('Name required'),
   });
 
 
@@ -153,7 +153,7 @@ export default function WardDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <Button onClick={handleSubmit} variant='contained'>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

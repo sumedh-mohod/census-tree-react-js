@@ -12,7 +12,8 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -23,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import DefaultInput from '../../Inputs/DefaultInput';
 import { AddTeam, EditTeam } from '../../../actions/TeamsAction';
+
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -58,14 +60,19 @@ export default function TeamsTableDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [teamName, setTeamName] = React.useState('');
+  const [teamNameError, setTeamNameError] = React.useState('');
+  const [teamCode, setTeamCode] = React.useState('');
+  const [teamCodeError, setTeamCodeError] = React.useState('');
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const [teamType, setTeamType] = React.useState('');
   const { isOpen, data } = props;
-  console.log('teamType',data)
+  // console.log('teamType',data)
 
-  const { addTeamsLog, editTeamsLog } = useSelector((state) => ({
+  const { addTeamsLog, editTeamsLog ,showLoadingButton} = useSelector((state) => ({
     addTeamsLog: state.teams.addTeamsLog,
     editTeamsLog: state.teams.editTeamsLog,
+    showLoadingButton: state.common.showLoadingButton,
   }));
 
   const firstRun = React.useRef(true);
@@ -78,6 +85,10 @@ export default function TeamsTableDialog(props) {
   }, [addTeamsLog, editTeamsLog]);
   // console.log('editTeamsLog',editTeamsLog);
 
+  React.useEffect(() => {
+    setButtonDisabled(false)
+  }, [showLoadingButton ]);
+
   const handleClose = () => {
     props.handleClose();
   };
@@ -85,6 +96,16 @@ export default function TeamsTableDialog(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const handleTeamCode = (e) => {
+   
+  setTeamCode(e.target.value);
+  }
+
+  const handleTeamName = (e) => {
+   
+  setTeamName(e.target.value);
+  }
 
   const handleMaxWidthChange = (event) => {
     setMaxWidth(
@@ -94,14 +115,15 @@ export default function TeamsTableDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    name: Yup.string().max(30, 'Character limit is 30').required('Name is required'),
+    name: Yup.string().matches(/^[a-zA-Z ,_-]+$/,'Only alphabets are allowed for this field ').max(30, 'Character limit is 30').required('Name is required'),
     code: Yup.string()
+      .matches(/^[A-Za-z0-9? ,_-]+$/,'Please Enter Team Code In Alphanumeric format Only')
       .min(4, 'Too Short! need exact 4 character')
       .max(4, 'Too Long! need exact 4 character')
       .required('Team Code required'),
-    // teamType: Yup.string().required('Name is required'),
+    teamType: Yup.string().required('Team Type is required'),
   });
-
+// console.log('data',data)
   const formik = useFormik({
     
     enableReinitialize: true,
@@ -110,30 +132,34 @@ export default function TeamsTableDialog(props) {
       code: data ? data.team_code : '',
       teamType: data ? data.team_type : '',
     },
+    
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      console.log('name', value.name, 'code', value.code, 'team', teamType);
-      setButtonDisabled(true);
-      if (data) {
-        dispatch(
-          EditTeam(
-            {
+      if(!(teamNameError || teamCodeError) ){
+        setButtonDisabled(true);
+        if (data) {
+          dispatch(
+            EditTeam(
+              {
+                name: value.name,
+                team_code: value.code,
+                team_type: value.teamType,
+              },
+              data.id
+            )
+          );
+        } else {
+          dispatch(
+            AddTeam({
               name: value.name,
               team_code: value.code,
-              team_type: teamType,
-            },
-            data.id
-          )
-        );
-      } else {
-        dispatch(
-          AddTeam({
-            name: value.name,
-            team_code: value.code,
-            team_type: teamType,
-          })
-        );
+              team_type: value.teamType,
+            })
+          );
+        }
       }
+      // console.log('name', value.name, 'code', value.code, 'team', teamType);
+     
     },
   });
 
@@ -148,6 +174,14 @@ export default function TeamsTableDialog(props) {
     { id: 3, type: 'offsite_qc', value: 'Offsite QC' },
     { id: 4, type: 'onsite_qc', value: 'Onsite QC' },
   ];
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -165,34 +199,48 @@ export default function TeamsTableDialog(props) {
         <DialogContent>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <DefaultInput
+              <TextField
                 fullWidth
-                id="teamName"
+                id="name"
+                name="name"
                 autoComplete="teamName"
                 label="Team Name*"
+                value={values.name}
                 placeholder="Team Name*"
+                style={{ width: '82.5%',marginLeft: 40, marginTop: 5 }}
+                onChange={(e) => {
+                  handleTeamName(e);
+                  formik.handleChange(e);
+                }}
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
-                {...getFieldProps('name')}
+                // {...getFieldProps('name')}
               />
-              <DefaultInput
+               <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{teamNameError}</Typography>
+              <TextField
                 fullWidth
-                id="teamCode"
+                id="code"
                 autoComplete="teamCode"
                 label="Team Code*"
                 placeholder="Team Code*"
+                style={{ width: '82.5%',marginLeft: 40, marginTop: 5 }}
+                value={values.code}
+                onChange={(e) => {
+                  handleTeamCode(e);
+                  formik.handleChange(e);
+                }}
                 error={Boolean(touched.code && errors.code)}
                 helperText={touched.code && errors.code}
-                {...getFieldProps('code')}
+               // {...getFieldProps('code')}
               />
+              <Typography variant = "body2" style={{marginLeft: 40, color:"#FF0000"}}>{teamCodeError}</Typography>
               <TextField
                 select
                 id="Team Type"
                 label="Team Type"
                 // displayEmpty
                 // value={values.teamType}
-                style={{ width: '82%',marginLeft: 40, marginTop: 7 }}
-                size="small"
+                style={{ width: '82.5%',marginLeft: 40, marginTop: 5 }}
                 
                 onChange={(e) => {
                   handleTeamTypeChange(e);
@@ -200,8 +248,13 @@ export default function TeamsTableDialog(props) {
                 }}
                 error={Boolean(touched.teamType && errors.teamType)}
                 helperText={touched.teamType && errors.teamType}
-                // {...getFieldProps('teamType')}
-                required
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
+                {...getFieldProps('teamType')}
+                
               >
                 <MenuItem disabled value="">
                   <em>Select Team type*</em>
@@ -219,7 +272,7 @@ export default function TeamsTableDialog(props) {
         </DialogContent>
         <Divider />
         <DialogActions>
-          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={handleSubmit}>
+          <LoadingButton loading={buttonDisabled} loadingPosition="end" onClick={handleSubmit} style={{background: '#214c50',color: '#fff'}} >
             {data ? `Save` : `Add`}
           </LoadingButton>
         </DialogActions>

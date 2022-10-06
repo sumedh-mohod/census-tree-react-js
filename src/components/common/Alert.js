@@ -9,13 +9,17 @@ export default function Alert() {
 
     const dispatch = useDispatch();
 
-    const handleClick = () => {
-        dispatch(DeleteAlert(alert))
-    }
 
     const {alerts } = useSelector((state) => ({
           alerts: state.alerts
         }));
+        // console.log("print",alerts)
+
+        const handleClick = () => {
+            dispatch(DeleteAlert(alert))
+            // console.log("Alert")
+    
+        }
 
         if (!alerts || alerts.length <= 0) {
             return null;
@@ -27,20 +31,19 @@ export default function Alert() {
                     key={alert.id}
                     className={
                         alert.alertType !== "danger-stay"
-                        ? "alertpage-alert"
+                        ? `alertpage-alert-${alert.alertType}`
                         : "alertpage-alertnone"
                     }
                     >
-                    <span className={`alertpage-alert-alertspan-${alert.alertType}`} />
+                        
                     <span className="alertpage-alert-msg">{alert.msg}</span>
+                    {/* <span className={`alertpage-alert-alertspan-${alert.alertType}`} /> */}
                     <div
                         aria-hidden
-                        className="alertpage-alert-close"
-                        onClick={handleClick}
-                       
-                    >
-                        X
-                    </div>
+                        className={`alertpage-alert-alertspan-${alert.alertType}`}
+                        onClick={handleClick} />
+                
+                    {/* </div> */}
                     </div>
                 ))}
             </div>

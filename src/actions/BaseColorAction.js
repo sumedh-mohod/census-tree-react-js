@@ -1,6 +1,7 @@
 import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
+import { ShowLoader } from './CommonAction';
 import { DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HISTORY, GET_QC_REMARKS_FOR_BASE_COLOR, UPDATE_QC_STATUS_BASE_COLOR_TREES,
 GET_BASE_COLOR_PENDING_QC_STATUS, UPDATE_BASE_COLOR_TREE } from "./Types";
 
@@ -155,6 +156,7 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
         type: GET_BASE_COLOR_PENDING_QC_STATUS,
         payload: response.data,
       });
+      dispatch(ShowLoader(false));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }

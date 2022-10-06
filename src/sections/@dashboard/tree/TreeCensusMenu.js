@@ -39,8 +39,8 @@ export default function TreeCensusMenu(props) {
 
   return (
     <>
-      <IconButton ref={ref} onClick={() => setIsOpen(true)}>
-        <Iconify icon="eva:more-vertical-fill" width={20} height={20} />
+      <IconButton ref={ref} onClick={() => setIsOpen(true)} >
+        <Iconify icon="eva:more-vertical-fill" width={20} height={20} style={{color: '#000'}}/>
       </IconButton>
 
       <Menu
@@ -85,8 +85,8 @@ export default function TreeCensusMenu(props) {
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem> */}
  {(permissions.includes("view-census-tree-history"))?
-        <MenuItem component={RouterLink} to={`/dashboard/treeCensus/history/${props.treeCensusId}/${props.treeCensusName}`} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
+        <MenuItem component={RouterLink} to={`/dashboard/treeCensus/history/${props.treeCensusId}/${props.treeCensusName}`} state={{councilId:props.councilId,zoneId:props.zoneId,wardId:props.wardId,pageNumber:props.pageNumber}} sx={{ color: 'text.secondary' }}>
+          <ListItemIcon style={{color: '#214c50'}}>
             <Iconify icon="eva:eye-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View History" primaryTypographyProps={{ variant: 'body2' }} />
@@ -94,7 +94,7 @@ export default function TreeCensusMenu(props) {
         :null}
          {(permissions.includes("view-census-tree-details"))?
         <MenuItem sx={{ color: 'text.secondary' }} onClick={handleCensusViewDialog}>
-          <ListItemIcon>
+          <ListItemIcon style={{color: '#214c50'}}>
             <Iconify icon="carbon:data-view-alt" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View Details" primaryTypographyProps={{ variant: 'body2' }} />

@@ -31,30 +31,55 @@
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
-.alertpage-alert {
+.alertpage-alert-danger {
     position: relative;
     min-width: 60%;
     width: max-content;
     padding: 0.9rem;
     margin: 0.9rem 0 0.5rem 1.5rem;
     opacity: 1;
-    background: #f4f4f4;
+    background: #F6DDDD;
     height: max-content;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    background: #ffffff;
+    background: #F6DDDD;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
     transition: all ease-in-out;
     transform: translateX(0%);
     animation-name: transform-alerts;
     animation-duration: 8s;
     animation-delay: 2s;
+    border-radius: 7px;
+    border: 1px solid red
+}
+.alertpage-alert-success {
+    position: relative;
+    min-width: 60%;
+    width: max-content;
+    padding: 0.9rem;
+    margin: 0.9rem 0 0.5rem 1.5rem;
+    opacity: 1;
+    background: #D9F6E6;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background: #D9F6E6;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+    transition: all ease-in-out;
+    transform: translateX(0%);
+    animation-name: transform-alerts;
+    animation-duration: 8s;
+    animation-delay: 2s;
+    border-radius: 7px;
+    border: 1px solid green
 }
 
 .alertpage-alert-msg {
-    color: #666666;
+    color: #000;
     font-style: normal;
     font-weight: 600;
     font-size: 0.8rem;
@@ -74,7 +99,7 @@
 }
 
 .alertpage-alert-alertspan-success {
-    background-image: url("../../Assets/success.svg");
+    background-image: url("../../Assets/correct.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -92,7 +117,7 @@
 }
 
 .alertpage-alert-alertspan-danger {
-    background-image: url("../../Assets/fail.svg");
+    background-image: url("../../Assets/cancel.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -110,7 +135,7 @@
 }
 
 .alertpage-alert-alertspan-danger-stay {
-    background-image: url("../../Assets/fail.svg");
+    background-image: url("../../Assets/cancel.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;

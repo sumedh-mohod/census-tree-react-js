@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -32,6 +32,7 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignCouncilZoneDialog from "../../components/DialogBox/TeamsDialog/AssignCouncilZoneDialog";
+import StatusButton from '../../components/statusbutton/StatusButton'
 
 // ----------------------------------------------------------------------
 
@@ -102,6 +103,8 @@ export default function AssignNewCouncilZoneWard() {
 
   // console.log("CWZ of team",cwzOfTeam)
   const { teamId,teamName } = useParams();
+  const {state} = useLocation();
+  // console.log("STATE",state);
   
   useEffect(()=>{
     dispatch(GetCZWByTeam(teamId,page,rowsPerPage));
@@ -200,13 +203,14 @@ export default function AssignNewCouncilZoneWard() {
         />
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
+      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000", fontSize: '20px', fontWeight: 700}} separator=':'>
       <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
       Teams
           </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+          <Typography variant="h4" gutterBottom style={{color: "#000000",fontWeight: 400}}>
         <Link component={RouterLink}
         to ={`/dashboard/teams`}
+        state={state}
           underline="hover"
           // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -215,22 +219,26 @@ export default function AssignNewCouncilZoneWard() {
         {teamName}
         </Link>
         </Typography>
-        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
+        <Typography variant="h4" gutterBottom style={{color: "#000000", fontWeight: 400}}>
              Assigned Councils - Zones - Wards
     </Typography>
+  
       </Breadcrumbs>
+      <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400' }}>
+    It is showing list of teams with its details
+              </Typography>
     </div>
-          <Button onClick={handleNewUserClick} variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill"  />}>
+          <Button onClick={handleNewUserClick} variant="contained" >
           Assign C-Z-W
 
           </Button>
         </Stack>
-
+      
         <Card>
         <UserListToolbar numSelected={0} placeHolder={"Search c-z-w..."} onFilterName={filterByName}/>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
@@ -240,13 +248,15 @@ export default function AssignNewCouncilZoneWard() {
                         <TableRow
                         hover
                       >
-                        <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                        <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                         <TableCell align="left">{option.council_name}</TableCell>
                         <TableCell align="left">{option.zone_name}</TableCell>
                         <TableCell align="left">{option.ward_name}</TableCell>
                         <TableCell align="left">{option.from_date}</TableCell>
                         <TableCell align="left">{option.to_date?option.to_date:"-"}</TableCell>
-                        <TableCell align="left">{option.status?"Active":"Inactive"}</TableCell>
+                        <TableCell align="left">
+                          <StatusButton status={option.status} />
+                        </TableCell>
                         </TableRow>
                         )
                   }):null

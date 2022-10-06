@@ -94,6 +94,7 @@ const BootstrapDialogTitle = (props) => {
         dispatch(GetActiveTreeDisease(1));
       },[])
 
+      
       const handleLocalTreeName = (e) => {
         setLocalTreeName(e.target.value)
         setBotanicalTreeName(e.target.value)
@@ -125,6 +126,7 @@ const BootstrapDialogTitle = (props) => {
       }
       );
 
+      
       const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -136,7 +138,7 @@ const BootstrapDialogTitle = (props) => {
             canopy:	data?data.canopy:"",
             treeCondition:		data?data.tree_condition_id:"",
             disease:		data?data.tree_disease_id:"",
-            plantationDate:	data?data.plantation_date:"",
+            plantationDate:	data? moment(data.plantation_date).format('YYYY-MM-DD'):"",
         },
         validationSchema: TreeDetailsSchema,
         onSubmit: (value) => {
@@ -157,7 +159,7 @@ const BootstrapDialogTitle = (props) => {
       });
     
       const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-    
+ 
 
       return (
       
@@ -358,16 +360,16 @@ const BootstrapDialogTitle = (props) => {
               </TextField>
               </Grid>
             <Grid item xs={12}>
+           
               <TextField
                 fullWidth
                 id="plantationDate"
+                name="plantationDate"
                 label="Plantation Date*"
                 type="date"
+                value={values.plantationDate}
                 style={{marginTop:5}}
-                name="plantationDate"
-                
-                // label="Plantation Date"
-                 value={values.plantationDate || ""}
+               
                 helperText={
                     errors.plantationDate && touched.plantationDate
                      
@@ -384,7 +386,7 @@ const BootstrapDialogTitle = (props) => {
            </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button onClick={handleSubmit}   variant="contained" >Save</Button>
         </DialogActions>
       </Dialog>
         //   <Button

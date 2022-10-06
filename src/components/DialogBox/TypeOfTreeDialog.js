@@ -157,8 +157,8 @@ export default function TypeOfTreeDialog(props) {
                 fullWidth
                 id="typeOfTree"
                 // autoComplete="typeOfTree"
-                label="Type Of Tree*"
-                placeholder="Type Of Tree*"
+                label="Tree Type*"
+                placeholder="Tree Type*"
                 error={Boolean(touched.treeType && errors.treeType)}
                 helperText={touched.treeType && errors.treeType}
                 {...getFieldProps("treeType")}
@@ -168,7 +168,7 @@ export default function TypeOfTreeDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>{data?"Save":"Add"}</Button>
+          <Button onClick={handleSubmit} variant='contained'>{data?"Save":"Add"}</Button>
         </DialogActions>
       </Dialog>
       </div>

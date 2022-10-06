@@ -19,7 +19,7 @@ const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props
   height: 48,
   position: 'relative',
   textTransform: 'capitalize',
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.text,
   borderRadius: theme.shape.borderRadius,
 }));
 
@@ -55,7 +55,7 @@ function NavItem({ item, active }) {
   const activeRootStyle = {
     color: 'primary.main',
     fontWeight: 'fontWeightMedium',
-    bgcolor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+    bgcolor: theme.palette.primary.main_active,
   };
 
   const activeSubStyle = {
@@ -70,6 +70,11 @@ function NavItem({ item, active }) {
           onClick={handleOpen}
           sx={{
             ...(isActiveRoot && activeRootStyle),
+            transition: (theme) => theme.transitions.create('transform'),
+            // ...(isActiveRoot && {
+              
+            //   bgcolor: 'primary.main_active'
+            // }),
           }}
         >
           <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
@@ -86,7 +91,6 @@ function NavItem({ item, active }) {
             {children.map((item) => {
               const { title, path } = item;
               const isActiveSub = active(path);
-
               return (
                 <ListItemStyle
                   key={title}
@@ -110,12 +114,23 @@ function NavItem({ item, active }) {
                         transition: (theme) => theme.transitions.create('transform'),
                         ...(isActiveSub && {
                           transform: 'scale(2)',
-                          bgcolor: 'primary.main',
+                          bgcolor: 'primary.main_active',
                         }),
                       }}
                     />
                   </ListItemIconStyle>
-                  <ListItemText disableTypography primary={title} />
+                  <ListItemText
+                   disableTypography
+                    primary={title}
+                    sx={{
+                      
+                      transition: (theme) => theme.transitions.create('transform'),
+                      ...(isActiveSub && {
+                        
+                        color: 'primary.main_active'
+                      }),
+                    }}
+                     />
                 </ListItemStyle>
               );
             })}
@@ -299,14 +314,14 @@ export default function NavSection({ navConfig, ...other }) {
       icon: getIcon('eva:shopping-bag-fill'),
     })
   }
-  if(isContainPermission("view-report")){
-    const obj =   {
-      title: 'Census Reports',
-      path: '/dashboard/reportold',
-      icon: getIcon('eva:shopping-bag-fill'),
-    }
-    treeDataOuterObj.children.push(obj);
-  }
+  // if(isContainPermission("view-report")){
+  //   const obj =   {
+  //     title: 'Census Reports',
+  //     path: '/dashboard/reportold',
+  //     icon: getIcon('eva:shopping-bag-fill'),
+  //   }
+  //   treeDataOuterObj.children.push(obj);
+  // }
 
   if(treeDataOuterObj.children.length !==0){
     navConfigArray.push(treeDataOuterObj);
@@ -315,11 +330,11 @@ export default function NavSection({ navConfig, ...other }) {
   const newReportObj =   {
     title: 'Reports',
     path: '/dashboard/newReports',
-    icon: getIcon('carbon:report'),
+    icon: getIcon('eva:file-text-fill'),
     children:[]
   }
 
-  // if(isContainPermission("view-base-color-trees")){
+  if(isContainPermission("view-work-report")){
     newReportObj.children.push(
     {
       title: 'Work Reports',
@@ -327,13 +342,20 @@ export default function NavSection({ navConfig, ...other }) {
       icon: getIcon('eva:shopping-bag-fill'),
     }
     )
+  }
+  if(isContainPermission("view-census-report")){
     newReportObj.children.push(
       {
-        title: 'Tree Reports',
-        path: '/dashboard/treeReports',
+        title: 'Census Report',
+        path: '/dashboard/census-report',
         icon: getIcon('eva:shopping-bag-fill'),
+
+        // title: 'Tree Reports',
+        // path: '/dashboard/treeReports',
+        // icon: getIcon('eva:shopping-bag-fill'),
       }
       )
+    }
 
       if(newReportObj.children.length !==0){
         navConfigArray.push(newReportObj);
@@ -347,7 +369,7 @@ export default function NavSection({ navConfig, ...other }) {
   // };
   // navConfigArray.push(reportObj);
 
-  console.log(navConfigArray);
+  // console.log(navConfigArray);
   // console.log(navConfigArray);
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
 

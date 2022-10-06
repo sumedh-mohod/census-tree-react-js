@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
+import SearchImage from '../../../Assets/Search_Image.png';
 
 // ----------------------------------------------------------------------
 
@@ -16,6 +17,8 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
+  height: 44,
+  backgroundColor: `#F8F8F8  !important`,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
@@ -58,7 +61,8 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
           placeholder="Search here"
           startAdornment={
             <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+             <img src={SearchImage} alt="abell" height='25' width='35' />
+              {/* <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} /> */}
             </InputAdornment>
           }
         />

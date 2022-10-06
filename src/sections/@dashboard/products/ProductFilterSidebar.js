@@ -171,6 +171,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
             color="inherit"
             variant="outlined"
             startIcon={<Iconify icon="ic:round-clear-all" />}
+           
           >
             Clear All
           </Button>

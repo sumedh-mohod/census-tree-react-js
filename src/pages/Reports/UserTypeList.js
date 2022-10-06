@@ -1,5 +1,5 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
@@ -32,10 +32,10 @@ import USERLIST from '../../_mock/user';
 // import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import StateDialog from "../../components/DialogBox/StateDialog";
-import MasterBreadCrum from '../../sections/@dashboard/master/MasterBreadCrum';
+import { MasterBreadCrum } from '../../sections/@dashboard/master/MasterBreadCrum';
 import ReportToolBar from "../../sections/@dashboard/reports/ReportToolBar"
 import { GetAllWorkReports, GetWorkReports , SearchWorkReports} from '../../actions/WorkReportAction';
-
+import CountButton from '../../components/statusbutton/CountButton'
 
 
 // ----------------------------------------------------------------------
@@ -112,7 +112,7 @@ export default function UserTypeList(props) {
       pageInfo: state.workReports.pageInfo,
     }));
 
-console.log("UserListType",workReports);
+// console.log("UserListType",workReports);
 
 
   useEffect(()=>{
@@ -134,13 +134,23 @@ console.log("UserListType",workReports);
     dispatch(DeleteState(data.id,data.status?0:1));
   };
 
+  const secondRun = React.useRef(true);
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    setPage(1);
+  }, [fromDate,toDate]);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     // if(search){
     //   dispatch(SearchWorkReports(newPage,rowsPerPage,searchValue));
     // }
     // else {
-      dispatch(GetWorkReports(reportType, fromDate,toDate, newPage,rowsPerPage));
+      dispatch(GetWorkReports(reportType,undefined,undefined,undefined, fromDate,toDate, newPage,rowsPerPage));
     }
 
   let timer = null;
@@ -164,7 +174,7 @@ console.log("UserListType",workReports);
 
   const handleDownloadButtonPressed = () => {
     setDownloadButtonPressed(true);
-    dispatch(GetAllWorkReports(reportType, fromDate,toDate));
+    dispatch(GetAllWorkReports(reportType,undefined,undefined, fromDate,toDate));
   }
 
   function handleDownloadExcel() {
@@ -190,7 +200,7 @@ console.log("UserListType",workReports);
       return null
     })
     downloadExcel({
-      fileName: "Report",
+      fileName: "By User Report",
       sheet: "Report",
       tablePayload: {
         header,
@@ -203,13 +213,13 @@ console.log("UserListType",workReports);
   return (
     <Page title="User">
       <Container>
-        <Card style={{marginTop: 40}}>
-        <ReportToolBar 
+      <Card style={{marginTop: 40}}>
+      <ReportToolBar 
          handleExportexcel={()=>handleDownloadButtonPressed()} 
         numSelected={0} placeHolder={"Search here..."} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
+              <Table  size="small" aria-label="a dense table">
                 <UserListHead
                   headLabel={TABLE_HEAD}
                 />
@@ -219,15 +229,15 @@ console.log("UserListType",workReports);
                         <TableRow
                         hover
                       >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
+                            <TableCell align="left"><b>{((page-1)*(rowsPerPage))+(index+1)}</b></TableCell>
                             <TableCell align="left">{option.name}</TableCell>
                         <TableCell align="left">{option.current_role}</TableCell>
-                        <TableCell align="left">{option.base_color_trees_count}</TableCell>
-                        <TableCell align="left">{option.base_color_off_site_qc_count}</TableCell>
-                        <TableCell align="left">{option.base_color_onsite_qc_count}</TableCell>
-                        <TableCell align="left">{option.census_trees_count}</TableCell>
-                        <TableCell align="left">{option.census_trees_offsite_qc_count}</TableCell>
-                        <TableCell align="left">{option.census_trees_onsite_qc_count}</TableCell>
+                        <TableCell align="left"><CountButton count={option.base_color_trees_count} /></TableCell>
+                        <TableCell align="left"><CountButton count={option.base_color_off_site_qc_count} /></TableCell>
+                        <TableCell align="left"><CountButton count={option.base_color_onsite_qc_count} /></TableCell>
+                        <TableCell align="left"><CountButton count={option.census_trees_count} /></TableCell>
+                        <TableCell align="left"><CountButton count={option.census_trees_offsite_qc_count} /></TableCell>
+                        <TableCell align="left"><CountButton count={option.census_trees_onsite_qc_count} /></TableCell>
                         </TableRow>
               )
                })

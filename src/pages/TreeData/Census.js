@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -37,6 +37,9 @@ import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import CencusViewDetailsDialog from '../../components/DialogBox/tree-data/CensusViewDetailsDialog';
+import StatusPendngButton from '../../components/statusbutton/StatusPendngButton';
+import StatusApprovedButton from '../../components/statusbutton/StatusApprovedButton';
+import StatusUnapprovedButton from '../../components/statusbutton/StatusUnapprovedButton';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +49,9 @@ const TABLE_HEAD = [
   { id: 'treeName', label: 'Tree Name', alignRight: false },
   { id: 'addedBy', label: 'Added By', alignRight: false },
   { id: 'addedOn', label: 'Added On', alignRight: false },
-  { id: 'locationAccuracyNeeded', label: 'Location Accuracy Needed', alignRight: false },
+  { id: 'age', label: 'Tree Age', alignRight: false },
+  { id: 'locationAccuracyNeeded', label: 'Location Accuracy Captured', alignRight: false },
+  { id: 'QCStatus', label: 'QC Status', alignRight: false },
   { id: 'isReferredToExpert', label: 'Is Referred To Expert?', alignRight: false },
   { id: 'action',label: 'Action',alignRight: true },
 ];
@@ -101,6 +106,33 @@ export default function Census() {
 loggedUser.roles[0].permissions.map((item, index)=>(
   userPermissions.push(item.name)
 ))
+
+  const { state} = useLocation();
+
+  useEffect(()=>{
+    let cId = null;
+    let wId = null;
+    let zId = null;
+    if(state?.councilId){
+      setCouncilId(state.councilId)
+      cId = state.councilId;
+    }
+    if(state?.wardId){
+      setWardId(state.wardId);
+      wId = state.wardId;
+    }
+    if(state?.zoneId){
+      setZoneId(state.zoneId)
+      zId = state.zoneId;
+    }
+    if(state?.pageNumber){
+      setPage(state.pageNumber)
+    }
+    if(state){
+      dispatch(GetTreeCensus(state.pageNumber,rowsPerPage,cId,zId,wId))
+    }
+    
+  },[])
 
 
   const firstRun = React.useRef(true);
@@ -257,44 +289,31 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   return (
     <Page title="Base Color">
       <Container>
-        {open?
-        <BaseColorDialog
-        isOpen={open}
-        handleClose = {handleNewUserClick}
-        data={dialogData}
-        />:null
-        }
-        
-        {viewOpen?
-        <ViewImageDialog
-        isOpen={viewOpen}
-        handleClose = {handleViewOpen}
-        data={imageList}
-        />:null
-        }
-        
-        {qcDialogOpen?
-        <QcStatusDialog
-        isOpen={qcDialogOpen}
-        baseColorId={treeCensusId}
-        handleClose = {()=>handleQcDialog(null)}
-        handleSubmit = {(data,id)=>handleQcSubmit(data,id)}
-        />:null
-        }
+        {open ? <BaseColorDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
 
-        {viewCensusDetails?  
-        <CencusViewDetailsDialog
-        isOpen={viewCensusDetails}
-        handleClose= {() =>handleCensusViewDetailsDialog()}
-        data={dialogData}
-        />: null 
-        }
+        {viewOpen ? <ViewImageDialog isOpen={viewOpen} handleClose={handleViewOpen} data={imageList} /> : null}
 
-         
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <div role="presentation" onClick={handleClick} >
-      <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}} separator='>'>
-        {/* <Link
+        {qcDialogOpen ? (
+          <QcStatusDialog
+            isOpen={qcDialogOpen}
+            baseColorId={treeCensusId}
+            handleClose={() => handleQcDialog(null)}
+            handleSubmit={(data, id) => handleQcSubmit(data, id)}
+          />
+        ) : null}
+
+        {viewCensusDetails ? (
+          <CencusViewDetailsDialog
+            isOpen={viewCensusDetails}
+            handleClose={() => handleCensusViewDetailsDialog()}
+            data={dialogData}
+          />
+        ) : null}
+
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+          <div role="presentation" onClick={handleClick}>
+            <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000', fontWeight: 900, fontSize: '20px' }} separator=":">
+              {/* <Link
           underline="none"
           sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
@@ -310,70 +329,94 @@ loggedUser.roles[0].permissions.map((item, index)=>(
         >
         Census
         </Link> */}
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-            Tree Data
-          </Typography>
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          Census
-          </Typography>
-      </Breadcrumbs>
-    </div>
+              <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+                Tree Data
+              </Typography>
+              <Typography variant="h4" gutterBottom style={{ color: '#000000', fontWeight: 400 }}>
+                Census
+              </Typography>
+            </Breadcrumbs>
+            <Typography variant="h6" style={{ fontSize: '18px', fontWeight: '400', marginTop: '-8px'  }}>
+              It is showing list of trees with its details
+            </Typography>
+          </div>
         </Stack>
 
         <Card>
-        <TeamListToolbar numSelected={0} placeHolder={"Search Base Color..."} 
-        onFilterName={filterByName} 
-        handleCoucilChange={(e)=>handleCoucilChange(e)} 
-        handleWardChange={(e)=>handleWardChange(e)}
-        handleZoneChange={(e)=>handleZoneChange(e)}
-        coucilId={coucilId}
-        zoneId={zoneId}
-        wardId={wardId}
-        />
+          <TeamListToolbar
+            numSelected={0}
+            placeHolder={'Search Base Color...'}
+            onFilterName={filterByName}
+            handleCoucilChange={(e) => handleCoucilChange(e)}
+            handleWardChange={(e) => handleWardChange(e)}
+            handleZoneChange={(e) => handleZoneChange(e)}
+            coucilId={coucilId}
+            zoneId={zoneId}
+            wardId={wardId}
+          />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                />
-                         {!coucilId?(
-                <TableRow>
-                  <TableCell align='center' colSpan={8} fontWeight={700}>
-                  Please select council to get census data
-                </TableCell>
-                </TableRow>
-                ):null
-}
+              <Table  size="small" aria-label="a dense table">
+                <UserListHead headLabel={TABLE_HEAD} />
+                {!coucilId ? (
+                  <TableRow>
+                    <TableCell align="center" colSpan={8} fontWeight={700}>
+                      Please select council to get census data
+                    </TableCell>
+                  </TableRow>
+                ) : null}
                 <TableBody>
-                     { showList? treeCensus?.map((option,index) => {
+                  {showList
+                    ? treeCensus?.map((option, index) => {
                         return (
-                        <TableRow
-                        hover
-                      >
-                            <TableCell align="left">{((page-1)*(rowsPerPage))+(index+1)}</TableCell>
-                            <TableCell align="left">{option.tree_number? option.tree_number: "-" }</TableCell>
-                        <TableCell align="left">{option.tree_name?.name}</TableCell>
-                        <TableCell align="left">{option.added_by?.first_name} {option.added_by?.last_name} </TableCell>
-                        <TableCell align="left">{option.added_on_date}</TableCell>
-                        <TableCell align="left">{option.location_accuracy}</TableCell>
-                        <TableCell align="left">{option.referred_to_expert === 1 ? "Yes" : "No"}</TableCell>
-                        {/* <TableCell align="left"> */}
-                          {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
-                          {/* <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
+                          <TableRow hover>
+                            <TableCell align="left">
+                              <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                            </TableCell>
+                            <TableCell align="left" ><b>{option.tree_number ? option.tree_number : '-'}</b></TableCell>
+                            <TableCell align="left">{option.tree_name?.name}</TableCell>
+                            <TableCell align="left">
+                              {option.added_by?.first_name} {option.added_by?.last_name}{' '}
+                            </TableCell>
+                            <TableCell align="left">{option.added_on_date}</TableCell>
+                            <TableCell align="left">{option.age}</TableCell>
+                            <TableCell align="left">{option.location_accuracy}</TableCell>
+                            <TableCell align="left">
+                            {option.qc_status === 'Pending'?<StatusPendngButton qcStatus={option.qc_status}/>: ''}
+                              {option.qc_status === 'Approved'?<StatusApprovedButton qcStatus={option.qc_status}/>: ''}
+                              {option.qc_status === 'Unapproved'?<StatusUnapprovedButton qcStatus={option.qc_status}/>: ''}
+                          </TableCell>
+                            <TableCell align="left">{option.referred_to_expert === 1 ? <b style={{color: 'green'}}>Yes</b> : <b style={{color: '#E8762F'}}>No</b>}</TableCell>
+                            {/* <TableCell align="left"> */}
+                            {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
+                            {/* <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
                             <Visibility />
                           </IconButton>
                           </TableCell> */}
-                          {/* <TableCell align="left">{option.qc_status}</TableCell>
+                            {/* <TableCell align="left">{option.qc_status}</TableCell>
                         <TableCell align="left">{option.qc_by?.first_name ?option.qc_by?.first_name : "-" }</TableCell>
                         <TableCell align="left">{option.qc_date? option.qc_date: "-" }</TableCell> */}
-                        <TableCell align="right">
-                          <TreeCensusMenu permissions={userPermissions} treeCensusId={option.id} TreeCensusName={option.property?.owner_name} qcStatus={option.qc_status} handleEdit={()=>handleEdit(option)} handleApprove={()=>handleQcSubmit(null,option.id)} handleQcDialog={()=>handleQcDialog(option.id)} handleCensusViewDialog={() =>handleCensusViewDetailsDialog(option)} handleDelete={()=>handleDelete(option)} />
-                        </TableCell>
-                        </TableRow>
-                        )
-                  }):null
-                }
-
+                            <TableCell align="right">
+                              <TreeCensusMenu
+                                permissions={userPermissions}
+                                treeCensusId={option.id}
+                                TreeCensusName={option.property?.owner_name}
+                                qcStatus={option.qc_status}
+                                councilId={coucilId}
+                                zoneId={zoneId}
+                                wardId={wardId}
+                                pageNumber={page}
+                                handleEdit={() => handleEdit(option)}
+                                handleApprove={() => handleQcSubmit(null, option.id)}
+                                handleQcDialog={() => handleQcDialog(option.id)}
+                                handleCensusViewDialog={() => handleCensusViewDetailsDialog(option)}
+                                handleDelete={() => handleDelete(option)}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    : null}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -385,12 +428,15 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   onChange={handleChangePage}
   sx={{justifyContent:"right",
   display:'flex', mt:3, mb:3}} /> : null} */}
-  {treeCensus ?
-          <Pagination count={showList? pageInfo.last_page : 0} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} />
-  :null}
+          {treeCensus ? (
+            <Pagination
+              count={showList ? pageInfo.last_page : 0}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
         </Card>
       </Container>
     </Page>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -24,7 +25,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
-
+import { makeStyles } from '@material-ui/core/styles';
 import { AddTreeName, EditTreeName } from '../../actions/TreeNameAction';
 import { GetActiveTreeType } from '../../actions/TreeTypeActions';
 import {GetActiveTreeFamily} from "../../actions/TreeFamilyAction"
@@ -81,6 +82,7 @@ export default function NameOfTreeDialog(props) {
   const [maxAgeError, setMaxAgeError] = React.useState('');
   const [minGrthError, setMinGrthError] = React.useState('');
   const [maxGrthError, setMaxGrthError] = React.useState('');
+  const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const submitErrors = [];
   let age;
   let height;
@@ -103,19 +105,20 @@ setVal(item)
   }
   
   const { isOpen, data } = props;
-  console.log("dataaa", data);
+  // console.log("dataaa", data);
 
   const {
     addTreeNameLog,
     editTreeNameLog,
     treeType,
     treeFamily,
-
+    showLoadingButton
   } = useSelector((state) => ({
     addTreeNameLog:state.treeName.addTreeNameLog,
     editTreeNameLog:state.treeName.editTreeNameLog,
     treeType:state.treeType.activeTreeType,
     treeFamily:state.treeFamily.activeTreeFamily,
+    showLoadingButton: state.common.showLoadingButton,
   }));
 
   const treeFamilyValue = [
@@ -238,6 +241,10 @@ const growthFactorValue = [
     },
   ]
 
+  React.useEffect(() => {
+    setButtonDisabled(false)
+  }, [showLoadingButton ]);
+
   useEffect(()=>{
     dispatch(GetActiveTreeType(1));
     dispatch(GetActiveTreeFamily(1));
@@ -260,38 +267,38 @@ const growthFactorValue = [
     props.handleClose();
   },[addTreeNameLog,editTreeNameLog])
 
-if(data){
-  if(data?.max_age){
-    const maxAgeData= data.max_age.split('-')
-    minAg= maxAgeData[0];
-    maxAg = maxAgeData[1];
-    console.log("max age", minAg, maxAg)
-  }
-  if(data?.max_height){
-    const maxHtData= data.max_height.split('-')
-    minHt= maxHtData[0];
-    maxHt = maxHtData[1];
-    console.log("max ht", minHt, maxHt)
-  }
-  if(data?.growth_factor){
-    const maxGrowData = data.growth_factor.split('-')
-    minGro= maxGrowData[0];
-    maxGro = maxGrowData[1];
-    console.log("max growth", minGro, maxGro)
-  }
-  if(data?.flowering_season){
-    const flwData= data.flowering_season.split('-')
-    flwSt= flwData[0];
-    flwEnd = flwData[1];
-    console.log("flowering", flwSt, flwEnd)
-  }
-  if(data?.fruiting_season){
-    const frtData= data.fruiting_season.split('-')
-    frtSt= frtData[0];
-    frtEnd = frtData[1];
-    console.log("fruiting", frtSt, frtEnd)
-  }
-}
+// if(data){
+//   if(data?.max_age){
+//     const maxAgeData= data.max_age.split('-')
+//     minAg= maxAgeData[0];
+//     maxAg = maxAgeData[1];
+//     // console.log("max age", minAg, maxAg)
+//   }
+//   if(data?.max_height){
+//     const maxHtData= data.max_height.split('-')
+//     minHt= maxHtData[0];
+//     maxHt = maxHtData[1];
+//     // console.log("max ht", minHt, maxHt)
+//   }
+//   if(data?.growth_factor){
+//     const maxGrowData = data.growth_factor.split('-')
+//     minGro= maxGrowData[0];
+//     maxGro = maxGrowData[1];
+//     // console.log("max growth", minGro, maxGro)
+//   }
+//   if(data?.flowering_season){
+//     const flwData= data.flowering_season.split('-')
+//     flwSt= flwData[0];
+//     flwEnd = flwData[1];
+//     // console.log("flowering", flwSt, flwEnd)
+//   }
+//   if(data?.fruiting_season){
+//     const frtData= data.fruiting_season.split('-')
+//     frtSt= frtData[0];
+//     frtEnd = frtData[1];
+    // console.log("fruiting", frtSt, frtEnd)
+//   }
+// }
 
 const handleStatusChange = (event) => {
 SetTypeOfTree(event.target.value);
@@ -332,7 +339,7 @@ const handleFamilyChange = (event) => {
   }
 
   const handleSeasonEndChange = (event) => {
-    console.log("iiii");
+    // console.log("iiii");
     setFloweringEnd(event.target.value)
   }
 
@@ -394,7 +401,10 @@ const handleFamilyChange = (event) => {
     treeType: Yup.string().required('Tree Type is required'),
     treeFamily: Yup.string().required('Tree Family is required'),
     origin: Yup.string().required('Origin is required'),
-    // minHeight:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
+    growthRatio: Yup.string().matches(/^[1-9]\d*(\.\d+)?$/, "Only decimal value are allowed ").required('Growth ratio is required'),
+   floweringSeason: Yup.string().matches(/^[a-zA-Z- _!@#$%^&*()_=+';:"/?>.<,-]*$/, "Alphabets are  allowed for this field ").max(45,"Maximum length 45 character only").required('Flowering Season is required'),
+    fruitingSeason: Yup.string().matches(/^[a-zA-Z- _!@#$%^&*()_=+';:"/?>.<,-]*$/, "Alphabets are allowed for this field").max(45,"Maximum length 45 character only").required('Fruiting Season is required'),
+    height:Yup.string().matches(/^[0-9-!@#$%*?]/, "Only Digits Are Allowed"),
     // maxHeightx:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
     // minAge:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
     // maxAge:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
@@ -413,23 +423,29 @@ const handleFamilyChange = (event) => {
       uses:data? data.uses: "",
       origin: data? data.origin: "",
       oxygenEmittrate: data? data.oxygen_emit_rate: "",
-     // floweringSeason: data? data.flowering_season: "",
+     floweringSeason: data? data.flowering_season: "",
+     fruitingSeason: data? data.fruiting_season: "",
+     growthFactor: data? data.growth_factor: "",
+     height: data ? data.max_height: "",
+     age: data? data.max_age: "",
       minHeight: data? minHt: "",
       maxHeightx: data? maxHt: "",
       minAge:data? minAg: "",
       maxAge: data? maxAg: "",
       minGrowth: data? minGro: "",
       maxGrowth: data? maxGro: "",
-      floweringStart:data? flwSt.trim(): "",
-      floweringEnd: data? flwEnd.trim(): "",
-      fruitingStart: data? frtSt.trim(): "",
-      fruitingEnd: data? frtEnd.trim(): "",
+      growthRatio: data? data.growth_ratio : "",
+      floweringStart:data? flwSt?.trim(): "",
+      floweringEnd: data? flwEnd?.trim(): "",
+      fruitingStart: data? frtSt?.trim(): "",
+      fruitingEnd: data? frtEnd?.trim(): "",
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      console.log("Submit",value )
-       if (value.minHeight || value.maxHeightx){ height = `${value.minHeight} - ${value.maxHeightx}`}
-       console.log("maxHeight", maxHeight)
+      // console.log("Submit",value )
+      setButtonDisabled(true);
+      //  if (value.minHeight || value.maxHeightx){ height = `${value.minHeight} - ${value.maxHeightx}`}
+      //  console.log("maxHeight", maxHeight)
       //  let maxValue;
       //  if(data.max_height){
       //  const maxData= data.max_height.split('-')
@@ -437,11 +453,11 @@ const handleFamilyChange = (event) => {
       //  console.log("maxValue", maxValue)
       //  }
      
-       if(value.minAge || value.maxAge){ age = `${value.minAge} - ${value.maxAge} `}
-       if(value.minGrowth || value.maxGrowth) {growthF= `${value.minGrowth} - ${value.maxGrowth}`}
-       if(value.floweringStart || value.floweringEnd) flowerSeason= `${value.floweringStart } - ${value.floweringEnd}`
-       if(value.fruitingStart || value.fruitingEnd) fruitsSeason= `${value.fruitingStart} - ${value.fruitingEnd}`
-       console.log("maxHeight", maxHeight)
+      //  if(value.minAge || value.maxAge){ age = `${value.minAge} - ${value.maxAge} `}
+      //  if(value.minGrowth || value.maxGrowth) {growthF= `${value.minGrowth} - ${value.maxGrowth}`}
+      //  if(value.floweringStart || value.floweringEnd) flowerSeason= `${value.floweringStart } - ${value.floweringEnd}`
+      //  if(value.fruitingStart || value.fruitingEnd) fruitsSeason= `${value.fruitingStart} - ${value.fruitingEnd}`
+      //  console.log("maxHeight", maxHeight)
       //  console.log("maxData", maxData)
       if(data){
         dispatch(EditTreeName({
@@ -453,11 +469,12 @@ const handleFamilyChange = (event) => {
           "origin": value.origin,
           "oxygen_emit_rate": value.oxygenEmittrate,
           // "flowering_season": value.floweringSeason,
-          "flowering_season": flowerSeason,
-          "fruiting_season": fruitsSeason,
-          "max_height" : height,
-          "max_age": age,
-          "growth_factor": growthF,
+          "flowering_season": value.floweringSeason,
+          "fruiting_season": value.fruitingSeason,
+          "max_height" : value.height,
+          "max_age": value.age,
+          "growth_factor": value.growthFactor,
+          "growth_ratio": value.growthRatio,
 
         },data.id))
       }
@@ -470,21 +487,27 @@ const handleFamilyChange = (event) => {
           "uses":value.uses,
           "origin": value.origin,
           "oxygen_emit_rate": value.oxygenEmittrate,
-          "flowering_season": flowerSeason,
-          "fruiting_season": fruitsSeason,
-          "max_height" :height,
-          "max_age": age,
-          "growth_factor": growthF
+          "flowering_season": value.floweringSeason,
+          "fruiting_season": value.fruitingSeason,
+          "max_height" :value.height,
+          "growth_ratio": value.growthRatio,
+          "max_age": value.age,
+          "growth_factor": value.growthFactor,
         }))
       }
     },
  
   });
 
- console.log("////", formik.errors);
-
+//  console.log("////", floweringStart)
+const useStyles = makeStyles({
+  icon: {
+    fill: '#214c50',
+},
+});
+const classes = useStyles();
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-  console.log("valuessss", values)
+  // console.log("valuessss", values)
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -541,6 +564,11 @@ const handleFamilyChange = (event) => {
               style={{width:'83%', marginLeft: 40}}
               // placeholder='*Status'
               onChange={handleStatusChange}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               error={Boolean(touched.treeType && errors.treeType)}
                 helperText={touched.treeType && errors.treeType}
                 {...getFieldProps("treeType")}
@@ -570,6 +598,11 @@ const handleFamilyChange = (event) => {
               style={{width:'83%', marginLeft: 40}}
               placeholder='Tree family'
               onChange={handleFamilyChange}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               error={Boolean(touched.treeFamily && errors.treeFamily)}
                 helperText={touched.treeFamily && errors.treeFamily}
                 {...getFieldProps("treeFamily")}
@@ -614,6 +647,11 @@ const handleFamilyChange = (event) => {
               style={{width:'83%', marginLeft: 40}}
               // placeholder='Select Origin'
               onChange={handleOriginChange}
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               error={Boolean(touched.origin && errors.origin)}
                 helperText={touched.origin && errors.origin}
                 {...getFieldProps("origin")}
@@ -641,204 +679,92 @@ const handleFamilyChange = (event) => {
                 {...getFieldProps("oxygenEmittrate")}
               />
             </Grid>
-            <FormLabel style={{marginLeft: 48, marginTop: 20}}>Flowering Season</FormLabel>
-            <Grid container style={{display:"flex"}}>
-            {/* <FormControl> */}
-   
-      {/* </FormControl> */}
-              <Grid item xs={4}>
-     
-              <Select
-          labelId="floweringStart"
-          id="floweringStart"
-          name='floweringStart'
-          value={values.floweringStart}
-          displayEmpty
-          // label="Age"
-          // placeholder="Flowering Season Start"
-          // onChange={handleChange}
-          onChange={(e) => {
-            handleChange(e)
-            formik.handleChange(e);
-          }}
-          style={{ marginLeft: 48, width: 120}}
-         //  {...getFieldProps("floweringStart")}
-        >
-            {/* <MenuItem disabled value="">
-            <em>Flowering Season </em>
-          </MenuItem> */}
-          {Months?.map((option) =>(
-             <MenuItem value={option.value} >{option.label}</MenuItem>
-          ))}
-        </Select>
-     
-      </Grid>
-      <Grid item xs={1}  spacing={2} style={{justifyContent: "center",alignItems:"center" ,marginTop: 20, marginX: "auto"}}>
-      —
-      </Grid>
-       
-              <Grid item xs={4}> 
-                <Select
-          labelId="floweringEnd"
-          id="floweringEnd"
-          name='floweringEnd'
-          value={values.floweringEnd}
-          displayEmpty
-          // label="Age"
-          placeholder="Flowering Season End"
-          onChange={handleSeasonEndChange}
-          style={{ width: 120}}
-          {...getFieldProps("floweringEnd")}
-        >
-            {/* <MenuItem disabled value="">
-            <em>flowring Season</em>
-          </MenuItem> */}
-          {Months?.map((option) =>(
-             <MenuItem value={option.value} >{option.label}</MenuItem>
-          ))}
-        </Select>
-        </Grid>
-        </Grid>
-            <FormLabel style={{marginLeft: 48, marginTop: 20}}>Fruiting Season</FormLabel>
-            <Grid container style={{display:"flex"}}>
-            {/* <FormControl> */}
-   
-      {/* </FormControl> */}
-              <Grid item xs={4}>
-     
-              <Select
-          labelId="fruitingStart"
-          id="fruitingStart"
-          value={values.fruitingStart}
-          displayEmpty
-          // label="Age"
-          placeholder="fruiting Season"
-          onChange={handleFruitSeasonChange}
-          {...getFieldProps("fruitingStart")}
-          style={{ marginLeft: 48, width: 120}}
-        >
-            {/* <MenuItem disabled value="">
-            <em>fruiting Season</em>
-          </MenuItem> */}
-          {Months?.map((option) =>(
-             <MenuItem value={option.value} >{option.label}</MenuItem>
-          ))}
-        </Select>
-     
-      </Grid>
-      <Grid item xs={1}  spacing={2} style={{justifyContent: "center",alignItems:"center" ,marginTop: 20, marginX: "auto"}}>
-      —
-      </Grid>
-       
-              <Grid item xs={4}> 
-                <Select
-          labelId="fruitingEnd"
-          id="fruitingEnd"
-          name="fruitingEnd"
-          value={values.fruitingEnd}
-          displayEmpty
-          // label="Age"
-          placeholder="fruiting Season"
-          onChange={handleFruitSeasonEnd}
-          {...getFieldProps("fruitingEnd")}
-          style={{  width: 120}}
-        >
-            {/* <MenuItem disabled value="">
-            <em>fruiting Season</em>
-          </MenuItem> */}
-          {Months?.map((option) =>(
-             <MenuItem value={option.value} >{option.label}</MenuItem>
-          ))}
-        </Select>
-        </Grid>
-        </Grid>
-        <FormLabel style={{marginLeft: 48, marginTop: 20}}>Growth Factor (ft/yr)</FormLabel>
-            <Grid container style={{display:"flex"}}>
-            {/* <FormControl> */}
-   
-      {/* </FormControl> */}
-              <Grid item xs={4}>
-              <TextField
-          id="minGrowth"
-          style={{  width: 120, marginLeft: 48}}
-          autoComplete="current-password"
-          {...getFieldProps("minGrowth")}
-          
-        />
-          </Grid>
-      <Grid item xs={1}  spacing={2} style={{justifyContent: "center",alignItems:"center" ,marginTop: 20, marginX: "auto"}}>
-      —
-      </Grid>
-          <Grid item xs={4}>
-          <TextField
-          id="maxGrowth"
-          style={{  width: 120}}
-          {...getFieldProps("maxGrowth")}
-        />
-          </Grid>
-          </Grid>
-          <FormLabel style={{marginLeft: 48, marginTop: 20}}>Maximum Height (M)</FormLabel>
-            <Grid container style={{display:"flex"}}>
-            {/* <FormControl> */}
-   
-      {/* </FormControl> */}
-              <Grid item xs={4}>
-              <TextField
-              type="number"
-          id="minHeight"
-          value={minHeight}
-          onChange={handleMinHeightChange}
-          // label="Password"
-          style={{  width: 120, marginLeft: 48}}
-          {...getFieldProps("minHeight")}
-        />
-          </Grid>
-      <Grid item xs={1}  spacing={2} style={{justifyContent: "center",alignItems:"center" ,marginTop: 20, marginX: "auto"}}>
-      —
-      </Grid>
-          <Grid item xs={4}>
-          <TextField
-          id="maxHeightx"
-          value={maxHeight}
-          onChange={handleMaxHeightChange}
-          // label="Password"
-
-          style={{  width: 120}}
-          {...getFieldProps("maxHeightx")}
-        />
-          </Grid>
-          </Grid>
-          <FormLabel style={{marginLeft: 48, marginTop: 20}}>Maximum age (Year)</FormLabel>
-            <Grid container style={{display:"flex"}}>
-            {/* <FormControl> */}
-   
-      {/* </FormControl> */}
-              <Grid item xs={4}>
-              <TextField
-          id="minAge"
-          // label="Password"
-          style={{  width: 120, marginLeft: 48}}
-          {...getFieldProps("minAge")}
-        />
-          </Grid>
-      <Grid item xs={1}  spacing={2} style={{justifyContent: "center",alignItems:"center" ,marginTop: 20, marginX: "auto"}}>
-      —
-      </Grid>
-          <Grid item xs={4}>
-          <TextField
-          id="maxAge"
-          style={{  width: 120}}
-          {...getFieldProps("maxAge")}
-        />
-          </Grid>
-          </Grid>
+            <Grid item xs={12}>
+        <FormLabel style={{marginLeft: 45, marginTop: 20}}>Flowering Season</FormLabel>
+              <DefaultInput
+                fullWidth
+                required
+                id="floweringSeason"
+                // placeholder="Enter Tree Name*"
+                // label="Tree Name*"
+                error={Boolean(touched.floweringSeason && errors.floweringSeason)}
+                helperText={touched.floweringSeason && errors.floweringSeason}
+                {...getFieldProps("floweringSeason")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+        <FormLabel style={{marginLeft: 45, marginTop: 20}}>Fruiting Season</FormLabel>
+              <DefaultInput
+                fullWidth
+                required
+                id="floweringSeason"
+                // placeholder="Enter Tree Name*"
+                // label="Tree Name*"
+                error={Boolean(touched.fruitingSeason && errors.fruitingSeason)}
+                helperText={touched.fruitingSeason && errors.fruitingSeason}
+                {...getFieldProps("fruitingSeason")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+        <FormLabel style={{marginLeft: 45, marginTop: 20}}>Growth Factor(ft/yr)</FormLabel>
+              <DefaultInput
+                fullWidth
+                required
+                id="GrowthFactor"
+                // placeholder="Enter Tree Name*"
+                // label="Tree Name*"
+                error={Boolean(touched.growthFactor && errors.growthFactor)}
+                helperText={touched.growthFactor && errors.growthFactor}
+                {...getFieldProps("growthFactor")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+        <FormLabel style={{marginLeft: 45, marginTop: 20}}>Growth Ratio(To Calculate Age)*</FormLabel>
+              <DefaultInput
+                fullWidth
+                required
+                id="GrowthFactor"
+                // placeholder="Enter Tree Name*"
+                // label="Tree Name*"
+                error={Boolean(touched.growthRatio && errors.growthRatio)}
+                helperText={touched.growthRatio && errors.growthRatio}
+                {...getFieldProps("growthRatio")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+        <FormLabel style={{marginLeft: 45, marginTop: 20}}>Maximum Height(M)</FormLabel>
+              <DefaultInput
+                fullWidth
+                required
+                id="GrowthFactor"
+                // placeholder="Enter Tree Name*"
+                // label="Tree Name*"
+                error={Boolean(touched.height && errors.height)}
+                helperText={touched.height && errors.height}
+                {...getFieldProps("height")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+        <FormLabel style={{marginLeft: 45, marginTop: 20}}>Maximum Age(Year)</FormLabel>
+              <DefaultInput
+                fullWidth
+                required
+                id="GrowthFactor"
+                // placeholder="Enter Tree Name*"
+                // label="Tree Name*"
+                error={Boolean(touched.age && errors.age)}
+                helperText={touched.age && errors.age}
+                {...getFieldProps("age")}
+              />
+            </Grid>
           </Grid>
 
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={() => { handleSubmit(); handleSubmitErrors();}}
-          >{data?"Save":"Add"}</Button>
+          <LoadingButton loading={buttonDisabled} variant='contained' loadingPosition="end" onClick={() => { handleSubmit(); handleSubmitErrors();}}
+          >{data?"Save":"Add"}
+          </LoadingButton>
         </DialogActions>
       </Dialog>
       </div>

@@ -21,9 +21,12 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 import AssignUserConfirmationDialog from './AssignUserConfirmationDialog';
 import { GetUsers, GetActiveUsers, GetUsersByRoleID } from '../../../actions/UserAction';
 import { AddUserToTeam } from '../../../actions/TeamsAction';
+import { GetActiveRole } from '../../../actions/RoleAction';
+
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -63,24 +66,22 @@ export default function AssignUserDialog(props) {
   const [maxWidth, setMaxWidth] = React.useState('sm');
   const[state, setState]=  React.useState('');
   const [role, setRole] = React.useState([]);
-  const [roleID, setRoleID] = React.useState('');
+  const [roleID, setRoleID] = React.useState(null);
   const [topModalOpen, setTopModalOpen] = React.useState(false);
   const [reqObj, setReqObj] = React.useState(null)
   const [id, setId] = React.useState(null)
 
 
   const {
-    users,
     activeUsers,
     assignUserToTeamLog,
     roles,
     userByRoleID
   } = useSelector((state) => ({
-    users: state.users,
     activeUsers:state.users.activeUsers,
-    userByRoleID: state.users.userByRoleID,
     assignUserToTeamLog:state.teams.assignUserToTeamLog,
     roles:state.roles.roles,
+    userByRoleID: state.users.userByRoleID,
   }));
   // userById:state.users.userById,
   // if(users){
@@ -96,7 +97,7 @@ export default function AssignUserDialog(props) {
 // console.log("/////...", roles)
   React.useEffect(()=>{
     // dispatch(GetUsers(1,1000));
-    dispatch(GetActiveUsers(1));
+    dispatch(GetActiveRole(1));
   },[])
 
   const firstRun = React.useRef(true);
@@ -196,7 +197,14 @@ export default function AssignUserDialog(props) {
     }
     
   }
-
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -233,6 +241,11 @@ export default function AssignUserDialog(props) {
                 formik.handleChange(e);
               }}
               placeholder='Select Role*'
+              inputProps={{
+                classes: {
+                    icon: classes.icon,
+                },
+            }}
               // defaultValue={data? data.role: ""}
               // renderValue={(selected) => {
               //   if (selected?.length === 0) {
@@ -283,6 +296,11 @@ export default function AssignUserDialog(props) {
                 value={role}
                 style={{ width: '83%', marginLeft: 40, marginTop:5 }}
                 defaultValue={data ? data.role : ''}
+                inputProps={{
+                  classes: {
+                      icon: classes.icon,
+                  },
+              }}
                 // renderValue={(selected) => {
                 //   console.log("SELECTED",selected);
                 //   if (selected.length === 0) {
@@ -313,7 +331,7 @@ export default function AssignUserDialog(props) {
            <MenuItem disabled value="">
             <em>User*</em>
           </MenuItem>
-          {userByRoleID?.map((option) => (
+          {roleID && userByRoleID?.map((option) => (
             <MenuItem
               key={option.id}
               value={option.id}
@@ -328,7 +346,7 @@ export default function AssignUserDialog(props) {
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit} style={{background: '#214c50', color: '#fff'}}>Add</Button>
         </DialogActions>
       </Dialog>
       </div>
