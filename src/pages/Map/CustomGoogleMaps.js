@@ -116,7 +116,7 @@ function Map(props) {
     }
     setImageList(imageList);
   }
-
+// console.log("console")
   return (
     <GoogleMap
       // onLoad={handleOnLoad}
@@ -193,18 +193,6 @@ function Map(props) {
                   <TableRow>
                     <TableCell align="left" style={{paddingLeft:'0px',paddingBottom:'0px'}}>Area(Sq feet)</TableCell>
                     <TableCell align="left" style={{paddingBottom:'0px'}}>{treeDetails.property?.area ?  treeDetails.property?.area: "-"}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Owner Name</TableCell>
-                    <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails.property?.owner_name}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Tenant Name</TableCell>
-                    <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails.property?.tenant_name}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Property Type</TableCell>
-                    <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails.property_type?.property_type}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Plantation Date</TableCell>

@@ -37,12 +37,17 @@ export default function DashboardApp() {
       <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
-            Welcome {loggedUser?.name},
+            Welcome  to {loggedUser?.name},
             <Typography variant="h6" style={{ fontWeight: 400 }}>
               {loggedUser?.designation}
             </Typography>
           </Typography>
         </Stack>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br /> 
         <br />
         <br />
 
