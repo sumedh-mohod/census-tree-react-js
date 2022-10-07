@@ -195,6 +195,18 @@ function Map(props) {
                     <TableCell align="left" style={{paddingBottom:'0px'}}>{treeDetails.property?.area ?  treeDetails.property?.area: "-"}</TableCell>
                   </TableRow>
                   <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Owner Name</TableCell>
+                    <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails.property?.owner_name}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Tenant Name</TableCell>
+                    <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails.property?.tenant_name}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Property Type</TableCell>
+                    <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails.property_type?.property_type}</TableCell>
+                  </TableRow>
+                  <TableRow>
                     <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Plantation Date</TableCell>
                     <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails.plantation_date}</TableCell>
                   </TableRow>
@@ -207,11 +219,11 @@ function Map(props) {
                     <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails?.tree_condition?.condition}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Girth(cm)</TableCell>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Girth</TableCell>
                     <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails?.girth}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Height(m)</TableCell>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Height</TableCell>
                     <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails?.height}</TableCell>
                   </TableRow>
                   <TableRow>
