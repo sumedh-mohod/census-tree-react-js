@@ -21,20 +21,25 @@ const LightCard = (props) => {
     },
     cardCount: {
       padding: '5px 5px 5px 5px',
-      borderBottom: '1px solid #EEEEEE'
+      // borderBottom: '1px solid #EEEEEE'
     },
+    border: {
+      borderBottom: '1px solid #EEEEEE',
+      width: '60%'
+    }
   });
   const classes = useStyles();
   return (
     <Grid container spacing={1}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={12}>
-          <Card>
+          <Card style={{ height: '160px'}}>
             <div className={classes.wrapper}>
               <div>
                 <h2 className={classes.cardCount}>
                   {count}
                 </h2>
+                <div className={classes.border} />
                 <Typography className={classes.cardleftSection}>
                   {title}
                   <Typography variant="h6" sx={{  fontWeight: 500 }}>
@@ -43,7 +48,7 @@ const LightCard = (props) => {
                 </Typography>
               </div>
               <div>
-                <img src={ProjectImg} alt="project" style={{marginTop: '10px'}}/>
+                <img src={ProjectImg} alt="project" height= '100' width='100' style={{marginTop: '10px'}}/>
               </div>
             </div>
           </Card>

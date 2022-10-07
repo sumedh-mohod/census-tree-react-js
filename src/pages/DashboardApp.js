@@ -19,11 +19,12 @@ import {
 } from '../sections/@dashboard/app';
 import AssociateZeroTree from './Dashboardsection/AssociateZeroTree';
 import YesterdayLoggedIn from './Dashboardsection/YesterdayLoggedIn';
-import Quotes from '../Assets/quotes.png';
-import TreeBottom from '../Assets/trees_bottom.png';
 import LightCard from './Dashboardsection/LightCard';
 import DarkCard from './Dashboardsection/DarkCard';
 import CommanCard from './Dashboardsection/CommanCard';
+import DashboardFooter from './Dashboardsection/DashboardFooter';
+import AssociateCard from './Dashboardsection/AssociateCard';
+import UsersCard from './Dashboardsection/UsersCard';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -36,36 +37,53 @@ export default function DashboardApp() {
   const ongoingProject = {
     count: 136,
     title: 'Ongoing Projects',
-    subtitle: 'It is showing count of all ongoing projects'
-  }
+    subtitle: 'It is showing count of all ongoing projects',
+  };
   const completedProject = {
     count: 70,
     title: 'Completed Projects',
-    subtitle: 'It is showing count of all ongoing projects'
-  }
+    subtitle: 'It is showing count of all ongoing projects',
+  };
 
   const commanCardValue = [
-   {
-    count: 12897,
-    title: 'Trees',
-    subtitle: 'It is showing all trees counts and its Details in selected council.'
-   },
-   {
-    count: 9670,
-    title: 'Denied Property',
-    subtitle: 'It is showing all denied property counts and details of its in selected council.'
-   },
-   {
-    count: 2390,
-    title: 'No Tree Properties',
-    subtitle: 'It is showing all No Tree Properties counts and details of it in selected council'
-   },
     {
-    count: 2390,
-    title: 'No Tree Properties',
-    subtitle: 'It is showing all No Tree Properties counts and details of it in selected council'
-   }
-  ]
+      count: 12897,
+      title: 'Trees',
+      color: 'red',
+      subtitle: 'It is showing all trees counts and its Details in selected council.',
+    },
+    {
+      count: 9670,
+      title: 'Denied Property',
+      color: 'orange',
+      subtitle: 'It is showing all denied property counts and details of its in selected council.',
+    },
+    {
+      count: 2390,
+      title: 'No Tree Properties',
+      color: 'lightGreen',
+      subtitle: 'It is showing all No Tree Properties counts and details of it in selected council',
+    },
+    {
+      count: 5670,
+      title: 'Teams',
+      color: 'green',
+      subtitle: 'It is showing all teams counts and details of its inselected council.',
+    },
+    {
+      count: 23900,
+      title: 'Wards',
+      color: 'orange',
+      subtitle: 'It is showing all wards counts and details of it inselected council.',
+    },
+    {
+      count: 12897,
+      title: 'Zones',
+      color: 'green',
+      subtitle: 'It is showing all zones counts and details of it inselected council.',
+    },
+  ];
+
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }}>
@@ -79,8 +97,25 @@ export default function DashboardApp() {
         </Stack>
         <br />
         <br />
-
         {/* <Container>
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={6}>
+                <AssociateCard value={commanCardValue[0]} />
+              </Grid>
+              <Grid item xs={3}>
+                <UsersCard />
+              </Grid>
+              <Grid item xs={3}>
+                <UsersCard />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br />
+        <br />
+        <br />
+        <Container>
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={4}>
@@ -92,15 +127,28 @@ export default function DashboardApp() {
               <Grid item xs={4}>
                 <DarkCard />
               </Grid>
-             
             </Grid>
           </Grid>
           <br /> <br />
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-             
+              <Grid item xs={4} mb={2}>
+                <CommanCard value={commanCardValue[0]} />
+              </Grid>
               <Grid item xs={4}>
-                <CommanCard value={commanCardValue} />
+                <CommanCard value={commanCardValue[1]} />
+              </Grid>
+              <Grid item xs={4}>
+                <CommanCard value={commanCardValue[2]} />
+              </Grid>
+              <Grid item xs={4}>
+                <CommanCard value={commanCardValue[3]} />
+              </Grid>
+              <Grid item xs={4}>
+                <CommanCard value={commanCardValue[4]} />
+              </Grid>
+              <Grid item xs={4}>
+                <CommanCard value={commanCardValue[5]} />
               </Grid>
             </Grid>
           </Grid>
@@ -111,38 +159,7 @@ export default function DashboardApp() {
         <br />
         <br />
         <br />
-        <Container>
-          <Card style={{ padding: '20px', background: 'none', boxShadow: 'none' }}>
-            <Grid container spacing={3} style={{ marginBottom: '70px' }}>
-              <Grid item xs={12} sm={6} md={3} mt={2}>
-                <span style={{ fontSize: '50px', fontWeight: 600, color: '#819881', lineHeight: '0.5' }}>
-                  tree
-                  {'\n'}census
-                </span>
-                <br />
-                <Typography variant="h6" style={{ color: '#737373' }}>
-                  <b>Version 1.0</b>
-                </Typography>
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={9}>
-                <img src={Quotes} alt="img" height="30px" width="30px" />
-                <i>
-                  It is not so much for its beauty that the forest makes a claim upon men’s hearts, as for that subtle
-                  something,that quality of air that emanation from old trees,that so wonderfully changes and renews
-                  aweary spirit.
-                </i>
-              </Grid>
-            </Grid>
-            <img
-              src={TreeBottom}
-              alt="img"
-              height="70px"
-              width="200px"
-              style={{ position: 'absolute', bottom: '0', right: '0' }}
-            />
-          </Card>
-        </Container> */}
+        <DashboardFooter /> */}
       </Container>
     </Page>
   );

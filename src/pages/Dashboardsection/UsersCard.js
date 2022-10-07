@@ -7,11 +7,15 @@ import { AppWidgetSummary } from '../../sections/@dashboard/app';
 import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
-const CommanCard = (props) => {
-  console.log('props',props);
-  const {count, subtitle, title, color} = props.value;
+const UsersCard = () => {
+ 
 //   const { count, title, subtitle } = props.value;
   const useStyles = makeStyles({
+    common: {
+        padding: '5px 5px 5px 5px',
+        background: 'none',
+        border: '2px solid #d1cfcf'
+    },
     wrapper: {
       display: 'grid',
       gridTemplateColumns: 'repeat(2, auto)',
@@ -22,7 +26,7 @@ const CommanCard = (props) => {
       fontWeight: 600,
     },
     cardCount: {
-      padding: '5px 5px 5px 5px',
+      padding: '5px 5px 5px 15px',
       // borderBottom: '1px solid #EEEEEE',
     },
     cardCountComplete: {
@@ -30,22 +34,10 @@ const CommanCard = (props) => {
         color: '#214C50'
       },
       border: {
-        borderBottom: '1px solid #EEEEEE',
+        borderBottom: '2px solid #d1cfcf',
       },
-      redColor:{
-        color: '#E46D6D',
-      },
-      orangeColor:{
-        color: '#EB7D32',
-      },
-      lightgreenColor:{
-        color: '#8E9D39',
-      },
-      greenColor:{
-        color: '#6C986C',
-      },
-      blackColor: {
-        color: '#000',
+      borderRight: {
+        borderRight: '2px solid #d1cfcf'
       }
   });
   const classes = useStyles();
@@ -53,22 +45,38 @@ const CommanCard = (props) => {
     <Grid container spacing={1}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid item xs={12}>
-                <Card style={{ height: '160px'}}>
-                  <div className={classes.wrapper}>
-                    <div>
-                      <Typography variant="h4" className={[classes.cardCount, color === 'red'? classes.redColor: color === 'orange'? classes.orangeColor : color === 'green'? classes.greenColor : color === 'lightGreen'? classes.lightgreenColor: classes.blackColor]}>
-                        {count}
+                <Card style={{ height: '160px'}} className={classes.common}>
+                 
+                      <Typography variant="h4" className={classes.cardCount}>
+                      10897
+                      <Typography variant="h6" >
+                      Base Color User
+                      </Typography>
                       </Typography>
                       <ArrowCircleRightIcon style={{position: 'absolute', top: '15', right: '15',height: '30px',width:'30px',color: '#214c50'}}/>
                       <div className={classes.border} />
-                      <Typography className={classes.cardleftSection}>
-                      {title}
-                        <Typography variant="h6" sx={{ fontWeight: 400}} >
-                          {subtitle}
-                        </Typography>
+                      <div className={classes.wrapper}>
+                        <div className={classes.borderRight}>
+                        <Grid item xs={6} style={{padding: '10px'}}>
+                        10,200
+                        <Typography variant="h5" >
+                      count
                       </Typography>
-                    </div>
-                  </div>
+                      </Grid>
+                        </div>
+                        <div>
+                        <Grid item xs={6} style={{padding: '10px'}}>
+                        600
+
+                        <Typography variant="h5" >
+                      count
+                      </Typography>
+                      </Grid>
+                        </div>
+                      </div>
+                     
+                    
+                   
                 </Card>
               </Grid>
       </Grid>
@@ -76,4 +84,4 @@ const CommanCard = (props) => {
   );
 };
 
-export default CommanCard;
+export default UsersCard;

@@ -20,29 +20,34 @@ const DarkCard = () => {
     },
     cardCount: {
       padding: '5px 5px 5px 5px',
-      borderBottom: '1px solid #EEEEEE',
+      // borderBottom: '1px solid #58adb5',
       color: '#D4E489'
     },
+    border: {
+      borderBottom: '1px solid #58adb5',
+      width: '60%'
+    }
   });
   const classes = useStyles();
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} >
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={12}>
-          <Card style={{background: '#214C50'}}>
+          <Card style={{background: '#214C50', height: '160px'}} >
             <div className={classes.wrapper}>
               <div>
                 <h2 className={classes.cardCount}>
                   10,234
                 </h2>
+                <div className={classes.border} />
                 <Typography className={classes.cardleftSection}>
                  Total Associates
                   <Typography variant="h6" sx={{  fontWeight: 500 }} >
-                    It is showing count of all associates
+                    It is showing count of <br/>all associates
                   </Typography>
                 </Typography>
               </div>
-              <div >
+              <div style={{position: 'absolute', right: '0', bottom: '0'}}>
                 <img src={ProjectAssociate} alt="project" height='130px'/>
               </div>
             </div>
