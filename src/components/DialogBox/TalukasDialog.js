@@ -281,9 +281,9 @@ console.log('showDistrict', showDistrict);
             </TextField>
             </Grid>
            
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <DefaultInput
-                fullWidth
+                
                 id="name"
                 name='name'
                 label="Taluka Name*"
@@ -292,6 +292,7 @@ console.log('showDistrict', showDistrict);
                 error={Boolean(touched.talukas && errors.talukas)}
                 helperText={touched.talukas && errors.talukas}
                 {...getFieldProps("talukas")}
+                
               />
             </Grid>
           </Grid>

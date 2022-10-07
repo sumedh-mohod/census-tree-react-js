@@ -64,8 +64,8 @@ const AssociateCard = (props) => {
                   </Typography>
                 </Typography>
               </div>
-              <div style={{ position: 'absolute', right: '0', bottom: '0' }}>
-                <img src={Associates} alt="project" height="200px" />
+              <div >
+                <img src={Associates} alt="project" height="180px" style={{position: 'absolute', right: 20, bottom: 0}} />
               </div>
             </div>
           </Card>

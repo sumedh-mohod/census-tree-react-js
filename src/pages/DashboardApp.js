@@ -25,6 +25,7 @@ import CommanCard from './Dashboardsection/CommanCard';
 import DashboardFooter from './Dashboardsection/DashboardFooter';
 import AssociateCard from './Dashboardsection/AssociateCard';
 import UsersCard from './Dashboardsection/UsersCard';
+import WorktypeCard from './Dashboardsection/WorktypeCard';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -89,15 +90,22 @@ export default function DashboardApp() {
       <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
-            Welcome {loggedUser?.name},
+            Welcome  to {loggedUser?.name},
             <Typography variant="h6" style={{ fontWeight: 400 }}>
               {loggedUser?.designation}
             </Typography>
           </Typography>
         </Stack>
         <br />
-        <br />
-        {/* <Container>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+          Council name
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+            It is showing count statistics
+            </Typography>
+          </Typography>
+        </Stack>
+        <Container>
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={6}>
@@ -113,8 +121,42 @@ export default function DashboardApp() {
           </Grid>
         </Container>
         <br />
-        <br />
-        <br />
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+          <Typography variant="h4" gutterBottom>
+          Count of WorkType(CouncilName)
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+            It is showing work report by work type
+            </Typography>
+          </Typography>
+        </Stack>
+        <br/>
+        <Container >
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
+              <Grid item xs={4} mb={2}>
+              <WorktypeCard />
+              </Grid>
+              <Grid item xs={4} mb={2}>
+                <WorktypeCard />
+              </Grid>
+              <Grid item xs={4} mb={2}>
+                <WorktypeCard />
+              </Grid>
+              <Grid item xs={4}>
+              <WorktypeCard />
+              </Grid>
+              <Grid item xs={4}>
+                <WorktypeCard />
+              </Grid>
+              <Grid item xs={4}>
+                <WorktypeCard />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br/>
+        <br/>
+        <br/>
         <Container>
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -159,7 +201,7 @@ export default function DashboardApp() {
         <br />
         <br />
         <br />
-        <DashboardFooter /> */}
+        <DashboardFooter />
       </Container>
     </Page>
   );

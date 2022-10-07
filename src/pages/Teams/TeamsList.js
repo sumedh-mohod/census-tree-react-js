@@ -285,10 +285,10 @@ export default function TeamsList() {
       backgroundColor: '#d0fae2',
       borderRadius: '5px',
       padding: '2px 10px',
-      color: '#000',
+      color: '#18a553',
       border: '1.5px solid #18a553',
       fontFamily: 'Poppins',
-      width: '55px'
+      
     },
   });
   const classes = useStyles();
