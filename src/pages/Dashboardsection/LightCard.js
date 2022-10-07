@@ -6,7 +6,9 @@ import { AppWidgetSummary } from '../../sections/@dashboard/app';
 import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
-const LightCard = () => {
+const LightCard = (props) => {
+  // console.log('props',props);
+  const { count, title, subtitle } = props.projects;
   const useStyles = makeStyles({
     wrapper: {
       display: 'grid',
@@ -31,12 +33,12 @@ const LightCard = () => {
             <div className={classes.wrapper}>
               <div>
                 <h2 className={classes.cardCount}>
-                  136
+                  {count}
                 </h2>
                 <Typography className={classes.cardleftSection}>
-                  Ongoing Projects
-                  <Typography variant="h6" sx={{ opacity: 0.72 }}>
-                    It is showing count of all ongoing projects
+                  {title}
+                  <Typography variant="h6" sx={{  fontWeight: 500 }}>
+                    {subtitle}
                   </Typography>
                 </Typography>
               </div>

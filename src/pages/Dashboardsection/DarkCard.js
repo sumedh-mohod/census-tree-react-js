@@ -20,7 +20,8 @@ const DarkCard = () => {
     },
     cardCount: {
       padding: '5px 5px 5px 5px',
-      borderBottom: '1px solid #EEEEEE'
+      borderBottom: '1px solid #EEEEEE',
+      color: '#D4E489'
     },
   });
   const classes = useStyles();
@@ -35,9 +36,9 @@ const DarkCard = () => {
                   10,234
                 </h2>
                 <Typography className={classes.cardleftSection}>
-                  Ongoing Projects
-                  <Typography variant="h6" >
-                    It is showing count of all ongoing projects
+                 Total Associates
+                  <Typography variant="h6" sx={{  fontWeight: 500 }} >
+                    It is showing count of all associates
                   </Typography>
                 </Typography>
               </div>

@@ -2139,7 +2139,7 @@ export default function NewUserForm(props) {
                     />
                   </Grid>
 
-                  <Grid item xs={6}>
+                
                     {lastDayOfWork || values.lastDayOfWork ? (
                       <>
                         <Grid item xs={6}>
@@ -2150,6 +2150,7 @@ export default function NewUserForm(props) {
                             label="Is Notice Period Served?"
                             name="noticedPeriods"
                             value={noticePeriod}
+                            style={{marginTop: '7px'}}
                             displayEmpty
                             // style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                             defaultValue={data ? data.noticedPeriods : ''}
@@ -2176,7 +2177,6 @@ export default function NewUserForm(props) {
                         </Grid>
                       </>
                     ) : null}
-                  </Grid>
                 </>
               ) : null}
             </Grid>

@@ -23,6 +23,7 @@ import Quotes from '../Assets/quotes.png';
 import TreeBottom from '../Assets/trees_bottom.png';
 import LightCard from './Dashboardsection/LightCard';
 import DarkCard from './Dashboardsection/DarkCard';
+import CommanCard from './Dashboardsection/CommanCard';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -32,6 +33,39 @@ export default function DashboardApp() {
     showLoader: state.common.showLoader,
   }));
   console.log('showLoader', showLoader);
+  const ongoingProject = {
+    count: 136,
+    title: 'Ongoing Projects',
+    subtitle: 'It is showing count of all ongoing projects'
+  }
+  const completedProject = {
+    count: 70,
+    title: 'Completed Projects',
+    subtitle: 'It is showing count of all ongoing projects'
+  }
+
+  const commanCardValue = [
+   {
+    count: 12897,
+    title: 'Trees',
+    subtitle: 'It is showing all trees counts and its Details in selected council.'
+   },
+   {
+    count: 9670,
+    title: 'Denied Property',
+    subtitle: 'It is showing all denied property counts and details of its in selected council.'
+   },
+   {
+    count: 2390,
+    title: 'No Tree Properties',
+    subtitle: 'It is showing all No Tree Properties counts and details of it in selected council'
+   },
+    {
+    count: 2390,
+    title: 'No Tree Properties',
+    subtitle: 'It is showing all No Tree Properties counts and details of it in selected council'
+   }
+  ]
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }}>
@@ -50,13 +84,23 @@ export default function DashboardApp() {
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={4}>
-                <LightCard />
+                <LightCard projects={ongoingProject} />
               </Grid>
               <Grid item xs={4}>
-                <LightCard />
+                <LightCard projects={completedProject} />
               </Grid>
               <Grid item xs={4}>
                 <DarkCard />
+              </Grid>
+             
+            </Grid>
+          </Grid>
+          <br /> <br />
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+             
+              <Grid item xs={4}>
+                <CommanCard value={commanCardValue} />
               </Grid>
             </Grid>
           </Grid>

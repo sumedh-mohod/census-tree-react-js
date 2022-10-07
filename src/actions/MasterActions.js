@@ -306,10 +306,10 @@ const GetAllActiveTalukaByDistrictId = (params,status) => async (dispatch) => {
     };
 
     const AddTalukas = (params) => async (dispatch) => {
-      console.log('params',params);
+      // console.log('params',params);
       try {
         const response = await JWTServer.post("/api/talukas",params);
-        console.log('AddTalukasresponse', response);
+        // console.log('AddTalukasresponse', response);
         dispatch({
           type: ADD_TALUKAS,
           payload: response.data,
