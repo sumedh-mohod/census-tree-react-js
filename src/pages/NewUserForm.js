@@ -2147,7 +2147,7 @@ export default function NewUserForm(props) {
                   <Grid item xs={6}>
                     {lastDayOfWork || values.lastDayOfWork ? (
                       <>
-                        <Grid item xs={6}>
+                        {/* <Grid item xs={6}> */}
                           <TextField
                             fullWidth
                             select
@@ -2178,7 +2178,7 @@ export default function NewUserForm(props) {
                               </MenuItem>
                             ))}
                           </TextField>
-                        </Grid>
+                        {/* </Grid> */}
                       </>
                     ) : null}
                   </Grid>
@@ -2448,7 +2448,7 @@ export default function NewUserForm(props) {
             <Typography variant="h5" style={{ marginTop: 20, marginBottom: 20 }} gutterBottom>
               Upload Document
               <Typography variant="h6" style={{ fontWeight: '400' }}>
-                Please Provide upload document.
+              Please provide upload document.
               </Typography>
             </Typography>
 
