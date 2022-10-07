@@ -44,7 +44,7 @@ import {
         warning: {
             backgroundColor: '#F8EED4',
             borderRadius: '5px',
-            padding: '2px 5px',
+            padding: '3px',
             color: '#E46727',
             border: '1.5px solid #E46727',
             fontFamily: 'Poppins',
@@ -54,7 +54,7 @@ import {
           successDark: {
             backgroundColor: '#DDFAD1',
             borderRadius: '5px',
-            padding: '2px 5px',
+            padding: '3px',
             color: '#507C59',
             border: '1.5px solid #507C59',
             fontFamily: 'Poppins',
@@ -64,7 +64,7 @@ import {
           danger: {
             backgroundColor: '#F6DDDD',
             borderRadius: '5px',
-            padding: '2px 5px',
+            padding: '3px',
             color: '#C0374E',
             border: '1.5px solid #C0374E',
             fontFamily: 'Poppins',
@@ -87,7 +87,7 @@ import {
           <Card>
            
             <Scrollbar>
-              <TableContainer sx={{ minWidth: 800 }}>
+              <TableContainer sx={{ minWidth: 800 }} style={{padding: '10px 5px'}}>
                 <Table  size="small" aria-label="a dense table">
                   <UserListHead headLabel={TABLE_HEAD} />
                   <TableBody>
