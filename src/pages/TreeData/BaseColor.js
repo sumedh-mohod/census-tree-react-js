@@ -288,9 +288,7 @@ export default function BaseColor() {
     dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,e.target.value,wardId))
   }
 
-  console.log('council...', council)
-  console.log('coucilId', coucilId);
-  console.log('zones', zones);
+ 
   return (
     <Page title="User">
       <Container>
@@ -310,25 +308,7 @@ export default function BaseColor() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <div role="presentation" onClick={handleClick}>
             <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000', fontWeight: 900, fontSize: '20px'}} separator=":">
-              {/* <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          component={RouterLink} to="/login"
-          // href="#"
-        > 
-         <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-          Tree Data
-          </Typography>
-         </Link> 
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="/dashboard/base-color"
-        >
-        Base Color
-        </Link> */}
+              
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
                 Tree Data
               </Typography>

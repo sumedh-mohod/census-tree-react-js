@@ -32,7 +32,7 @@ export default function DashboardApp() {
     loggedUser: state.auth.loggedUser,
     showLoader: state.common.showLoader,
   }));
-  console.log('showLoader', showLoader);
+  // console.log('showLoader', showLoader);
   const ongoingProject = {
     count: 136,
     title: 'Ongoing Projects',
@@ -79,11 +79,7 @@ export default function DashboardApp() {
         </Stack>
         <br />
         <br />
-        <br />
-        <br />
-        <br /> 
-        <br />
-        <br />
+        
 
         {/* <Container>
           <Grid container spacing={3}>

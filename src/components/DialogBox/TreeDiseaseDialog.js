@@ -146,15 +146,11 @@ const handleStatusChange = (event) => {
   // console.log("values",values);
   return (
     <div>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open max-width dialog
-      </Button> */}
+      
       <Dialog
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        // onClose={handleClose}
-        // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Tree Disease":"Add Tree Disease"}</BootstrapDialogTitle>
         <Divider/>

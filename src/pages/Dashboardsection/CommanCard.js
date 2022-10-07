@@ -7,7 +7,7 @@ import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
 const CommanCard = (props) => {
-  console.log('props',props);
+  // console.log('props',props);
   const values = props.value;
 //   const { count, title, subtitle } = props.value;
   const useStyles = makeStyles({
@@ -51,9 +51,7 @@ const CommanCard = (props) => {
                         </Typography>
                       </Typography>
                     </div>
-                    {/* <div>
-                      <img src={ProjectImg} alt="project" style={{marginTop: '10px'}}/>
-                    </div> */}
+                  
                   </div>
                 </Card>
               </Grid>

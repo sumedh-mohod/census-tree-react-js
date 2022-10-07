@@ -179,7 +179,7 @@ export default function TypeOfTree() {
   }
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+    // console.info('You clicked a breadcrumb.');
   }
   const handleDropChange = (event) => {
     setDropPage(event.target.value);

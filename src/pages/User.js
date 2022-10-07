@@ -295,17 +295,7 @@ export default function User() {
                             handleUnlink={() => handleUnlink(option.id)}
                           />
                         </TableCell>
-                        {/* <TableCell align="right">
-                          <UserFormListMenu
-                            page={page}
-                            status={option.status}
-                            userId={option.id}
-                            userPermissions={userPermissions}
-                            handleEdit={() => handleEdit(option)}
-                            handleDelete={() => handleDelete(option)}
-                            handleUnlink={() => handleUnlink(option.id)}
-                          />
-                        </TableCell> */}
+                        
                       </TableRow>
                     );
                   })}

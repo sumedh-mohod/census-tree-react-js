@@ -207,11 +207,11 @@ function Map(props) {
                     <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails?.tree_condition?.condition}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Girth</TableCell>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Girth(cm)</TableCell>
                     <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails?.girth}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Height</TableCell>
+                    <TableCell align="left" style={{paddingLeft:'0px',paddingTop:'5px',paddingBottom:'0px'}}>Height(markers)</TableCell>
                     <TableCell align="left" style={{paddingTop:'5px',paddingBottom:'0px'}}>{treeDetails?.height}</TableCell>
                   </TableRow>
                   <TableRow>

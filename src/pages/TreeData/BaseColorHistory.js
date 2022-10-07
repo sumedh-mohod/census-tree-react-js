@@ -195,28 +195,7 @@ export default function BaseColorHistory() {
             </Typography>
     </div>
          
-        {/* <div role="presentation"  >
-        <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000"}}separator='>'>
-        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-        Tree Data
-        </Typography>
-        <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-        <Link
-        component={RouterLink}
-          to={`/dashboard/base-color`}
-          state={state}
-          underline="hover"
-         // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-        >
-        Base Color
-        </Link>
-        </Typography>
-       
-          <Typography variant="h4" gutterBottom style={{color: "#000000"}}>  History</Typography>
-      </Breadcrumbs>
-
-    </div> */}
+      
         </Stack>
 
         <Card>
