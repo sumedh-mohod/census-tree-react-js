@@ -30,6 +30,8 @@ import AssignNewCouncilZoneWard from './pages/Teams/AssignNewCouncilZoneWard';
 import AssignUser from './pages/Teams/AssignUser';
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
+import TermsCondition from './pages/TermsCondition';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import Register from './pages/Register';
 import NewUserForm from './pages/NewUserForm';
 import LocationType from './pages/Master/LocationType';
@@ -116,6 +118,8 @@ const routes = (isLogged) => [
       { path: 'register', element: <Register /> },
       { path: '404', element: <NotFound /> },
       { path: '*', element: <Navigate to="/404" /> },
+      { path: 'terms-&-conditions', element: <TermsCondition /> },
+      { path: 'privacy-policy', element: <PrivacyPolicy /> },
     ],
   },
   { path: '*', element: <Navigate to="/404" replace /> },
