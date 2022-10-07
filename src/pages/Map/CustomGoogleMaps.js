@@ -116,7 +116,7 @@ function Map(props) {
     }
     setImageList(imageList);
   }
-
+// console.log("console")
   return (
     <GoogleMap
       // onLoad={handleOnLoad}
