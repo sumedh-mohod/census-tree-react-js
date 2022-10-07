@@ -256,10 +256,8 @@ export default function User() {
                         <TableCell align="left">
                           <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
                         </TableCell>
-                        <TableCell align="left"  >
-                          {/* {`${option.first_name } `} */}
-                          {option.first_name}{option.last_name }
-                        
+                        <TableCell align="left" > 
+                          {`${option.first_name} ${option.last_name}`}
                         </TableCell>
                         <TableCell align="left">{option.email}</TableCell>
                         <TableCell align="left">{option.mobile}</TableCell>
