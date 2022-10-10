@@ -100,30 +100,7 @@ export default function DashboardApp() {
           </Typography>
         </Stack>
         <br/>
-       
-       
-              <LastTreeNumbers/>
-              
-        <br />
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Trees Details(Council Name)
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing tree details
-            </Typography>
-          </Typography>
-        </Stack>
-        <Container >
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item xs={12} mb={2}>
-              <TreeDetail/>
-              </Grid>
-             
-            </Grid>
-          </Grid>
-        </Container>
-        <br />
+       {/* .... */}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           Yesterdays Highest Base Color(Council Name)
@@ -177,61 +154,10 @@ export default function DashboardApp() {
             </Grid>
           </Grid>
         </Container>
+
         <br/>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Yesterdays Highest Census(Council Name)
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing Yesterdays Highest Census counts
-            </Typography>
-          </Typography>
-        </Stack>
-        <Container >
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-              <YesterdayHighLow slug={'high'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'high'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'high'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'high'}/>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Container>
-        <br/>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Yesterdays Lowest Census(Council Name)
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing Yesterdays Highest Census counts
-            </Typography>
-          </Typography>
-        </Stack>
-        <Container >
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-              <YesterdayHighLow slug={'low'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'low'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'low'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'low'}/>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Container>
-        <br/>
+       
+{/* .... */}
         <br/>
         <br/>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
