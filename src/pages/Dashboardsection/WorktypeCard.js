@@ -83,7 +83,7 @@ const WorktypeCard = () => {
             </Grid>
 
             <div className={classes.border} />
-            <Grid container spacing={1}>
+            <Grid container spacing={1} mt={0}>
               <Grid container item xs={6}>
                 <Typography
                   variant="h5"
