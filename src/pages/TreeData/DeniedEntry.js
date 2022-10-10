@@ -189,11 +189,7 @@ export default function DeniedEntry() {
   // console.log("DENIED ENTRY",deniedEntry);
 
   deniedEntry?.map((option, index) => {
-    // console.log("PROPRTY TYPE",option.property_type);
-    // console.log("PROPERTY NUMBER",option.property?.property_number);
-    // console.log("OWNER NAME",option.property?.owner_name);
-    // console.log("REASON",option.reason);
-    // console.log("DENIED FOR",option.denied_for);
+  
     return null;
   });
 
@@ -209,22 +205,7 @@ export default function DeniedEntry() {
               color={{ color: '#000000', fontWeight: 900, fontSize: '20px' }}
               separator=":"
             >
-              {/* <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Tree Data
-        </Link>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
-          Denied Entries
-        </Link> */}
+           
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
                 Tree Data
               </Typography>

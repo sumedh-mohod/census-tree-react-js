@@ -313,22 +313,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
           <div role="presentation" onClick={handleClick}>
             <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000', fontWeight: 900, fontSize: '20px' }} separator=":">
-              {/* <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Trees Data
-        </Link>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
-        Census
-        </Link> */}
+            
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
                 Tree Data
               </Typography>
@@ -387,15 +372,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                               {option.qc_status === 'Unapproved'?<StatusUnapprovedButton qcStatus={option.qc_status}/>: ''}
                           </TableCell>
                             <TableCell align="left">{option.referred_to_expert === 1 ? <b style={{color: 'green'}}>Yes</b> : <b style={{color: '#E8762F'}}>No</b>}</TableCell>
-                            {/* <TableCell align="left"> */}
-                            {/* <Link to="#" onClick={handleViewOpen} style={{cursor:'pointer'}}>View</Link> */}
-                            {/* <IconButton aria-label="delete" size="large" onClick={()=>handleViewOpen(option.images)} color="success">
-                            <Visibility />
-                          </IconButton>
-                          </TableCell> */}
-                            {/* <TableCell align="left">{option.qc_status}</TableCell>
-                        <TableCell align="left">{option.qc_by?.first_name ?option.qc_by?.first_name : "-" }</TableCell>
-                        <TableCell align="left">{option.qc_date? option.qc_date: "-" }</TableCell> */}
+                           
                             <TableCell align="right">
                               <TreeCensusMenu
                                 permissions={userPermissions}
@@ -421,13 +398,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
               </Table>
             </TableContainer>
           </Scrollbar>
-          {/* {showList?  <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} /> : treeCensus ? <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
-  onChange={handleChangePage}
-  sx={{justifyContent:"right",
-  display:'flex', mt:3, mb:3}} /> : null} */}
+        
           {treeCensus ? (
             <Pagination
               count={showList ? pageInfo.last_page : 0}

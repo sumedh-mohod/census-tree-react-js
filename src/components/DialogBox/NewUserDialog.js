@@ -18,12 +18,6 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
-// import Typography from '@mui/material/Typography';
-// import TextField from '@mui/material/TextField';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-// import Box from '@mui/material/Box';
 import DefaultInput from '../Inputs/DefaultInput';
 
 const BootstrapDialogTitle = (props) => {
@@ -290,15 +284,11 @@ export default function NewUserDialog(props) {
 
   return (
     <div>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open max-width dialog
-      </Button> */}
+    
       <Dialog
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        
-        // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>Create New User</BootstrapDialogTitle>
         <Divider/>

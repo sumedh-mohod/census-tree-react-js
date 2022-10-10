@@ -45,11 +45,11 @@ import {
         warning: {
             backgroundColor: '#F8EED4',
             borderRadius: '5px',
-            padding: '3px',
+            padding: '3px 0px',
             color: '#E46727',
             border: '1.5px solid #E46727',
             fontFamily: 'Poppins',
-            // width: '100%',
+            width: '150px',
             fontSize: '12px'
           },
           successDark: {
@@ -59,7 +59,7 @@ import {
             color: '#507C59',
             border: '1.5px solid #507C59',
             fontFamily: 'Poppins',
-            // width: '100%',
+            width: '150px',
             fontSize: '12px'
           },
           danger: {
@@ -69,14 +69,14 @@ import {
             color: '#C0374E',
             border: '1.5px solid #C0374E',
             fontFamily: 'Poppins',
-            // width: '100%',
+            width: '150px',
             fontSize: '12px'
           },
       });
       const classes = useStyles();
     return (
       <Page title="TeamList">
-        <Container>
+        {/* <Container> */}
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5} mt={5}>
             <Typography variant="h4" gutterBottom>
             Yesterday Logged In Associates
@@ -100,11 +100,11 @@ import {
                           <b>Base Color</b>
                         </TableCell>
                         <TableCell align="left">
-                        <button className={classes.success}><b>chet</b></button>
+                        <button className={classes.success}><b>abc</b></button>
                         </TableCell>
-                        <TableCell align="left">
-                        <PhoneInTalkIcon style={{color: '#fff', background: '#CE5623', borderRadius: '15px', padding: '3px'}} />
-                        9999999999
+                        <TableCell align="left" style={{width: '150px'}}>
+                        <PhoneInTalkIcon style={{color: '#fff', background: '#CE5623', borderRadius: '15px', padding: '3px', marginBottom: '-5px'}} />
+                        <span style={{ marginLeft: '5px'}}>9999999999</span>
                         </TableCell>
                         <TableCell align="left">
                         <button className={classes.warning}><b>10:30 AM, 22 Jan 2022</b></button>
@@ -127,10 +127,11 @@ import {
                          <b> Base Color</b>
                         </TableCell>
                         <TableCell align="left">
-                        <button className={classes.success}><b>chet</b></button>
+                        <button className={classes.success}><b>abc</b></button>
                         </TableCell>
-                        <TableCell align="left">
-                         9999999999
+                        <TableCell align="left" style={{width: '150px'}}>
+                        <PhoneInTalkIcon style={{color: '#fff', background: '#CE5623', borderRadius: '15px', padding: '3px', marginBottom: '-5px'}} />
+                        <span style={{ marginLeft: '5px'}}>9999999999</span>
                         </TableCell>
                         <TableCell align="left">
                         <button className={classes.warning}><b>10:30 AM, 22 Jan 2022</b></button>
@@ -148,7 +149,7 @@ import {
               </TableContainer>
             </Scrollbar>
           </Card>
-        </Container>
+        {/* </Container> */}
       </Page>
     );
   }

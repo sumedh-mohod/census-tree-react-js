@@ -207,9 +207,7 @@ const handleDownloadButtonPressed = () => {
                         <TableCell style={{ flexWrap: 'wrap' }}><CountButton count={option.census_trees_count} /></TableCell>
                         <TableCell style={{ flexWrap: 'wrap' }}><CountButton count={option.census_trees_offsite_qc_count} /></TableCell>
                         <TableCell style={{ flexWrap: 'wrap' }}><CountButton count={option.census_trees_onsite_qc_count} /></TableCell>
-                        {/* <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
-                        </TableCell>  */}
+                      
                       </TableRow>
                     );
                   })}

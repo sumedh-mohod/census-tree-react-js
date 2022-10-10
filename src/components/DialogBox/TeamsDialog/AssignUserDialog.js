@@ -246,27 +246,7 @@ const classes = useStyles()
                     icon: classes.icon,
                 },
             }}
-              // defaultValue={data? data.role: ""}
-              // renderValue={(selected) => {
-              //   if (selected?.length === 0) {
-              //     return <em>Select Role*</em>;
-              //   }
-              //   const result = [];
-              //   selected?.map((value)=>{
-              //     const found = findRole(roles,value);
-              //     result.push(found);
-              //     return null;
-              //   })
-              //   return result.join(",");
-              // }}
-
-              // renderValue={(selected) => {
-              //   if (selected?.length === 0) {
-              //     return <em>Select Role*</em>;
-              //   }
-              //     const found = findRole(roles,role);
-              //   return found;
-              // }}
+              
 
               error={Boolean(touched.role && errors.role)}
                 helperText={touched.role && errors.role}
@@ -301,21 +281,7 @@ const classes = useStyles()
                       icon: classes.icon,
                   },
               }}
-                // renderValue={(selected) => {
-                //   console.log("SELECTED",selected);
-                //   if (selected.length === 0) {
-                //     return <em>User*</em>;
-                //   }
-                //   const result = [];
-                //   selected.map((value)=>{
-                //     const found = findValue(users,value);
-                //     result.push(found);
-                //     return null;
-                //   })
-                  
-  
-                //   return result.join(",");
-                // }}
+               
                 renderValue={(selected) => {
                   if (selected?.length === 0) {
                     return <em>Select Role*</em>;

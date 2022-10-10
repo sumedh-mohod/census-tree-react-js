@@ -2142,7 +2142,7 @@ export default function NewUserForm(props) {
                 
                     {lastDayOfWork || values.lastDayOfWork ? (
                       <>
-                        {/* <Grid item xs={6}> */}
+                        <Grid item xs={6}>
                           <TextField
                             fullWidth
                             select
@@ -2174,7 +2174,7 @@ export default function NewUserForm(props) {
                               </MenuItem>
                             ))}
                           </TextField>
-                        {/* </Grid> */}
+                        </Grid>
                       </>
                     ) : null}
                 </>

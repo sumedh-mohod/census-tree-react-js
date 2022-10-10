@@ -88,7 +88,7 @@ export default function TreeCensusHistory() {
 
   const { treeCensusId, treeCensusName } = useParams();
   const {state} = useLocation();
-console.log('treeCensusId',treeCensusId, 'page',page,'rowsPerPage',rowsPerPage)
+// console.log('treeCensusId',treeCensusId, 'page',page,'rowsPerPage',rowsPerPage)
   useEffect(() => {
     dispatch(GetTreeCensusHistory(treeCensusId, page, rowsPerPage));
   }, []);
@@ -155,7 +155,7 @@ console.log('treeCensusId',treeCensusId, 'page',page,'rowsPerPage',rowsPerPage)
       }
     }, 1000);
   };
-console.log('treeCensusHistory', treeCensusHistory);
+// console.log('treeCensusHistory', treeCensusHistory);
   return (
     <Page title="User">
       <Container>
@@ -184,15 +184,7 @@ console.log('treeCensusHistory', treeCensusHistory);
         <Typography variant="h4" gutterBottom style={{color: "#000000", fontWeight: 400}}>
         History
         </Typography>
-        {/* <Link
-          underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
-           Assigned Users
-              
-        </Link> */}
+        
         
       </Breadcrumbs>
       <Typography variant="h6" style={{ fontWeight: 400,marginTop: '-8px' }}>
@@ -276,9 +268,7 @@ console.log('treeCensusHistory', treeCensusHistory);
               <Container style={{ width: '526px' }}>
                 <ImageCarousel imagelist={imageList} />
               </Container>
-              {/* <Box sx={style}>
-                                <img src={val.original} alt="gallery" height="650px" width="100%" />
-                              </Box> */}
+             
             </Modal>
           </Scrollbar>
           {treeCensusHistory ? (

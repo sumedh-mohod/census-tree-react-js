@@ -57,7 +57,7 @@ export default function AssociateZeroTree() {
       const classes = useStyles();
   return (
     <Page title="TeamList">
-      <Container>
+      {/* <Container> */}
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5} mt={5}>
           <Typography variant="h4" gutterBottom>
           Associates with <span style={{color: 'red'}}> 0 (Zero)</span> Trees sync yesterday
@@ -130,7 +130,7 @@ export default function AssociateZeroTree() {
             </TableContainer>
           </Scrollbar>
         </Card>
-      </Container>
+      {/* </Container> */}
     </Page>
   );
 }

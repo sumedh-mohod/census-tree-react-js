@@ -573,9 +573,7 @@ const classes = useStyles();
                 helperText={touched.treeType && errors.treeType}
                 {...getFieldProps("treeType")}
             >
-               {/* <MenuItem disabled value=""> */}
-            {/* <em>Type Of Tree*</em> */}
-          {/* </MenuItem> */}
+             
               {treeType?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.tree_type}

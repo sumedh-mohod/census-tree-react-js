@@ -165,7 +165,7 @@ export const MasterBreadCrumChip = ({ numSelected, dropDownPage, handleDropChang
     zoneId: PropTypes.any,
     wardId: PropTypes.any,
   };
-  console.log('breadCrumDrop', breadCrumDrop);
+  // console.log('breadCrumDrop', breadCrumDrop);
 
   const useStyles = makeStyles({
     chipSelected: {

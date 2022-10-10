@@ -106,8 +106,9 @@ const GetTeam = (page,limit) => async (dispatch) => {
         msg: response.data.message,
         alertType: "success",
       }));
+      dispatch(ShowLoadingButton(false));
     } catch (e) {
-      dispatch(ShowLoadingButton(true))
+      dispatch(ShowLoadingButton(false));
       dispatch(HandleExceptionWithSecureCatch(e));
     }
   };

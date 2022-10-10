@@ -256,7 +256,7 @@ export default function User() {
                         <TableCell align="left">
                           <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
                         </TableCell>
-                        <TableCell align="left" > 
+                        <TableCell align="left" style={{width: '600px'}} > 
                           {`${option.first_name} ${option.last_name}`}
                         </TableCell>
                         <TableCell align="left">{option.email}</TableCell>
@@ -295,17 +295,7 @@ export default function User() {
                             handleUnlink={() => handleUnlink(option.id)}
                           />
                         </TableCell>
-                        {/* <TableCell align="right">
-                          <UserFormListMenu
-                            page={page}
-                            status={option.status}
-                            userId={option.id}
-                            userPermissions={userPermissions}
-                            handleEdit={() => handleEdit(option)}
-                            handleDelete={() => handleDelete(option)}
-                            handleUnlink={() => handleUnlink(option.id)}
-                          />
-                        </TableCell> */}
+                        
                       </TableRow>
                     );
                   })}

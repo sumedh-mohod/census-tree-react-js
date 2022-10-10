@@ -26,6 +26,9 @@ import DashboardFooter from './Dashboardsection/DashboardFooter';
 import AssociateCard from './Dashboardsection/AssociateCard';
 import UsersCard from './Dashboardsection/UsersCard';
 import WorktypeCard from './Dashboardsection/WorktypeCard';
+import YesterdayHighLow from './Dashboardsection/YesterdayHighLow';
+import TreeDetail from './Dashboardsection/TreeDetail';
+import LastTreeNumbers from './Dashboardsection/LastTreeNumbers';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -34,7 +37,7 @@ export default function DashboardApp() {
     loggedUser: state.auth.loggedUser,
     showLoader: state.common.showLoader,
   }));
-  console.log('showLoader', showLoader);
+  // console.log('showLoader', showLoader);
   const ongoingProject = {
     count: 136,
     title: 'Ongoing Projects',
@@ -96,7 +99,141 @@ export default function DashboardApp() {
             </Typography>
           </Typography>
         </Stack>
+        <br/>
+       
+       
+              <LastTreeNumbers/>
+              
         <br />
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+          Trees Details(Council Name)
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+            It is showing tree details
+            </Typography>
+          </Typography>
+        </Stack>
+        <Container >
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
+              <Grid item xs={12} mb={2}>
+              <TreeDetail/>
+              </Grid>
+             
+            </Grid>
+          </Grid>
+        </Container>
+        <br />
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+          Yesterdays Highest Base Color(Council Name)
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+            It is showing Yesterdays Highest Base Color counts
+            </Typography>
+          </Typography>
+        </Stack>
+        <Container >
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
+              <Grid item mb={2} xs={12} md={3} sm={3}>
+              <YesterdayHighLow slug={'high'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'}/>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br/>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+          Yesterdays Lowest Base Color(Council Name)
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+            It is showing Yesterdays Lowest Base Color counts
+            </Typography>
+          </Typography>
+        </Stack>
+        <Container >
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+              <YesterdayHighLow slug={'low'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'}/>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br/>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+          Yesterdays Highest Census(Council Name)
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+            It is showing Yesterdays Highest Census counts
+            </Typography>
+          </Typography>
+        </Stack>
+        <Container >
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+              <YesterdayHighLow slug={'high'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'}/>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br/>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+          Yesterdays Lowest Census(Council Name)
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+            It is showing Yesterdays Highest Census counts
+            </Typography>
+          </Typography>
+        </Stack>
+        <Container >
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+              <YesterdayHighLow slug={'low'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'}/>
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'}/>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br/>
+        <br/>
+        <br/>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           Council name
@@ -108,13 +245,13 @@ export default function DashboardApp() {
         <Container>
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6} sm={3}>
                 <AssociateCard value={commanCardValue[0]} />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={12} md={3} sm={3}>
                 <UsersCard />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={12} md={3} sm={3}>
                 <UsersCard />
               </Grid>
             </Grid>
@@ -133,22 +270,22 @@ export default function DashboardApp() {
         <Container >
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item xs={4} mb={2}>
+              <Grid item xs={12} md={4} sm={4} mb={2}>
               <WorktypeCard />
               </Grid>
-              <Grid item xs={4} mb={2}>
+              <Grid item xs={12} md={4} sm={4} mb={2}>
                 <WorktypeCard />
               </Grid>
-              <Grid item xs={4} mb={2}>
+              <Grid item xs={12} md={4} sm={4} mb={2}>
                 <WorktypeCard />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
               <WorktypeCard />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <WorktypeCard />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <WorktypeCard />
               </Grid>
             </Grid>
@@ -160,13 +297,13 @@ export default function DashboardApp() {
         <Container>
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <LightCard projects={ongoingProject} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <LightCard projects={completedProject} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <DarkCard />
               </Grid>
             </Grid>
@@ -174,22 +311,22 @@ export default function DashboardApp() {
           <br /> <br />
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={4} mb={2}>
+              <Grid item xs={12} md={4} sm={4} mb={2}>
                 <CommanCard value={commanCardValue[0]} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <CommanCard value={commanCardValue[1]} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <CommanCard value={commanCardValue[2]} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <CommanCard value={commanCardValue[3]} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <CommanCard value={commanCardValue[4]} />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} md={4} sm={4}>
                 <CommanCard value={commanCardValue[5]} />
               </Grid>
             </Grid>
@@ -204,5 +341,5 @@ export default function DashboardApp() {
         <DashboardFooter />
       </Container>
     </Page>
-  );
+  ); 
 }
