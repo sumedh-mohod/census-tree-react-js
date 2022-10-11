@@ -117,7 +117,7 @@ const handleStatusChange = (event) => {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    designations: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('Designations is required'),
+    designations: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(35,"Maximum length 35 character only").required('Designations is required'),
   });
 
 

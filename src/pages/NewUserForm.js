@@ -510,18 +510,43 @@ export default function NewUserForm(props) {
   };
 
   const handleEducationChange = (e) => {
-    //   console.log("education in")
-    //   const  regex = /^[a-zA-Z_@./#&+-]*(?:\d[a-zA-Z_@./#&+-]*){0,2}$/;
-    //   if(regex.test(e.target.value)) {
-    //     setEducationError("");
-    // }
-    // else{
-    // setEducationError("Education containg alphanumeric Format and it accept only 2 digits");
+    // console.log("education in")
+    const regex = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex3 = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])$/;
+    const regex1 = /^(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex2 = /^(1[0-2]|[1-9])$/;
+    const regrex_ = /^[A-Za-z? ,_-]+$/;
 
-    // }
+    if(regrex_.test(e.target.value)) {
 
-    setEducation(e.target.value);
-  };
+      setEducationError("");
+
+  }else if(regex.test(e.target.value)){
+
+    setEducationError("");
+
+  }else if(regex3.test(e.target.value)){
+
+    setEducationError("");
+
+  }else if(regex1.test(e.target.value)){
+
+    setEducationError("");
+
+  }else if(regex2.test(e.target.value)){
+
+    setEducationError("");
+
+  }else{
+
+  setEducationError("Education containg alphanumeric Format and it accept only 2 digits");
+
+
+
+  }
+
+  setEducation(e.target.value);
+};
 
   const handleClose = () => {
     props.handleClose();
@@ -532,6 +557,7 @@ export default function NewUserForm(props) {
   // };
 
   const handleStatesChange = (event) => {
+    formik.setFieldValue('district', '');
     dispatch(GetAllActiveDistrictsByStateId(event.target.value, 1));
     setShowDistrict(true);
     setShowTaluka(false);
@@ -539,7 +565,6 @@ export default function NewUserForm(props) {
   };
 
   const handleDistrictChange = (event) => {
-    // console.log("HANDLE DISTRICT CHANGE VALUE",event.target.value);
     setDistrict(event.target.value);
     dispatch(GetAllActiveTalukaByDistrictId(event.target.value, 1));
     setShowTaluka(true);
@@ -711,7 +736,7 @@ export default function NewUserForm(props) {
   };
 
   const handleBankName = (e) => {
-    const regex = /^[a-zA-Z ]{2,30}$/;
+    const regex = /^[a-zA-Z ]{2,45}$/;
     if (regex.test(e.target.value)) {
       setBankNameError('');
     } else {
@@ -1021,7 +1046,7 @@ export default function NewUserForm(props) {
           addressLine1: Yup.string().required('Address Line 1 is required'),
           city: Yup.string().required('City is required'),
           states: Yup.string().required('State is required'),
-          district: Yup.string().required('Districts is required'),
+          district: Yup.string().required('District is required'),
           // taluka: Yup.string().required('Taluka is required'),
           council: Yup.string().required('Council is required'),
           username: Yup.string().required('Username is required'),
@@ -1076,7 +1101,7 @@ export default function NewUserForm(props) {
           isAgreementDone: Yup.string().required('Is agreement done is required'),
           bankName: Yup.string()
             .matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed for this field ')
-            .max(20, 'Maximum length 20 character only')
+            .max(45, 'Maximum length 45 character only')
             .required('BankName is required'),
           accountNumber: Yup.string().required('Account number is required'),
           ifscCode: Yup.string()
