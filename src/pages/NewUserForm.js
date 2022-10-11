@@ -511,10 +511,10 @@ export default function NewUserForm(props) {
 
   const handleEducationChange = (e) => {
     // console.log("education in")
-    const regex = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
-    const regex3 = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])$/;
-    const regex1 = /^(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
-    const regex2 = /^(1[0-2]|[1-9])$/;
+    const regex = /^[A-Za-z? ,_-]+(1[0-2]|[0-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex3 = /^[A-Za-z? ,_-]+(1[0-2]|[0-9])$/;
+    const regex1 = /^(1[0-2]|[0-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex2 = /^(1[0-2]|[0-9])$/;
     const regrex_ = /^[A-Za-z? ,_-]+$/;
 
     if(regrex_.test(e.target.value)) {
@@ -2156,7 +2156,7 @@ export default function NewUserForm(props) {
                   <Grid item xs={6}>
                     {lastDayOfWork || values.lastDayOfWork ? (
                       <>
-                        <Grid item xs={6}>
+                        {/* <Grid item xs={6}> */}
                           <TextField
                             fullWidth
                             select
@@ -2187,7 +2187,7 @@ export default function NewUserForm(props) {
                               </MenuItem>
                             ))}
                           </TextField>
-                        </Grid>
+                        {/* </Grid> */}
                       </>
                     ) : null}
                   </Grid>
