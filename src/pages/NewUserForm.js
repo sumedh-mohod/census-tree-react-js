@@ -745,7 +745,7 @@ export default function NewUserForm(props) {
   };
 
   const handleBankName = (e) => {
-    const regex = /^[a-zA-Z ]{2,30}$/;
+    const regex = /^[a-zA-Z ]{2,45}$/;
     if (regex.test(e.target.value)) {
       setBankNameError('');
     } else {
@@ -1110,7 +1110,7 @@ export default function NewUserForm(props) {
           isAgreementDone: Yup.string().required('Is agreement done is required'),
           bankName: Yup.string()
             .matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed for this field ')
-            .max(20, 'Maximum length 20 character only')
+            .max(45, 'Maximum length 45 character only')
             .required('BankName is required'),
           accountNumber: Yup.string().required('Account number is required'),
           ifscCode: Yup.string()
