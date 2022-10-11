@@ -801,7 +801,7 @@ const classes = useStyles()
                           }}
                           className='unapproved'
                         >
-                          Unapproved & Next
+                          Unapprove & Next
                         </Button>
                       </div>
                       <div className="one mob-cen">
