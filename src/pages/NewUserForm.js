@@ -1080,10 +1080,6 @@ export default function NewUserForm(props) {
             .matches(aadharRegExp, 'Enter valid aadhar number')
             .required('Aadhar Number is required'),
           education: Yup.string()
-            .matches(
-              /^[a-zA-Z_@./#&+-]*(?:\d[a-zA-Z_@./#&+-]*){0,2}$/,
-              'Education containg alphanumeric Format and it accept only 2 digits'
-            )
             .required('Education is required'),
           dob: Yup.string().required('DOB is required'),
           religion: Yup.string().required('Religion is required'),
