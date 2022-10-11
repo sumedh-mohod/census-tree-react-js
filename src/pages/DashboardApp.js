@@ -29,6 +29,7 @@ import WorktypeCard from './Dashboardsection/WorktypeCard';
 import YesterdayHighLow from './Dashboardsection/YesterdayHighLow';
 import TreeDetail from './Dashboardsection/TreeDetail';
 import LastTreeNumbers from './Dashboardsection/LastTreeNumbers';
+import Deviation from './Dashboardsection/Deviation';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -103,6 +104,8 @@ export default function DashboardApp() {
         <LastTreeNumbers/>
               
         <br />
+       <Deviation/>
+        <br/>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
           Trees Details(Council Name)

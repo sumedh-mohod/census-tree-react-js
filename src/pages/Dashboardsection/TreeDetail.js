@@ -23,14 +23,14 @@ const TreeDetail = () => {
   return (
     <>
      <img src={plantTree} alt={'tree'} className={classes.imgTop} height='150' width='150'/>
-      <Card style={{padding:'50px',background: '#214C50'}}>
+      <Card style={{padding:'50px 50px 25px 50px',background: '#214C50'}}>
         
       <Grid container spacing={1}>
-        <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1}>
+        <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1} sx={{borderBottom: '1px solid grey'}}>
          
-          <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600 }} mt={0.7}>
+          <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600 }} mt={2} mb={1} sx={{paddingLeft: '10px' ,paddingBottom: '10px'}}>
             9,080
-            <Typography variant="h4" style={{ color: '#fff',fontSize: '18px' }}>
+            <Typography variant="h5" style={{ color: '#fff',fontSize: '16px' }}>
             Base Color Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
               The trees generated in this council till now.
@@ -38,10 +38,10 @@ const TreeDetail = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1}>
-          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={0.7}>
+        <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1} sx={{borderBottom: '1px solid grey', borderLeft: '1px solid grey'}}>
+          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={2} sx={{paddingLeft: '10px',paddingBottom: '10px'}}>
           <TreedetailStatusButton slug={'danger'} />
-            <Typography variant="h5" style={{fontSize: '18px'}}>
+            <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
             Unapproved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
               It is showing unapproved <br/> trees count
@@ -49,10 +49,10 @@ const TreeDetail = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1}>
-          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={0.7}>
+        <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1} sx={{borderBottom: '1px solid grey'}}>
+          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={2} sx={{paddingLeft: '10px',paddingBottom: '10px'}}>
           <TreedetailStatusButton slug={'success'}/>
-            <Typography variant="h5" style={{fontSize: '18px'}}>
+            <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
             Approved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
               It is showing approved<br/>  trees count
@@ -60,10 +60,10 @@ const TreeDetail = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid container item md={3} xs={12} sm={2} spacing={3} mb={1}>
-        <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={0.7}>
+        <Grid container item md={3} xs={12} sm={2} spacing={3} mb={1} sx={{borderBottom: '1px solid grey',paddingBottom: '10px'}}>
+        <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={2} sx={{paddingLeft: '10px'}}>
         <TreedetailStatusButton slug={'pending'}/>
-            <Typography variant="h5" style={{fontSize: '18px'}}>
+            <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
             Pending Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
               It is showing pending <br/> trees count
@@ -76,10 +76,10 @@ const TreeDetail = () => {
        
        
           
-        <Grid container item xs={12} md={3} sm={3} spacing={3} mt={1}>
-          <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600 }} mt={0.7}>
+        <Grid container item xs={12} md={3} sm={3} spacing={3}  >
+          <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600 }} mt={3} sx={{paddingLeft: '10px'}}>
            9020
-            <Typography variant="h5" style={{ color: '#fff', fontSize: '18px'}}>
+            <Typography variant="h5" style={{ color: '#fff', fontSize: '16px'}}>
               Associates
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
                 The trees generated in <br />
@@ -88,10 +88,10 @@ const TreeDetail = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid container item xs={12} md={3} sm={3} spacing={3} mt={1}>
-          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={0.7}>
+        <Grid container item xs={12} md={3} sm={3} spacing={3}  sx={{borderLeft: '1px solid grey'}}>
+          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={3} sx={{paddingLeft: '10px'}}>
           <TreedetailStatusButton slug={'danger'}/>
-            <Typography variant="h5" style={{fontSize: '18px'}} >
+            <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
               Unapproved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
               It is showing unapproved <br/> trees count
@@ -99,10 +99,10 @@ const TreeDetail = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid container item xs={12} md={3} sm={3} spacing={3} mt={1}>
-          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={0.7}>
+        <Grid container item xs={12} md={3} sm={3} spacing={3} >
+          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={3} sx={{paddingLeft: '10px'}}>
           <TreedetailStatusButton slug={'success'}/>
-            <Typography variant="h5" style={{fontSize: '18px'}}>
+            <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
             Approved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
               It is showing approved<br/> trees count
@@ -110,10 +110,10 @@ const TreeDetail = () => {
             </Typography>
           </Typography>
         </Grid>
-        <Grid container item xs={12} md={3} sm={3} spacing={3} mt={1}>
-          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={0.7}>
+        <Grid container item xs={12} md={3} sm={3} spacing={3} >
+          <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={3} sx={{paddingLeft: '10px'}}>
           <TreedetailStatusButton slug={'pending'}/>
-            <Typography variant="h5" style={{fontSize: '18px'}}>
+            <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
               Pending Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
               It is showing pending <br/> trees count

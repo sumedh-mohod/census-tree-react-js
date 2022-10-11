@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Grid, Typography, Container, Stack,Button } from '@mui/material';
+import { Card, Grid, Typography, Container, Stack, Button } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import ProjectImg from '../../Assets/plant_team_tree.png';
 import TreedetailStatusButton from '../../components/statusbutton/TreedetailStatusButton';
@@ -12,7 +12,7 @@ const LastTreeNumbers = () => {
       backgroundColor: '#DDFAD1',
       color: '#507C59',
       border: '1px solid #507C59',
-      fontSize: '15px',
+      fontSize: '12px',
       borderRadius: '5px',
       padding: '4px 10px',
       fontWeight: 600,
@@ -22,7 +22,7 @@ const LastTreeNumbers = () => {
       backgroundColor: '#efcbbd',
       color: '#CE5623',
       border: '1px solid #CE5623',
-      fontSize: '15px',
+      fontSize: '12px',
       borderRadius: '5px',
       padding: '4px 10px',
       fontWeight: 600,
@@ -51,15 +51,15 @@ const LastTreeNumbers = () => {
       <Container>
         <Grid container spacing={3}>
           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-            <Grid item xs={12} mb={2}>
-              <Card style={{ padding: '50px', background: '#214C50' }}>
+            <Grid item xs={12}>
+              <Card style={{ padding: '50px 50px 25px 50px', background: '#214C50' }}>
                 <Grid container spacing={1}>
                   <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1}>
                     <Typography variant="h4" mt={8}>
-                    <Button variant="contained" className={classes.success} style={{padding: '4px 20px'}}>
-                              TEAM-10
-                            </Button>
-                      <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }}>
+                      <Button variant="contained" className={classes.success} style={{ padding: '4px 20px' }} mb={1}>
+                        TEAM-10
+                      </Button>
+                      <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                         AK-C6-0067
                         <Typography variant="h5" style={{ color: '#fff', fontSize: '18px' }}>
                           Last Tree Number
@@ -72,47 +72,80 @@ const LastTreeNumbers = () => {
                     </Typography>
                   </Grid>
                   <Grid container item xs={12} md={6} sm={6} spacing={3} mb={1}>
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid
+                      xs={12}
+                      sm={6}
+                      md={6}
+                      sx={{
+                        borderRight: '1px solid #EEEEEE',
+                        borderBottom: '1px solid #EEEEEE',
+                        padding: '15px 10px 0px 10px',
+                      }}
+                    >
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <Typography variant="h4" sx={{ color: '#fff' }}>
-                          By Aakash Thakare
-                          <Typography variant="h6" style={{ fontWeight: 400 }}>
-                            Base Color
+                        <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
+                          Base Color
+                          <Typography variant="h5" style={{ fontWeight: 600, fontSize: '15px' }}>
+                            By Aakash Thakare
                           </Typography>
                         </Typography>
                       </Stack>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid
+                      xs={12}
+                      sm={6}
+                      md={6}
+                      sx={{ borderBottom: '1px solid #EEEEEE', padding: '15px 10px 0px 10px' }}
+                    >
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
                           Team Name
-                          <Typography variant="h4" style={{ fontWeight: 600, fontSize: '15px' }}>
+                          <Typography variant="h5" style={{ fontWeight: 600, fontSize: '15px' }}>
                             AKOLA GENI TEAM
                           </Typography>
                         </Typography>
                       </Stack>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid
+                      xs={12}
+                      sm={6}
+                      md={6}
+                      sx={{
+                        borderRight: '1px solid #EEEEEE',
+                        borderBottom: '1px solid #EEEEEE',
+                        padding: '15px 10px 0px 10px',
+                      }}
+                    >
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
                           Ward
-                          <Typography variant="h4" style={{ fontWeight: 600, fontSize: '15px' }}>
+                          <Typography variant="h5" style={{ fontWeight: 600, fontSize: '15px' }}>
                             WARD: 08
                           </Typography>
                         </Typography>
                       </Stack>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid
+                      xs={12}
+                      sm={6}
+                      md={6}
+                      sx={{ borderBottom: '1px solid #EEEEEE', padding: '15px 10px 0px 10px' }}
+                    >
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
                           Contact Number
-                          <Typography variant="h4" style={{ fontWeight: 600, fontSize: '15px' }}>
+                          <Typography variant="h5" style={{ fontWeight: 600, fontSize: '15px' }}>
                             +91 - 9876123456
                           </Typography>
                         </Typography>
                       </Stack>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid
+                      xs={12}
+                      sm={6}
+                      md={6}
+                      sx={{ borderRight: '1px solid #EEEEEE', padding: '15px 10px 0px 10px' }}
+                    >
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
                           Added Tree At
@@ -124,7 +157,7 @@ const LastTreeNumbers = () => {
                         </Typography>
                       </Stack>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid xs={12} sm={6} md={6} style={{ padding: '15px 10px 0px 10px' }}>
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
                           Sync Tree At
