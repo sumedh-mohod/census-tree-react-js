@@ -115,7 +115,7 @@ export default function TeamsTableDialog(props) {
   };
 
   const DistrictsSchema = Yup.object().shape({
-    name: Yup.string().matches(/^[a-zA-Z ,_-]+$/,'Only alphabets are allowed for this field ').max(30, 'Character limit is 30').required('Name is required'),
+    name: Yup.string().matches(/^[A-Za-z0-9? ,_-]+$/,'Please Enter Team Name In Alphanumeric format Only').max(30, 'Character limit is 30').required('Name is required'),
     code: Yup.string()
       .matches(/^[A-Za-z0-9? ,_-]+$/,'Please Enter Team Code In Alphanumeric format Only')
       .min(4, 'Too Short! need exact 4 character')
