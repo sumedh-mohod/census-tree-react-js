@@ -510,18 +510,51 @@ export default function NewUserForm(props) {
   };
 
   const handleEducationChange = (e) => {
-    //   console.log("education in")
-    //   const  regex = /^[a-zA-Z_@./#&+-]*(?:\d[a-zA-Z_@./#&+-]*){0,2}$/;
-    //   if(regex.test(e.target.value)) {
-    //     setEducationError("");
-    // }
-    // else{
-    // setEducationError("Education containg alphanumeric Format and it accept only 2 digits");
+    console.log("education in")
+    const regex = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex3 = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])$/;
+    const regex1 = /^(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex2 = /^(1[0-2]|[1-9])$/;
+    const regrex_ = /^[A-Za-z? ,_-]+$/;
 
-    // }
+    if(regrex_.test(e.target.value)) {
 
-    setEducation(e.target.value);
-  };
+      setEducationError("");
+
+  }else if(regex.test(e.target.value)){
+
+    setEducationError("");
+
+  }else if(regex3.test(e.target.value)){
+
+    setEducationError("");
+
+  }else if(regex1.test(e.target.value)){
+
+    setEducationError("");
+
+  }else if(regex2.test(e.target.value)){
+
+    setEducationError("");
+
+  }else{
+
+  setEducationError("Education containg alphanumeric Format and it accept only 2 digits");
+
+
+
+  }
+  //   const  regex = /^[A-Za-z0-9? ,_-]+$/
+  //   if(regex.test(e.target.value)) {
+  //     setEducationError("");
+  // }
+  // else{
+  // setEducationError("Education containg alphanumeric Format and it accept only 2 digits");
+
+  // }
+
+  setEducation(e.target.value);
+};
 
   const handleClose = () => {
     props.handleClose();
