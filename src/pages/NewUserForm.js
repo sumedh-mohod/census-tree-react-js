@@ -510,7 +510,7 @@ export default function NewUserForm(props) {
   };
 
   const handleEducationChange = (e) => {
-    console.log("education in")
+    // console.log("education in")
     const regex = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
     const regex3 = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])$/;
     const regex1 = /^(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
@@ -544,14 +544,6 @@ export default function NewUserForm(props) {
 
 
   }
-  //   const  regex = /^[A-Za-z0-9? ,_-]+$/
-  //   if(regex.test(e.target.value)) {
-  //     setEducationError("");
-  // }
-  // else{
-  // setEducationError("Education containg alphanumeric Format and it accept only 2 digits");
-
-  // }
 
   setEducation(e.target.value);
 };
@@ -573,7 +565,6 @@ export default function NewUserForm(props) {
   };
 
   const handleDistrictChange = (event) => {
-    // console.log("HANDLE DISTRICT CHANGE VALUE",event.target.value);
     setDistrict(event.target.value);
     dispatch(GetAllActiveTalukaByDistrictId(event.target.value, 1));
     setShowTaluka(true);
