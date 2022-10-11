@@ -2176,6 +2176,11 @@ export default function NewUserForm(props) {
                             // }}
                             error={Boolean(touched.noticePeriod && errors.noticePeriod)}
                             helperText={touched.noticePeriod && errors.noticePeriod}
+                            inputProps={{
+                              classes: {
+                                icon: classes.icon,
+                              },
+                            }}
                             {...getFieldProps('noticePeriod')}
                           >
                             <MenuItem disabled value="">
@@ -2459,7 +2464,7 @@ export default function NewUserForm(props) {
             <Typography variant="h5" style={{ marginTop: 20, marginBottom: 20 }} gutterBottom>
               Upload Document
               <Typography variant="h6" style={{ fontWeight: '400' }}>
-                Please Provide upload document.
+                Please upload document.
               </Typography>
             </Typography>
 
