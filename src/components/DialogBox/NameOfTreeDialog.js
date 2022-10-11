@@ -523,12 +523,13 @@ const classes = useStyles();
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-        <Grid item xs={12}>
+        <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Name*</FormLabel>
               <DefaultInput
                 fullWidth
                 required
                 id="name"
+                style={{ width: '86%' }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.name && errors.name)}
@@ -536,7 +537,8 @@ const classes = useStyles();
                 {...getFieldProps("name")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Botanical Name*</FormLabel>
             <DefaultInput
                 fullWidth
@@ -666,7 +668,7 @@ const classes = useStyles();
               ))}
             </TextField>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Oxygen Emittrate(Pound)</FormLabel>
               <DefaultInput
                 fullWidth
@@ -679,7 +681,8 @@ const classes = useStyles();
                 {...getFieldProps("oxygenEmittrate")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Flowering Season</FormLabel>
               <DefaultInput
                 fullWidth
@@ -692,7 +695,8 @@ const classes = useStyles();
                 {...getFieldProps("floweringSeason")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Fruiting Season</FormLabel>
               <DefaultInput
                 fullWidth
@@ -705,7 +709,8 @@ const classes = useStyles();
                 {...getFieldProps("fruitingSeason")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Growth Factor(ft/yr)</FormLabel>
               <DefaultInput
                 fullWidth
@@ -718,8 +723,9 @@ const classes = useStyles();
                 {...getFieldProps("growthFactor")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Growth Ratio(To Calculate Age)*</FormLabel>
+            <Grid item xs={6} md={6} sm={6}>
               <DefaultInput
                 fullWidth
                 required
@@ -731,7 +737,8 @@ const classes = useStyles();
                 {...getFieldProps("growthRatio")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Maximum Height(M)</FormLabel>
               <DefaultInput
                 fullWidth
@@ -744,7 +751,8 @@ const classes = useStyles();
                 {...getFieldProps("height")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Maximum Age(Year)</FormLabel>
               <DefaultInput
                 fullWidth
