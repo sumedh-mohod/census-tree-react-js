@@ -736,12 +736,6 @@ export default function NewUserForm(props) {
   };
 
   const handleBankName = (e) => {
-    const regex = /^[a-zA-Z ]{2,45}$/;
-    if (regex.test(e.target.value)) {
-      setBankNameError('');
-    } else {
-      setBankNameError('Please Enter Bank Name Containing Alphabets Only');
-    }
     setBankName(e.target.value);
   };
 
