@@ -30,6 +30,8 @@ import YesterdayHighLow from './Dashboardsection/YesterdayHighLow';
 import TreeDetail from './Dashboardsection/TreeDetail';
 import LastTreeNumbers from './Dashboardsection/LastTreeNumbers';
 import Deviation from './Dashboardsection/Deviation';
+import SpeedDialDashboard from './Dashboardsection/SpeedDialDashboard';
+import MasterData from './Dashboardsection/MasterData';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -100,6 +102,8 @@ export default function DashboardApp() {
             </Typography>
           </Typography>
         </Stack>
+        <br/>
+        <MasterData/>
         <br/>
         <LastTreeNumbers/>
               
@@ -346,6 +350,7 @@ export default function DashboardApp() {
         <br />
         <DashboardFooter />
       </Container>
+      {/* <SpeedDialDashboard/> */}
     </Page>
   ); 
 }
