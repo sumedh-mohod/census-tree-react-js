@@ -261,7 +261,7 @@ export default function AssignUser() {
             </Typography>
     </div>
           <Button onClick={handleNewUserClick} variant="contained" >
-          Add assign User
+          Assign User
 
           </Button>
         </Stack>

@@ -273,7 +273,7 @@ export default function TalukasDialog(props) {
             </TextField>
             </Grid>
            
-            <Grid item xs={6}>
+            <Grid item xs={6} md={6} sm={6} >
               <DefaultInput
                 
                 id="name"
