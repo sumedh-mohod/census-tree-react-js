@@ -138,7 +138,7 @@ export default function TreeConditionDialog(props) {
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-        <Grid item xs={12}>
+        <Grid item xs={6} md={6} sm={6} >
               <DefaultInput
                 fullWidth
                 id="typeOfTreeCutting"
