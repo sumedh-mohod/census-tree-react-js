@@ -255,28 +255,41 @@ export default function ViewProperties() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        <MasterBreadCrumChip
+        {/* <MasterBreadCrumChip
           dropDownPage={dropPage}
           handleDropChange={handleDropChange}
-          />
+          /> */}
+          <Typography variant="h4">
+            <Link
+          underline="none"
+          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
+          color="inherit"
+        >
+         Master
+              
+        </Link>
+      
+        </Typography>
+        <Typography variant="h4" style={{ fontSize: '18px', fontWeight: '400' }}>
         <Link component={RouterLink}
         to={`/dashboard/council`}
           underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           href="#"
         >
           {councilName}
               
         </Link>
+        </Typography>
+        <Typography variant="h4" style={{ fontSize: '18px', fontWeight: '400' }}>
         <Link
           underline="none"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
         >
            Properties
               
         </Link>
+        </Typography>
       </Breadcrumbs>
 
     </div>
