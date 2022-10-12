@@ -255,14 +255,9 @@ export default function ViewProperties() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={10} mt={5}>
         <div role="presentation" onClick={handleClick} >
         <Breadcrumbs aria-label="breadcrumb" separator='>'>
-        {/* <MasterBreadCrumChip
-          dropDownPage={dropPage}
-          handleDropChange={handleDropChange}
-          /> */}
           <Typography variant="h4">
             <Link
           underline="none"
-          // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 24, fontSize: 25, color: "#000000", fontStyle: 'bold' }}
           color="inherit"
         >
          Master
