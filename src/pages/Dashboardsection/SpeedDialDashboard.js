@@ -1,74 +1,65 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import SaveIcon from '@material-ui/icons/Save';
-import PrintIcon from '@material-ui/icons/Print';
-import ShareIcon from '@material-ui/icons/Share';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import EditIcon from '@material-ui/icons/Edit';
+// import React from 'react';
+// import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
+// import Divider from '@mui/material/Divider';
+// import Menu from '@mui/material/Menu';
+// import MenuItem from '@mui/material/MenuItem';
+// import Fade from '@mui/material/Fade';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: 380,
-    transform: 'translateZ(0px)',
-    flexGrow: 1,
-  },
-  speedDial: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
-}));
+// const SpeedDialDashboard = () => {
+//   const [anchorEl, setAnchorEl] = React.useState(null);
+//   const open = Boolean(anchorEl);
+//   const handleClick = (event) => {
+//     setAnchorEl(event.currentTarget);
+//   };
+//   const handleClose = () => {
+//     setAnchorEl(null);
+//   };
+//   return (
+//     <div style={{ position: 'fixed', top: '40%', right: 4, zIndex: '9999999' }}>
+//       <FlipCameraAndroidIcon
+//         id="fade-button"
+//         aria-controls={open ? 'fade-menu' : undefined}
+//         aria-haspopup="true"
+//         aria-expanded={open ? 'true' : undefined}
+//         onClick={handleClick}
+//         style={{
+//           color: '#fff',
+//           background: '#000',
+//           borderRadius: '30px',
+//           padding: '15px',
+//           fontSize: '60px',
+//           marginBottom: '-5px',
+//         }}
+//       />
 
-const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
-  { icon: <FavoriteIcon />, name: 'Like' },
-];
+//       <Menu
+//         id="fade-menu"
+//         MenuListProps={{
+//           'aria-labelledby': 'fade-button',
+//         }}
+//         anchorEl={anchorEl}
+//         open={open}
+//         onClose={handleClose}
+//         TransitionComponent={Fade}
+//       >
+//         <MenuItem onClick={handleClose}>Projects</MenuItem>
+//         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+//         <MenuItem onClick={handleClose}>Tree Details</MenuItem>
+//         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+//         <MenuItem onClick={handleClose}>Work Reports</MenuItem>
+//         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+//         <MenuItem onClick={handleClose}>Hi/Lo Base Color</MenuItem>
+//         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+//         <MenuItem onClick={handleClose}>Last Tree Numbers</MenuItem>
+//         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+//         <MenuItem onClick={handleClose}>0 Tree Sync Associates</MenuItem>
+//         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+//         <MenuItem onClick={handleClose}>Master Data</MenuItem>
+//         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+//         <MenuItem onClick={handleClose}>Yesterday LoggedIn Associates</MenuItem>
+//       </Menu>
+//     </div>
+//   );
+// };
 
-export default function SpeedDialDashboard() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [hidden, setHidden] = React.useState(false);
-
-  const handleVisibility = () => {
-    setHidden((prevHidden) => !prevHidden);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div className={classes.root}>
-      {/* <Button onClick={handleVisibility}>Toggle Speed Dial</Button> */}
-      <SpeedDial
-        ariaLabel="SpeedDial openIcon example"
-        className={classes.speedDial}
-        hidden={hidden}
-        icon={<SpeedDialIcon openIcon={<EditIcon />} />}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        open={open}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={handleClose}
-          />
-        ))}
-      </SpeedDial>
-    </div>
-  );
-}
+// export default SpeedDialDashboard;

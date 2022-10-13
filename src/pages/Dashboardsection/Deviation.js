@@ -10,7 +10,7 @@ const Deviation = () => {
       color: '#214C50',
       border: '1px solid #214C50',
       borderRadius: '12px',
-      padding: '10px 50px 0px 50px',
+      padding: '10px 25px 0px 25px',
       fontWeight: 600,
       pointerEvents: 'none',
     },
@@ -27,26 +27,32 @@ const Deviation = () => {
   const classes = useStyles();
   return (
     <>
-      <Card className={classes.success}>
-        <Grid container spacing={2} mt={1}>
-          <Grid xs={1} md={1} sm={1}>
-            <img src={DeviationImg} alt="devi" height="50%" />
-          </Grid>
-          <Grid xs={5} md={10} sm={5}>
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-              <Typography variant="h5" sx={{ color: '#214C50', fontWeight: 600 }}>
-                Deviation:
-                <Typography variant="h6" style={{ fontWeight: 400, fontSize: '15px' }}>
-                  It is showing the deviation between <b>Base Color Tree</b> and <b>Census Tree</b> is
-                </Typography>
-              </Typography>
-            </Stack>
-          </Grid>
-          <Grid xs={6} md={1} sm={6} mt={1}>
-            <span className={classes.darkSection}>15%</span>
+      <Container>
+        <Grid container spacing={3}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+            <Grid item xs={12}>
+              <Card className={classes.success}>
+                <Grid container spacing={1} mt={0.4} mb={1}>
+                  <Grid xs={6} md={11} sm={6}>
+                    <Stack direction="row" alignItems="center">
+                      <img src={DeviationImg} alt="devi" height="40px" width="40px" />
+                      <Typography variant="h5" sx={{ color: '#214C50', fontWeight: 600, marginLeft: '20px' }}>
+                        Deviation:
+                        <Typography variant="h6" style={{ fontWeight: 400, fontSize: '15px' }}>
+                          It is showing the deviation between <b>Base Color Tree</b> and <b>Census Tree</b> is
+                        </Typography>
+                      </Typography>
+                    </Stack>
+                  </Grid>
+                  <Grid xs={6} md={1} sm={6} mt={1}>
+                    <span className={classes.darkSection}>15%</span>
+                  </Grid>
+                </Grid>
+              </Card>
+            </Grid>
           </Grid>
         </Grid>
-      </Card>
+      </Container>
     </>
   );
 };

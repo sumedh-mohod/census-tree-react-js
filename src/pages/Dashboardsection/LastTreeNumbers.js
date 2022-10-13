@@ -32,9 +32,12 @@ const LastTreeNumbers = () => {
   const classes = useStyles();
   return (
     <>
+      
+
+     
       <Grid container item xs={12} md={12} sm={12} spacing={3} mb={4}>
         <Grid item xs={12} sm={6} md={8}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{marginLeft: '-24px'}}>
             <Typography variant="h4" gutterBottom>
               Last Tree Numbers(Council Name)
               <Typography variant="h6" style={{ fontWeight: 400 }}>
@@ -47,8 +50,6 @@ const LastTreeNumbers = () => {
           {/* <UserListToolbar numSelected={0} placeHolder={'Search users...'} onFilterName={filterByName} /> */}
         </Grid>
       </Grid>
-
-      <Container>
         <Grid container spacing={3}>
           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             <Grid item xs={12}>
@@ -77,8 +78,8 @@ const LastTreeNumbers = () => {
                       sm={6}
                       md={6}
                       sx={{
-                        borderRight: '1px solid #EEEEEE',
-                        borderBottom: '1px solid #EEEEEE',
+                        borderRight: '1px solid #9b9393',
+                        borderBottom: '1px solid #9b9393',
                         padding: '15px 10px 0px 10px',
                       }}
                     >
@@ -95,7 +96,7 @@ const LastTreeNumbers = () => {
                       xs={12}
                       sm={6}
                       md={6}
-                      sx={{ borderBottom: '1px solid #EEEEEE', padding: '15px 10px 0px 10px' }}
+                      sx={{ borderBottom: '1px solid #9b9393', padding: '15px 10px 0px 10px' }}
                     >
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
@@ -111,8 +112,8 @@ const LastTreeNumbers = () => {
                       sm={6}
                       md={6}
                       sx={{
-                        borderRight: '1px solid #EEEEEE',
-                        borderBottom: '1px solid #EEEEEE',
+                        borderRight: '1px solid #9b9393',
+                        borderBottom: '1px solid #9b9393',
                         padding: '15px 10px 0px 10px',
                       }}
                     >
@@ -129,7 +130,7 @@ const LastTreeNumbers = () => {
                       xs={12}
                       sm={6}
                       md={6}
-                      sx={{ borderBottom: '1px solid #EEEEEE', padding: '15px 10px 0px 10px' }}
+                      sx={{ borderBottom: '1px solid #9b9393', padding: '15px 10px 0px 10px' }}
                     >
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
@@ -144,7 +145,7 @@ const LastTreeNumbers = () => {
                       xs={12}
                       sm={6}
                       md={6}
-                      sx={{ borderRight: '1px solid #EEEEEE', padding: '15px 10px 0px 10px' }}
+                      sx={{ borderRight: '1px solid #9b9393', padding: '15px 10px 0px 10px' }}
                     >
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
@@ -178,7 +179,7 @@ const LastTreeNumbers = () => {
             </Grid>
           </Grid>
         </Grid>
-      </Container>
+     
     </>
   );
 };

@@ -1,10 +1,18 @@
+import React, { useState } from 'react';
 import { faker } from '@faker-js/faker';
 
 import { useSelector } from 'react-redux';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography, Stack, Card } from '@mui/material';
+
+import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
+import Divider from '@mui/material/Divider';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Fade from '@mui/material/Fade';
 // components
+import { Link, animateScroll as scroll } from 'react-scroll';
 import Page from '../components/Page';
 import {
   AppTasks,
@@ -35,6 +43,14 @@ import MasterData from './Dashboardsection/MasterData';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const theme = useTheme();
   const { loggedUser, showLoader } = useSelector((state) => ({
     loggedUser: state.auth.loggedUser,
@@ -93,166 +109,43 @@ export default function DashboardApp() {
 
   return (
     <Page title="Dashboard">
-      <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }}>
+      <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }} id="projectSection">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
           <Typography variant="h4" gutterBottom>
-            Welcome  to {loggedUser?.name},
+            Welcome to {loggedUser?.name},
             <Typography variant="h6" style={{ fontWeight: 400 }}>
               {loggedUser?.designation}
             </Typography>
           </Typography>
         </Stack>
-        <br/>
-        <MasterData/>
-        <br/>
-        <LastTreeNumbers/>
-              
         <br />
-       <Deviation/>
-        <br/>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Trees Details(Council Name)
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing tree details
-            </Typography>
-          </Typography>
-        </Stack>
-        <Container >
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item xs={12} mb={2}>
-              <TreeDetail/>
-              </Grid>
-             
-            </Grid>
-          </Grid>
-        </Container>
         <br />
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Yesterdays Highest Base Color(Council Name)
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing Yesterdays Highest Base Color counts
-            </Typography>
-          </Typography>
-        </Stack>
-        <Container >
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item mb={2} xs={12} md={3} sm={3}>
-              <YesterdayHighLow slug={'high'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-              
-                <YesterdayHighLow slug={'high'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'high'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'high'}/>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Container>
-        <br/>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Yesterdays Lowest Base Color(Council Name)
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing Yesterdays Lowest Base Color counts
-            </Typography>
-          </Typography>
-        </Stack>
-        <Container >
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-              <YesterdayHighLow slug={'low'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'low'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'low'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'low'}/>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Container>
-
-        <br/>
-       
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Yesterdays Highest Census(Council Name)
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing Yesterdays Highest Census counts
-            </Typography>
-          </Typography>
-        </Stack>
-        <Container >
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-              <YesterdayHighLow slug={'high'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'high'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'high'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'high'}/>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Container>
-        <br/>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Yesterdays Lowest Census(Council Name)
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing Yesterdays Highest Census counts
-            </Typography>
-          </Typography>
-        </Stack>
-        <Container >
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-              <YesterdayHighLow slug={'low'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'low'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'low'}/>
-              </Grid>
-              <Grid item xs={12} md={3} sm={3} mb={2}>
-                <YesterdayHighLow slug={'low'}/>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Container>
-        <br/>
-
-
-        <br/>
-        <br/>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Council name
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing count statistics
-            </Typography>
-          </Typography>
-        </Stack>
         <Container>
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={12} md={4} sm={4}>
+                <LightCard projects={ongoingProject} />
+              </Grid>
+              <Grid item xs={12} md={4} sm={4}>
+                <LightCard projects={completedProject} />
+              </Grid>
+              <Grid item xs={12} md={4} sm={4}>
+                <DarkCard />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br />
+
+        <Container id="councilSection">
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
+            <Typography variant="h4" gutterBottom>
+              Council name
+              <Typography variant="h6" style={{ fontWeight: 400 }}>
+                It is showing count statistics
+              </Typography>
+            </Typography>
+          </Stack>
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={12} md={6} sm={3}>
@@ -268,57 +161,9 @@ export default function DashboardApp() {
           </Grid>
         </Container>
         <br />
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-          <Typography variant="h4" gutterBottom>
-          Count of WorkType(CouncilName)
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-            It is showing work report by work type
-            </Typography>
-          </Typography>
-        </Stack>
-        <br/>
-        <Container >
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-              <Grid item xs={12} md={4} sm={4} mb={2}>
-              <WorktypeCard />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4} mb={2}>
-                <WorktypeCard />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4} mb={2}>
-                <WorktypeCard />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4}>
-              <WorktypeCard />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4}>
-                <WorktypeCard />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4}>
-                <WorktypeCard />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Container>
-        <br/>
-        <br/>
-        <br/>
-        <Container>
-          <Grid container spacing={3}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={12} md={4} sm={4}>
-                <LightCard projects={ongoingProject} />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4}>
-                <LightCard projects={completedProject} />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4}>
-                <DarkCard />
-              </Grid>
-            </Grid>
-          </Grid>
-          <br /> <br />
+        <br />
+        <br />
+        <Container id="commanCard">
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={12} md={4} sm={4} mb={2}>
@@ -342,15 +187,268 @@ export default function DashboardApp() {
             </Grid>
           </Grid>
         </Container>
-        <AssociateZeroTree />
         <br />
-        <YesterdayLoggedIn />
+        <Container id="treeDetail">
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
+            <Typography variant="h4" gutterBottom>
+              Trees Details(Council Name)
+              <Typography variant="h6" style={{ fontWeight: 400 }}>
+                It is showing tree details
+              </Typography>
+            </Typography>
+          </Stack>
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={12} mb={2}>
+                <TreeDetail />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
         <br />
+        <Deviation id="deviation" />
+        <br />
+        <Container id="workType">
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} sx={{ marginLeft: '-24px' }}>
+            <Typography variant="h4" gutterBottom>
+              Count of WorkType(CouncilName)
+              <Typography variant="h6" style={{ fontWeight: 400 }}>
+                It is showing work report by work type
+              </Typography>
+            </Typography>
+          </Stack>
+          <br />
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={12} md={4} sm={4} mb={2}>
+                <WorktypeCard />
+              </Grid>
+              <Grid item xs={12} md={4} sm={4} mb={2}>
+                <WorktypeCard />
+              </Grid>
+              <Grid item xs={12} md={4} sm={4} mb={2}>
+                <WorktypeCard />
+              </Grid>
+              <Grid item xs={12} md={4} sm={4}>
+                <WorktypeCard />
+              </Grid>
+              <Grid item xs={12} md={4} sm={4}>
+                <WorktypeCard />
+              </Grid>
+              <Grid item xs={12} md={4} sm={4}>
+                <WorktypeCard />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br />
+        <br />
+        <Container id="highestBaseColor">
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
+            <Typography variant="h4" gutterBottom>
+              Yesterdays Highest Base Color(Council Name)
+              <Typography variant="h6" style={{ fontWeight: 400 }}>
+                It is showing Yesterdays Highest Base Color counts
+              </Typography>
+            </Typography>
+          </Stack>
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item mb={2} xs={12} md={3} sm={3}>
+                <YesterdayHighLow slug={'high'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br />
+        <Container id="lowestBaseColor">
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ margnLeft: '-24px' }}>
+            <Typography variant="h4" gutterBottom>
+              Yesterdays Lowest Base Color(Council Name)
+              <Typography variant="h6" style={{ fontWeight: 400 }}>
+                It is showing Yesterdays Lowest Base Color counts
+              </Typography>
+            </Typography>
+          </Stack>
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br />
+        <Container id="highestCensus">
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
+            <Typography variant="h4" gutterBottom>
+              Yesterdays Highest Census(Council Name)
+              <Typography variant="h6" style={{ fontWeight: 400 }}>
+                It is showing Yesterdays Highest Census counts
+              </Typography>
+            </Typography>
+          </Stack>
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'high'} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br />
+        <Container id="lowestCensus">
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
+            <Typography variant="h4" gutterBottom>
+              Yesterdays Lowest Census(Council Name)
+              <Typography variant="h6" style={{ fontWeight: 400 }}>
+                It is showing Yesterdays Highest Census counts
+              </Typography>
+            </Typography>
+          </Stack>
+          <Grid container spacing={3}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'} />
+              </Grid>
+              <Grid item xs={12} md={3} sm={3} mb={2}>
+                <YesterdayHighLow slug={'low'} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container>
+        <br />
+        <Container id="lasttreeNumber">
+          <LastTreeNumbers />
+        </Container>
+        <br />
+        <Container id="associateZero">
+          <AssociateZeroTree />
+        </Container>
+        <br />
+        <Container id="masterData">
+          <MasterData />
+        </Container>
+        <br />
+        <Container id="yesterdayLogged">
+          <YesterdayLoggedIn />
+        </Container>
         <br />
         <br />
         <DashboardFooter />
       </Container>
-      {/* <SpeedDialDashboard/> */}
+      <div style={{ position: 'fixed', top: '40%', right: 4, zIndex: '9999999' }}>
+        <FlipCameraAndroidIcon
+          id="fade-button"
+          aria-controls={open ? 'fade-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          style={{
+            color: '#fff',
+            background: '#000',
+            borderRadius: '30px',
+            padding: '15px',
+            fontSize: '60px',
+            marginBottom: '-5px',
+            cursor: 'pointer',
+          }}
+        />
+
+        <Menu
+          id="fade-menu"
+          MenuListProps={{
+            'aria-labelledby': 'fade-button',
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          TransitionComponent={Fade}
+          style={{zIndex: 9999999}}
+        >
+          <Link activeClass="active" to="projectSection" spy smooth offset={-70} duration={500}>
+            <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+              Project
+            </MenuItem>
+          </Link>
+
+          <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+          <Link activeClass="active" to="treeDetail" spy smooth offset={-70} duration={500}>
+            <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+              Tree Details
+            </MenuItem>
+          </Link>
+          <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+          <Link activeClass="active" to="workType" spy smooth offset={-70} duration={500}>
+            <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+              Work Reports
+            </MenuItem>
+          </Link>
+          <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+          <Link activeClass="active" to="highestBaseColor" spy smooth offset={-70} duration={500}>
+            <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+              Hi/Lo Base Color
+            </MenuItem>
+          </Link>
+          <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+          <Link activeClass="active" to="lasttreeNumber" spy smooth offset={-70} duration={500}>
+            <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+              Last Tree Numbers
+            </MenuItem>
+          </Link>
+          <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+          <Link activeClass="active" to="associateZero" spy smooth offset={-70} duration={500}>
+            <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+              0 Tree Sync Associates
+            </MenuItem>
+          </Link>
+          <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+          <Link activeClass="active" to="masterData" spy smooth offset={-70} duration={500}>
+            <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+              Master Data
+            </MenuItem>
+          </Link>
+          <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+          <Link activeClass="active" to="yesterdayLogged" spy smooth offset={-70} duration={500}>
+            <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+              Yesterday LoggedIn Associates
+            </MenuItem>
+          </Link>
+        </Menu>
+      </div>
     </Page>
-  ); 
+  );
 }
