@@ -33,7 +33,7 @@ const Deviation = () => {
             <Grid item xs={12}>
               <Card className={classes.success}>
                 <Grid container spacing={1} mt={0.4} mb={1}>
-                  <Grid xs={6} md={11} sm={6}>
+                  <Grid xs={10} md={11} sm={11}>
                     <Stack direction="row" alignItems="center">
                       <img src={DeviationImg} alt="devi" height="40px" width="40px" />
                       <Typography variant="h5" sx={{ color: '#214C50', fontWeight: 600, marginLeft: '20px' }}>
@@ -44,7 +44,7 @@ const Deviation = () => {
                       </Typography>
                     </Stack>
                   </Grid>
-                  <Grid xs={6} md={1} sm={6} mt={1}>
+                  <Grid xs={1} md={1} sm={1} mt={1}>
                     <span className={classes.darkSection}>15%</span>
                   </Grid>
                 </Grid>

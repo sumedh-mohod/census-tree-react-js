@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Grid, Typography, Container, Stack, Button } from '@mui/material';
+import { Card, Grid, Typography, Container, Stack, Button, Select, MenuItem } from '@mui/material';
+
 import { makeStyles } from '@material-ui/core/styles';
 import ProjectImg from '../../Assets/plant_team_tree.png';
 import TreedetailStatusButton from '../../components/statusbutton/TreedetailStatusButton';
@@ -28,6 +29,9 @@ const LastTreeNumbers = () => {
       fontWeight: 600,
       pointerEvents: 'none',
     },
+    icon: {
+      fill: '#214C50',
+    },
   });
   const classes = useStyles();
   return (
@@ -36,18 +40,42 @@ const LastTreeNumbers = () => {
 
      
       <Grid container item xs={12} md={12} sm={12} spacing={3} mb={4}>
-        <Grid item xs={12} sm={6} md={8}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{marginLeft: '-24px'}}>
+        <Grid item xs={12} sm={6} md={12}>
+          <Stack direction="row" justifyContent="space-between" sx={{marginLeft: '-24px'}}>
             <Typography variant="h4" gutterBottom>
               Last Tree Numbers(Council Name)
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 It is showing current tree number of selected team
               </Typography>
             </Typography>
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+              <Select
+                id="state"
+                displayEmpty
+                // name="gender"
+                // value={zoneId}
+                style={{ height: 45, width: '250px', background: '#fff' }}
+                // onChange={handleZoneChange}
+                // error={Boolean(touched.state && errors.state)}
+                // helperText={touched.state && errors.state}
+                // {...getFieldProps("state")}
+                placeholder={'Select Council'}
+                inputProps={{
+                  classes: {
+                    icon: classes.icon,
+                  },
+                }}
+              >
+                <MenuItem disabled value="">
+                  <em>Council Name</em>
+                </MenuItem>
+
+                <MenuItem key={1} value={'a'}>
+                  Nagpur
+                </MenuItem>
+              </Select>
+            </Typography>
           </Stack>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          {/* <UserListToolbar numSelected={0} placeHolder={'Search users...'} onFilterName={filterByName} /> */}
         </Grid>
       </Grid>
         <Grid container spacing={3}>

@@ -55,15 +55,22 @@ const MasterData = () => {
       </Grid>
       <Grid container spacing={3}>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <img
+            src={ProjectImg}
+            alt="plant"
+            height={120}
+            width={120}
+            style={{ position: 'absolute', marginTop: '-50px', overflow: 'visible', zIndex: 999999, right: '5%' }}
+          />
           <Grid item xs={12}>
             <Card style={{ padding: '50px 50px 25px 50px', background: '#214C50' }}>
               <Grid container spacing={1}>
-                <Grid container item xs={12} md={4} sm={6} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
-                      mt={3}
+                      mt={2}
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
@@ -74,14 +81,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={2}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={2}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       67
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={6} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -96,14 +103,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={2}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={2}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       67
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={6} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -118,14 +125,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={2}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={2}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       18
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={6} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -140,14 +147,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       20
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={6} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -162,14 +169,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       30
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={6} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -184,14 +191,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       980
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={6} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -206,15 +213,15 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       67
                     </Typography>
                   </Grid>
                 </Grid>
 
-                <Grid container item xs={12} md={4} sm={6} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -229,14 +236,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       34
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={3} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mb={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mb={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -251,15 +258,15 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       18
                     </Typography>
                   </Grid>
                 </Grid>
 
-                <Grid container item xs={12} md={4} sm={3} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -274,15 +281,15 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       980
                     </Typography>
                   </Grid>
                 </Grid>
 
-                <Grid container item xs={12} md={4} sm={3} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -297,15 +304,15 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       40
                     </Typography>
                   </Grid>
                 </Grid>
 
-                <Grid container item xs={12} md={4} sm={3} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -320,14 +327,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       06
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={3} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -342,14 +349,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       06
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={3} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -364,14 +371,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       06
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={3} spacing={3} className={classes.border}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -386,14 +393,14 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       06
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={3} spacing={3}>
-                  <Grid xs={12} md={8} sm={3} spacing={1} mt={1}>
+                <Grid container item xs={12} md={4} sm={4} spacing={3}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
@@ -408,7 +415,7 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={12} md={4} sm={3} spacing={1} mt={3}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
                       06
                     </Typography>
@@ -416,13 +423,6 @@ const MasterData = () => {
                 </Grid>
               </Grid>
             </Card>
-            <img
-              src={ProjectImg}
-              alt="plant"
-              height={120}
-              width={120}
-              style={{ position: 'absolute', marginTop: '-105px', overflow: 'visible', zIndex: 999999, right: '5%' }}
-            />
           </Grid>
         </Grid>
       </Grid>
