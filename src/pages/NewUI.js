@@ -139,7 +139,7 @@ export default function NewUI() {
       data: [{ id: activeTeams?.active_ward_id, name: activeTeams?.active_ward_name, status: 1 }],
     };
     const activeZoneObj = {
-      data: [{ id: activeTeams?.active_ward_id, name: activeTeams?.active_zone_name, status: 1 }],
+      data: [{ id: activeTeams?.active_zone_id, name: activeTeams?.active_zone_name, status: 1 }],
     };
     dispatch(SetActiveCouncil(activeCouncilObj));
     dispatch(SetActiveWards(activeWardObj));
@@ -723,7 +723,7 @@ const classes = useStyles()
                           }}
                           className='unapproved'
                         >
-                          Unapproved & Next
+                          Unapprove & Next
                         </Button>
                       </div>
                       <div className="one mob-cen">

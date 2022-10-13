@@ -510,11 +510,10 @@ export default function NewUserForm(props) {
   };
 
   const handleEducationChange = (e) => {
-    // console.log("education in")
-    const regex = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
-    const regex3 = /^[A-Za-z? ,_-]+(1[0-2]|[1-9])$/;
-    const regex1 = /^(1[0-2]|[1-9])+[A-Za-z]+[A-Za-z]$/;
-    const regex2 = /^(1[0-2]|[1-9])$/;
+    const regex = /^[A-Za-z? ,_-]+(1[0-2]|[0-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex3 = /^[A-Za-z? ,_-]+(1[0-2]|[0-9])$/;
+    const regex1 = /^(1[0-2]|[0-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex2 = /^(1[0-2]|[0-9])$/;
     const regrex_ = /^[A-Za-z? ,_-]+$/;
 
     if(regrex_.test(e.target.value)) {
@@ -736,12 +735,6 @@ export default function NewUserForm(props) {
   };
 
   const handleBankName = (e) => {
-    const regex = /^[a-zA-Z ]{2,45}$/;
-    if (regex.test(e.target.value)) {
-      setBankNameError('');
-    } else {
-      setBankNameError('Please Enter Bank Name Containing Alphabets Only');
-    }
     setBankName(e.target.value);
   };
 
@@ -1080,10 +1073,6 @@ export default function NewUserForm(props) {
             .matches(aadharRegExp, 'Enter valid aadhar number')
             .required('Aadhar Number is required'),
           education: Yup.string()
-            .matches(
-              /^[a-zA-Z_@./#&+-]*(?:\d[a-zA-Z_@./#&+-]*){0,2}$/,
-              'Education containg alphanumeric Format and it accept only 2 digits'
-            )
             .required('Education is required'),
           dob: Yup.string().required('DOB is required'),
           religion: Yup.string().required('Religion is required'),
@@ -2166,7 +2155,6 @@ export default function NewUserForm(props) {
                 
                     {lastDayOfWork || values.lastDayOfWork ? (
                       <>
-                        <Grid item xs={6}>
                           <TextField
                             fullWidth
                             select
@@ -2187,6 +2175,11 @@ export default function NewUserForm(props) {
                             // }}
                             error={Boolean(touched.noticePeriod && errors.noticePeriod)}
                             helperText={touched.noticePeriod && errors.noticePeriod}
+                            inputProps={{
+                              classes: {
+                                icon: classes.icon,
+                              },
+                            }}
                             {...getFieldProps('noticePeriod')}
                           >
                             <MenuItem disabled value="">
@@ -2198,7 +2191,6 @@ export default function NewUserForm(props) {
                               </MenuItem>
                             ))}
                           </TextField>
-                        </Grid>
                       </>
                     ) : null}
                 </>
