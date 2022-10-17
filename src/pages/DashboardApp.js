@@ -145,11 +145,15 @@ export default function DashboardApp() {
         <Container id="councilSection">
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
             <Typography variant="h4" gutterBottom>
-              Council name
-              <Typography variant="h6" style={{ fontWeight: 400 }}>
-                It is showing count statistics
+              Forest Tree Census <span style={{ fontSize: '14px', fontWeight: '500' }}>(12-03-2022 to 17-10-2022)</span>
+              <Typography gutterBottom sx={{ fontSize: '16px', fontWeight: 600 }}>
+                Wardha Muncipal Council
+                <Typography variant="h6" style={{ fontWeight: 400 }}>
+                  It is showing count statistics
+                </Typography>
               </Typography>
             </Typography>
+
             <Typography variant="h6" style={{ fontWeight: 400 }}>
               <Select
                 id="state"
@@ -301,8 +305,8 @@ export default function DashboardApp() {
           </Grid>
         </Container>
         <br />
-        <Container id="lowestBaseColor" >
-          <Stack direction="row"  justifyContent="space-between" mb={5} ml={-3}>
+        <Container id="lowestBaseColor">
+          <Stack direction="row" justifyContent="space-between" mb={5} ml={-3}>
             <Typography variant="h4" gutterBottom>
               Yesterdays Lowest Base Color(Council Name)
               <Typography variant="h6" style={{ fontWeight: 400 }}>
