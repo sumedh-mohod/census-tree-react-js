@@ -114,7 +114,7 @@ export default function TypeOfPropertyDialog(props) {
 
   const DesignationsSchema = Yup.object().shape({
     location_type: Yup.string().required('Location Type Type is required'),
-    propertyTypes: Yup.string().matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed for this field ').required('Property Type is required'),
+    propertyTypes: Yup.string().matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed').required('Property Type is required'),
   });
 
 
