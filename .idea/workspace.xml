@@ -25,7 +25,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../xampp/htdocs/archslate_api" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -37,7 +37,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="29759629-fd9f-4c62-9186-bacb0c15d50a" name="Default Changelist" comment="" />
+      <changelist id="af567147-a6a4-4a0e-b0f2-0da9335129df" name="Default Changelist" comment="" />
       <created>1654500467845</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -48,6 +48,7 @@
       <workItem from="1658212767106" duration="1383000" />
       <workItem from="1659622506611" duration="1149000" />
       <workItem from="1663556431752" duration="1064000" />
+      <workItem from="1665643495704" duration="619000" />
     </task>
     <servers />
   </component>
