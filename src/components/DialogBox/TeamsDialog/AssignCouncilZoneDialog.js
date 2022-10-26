@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import * as Yup from 'yup';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
@@ -22,6 +23,7 @@ import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import { AddCZWToTeam } from '../../../actions/TeamsAction';
+import { ShowLoader , ShowLoadingButton} from '../../../actions/CommonAction';
 import AssignNewZoneWardConfirmationDialog from './AssignNewZoneWardConfirmationDialog';
 import { GetActiveCouncil } from '../../../actions/CouncilAction';
 import { GetZones, GetActiveZones, GetActiveZonesByCouncilId } from '../../../actions/ZonesAction';
@@ -122,7 +124,10 @@ export default function AssignCouncilZoneDialog(props) {
     activeZonesByCID,
     activeWardsByCID,
     assignCWZToTeamLog,
-    deleteCWZFromteamLog
+    deleteCWZFromteamLog,
+    showLoader,
+    alerts,
+    showLoadingButton
 
   } = useSelector((state) => ({
     council:state.council.activeCouncil,
@@ -131,9 +136,15 @@ export default function AssignCouncilZoneDialog(props) {
     activeWardsByCID:state.wards.activeWardsByCID,
     activeZonesByCID:state.zones.activeZonesByCID,
     assignCWZToTeamLog:state.teams.assignCWZToTeamLog,
-    deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog
+    deleteCWZFromteamLog:state.teams.deleteCWZFromteamLog,
+    showLoader: state.common.showLoader,
+    alerts: state.alerts,
+    showLoadingButton: state.common.showLoadingButton,
     
   }));
+
+  console.log("alerts", alerts)
+  console.log("ShowLoadingButton", showLoadingButton)
 
   useEffect(()=>{
     dispatch(GetActiveCouncil(1));
@@ -258,13 +269,15 @@ const classes = useStyles()
   const handleTopModalAnswer = (answer) => {
     if(answer){
       if(data){
+        dispatch(ShowLoadingButton(true));
            dispatch(AddCZWToTeam(reqObj,id))
       }
       else {
         dispatch(AddCZWToTeam(reqObj))
+        dispatch(ShowLoadingButton(true));
       }
     }
-    setTopModalOpen(!topModalOpen)
+    setTopModalOpen(!topModalOpen)  
   }
 
   return (
@@ -293,7 +306,7 @@ const classes = useStyles()
                 id="council"
                 name="council"
                 displayEmpty
-                label="Coucil*"
+                label="Council*"
                 value={values.council}
                 style={{width:'83%', marginLeft: 40, marginTop:5}}
                 defaultValue={data ? data.councilName : ''}
@@ -399,9 +412,14 @@ const classes = useStyles()
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       />
-          <Button autoFocus onClick={handleSubmit } style={{ background: '#214c50',color: '#fff'}}>
+      {
+             showLoadingButton ? (
+              <div style={{ display: 'flex',paddingLeft: '150px', alignItems: 'center', marginTop: '15px'}}>
+                <CircularProgress  style={{color: '#214c50'}} />
+              </div>
+            ) :  <Button autoFocus onClick={handleSubmit } style={{ background: '#214c50',color: '#fff'}}>
             Save
-          </Button>
+          </Button>}
         </DialogActions>
       </Dialog>
       </div>
