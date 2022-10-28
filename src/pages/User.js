@@ -33,6 +33,7 @@ import NewUserDialog from '../components/DialogBox/NewUserDialog';
 import UserTableData from '../components/JsonFiles/UserTableData.json';
 import { DeleteUsers, GetUsers, SearchUsers, UnlinkDevice } from '../actions/UserAction';
 import WarningMessageDialog from '../components/DialogBox/WarningMessageDialog';
+import UserActivateConfirmationDialog from '../components/DialogBox/UserActivateConfirmationDialog';
 import StatusButton from '../components/statusbutton/StatusButton';
 
 // ----------------------------------------------------------------------
@@ -101,7 +102,9 @@ export default function User() {
   const [searchValue, setSearchValue] = useState('');
   const [pageCountError, setPageCountError] = useState(false);
   const [topModalOpen, setTopModalOpen] = useState(false);
+  const [activateModalOpen, setActivateModalOpen] = useState(false);
   const [reqObj, setReqObj] = useState(null);
+  const [requireActiveObj, setReqActiveObj] = useState(null);
   const userPermissions = [];
   const message =
     'Unlinking device will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding.';
@@ -159,7 +162,18 @@ export default function User() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteUsers(data.id, data.status ? 0 : 1));
+    // console.log('activate_data', data);
+    const activeObj = {
+      data_id: data.id,
+      data_status: data.status ? 0 : 1
+    }
+    if(!data.status){
+      dispatch(DeleteUsers(activeObj));
+    }else{
+      handleactiveModalClose();
+      setReqActiveObj(activeObj);
+    }
+    // dispatch(DeleteUsers(data.id, data.status ? 0 : 1));
   };
 
   let timer = null;
@@ -201,6 +215,17 @@ export default function User() {
     setTopModalOpen(!topModalOpen);
   };
 
+  const handleactiveModalClose=()=>{
+    setActivateModalOpen(!activateModalOpen);
+  }
+
+  const handleActivateModalAnswer=(answer)=>{
+    if(answer){
+      // console.log('aciveInactive')
+      dispatch(DeleteUsers(requireActiveObj));
+    }
+    setActivateModalOpen(!activateModalOpen)
+  }
   return (
     <Page title="User">
       <Container>
@@ -213,6 +238,11 @@ export default function User() {
           isOpenConfirm={topModalOpen}
           message={message}
           handleClose={(answer) => handleTopModalAnswer(answer)}
+        />
+        <UserActivateConfirmationDialog 
+        isOpenConfirm={activateModalOpen}
+        message={'Inactivating the user will expire their session. Please make sure they have synched all their offline data. Do you still want to Inactivate?'}
+        handleClose={(answer) => handleActivateModalAnswer(answer)}
         />
         <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <CircularProgress color="inherit" />

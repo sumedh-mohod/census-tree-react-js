@@ -143,9 +143,6 @@ export default function AssignCouncilZoneDialog(props) {
     
   }));
 
-  console.log("alerts", alerts)
-  console.log("ShowLoadingButton", showLoadingButton)
-
   useEffect(()=>{
     dispatch(GetActiveCouncil(1));
     
