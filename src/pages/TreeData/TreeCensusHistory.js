@@ -177,7 +177,8 @@ console.log('treeCensusHistory', treeCensusHistory);
           color="inherit"
           // href="#"
         >
-          {treeCensusName}
+          Census
+          {/* {treeCensusName} */}
               
         </Link>
         </Typography>

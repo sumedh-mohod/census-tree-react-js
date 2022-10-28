@@ -94,7 +94,7 @@ export default function AssignUserDialog(props) {
   //     }
   //     return null;
   // });
-//     console.log(":::::::::", activeUsers);
+    // console.log("showLoadingButton", showLoadingButton);
 // }
 
 // console.log("/////...", roles)
@@ -184,11 +184,11 @@ export default function AssignUserDialog(props) {
   const handleTopModalAnswer = (answer) => {
     if(answer){
       if(data){
+           dispatch(AddUserToTeam(reqObj));
         dispatch(ShowLoadingButton(true));
-           dispatch(AddUserToTeam(reqObj))
       }
       else {
-        dispatch(AddUserToTeam(reqObj))
+        dispatch(AddUserToTeam(reqObj));
         dispatch(ShowLoadingButton(true));
       }
     }
