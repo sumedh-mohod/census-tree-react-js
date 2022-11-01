@@ -8,8 +8,8 @@ import { AppWidgetSummary } from '../../sections/@dashboard/app';
 import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
-const WorktypeCard = (props) => {
-  console.log("worktypereport", props);
+const WorktypeCensusCard = (props) => {
+  // console.log("worktypereport", props);
   //   const { count, title, subtitle } = props.value;
   const useStyles = makeStyles({
     common: {
@@ -62,8 +62,7 @@ const WorktypeCard = (props) => {
         <Grid item xs={12}>
           <Card className={classes.common}>
             <Typography variant="h4" className={classes.cardCount} ml={1}>
-              {props?.index === 0? 'Base Color': props?.index === 1? 'Base Color Onsite QC': props?.index === 2? 'Base Color Offsite QC' : ''}
-              
+              {props?.census}
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 Below It will show count details
               </Typography>
@@ -73,13 +72,13 @@ const WorktypeCard = (props) => {
             <Grid container spacing={1}>
               <Grid container item xs={5} >
                 <Typography variant="h5" style={{ color: '#2D653F', paddingLeft: '10px' }} ml={2} mt={1}>
-                  <b>{props?.value?.count}</b>
+                  <b>1020</b>
                 </Typography>
               </Grid>
               <Grid container item xs={7}>
                 <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={0.7} mb={0.7}>
-                {props?.value?.day}
-                  <Typography variant="h6">{props?.value?.date}</Typography>
+                Yesterday
+                  <Typography variant="h6">21 Jan 2020</Typography>
                 </Typography>
               </Grid>
             </Grid>
@@ -134,4 +133,4 @@ const WorktypeCard = (props) => {
   );
 };
 
-export default WorktypeCard;
+export default WorktypeCensusCard;

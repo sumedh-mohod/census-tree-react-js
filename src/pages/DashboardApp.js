@@ -22,6 +22,7 @@ import DashboardFooter from './Dashboardsection/DashboardFooter';
 import AssociateCard from './Dashboardsection/AssociateCard';
 import UsersCard from './Dashboardsection/UsersCard';
 import WorktypeCard from './Dashboardsection/WorktypeCard';
+import WorktypeCensusCard from './Dashboardsection/WorktypeCensusCard';
 import YesterdayHighLow from './Dashboardsection/YesterdayHighLow';
 import TreeDetail from './Dashboardsection/TreeDetail';
 import LastTreeNumbers from './Dashboardsection/LastTreeNumbers';
@@ -115,6 +116,12 @@ export default function DashboardApp() {
       subtitle: 'It is showing all zones counts and details of it inselected council.',
     },
   ];
+
+  const censusData = [
+    {day: 'Today', date: '01 Nov 2022', count: 0},
+    {day: 'Yesterday', date: '31 Oct 2022', count: 2},
+    {day: 'Ereyesterday', date: '30 Oct 2022', count: 0}
+  ]
   const useStyles = makeStyles({
     icon: {
       fill: '#214C50',
@@ -159,9 +166,9 @@ export default function DashboardApp() {
                 {dashboardCouncil?.council_records?.council_details?.name}{' '}
                 <span style={{ fontSize: '14px', fontWeight: '500' }}>
                   ({dashboardCouncil?.council_records?.council_details?.project_start_date ?
-                  dashboardCouncil?.council_records?.council_details?.project_start_date: '--'} to{' '}
+                  dashboardCouncil?.council_records?.council_details?.project_start_date.split('-').reverse().join('-'): '--'} to{' '}
                   {dashboardCouncil?.council_records?.council_details?.project_end_date ? 
-                  dashboardCouncil?.council_records?.council_details?.project_end_date: ' --'})
+                  dashboardCouncil?.council_records?.council_details?.project_end_date.split('-').reverse().join('-'): ' --'})
                 </span>
                 <Typography variant="h6" style={{ fontWeight: 400 }}>
                   It is showing count statistics
@@ -255,7 +262,7 @@ export default function DashboardApp() {
         <Container id="treeDetail">
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
             <Typography variant="h4" gutterBottom>
-              Trees Details(Council Name)
+              Trees Details ({`${dashboardCouncil?.council_records?.council_details?.name}`})
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 It is showing tree details
               </Typography>
@@ -278,7 +285,7 @@ export default function DashboardApp() {
         <Container id="workType">
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} sx={{ marginLeft: '-24px' }}>
             <Typography variant="h4" gutterBottom>
-              Count of WorkType(CouncilName)
+              Count of WorkType ({`${dashboardCouncil?.council_records?.council_details?.name}`})
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 It is showing work report by work type
               </Typography>
@@ -287,10 +294,21 @@ export default function DashboardApp() {
           <br />
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              {dashboardCouncil?.council_records?.work_type_count?.base_color?.map((val, i)=>(
               <Grid item xs={12} md={4} sm={4} mb={2}>
-                <WorktypeCard />
+                <WorktypeCard value={val} index={i}/>
+              </Grid>
+              ))}
+              <Grid item xs={12} md={4} sm={4} mb={2}>
+                <WorktypeCensusCard census={'Census'}/>
               </Grid>
               <Grid item xs={12} md={4} sm={4} mb={2}>
+                <WorktypeCensusCard census={'Census Onsite QC'}/>
+              </Grid>
+              <Grid item xs={12} md={4} sm={4} mb={2}>
+                <WorktypeCensusCard census={'Base Color Offsite QC'} />
+              </Grid>
+              {/* <Grid item xs={12} md={4} sm={4} mb={2}>
                 <WorktypeCard />
               </Grid>
               <Grid item xs={12} md={4} sm={4} mb={2}>
@@ -304,7 +322,7 @@ export default function DashboardApp() {
               </Grid>
               <Grid item xs={12} md={4} sm={4}>
                 <WorktypeCard />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
         </Container>
@@ -313,7 +331,7 @@ export default function DashboardApp() {
         <Container id="highestBaseColor">
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
             <Typography variant="h4" gutterBottom>
-              Yesterdays Highest Base Color(Council Name)
+              Yesterdays Highest Base Color ({`${dashboardCouncil?.council_records?.council_details?.name}`})
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 It is showing Yesterdays Highest Base Color counts
               </Typography>
@@ -340,7 +358,7 @@ export default function DashboardApp() {
         <Container id="lowestBaseColor">
           <Stack direction="row" justifyContent="space-between" mb={5} ml={-3}>
             <Typography variant="h4" gutterBottom>
-              Yesterdays Lowest Base Color(Council Name)
+              Yesterdays Lowest Base Color ({`${dashboardCouncil?.council_records?.council_details?.name}`})
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 It is showing Yesterdays Lowest Base Color counts
               </Typography>
@@ -367,7 +385,7 @@ export default function DashboardApp() {
         <Container id="highestCensus">
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
             <Typography variant="h4" gutterBottom>
-              Yesterdays Highest Census(Council Name)
+              Yesterdays Highest Census ({`${dashboardCouncil?.council_records?.council_details?.name}`})
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 It is showing Yesterdays Highest Census counts
               </Typography>
@@ -394,7 +412,7 @@ export default function DashboardApp() {
         <Container id="lowestCensus">
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
             <Typography variant="h4" gutterBottom>
-              Yesterdays Lowest Census(Council Name)
+              Yesterdays Lowest Census({`${dashboardCouncil?.council_records?.council_details?.name}`})
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 It is showing Yesterdays Highest Census counts
               </Typography>
@@ -419,7 +437,7 @@ export default function DashboardApp() {
         </Container>
         <br />
         <Container id="lasttreeNumber">
-          <LastTreeNumbers />
+          <LastTreeNumbers councilName={`${dashboardCouncil?.council_records?.council_details?.name}`}/>
         </Container>
         <br />
         <Container id="associateZero">

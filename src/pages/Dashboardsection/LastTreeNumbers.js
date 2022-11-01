@@ -6,7 +6,8 @@ import ProjectImg from '../../Assets/plant_team_tree.png';
 import TreedetailStatusButton from '../../components/statusbutton/TreedetailStatusButton';
 // import UserListToolbar from '../../sections/@dashboard/user';
 
-const LastTreeNumbers = () => {
+const LastTreeNumbers = (props) => {
+  // console.log("councilName", props);
   const filterByName = () => {};
   const useStyles = makeStyles({
     success: {
@@ -43,7 +44,7 @@ const LastTreeNumbers = () => {
         <Grid item xs={12} sm={6} md={12}>
           <Stack direction="row" justifyContent="space-between" sx={{marginLeft: '-24px'}}>
             <Typography variant="h4" gutterBottom>
-              Last Tree Numbers(Council Name)
+              Last Tree Numbers ({props.councilName})
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 It is showing current tree number of selected team
               </Typography>

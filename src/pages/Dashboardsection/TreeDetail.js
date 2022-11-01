@@ -7,10 +7,8 @@ import TreedetailStatusButton from '../../components/statusbutton/TreedetailStat
 
 
 const TreeDetail = (props) => {
-  console.log("treecountprops", props);
+  // console.log("treecountprops", props);
   const {base_color: baseColor, census} = props.treeCount;
-  console.log("base_color", baseColor);
-  console.log("census", census);
   const useStyles = makeStyles({
     
     imgTop: {
