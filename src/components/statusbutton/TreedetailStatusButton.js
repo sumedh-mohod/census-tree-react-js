@@ -6,7 +6,7 @@ import {
 import './style.css';
 
 export default function TreedetailStatusButton(props) {
-  const { slug } = props;
+  const { slug, count } = props;
   const useStyles = makeStyles({
     success: {
         backgroundColor: '#DDFAD1',
@@ -51,7 +51,7 @@ export default function TreedetailStatusButton(props) {
        variant="contained"
        className={slug === 'success'?classes.success: slug === 'pending'? classes.pending: slug === 'danger'? classes.danger : classes.black}
      >
-       70890
+       {count}
      </Button>
       
     </>

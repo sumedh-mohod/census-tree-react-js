@@ -723,10 +723,10 @@ const classes = useStyles()
                           }}
                           className='unapproved'
                         >
-                          Unapprove & Next
+                          Unapprove & Update
                         </Button>
                       </div>
-                      <div className="one mob-cen">
+                      {loggedUser?.roles[0]?.slug === "expert" ?  "" :<div className="one mob-cen">
                         <Button
                           onClick={handleReferToExpert}
                           sx={{
@@ -741,7 +741,7 @@ const classes = useStyles()
                         >
                           Refer To An Expert
                         </Button>
-                      </div>
+                      </div>}
                       {updateClick ? (
                       <TreeDetailsDialog
                         isOpen={updateClick}

@@ -7,7 +7,8 @@ import { AppWidgetSummary } from '../../sections/@dashboard/app';
 import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
-const UsersCard = () => {
+const UsersCard = (props) => {
+  // console.log("userpropscards", props);
   //   const { count, title, subtitle } = props.value;
   const useStyles = makeStyles({
     common: {
@@ -47,9 +48,9 @@ const UsersCard = () => {
         <Grid item xs={12}>
           <Card style={{ height: '160px' }} className={classes.common}>
             <Typography variant="h4" className={classes.cardCount}>
-              10897
+              {props?.totalUser}
               <Typography variant="h6" style={{ color: '#214C50' }}>
-                Base Color User
+                {props?.title}
               </Typography>
             </Typography>
             <ArrowCircleRightIcon
@@ -63,17 +64,17 @@ const UsersCard = () => {
                   style={{ color: '#5d935d', paddingLeft: '10px' }}
                   className={classes.borderRight}
                 >
-                  <b>10,200</b>
+                  <b>{props?.totalOnsiteQc}</b>
                   <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }}>
-                    Base Color Onsite QC
+                    {props?.onsiteSubtitle}
                   </Typography>
                 </Typography>
               </Grid>
               <Grid container item xs={6}>
                 <Typography variant="h5" style={{ color: 'red', paddingLeft: '10px' }}>
-                  <b> 600</b>
+                  <b> {props?.totalOffsiteQc}</b>
                   <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }}>
-                    Base Color Offsite QC
+                    {props?.offsiteSubtitle}
                   </Typography>
                 </Typography>
               </Grid>

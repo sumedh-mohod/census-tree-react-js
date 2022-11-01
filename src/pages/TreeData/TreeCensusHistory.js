@@ -165,19 +165,20 @@ export default function TreeCensusHistory() {
           <div role="presentation">
           <Breadcrumbs aria-label="breadcrumb" style={{color: "#000000", fontWeight: 700, fontSize: '25px'}} separator=':'>
       <Typography variant="h4" gutterBottom style={{color: "#000000"}}>
-      Teams
+      Trees Data
           </Typography>
       <Typography variant="h4" gutterBottom style={{color: "#000000",fontWeight: 400}}>
         <Link 
         component={RouterLink}
-        to={`/`}
+        to={'/dashboard/census'}
         state={state}
           underline="hover"
           // sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
           color="inherit"
           // href="#"
         >
-          Assigned
+          Census
+          {/* {treeCensusName} */}
               
         </Link>
         </Typography>

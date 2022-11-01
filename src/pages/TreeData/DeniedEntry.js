@@ -32,8 +32,9 @@ import { GetActiveCouncil } from '../../actions/CouncilAction';
 import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
 import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
-import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
+// import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import ImageCarousel from '../../components/ImageCarousel';
+import DeniedListToolbar from "../../sections/@dashboard/tree/DeniedListToolBar"
 
 // ----------------------------------------------------------------------
 
@@ -188,10 +189,14 @@ export default function DeniedEntry() {
 
   // console.log("DENIED ENTRY",deniedEntry);
 
-  deniedEntry?.map((option, index) => {
-  
-    return null;
-  });
+  // deniedEntry?.map((option, index) => {
+  //   // console.log("PROPRTY TYPE",option.property_type);
+  //   // console.log("PROPERTY NUMBER",option.property?.property_number);
+  //   // console.log("OWNER NAME",option.property?.owner_name);
+  //   // console.log("REASON",option.reason);
+  //   // console.log("DENIED FOR",option.denied_for);
+  //   return null;
+  // });
 
   return (
     <Page title="User">
@@ -220,7 +225,7 @@ export default function DeniedEntry() {
         </Stack>
 
         <Card>
-          <TeamListToolbar
+          <DeniedListToolbar
             numSelected={0}
             placeHolder={'Search Base Color...'}
             onFilterName={filterByName}
@@ -247,8 +252,8 @@ export default function DeniedEntry() {
                   {showList
                     ? deniedEntry?.map((option, index) => {
                         return (
-                          <TableRow hover>
-                            <TableCell align="left">
+                          <TableRow hover >
+                            <TableCell align="left" >
                               <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
                             </TableCell>
                             <TableCell align="left">

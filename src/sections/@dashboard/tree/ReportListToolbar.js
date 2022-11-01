@@ -95,7 +95,7 @@ export default function ReportListToolbar({
   const [imageData, setImageData] = useState('');
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
   const inputRef = useRef(null);
-  console.log('wardImage...abc', wardImage);
+  // console.log('wardImage...abc', wardImage);
   // let imgData ='';
 
   // const { dataValue}= props;
@@ -137,7 +137,7 @@ export default function ReportListToolbar({
     council: state.council.activeCouncil,
     reports: state.reports.reports,
   }));
-  console.log('reports123', reports);
+  // console.log('reports123', reports);
   // console.log("council1234", council)
   // console.log("Council123", council.name)
 
@@ -229,7 +229,7 @@ export default function ReportListToolbar({
     const conditionCanvas = await conditionImage();
     const overallCanvas = await overallCount();
 
-    console.log('wardImage.....2', img);
+    // console.log('wardImage.....2', img);
     // console.log('treeCanvas', treeCanvas);
     // console.log('typeCanvas', typeCanvas);
     // console.log('conditionCanvas', conditionCanvas);

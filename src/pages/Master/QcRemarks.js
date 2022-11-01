@@ -32,6 +32,7 @@ import USERLIST from '../../_mock/user';
 import UserTableData from  '../../components/JsonFiles/UserTableData.json';
 import { DeleteQcRemarks, GetQcRemarks, SearchQcRemarks} from '../../actions/QcRemarksAction';
 import {MasterBreadCrumChip} from '../../sections/@dashboard/master/MasterBreadCrumChip';
+import StatusButton from '../../components/statusbutton/StatusButton';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,7 @@ const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'remark', label: 'Remark', alignRight: false },
   { id: 'remarkFor', label: 'Remark For', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'action', label: 'Action', alignRight: true },
 ];
 
@@ -227,6 +229,9 @@ export default function District() {
                         </TableCell>
                         <TableCell align="left">{option.remark}</TableCell>
                         <TableCell align="left">{option.remark_for}</TableCell>
+                        <TableCell align="left">
+                          <StatusButton status={option.status} />
+                        </TableCell>
                         <TableCell align="right">
                           <UserMoreMenu
                             status={option.status}

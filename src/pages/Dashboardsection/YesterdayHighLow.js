@@ -7,7 +7,7 @@ import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 
 const YesterdayBaseColor = (props) => {
   const { slug } = props;
-  console.log('props', props);
+  // console.log('props', props);
   //   const { count, title, subtitle } = props.value;
   const useStyles = makeStyles({
     common: {

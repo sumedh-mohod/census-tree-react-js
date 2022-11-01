@@ -6,7 +6,8 @@ import { AppWidgetSummary } from '../../sections/@dashboard/app';
 import ProjectAssociate from '../../Assets/project_associates.png';
 //   import Iconify from '../../../components/Iconify';
 
-const DarkCard = () => {
+const DarkCard = (props) => {
+  // console.log("props",props);
   const useStyles = makeStyles({
     wrapper: {
       display: 'grid',
@@ -37,7 +38,7 @@ const DarkCard = () => {
             <div className={classes.wrapper}>
               <div>
                 <h2 className={classes.cardCount}>
-                  10,234
+                  {props?.totalAssociate}
                 </h2>
                 <div className={classes.border} />
                 <Typography className={classes.cardleftSection}>

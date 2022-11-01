@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { faker } from '@faker-js/faker';
-
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 // @mui
-import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography, Stack, Card, Select } from '@mui/material';
+import { Grid, Container, Typography, Stack, Select } from '@mui/material';
+import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
 import Divider from '@mui/material/Divider';
@@ -14,17 +12,7 @@ import Fade from '@mui/material/Fade';
 // components
 import { Link, animateScroll as scroll } from 'react-scroll';
 import Page from '../components/Page';
-import {
-  AppTasks,
-  AppNewsUpdate,
-  AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
-  AppWidgetSummary,
-  AppCurrentSubject,
-  AppConversionRates,
-} from '../sections/@dashboard/app';
+import { GetDashboardByCouncilId } from '../actions/DashboardAction';
 import AssociateZeroTree from './Dashboardsection/AssociateZeroTree';
 import YesterdayLoggedIn from './Dashboardsection/YesterdayLoggedIn';
 import LightCard from './Dashboardsection/LightCard';
@@ -38,69 +26,90 @@ import YesterdayHighLow from './Dashboardsection/YesterdayHighLow';
 import TreeDetail from './Dashboardsection/TreeDetail';
 import LastTreeNumbers from './Dashboardsection/LastTreeNumbers';
 import Deviation from './Dashboardsection/Deviation';
-import SpeedDialDashboard from './Dashboardsection/SpeedDialDashboard';
 import MasterData from './Dashboardsection/MasterData';
+import { GetActiveCouncil } from '../actions/CouncilAction';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [councilId, setCouncilId] = useState(null);
   const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const theme = useTheme();
-  const { loggedUser, showLoader } = useSelector((state) => ({
+  useEffect(() => {
+    dispatch(GetDashboardByCouncilId(23));
+    dispatch(GetActiveCouncil(1));
+  }, []);
+  useEffect(() => {
+    if (councilId) {
+      // console.log('councilclicked', councilId);
+      dispatch(GetDashboardByCouncilId(councilId));
+    }
+    // console.log('councilId unclicked');
+  }, [councilId]);
+  const handleCouncil = (e) => {
+    if (e.target.value) {
+      // console.log('clicked', e.target.value);
+      setCouncilId(e.target.value);
+    }
+  };
+  // const theme = useTheme();
+  const { loggedUser, dashboardCouncil, council } = useSelector((state) => ({
     loggedUser: state.auth.loggedUser,
-    showLoader: state.common.showLoader,
+    dashboardCouncil: state.dashboardCouncil.dashboardCouncil,
+    council: state.council.activeCouncil,
   }));
-  // console.log('showLoader', showLoader);
+  console.log('dashboardCouncil', dashboardCouncil);
+
   const ongoingProject = {
-    count: 136,
+    count: `${dashboardCouncil?.overall_records?.total_ongoing_projects}`,
     title: 'Ongoing Projects',
     subtitle: 'It is showing count of all ongoing projects',
   };
   const completedProject = {
-    count: 70,
+    count: `${dashboardCouncil?.overall_records?.total_completed_projects}`,
     title: 'Completed Projects',
     subtitle: 'It is showing count of all ongoing projects',
   };
 
   const commanCardValue = [
     {
-      count: 12897,
+      count: `${dashboardCouncil?.council_records?.count_statistics?.total_trees}`,
       title: 'Trees',
       color: 'red',
       subtitle: 'It is showing all trees counts and its Details in selected council.',
     },
     {
-      count: 9670,
+      count: `${dashboardCouncil?.council_records?.count_statistics?.total_denied_properties}`,
       title: 'Denied Property',
       color: 'orange',
       subtitle: 'It is showing all denied property counts and details of its in selected council.',
     },
     {
-      count: 2390,
+      count: `${dashboardCouncil?.council_records?.count_statistics?.total_no_trees_properties}`,
       title: 'No Tree Properties',
       color: 'lightGreen',
       subtitle: 'It is showing all No Tree Properties counts and details of it in selected council',
     },
     {
-      count: 5670,
+      count: `${dashboardCouncil?.council_records?.count_statistics?.total_teams}`,
       title: 'Teams',
       color: 'green',
       subtitle: 'It is showing all teams counts and details of its inselected council.',
     },
     {
-      count: 23900,
+      count: `${dashboardCouncil?.council_records?.count_statistics?.total_wards}`,
       title: 'Wards',
       color: 'orange',
       subtitle: 'It is showing all wards counts and details of it inselected council.',
     },
     {
-      count: 12897,
+      count: `${dashboardCouncil?.council_records?.count_statistics?.total_zones}`,
       title: 'Zones',
       color: 'green',
       subtitle: 'It is showing all zones counts and details of it inselected council.',
@@ -135,7 +144,7 @@ export default function DashboardApp() {
                 <LightCard projects={completedProject} />
               </Grid>
               <Grid item xs={12} md={4} sm={4}>
-                <DarkCard />
+                <DarkCard totalAssociate={dashboardCouncil?.overall_records?.total_associates} />
               </Grid>
             </Grid>
           </Grid>
@@ -145,9 +154,15 @@ export default function DashboardApp() {
         <Container id="councilSection">
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{ marginLeft: '-24px' }}>
             <Typography variant="h4" gutterBottom>
-              Forest Tree Census <span style={{ fontSize: '14px', fontWeight: '500' }}>(12-03-2022 to 17-10-2022)</span>
-              <Typography gutterBottom sx={{ fontSize: '16px', fontWeight: 600 }}>
-                Wardha Muncipal Council
+              {/* Forest Tree Census <span style={{ fontSize: '14px', fontWeight: '500' }}>(12-03-2022 to 17-10-2022)</span> */}
+              <Typography variant="h4" gutterBottom>
+                {dashboardCouncil?.council_records?.council_details?.name}{' '}
+                <span style={{ fontSize: '14px', fontWeight: '500' }}>
+                  ({dashboardCouncil?.council_records?.council_details?.project_start_date ?
+                  dashboardCouncil?.council_records?.council_details?.project_start_date: '--'} to{' '}
+                  {dashboardCouncil?.council_records?.council_details?.project_end_date ? 
+                  dashboardCouncil?.council_records?.council_details?.project_end_date: ' --'})
+                </span>
                 <Typography variant="h6" style={{ fontWeight: 400 }}>
                   It is showing count statistics
                 </Typography>
@@ -158,14 +173,13 @@ export default function DashboardApp() {
               <Select
                 id="state"
                 displayEmpty
-                // name="gender"
-                // value={zoneId}
                 style={{ height: 45, width: '250px', background: '#fff' }}
-                // onChange={handleZoneChange}
-                // error={Boolean(touched.state && errors.state)}
-                // helperText={touched.state && errors.state}
-                // {...getFieldProps("state")}
-                placeholder={'Select Council'}
+                onChange={(e) => handleCouncil(e)}
+                // placeholder={'Select Council'}
+                renderValue={
+                  dashboardCouncil?.council_records?.council_details?.name === "" ? "" : () => `${dashboardCouncil?.council_records?.council_details?.name}`
+                }
+                // renderValue={() => `${dashboardCouncil?.council_records?.council_details?.name}`}
                 inputProps={{
                   classes: {
                     icon: classes.icon,
@@ -175,23 +189,38 @@ export default function DashboardApp() {
                 <MenuItem disabled value="">
                   <em>Council Name</em>
                 </MenuItem>
-
-                <MenuItem key={1} value={'a'}>
-                  a
-                </MenuItem>
+                {council?.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
               </Select>
             </Typography>
           </Stack>
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={12} md={6} sm={6}>
-                <AssociateCard value={commanCardValue[0]} />
+                <AssociateCard totalAssociate={`${dashboardCouncil?.council_records?.count_statistics?.total_associates}`} />
               </Grid>
               <Grid item xs={12} md={3} sm={3}>
-                <UsersCard />
+                <UsersCard 
+                totalUser={dashboardCouncil?.council_records?.count_statistics?.total_base_color_user}
+                title={'Base Color User'}
+                totalOnsiteQc={dashboardCouncil?.council_records?.count_statistics?.total_base_color_on_site_qc}
+                totalOffsiteQc={dashboardCouncil?.council_records?.count_statistics?.total_base_color_off_site_qc}
+                onsiteSubtitle={'Base Color Onsite QC'}
+                offsiteSubtitle={'Base Color Offsite QC'}
+                />
               </Grid>
               <Grid item xs={12} md={3} sm={3}>
-                <UsersCard />
+                <UsersCard 
+                totalUser={dashboardCouncil?.council_records?.count_statistics?.total_census_user}
+                title={'Census Users'}
+                totalOnsiteQc={dashboardCouncil?.council_records?.count_statistics?.total_census_user}
+                totalOffsiteQc={dashboardCouncil?.council_records?.count_statistics?.total_census_offsite_qc}
+                onsiteSubtitle={'Census Onsite QC'}
+                offsiteSubtitle={'Census Offsite QC'}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -235,13 +264,16 @@ export default function DashboardApp() {
           <Grid container spacing={3}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
               <Grid item xs={12} mb={2}>
-                <TreeDetail />
+                <TreeDetail treeCount={dashboardCouncil?.council_records?.tree_counts}/>
               </Grid>
             </Grid>
           </Grid>
         </Container>
         <br />
-        <Deviation id="deviation" />
+        <Deviation
+          id="deviation"
+          deviationPercent={`${dashboardCouncil?.council_records?.tree_counts?.deviation?.deviation_percentage}`}
+        />
         <br />
         <Container id="workType">
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} sx={{ marginLeft: '-24px' }}>

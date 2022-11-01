@@ -67,7 +67,7 @@ const classes = useStyles()
         zones:state.zones.activeZonesByCID,
         wards:state.wards.activeWardsByCID,
       }));
-  
+  console.log('councilcouncil', council);
     return (
     <RootStyle
       sx={{

@@ -8,8 +8,8 @@ import Associates from '../../Assets/associates.png';
 //   import Iconify from '../../../components/Iconify';
 
 const AssociateCard = (props) => {
-  console.log('props', props);
-  const { count, subtitle, title, color } = props.value;
+  // console.log('props', props);
+  // const { count, subtitle, title, color } = props.value;
   //   const { count, title, subtitle } = props.value;
   const useStyles = makeStyles({
     wrapper: {
@@ -43,7 +43,7 @@ const AssociateCard = (props) => {
             <div className={classes.wrapper}>
               <div>
                 <Typography variant="h4" className={classes.cardCount}>
-                  23900
+                  {props?.totalAssociate}
                 </Typography>
                 <ArrowCircleRightIcon
                   style={{

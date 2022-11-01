@@ -15,6 +15,8 @@ export const EDIT_STATE = "edit-state";
 export const ADD_STATE = "add-state";
 export const DELETE_STATE = "delete-state";
 
+export const GET_DASHBORAD_BY_COUNCIL_ID = "get-dashboard-by-council-id";
+
 export const GET_DISTRICTS = "get-districts";
 export const GET_ACTIVE_DISTRICTS = "get-active-districts";
 export const EDIT_DISTRICTS = "edit-districts";
@@ -189,3 +191,5 @@ export const GET_ACTIVE_TREE_FAMILY = "get-active-tree-family";
 export const EDIT_TREE_FAMILY = "edit-tree-family";
 export const ADD_TREE_FAMILY = "add-tree-family";
 export const DELETE_TREE_FAMILY = "delete-tree-family";
+
+

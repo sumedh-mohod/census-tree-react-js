@@ -6,7 +6,11 @@ import plantTree from '../../Assets/plant_tree_details.png';
 import TreedetailStatusButton from '../../components/statusbutton/TreedetailStatusButton';
 
 
-const TreeDetail = () => {
+const TreeDetail = (props) => {
+  console.log("treecountprops", props);
+  const {base_color: baseColor, census} = props.treeCount;
+  console.log("base_color", baseColor);
+  console.log("census", census);
   const useStyles = makeStyles({
     
     imgTop: {
@@ -29,7 +33,7 @@ const TreeDetail = () => {
         <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1} sx={{borderBottom: '1px solid grey'}}>
          
           <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600 }} mt={2} mb={1} sx={{paddingLeft: '10px' ,paddingBottom: '10px'}}>
-            9,080
+            {baseColor?.total}
             <Typography variant="h5" style={{ color: '#fff',fontSize: '16px' }}>
             Base Color Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
@@ -40,7 +44,7 @@ const TreeDetail = () => {
         </Grid>
         <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1} sx={{borderBottom: '1px solid grey', borderLeft: '1px solid grey'}}>
           <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={2} sx={{paddingLeft: '10px',paddingBottom: '10px'}}>
-          <TreedetailStatusButton slug={'danger'} />
+          <TreedetailStatusButton slug={'danger'} count={baseColor?.unapproved}/>
             <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
             Unapproved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
@@ -51,7 +55,7 @@ const TreeDetail = () => {
         </Grid>
         <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1} sx={{borderBottom: '1px solid grey'}}>
           <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={2} sx={{paddingLeft: '10px',paddingBottom: '10px'}}>
-          <TreedetailStatusButton slug={'success'}/>
+          <TreedetailStatusButton slug={'success'} count={baseColor?.approved} />
             <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
             Approved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
@@ -62,7 +66,7 @@ const TreeDetail = () => {
         </Grid>
         <Grid container item md={3} xs={12} sm={2} spacing={3} mb={1} sx={{borderBottom: '1px solid grey',paddingBottom: '10px'}}>
         <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={2} sx={{paddingLeft: '10px'}}>
-        <TreedetailStatusButton slug={'pending'}/>
+        <TreedetailStatusButton slug={'pending'} count={baseColor?.pending}/>
             <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
             Pending Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
@@ -78,9 +82,9 @@ const TreeDetail = () => {
           
         <Grid container item xs={12} md={3} sm={3} spacing={3}  >
           <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600 }} mt={3} sx={{paddingLeft: '10px'}}>
-           9020
+           {census?.total}
             <Typography variant="h5" style={{ color: '#fff', fontSize: '16px'}}>
-              Associates
+              Census Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
                 The trees generated in <br />
                 this council till now.
@@ -90,7 +94,7 @@ const TreeDetail = () => {
         </Grid>
         <Grid container item xs={12} md={3} sm={3} spacing={3}  sx={{borderLeft: '1px solid grey'}}>
           <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={3} sx={{paddingLeft: '10px'}}>
-          <TreedetailStatusButton slug={'danger'}/>
+          <TreedetailStatusButton slug={'danger'} count={census?.unapproved} />
             <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
               Unapproved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
@@ -101,7 +105,7 @@ const TreeDetail = () => {
         </Grid>
         <Grid container item xs={12} md={3} sm={3} spacing={3} >
           <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={3} sx={{paddingLeft: '10px'}}>
-          <TreedetailStatusButton slug={'success'}/>
+          <TreedetailStatusButton slug={'success'} count={census?.approved} />
             <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
             Approved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
@@ -112,7 +116,7 @@ const TreeDetail = () => {
         </Grid>
         <Grid container item xs={12} md={3} sm={3} spacing={3} >
           <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={3} sx={{paddingLeft: '10px'}}>
-          <TreedetailStatusButton slug={'pending'}/>
+          <TreedetailStatusButton slug={'pending'} count={census?.pending} />
             <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
               Pending Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>

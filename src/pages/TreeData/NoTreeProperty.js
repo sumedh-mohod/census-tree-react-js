@@ -34,6 +34,7 @@ import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import ImageCarousel from '../../components/ImageCarousel';
+import DeniedListToolbar from "../../sections/@dashboard/tree/DeniedListToolBar"
 
 // ----------------------------------------------------------------------
 
@@ -221,7 +222,7 @@ export default function NoTreeProperty() {
         </Stack>
 
         <Card>
-          <TeamListToolbar
+          <DeniedListToolbar
             numSelected={0}
             placeHolder={'Search Base Color...'}
             onFilterName={filterByName}

@@ -3,7 +3,8 @@ import { Card, Grid, Typography, Container, Stack, Button } from '@mui/material'
 import { makeStyles } from '@material-ui/core/styles';
 import DeviationImg from '../../Assets/deviation_leaf.png';
 
-const Deviation = () => {
+const Deviation = (props) => {
+  // console.log("props", props);
   const useStyles = makeStyles({
     success: {
       backgroundColor: '#C8FADE',
@@ -45,7 +46,7 @@ const Deviation = () => {
                     </Stack>
                   </Grid>
                   <Grid xs={1} md={1} sm={1} mt={1}>
-                    <span className={classes.darkSection}>15%</span>
+                    <span className={classes.darkSection}>{props.deviationPercent}%</span>
                   </Grid>
                 </Grid>
               </Card>
