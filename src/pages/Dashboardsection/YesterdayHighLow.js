@@ -138,7 +138,7 @@ const YesterdayBaseColor = (props) => {
                 <Grid container item xs={9}>
                   <Typography variant="h5" style={{ color: '#AB515D', padding: '7px 25px 0px 25px' }}>
                     <Typography variant="h5" style={{ color: '#000', fontSize: '15px' }} mt={1} >
-                      Akash Thakre
+                      John Doe
                       <Typography style={{ color: '#000', fontWeight: 400, fontSize: '12px' }}>
                         +91 - 9999999999
                        
