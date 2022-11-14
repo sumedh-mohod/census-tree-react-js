@@ -247,7 +247,7 @@ export default function UserTypeList(props) {
               </Table>
             </TableContainer>
           </Scrollbar>
-{workReports?(
+{workReports?.data?(
           <Pagination count={pageInfo.last_page} variant="outlined" shape="rounded"
   onChange={handleChangePage}
   sx={{justifyContent:"right",

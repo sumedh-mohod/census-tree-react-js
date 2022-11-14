@@ -804,7 +804,13 @@ const classes = useStyles()
                           Unapprove & Update
                         </Button>
                       </div>
-                      {loggedUser?.roles[0]?.slug === "expert" ?  "" :<div className="one mob-cen">
+                      {loggedUser?.roles[0]?.slug === "expert" ?  <div className="one mob-cen">
+                        <Button variant="contained" sx={{ boxShadow: 'none', width: '100%',
+                            padding: '5px 20px',
+                            alignContent: 'center' }} onClick={handleApproveNext}>
+                        Approve & Next
+                      </Button> 
+                      </div>:<div className="one mob-cen">
                         <Button
                           onClick={handleReferToExpert}
                           sx={{
@@ -831,11 +837,12 @@ const classes = useStyles()
                      
                       </div> */}
                     </div>
+                    {loggedUser?.roles[0]?.slug === "expert" ? "" :
                     <Container style={{ paddingLeft: '15px', paddingRight: '15px' }} className='mob-cen'>
                       <Button variant="contained" sx={{ boxShadow: 'none', width: '100%' }} onClick={handleApproveNext}>
                         Approve & Next
                       </Button>
-                    </Container>
+                    </Container>}
                   </div>
 
                   <div className="two">
