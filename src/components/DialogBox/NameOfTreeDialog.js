@@ -13,8 +13,8 @@ import FormLabel from '@mui/material/FormLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-import Select from '@mui/material/Select';
-
+// import Select from '@mui/material/Select';
+import Select from "react-select";
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -82,6 +82,7 @@ export default function NameOfTreeDialog(props) {
   const [maxAgeError, setMaxAgeError] = React.useState('');
   const [minGrthError, setMinGrthError] = React.useState('');
   const [maxGrthError, setMaxGrthError] = React.useState('');
+  const [treeFamilyChange, setTreeFamilyChange]= React.useState('');
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const submitErrors = [];
   let age;
@@ -308,7 +309,7 @@ const handleOriginChange = (event) => {
 }
 
 const handleFamilyChange = (event) => {
-  setTreeOfFamily(event.target.value);
+  setTreeFamilyChange(event.target.value);
   };
 
   const handleClose = () => {
@@ -590,7 +591,40 @@ const classes = useStyles();
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Family*</FormLabel>
-            <TextField
+            <Select
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    border: `1px solid gray`,
+                    width: '83%',
+                    marginLeft: '40px',
+                    height: '55px',
+                    borderRadius: '7px',
+                  }),
+                  menuPortal: (base) => ({
+                    ...base,
+                    border: `1px solid gray`,
+                    width: '83%',
+                    marginLeft: '40px',
+                    height: '50px',
+                    borderRadius: '7px',
+                    backgroundColor: 'gray',
+                  }),
+                }}
+                className="abc"
+                //  classes={classes.dropdown}
+                // cx={{height:"500px !important"}}
+                // style={{height: "100px", border: "1px solid red"}}
+                value={treeFamilyChange}
+                options={treeFamily?.map((item) => {
+                  return { value: item.tree_family, label: item.tree_family };
+                })}
+                onchange={handleFamilyChange}
+                // error={Boolean(touched.treeFamily && errors.treeFamily)}
+                // helperText={touched.treeFamily && errors.treeFamily}
+                // {...getFieldProps('treeFamily')}
+              />
+            {/* <TextField
               select
               // SelectProps={{
               //   multiple:true
@@ -615,12 +649,12 @@ const classes = useStyles();
                {/* <MenuItem disabled value="">
             <em>Tree Family*</em>
           </MenuItem> */}
-              {treeFamily?.map((option) => (
+              {/* {treeFamily?.map((option) => (
                 <MenuItem  key ={option.id}value={option.id}>
                   {option.tree_family}
                 </MenuItem>
               ))}
-            </TextField>
+            </TextField> */}
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Uses*</FormLabel>
