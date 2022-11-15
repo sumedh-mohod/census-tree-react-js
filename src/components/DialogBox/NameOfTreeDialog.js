@@ -402,9 +402,12 @@ const handleFamilyChange = (event) => {
     treeFamily: Yup.string().required('Tree Family is required'),
     origin: Yup.string().required('Origin is required'),
     growthRatio: Yup.string().matches(/^[1-9]\d*(\.\d+)?$/, "Only decimal value are allowed ").required('Growth ratio is required'),
+    growthFactor: Yup.string().matches(/^[0-9]+$/, "Only numbers are allowed").required('Growth Factor is required'),
    floweringSeason: Yup.string().matches(/^[a-zA-Z- _!@#$%^&*()_=+';:"/?>.<,-]*$/, "Alphabets are  allowed for this field ").max(45,"Maximum length 45 character only").required('Flowering Season is required'),
     fruitingSeason: Yup.string().matches(/^[a-zA-Z- _!@#$%^&*()_=+';:"/?>.<,-]*$/, "Alphabets are allowed for this field").max(45,"Maximum length 45 character only").required('Fruiting Season is required'),
     height:Yup.string().matches(/^[0-9-!@#$%*?]/, "Only Digits Are Allowed"),
+    age: Yup.string().matches(/^[0-9]+$/, "Only numbers are allowed").required('Age is required'),
+    
     // maxHeightx:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
     // minAge:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
     // maxAge:Yup.string().matches(/^[0-9]*$/, "Only Digits Are Allowed"),
@@ -523,12 +526,13 @@ const classes = useStyles();
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-        <Grid item xs={12}>
+        <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Name*</FormLabel>
               <DefaultInput
                 fullWidth
                 required
                 id="name"
+                style={{ width: '86%' }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.name && errors.name)}
@@ -536,7 +540,8 @@ const classes = useStyles();
                 {...getFieldProps("name")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Botanical Name*</FormLabel>
             <DefaultInput
                 fullWidth
@@ -666,7 +671,7 @@ const classes = useStyles();
               ))}
             </TextField>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Oxygen Emittrate(Pound)</FormLabel>
               <DefaultInput
                 fullWidth
@@ -679,7 +684,8 @@ const classes = useStyles();
                 {...getFieldProps("oxygenEmittrate")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Flowering Season</FormLabel>
               <DefaultInput
                 fullWidth
@@ -692,7 +698,8 @@ const classes = useStyles();
                 {...getFieldProps("floweringSeason")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Fruiting Season</FormLabel>
               <DefaultInput
                 fullWidth
@@ -705,7 +712,8 @@ const classes = useStyles();
                 {...getFieldProps("fruitingSeason")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Growth Factor(ft/yr)</FormLabel>
               <DefaultInput
                 fullWidth
@@ -718,8 +726,9 @@ const classes = useStyles();
                 {...getFieldProps("growthFactor")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Growth Ratio(To Calculate Age)*</FormLabel>
+            <Grid item xs={6} md={6} sm={6}>
               <DefaultInput
                 fullWidth
                 required
@@ -731,7 +740,8 @@ const classes = useStyles();
                 {...getFieldProps("growthRatio")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Maximum Height(M)</FormLabel>
               <DefaultInput
                 fullWidth
@@ -744,7 +754,8 @@ const classes = useStyles();
                 {...getFieldProps("height")}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6} md={6} sm={6} />
+            <Grid item xs={6} md={6} sm={6}>
         <FormLabel style={{marginLeft: 45, marginTop: 20}}>Maximum Age(Year)</FormLabel>
               <DefaultInput
                 fullWidth

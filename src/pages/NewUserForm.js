@@ -510,18 +510,42 @@ export default function NewUserForm(props) {
   };
 
   const handleEducationChange = (e) => {
-    //   console.log("education in")
-    //   const  regex = /^[a-zA-Z_@./#&+-]*(?:\d[a-zA-Z_@./#&+-]*){0,2}$/;
-    //   if(regex.test(e.target.value)) {
-    //     setEducationError("");
-    // }
-    // else{
-    // setEducationError("Education containg alphanumeric Format and it accept only 2 digits");
+    const regex = /^[A-Za-z? ,_-]+(1[0-2]|[0-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex3 = /^[A-Za-z? ,_-]+(1[0-2]|[0-9])$/;
+    const regex1 = /^(1[0-2]|[0-9])+[A-Za-z]+[A-Za-z]$/;
+    const regex2 = /^(1[0-2]|[0-9])$/;
+    const regrex_ = /^[A-Za-z? ,_-]+$/;
 
-    // }
+    if(regrex_.test(e.target.value)) {
 
-    setEducation(e.target.value);
-  };
+      setEducationError("");
+
+  }else if(regex.test(e.target.value)){
+
+    setEducationError("");
+
+  }else if(regex3.test(e.target.value)){
+
+    setEducationError("");
+
+  }else if(regex1.test(e.target.value)){
+
+    setEducationError("");
+
+  }else if(regex2.test(e.target.value)){
+
+    setEducationError("");
+
+  }else{
+
+  setEducationError("Education containg alphanumeric Format and it accept only 2 digits");
+
+
+
+  }
+
+  setEducation(e.target.value);
+};
 
   const handleClose = () => {
     props.handleClose();
@@ -540,7 +564,6 @@ export default function NewUserForm(props) {
   };
 
   const handleDistrictChange = (event) => {
-    // console.log("HANDLE DISTRICT CHANGE VALUE",event.target.value);
     setDistrict(event.target.value);
     dispatch(GetAllActiveTalukaByDistrictId(event.target.value, 1));
     setShowTaluka(true);
@@ -712,12 +735,6 @@ export default function NewUserForm(props) {
   };
 
   const handleBankName = (e) => {
-    const regex = /^[a-zA-Z ]{2,30}$/;
-    if (regex.test(e.target.value)) {
-      setBankNameError('');
-    } else {
-      setBankNameError('Please Enter Bank Name Containing Alphabets Only');
-    }
     setBankName(e.target.value);
   };
 
@@ -1056,10 +1073,6 @@ export default function NewUserForm(props) {
             .matches(aadharRegExp, 'Enter valid aadhar number')
             .required('Aadhar Number is required'),
           education: Yup.string()
-            .matches(
-              /^[a-zA-Z_@./#&+-]*(?:\d[a-zA-Z_@./#&+-]*){0,2}$/,
-              'Education containg alphanumeric Format and it accept only 2 digits'
-            )
             .required('Education is required'),
           dob: Yup.string().required('DOB is required'),
           religion: Yup.string().required('Religion is required'),
@@ -1077,7 +1090,7 @@ export default function NewUserForm(props) {
           isAgreementDone: Yup.string().required('Is agreement done is required'),
           bankName: Yup.string()
             .matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed for this field ')
-            .max(20, 'Maximum length 20 character only')
+            .max(45, 'Maximum length 45 character only')
             .required('BankName is required'),
           accountNumber: Yup.string().required('Account number is required'),
           ifscCode: Yup.string()
@@ -2142,7 +2155,6 @@ export default function NewUserForm(props) {
                   <Grid item xs={6}>
                     {lastDayOfWork || values.lastDayOfWork ? (
                       <>
-                        <Grid item xs={6}>
                           <TextField
                             fullWidth
                             select
@@ -2162,6 +2174,11 @@ export default function NewUserForm(props) {
                             // }}
                             error={Boolean(touched.noticePeriod && errors.noticePeriod)}
                             helperText={touched.noticePeriod && errors.noticePeriod}
+                            inputProps={{
+                              classes: {
+                                icon: classes.icon,
+                              },
+                            }}
                             {...getFieldProps('noticePeriod')}
                           >
                             <MenuItem disabled value="">
@@ -2173,7 +2190,6 @@ export default function NewUserForm(props) {
                               </MenuItem>
                             ))}
                           </TextField>
-                        </Grid>
                       </>
                     ) : null}
                   </Grid>
@@ -2445,7 +2461,7 @@ export default function NewUserForm(props) {
             <Typography variant="h5" style={{ marginTop: 20, marginBottom: 20 }} gutterBottom>
               Upload Document
               <Typography variant="h6" style={{ fontWeight: '400' }}>
-                Please Provide upload document.
+                Please upload document.
               </Typography>
             </Typography>
 

@@ -139,7 +139,7 @@ console.log('treeCensusPendingQCStatus....', treeCensusPendingQCStatus);
       data: [{ id: activeTeams?.active_ward_id, name: activeTeams?.active_ward_name, status: 1 }],
     };
     const activeZoneObj = {
-      data: [{ id: activeTeams?.active_ward_id, name: activeTeams?.active_zone_name, status: 1 }],
+      data: [{ id: activeTeams?.active_zone_id, name: activeTeams?.active_zone_name, status: 1 }],
     };
     dispatch(SetActiveCouncil(activeCouncilObj));
     dispatch(SetActiveWards(activeWardObj));
@@ -801,10 +801,10 @@ const classes = useStyles()
                           }}
                           className='unapproved'
                         >
-                          Unapproved & Next
+                          Unapprove & Update
                         </Button>
                       </div>
-                      <div className="one mob-cen">
+                      {loggedUser?.roles[0]?.slug === "expert" ?  "" :<div className="one mob-cen">
                         <Button
                           onClick={handleReferToExpert}
                           sx={{
@@ -819,7 +819,7 @@ const classes = useStyles()
                         >
                           Refer To An Expert
                         </Button>
-                      </div>
+                      </div>}
                       {updateClick ? (
                       <TreeDetailsDialog
                         isOpen={updateClick}

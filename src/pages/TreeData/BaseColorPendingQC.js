@@ -688,7 +688,7 @@ const classes = useStyles()
                             style={{ backgroundColor: '#E85454', color: '#fff', padding: '5px 20px', width: '100%' }}
                             onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}
                           >
-                            Unapproved & Next
+                            Unapprove & Next
                           </Button>
                         ) : null}
                       </div>

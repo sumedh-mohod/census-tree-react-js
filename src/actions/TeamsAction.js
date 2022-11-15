@@ -192,8 +192,10 @@ const GetTeam = (page,limit) => async (dispatch) => {
         msg: response.data.message,
         alertType: "success",
       }));
+      dispatch(ShowLoadingButton(false));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
+      dispatch(ShowLoadingButton(false));
     }
   };
 
@@ -257,8 +259,10 @@ const AddUserToTeam = (params) => async (dispatch) => {
       msg: response.data.message,
       alertType: "success",
     }));
+    dispatch(ShowLoadingButton(false));
   } catch (e) {
     dispatch(HandleExceptionWithSecureCatch(e));
+    dispatch(ShowLoadingButton(false));
   }
 };
 
