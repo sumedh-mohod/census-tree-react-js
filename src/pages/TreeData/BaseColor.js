@@ -17,9 +17,17 @@ import {
   Pagination,
   Link,
   IconButton,
-  Modal
+  Modal,
+  TextField,
+  Grid,
+  MenuItem,
+  FormControlLabel,
+  Drawer,
+  Box,
+
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 import { Visibility } from '@mui/icons-material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Page from '../../components/Page';
@@ -89,6 +97,13 @@ export default function BaseColor() {
    const handleOpenImageList = (e) => setOpenImageList(true);
    const handleCloseImageList = () => setOpenImageList(false);
 
+   const [newState, setNewState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
    const {
     council,
     zones,
@@ -140,6 +155,15 @@ export default function BaseColor() {
     }
     
   },[])
+
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setNewState({ ...newState, [anchor]: open });
+  };
 
   const firstRun = React.useRef(true);
   useEffect(()=>{
@@ -291,6 +315,15 @@ export default function BaseColor() {
   console.log('council...', council)
   console.log('coucilId', coucilId);
   console.log('zones', zones);
+
+  const useStyles = makeStyles({
+    
+    icon: {
+        fill: '#214C50',
+    },
+   
+})
+const classes = useStyles()
   return (
     <Page title="User">
       <Container>
@@ -340,10 +373,320 @@ export default function BaseColor() {
               It is showing list of trees with its details
             </Typography>
           </div>
+          <Button
+           onClick={toggleDrawer('right', true)}
+            variant="contained"
+            to="#"
+          
+            startIcon={<Iconify icon="eva:funnel-fill" />}
+          >
+            Filters
+          </Button>
         </Stack>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+        {/* <Container sx={{ pl: 0 }}>
+          <Typography variant="h4" gutterBottom>
+            Census QC
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+              It is showing Census QC
+            </Typography>
+          </Typography>
+        </Container> */}
+        {/* <div role="presentation">
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            style={{ color: '#000000', fontWeight: 900, fontSize: '20px' }}
+            separator=":"
+          >
+            <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
+              Census QC
+            </Typography>
+          </Breadcrumbs>
+        </div>
+        <Typography variant="h6" fontWeight={400} sx={{ mt: -1 }}>
+          It is showing Census QC
+        </Typography> */}
+        {/* <Box
+          display="flex"
+          alignItems="flex-start"
+          // flexDirection="row" This is the default
+        >
+          <Box alignSelf="center">
+            <Box
+              sx={{
+                // justifyContent: 'end',
+                px: 3,
+                py: 1,
+                mt: -4,
+                mr: 2,
+                backgroundColor: '#E8762F',
+                color: '#fff',
+                fontWeight: 500,
+                width: '280px',
+                borderRadius: '7px',
+                textAlign: 'center',
+              }}
+              // component={RouterLink}
+              to="#"
+            >
+              Total Pending Trees : <b>{totalTrees || 0}</b>
+            </Box>
+          </Box>
+          <Button
+            onClick={toggleDrawer('right', true)}
+            variant="contained"
+            sx={{
+              // justifyContent: 'end',
+              px: 3,
+              py: 1,
+              mt: -4,
+              boxShadow: 'none',
+              mr: 3,
+              // backgroundColor: '#000'
+            }}
+            // component={RouterLink}
+            to="#"
+            startIcon={<Iconify icon="eva:funnel-fill" />}
+          >
+            Filters
+          </Button>
+        </Box> */}
+        <Box sx={{ height: '100' }}>
+          {/* <Button
+           variant='outlined'
+            sx={{justifyContent:'end', display:'flex', position: 'fixed',right: 0,top:'100px',border:'2px solid black',backgroundColor:'black',zIndex:'999', 
+            "&.MuiButtonBase-root:hover": {
+              bgcolor: "black",
+              border:'2px solid black'
+            }
+          }}
+            onClick={toggleDrawer("right", true)} 
+           
+          >
+        <FilterAltRoundedIcon sx={{color:'white'}}/>
+          </Button>  */}
+          <Drawer
+            sx={{
+              '& .MuiDrawer-paper': {
+                width: '300px',
+                maxWidth: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+            }}
+            anchor={'right'}
+            open={newState.right}
+            onClose={toggleDrawer('right', false)}
+            // sx={{
+            //   display: { xs: 'block', sm: 'none' },
+            //   '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            // }}
+          >
+            <div>
+              <Grid container spacing={1} style={{ width: '90%', marginLeft: '5%', marginRight: '5%' }}>
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    // disabled={loggedUser?.roles[0]?.slug === 'qc_census_offsite'}
+                    id="councilForm"
+                    label="Council"
+                    displayEmpty
+                    // value={councilID}
+                    style={{ width: '100%' }}
+                    size="small"
+                    // onChange={(e) => {
+                    //   handleCouncilChange(e);
+                    //   formik.handleChange(e);
+                    // }}
+                    // onChange={handleCouncilChange}
+                    // error={Boolean(touched.councilForm && errors.councilForm)}
+                    // helperText={touched.councilForm && errors.councilForm}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Council*</em>
+                    </MenuItem>
+                    {council?.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    disabled={loggedUser?.roles[0]?.slug === 'qc_census_offsite'}
+                    id="zoneForm"
+                    label="Zone"
+                    displayEmpty
+                    // value={zoneID}
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    // onChange={(e) => {
+                    //   handleZoneChange(e);
+                    //   formik.handleChange(e);
+                    // }}
+                    // onChange={handleZoneChange}
+                    // error={Boolean(touched.zoneForm && errors.zoneForm)}
+                    // helperText={touched.zoneForm && errors.zoneForm}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Zone*</em>
+                    </MenuItem>
+                    {/* {councilID
+                      ? zones?.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.name}
+                          </MenuItem>
+                        ))
+                      : null} */}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    disabled={loggedUser?.roles[0]?.slug === 'qc_census_offsite'}
+                    id="wardForm"
+                    label="Ward"
+                    displayEmpty
+                    // value={wardID}
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    // onChange={(e) => {
+                    //   handleWardChange(e);
+                    //   formik.handleChange(e);
+                    // }}
+                    // onChange={handleWardChange}
+                    // error={Boolean(touched.wardForm && errors.wardForm)}
+                    // helperText={touched.wardForm && errors.wardForm}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Ward*</em>
+                    </MenuItem>
+                    {/* {councilID
+                      ? wards?.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.name}
+                          </MenuItem>
+                        ))
+                      : null} */}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    id="addedBy"
+                    label="Added By"
+                    displayEmpty
+                    // value={addedBy}
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    // placeholder='*Status'
+                    // onChange={(e) => {
+                    //   handleAddedByChange(e);
+                    //   formik.handleChange(e);
+                    // }}
+                    // onChange={handleAddedByChange}
+                    // error={Boolean(touched.addedByForm && errors.councilForm)}
+                    //   helperText={touched.councilForm && errors.councilForm}
+                    // {...getFieldProps("addedByForm")}
+                    inputProps={{
+                      classes: {
+                          icon: classes.icon,
+                      },
+                  }}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Added By</em>
+                    </MenuItem>
+                    <MenuItem value="">
+                      <em>----Null----</em>
+                    </MenuItem>
+                    {/* {userByRoleID?.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.first_name} {option.last_name}
+                      </MenuItem>
+                    ))} */}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="fromDate"
+                    type="date"
+                    label="Start Date"
+                    margin="normal"
+                    name="fromDateForm"
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    // label="Plantation Date"
+                    // value={values.fromDateForm || ''}
+                    // helperText={
+                    //     errors.toDateForm && touched.toDateForm
+
+                    // }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    // inputProps={{ max: todayDate }}
+                    // {...getFieldProps('fromDateForm')}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="toDate"
+                    label="End Date"
+                    type="date"
+                    margin="normal"
+                    name="toDateForm"
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    // label="Plantation Date"
+                    // value={values.toDateForm || ''}
+                    // F // }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    // inputProps={{ max: todayDate }}
+                    // {...getFieldProps('toDateForm')}
+                  />
+                </Grid>
+                {/* <Grid item xs={12}>
+                  <FormControlLabel control={<Checkbox onChange={handleHeritage} />} label="Show only Heritage Trees" />
+                </Grid> */}
+
+                <Button
+                  // onClick={handleSubmit}
+                  variant="contained"
+                  style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5}}
+                >
+                  Apply
+                </Button>
+              </Grid>
+            </div>
+            {/* <FilterDrawer data={toggleDrawer("right", false)}/> */}
+          </Drawer>
+        </Box>
+      </Stack>
 
         <Card sx={{ mt: 2 }}>
-          <TeamListToolbar
+          {/* <TeamListToolbar
             numSelected={0}
             placeHolder={'Search Base Color...'}
             onFilterName={filterByName}
@@ -354,7 +697,7 @@ export default function BaseColor() {
             zoneId={zoneId}
             wardId={wardId}
             callType="BaseColor"
-          />
+          /> */}
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table  size="small" aria-label="a dense table">

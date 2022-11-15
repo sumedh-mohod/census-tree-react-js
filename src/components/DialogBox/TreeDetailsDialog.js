@@ -365,15 +365,15 @@ const BootstrapDialogTitle = (props) => {
                 fullWidth
                 id="plantationDate"
                 name="plantationDate"
-                label="Plantation Date*"
+                label="Plantation Date"
                 type="date"
                 value={values.plantationDate}
                 style={{marginTop:5}}
                
-                helperText={
-                    errors.plantationDate && touched.plantationDate
+                // helperText={
+                //     errors.plantationDate && touched.plantationDate
                      
-                }
+                // }
                 InputLabelProps={{
                   shrink: true,
                   
