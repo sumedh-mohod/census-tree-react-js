@@ -111,13 +111,19 @@ const GetUsers = (page,limit) => async (dispatch) => {
     }
   };
 
-  const DeleteUsers = (params,status) => async (dispatch) => {
+  const DeleteUsers = (params) => async (dispatch) => {
+    // console.log("params", params.data_id, "status", params.data_status);
     try {
-      const response = await JWTServer.delete(`/api/users/${params}?status=${status}`);
+      const response = await JWTServer.delete(`/api/users/${params.data_id}?status=${params.data_status}`);
+      // console.log("response", response);
       dispatch({
         type: DELETE_USER,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: `${params.data_status ? 'Activated Succesfully!': 'Inactivated Successfully!'}`,
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }
@@ -162,7 +168,7 @@ const GetUsers = (page,limit) => async (dispatch) => {
   const UnlinkDevice = (params) => async (dispatch) => {
   try {
     const response = await JWTServer.post("/api/users/unlink-device",params);
-    // console.log("RESPONSE",response.data);
+    // console.log("RESPONSEunlink",response);
     dispatch({
       type: UNLINK_DEVICE,
       payload: response.data,

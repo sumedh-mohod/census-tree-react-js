@@ -26,7 +26,7 @@ export default function App() {
     isLogged: state.auth.isLogged,
   }));
   const routing = useRoutes(routes(isLogged));
-  console.log('isLogged', isLogged);
+  // console.log('isLogged', isLogged);
   return (
     <ThemeProvider theme={theme}>
       <ScrollToTop />

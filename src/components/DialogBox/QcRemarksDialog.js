@@ -141,7 +141,7 @@ export default function DistrictDialog(props) {
 
   const QcRemarksSchema = Yup.object().shape({
     remarks: Yup.string().required('Remarks is required'),
-    remarkFor: Yup.string().required('RemarkFor is required'),
+    remarkFor: Yup.string().required('Remark for is required'),
   });
 
 
@@ -188,11 +188,11 @@ export default function DistrictDialog(props) {
       
         // onClose={handleClose}
       >
-        <BootstrapDialogTitle onClose={handleClose}>{data?"Edit QC Remarks":"Add QC Remarks"}</BootstrapDialogTitle>
+        <BootstrapDialogTitle onClose={handleClose}>{data?"Edit QC Remark":"Add QC Remark"}</BootstrapDialogTitle>
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-        <Grid item xs={12}>
+        <Grid item xs={6} md={6} sm={6} >
               <DefaultInput
                 fullWidth
                 id="remark"

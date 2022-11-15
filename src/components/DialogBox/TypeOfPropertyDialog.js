@@ -114,7 +114,7 @@ export default function TypeOfPropertyDialog(props) {
 
   const DesignationsSchema = Yup.object().shape({
     location_type: Yup.string().required('Location Type Type is required'),
-    propertyTypes: Yup.string().required('Property Type is required'),
+    propertyTypes: Yup.string().matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed').required('Property Type is required'),
   });
 
 
@@ -198,7 +198,7 @@ export default function TypeOfPropertyDialog(props) {
           </Select>
            
            </Grid>
-        <Grid item xs={12}>
+           <Grid item xs={6} md={6} sm={6} >
               <DefaultInput
                 fullWidth
                 id="typeOfProperty"

@@ -400,7 +400,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
                               <TreeCensusMenu
                                 permissions={userPermissions}
                                 treeCensusId={option.id}
-                                TreeCensusName={option.property?.owner_name}
+                                treeCensusName={option.property?.owner_name}
                                 qcStatus={option.qc_status}
                                 councilId={coucilId}
                                 zoneId={zoneId}

@@ -117,7 +117,7 @@ const handleStatusChange = (event) => {
   };
 
   const DesignationsSchema = Yup.object().shape({
-    designations: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(20,"Maximum length 20 character only").required('Designations is required'),
+    designations: Yup.string().matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ").max(35,"Maximum length 35 character only").required('Designations is required'),
   });
 
 
@@ -161,7 +161,7 @@ const handleStatusChange = (event) => {
         <Divider/>
         <DialogContent>
         <Grid container spacing={1}>
-        <Grid item xs={12}>
+        <Grid item xs={6} md={6} sm={6} >
               <DefaultInput
                 fullWidth
                 id="designation"

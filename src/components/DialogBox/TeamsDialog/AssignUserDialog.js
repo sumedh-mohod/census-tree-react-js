@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -26,7 +27,7 @@ import AssignUserConfirmationDialog from './AssignUserConfirmationDialog';
 import { GetUsers, GetActiveUsers, GetUsersByRoleID } from '../../../actions/UserAction';
 import { AddUserToTeam } from '../../../actions/TeamsAction';
 import { GetActiveRole } from '../../../actions/RoleAction';
-
+import { ShowLoader , ShowLoadingButton} from '../../../actions/CommonAction';
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -76,12 +77,14 @@ export default function AssignUserDialog(props) {
     activeUsers,
     assignUserToTeamLog,
     roles,
-    userByRoleID
+    userByRoleID,
+    showLoadingButton
   } = useSelector((state) => ({
     activeUsers:state.users.activeUsers,
     assignUserToTeamLog:state.teams.assignUserToTeamLog,
     roles:state.roles.roles,
     userByRoleID: state.users.userByRoleID,
+    showLoadingButton: state.common.showLoadingButton,
   }));
   // userById:state.users.userById,
   // if(users){
@@ -91,7 +94,7 @@ export default function AssignUserDialog(props) {
   //     }
   //     return null;
   // });
-//     console.log(":::::::::", activeUsers);
+    // console.log("showLoadingButton", showLoadingButton);
 // }
 
 // console.log("/////...", roles)
@@ -181,10 +184,12 @@ export default function AssignUserDialog(props) {
   const handleTopModalAnswer = (answer) => {
     if(answer){
       if(data){
-           dispatch(AddUserToTeam(reqObj))
+           dispatch(AddUserToTeam(reqObj));
+        dispatch(ShowLoadingButton(true));
       }
       else {
-        dispatch(AddUserToTeam(reqObj))
+        dispatch(AddUserToTeam(reqObj));
+        dispatch(ShowLoadingButton(true));
       }
     }
     setTopModalOpen(!topModalOpen)
@@ -346,7 +351,16 @@ const classes = useStyles()
         </DialogContent>
         <Divider/>
         <DialogActions>
-          <Button onClick={handleSubmit} style={{background: '#214c50', color: '#fff'}}>Add</Button>
+        {
+             showLoadingButton ? (
+              <div style={{ display: 'flex',paddingLeft: '150px', alignItems: 'center', marginTop: '15px'}}>
+                <CircularProgress  style={{color: '#214c50'}} />
+              </div>
+            ) :  <Button autoFocus onClick={handleSubmit } style={{ background: '#214c50',color: '#fff'}}>
+            Save
+          </Button>}
+
+          {/* <Button onClick={handleSubmit} style={{background: '#214c50', color: '#fff'}}>Add</Button> */}
         </DialogActions>
       </Dialog>
       </div>
