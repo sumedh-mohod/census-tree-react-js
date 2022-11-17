@@ -55,7 +55,7 @@ const GetZones = (page,limit) => async (dispatch) => {
   const GetActiveZonesByCouncilId = (status,councilId) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/zones?status=${status}&council_id=${councilId}`);
-      // console.log("Active zones council RESPONSE",response.data.data);
+      console.log("Active zones council RESPONSE",response.data);
       dispatch({
         type: GET_ACTIVE_ZONES_BY_COUNCILID,
         payload: response.data,

@@ -100,8 +100,6 @@ export default function BaseColorPendingQC() {
     showLoader: state.common.showLoader,
   }));
 
-  // console.log("zones",zones);
-
   loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
   //    if(users){
@@ -322,7 +320,6 @@ export default function BaseColorPendingQC() {
     },
     validationSchema: FilterSchema,
     onSubmit: (value) => {
-      // console.log("in submit");
       // console.log("VALUE",value);
       setState({ ...state, right: false });
       dispatch(ShowLoader(true));

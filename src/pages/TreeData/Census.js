@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
+import * as Yup from 'yup';
 import {
   Card,
   Table,
@@ -23,6 +24,8 @@ import {
   Grid,
   MenuItem,
 } from '@mui/material';
+import moment from 'moment';
+import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Visibility } from '@mui/icons-material';
@@ -36,16 +39,19 @@ import TreeData from  '../../components/JsonFiles/TreeData.json';
 import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialog";
 import TreeCensusMenu from '../../sections/@dashboard/tree/TreeCensusMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
+import { GetMyActiveTeam } from '../../actions/TeamsAction';
 import { GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
-import { GetActiveCouncil } from '../../actions/CouncilAction';
-import { GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
-import { GetActiveWardsByCouncilId } from '../../actions/WardsActions';
+import { GetActiveCouncil, SetActiveCouncil } from '../../actions/CouncilAction';
+import { GetUsersByRoleID } from '../../actions/UserAction';
+import { GetActiveZonesByCouncilId ,GetActiveZones, SetActiveZones} from '../../actions/ZonesAction';
+import { GetActiveWardsByCouncilId,GetActiveWards, SetActiveWards} from '../../actions/WardsActions';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import CencusViewDetailsDialog from '../../components/DialogBox/tree-data/CensusViewDetailsDialog';
 import StatusPendngButton from '../../components/statusbutton/StatusPendngButton';
 import StatusApprovedButton from '../../components/statusbutton/StatusApprovedButton';
 import StatusUnapprovedButton from '../../components/statusbutton/StatusUnapprovedButton';
+import { ShowLoader } from '../../actions/CommonAction';
 
 // ----------------------------------------------------------------------
 
@@ -66,9 +72,13 @@ const TABLE_HEAD = [
 
 export default function Census() {
   const dispatch = useDispatch();
+  const [councilID, setCouncilID] = React.useState('');
+  const [zoneID, setZoneID] = React.useState('');
+  const [wardID, setWardID] = React.useState('');
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(10);
+  const [addedBy, setAddedBy] = React.useState('');
   const [open, setOpen ] = useState(false);
   const [viewOpen, setViewOpen ] = useState(false);
   const [dialogData,setDialogData] = useState(null);
@@ -83,6 +93,10 @@ export default function Census() {
    const [qcDialogOpen,setQcDialogOpen] = useState(false);
    const [viewCensusDetails, setViewCensusDetails] = useState(false)
    const [treeCensusId,setTreeCensusId] = useState("");
+   const [addedByForm, setAddedByForm] = React.useState();
+   const [formDate, setFromDate] = React.useState();
+   const [toDate, setToDate] = React.useState();
+   const todayDate = moment(new Date()).format('YYYY-MM-DD');
    const userPermissions = [];
 
    const [newState, setNewState] = React.useState({
@@ -98,6 +112,8 @@ export default function Census() {
     zones,
     wards,
     treeCensus,
+    userByRoleID,
+    activeTeams,
     editBaseColorTreesLog,
     deleteBaseColorTreesLog,
     updateQCStatusLog,
@@ -105,9 +121,11 @@ export default function Census() {
     loggedUser
   } = useSelector((state) => ({
     council:state.council.activeCouncil,
-    zones:state.zones.zones,
-    wards:state.wards.wards,
+    activeTeams: state.teams.activeTeams,
+    zones:state.zones.activeZonesByCID,
+    wards:state.wards.activeWardsByCID,
     treeCensus:state.treeCensus.treeCensus,
+    userByRoleID: state.users.userByRoleID,
     // editBaseColorTreesLog:state.baseColor.editBaseColorTreesLog,
     // deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
     updateQCStatusLog:state.treeCensus.updateQCStatusLog,
@@ -115,7 +133,7 @@ export default function Census() {
     loggedUser:state.auth.loggedUser
   }));
 
-  
+  console.log("treeCensus", treeCensus);
 loggedUser.roles[0].permissions.map((item, index)=>(
   userPermissions.push(item.name)
 ))
@@ -144,7 +162,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     if(state){
       dispatch(GetTreeCensus(state.pageNumber,rowsPerPage,cId,zId,wId))
     }
-    
+    dispatch(GetUsersByRoleID(1, 3, 5));
   },[])
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -157,14 +175,36 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
 
   const firstRun = React.useRef(true);
-  useEffect(()=>{
+  useEffect(() => {
     if (firstRun.current) {
       firstRun.current = false;
       return;
     }
-    setShowList(true);
-    dispatch(GetTreeCensus(page,rowsPerPage,coucilId,zoneId,wardId));
-  },[updateQCStatusLog])
+    dispatch(ShowLoader(false));
+    dispatch(
+      GetTreeCensus(
+        activeTeams?.active_council_id,
+        activeTeams?.active_zone_id,
+        activeTeams?.active_ward_id
+      )
+    );
+    setCouncilID(activeTeams?.active_council_id);
+    setZoneID(activeTeams?.active_zone_id);
+    setWardID(activeTeams?.active_ward_id);
+    const activeCouncilObj = {
+      data: [{ id: activeTeams?.active_council_id, name: activeTeams?.active_council_name, status: 1 }],
+    };
+    const activeWardObj = {
+      data: [{ id: activeTeams?.active_ward_id, name: activeTeams?.active_ward_name, status: 1 }],
+    };
+    const activeZoneObj = {
+      data: [{ id: activeTeams?.active_ward_id, name: activeTeams?.active_zone_name, status: 1 }],
+    };
+    dispatch(SetActiveCouncil(activeCouncilObj));
+    dispatch(SetActiveWards(activeWardObj));
+    dispatch(SetActiveZones(activeZoneObj));
+    // setSelectedIndex(0);
+  }, [activeTeams]);
 
   const secondRun = React.useRef(true);
   useEffect(()=>{
@@ -172,13 +212,33 @@ loggedUser.roles[0].permissions.map((item, index)=>(
       secondRun.current = false;
       return;
     }
+    dispatch(ShowLoader(false));
     setShowList(true);
   },[treeCensus])
 
-  useEffect(()=>{
+  // useEffect(()=>{
+  //   dispatch(GetActiveCouncil(1));
+  //   // dispatch(GetBaseColorTreeById(1));
+  // },[])
+
+  useEffect(() => {
+  if (loggedUser?.roles[0]?.slug === 'get-tree-census') {
+    dispatch(GetMyActiveTeam());
+    dispatch(ShowLoader(true));
+    dispatch(GetUsersByRoleID(1, 6, 8));
+  } else {
+    dispatch(GetUsersByRoleID(1, 6, 8));
     dispatch(GetActiveCouncil(1));
-    // dispatch(GetBaseColorTreeById(1));
-  },[])
+    dispatch(GetActiveWards(1));
+    dispatch(GetActiveZones(1));
+  }
+}, []);
+  // useEffect(()=>{get-tree-census
+  //   dispatch(ShowLoader(true));
+  //   dispatch(GetActiveCouncil(1));
+  //   dispatch(GetUsersByRoleID(1, 6, 8));
+  //   // dispatch(GetBaseColorTreeById(1));
+  // },[])
 
   useEffect(()=>{
     if(pageInfo){
@@ -238,7 +298,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
       dispatch(SearchTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId));
+      dispatch(GetTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,addedByForm,formDate,toDate));
     }
   };
 
@@ -282,30 +342,25 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
   }
 
-  const handleCoucilChange = (e) => {
-    setCouncilId(e.target.value);
-    setZoneId("")
-    setWardId("")
-    setPage(1);
-    setShowList(false);
-    dispatch(GetTreeCensus(1,rowsPerPage,e.target.value,null,null))
-    dispatch(GetActiveZonesByCouncilId(1,e.target.value))
-    dispatch(GetActiveWardsByCouncilId(1,e.target.value))
-  }
+  const handleCouncilChange = (e) => {
+    setCouncilID(e.target.value);
+    setZoneID('');
+    setWardID('');
+    dispatch(GetActiveZonesByCouncilId(1, e.target.value));
+    dispatch(GetActiveWardsByCouncilId(1, e.target.value));
+  };
 
-  const handleWardChange = (e) => {
-    setWardId(e.target.value);
-    setPage(1);
-    setShowList(false);
-    dispatch(GetTreeCensus(1,rowsPerPage,coucilId,zoneId,e.target.value))
-  }
+  const handleZoneChange = (event) => {
+    setZoneID(event.target.value);
+  };
 
-  const handleZoneChange = (e) => {
-    setShowList(false);
-    setZoneId(e.target.value);
-    setPage(1);
-    dispatch(GetTreeCensus(1,rowsPerPage,coucilId,e.target.value,wardId))
-  }
+  const handleWardChange = (event) => {
+    setWardID(event.target.value);
+  };
+
+  const handleAddedByChange = (event) => {
+    setAddedBy(event.target.value);
+  };
 
   const useStyles = makeStyles({
     
@@ -314,7 +369,38 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     },
    
 })
+
+const FilterSchema = Yup.object().shape({
+  councilForm: Yup.string().required('Please select council'),
+  toDateForm:  Yup.string().required('Please select End Date'),
+  fromDateForm: Yup.string().required('Please select Start Date'),
+});
+// console.log('properties', properties);
+const formik = useFormik({
+  enableReinitialize: true,
+  initialValues: {
+    councilForm: councilID || '',
+    wardForm: wardID || '',
+    zoneForm: zoneID || '',
+    addedByForm: addedBy || '',
+    toDateForm: "",
+    fromDateForm: "",
+  },
+  validationSchema: FilterSchema,
+  onSubmit: (value) => {
+    console.log("in submit", value);
+    setAddedByForm(value.addedByForm);
+    setFromDate(value.fromDateForm);
+    setToDate(value.toDateForm);
+    setNewState({ ...newState, right: false });
+    dispatch(ShowLoader(true));
+    dispatch(
+      GetTreeCensus(1,rowsPerPage,councilID, zoneID, wardID, value.addedByForm,  value.fromDateForm, value.toDateForm),
+    );
+  },
+});
 const classes = useStyles()
+const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   return (
     <Page title="Base Color">
@@ -480,24 +566,24 @@ const classes = useStyles()
             // }}
           >
             <div>
-              <Grid container spacing={1} style={{ width: '90%', marginLeft: '5%', marginRight: '5%' }}>
+            <Grid container spacing={1} style={{ width: '90%', marginLeft: '5%', marginRight: '5%' }}>
                 <Grid item xs={12}>
                   <TextField
                     select
                     // disabled={loggedUser?.roles[0]?.slug === 'qc_census_offsite'}
                     id="councilForm"
-                    label="Council"
+                    label="Council*"
                     displayEmpty
-                    // value={councilID}
+                    value={councilID}
                     style={{ width: '100%' }}
                     size="small"
-                    // onChange={(e) => {
-                    //   handleCouncilChange(e);
-                    //   formik.handleChange(e);
-                    // }}
+                    onChange={(e) => {
+                      handleCouncilChange(e);
+                      formik.handleChange(e);
+                    }}
                     // onChange={handleCouncilChange}
-                    // error={Boolean(touched.councilForm && errors.councilForm)}
-                    // helperText={touched.councilForm && errors.councilForm}
+                    error={Boolean(touched.councilForm && errors.councilForm)}
+                    helperText={touched.councilForm && errors.councilForm}
                     inputProps={{
                       classes: {
                           icon: classes.icon,
@@ -515,98 +601,94 @@ const classes = useStyles()
                   </TextField>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                <TextField
                     select
-                    disabled={loggedUser?.roles[0]?.slug === 'qc_census_offsite'}
+                    disabled={loggedUser?.roles[0]?.slug === 'qc_base_color_offsite'}
                     id="zoneForm"
                     label="Zone"
                     displayEmpty
-                    // value={zoneID}
+                    value={zoneID}
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
-                    // onChange={(e) => {
-                    //   handleZoneChange(e);
-                    //   formik.handleChange(e);
-                    // }}
+                    onChange={(e) => {
+                      handleZoneChange(e);
+                      formik.handleChange(e);
+                    }}
                     // onChange={handleZoneChange}
                     // error={Boolean(touched.zoneForm && errors.zoneForm)}
                     // helperText={touched.zoneForm && errors.zoneForm}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Zone*</em>
                     </MenuItem>
-                    {/* {councilID
+                    {councilID
                       ? zones?.map((option) => (
                           <MenuItem key={option.id} value={option.id}>
                             {option.name}
                           </MenuItem>
                         ))
-                      : null} */}
+                      : null}
                   </TextField>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                <TextField
                     select
-                    disabled={loggedUser?.roles[0]?.slug === 'qc_census_offsite'}
+                    disabled={loggedUser?.roles[0]?.slug === 'qc_base_color_offsite'}
                     id="wardForm"
                     label="Ward"
                     displayEmpty
-                    // value={wardID}
+                    value={wardID}
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
-                    // onChange={(e) => {
-                    //   handleWardChange(e);
-                    //   formik.handleChange(e);
-                    // }}
+                    onChange={(e) => {
+                      handleWardChange(e);
+                      formik.handleChange(e);
+                    }}
                     // onChange={handleWardChange}
-                    // error={Boolean(touched.wardForm && errors.wardForm)}
-                    // helperText={touched.wardForm && errors.wardForm}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Ward*</em>
                     </MenuItem>
-                    {/* {councilID
+                    {councilID
                       ? wards?.map((option) => (
                           <MenuItem key={option.id} value={option.id}>
                             {option.name}
                           </MenuItem>
                         ))
-                      : null} */}
+                      : null}
                   </TextField>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                <TextField
                     select
                     id="addedBy"
                     label="Added By"
                     displayEmpty
-                    // value={addedBy}
+                    value={addedBy}
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // placeholder='*Status'
-                    // onChange={(e) => {
-                    //   handleAddedByChange(e);
-                    //   formik.handleChange(e);
-                    // }}
+                    onChange={(e) => {
+                      handleAddedByChange(e);
+                      formik.handleChange(e);
+                    }}
                     // onChange={handleAddedByChange}
-                    // error={Boolean(touched.addedByForm && errors.councilForm)}
-                    //   helperText={touched.councilForm && errors.councilForm}
                     // {...getFieldProps("addedByForm")}
                     inputProps={{
                       classes: {
-                          icon: classes.icon,
+                        icon: classes.icon,
                       },
-                  }}
+                    }}
                   >
                     <MenuItem disabled value="">
                       <em>Select Added By</em>
@@ -614,62 +696,61 @@ const classes = useStyles()
                     <MenuItem value="">
                       <em>----Null----</em>
                     </MenuItem>
-                    {/* {userByRoleID?.map((option) => (
+                    {userByRoleID?.map((option) => (
                       <MenuItem key={option.id} value={option.id}>
                         {option.first_name} {option.last_name}
                       </MenuItem>
-                    ))} */}
+                    ))}
                   </TextField>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                <TextField
                     fullWidth
                     id="fromDate"
                     type="date"
-                    label="Start Date"
+                    label="Start Date*"
                     margin="normal"
                     name="fromDateForm"
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // label="Plantation Date"
-                    // value={values.fromDateForm || ''}
-                    // helperText={
-                    //     errors.toDateForm && touched.toDateForm
-
+                    value={values.fromDateForm || ''}
+                    error={Boolean(touched.fromDateForm && errors.fromDateForm)}
+                    helperText={touched.fromDateForm && errors.fromDateForm}
                     // }
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    // inputProps={{ max: todayDate }}
-                    // {...getFieldProps('fromDateForm')}
+                    inputProps={{ max: todayDate }}
+                    {...getFieldProps('fromDateForm')}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                <TextField
                     fullWidth
                     id="toDate"
-                    label="End Date"
+                    label="End Date*"
                     type="date"
                     margin="normal"
                     name="toDateForm"
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // label="Plantation Date"
-                    // value={values.toDateForm || ''}
-                    // F // }
+                    value={values.toDateForm || ''}
+                    error={Boolean(touched.toDateForm && errors.toDateForm)}
+                    helperText={touched.toDateForm && errors.toDateForm}
+
+                    // }
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    // inputProps={{ max: todayDate }}
-                    // {...getFieldProps('toDateForm')}
+                    inputProps={{ max: todayDate }}
+                    {...getFieldProps('toDateForm')}
                   />
                 </Grid>
-                {/* <Grid item xs={12}>
-                  <FormControlLabel control={<Checkbox onChange={handleHeritage} />} label="Show only Heritage Trees" />
-                </Grid> */}
 
                 <Button
-                  // onClick={handleSubmit}
+                  onClick={handleSubmit}
                   variant="contained"
                   style={{ width: '60%', marginLeft: '20%', marginRight: '20%', marginTop: 5}}
                 >
@@ -698,7 +779,7 @@ const classes = useStyles()
             <TableContainer sx={{ minWidth: 800 }}>
               <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
-                {!coucilId ? (
+                {!treeCensus ? (
                   <TableRow>
                     <TableCell align="center" colSpan={8} fontWeight={700}>
                       Please select council to get census data

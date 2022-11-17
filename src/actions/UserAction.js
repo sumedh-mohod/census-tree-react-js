@@ -41,7 +41,6 @@ const GetUsers = (page,limit) => async (dispatch) => {
 
     try {
       const response = await JWTServer.get(`${url}`);
-      // console.log("users by roles",response.data);
       dispatch({
         type: GET_USERS_BY_ROLEID,
         payload: response.data,
