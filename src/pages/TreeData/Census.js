@@ -45,6 +45,7 @@ import { GetActiveCouncil, SetActiveCouncil } from '../../actions/CouncilAction'
 import { GetUsersByRoleID } from '../../actions/UserAction';
 import { GetActiveZonesByCouncilId ,GetActiveZones, SetActiveZones} from '../../actions/ZonesAction';
 import { GetActiveWardsByCouncilId,GetActiveWards, SetActiveWards} from '../../actions/WardsActions';
+import { GetActiveTreeName} from '../../actions/TreeNameAction';
 import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 import QcStatusDialog from '../../components/DialogBox/tree-data/QcStatusDialog';
 import CencusViewDetailsDialog from '../../components/DialogBox/tree-data/CensusViewDetailsDialog';
@@ -94,8 +95,19 @@ export default function Census() {
    const [viewCensusDetails, setViewCensusDetails] = useState(false)
    const [treeCensusId,setTreeCensusId] = useState("");
    const [addedByForm, setAddedByForm] = React.useState();
+   const[heightFrom,setHeightFrom] = React.useState();
+   const[heightTo, setHeightTo] = React.useState();
+   const[girthFrom, setGirthFrom] = React.useState();
+   const[girthTo, setGirthTo] = React.useState();
+   const [treeNameId, setTreeNameId]= React.useState();
+   const [treeNameFrom, setTreeNameFrom] = React.useState();
    const [formDate, setFromDate] = React.useState();
    const [toDate, setToDate] = React.useState();
+   const [treeNumber,setTreeNumber] = React.useState();
+   const [heightFromId,setHeightFromId] = React.useState();
+   const [heightToId, setHeightToId] = React.useState();
+   const [girthFromId, setGirthFromId] = React.useState();
+   const [girthToId, setGirthToId]  = React.useState();
    const todayDate = moment(new Date()).format('YYYY-MM-DD');
    const userPermissions = [];
 
@@ -112,6 +124,7 @@ export default function Census() {
     zones,
     wards,
     treeCensus,
+    treeName,
     userByRoleID,
     activeTeams,
     editBaseColorTreesLog,
@@ -126,14 +139,15 @@ export default function Census() {
     wards:state.wards.activeWardsByCID,
     treeCensus:state.treeCensus.treeCensus,
     userByRoleID: state.users.userByRoleID,
+    treeName:state.treeName.activeTreeName,
     // editBaseColorTreesLog:state.baseColor.editBaseColorTreesLog,
     // deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
     updateQCStatusLog:state.treeCensus.updateQCStatusLog,
     pageInfo:state.treeCensus.pageInfo,
     loggedUser:state.auth.loggedUser
   }));
-
-  console.log("treeCensus", treeCensus);
+console.log("treeCensus", treeCensus)
+  console.log("treeName", treeName);
 loggedUser.roles[0].permissions.map((item, index)=>(
   userPermissions.push(item.name)
 ))
@@ -163,6 +177,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
       dispatch(GetTreeCensus(state.pageNumber,rowsPerPage,cId,zId,wId))
     }
     dispatch(GetUsersByRoleID(1, 3, 5));
+    dispatch(GetActiveTreeName(1))
   },[])
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -214,6 +229,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     }
     dispatch(ShowLoader(false));
     setShowList(true);
+    // dispatch(GetTreeName())
   },[treeCensus])
 
   // useEffect(()=>{
@@ -226,8 +242,10 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     dispatch(GetMyActiveTeam());
     dispatch(ShowLoader(true));
     dispatch(GetUsersByRoleID(1, 6, 8));
+    // dispatch(GetTreeName())
   } else {
     dispatch(GetUsersByRoleID(1, 6, 8));
+    // dispatch(GetTreeName())
     dispatch(GetActiveCouncil(1));
     dispatch(GetActiveWards(1));
     dispatch(GetActiveZones(1));
@@ -293,12 +311,12 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    setShowList(false);
+    // setShowList(false);
     if(search){
       dispatch(SearchTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,addedByForm,formDate,toDate));
+      dispatch(GetTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,addedByForm,treeNameFrom,heightFrom, heightTo, girthFrom, girthTo,formDate,toDate));
     }
   };
 
@@ -362,6 +380,10 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     setAddedBy(event.target.value);
   };
 
+  const handleTreeNameChange =(event) => {
+    setTreeNameId(event.target.value)
+  }
+
   const useStyles = makeStyles({
     
     icon: {
@@ -383,6 +405,11 @@ const formik = useFormik({
     wardForm: wardID || '',
     zoneForm: zoneID || '',
     addedByForm: addedBy || '',
+    treeNameFrom: treeNameId || '',
+    heightFrom: heightFromId||"",
+    heightTo:heightToId||  "",
+    girthFrom: girthFromId|| "",
+    girthTo: girthToId||"",
     toDateForm: "",
     fromDateForm: "",
   },
@@ -390,18 +417,24 @@ const formik = useFormik({
   onSubmit: (value) => {
     console.log("in submit", value);
     setAddedByForm(value.addedByForm);
+    setTreeNameFrom(value.treeNameFrom)
+    setHeightFrom(value.heightFrom)
+    setHeightTo(value.heightTo)
+    setGirthFrom(value.girthFrom)
+    setGirthTo(value.girthTo)
+
     setFromDate(value.fromDateForm);
     setToDate(value.toDateForm);
     setNewState({ ...newState, right: false });
     dispatch(ShowLoader(true));
     dispatch(
-      GetTreeCensus(1,rowsPerPage,councilID, zoneID, wardID, value.addedByForm,  value.fromDateForm, value.toDateForm),
+      GetTreeCensus(1,rowsPerPage,councilID, zoneID, wardID, value.addedByForm,value.treeNameFrom,value.heightFrom,value.heightTo,value.girthFrom,value.girthTo,  value.fromDateForm, value.toDateForm),
     );
   },
 });
 const classes = useStyles()
 const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
+console.log("treeNamestate", treeName)
   return (
     <Page title="Base Color">
       <Container>
@@ -705,6 +738,97 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 </Grid>
                 <Grid item xs={12}>
                 <TextField
+                    select
+                    id="treeNameFrom"
+                    label="Tree Name"
+                    displayEmpty
+                    value={treeNameId}
+                    style={{ width: '100%', marginTop: 5 }}
+                    size="small"
+                    onChange={(e) => {
+                      handleTreeNameChange(e);
+                      formik.handleChange(e);
+                    }}
+                    inputProps={{
+                      classes: {
+                        icon: classes.icon,
+                      },
+                    }}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Tree Name</em>
+                    </MenuItem>
+                    <MenuItem value="">
+                      <em>----Null----</em>
+                    </MenuItem>
+                    {treeName?.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}> 
+                  <TextField
+                    id="heightFrom"
+                    type="text"
+                    autoComplete="Tree No"
+                    label="Height Start"
+                    value={values.heightFrom}
+                    style={{ width: '100%', marginTop: 10, marginLeft:10 }}
+                    size="small"
+                    {...getFieldProps('heightFrom')}
+                  />
+                 </Grid>
+                  <Grid item xs={6}>
+                  <TextField
+                    id="heightTo"
+                    type="text"
+                    autoComplete="Height Start"
+                    // placeholder="Height Start*"
+                    label="Height End"
+                    style={{ width: '100%', marginTop: 10 }}
+                    size="small"
+                    value={values.heightTo}
+                    {...getFieldProps('heightTo')}
+                  />
+                   </Grid>
+               
+                </Grid>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={6}> 
+                  <TextField
+                    id="girthFrom"
+                    type="text"
+                    autoComplete="Tree No"
+                    placeholder="Tree No*"
+                    label="Girth Start"
+                    style={{ width: '100%', marginTop: 10, marginLeft:10 }}
+                    size="small"
+                    value={values.girthFrom}
+                    {...getFieldProps('girthFrom')}
+
+                  />
+                 </Grid>
+                  <Grid item xs={6}>
+                  <TextField
+                    id="girthTo"
+                    type="text"
+                    autoComplete="Tree No"
+                    label="Girth End"
+                    style={{ width: '100%', marginTop: 10, }}
+                    size="small"
+                    value={values.girthTo}
+                    {...getFieldProps('girthTo')}
+                  />
+                   </Grid>
+               
+                </Grid>
+                
+                <Grid item xs={12}>
+                <TextField
                     fullWidth
                     id="fromDate"
                     type="date"
@@ -788,7 +912,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 ) : null}
                 <TableBody>
                   {showList
-                    ? treeCensus?.map((option, index) => {
+                    ? treeCensus?.data?.map((option, index) => {
                         return (
                           <TableRow hover>
                             <TableCell align="left">

@@ -4,7 +4,7 @@ import { ShowLoader } from './CommonAction';
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS,  GET_TREE_CENSUS_HISTORY, GET_TREE_CENSUS_PENDING_QC_STATUS, UPDATE_CENSUS_TREE, REFER_TO_EXPERT} from "./Types";
 
-const GetTreeCensus = (page,limit,council,zone,ward,addedByForm,fromDateForm, toDateForm) => async (dispatch) => {
+const GetTreeCensus = (page,limit,council,zone,ward,addedByForm,treeNameFrom,heightFrom,heightTo, girthFrom,girthTo,fromDateForm, toDateForm) => async (dispatch) => {
   let url = `/api/census-trees?page=${page}&limit=${limit}`
   if(council){
     url = `${url}&where[council_id]=${council}`;
@@ -15,7 +15,17 @@ const GetTreeCensus = (page,limit,council,zone,ward,addedByForm,fromDateForm, to
   if(ward){
     url = `${url}&where[ward_id]=${ward}`
   } if(addedByForm){
-    url = `${url}&where[added_by_id][id]=${addedByForm}`
+    url = `${url}&where[added_by_id]=${addedByForm}`
+  } if(treeNameFrom){
+    url = `${url}&where[tree_name_id]=${treeNameFrom}`
+  }if(heightFrom){
+    url = `${url}&height_from=${heightFrom}`
+  }if(heightTo){
+    url = `${url}&height_to=${heightTo}`
+  }if(girthFrom){
+    url = `${url}&girth_from=${girthFrom}`
+  }if(girthTo){
+    url = `${url}&girth_to=${girthTo}`
   }
   if(fromDateForm && toDateForm){
     url = `${url}&from_date=${fromDateForm.split('-').reverse().join('-')}&to_date=${toDateForm.split('-').reverse().join('-')}`
