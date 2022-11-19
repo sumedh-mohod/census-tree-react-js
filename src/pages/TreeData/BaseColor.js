@@ -29,6 +29,7 @@ import {
 
 } from '@mui/material';
 import moment from 'moment';
+import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Visibility } from '@mui/icons-material';
@@ -56,6 +57,8 @@ import StatusUnapprovedButton from '../../components/statusbutton/StatusUnapprov
 import ImageCarousel from '../../components/ImageCarousel';
 import FullLoader from '../../components/Loader/FullLoader';
 import { ShowLoader } from '../../actions/CommonAction';
+import {GetReportRequest} from "../../actions/WorkReportAction";
+
 
 // ----------------------------------------------------------------------
 
@@ -151,6 +154,7 @@ export default function BaseColor() {
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
   ))
+
   const { state} = useLocation();
     useEffect(()=>{
       let cId = null;
@@ -346,6 +350,30 @@ export default function BaseColor() {
 
   }
 
+
+  const requestForReport=() => {
+
+    
+    dispatch(
+      GetReportRequest(
+{
+"type":"base_color",
+"from_date":formDate.split('-').reverse().join('-'),
+"to_date":toDate.split('-').reverse().join('-'),
+"council_id":councilID,
+"zone_id":zoneID,
+"ward_id":wardID,
+"user_id":addedBy
+}
+
+
+      )
+    )
+
+  // console.log("GetWorkReportrequest")
+  // dispatch(GetReportRequest(setReportForRequest()))
+ }
+
   const handleCouncilChange = (e) => {
     setCouncilID(e.target.value);
     setZoneID('');
@@ -387,15 +415,10 @@ export default function BaseColor() {
       setAddedByForm(value.addedByForm);
       setFromDate(value.fromDateForm);
       setToDate(value.toDateForm);
-      // console.log("in submit", value);
-      // console.log("VALUE",value);
       setNewState({ ...newState, right: false });
       dispatch(ShowLoader(true));
-      // dispatch(ShowLoader(true));
       dispatch(
         GetBaseColorTrees(1,rowsPerPage,councilID, zoneID, wardID, value.addedByForm,  value.fromDateForm, value.toDateForm),
-        // console.log(GetBaseColorTrees),
-        // console.log("onSubmit")
       );
     },
   });
@@ -460,6 +483,16 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
               It is showing list of trees with its details
             </Typography>
           </div>
+          <Button
+            to="#"
+            onClick={requestForReport}
+            style={{width: '20%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
+            
+            // startIcon={<Iconify icon="eva:plus-fill" />}
+            className='desktop-button-'
+          >
+          Request For Report
+          </Button>
           <Button
            onClick={toggleDrawer('right', true)}
             variant="contained"

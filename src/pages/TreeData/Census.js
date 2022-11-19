@@ -39,6 +39,7 @@ import TreeData from  '../../components/JsonFiles/TreeData.json';
 import BaseColorDialog from "../../components/DialogBox/tree-data/BaseColorDialog";
 import TreeCensusMenu from '../../sections/@dashboard/tree/TreeCensusMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
+import {GetReportRequest} from "../../actions/WorkReportAction";
 import { GetMyActiveTeam } from '../../actions/TeamsAction';
 import { GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
 import { GetActiveCouncil, SetActiveCouncil } from '../../actions/CouncilAction';
@@ -108,6 +109,7 @@ export default function Census() {
    const [heightToId, setHeightToId] = React.useState();
    const [girthFromId, setGirthFromId] = React.useState();
    const [girthToId, setGirthToId]  = React.useState();
+   const [reportForRequest, setReportForRequest] = React.useState();
    const todayDate = moment(new Date()).format('YYYY-MM-DD');
    const userPermissions = [];
 
@@ -360,6 +362,31 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
   }
 
+
+
+  const requestForReport=() => {
+
+    
+      dispatch(
+        GetReportRequest(
+{
+"type":"census",
+"from_date":formDate.split('-').reverse().join('-'),
+"to_date":toDate.split('-').reverse().join('-'),
+"council_id":councilID,
+"zone_id":zoneID,
+"ward_id":wardID,
+"user_id":addedBy
+}
+
+
+        )
+      )
+  
+    // console.log("GetWorkReportrequest")
+    // dispatch(GetReportRequest(setReportForRequest()))
+   }
+
   const handleCouncilChange = (e) => {
     setCouncilID(e.target.value);
     setZoneID('');
@@ -427,9 +454,10 @@ const formik = useFormik({
     setToDate(value.toDateForm);
     setNewState({ ...newState, right: false });
     dispatch(ShowLoader(true));
-    dispatch(
+  dispatch(
       GetTreeCensus(1,rowsPerPage,councilID, zoneID, wardID, value.addedByForm,value.treeNameFrom,value.heightFrom,value.heightTo,value.girthFrom,value.girthTo,  value.fromDateForm, value.toDateForm),
-    );
+    )
+   
   },
 });
 const classes = useStyles()
@@ -489,6 +517,16 @@ console.log("treeNamestate", treeName)
               It is showing list of trees with its details
             </Typography>
           </div>
+          <Button
+            to="#"
+            onClick={requestForReport}
+            style={{width: '20%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
+            
+            // startIcon={<Iconify icon="eva:plus-fill" />}
+            className='desktop-button-'
+          >
+          Request For Report
+          </Button>
            <Button
            onClick={toggleDrawer('right', true)}
             variant="contained"
