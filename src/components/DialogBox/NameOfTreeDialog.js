@@ -591,40 +591,7 @@ const classes = useStyles();
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Family*</FormLabel>
-            <Select
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    border: `1px solid gray`,
-                    width: '83%',
-                    marginLeft: '40px',
-                    height: '55px',
-                    borderRadius: '7px',
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    border: `1px solid gray`,
-                    width: '83%',
-                    marginLeft: '40px',
-                    height: '50px',
-                    borderRadius: '7px',
-                    backgroundColor: 'gray',
-                  }),
-                }}
-                className="abc"
-                //  classes={classes.dropdown}
-                // cx={{height:"500px !important"}}
-                // style={{height: "100px", border: "1px solid red"}}
-                value={treeFamilyChange}
-                options={treeFamily?.map((item) => {
-                  return { value: item.tree_family, label: item.tree_family };
-                })}
-                onchange={handleFamilyChange}
-                // error={Boolean(touched.treeFamily && errors.treeFamily)}
-                // helperText={touched.treeFamily && errors.treeFamily}
-                // {...getFieldProps('treeFamily')}
-              />
-            {/* <TextField
+            <TextField
               select
               // SelectProps={{
               //   multiple:true
@@ -646,15 +613,15 @@ const classes = useStyles();
                 helperText={touched.treeFamily && errors.treeFamily}
                 {...getFieldProps("treeFamily")}
             >
-               {/* <MenuItem disabled value="">
+               <MenuItem disabled value="">
             <em>Tree Family*</em>
-          </MenuItem> */}
-              {/* {treeFamily?.map((option) => (
+          </MenuItem>
+              {treeFamily?.map((option) => (
                 <MenuItem  key ={option.id}value={option.id}>
                   {option.tree_family}
                 </MenuItem>
               ))}
-            </TextField> */}
+            </TextField>
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Uses*</FormLabel>
