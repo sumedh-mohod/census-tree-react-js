@@ -175,8 +175,8 @@ export default function WorkingReports(props) {
   const FilterSchema = Yup.object().shape({
     reportType: Yup.string().required('Please select report type'),
 
-    toDateForm: Yup.string().required('Please select from date'),
-    fromDateForm: Yup.string().required('Please select to date'),
+    toDateForm: Yup.string().required('Please select End date'),
+    fromDateForm: Yup.string().required('Please select Start date'),
   });
 
   const formik = useFormik({

@@ -21,7 +21,7 @@ import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS, GET_TREE_CENSUS_HISTORY 
         case GET_TREE_CENSUS:
           return{
               ...state,
-              treeCensus: payload.data.data,
+              treeCensus: payload.data,
               pageInfo: payload.data
         };
 

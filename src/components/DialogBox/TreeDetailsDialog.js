@@ -121,7 +121,7 @@ const BootstrapDialogTitle = (props) => {
           canopy: Yup.string().required('Canopy is required'),
           treeCondition: Yup.string().required('Tree Condition is required'),
           disease: Yup.string().required('Disease is required'),
-          plantationDate:Yup.string().required('Plantation Date is required'),
+          // plantationDate:Yup.string().required('Plantation Date is required'),
          
       }
       );
@@ -138,7 +138,7 @@ const BootstrapDialogTitle = (props) => {
             canopy:	data?data.canopy:"",
             treeCondition:		data?data.tree_condition_id:"",
             disease:		data?data.tree_disease_id:"",
-            plantationDate:	data? moment(data.plantation_date).format('YYYY-MM-DD'):"",
+            plantationDate:	data? data.plantation_date:"",
         },
         validationSchema: TreeDetailsSchema,
         onSubmit: (value) => {
@@ -365,15 +365,15 @@ const BootstrapDialogTitle = (props) => {
                 fullWidth
                 id="plantationDate"
                 name="plantationDate"
-                label="Plantation Date*"
+                label="Plantation Date"
                 type="date"
                 value={values.plantationDate}
                 style={{marginTop:5}}
                
-                helperText={
-                    errors.plantationDate && touched.plantationDate
+                // helperText={
+                //     errors.plantationDate && touched.plantationDate
                      
-                }
+                // }
                 InputLabelProps={{
                   shrink: true,
                   

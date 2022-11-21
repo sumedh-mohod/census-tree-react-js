@@ -100,8 +100,6 @@ export default function BaseColorPendingQC() {
     showLoader: state.common.showLoader,
   }));
 
-  // console.log("zones",zones);
-
   loggedUser.roles[0].permissions.map((item, index) => userPermissions.push(item.name));
 
   //    if(users){
@@ -120,6 +118,7 @@ export default function BaseColorPendingQC() {
       firstRun.current = false;
       return;
     }
+    console.log("First Run Function");
 
     dispatch(
       GetBaseColorPendingQCStatus(
@@ -157,7 +156,8 @@ export default function BaseColorPendingQC() {
       setSelectedIndex(0);
       setTotalTrees(totalTrees - 1);
       setUpdateClick(false);
-      dispatch(GetBaseColorPendingQCStatus(councilID, zoneID, wardID));
+      console.log("Second Run Function");
+      // dispatch(GetBaseColorPendingQCStatus(councilID, zoneID, wardID));
     } else {
       setSelectedIndex(selectedIndex + 1);
       setTotalTrees(totalTrees - 1);
@@ -316,7 +316,6 @@ export default function BaseColorPendingQC() {
     },
     validationSchema: FilterSchema,
     onSubmit: (value) => {
-      // console.log("in submit");
       // console.log("VALUE",value);
       setState({ ...state, right: false });
       dispatch(ShowLoader(true));

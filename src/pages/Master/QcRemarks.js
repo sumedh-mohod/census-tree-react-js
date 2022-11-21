@@ -164,6 +164,7 @@ export default function District() {
   let timer = null;
   const filterByName = (event) => {
     const value = event.currentTarget.value;
+    console.log("value", value)
     clearTimeout(timer);
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
@@ -223,7 +224,7 @@ export default function District() {
                 <TableBody>
                   {qcremarks?.map((option, index) => {
                     return (
-                      <TableRow hover>
+                      <TableRow hover key={index}>
                         <TableCell align="left">
                           <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
                         </TableCell>
