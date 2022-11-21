@@ -5,6 +5,7 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 // component
 import Iconify from '../../../components/Iconify';
 
+
 // ----------------------------------------------------------------------
 
 export default function UserMoreMenu(props) {
@@ -22,6 +23,7 @@ export default function UserMoreMenu(props) {
   };
 
   const handleUnlink = () => {
+    console.log("unlink");
     setIsOpen(false);
     props.handleUnlink();
   };

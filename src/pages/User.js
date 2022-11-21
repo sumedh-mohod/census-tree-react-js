@@ -35,7 +35,7 @@ import { DeleteUsers, GetUsers, SearchUsers, UnlinkDevice } from '../actions/Use
 import WarningMessageDialog from '../components/DialogBox/WarningMessageDialog';
 import UserActivateConfirmationDialog from '../components/DialogBox/UserActivateConfirmationDialog';
 import StatusButton from '../components/statusbutton/StatusButton';
-
+import warningSound from '../Assets/warning_sound.mp3';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -110,7 +110,7 @@ export default function User() {
     'Unlinking device will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding.';
 
   const { state } = useLocation();
-
+  console.log("topModalOpen", topModalOpen);
   // console.log("STATE PAGE ",state);
   // console.log("Current Page", page)
 
@@ -204,14 +204,17 @@ export default function User() {
     setReqObj(obj);
   };
 
+  const audio = new Audio(warningSound);
   const handleTopModalClose = () => {
     setTopModalOpen(!topModalOpen);
   };
 
   const handleTopModalAnswer = (answer) => {
     if (answer) {
+      audio.loop = false;
       dispatch(UnlinkDevice(reqObj));
     }
+    audio.loop = false;
     setTopModalOpen(!topModalOpen);
   };
 
@@ -223,8 +226,18 @@ export default function User() {
     if(answer){
       // console.log('aciveInactive')
       dispatch(DeleteUsers(requireActiveObj));
+      audio.loop = false;
     }
+    audio.loop = false;
     setActivateModalOpen(!activateModalOpen)
+  }
+  if(topModalOpen){
+    audio.loop = true;
+    audio.play();
+  }
+  if(activateModalOpen){
+    audio.loop = true;
+    audio.play();
   }
   return (
     <Page title="User">
