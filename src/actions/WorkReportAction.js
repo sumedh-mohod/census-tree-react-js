@@ -173,6 +173,10 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
     try {
       const response = await JWTServer.post(`/api/reports/work-report-request`,requestObj);
       console.log(response.data)
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
       // dispatch({
       //   type: GET_WORK_REPORTS,
       //   payload: response.data,
@@ -187,5 +191,5 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
     GetWorkTypeWorkReports,
     SearchWorkReports,
     GetAllWorkReports,
-    GetReportRequest
+    GetReportRequest,
 }

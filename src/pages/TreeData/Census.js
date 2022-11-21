@@ -54,6 +54,9 @@ import StatusPendngButton from '../../components/statusbutton/StatusPendngButton
 import StatusApprovedButton from '../../components/statusbutton/StatusApprovedButton';
 import StatusUnapprovedButton from '../../components/statusbutton/StatusUnapprovedButton';
 import { ShowLoader } from '../../actions/CommonAction';
+// import JWTServer  from '../../api/withJWTServer'
+// import { SetNewAlert } from "../../actions/AlertActions";
+// import { HandleExceptionWithSecureCatch } from "../../actions/CombineCatch";
 
 // ----------------------------------------------------------------------
 
@@ -110,6 +113,7 @@ export default function Census() {
    const [girthFromId, setGirthFromId] = React.useState();
    const [girthToId, setGirthToId]  = React.useState();
    const [reportForRequest, setReportForRequest] = React.useState();
+   const [councilName,setCouncilName] =  React.useState();
    const todayDate = moment(new Date()).format('YYYY-MM-DD');
    const userPermissions = [];
 
@@ -155,6 +159,8 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 ))
 
   const { state} = useLocation();
+
+  const councilArr = council?.find((val) => val.id === councilID);
 
   useEffect(()=>{
     let cId = null;
@@ -362,37 +368,43 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
   }
 
-
-
   const requestForReport=() => {
 
     
-      dispatch(
-        GetReportRequest(
-{
+    dispatch(
+      GetReportRequest(
+  {
 "type":"census",
 "from_date":formDate.split('-').reverse().join('-'),
 "to_date":toDate.split('-').reverse().join('-'),
 "council_id":councilID,
 "zone_id":zoneID,
 "ward_id":wardID,
-"user_id":addedBy
+"user_id":addedBy,
+"start_girth":girthFrom,
+"end_girth":girthTo,
+"start_height":heightFrom,
+"end_height":heightTo,
+"tree_names_id":treeNameFrom
+}
+      )
+    )
 }
 
-
-        )
-      )
+  const handleCouncilChange = (e ) => {
   
-    // console.log("GetWorkReportrequest")
-    // dispatch(GetReportRequest(setReportForRequest()))
-   }
-
-  const handleCouncilChange = (e) => {
     setCouncilID(e.target.value);
     setZoneID('');
     setWardID('');
     dispatch(GetActiveZonesByCouncilId(1, e.target.value));
     dispatch(GetActiveWardsByCouncilId(1, e.target.value));
+
+    council.map((value, index) => {
+      if (value.id === e.target.value) {
+        setCouncilName(value.name);
+      }
+      return null;
+    });
   };
 
   const handleZoneChange = (event) => {
@@ -428,7 +440,7 @@ const FilterSchema = Yup.object().shape({
 const formik = useFormik({
   enableReinitialize: true,
   initialValues: {
-    councilForm: councilID || '',
+    councilForm:  councilArr?.id || councilID,
     wardForm: wardID || '',
     zoneForm: zoneID || '',
     addedByForm: addedBy || '',
@@ -437,8 +449,8 @@ const formik = useFormik({
     heightTo:heightToId||  "",
     girthFrom: girthFromId|| "",
     girthTo: girthToId||"",
-    toDateForm: "",
-    fromDateForm: "",
+    toDateForm: councilArr?.project_end_date || todayDate,
+    fromDateForm: councilArr?.project_start_date || todayDate,
   },
   validationSchema: FilterSchema,
   onSubmit: (value) => {
@@ -652,6 +664,11 @@ console.log("treeNamestate", treeName)
                       handleCouncilChange(e);
                       formik.handleChange(e);
                     }}
+                    renderValue={(selected) => {
+                      if (selected?.length === 0) {
+                        return <em>Select Council*</em>;
+                      }
+                    }}
                     // onChange={handleCouncilChange}
                     error={Boolean(touched.councilForm && errors.councilForm)}
                     helperText={touched.councilForm && errors.councilForm}
@@ -811,7 +828,7 @@ console.log("treeNamestate", treeName)
                   <TextField
                     id="heightFrom"
                     type="text"
-                    autoComplete="Tree No"
+                    autoComplete="Height Start"
                     label="Height Start"
                     value={values.heightFrom}
                     style={{ width: '100%', marginTop: 10, marginLeft:10 }}
@@ -854,7 +871,7 @@ console.log("treeNamestate", treeName)
                   <TextField
                     id="girthTo"
                     type="text"
-                    autoComplete="Tree No"
+                    autoComplete="Girth End"
                     label="Girth End"
                     style={{ width: '100%', marginTop: 10, }}
                     size="small"
@@ -864,7 +881,8 @@ console.log("treeNamestate", treeName)
                    </Grid>
                
                 </Grid>
-                
+                {councilID ? 
+                <>
                 <Grid item xs={12}>
                 <TextField
                     fullWidth
@@ -876,7 +894,7 @@ console.log("treeNamestate", treeName)
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // label="Plantation Date"
-                    value={values.fromDateForm || ''}
+                    // value={values.fromDateForm || ''}
                     error={Boolean(touched.fromDateForm && errors.fromDateForm)}
                     helperText={touched.fromDateForm && errors.fromDateForm}
                     // }
@@ -898,7 +916,7 @@ console.log("treeNamestate", treeName)
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // label="Plantation Date"
-                    value={values.toDateForm || ''}
+                    // value={values.toDateForm || ''}
                     error={Boolean(touched.toDateForm && errors.toDateForm)}
                     helperText={touched.toDateForm && errors.toDateForm}
 
@@ -910,7 +928,8 @@ console.log("treeNamestate", treeName)
                     {...getFieldProps('toDateForm')}
                   />
                 </Grid>
-
+                </>
+       : ""}
                 <Button
                   onClick={handleSubmit}
                   variant="contained"
@@ -941,16 +960,16 @@ console.log("treeNamestate", treeName)
             <TableContainer sx={{ minWidth: 800 }}>
               <Table  size="small" aria-label="a dense table">
                 <UserListHead headLabel={TABLE_HEAD} />
-                {!treeCensus ? (
+                {!showList &&
                   <TableRow>
                     <TableCell align="center" colSpan={8} fontWeight={700}>
                       Please select council to get census data
                     </TableCell>
                   </TableRow>
-                ) : null}
+                }
                 <TableBody>
-                  {showList
-                    ? treeCensus?.data?.map((option, index) => {
+                  {showList &&
+                    treeCensus?.data?.map((option, index) => {
                         return (
                           <TableRow hover>
                             <TableCell align="left">
@@ -998,8 +1017,7 @@ console.log("treeNamestate", treeName)
                             </TableCell>
                           </TableRow>
                         );
-                      })
-                    : null}
+                      })}
                 </TableBody>
               </Table>
             </TableContainer>
