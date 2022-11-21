@@ -369,25 +369,39 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   }
 
   const requestForReport=() => {
-
+const requestObj=  {
+  "type":"census",
+  "from_date":formDate.split('-').reverse().join('-'),
+  "to_date":toDate.split('-').reverse().join('-'),
+  "council_id":councilID,
+  }
+if(zoneID){
+  requestObj.zone_id=zoneID
+}
+if(wardID){
+  requestObj.word_id=wardID
+}
+if(addedBy){
+  requestObj.user_id=addedBy
+}
+if(girthFrom){
+  requestObj.start_girth=girthFrom
+}
+if(girthTo){
+  requestObj.end_girth=girthTo
+}
+if(heightFrom){
+  requestObj.start_height=heightFrom
+}
+if(heightTo){
+  requestObj.end_height=heightTo
+}
+if(treeNameFrom){
+  requestObj.tree_names_idt=treeNameFrom
+}
     
     dispatch(
-      GetReportRequest(
-  {
-"type":"census",
-"from_date":formDate.split('-').reverse().join('-'),
-"to_date":toDate.split('-').reverse().join('-'),
-"council_id":councilID,
-"zone_id":zoneID,
-"ward_id":wardID,
-"user_id":addedBy,
-"start_girth":girthFrom,
-"end_girth":girthTo,
-"start_height":heightFrom,
-"end_height":heightTo,
-"tree_names_id":treeNameFrom
-}
-      )
+      GetReportRequest(requestObj)
     )
 }
 
@@ -466,8 +480,10 @@ const formik = useFormik({
     setToDate(value.toDateForm);
     setNewState({ ...newState, right: false });
     dispatch(ShowLoader(true));
+    setPage(1)
   dispatch(
       GetTreeCensus(1,rowsPerPage,councilID, zoneID, wardID, value.addedByForm,value.treeNameFrom,value.heightFrom,value.heightTo,value.girthFrom,value.girthTo,  value.fromDateForm, value.toDateForm),
+
     )
    
   },
@@ -1032,6 +1048,7 @@ console.log("treeNamestate", treeName)
           {treeCensus ? (
             <Pagination
               count={showList ? pageInfo.last_page : 0}
+              page={page}
               variant="outlined"
               shape="rounded"
               onChange={handleChangePage}
