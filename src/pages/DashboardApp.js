@@ -318,7 +318,8 @@ export default function DashboardApp() {
             <Deviation
               id="deviation"
               deviationPercent={`${dashboardCouncil?.council_records?.tree_counts?.deviation?.deviation_percentage}`}
-            />
+              deviationMessage={`${dashboardCouncil?.council_records?.tree_counts?.deviation?.deviation_message}`}
+           />
             <br />
             <Container id="workType">
               <Stack
@@ -373,7 +374,7 @@ export default function DashboardApp() {
             <br />
             <br />
             <Container id="highestBaseColor">
-              <Stack
+              {dashboardCouncil?.council_records?.highest_base_color_users.length === 0 ?  "": <Stack
                 direction="row"
                 alignItems="center"
                 justifyContent="space-between"
@@ -383,13 +384,19 @@ export default function DashboardApp() {
                 <Typography variant="h4" gutterBottom>
                   Yesterdays Highest Base Color ({`${dashboardCouncil?.council_records?.council_details?.name}`})
                   <Typography variant="h6" style={{ fontWeight: 400 }}>
-                    It is showing Yesterdays Highest Base Color counts
+                    It is showing Yesterdays Highest Base Color counts. <span style={{color: "#ff0000"}}>(The Team , Council, Zone and ward is currently assigned entity to the user.)</span>
                   </Typography>
                 </Typography>
-              </Stack>
+              </Stack>}
+              
               <Grid container spacing={3}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                {dashboardCouncil?.council_records?.highest_base_color_users?.map((val, i) => (
                   <Grid item mb={2} xs={12} md={3} sm={3}>
+                      <YesterdayHighLow slug={'high'} value={val} index={i} />
+                  </Grid>
+                       ))}
+                  {/* <Grid item xs={12} md={3} sm={3} mb={2}>
                     <YesterdayHighLow slug={'high'} />
                   </Grid>
                   <Grid item xs={12} md={3} sm={3} mb={2}>
@@ -397,37 +404,31 @@ export default function DashboardApp() {
                   </Grid>
                   <Grid item xs={12} md={3} sm={3} mb={2}>
                     <YesterdayHighLow slug={'high'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'high'} />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             </Container>
             <br />
             <Container id="lowestBaseColor">
-              <Stack direction="row" justifyContent="space-between" mb={5} ml={-3}>
-                <Typography variant="h4" gutterBottom>
-                  Yesterdays Lowest Base Color ({`${dashboardCouncil?.council_records?.council_details?.name}`})
-                  <Typography variant="h6" style={{ fontWeight: 400 }}>
-                    It is showing Yesterdays Lowest Base Color counts
-                  </Typography>
-                </Typography>
-              </Stack>
+            {dashboardCouncil?.council_records?.lowest_base_color_users.length === 0 ?  "":
+            <Stack direction="row" justifyContent="space-between" mb={5} ml={-3}>
+            <Typography variant="h4" gutterBottom>
+              Yesterdays Lowest Base Color ({`${dashboardCouncil?.council_records?.council_details?.name}`})
+              <Typography variant="h6" style={{ fontWeight: 400 }}>
+                It is showing Yesterdays Lowest Base Color counts. <span style={{color: "#ff0000"}}>(The Team , Council, Zone and ward is currently assigned entity to the user.)</span>
+              </Typography>
+            </Typography>
+          </Stack>
+            }
+              
               <Grid container spacing={3}>
+              
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                {dashboardCouncil?.council_records?.lowest_base_color_users?.map((val, i) => (
                   <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} />
+                    <YesterdayHighLow slug={'low'} value={val} index={i}/>
                   </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} />
-                  </Grid>
+                  ))}
                 </Grid>
               </Grid>
             </Container>
@@ -443,13 +444,18 @@ export default function DashboardApp() {
                 <Typography variant="h4" gutterBottom>
                   Yesterdays Highest Census ({`${dashboardCouncil?.council_records?.council_details?.name}`})
                   <Typography variant="h6" style={{ fontWeight: 400 }}>
-                    It is showing Yesterdays Highest Census counts
+                    It is showing Yesterdays Highest Census counts. <span style={{color: "#ff0000"}}>(The Team , Council, Zone and ward is currently assigned entity to the user.)</span>
                   </Typography>
                 </Typography>
               </Stack>
               <Grid container spacing={3}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                {dashboardCouncil?.council_records?.highest_census_users?.map((val, i) => (
                   <Grid item xs={12} md={3} sm={3} mb={2}>
+                    <YesterdayHighLow slug={'high'} value={val} index={i}/>
+                  </Grid>
+                    ))}
+                  {/* <Grid item xs={12} md={3} sm={3} mb={2}>
                     <YesterdayHighLow slug={'high'} />
                   </Grid>
                   <Grid item xs={12} md={3} sm={3} mb={2}>
@@ -457,15 +463,12 @@ export default function DashboardApp() {
                   </Grid>
                   <Grid item xs={12} md={3} sm={3} mb={2}>
                     <YesterdayHighLow slug={'high'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'high'} />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             </Container>
             <br />
-            <Container id="lowestCensus">
+            {/* <Container id="lowestCensus">
               <Stack
                 direction="row"
                 alignItems="center"
@@ -476,27 +479,22 @@ export default function DashboardApp() {
                 <Typography variant="h4" gutterBottom>
                   Yesterdays Lowest Census({`${dashboardCouncil?.council_records?.council_details?.name}`})
                   <Typography variant="h6" style={{ fontWeight: 400 }}>
-                    It is showing Yesterdays Highest Census counts
+                    It is showing Yesterdays Highest Census counts. <span style={{color: "#ff0000"}}>(The Team , Council, Zone and ward is currently assigned entity to the user.)</span>
                   </Typography>
+                 
                 </Typography>
               </Stack>
               <Grid container spacing={3}>
+
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                {dashboardCouncil?.council_records?.lowest_census_users?.map((val, i) => (
                   <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} />
+                    <YesterdayHighLow slug={'low'} value={val} index={i}/>
                   </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} />
-                  </Grid>
+                    ))}
                 </Grid>
               </Grid>
-            </Container>
+            </Container> */}
             <br />
             <Container id="lasttreeNumber">
               <LastTreeNumbers councilName={`${dashboardCouncil?.council_records?.council_details?.name}`} />

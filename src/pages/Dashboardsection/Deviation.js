@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DeviationImg from '../../Assets/deviation_leaf.png';
 
 const Deviation = (props) => {
-  // console.log("props", props);
+  console.log("props.deviation", props);
   const useStyles = makeStyles({
     success: {
       backgroundColor: '#C8FADE',
@@ -40,7 +40,7 @@ const Deviation = (props) => {
                       <Typography variant="h5" sx={{ color: '#214C50', fontWeight: 600, marginLeft: '20px' }}>
                         Deviation:
                         <Typography variant="h6" style={{ fontWeight: 400, fontSize: '15px' }}>
-                          It is showing the deviation between <b>Base Color Tree</b> and <b>Census Tree</b> is
+                          {props?.deviationMessage}
                         </Typography>
                       </Typography>
                     </Stack>

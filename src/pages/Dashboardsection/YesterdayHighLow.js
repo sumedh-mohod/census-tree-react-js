@@ -7,8 +7,19 @@ import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 
 const YesterdayBaseColor = (props) => {
   const { slug } = props;
-  // console.log('props', props);
-  //   const { count, title, subtitle } = props.value;
+  // console.log('YesterdayBaseColor', props.index);
+  console.log('props?.value', props?.value);
+  const baseColor = props?.value?.active_team?.map((val)=> val);
+  const difference = props?.value?.ereyesterday_count - props?.value?.base_color_trees_count;
+  console.log("ereyesterday_count",props?.value?.ereyesterday_count,"base_color_trees_count", props?.value?.base_color_trees_count);
+  console.log("differnece", Math.abs(difference));
+  // const council = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_council[index]).map((val)=>val?.name);
+  const teamName = props?.value?.active_team?.map((val)=> val.name);
+  const ward = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_ward[index]).map((val)=>val?.name);
+  const zone = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_zone[index]).map((val)=>val?.name);
+  
+  console.log("baseColor", baseColor);
+  console.log("teamName", teamName);
   const useStyles = makeStyles({
     common: {
       padding: '5px 5px 5px 5px',
@@ -115,21 +126,22 @@ const YesterdayBaseColor = (props) => {
           
           <Grid item xs={12}>
           <Typography inline variant="h5" style={{ color: '#2D653F', paddingLeft: '10px',marginRight: '65px' }}  align="right">
-        <b className={slug === 'high' ? classes.successDark_ : classes.redCard}>01</b>
+        <b className={slug === 'high' ? classes.successDark_ : classes.redCard}>0{props.index + 1}</b>
       </Typography>
             <Card className={classes.common}>
               <Container>
                 <Grid container spacing={1}>
                   <Grid container item xs={12}>
                     <Typography variant="h4" className={slug === 'high'? classes.more : classes.less} mt={2}>
-                      9,080
+                      {props?.value?.base_color_trees_count}
                     </Typography>
                   </Grid>
-                  <Grid container  xs={12} mb={1}>
+                  {difference?  <Grid container  xs={12} mb={1}>
                     <Typography style={{ fontWeight: 400, color: '#000', fontSize: '11px', marginLeft: '10px' }}>
-                      <b className={slug === 'high'? classes.more : classes.less}>3400 more</b> than ereyesterday
+                      <b className={difference > 0? classes.less : classes.more}>{difference > 0? Math.abs(difference): Math.abs(difference)} {difference > 0? "Less": "More"}</b> than ereyesterday
                     </Typography>
-                  </Grid>
+                  </Grid>:""}
+                 
                 </Grid>
               </Container>
 
@@ -138,9 +150,9 @@ const YesterdayBaseColor = (props) => {
                 <Grid container item xs={9}>
                   <Typography variant="h5" style={{ color: '#AB515D', padding: '7px 25px 0px 25px' }}>
                     <Typography variant="h5" style={{ color: '#000', fontSize: '15px' }} mt={1} >
-                      John Doe
+                      {props?.value?.first_name} {props?.value?.last_name}
                       <Typography style={{ color: '#000', fontWeight: 400, fontSize: '12px' }}>
-                        +91 - 9999999999
+                        +91 - {props?.value?.mobile}
                        
                       </Typography>
                     </Typography>
@@ -175,32 +187,34 @@ const YesterdayBaseColor = (props) => {
                     </Typography>
                   </Typography>
                 </Grid>
+                {teamName? 
                 <Grid container  xs={12}>
                 <Container>
                 <Typography variant="h6" style={{ color: '#000', marginLeft: '10px' }}  mb={1}>
-                          <span className={classes.successDark}>MANGO TREE AKOLA</span>
+                          <span className={classes.successDark}>{teamName}</span>
                         </Typography>
                 </Container>
                 </Grid>
+                : ""}
               </Grid>
               <div className={classes.border} />
               <Grid container spacing={1}>
                 <Grid container item xs={6}>
-                  <Typography variant="h5" style={{ color: '#AB515D', padding: '7px 20px 7px 25px' }}>
-                    <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={1}>
+                  <Typography variant="h5" style={{ color: '#AB515D', padding: '1px 20px 0px 25px' }}>
+                    <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} >
                       Ward
                       <Typography variant="h5" style={{ color: '#000', fontSize: '12px' }}>
-                        WARD: 08
+                        WARD: {ward}
                       </Typography>
                     </Typography>
                   </Typography>
                 </Grid>
                 <Grid container item xs={6}>
-                  <Typography variant="h5" style={{ color: '#3F7D7A', padding: '7px 20px 7px 25px' }}>
-                    <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={1}>
+                  <Typography variant="h5" style={{ color: '#3F7D7A', padding: '1px 20px 0px 25px' }}>
+                    <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }}>
                       Zone
                       <Typography variant="h5" style={{ color: '#000', fontSize: '12px' }}>
-                        ZONE: 09
+                        ZONE: {zone}
                       </Typography>
                     </Typography>
                   </Typography>

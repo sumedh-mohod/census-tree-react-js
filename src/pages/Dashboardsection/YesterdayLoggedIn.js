@@ -61,6 +61,15 @@ export default function YesterdayLoggedIn() {
       width: '150px',
       fontSize: '12px',
     },
+    darkSection: {
+      backgroundColor: '#214C50',
+      color: '#fff',
+      borderRadius: '12px',
+      fontWeight: 400,
+      pointerEvents: 'none',
+      fontSize: '15px',
+      padding: '10px 15px',
+    },
   });
   const classes = useStyles();
   return (
@@ -166,7 +175,9 @@ export default function YesterdayLoggedIn() {
                           </button>
                         </TableCell>
                       </TableBody>
+                      
                     </Table>
+                    <span className={classes.darkSection}>View All</span>
                   </TableContainer>
                 </Scrollbar>
               </Card>

@@ -42,8 +42,18 @@ export default function AssociateZeroTree() {
       fontWeight: 600,
       fontSize: '12px',
     },
+    darkSection: {
+      backgroundColor: '#214C50',
+      color: '#fff',
+      borderRadius: '12px',
+      fontWeight: 400,
+      pointerEvents: 'none',
+      fontSize: '15px',
+      padding: '10px 15px',
+    },
   });
   const classes = useStyles();
+ 
   return (
     <>
       <Grid container spacing={3}>
@@ -99,9 +109,16 @@ export default function AssociateZeroTree() {
                           <b>10:30 AM,22 Jan 2022</b>
                         </button>
                       </TableCell>
-                    </TableBody>
+                    </TableBody> 
+                    <TableBody > 
+                    <TableCell mt={1}>
+                    <span className={classes.darkSection} mb={1} mt={1}>View All</span>
+                    </TableCell>
+                    </TableBody> 
                   </Table>
+                 
                 </TableContainer>
+               
               </Scrollbar>
             </Card>
           </Grid>
