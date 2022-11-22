@@ -27,6 +27,7 @@ import TreeOnMapReducer from "./TreeOnMapReducer";
 import ReportsReducer from './ReportsReducer';
 import TreeFamilyReducer from "./TreeFamilyReducer";
 import WorkRepotReducer from "./WorkReportReducer";
+import DashboardReducer from "./DashboardReducer";
 
 
 export default combineReducers({
@@ -43,6 +44,7 @@ export default combineReducers({
   wards:WardsReducer,
   zones:ZoneReducer,
   council:CouncilReducer,
+  dashboardCouncil: DashboardReducer,
   teams:TeamReducer,
   roles:RoleReducer,
   users:UserReducer,

@@ -85,18 +85,17 @@ export default function ReportListToolbar({
   typeImage,
   treeImage,
   conditionImage,
+  overallCount,
   handleViewReport,
-  hideReport
+  hideReport,
 }) {
   const dispatch = useDispatch();
   const [coucilId, setCouncilId] = useState('');
   const [councilName, setCouncilName] = useState('');
   const [imageData, setImageData] = useState('');
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
-
   const inputRef = useRef(null);
- 
-
+  // console.log('wardImage...abc', wardImage);
   // let imgData ='';
 
   // const { dataValue}= props;
@@ -105,7 +104,7 @@ export default function ReportListToolbar({
     // console.log("HANDLE COUNCIL")
     setCouncilId(e.target.value);
     handleCouncil(e.target.value);
-    hideReport()
+    hideReport();
 
     council.map((value, index) => {
       if (value.id === e.target.value) {
@@ -138,7 +137,7 @@ export default function ReportListToolbar({
     council: state.council.activeCouncil,
     reports: state.reports.reports,
   }));
-  // console.log("reports123", reports)
+  // console.log('reports123', reports);
   // console.log("council1234", council)
   // console.log("Council123", council.name)
 
@@ -156,8 +155,8 @@ export default function ReportListToolbar({
   };
 
   const formatDate = (date) => {
-    return date.split("-").reverse().join("-");
-  }
+    return date.split('-').reverse().join('-');
+  };
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -168,7 +167,7 @@ export default function ReportListToolbar({
     },
     validationSchema: DistrictsSchema,
     onSubmit: (value) => {
-      dispatch(GetReports(value.council,formatDate(value.fromDate),formatDate(value.toDate)));
+      dispatch(GetReports(value.council, formatDate(value.fromDate), formatDate(value.toDate)));
       handleViewReport();
       // console.log("value", value)
     },
@@ -177,7 +176,8 @@ export default function ReportListToolbar({
   const dataValue = reports?.by_wards;
   const value1 = [];
   dataValue?.map((option, index) => {
-    const value2 = [index + 1];
+    // const value2 = [index + 1];
+    const value2 = [];
     value2.push(option.name);
     value2.push(option.census_trees_count);
     value1.push(value2);
@@ -187,7 +187,8 @@ export default function ReportListToolbar({
   const TreeName = reports?.by_tree_names;
   const treeNameValue1 = [];
   TreeName?.map((option, index) => {
-    const treeNameValue2 = [index + 1];
+    // const treeNameValue2 = [index + 1];
+    const treeNameValue2 = [];
     treeNameValue2.push(option.name);
     treeNameValue2.push(option.census_trees_count);
     treeNameValue1.push(treeNameValue2);
@@ -197,7 +198,8 @@ export default function ReportListToolbar({
   const treeType = reports?.by_tree_types;
   const treeType1 = [];
   treeType?.map((option, index) => {
-    const treeType2 = [index + 1];
+    // const treeType2 = [index + 1];
+    const treeType2 = [];
     treeType2.push(option.tree_type);
     treeType2.push(option.census_trees_count);
     treeType1.push(treeType2);
@@ -207,7 +209,8 @@ export default function ReportListToolbar({
   const TreeCondition = reports?.by_tree_conditions;
   const TreeCondition1 = [];
   TreeCondition?.map((option, index) => {
-    const TreeCondition2 = [index + 1];
+    // const TreeCondition2 = [index + 1];
+    const TreeCondition2 = [];
     TreeCondition2.push(option.condition);
     TreeCondition2.push(option.census_trees_count);
     TreeCondition1.push(TreeCondition2);
@@ -224,22 +227,40 @@ export default function ReportListToolbar({
     const treeCanvas = await treeImage();
     const typeCanvas = await typeImage();
     const conditionCanvas = await conditionImage();
+    const overallCanvas = await overallCount();
 
-    // console.log('wardImage', img);
+    // console.log('wardImage.....2', img);
     // console.log('treeCanvas', treeCanvas);
     // console.log('typeCanvas', typeCanvas);
     // console.log('conditionCanvas', conditionCanvas);
 
-    const header = [['BY WARDS'], ['BY TREE NAMES'], ['BY TREE TYPES'], ['BY TREE CONDITIONS']];
+    const header = [['WARD WISE TREE SUMMARY'], ['BY TREE NAMES'], ['BY TREE TYPES'], ['BY TREE CONDITIONS']];
     const titleHeader = [['Sr. No', 'Table Content', '#']];
+    const treeCountHead = [[`${councilName} Tree Count`, '']];
     const headerBody = [
-      ['#', 'Wards', 'Counts'],
-      ['#', 'Tree Names', 'Counts'],
-      ['#', 'Tree Types', 'Counts'],
-      ['#', 'Tree Conditions', 'Counts'],
+      ['Wards', 'Total Tree Count'],
+      ['Tree Names', 'Total Tree Count'],
+      ['Tree Types', 'Total Tree Count'],
+      ['Tree Conditions', 'Total Tree Count'],
     ];
     const canvas = [img, treeCanvas, typeCanvas, conditionCanvas];
     const body_ = [value1, treeNameValue1, treeType1, TreeCondition1];
+    const treeCountBody = [
+      [`Total area of ${councilName}`, '19.74 Sq. Km'],
+      ['Total Trees observed in Census', '28,946 Trees'],
+    ];
+    const titleBody_ = [
+      [1, 'Content 1', 2],
+      [2, 'Content 2', 2],
+      [3, 'Content 3', 2],
+      [4, 'Content 4', 2],
+      [5, 'Content 5', 2],
+      [6, 'Content 6', 2],
+      [7, 'Content 7', 2],
+      [8, 'Content 8', 2],
+      [9, 'Content 9', 2],
+      [10, 'Content 10', 2],
+    ];
     const titleBody = [
       [1, 'Content 1', 2],
       [2, 'Content 2', 2],
@@ -262,7 +283,192 @@ export default function ReportListToolbar({
       [9, 'Content 9', 2],
       [10, 'Content 10'],
     ];
-
+    const treeSpecies = [
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+      [
+        1,
+        'AKASHNEEM',
+        'MILLINGTONIA HORTENSIS',
+        'BIGNONIACEAE',
+        'Ornamental tree. Wood used in making bottle corks.',
+        'Native',
+      ],
+    ];
+    const plantationScope = [
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+      [1, 'AKA', 'TERMINALIA ELLIPTICA', 'COMBRETACEAE'],
+    ];
     function push() {
       const masterArray = [];
       for (let i = 0; i < body_.length; i += 1) {
@@ -290,7 +496,7 @@ export default function ReportListToolbar({
 
     const base64Img =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEXMzMyWlpaqqqq3t7exsbGcnJy+vr6jo6PFxcUFpPI/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAQUlEQVQ4jWNgGAWjgP6ASdncAEaiAhaGiACmFhCJLsMaIiDAEQEi0WXYEiMCOCJAJIY9KuYGTC0gknpuHwXDGwAA5fsIZw0iYWYAAAAASUVORK5CYII=';
-
+    doc.text('TREE CENSUS BY USING GPS AND GIS TECHNOLOGY WITHIN', 20, 10);
     doc.text(councilName, 60, 20);
     doc.addImage(base64Img, 'JPEG', 75, 30, 50, 50);
     doc.text('(2022-2023)', 85, 87);
@@ -319,6 +525,22 @@ export default function ReportListToolbar({
     const margin_ = { top: 0, bottom: 0 };
     const headStyles_ = { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontSize: 15 };
     doc.addPage();
+    const columns = ["ID", "Name", "Country"];
+const rows = [
+   [1, "Shaw", "Tanzania"],
+   [2, "Nelson", "Kazakhstan"],
+   [3, "Garcia", "Madagascar"]
+];
+    const header_ = function (data) {
+      doc.setFontSize(18);
+      doc.setTextColor(40);
+      doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 20, 50, 50);
+      // doc.addImage(image base64_source, 'image format', logo_sizes.centered_x, _y, logo_sizes.w, logo_sizes.h);
+      // Image must be Base64 encoded
+  };
+  
+  doc.autoTable(columns, rows, {margin: {top: 80}, didDrawPage: header_});
+    doc.addPage();
     doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
     autoTable(doc, {
       margin: { top: 20, bottom: 10 },
@@ -330,7 +552,78 @@ export default function ReportListToolbar({
       head: titleHeader,
       body: titleBody,
     });
-
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.addImage(base64Img, 'JPEG', 10, 25, 190, 240);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.addImage(base64Img, 'JPEG', 10, 25, 190, 240);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text('ACKNOWLEDGEMENT', 70, 20);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text(`History of ${councilName}`, 50, 20);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text('What is Tree Census?', 65, 20);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text('WHY TREE CENSUS IS IMPORTANT?', 60, 20);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text('STEP BY STEP WORKING PROCESS', 55, 20);
+    doc.addImage(base64Img, 'JPEG', 55, 35, 95, 130);
+    doc.text(`${councilName} - Co-ordinators`, 40, 185);
+    autoTable(doc, {
+      margin: { top: 200, bottom: 10 },
+      // head: titleHeader,
+      body: titleBody_,
+    });
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text('METHOD OF CONDUCTING TREE CENSUS.', 53, 20);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text('GPS & GIS based Mobile Application', 53, 20);
+    doc.addImage(base64Img, 'JPEG', 55, 35, 95, 130);
+    doc.text('Below is the screenshot of our Web based Application', 20, 185);
+    doc.text('Step 1 – Login using below login details', 10, 195);
+    doc.text(' Website- http://abellserver.in', 20, 205);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text('Step 2 - You will find dashboard as below :-', 10, 30);
+    doc.addImage(base64Img, 'JPEG', 30, 40, 150, 90);
+    doc.text('Step 3 – Go to the navigation option and select Tree Data and then TreeData ', 10, 150);
+    doc.text(`List and then select the project that is ${councilName} tree Census .`, 10, 160);
+    doc.addImage(base64Img, 'JPEG', 30, 170, 150, 90);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text('Step 4 – For Maps please go to navigation than select Maps and then Treeon Map ', 10, 30);
+    doc.text('and select project, ward no & other required criteria. (Imaging shown)', 10, 40);
+    doc.addImage(base64Img, 'JPEG', 30, 50, 150, 90);
+    doc.text(`The data collected on our application, will be super imposed on ${councilName} City Map on`, 10, 160);
+    doc.text('oogle Earth:-', 10, 170);
+    doc.addImage(base64Img, 'JPEG', 30, 180, 150, 90);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text(`1) ${councilName} boundary line , and word wise map:-`, 10, 30);
+    doc.addImage(base64Img, 'JPEG', 30, 40, 150, 90);
+    doc.text(`2) ${councilName} word wise map:-`, 10, 150);
+    doc.addImage(base64Img, 'JPEG', 30, 160, 150, 90);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text(`3) The green tags (dot) in the image indicate trees in ${councilName}:--`, 10, 30);
+    doc.addImage(base64Img, 'JPEG', 30, 40, 150, 90);
+    doc.text(`4)On clicking the black tags one can see the details of the trees:-`, 10, 150);
+    doc.addImage(base64Img, 'JPEG', 30, 160, 150, 90);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    autoTable(doc, {
+      margin: { top: 20, bottom: 10 },
+      head: treeCountHead,
+      body: treeCountBody,
+    });
     doc.addPage();
     // doc.text("By Wards", 20, 10);
 
@@ -362,17 +655,64 @@ export default function ReportListToolbar({
 
       // });
     }
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+
+    doc.text('OVERALL TREE COUNT', 20, 25);
+    doc.text(`Major Tree Varieties In ${councilName}`, 20, 35);
+    const overallCountRes = await Html2canvas(overallCanvas);
+    doc.addImage(overallCountRes.toDataURL('image/png'), 'JPEG', 10, 45, 180, 150);
+    doc.addImage(base64Img, 'JPEG', 15, 200, 180, 90);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    doc.text(`Major trees found in ${councilName}:-`, 20, 35);
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    autoTable(doc, {
+      margin: { top: 20, bottom: 10 },
+      headStyles: headStyles_,
+      head: [[`Different Tree Species found in ${councilName} : -`]],
+    });
+    autoTable(doc, {
+      margin: { top: 0, bottom: 10 },
+      head: [['Sr. No', 'LOCAL NAME', 'SCIENTIFIC NAME', 'FAMILY', 'USES', 'ORIGIN']],
+      body: treeSpecies,
+    });
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    autoTable(doc, {
+      margin: { top: 20, bottom: 10 },
+      headStyles: headStyles_,
+      head: [[`SCOPE OF PLANTATION: -`]],
+    });
+    autoTable(doc, {
+      margin: { top: 0, bottom: 10 },
+      head: [['Sr. No', 'COMMON NAME', 'TREE BOTNICAL NAME', 'FAMILY']],
+      body: plantationScope,
+    });
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    autoTable(doc, {
+      margin: { top: 20, bottom: 10 },
+      headStyles: headStyles_,
+      head: [[`REFERENCES: -`]],
+    });
+    doc.addPage();
+    doc.addImage(base64Img, 'JPEG', 10, 0, 40, 17);
+    autoTable(doc, {
+      margin: { top: 20, bottom: 10 },
+      headStyles: headStyles_,
+      head: [[`RECOMMENDATIONS: -`]],
+    });
     doc.save(`${councilName}.pdf`);
     /* eslint-enable no-await-in-loop */
   };
   const useStyles = makeStyles({
-    
     icon: {
-        fill: '#214C50',
+      fill: '#214C50',
     },
-   
-})
-const classes = useStyles()
+  });
+  const classes = useStyles();
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   return (
     <>
@@ -410,9 +750,9 @@ const classes = useStyles()
             // {...getFieldProps("council")}
             inputProps={{
               classes: {
-                  icon: classes.icon,
+                icon: classes.icon,
               },
-          }}
+            }}
           >
             <MenuItem disabled value="">
               <em>Select Councils</em>
@@ -434,7 +774,7 @@ const classes = useStyles()
                 label="From Date*"
                 placeholder="From Date*"
                 // defaultValue={councilArr?.project_start_date}
-                style={{ width: '90.5%',marginLeft: '15px' }}
+                style={{ width: '90.5%', marginLeft: '15px' }}
                 // className={classes.textField}
                 error={Boolean(touched.fromDate && errors.fromDate)}
                 helperText={touched.fromDate && errors.fromDate}
@@ -453,7 +793,7 @@ const classes = useStyles()
                 label="To Date*"
                 placeholder="To Date*"
                 // defaultValue={project_end_date}
-                style={{ width: '90.5%', marginLeft: '15px',  }}
+                style={{ width: '90.5%', marginLeft: '15px' }}
                 // className={classes.textField}
                 error={Boolean(touched.toDate && errors.toDate)}
                 helperText={touched.toDate && errors.toDate}
@@ -479,7 +819,7 @@ const classes = useStyles()
                 <Button
                   variant="contained"
                   onClick={handleSubmit}
-                  style={{ marginLeft: '15px', marginTop: 2, height: 50, width: 150, backgroundColor: '#DF6526'}}
+                  style={{ marginLeft: '15px', marginTop: 2, height: 50, width: 150, backgroundColor: '#DF6526' }}
                 >
                   Export Report
                 </Button>
@@ -487,7 +827,7 @@ const classes = useStyles()
                 <Button
                   variant="contained"
                   onClick={exportPdf}
-                  style={{ marginLeft: '15px', marginTop: 5, height: 50, width: 150, backgroundColor: '#DF6526'}}
+                  style={{ marginLeft: '15px', marginTop: 5, height: 50, width: 150, backgroundColor: '#DF6526' }}
                 >
                   Export Report
                 </Button>

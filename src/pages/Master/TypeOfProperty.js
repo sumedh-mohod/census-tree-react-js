@@ -179,7 +179,7 @@ export default function TypeOfProperty() {
   }
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+    // console.info('You clicked a breadcrumb.');
   }
 
   return (

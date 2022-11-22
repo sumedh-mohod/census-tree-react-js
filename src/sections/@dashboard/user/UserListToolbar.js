@@ -6,6 +6,7 @@ import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment
 import Iconify from '../../../components/Iconify';
 import SearchImage from '../../../Assets/Search_Image.png';
 
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({

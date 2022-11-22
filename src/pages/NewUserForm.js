@@ -2152,7 +2152,7 @@ export default function NewUserForm(props) {
                     />
                   </Grid>
 
-                  <Grid item xs={6}>
+                
                     {lastDayOfWork || values.lastDayOfWork ? (
                       <>
                           <TextField
@@ -2162,6 +2162,7 @@ export default function NewUserForm(props) {
                             label="Is Notice Period Served?"
                             name="noticedPeriods"
                             value={noticePeriod}
+                            style={{marginTop: '7px'}}
                             displayEmpty
                             // style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                             defaultValue={data ? data.noticedPeriods : ''}
@@ -2192,7 +2193,6 @@ export default function NewUserForm(props) {
                           </TextField>
                       </>
                     ) : null}
-                  </Grid>
                 </>
               ) : null}
             </Grid>
@@ -2461,7 +2461,7 @@ export default function NewUserForm(props) {
             <Typography variant="h5" style={{ marginTop: 20, marginBottom: 20 }} gutterBottom>
               Upload Document
               <Typography variant="h6" style={{ fontWeight: '400' }}>
-                Please upload document.
+              Please provide upload document.
               </Typography>
             </Typography>
 

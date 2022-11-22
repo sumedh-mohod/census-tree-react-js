@@ -114,7 +114,7 @@ export default function NewUI() {
   //   });
   //     console.log(":::::::::", selectedUsers);
   // }
-console.log('treeCensusPendingQCStatus....', treeCensusPendingQCStatus);
+// console.log('treeCensusPendingQCStatus....', treeCensusPendingQCStatus);
   const firstRun = React.useRef(true);
   useEffect(() => {
     if (firstRun.current) {
@@ -175,7 +175,7 @@ console.log('treeCensusPendingQCStatus....', treeCensusPendingQCStatus);
       setImageList(imageList);
     }
   }, [updateQCStatusLog, updateCensusTreeLog, referToExpertLog]);
-  console.log("imageList",imageList);
+  // console.log("imageList",imageList);
 
   const thirdRun = React.useRef(true);
   useEffect(() => {
@@ -381,87 +381,9 @@ const classes = useStyles()
         </Stack>
       </Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
-        {/* <Container sx={{ pl: 0 }}>
-          <Typography variant="h4" gutterBottom>
-            Census QC
-            <Typography variant="h6" style={{ fontWeight: 400 }}>
-              It is showing Census QC
-            </Typography>
-          </Typography>
-        </Container> */}
-        {/* <div role="presentation">
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            style={{ color: '#000000', fontWeight: 900, fontSize: '20px' }}
-            separator=":"
-          >
-            <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
-              Census QC
-            </Typography>
-          </Breadcrumbs>
-        </div>
-        <Typography variant="h6" fontWeight={400} sx={{ mt: -1 }}>
-          It is showing Census QC
-        </Typography> */}
-        {/* <Box
-          display="flex"
-          alignItems="flex-start"
-          // flexDirection="row" This is the default
-        >
-          <Box alignSelf="center">
-            <Box
-              sx={{
-                // justifyContent: 'end',
-                px: 3,
-                py: 1,
-                mt: -4,
-                mr: 2,
-                backgroundColor: '#E8762F',
-                color: '#fff',
-                fontWeight: 500,
-                width: '280px',
-                borderRadius: '7px',
-                textAlign: 'center',
-              }}
-              // component={RouterLink}
-              to="#"
-            >
-              Total Pending Trees : <b>{totalTrees || 0}</b>
-            </Box>
-          </Box>
-          <Button
-            onClick={toggleDrawer('right', true)}
-            variant="contained"
-            sx={{
-              // justifyContent: 'end',
-              px: 3,
-              py: 1,
-              mt: -4,
-              boxShadow: 'none',
-              mr: 3,
-              // backgroundColor: '#000'
-            }}
-            // component={RouterLink}
-            to="#"
-            startIcon={<Iconify icon="eva:funnel-fill" />}
-          >
-            Filters
-          </Button>
-        </Box> */}
+     
         <Box sx={{ height: '100' }}>
-          {/* <Button
-           variant='outlined'
-            sx={{justifyContent:'end', display:'flex', position: 'fixed',right: 0,top:'100px',border:'2px solid black',backgroundColor:'black',zIndex:'999', 
-            "&.MuiButtonBase-root:hover": {
-              bgcolor: "black",
-              border:'2px solid black'
-            }
-          }}
-            onClick={toggleDrawer("right", true)} 
-           
-          >
-        <FilterAltRoundedIcon sx={{color:'white'}}/>
-          </Button>  */}
+         
           <Drawer
             sx={{
               '& .MuiDrawer-paper': {
@@ -882,9 +804,7 @@ const classes = useStyles()
                              <Container style={{width: '526px'}}>
                              <ImageCarousel imagelist={imageList} activeindex={activeIndex}/>
                              </Container>
-                              {/* <Box sx={style}>
-                                <img src={val.original} alt="gallery" height="650px" width="100%" />
-                              </Box> */}
+                             
                             </Modal>
                     <div className="wrapper" style={{ border: 'none' }}>
                     <div className="one">
@@ -924,36 +844,7 @@ const classes = useStyles()
                         Plantation Date : <br />{' '}
                         <b>{treeCensusPendingQCStatus?.data[selectedIndex].plantation_date || '-'}</b>
                       </div>
-                      {/* <div className="one" style={{ border: 'none' }}>
-                        <table className="bor" style={{ marginLeft: '30px' }}>
-                          <tr className="border-bottom">
-                            <th style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
-                              #
-                            </th>
-                            <th style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
-                              Tree Number
-                            </th>
-                            <th style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
-                              {' '}
-                              Name
-                            </th>
-                          </tr>
-
-                          {treeCensusPendingQCStatus?.data?.map((tree, index) => (
-                            <tr style={{backgroundColor:index===selectedIndex?"#dddbdb":""}}>
-                              <td style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
-                                <b>{index + 1}</b>
-                              </td>
-                              <td style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
-                                <b>{tree.tree_number}</b>
-                              </td>
-                              <td style={{ textAlign: 'center', padding: '4px' }} className="border-bottom">
-                                {tree.tree_name.name}
-                              </td>
-                            </tr>
-                          ))}
-                        </table>
-                      </div> */}
+                     
                     </div>
                   </div>
                 </div>
@@ -961,252 +852,7 @@ const classes = useStyles()
             </Card>
           </Container>
 
-          {/* <Grid
-            container
-            style={{ height: 'calc(100vh - 118px)', marginBottom: '-80px', marginTop: '30px', overflowY: 'hidden' }}
-          >
-            <Grid item xs={4} style={{ height: '100%', overflowY: 'auto', paddingRight: '5%' }}>
-              <Box sx={{ width: '100%', height: '100%', paddingRight: '5%', borderRight: '2px solid slategray' }}>
-                <Typography variant="h4" gutterBottom align="center">
-                  Total Pending Trees: {totalTrees}
-                </Typography>
-                <table
-                  style={{
-                    fontFamily: 'arial, sans-serif',
-                    borderCollapse: 'collapse',
-                    width: '100%',
-                    borderRadius: '5px',
-                  }}
-                >
-                  <tr style={{ borderRadius: '5px' }}>
-                    <th style={{ border: '1px solid #dddddd', textAlign: 'center', padding: '4px' }}>#</th>
-                    <th style={{ border: '1px solid #dddddd', textAlign: 'center', padding: '4px' }}>Tree Number</th>
-                    <th style={{ border: '1px solid #dddddd', textAlign: 'center', padding: '4px' }}>Tree Name</th>
-                  </tr>
-
-                  {treeCensusPendingQCStatus?.data?.map((tree, index) => (
-                    <tr>
-                      <td style={{ border: '1px solid #dddddd', textAlign: 'center', padding: '4px' }}>{index + 1}</td>
-                      <td style={{ border: '1px solid #dddddd', textAlign: 'center', padding: '4px' }}>
-                        {tree.tree_number}
-                      </td>
-                      <td style={{ border: '1px solid #dddddd', textAlign: 'center', padding: '4px' }}>
-                        {tree.tree_name.name}
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </Box>
-            </Grid>
-            <Grid item xs={8} style={{ height: '100%', overflowY: 'auto', paddingRight: '16px' }}>
-              <Stack spacing={2}>
-                <Box sx={{ height: 'auto', width: '100%', mr: 5 }}>
-                  <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} />
-                </Box>
-                <Box sx={{ height: 400, width: '100%' }}>
-                  <Box sx={{ width: '100%' }}>
-                    <Typography variant="h4" gutterBottom>
-                      Tree Details:
-                    </Typography>
-                    {treeCensusPendingQCStatus?.data && treeCensusPendingQCStatus?.data?.length !== 0 ? (
-                      <>
-                        <table>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px' }}>Tree Number:</td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px' }}>
-                              {' '}
-                              {treeCensusPendingQCStatus?.data[selectedIndex].tree_number}
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Tree Name:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].tree_name?.name}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Botanical Name:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].tree_name?.botanical_name}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Tree Type:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].tree_type.tree_type}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Location Type:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].location_type?.location_type}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Accuracy Captured:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy
-                                ? treeCensusPendingQCStatus?.data[selectedIndex].location_accuracy
-                                : '-'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Age:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].age
-                                ? treeCensusPendingQCStatus?.data[selectedIndex].age
-                                : '-'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Property Type:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].property_type
-                                ? treeCensusPendingQCStatus.data[selectedIndex].property_type?.property_type
-                                : '-'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Property Number:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].property?.property_number
-                                ? treeCensusPendingQCStatus.data[selectedIndex].property?.property_number
-                                : '-'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Owner Name:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].property?.owner_name}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Tenant Name:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].property?.tenant_name}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Area(Sq feet):{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].property?.area
-                                ? treeCensusPendingQCStatus.data[selectedIndex].property.area
-                                : '-'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Plantation Date:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].plantation_date}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Tree Condition:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].tree_condition.condition}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Added By:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.first_name}{' '}
-                              {treeCensusPendingQCStatus?.data[selectedIndex].added_by?.last_name}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Added On:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].added_on_date}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Girth:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].girth}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Height:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].height}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              Canopy:{' '}
-                            </td>
-                            <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                              {treeCensusPendingQCStatus?.data[selectedIndex].canopy}
-                            </td>
-                          </tr>
-                        </table>
-                      </>
-                    ) : null}
-                    <Box sx={{ height: 200, width: '100%', mt: 5 }}>
-                      <Stack direction="row" spacing={4}>
-                        {userPermissions.includes('approve-census-tree') ? (
-                          <Button size="small" variant="contained" onClick={handleApproveNext}>
-                            Approve & Next
-                          </Button>
-                        ) : null}
-                        {userPermissions.includes('update-census-tree') ? (
-                          <Button size="small" variant="contained" onClick={handleDialogOpen}>
-                            Unapprove & Update
-                          </Button>
-                        ) : null}
-                        <Button size="small" variant="contained" onClick={handleReferToExpert}>
-                          Refer To Expert
-                        </Button>
-                      </Stack>
-                    </Box>
-
-                    {updateClick ? (
-                      <TreeDetailsDialog
-                        isOpen={updateClick}
-                        handleClose={handleDialogClose}
-                        data={treeCensusPendingQCStatus.data[selectedIndex]}
-                      />
-                    ) : null}
-                  </Box>
-                </Box>
-              </Stack>
-            </Grid>
-          </Grid> */}
+       
         </>
       )}
     </Page>

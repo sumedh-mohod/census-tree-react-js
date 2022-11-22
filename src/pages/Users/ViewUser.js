@@ -1154,15 +1154,7 @@ const validateRole = () => {
                 </Grid>
                 <Grid container spacing={1} style={{marginTop: 5}}>
                    <Grid item xs={6}>
-                 {/* <DefaultInput
-                  fullWidth
-                  id="lastDayOfWork"
-                  autoComplete="lastDayOfWork"
-                  placeholder="Last Day Of Work"
-                  defaultValue={data? data.lastDayOfWork: ""}
-                  // name="contact"
-                  // value="contact"
-                /> */}
+                
                 <TextField
                   fullWidth
                   style={{width: '88%', marginLeft: 40}}
@@ -1282,17 +1274,7 @@ const validateRole = () => {
                   value={values.username}
                 />
               </Grid>
-              {/* <Grid item xs={6}>
-              <DefaultInput
-                  fullWidth
-                  id="password"
-                  autoComplete="password"
-                  placeholder="Password*"
-                  error={Boolean(touched.password && errors.password)}
-                  helperText={touched.password && errors.password}
-                  {...getFieldProps("password")}
-                />
-              </Grid> */}
+             
               </Grid>
               {showCouncil?null:
               <>
@@ -1350,37 +1332,19 @@ const validateRole = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-            {/* <Link fullWidth
-                  style={{width: '88%', marginLeft: 40}}
-                  variant='outlined' target="_blank" rel="noopener" href={`${value.documentName}`} >
-             
-              <IconButton   size="large">
-                View Uploaded File
-                
-              </IconButton>
-          </Link> */}
-          {/* <IconButton aria-label="delete" target="_blank" rel="noopener" size="large" href={`${value.documentValue}`} color="success">
-                            <Visibility />
-              </IconButton> */}
+            
               <Button variant="outlined" target="_blank" rel="noopener" style={{marginTop:'5px'}}  href={`${value.documentValue}`}>
               View Document
             </Button>
             </Grid>
-            {/* <Grid item xs={2}>
-            <IconButton color={index+1===documentLength?'success':'error'} aria-label={index+1===documentLength?'add':'delete'} size="large" onClick={()=>handleDocumentButtonClick(index+1===documentLength?'add':'delete',index)}>
-                {index+1===documentLength?
-                <AddCircleIcon fontSize="inherit" />:
-                <CancelIcon fontSize="inherit" />
-                }
-              </IconButton>
-            </Grid> */}
+          
             </Grid>
           )
           )}
 
           </>
           }
-            {/* <Button >Add</Button> */}
+           
         </div>
     );
   }

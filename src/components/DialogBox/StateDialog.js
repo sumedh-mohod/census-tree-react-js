@@ -104,9 +104,7 @@ const handleStatusChange = (event) => {
     setOpen(true);
   };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
+
 
   const handleMaxWidthChange = (event) => {
     setMaxWidth(
@@ -145,15 +143,11 @@ const handleStatusChange = (event) => {
 
   return (
     <div>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open max-width dialog
-      </Button> */}
+ 
       <Dialog
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-        
-        // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit State":"Add State"}</BootstrapDialogTitle>
         <Divider/>

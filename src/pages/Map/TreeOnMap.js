@@ -191,19 +191,7 @@ export default function TreeOnMap(props) {
           </Button>
           </Stack>
           
-          {/* <Button
-           variant='outlined'
-            sx={{justifyContent:'end', display:'flex', position: 'fixed',right: 0,top:'100px',border:'2px solid black',backgroundColor:'black',zIndex:'999', 
-            "&.MuiButtonBase-root:hover": {
-              bgcolor: "black",
-              border:'2px solid black'
-            }
-          }}
-            onClick={toggleDrawer("right", true)} 
-           
-          >
-        <FilterAltRoundedIcon sx={{color:'white'}} />
-          </Button>  */}
+          
           <Drawer
            sx= {
             {
@@ -391,7 +379,7 @@ export default function TreeOnMap(props) {
 
           </Button>
 
-            {/* <Button variant="contained" style={{marginLeft: 50, marginTop: 5, backgroundColor: "#008000", height: 50, width: 100}}  onClick={handleSubmit}>Get Data</Button> */}
+           
           </div>
           </Drawer>
             <Grid container spacing={1} style={{marginTop: 20}}>

@@ -208,11 +208,7 @@ export default function BaseColorPendingQC() {
 
     // dispatch(GetBaseColorTreeById(1));
   }, []);
-  //  baseColorPendingQCStatus.data.map((tree, index) =>(
-  //     console.log(index, tree.tree_number, tree.tree_name.name)
-  //     // console.log(tree.tree_number)
-  //     // console.log(tree.tree_name.name)
-  //     ));
+  
   const handleDialogOpen = (id) => {
     // console.log('clicked');
     setDialogOpen(true);
@@ -758,128 +754,6 @@ const classes = useStyles()
               </Container>
             </Scrollbar>
 
-            {/* <Grid item xs={12}>
-                <Stack spacing={2}>
-                  <Typography variant="h4" gutterBottom align="center">
-                    Total Pending Trees: {totalTrees}
-                  </Typography>
-                  <Box sx={{ height: 'auto', width: '100%', mr: 5 }}>
-                    <ImageGallery {...properties} style={{ height: '300px', maxHeight: '300px !important' }} />
-                  </Box>
-                  <Box sx={{ height: 400, width: '100%' }}>
-                    <Box sx={{ width: '100%' }}>
-                      <Typography variant="h4" gutterBottom style={{ textAlign: 'center' }}>
-                        Base Color Details:
-                      </Typography>
-                      {baseColorPendingQCStatus?.data && baseColorPendingQCStatus?.data?.length !== 0 ? (
-                        <>
-                          <table style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20 }}>
-                            <tr>
-                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                Location Type:{' '}
-                              </td>
-                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                {baseColorPendingQCStatus?.data[selectedIndex].location_type?.location_type}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                Accuracy Captured:{' '}
-                              </td>
-                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                {baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
-                                  ? baseColorPendingQCStatus?.data[selectedIndex].location_accuracy
-                                  : '-'}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                Property Type:{' '}
-                              </td>
-                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                {baseColorPendingQCStatus?.data[selectedIndex].property_type
-                                  ? baseColorPendingQCStatus.data[selectedIndex].property_type?.property_type
-                                  : '-'}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                Property Number:{' '}
-                              </td>
-                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                {baseColorPendingQCStatus?.data[selectedIndex].property?.property_number
-                                  ? baseColorPendingQCStatus.data[selectedIndex].property?.property_number
-                                  : '-'}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                Owner Name:{' '}
-                              </td>
-                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                {baseColorPendingQCStatus?.data[selectedIndex].property?.owner_name}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                Tenant Name:{' '}
-                              </td>
-                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                {baseColorPendingQCStatus?.data[selectedIndex].property?.tenant_name}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                Added By:{' '}
-                              </td>
-                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                {baseColorPendingQCStatus?.data[selectedIndex].added_by
-                                  ? `${baseColorPendingQCStatus?.data[selectedIndex].added_by?.first_name} ${baseColorPendingQCStatus?.data[selectedIndex].added_by?.last_name}`
-                                  : '-'}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td style={{ fontWeight: 700, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                Added On:{' '}
-                              </td>
-                              <td style={{ fontWeight: 400, textAlign: 'left', padding: '10px', paddingTop: '0px' }}>
-                                {baseColorPendingQCStatus?.data[selectedIndex].added_on_date}
-                              </td>
-                            </tr>
-                          </table>
-                        </>
-                      ) : null}
-                      <Box sx={{ height: 200, width: '100%', mt: 5 }}>
-                        <Stack direction="row" spacing={4} style={{ justifyContent: 'center' }}>
-                          {userPermissions.includes('approve-base-color-tree') ? (
-                            <Button size="medium" variant="contained" onClick={handleApproveNext}>
-                              Approve & Next
-                            </Button>
-                          ) : null}
-                          {userPermissions.includes('unapprove-base-color-tree') ? (
-                            <Button
-                              size="medium"
-                              variant="contained"
-                              onClick={() => handleDialogOpen(baseColorPendingQCStatus?.data[selectedIndex].id)}
-                            >
-                              Unapprove & Next
-                            </Button>
-                          ) : null}
-                        </Stack>
-                      </Box>
-  
-                      {updateClick ? (
-                        <QcStatusDialog
-                          isOpen={updateClick}
-                          baseColorId={baseColorId}
-                          handleClose={() => handleDialogClose()}
-                          handleSubmit={(data, id) => handleQcSubmit(data, id)}
-                        />
-                      ) : null}
-                    </Box>
-                  </Box>
-                </Stack>
-              </Grid> */}
           </Card>
         </Container>
       )}

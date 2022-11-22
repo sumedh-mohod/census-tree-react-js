@@ -223,14 +223,7 @@ export default function DistrictDialog(props) {
                     icon: classes.icon,
                 },
             }}
-              // renderValue={(selected) => {
-
-              //   console.log("SELECTED",state);
-              //   if (selected.length === 0) {
-              //     return <em>State</em>;
-              //   }
-              //   return findValue(states,state)
-              // }}
+           
               error={Boolean(touched.state && errors.state)}
                 helperText={touched.state && errors.state}
                 {...getFieldProps("state")}

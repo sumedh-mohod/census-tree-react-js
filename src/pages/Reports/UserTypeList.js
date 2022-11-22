@@ -75,33 +75,7 @@ export default function UserTypeList(props) {
      setDropPage(event.target.value);
     };
 
-  // const {
-  //   states,
-  //   addStateLog,
-  //   editStateLog,
-  //   deleteStateLog,
-  //   pageInfo,
-  //   loggedUser
-  // } = useSelector((state) => ({
-  //   states:state.master.states,
-  //   addStateLog:state.master.addStateLog,
-  //   editStateLog:state.master.editStateLog,
-  //   deleteStateLog:state.master.deleteStateLog,
-  //   pageInfo : state.master.pageInfo,
-  //   loggedUser:state.auth.loggedUser,
 
-  // }));
-
-  // console.log("STATES",states);
-  // loggedUser.roles[0].permissions.map((item, index)=>(
-  //   userPermissions.push(item.name)
-  // ))
-
-  
-
-  // useEffect(()=>{
-  //   dispatch(GetAllState(page,rowsPerPage));
-  // },[addStateLog,editStateLog,deleteStateLog])
   const {
     workReports,
     pageInfo,
