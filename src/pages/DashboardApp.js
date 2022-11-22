@@ -339,19 +339,19 @@ export default function DashboardApp() {
               <br />
               <Grid container spacing={3}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                  {dashboardCouncil?.council_records?.work_type_count?.base_color?.map((val, i) => (
+                  {dashboardCouncil?.council_records?.work_type_counts?.base_color?.map((val, i) => (
                     <Grid item xs={12} md={4} sm={4} mb={2}>
                       <WorktypeCard value={val} index={i} />
                     </Grid>
                   ))}
-                  <Grid item xs={12} md={4} sm={4} mb={2}>
-                    <WorktypeCensusCard census={'Census'} />
-                  </Grid>
+                 <Grid item xs={12} md={4} sm={4} mb={2}>
+                    <WorktypeCensusCard census={'Census'}/>
+                  </Grid> 
                   <Grid item xs={12} md={4} sm={4} mb={2}>
                     <WorktypeCensusCard census={'Census Onsite QC'} />
                   </Grid>
                   <Grid item xs={12} md={4} sm={4} mb={2}>
-                    <WorktypeCensusCard census={'Base Color Offsite QC'} />
+                    <WorktypeCensusCard census={'Census Offsite QC'} />
                   </Grid>
                   {/* <Grid item xs={12} md={4} sm={4} mb={2}>
                 <WorktypeCard />
@@ -468,7 +468,7 @@ export default function DashboardApp() {
               </Grid>
             </Container>
             <br />
-            {/* <Container id="lowestCensus">
+            <Container id="lowestCensus">
               <Stack
                 direction="row"
                 alignItems="center"
@@ -488,13 +488,13 @@ export default function DashboardApp() {
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {dashboardCouncil?.council_records?.lowest_census_users?.map((val, i) => (
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
+                 <Grid item xs={12} md={3} sm={3} mb={2}>
                     <YesterdayHighLow slug={'low'} value={val} index={i}/>
                   </Grid>
-                    ))}
+              ))}
                 </Grid>
               </Grid>
-            </Container> */}
+            </Container>
             <br />
             <Container id="lasttreeNumber">
               <LastTreeNumbers councilName={`${dashboardCouncil?.council_records?.council_details?.name}`} />

@@ -66,6 +66,7 @@ export default function AssociateZeroTree() {
                   It is showing last top 10 logged associates
                 </Typography>
               </Typography>
+              <span className={classes.darkSection}>View All</span>
             </Stack>
             <Card>
               <Scrollbar>
@@ -111,9 +112,9 @@ export default function AssociateZeroTree() {
                       </TableCell>
                     </TableBody> 
                     <TableBody > 
-                    <TableCell mt={1}>
-                    <span className={classes.darkSection} mb={1} mt={1}>View All</span>
-                    </TableCell>
+                    {/* <TableCell mt={1}> */}
+                    
+                    {/* </TableCell> */}
                     </TableBody> 
                   </Table>
                  
