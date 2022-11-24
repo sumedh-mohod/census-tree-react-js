@@ -397,7 +397,7 @@ if(heightTo){
   requestObj.end_height=heightTo
 }
 if(treeNameFrom){
-  requestObj.tree_names_idt=treeNameFrom
+  requestObj.tree_names_id=treeNameFrom
 }
     
     dispatch(

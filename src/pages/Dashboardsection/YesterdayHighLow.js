@@ -60,7 +60,7 @@ const YesterdayBaseColor = (props) => {
       borderRadius: '5px',
       padding: '3px 5px',
       color: '#214C50',
-      border: '1.5px solid #214C50',
+      border: '1px solid #214C50',
       fontFamily: 'Poppins',
       // width: '100%',
       fontWeight: 600,
@@ -180,15 +180,15 @@ const YesterdayBaseColor = (props) => {
                     </Typography>
                   </Typography>
                 </Grid>
-                {teamName? 
                 <Grid container  xs={12}>
                 <Container>
-                <Typography variant="h6" style={{ color: '#000', marginLeft: '10px' }}  mb={1}>
+                <Typography variant="h6" >
+                {teamName.length !== 0 ?
                           <span className={classes.successDark}>{teamName}</span>
+                           : null}
                         </Typography>
                 </Container>
                 </Grid>
-                : ""}
               </Grid>
               <div className={classes.border} />
               <Grid container spacing={1}>
