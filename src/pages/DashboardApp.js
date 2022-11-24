@@ -13,6 +13,7 @@ import Fade from '@mui/material/Fade';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import Page from '../components/Page';
 import { GetDashboardByCouncilId } from '../actions/DashboardAction';
+import { ShowLoader } from '../actions/CommonAction';
 import AssociateZeroTree from './Dashboardsection/AssociateZeroTree';
 import YesterdayLoggedIn from './Dashboardsection/YesterdayLoggedIn';
 import LightCard from './Dashboardsection/LightCard';
@@ -30,6 +31,7 @@ import LastTreeNumbers from './Dashboardsection/LastTreeNumbers';
 import Deviation from './Dashboardsection/Deviation';
 import MasterData from './Dashboardsection/MasterData';
 import { GetActiveCouncil } from '../actions/CouncilAction';
+import FullLoader from '../components/Loader/FullLoader';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
@@ -50,24 +52,23 @@ export default function DashboardApp() {
   }, []);
   useEffect(() => {
     if (councilId) {
-      // console.log('councilclicked', councilId);
+      console.log("councilchange");
+      dispatch(ShowLoader(true));
       dispatch(GetDashboardByCouncilId(councilId));
     }
-    // console.log('councilId unclicked');
   }, [councilId]);
   const handleCouncil = (e) => {
     if (e.target.value) {
-      // console.log('clicked', e.target.value);
       setCouncilId(e.target.value);
     }
   };
-  // const theme = useTheme();
-  const { loggedUser, dashboardCouncil, council } = useSelector((state) => ({
+  const { loggedUser, dashboardCouncil, council, showLoader } = useSelector((state) => ({
     loggedUser: state.auth.loggedUser,
     dashboardCouncil: state.dashboardCouncil.dashboardCouncil,
     council: state.council.activeCouncil,
+    showLoader: state.common.showLoader
   }));
-  console.log('data', dashboardCouncil);
+  console.log('dashboardCouncil', dashboardCouncil);
 
   const ongoingProject = {
     count: `${dashboardCouncil?.overall_records?.total_ongoing_projects}`,
@@ -132,10 +133,11 @@ export default function DashboardApp() {
   const classes = useStyles();
   return (
     <>
+    <FullLoader showLoader={showLoader} />
       {!dashboardCouncil ? (
-         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-         <CircularProgress style={{ color: '#214c50' }} />
-       </div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <CircularProgress style={{ color: '#214c50' }} />
+        </div>
       ) : (
         <Page title="Dashboard">
           <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }} id="projectSection">
@@ -208,7 +210,6 @@ export default function DashboardApp() {
                     displayEmpty
                     style={{ height: 45, width: '250px', background: '#fff' }}
                     onChange={(e) => handleCouncil(e)}
-                    // placeholder={'Select Council'}
                     renderValue={
                       dashboardCouncil?.council_records?.council_details?.name === ''
                         ? ''
@@ -310,7 +311,6 @@ export default function DashboardApp() {
                     {dashboardCouncil ? (
                       <TreeDetail treeCount={dashboardCouncil?.council_records?.tree_counts} />
                     ) : null}
-                    {/* <TreeDetail treeCount={dashboardCouncil?.council_records?.tree_counts}/> */}
                   </Grid>
                 </Grid>
               </Grid>
@@ -320,7 +320,7 @@ export default function DashboardApp() {
               id="deviation"
               deviationPercent={`${dashboardCouncil?.council_records?.tree_counts?.deviation?.deviation_percentage}`}
               deviationMessage={`${dashboardCouncil?.council_records?.tree_counts?.deviation?.deviation_message}`}
-           />
+            />
             <br />
             <Container id="workType">
               <Stack
@@ -340,131 +340,124 @@ export default function DashboardApp() {
               <br />
               <Grid container spacing={3}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                  {dashboardCouncil?.council_records?.work_type_counts?.base_color?.map((val, i) => (
-                    <Grid item xs={12} md={4} sm={4} mb={2}>
-                      <WorktypeCard value={val} index={i} />
-                    </Grid>
-                  ))}
-                 <Grid item xs={12} md={4} sm={4} mb={2}>
-                    <WorktypeCensusCard census={'Census'}/>
-                  </Grid> 
                   <Grid item xs={12} md={4} sm={4} mb={2}>
-                    <WorktypeCensusCard census={'Census Onsite QC'} />
+                    <WorktypeCard value={dashboardCouncil?.council_records?.work_type_counts?.base_color} index={0} />
                   </Grid>
                   <Grid item xs={12} md={4} sm={4} mb={2}>
-                    <WorktypeCensusCard census={'Census Offsite QC'} />
+                    <WorktypeCard
+                      value={dashboardCouncil?.council_records?.work_type_counts?.base_color_on_site_qc}
+                      index={1}
+                    />
                   </Grid>
-                  {/* <Grid item xs={12} md={4} sm={4} mb={2}>
-                <WorktypeCard />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4} mb={2}>
-                <WorktypeCard />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4}>
-                <WorktypeCard />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4}>
-                <WorktypeCard />
-              </Grid>
-              <Grid item xs={12} md={4} sm={4}>
-                <WorktypeCard />
-              </Grid> */}
+                  <Grid item xs={12} md={4} sm={4} mb={2}>
+                    <WorktypeCard
+                      value={dashboardCouncil?.council_records?.work_type_counts?.base_color_off_site_qc}
+                      index={2}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} md={4} sm={4} mb={2}>
+                    <WorktypeCensusCard value={dashboardCouncil?.council_records?.work_type_counts?.census} census={'Census'} index={0}/>
+                  </Grid>
+                  <Grid item xs={12} md={4} sm={4} mb={2}>
+                    <WorktypeCensusCard value={dashboardCouncil?.council_records?.work_type_counts?.census_on_site_qc} census={'Census Onsite QC'} index={1}/>
+                  </Grid>
+                  <Grid item xs={12} md={4} sm={4} mb={2}>
+                    <WorktypeCensusCard value={dashboardCouncil?.council_records?.work_type_counts?.census_off_site_qc} census={'Census Offsite QC'} index={2}/>
+                  </Grid>
                 </Grid>
               </Grid>
             </Container>
             <br />
             <br />
             <Container id="highestBaseColor">
-              {dashboardCouncil?.council_records?.highest_base_color_users.length === 0 ?  "": <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                mb={5}
-                sx={{ marginLeft: '-24px' }}
-              >
-                <Typography variant="h4" gutterBottom>
-                  Yesterdays Highest Base Color ({`${dashboardCouncil?.council_records?.council_details?.name}`})
-                  <Typography variant="h6" style={{ fontWeight: 400 }}>
-                    It is showing Yesterdays Highest Base Color counts. <span style={{color: "#ff0000"}}>(The Team , Council, Zone and ward is currently assigned entity to the user.)</span>
+              {dashboardCouncil?.council_records?.highest_base_color_users.length === 0 ? (
+                ''
+              ) : (
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  mb={5}
+                  sx={{ marginLeft: '-24px' }}
+                >
+                  <Typography variant="h4" gutterBottom>
+                    Yesterdays Highest Base Color ({`${dashboardCouncil?.council_records?.council_details?.name}`})
+                    <Typography variant="h6" style={{ fontWeight: 400 }}>
+                      It is showing Yesterdays Highest Base Color counts.{' '}
+                      <span style={{ color: '#ff0000' }}>
+                        (The Team , Council, Zone and ward is currently assigned entity to the user.)
+                      </span>
+                    </Typography>
                   </Typography>
-                </Typography>
-              </Stack>}
-              
+                </Stack>
+              )}
+
               <Grid container spacing={3}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                {dashboardCouncil?.council_records?.highest_base_color_users?.map((val, i) => (
-                  <Grid item mb={2} xs={12} md={3} sm={3}>
+                  {dashboardCouncil?.council_records?.highest_base_color_users?.map((val, i) => (
+                    <Grid item mb={2} xs={12} md={3} sm={3}>
                       <YesterdayHighLow slug={'high'} value={val} index={i} />
-                  </Grid>
-                       ))}
-                  {/* <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'high'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'high'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'high'} />
-                  </Grid> */}
+                    </Grid>
+                  ))}
                 </Grid>
               </Grid>
             </Container>
             <br />
             <Container id="lowestBaseColor">
-            {dashboardCouncil?.council_records?.lowest_base_color_users.length === 0 ?  "":
-            <Stack direction="row" justifyContent="space-between" mb={5} ml={-3}>
-            <Typography variant="h4" gutterBottom>
-              Yesterdays Lowest Base Color ({`${dashboardCouncil?.council_records?.council_details?.name}`})
-              <Typography variant="h6" style={{ fontWeight: 400 }}>
-                It is showing Yesterdays Lowest Base Color counts. <span style={{color: "#ff0000"}}>(The Team , Council, Zone and ward is currently assigned entity to the user.)</span>
-              </Typography>
-            </Typography>
-          </Stack>
-            }
-              
+              {dashboardCouncil?.council_records?.lowest_base_color_users.length === 0 ? (
+                ''
+              ) : (
+                <Stack direction="row" justifyContent="space-between" mb={5} ml={-3}>
+                  <Typography variant="h4" gutterBottom>
+                    Yesterdays Lowest Base Color ({`${dashboardCouncil?.council_records?.council_details?.name}`})
+                    <Typography variant="h6" style={{ fontWeight: 400 }}>
+                      It is showing Yesterdays Lowest Base Color counts.{' '}
+                      <span style={{ color: '#ff0000' }}>
+                        (The Team , Council, Zone and ward is currently assigned entity to the user.)
+                      </span>
+                    </Typography>
+                  </Typography>
+                </Stack>
+              )}
+
               <Grid container spacing={3}>
-              
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                {dashboardCouncil?.council_records?.lowest_base_color_users?.map((val, i) => (
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} value={val} index={i}/>
-                  </Grid>
+                  {dashboardCouncil?.council_records?.lowest_base_color_users?.map((val, i) => (
+                    <Grid item xs={12} md={3} sm={3} mb={2}>
+                      <YesterdayHighLow slug={'low'} value={val} index={i} />
+                    </Grid>
                   ))}
                 </Grid>
               </Grid>
             </Container>
             <br />
             <Container id="highestCensus">
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                mb={5}
-                sx={{ marginLeft: '-24px' }}
-              >
-                <Typography variant="h4" gutterBottom>
-                  Yesterdays Highest Census ({`${dashboardCouncil?.council_records?.council_details?.name}`})
-                  <Typography variant="h6" style={{ fontWeight: 400 }}>
-                    It is showing Yesterdays Highest Census counts. <span style={{color: "#ff0000"}}>(The Team , Council, Zone and ward is currently assigned entity to the user.)</span>
-                  </Typography>
+            {dashboardCouncil?.council_records?.highest_census_users.length === 0?
+             null : <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              mb={5}
+              sx={{ marginLeft: '-24px' }}
+            >
+              <Typography variant="h4" gutterBottom>
+                Yesterdays Highest Census ({`${dashboardCouncil?.council_records?.council_details?.name}`})
+                <Typography variant="h6" style={{ fontWeight: 400 }}>
+                  It is showing Yesterdays Highest Census counts.{' '}
+                  <span style={{ color: '#ff0000' }}>
+                    (The Team , Council, Zone and ward is currently assigned entity to the user.)
+                  </span>
                 </Typography>
-              </Stack>
+              </Typography>
+            </Stack>}
               <Grid container spacing={3}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                {dashboardCouncil?.council_records?.highest_census_users?.map((val, i) => (
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLowCensus slug={'high'} value={val} index={i}/>
-                  </Grid>
-                    ))}
-                  {/* <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'high'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'high'} />
-                  </Grid>
-                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'high'} />
-                  </Grid> */}
+                  {dashboardCouncil?.council_records?.highest_census_users?.map((val, i) => (
+                    <Grid item xs={12} md={3} sm={3} mb={2}>
+                      <YesterdayHighLowCensus slug={'high'} value={val} index={i} />
+                    </Grid>
+                  ))}
                 </Grid>
               </Grid>
             </Container>
