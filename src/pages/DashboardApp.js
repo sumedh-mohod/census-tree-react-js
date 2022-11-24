@@ -24,6 +24,7 @@ import UsersCard from './Dashboardsection/UsersCard';
 import WorktypeCard from './Dashboardsection/WorktypeCard';
 import WorktypeCensusCard from './Dashboardsection/WorktypeCensusCard';
 import YesterdayHighLow from './Dashboardsection/YesterdayHighLow';
+import YesterdayHighLowCensus from './Dashboardsection/YesterdayHighLowCensus';
 import TreeDetail from './Dashboardsection/TreeDetail';
 import LastTreeNumbers from './Dashboardsection/LastTreeNumbers';
 import Deviation from './Dashboardsection/Deviation';
@@ -452,7 +453,7 @@ export default function DashboardApp() {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {dashboardCouncil?.council_records?.highest_census_users?.map((val, i) => (
                   <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'high'} value={val} index={i}/>
+                    <YesterdayHighLowCensus slug={'high'} value={val} index={i}/>
                   </Grid>
                     ))}
                   {/* <Grid item xs={12} md={3} sm={3} mb={2}>
@@ -489,7 +490,7 @@ export default function DashboardApp() {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {dashboardCouncil?.council_records?.lowest_census_users?.map((val, i) => (
                  <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLow slug={'low'} value={val} index={i}/>
+                    <YesterdayHighLowCensus slug={'low'} value={val} index={i}/>
                   </Grid>
               ))}
                 </Grid>
