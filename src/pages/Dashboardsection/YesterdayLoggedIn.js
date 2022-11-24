@@ -1,10 +1,12 @@
-import { Card, Table, Stack, TableBody, TableCell, Container, Typography, TableContainer, Grid } from '@mui/material';
+import { Card, Table, Stack, TableBody, TableCell, Container, Typography, TableContainer, Grid, Button } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 import { makeStyles } from '@material-ui/core/styles';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import { UserListHead, UserListToolbar, TeamsMenu } from '../../sections/@dashboard/user';
 import Iconify from '../../components/Iconify';
+
 
 // ----------------------------------------------------------------------
 
@@ -66,12 +68,21 @@ export default function YesterdayLoggedIn() {
       color: '#fff',
       borderRadius: '12px',
       fontWeight: 400,
-      pointerEvents: 'none',
+      // pointerEvents: 'none',
       fontSize: '15px',
       padding: '10px 15px',
     },
   });
+
+
+  
   const classes = useStyles();
+  const navigate = useNavigate()
+
+  const handleChange =() => {
+    navigate("/dashboard/home/yesterdayLoggedInAssociates")
+    console.log("Routing 2")
+  }
   return (
   
     
@@ -85,7 +96,7 @@ export default function YesterdayLoggedIn() {
                     It is showing last top 10 logged associates
                   </Typography>
                 </Typography>
-                <span className={classes.darkSection}>View All</span>
+                <Button className={classes.darkSection} onClick={()=>{handleChange()}}>View All</Button>
               </Stack>
               <Card>
                 <Scrollbar>

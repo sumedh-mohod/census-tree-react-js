@@ -12,6 +12,22 @@ const navConfig = [
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
+    title: 'AssociateWithZeroTreeYesterday',
+    path: '/dashboard/associateWithZeroTreeYesterday',
+    icon: getIcon('eva:pie-chart-2-fill'),
+  },
+
+  {
+    title: 'YesterdayLoggedInAssociates',
+    path: '/dashboard/yesterdayLoggedInAssociates',
+    icon: getIcon('eva:pie-chart-2-fill'),
+  },
+  {
+    title: 'AssociateWithZeroTreeYesterday',
+    path: '/dashboard/associateWithZeroTreeYesterday',
+    icon: getIcon('eva:pie-chart-2-fill'),
+  },
+  {
     title: 'Reports',
     path: '/dashboard/workingReports',
     icon: getIcon('eva:shopping-bag-fill'),
