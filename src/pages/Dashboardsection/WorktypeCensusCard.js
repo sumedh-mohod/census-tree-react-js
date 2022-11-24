@@ -11,9 +11,7 @@ import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
 const WorktypeCensusCard = (props) => {
-  console.log('worktypwcountcensus', props?.value);
   const difference = props?.value[2]?.count - props?.value[1]?.count;
-  console.log('console.differencecensus', difference);
   //   const { count, title, subtitle } = props.value;
   const useStyles = makeStyles({
     common: {

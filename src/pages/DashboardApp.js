@@ -52,7 +52,6 @@ export default function DashboardApp() {
   }, []);
   useEffect(() => {
     if (councilId) {
-      console.log("councilchange");
       dispatch(ShowLoader(true));
       dispatch(GetDashboardByCouncilId(councilId));
     }
@@ -68,7 +67,6 @@ export default function DashboardApp() {
     council: state.council.activeCouncil,
     showLoader: state.common.showLoader
   }));
-  console.log('dashboardCouncil', dashboardCouncil);
 
   const ongoingProject = {
     count: `${dashboardCouncil?.overall_records?.total_ongoing_projects}`,

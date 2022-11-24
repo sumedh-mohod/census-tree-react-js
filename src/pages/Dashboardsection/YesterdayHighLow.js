@@ -13,8 +13,6 @@ const YesterdayBaseColor = (props) => {
   const ward = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_ward[index]).map((val)=>val?.name);
   const zone = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_zone[index]).map((val)=>val?.name);
   
-  console.log("baseColor", baseColor);
-  console.log("teamName", teamName);
   const useStyles = makeStyles({
     common: {
       padding: '5px 5px 5px 5px',

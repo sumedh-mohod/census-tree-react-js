@@ -11,9 +11,7 @@ import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
 const WorktypeCard = (props) => {
-  // console.log("worktypwcountbase_color", props?.value);
   const difference = props?.value[2]?.count - props?.value[1]?.count;
-  // console.log("console.difference", difference);
   const useStyles = makeStyles({
     common: {
       padding: '5px 5px 5px 5px',
