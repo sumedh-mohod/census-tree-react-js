@@ -120,11 +120,6 @@ export default function AssociateZeroTree() {
                         </button>
                       </TableCell>
                     </TableBody> 
-                    <TableBody > 
-                    {/* <TableCell mt={1}> */}
-                    
-                    {/* </TableCell> */}
-                    </TableBody> 
                   </Table>
                  
                 </TableContainer>

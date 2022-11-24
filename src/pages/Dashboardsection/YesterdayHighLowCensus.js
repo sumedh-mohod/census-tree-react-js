@@ -5,10 +5,10 @@ import { Grid, Typography, Card, Container } from '@mui/material';
 import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 //   import Iconify from '../../../components/Iconify';
 
-const YesterdayBaseColor = (props) => {
+const YesterdayHighLowCensus = (props) => {
   const { slug } = props;
   const baseColor = props?.value?.active_team?.map((val)=> val);
-  const difference = props?.value?.ereyesterday_count - props?.value?.base_color_trees_count;
+  const difference = props?.value?.ereyesterday_count - props?.value?.census_trees_count;
   const teamName = props?.value?.active_team?.map((val)=> val.name);
   const ward = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_ward[index]).map((val)=>val?.name);
   const zone = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_zone[index]).map((val)=>val?.name);
@@ -126,7 +126,7 @@ const YesterdayBaseColor = (props) => {
                 <Grid container spacing={1}>
                   <Grid container item xs={12}>
                     <Typography variant="h4" className={slug === 'high'? classes.more : classes.less} mt={2}>
-                      {props?.value?.base_color_trees_count}
+                      {props?.value?.census_trees_count}
                     </Typography>
                   </Grid>
                   {difference?  <Grid container  xs={12} mb={1}>
@@ -188,7 +188,7 @@ const YesterdayBaseColor = (props) => {
                         </Typography>
                 </Container>
                 </Grid>
-                : ""}
+                : null}
               </Grid>
               <div className={classes.border} />
               <Grid container spacing={1}>
@@ -221,4 +221,4 @@ const YesterdayBaseColor = (props) => {
   );
 };
 
-export default YesterdayBaseColor;
+export default YesterdayHighLowCensus;

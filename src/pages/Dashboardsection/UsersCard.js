@@ -8,8 +8,6 @@ import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
 const UsersCard = (props) => {
-  // console.log("userpropscards", props);
-  //   const { count, title, subtitle } = props.value;
   const useStyles = makeStyles({
     common: {
       padding: '5px 5px 5px 5px',

@@ -7,7 +7,6 @@ import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
 const LightCard = (props) => {
-  // console.log('props',props);
   const { count, title, subtitle } = props.projects;
   const useStyles = makeStyles({
     wrapper: {
