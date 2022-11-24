@@ -184,7 +184,9 @@ const YesterdayHighLowCensus = (props) => {
                 <Grid container  xs={12}>
                 <Container>
                 <Typography variant="h6" style={{ color: '#000', marginLeft: '10px' }}  mb={1}>
+                {teamName.length !== 0 ?
                           <span className={classes.successDark}>{teamName}</span>
+                           : null}
                         </Typography>
                 </Container>
                 </Grid>
