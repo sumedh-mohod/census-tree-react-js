@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import DefaultInput from '../../Inputs/DefaultInput';
 import { AddTeam, EditTeam } from '../../../actions/TeamsAction';
+import {ShowLoadingButton} from "../../../actions/CommonAction"
 
 
 const BootstrapDialogTitle = (props) => {
@@ -156,6 +157,7 @@ export default function TeamsTableDialog(props) {
               team_type: value.teamType,
             })
           );
+          dispatch(ShowLoadingButton(false));
         }
       }
       // console.log('name', value.name, 'code', value.code, 'team', teamType);
