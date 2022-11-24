@@ -85,6 +85,7 @@ export default function YesterdayLoggedIn() {
                     It is showing last top 10 logged associates
                   </Typography>
                 </Typography>
+                <span className={classes.darkSection}>View All</span>
               </Stack>
               <Card>
                 <Scrollbar>
@@ -177,7 +178,6 @@ export default function YesterdayLoggedIn() {
                       </TableBody>
                       
                     </Table>
-                    <span className={classes.darkSection}>View All</span>
                   </TableContainer>
                 </Scrollbar>
               </Card>
