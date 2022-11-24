@@ -51,6 +51,8 @@ import TreeFamilies from './pages/Master/TreeFamilies';
 import WorkingReports from './pages/Reports/WorkingReports';
 import TreeReports from './pages/Reports/TreeReports';
 import Reports from './pages/TreeData/Reports';
+import AssociateWithZeroTreeYesterday from "./pages/Dashboardsection/AssociateWithZeroTreeYesterday"
+import YesterdayLoggedInAssociates from "./pages/Dashboardsection/YesterdayLoggedInAssociates"
 
 // ----------------------------------------------------------------------
 
@@ -67,6 +69,8 @@ const routes = (isLogged) => [
     element: isLogged? <DashboardLayout />: <Navigate to="/" />,
     children: [
       { path: 'home', element: <DashboardApp /> },
+      { path: 'home/associateWithZeroTreeYesterday', element: < AssociateWithZeroTreeYesterday /> },
+      { path: 'home/yesterdayLoggedInAssociates', element: < YesterdayLoggedInAssociates /> },
       { path: 'user', element: <User /> },
       { path: 'user/edit-user/:userId', element: <NewUserForm /> },
       { path: 'user/view-user/:userId', element: <ViewUser /> },

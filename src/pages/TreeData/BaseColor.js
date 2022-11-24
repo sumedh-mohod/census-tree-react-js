@@ -115,6 +115,7 @@ export default function BaseColor() {
    const [toDate, setToDate] = React.useState();
    const handleOpenImageList = (e) => setOpenImageList(true);
    const handleCloseImageList = () => setOpenImageList(false);
+   const [councilName,setCouncilName] =  React.useState();
 // console.log("coucilId", coucilId);
    const [newState, setNewState] = React.useState({
     top: false,
@@ -154,6 +155,8 @@ export default function BaseColor() {
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
   ))
+
+  const councilArr = council?.find((val) => val.id === councilID);
 
   const { state} = useLocation();
     useEffect(()=>{
@@ -352,22 +355,24 @@ export default function BaseColor() {
 
 
   const requestForReport=() => {
-
+    const requestObj=  {
+      "type":"base_color",
+      "from_date":formDate.split('-').reverse().join('-'),
+      "to_date":toDate.split('-').reverse().join('-'),
+      "council_id":councilID,
+      }
+    if(zoneID){
+      requestObj.zone_id=zoneID
+    }
+    if(wardID){
+      requestObj.word_id=wardID
+    }
+    if(addedBy){
+      requestObj.user_id=addedBy
+    }
     
     dispatch(
-      GetReportRequest(
-{
-"type":"base_color",
-"from_date":formDate.split('-').reverse().join('-'),
-"to_date":toDate.split('-').reverse().join('-'),
-"council_id":councilID,
-"zone_id":zoneID,
-"ward_id":wardID,
-"user_id":addedBy
-}
-
-
-      )
+      GetReportRequest(requestObj)
     )
 
   // console.log("GetWorkReportrequest")
@@ -380,6 +385,13 @@ export default function BaseColor() {
     setWardID('');
     dispatch(GetActiveZonesByCouncilId(1, e.target.value));
     dispatch(GetActiveWardsByCouncilId(1, e.target.value));
+
+    council.map((value, index) => {
+      if (value.id === e.target.value) {
+        setCouncilName(value.name);
+      }
+      return null;
+    });
   };
 
   const handleZoneChange = (event) => {
@@ -403,12 +415,12 @@ export default function BaseColor() {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      councilForm: councilID || '',
+      councilForm:  councilArr?.id || councilID,
       wardForm: wardID || '',
       zoneForm: zoneID || '',
       addedByForm: addedBy || '',
-      toDateForm: "",
-      fromDateForm: "",
+      fromDateForm: councilArr?.project_start_date || "",
+      toDateForm: councilArr?.project_end_date || "",
     },
     validationSchema: FilterSchema,
     onSubmit: (value) => {
@@ -728,7 +740,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // label="Plantation Date"
-                    value={values.fromDateForm || ''}
+                    value={values.toDateForm || todayDate}
                      error={Boolean(touched.fromDateForm && errors.fromDateForm)}
                     helperText={touched.fromDateForm && errors.fromDateForm}
                     InputLabelProps={{
@@ -749,7 +761,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     style={{ width: '100%', marginTop: 5 }}
                     size="small"
                     // label="Plantation Date"
-                    value={values.toDateForm || ''}
+                    value={values.toDateForm || todayDate}
                     error={Boolean(touched.toDateForm && errors.toDateForm)}
                     helperText={touched.toDateForm && errors.toDateForm}
                     InputLabelProps={{
