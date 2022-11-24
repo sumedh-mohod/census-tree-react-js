@@ -16,6 +16,8 @@ export const ADD_STATE = "add-state";
 export const DELETE_STATE = "delete-state";
 
 export const GET_DASHBORAD_BY_COUNCIL_ID = "get-dashboard-by-council-id";
+export const GET_TEAMS_BY_COUNCIL_ID = "get-teams-by-council-id";
+export const GET_TEAM_DETAIL_BY_COUNCIL_TEAM_ID = "get-teamdetail-by-council-team-id";
 
 export const GET_DISTRICTS = "get-districts";
 export const GET_ACTIVE_DISTRICTS = "get-active-districts";

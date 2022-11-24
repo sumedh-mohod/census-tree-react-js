@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DeviationImg from '../../Assets/deviation_leaf.png';
 
 const Deviation = (props) => {
-  console.log("props.deviation", props);
+  // console.log("props.deviation", props);
   const useStyles = makeStyles({
     success: {
       backgroundColor: '#C8FADE',

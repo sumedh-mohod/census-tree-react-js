@@ -89,7 +89,7 @@ export default function DeniedListToolbar({
     wards: state.wards.activeWardsByCID,
   }));
 
-  console.log("council", council)
+  // console.log("council", council)
   const councilArr = council?.find((val) => val.id === coucilId);
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
 

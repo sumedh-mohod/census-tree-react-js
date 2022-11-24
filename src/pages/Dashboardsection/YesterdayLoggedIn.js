@@ -81,7 +81,7 @@ export default function YesterdayLoggedIn() {
 
   const handleChange =() => {
     navigate("/dashboard/home/yesterdayLoggedInAssociates")
-    console.log("Routing 2")
+    // console.log("Routing 2")
   }
   return (
   
