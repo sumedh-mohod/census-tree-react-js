@@ -106,9 +106,6 @@ export default function AssociateWithZeroTreeYesterday() {
     pageInfo: state.unsynchedUser.pageInfo,
   }));
 
-console.log("coucilId", coucilId)
-  console.log("unsynchedUser", unsynchedUser)
-
 
   const secondRun = useRef(true);
   useEffect(() => {
