@@ -7,6 +7,9 @@ import TreedetailStatusButton from '../../components/statusbutton/TreedetailStat
 // import UserListToolbar from '../../sections/@dashboard/user';
 
 const LastTreeNumbers = (props) => {
+  // console.log("treeDetail name", props?.treeDetail);
+  // const filterName = props?.teams.filter((value)=>value.name);
+  // console.log("filterName", filterName);
   const filterByName = () => {};
   const useStyles = makeStyles({
     success: {
@@ -34,11 +37,13 @@ const LastTreeNumbers = (props) => {
     },
   });
   const classes = useStyles();
+
+  const handleCouncilTeam = (e)=>{
+    // console.log("councilchange", e);
+    props.handleCouncilTeamChange(e);
+  }
   return (
     <>
-      
-
-     
       <Grid container item xs={12} md={12} sm={12} spacing={3} mb={4}>
         <Grid item xs={12} sm={6} md={12}>
           <Stack direction="row" justifyContent="space-between" sx={{marginLeft: '-24px'}}>
@@ -49,31 +54,32 @@ const LastTreeNumbers = (props) => {
               </Typography>
             </Typography>
             <Typography variant="h6" style={{ fontWeight: 400 }}>
-              <Select
-                id="state"
-                displayEmpty
-                // name="gender"
-                // value={zoneId}
-                style={{ height: 45, width: '250px', background: '#fff' }}
-                // onChange={handleZoneChange}
-                // error={Boolean(touched.state && errors.state)}
-                // helperText={touched.state && errors.state}
-                // {...getFieldProps("state")}
-                placeholder={'Select Council'}
-                inputProps={{
-                  classes: {
-                    icon: classes.icon,
-                  },
-                }}
-              >
-                <MenuItem disabled value="">
-                  <em>Council Name</em>
-                </MenuItem>
-
-                <MenuItem key={1} value={'a'}>
-                  Nagpur
-                </MenuItem>
-              </Select>
+            <Select
+                    id="state"
+                    displayEmpty
+                    style={{ height: 45, width: '250px', background: '#fff' }}
+                    onChange={(e) => handleCouncilTeam(e.target.value)}
+                    // renderValue={
+                    //   dashboardCouncil?.council_records?.council_details?.name === ''
+                    //     ? ''
+                    //     : () => `${dashboardCouncil?.council_records?.council_details?.name}`
+                    // }
+                    renderValue={props?.team_name !== '' ? props?.team_name:  () => `Search Team`}
+                    inputProps={{
+                      classes: {
+                        icon: classes.icon,
+                      },
+                    }}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Team Name</em>
+                    </MenuItem>
+                    {props?.teams?.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
             </Typography>
           </Stack>
         </Grid>
@@ -86,10 +92,10 @@ const LastTreeNumbers = (props) => {
                   <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1}>
                     <Typography variant="h4" mt={8}>
                       <Button variant="contained" className={classes.success} style={{ padding: '4px 20px' }} mb={1}>
-                        TEAM-10
+                      {props?.treeDetail?.team_code}
                       </Button>
                       <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                        AK-C6-0067
+                      {props?.treeDetail?.tree_number}
                         <Typography variant="h5" style={{ color: '#fff', fontSize: '18px' }}>
                           Last Tree Number
                           <Typography variant="h6" sx={{ fontWeight: 400 }}>
@@ -115,7 +121,7 @@ const LastTreeNumbers = (props) => {
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
                           Base Color
                           <Typography variant="h5" style={{ fontWeight: 600, fontSize: '15px' }}>
-                            By Aakash Thakare
+                            By {props?.treeDetail?.added_by}
                           </Typography>
                         </Typography>
                       </Stack>
@@ -130,7 +136,7 @@ const LastTreeNumbers = (props) => {
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
                           Team Name
                           <Typography variant="h5" style={{ fontWeight: 600, fontSize: '15px' }}>
-                            AKOLA GENI TEAM
+                            {props?.treeDetail?.team_name}
                           </Typography>
                         </Typography>
                       </Stack>
@@ -149,7 +155,7 @@ const LastTreeNumbers = (props) => {
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
                           Ward
                           <Typography variant="h5" style={{ fontWeight: 600, fontSize: '15px' }}>
-                            WARD: 08
+                            WARD: {props?.treeDetail?.ward}
                           </Typography>
                         </Typography>
                       </Stack>
@@ -164,7 +170,7 @@ const LastTreeNumbers = (props) => {
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
                           Contact Number
                           <Typography variant="h5" style={{ fontWeight: 600, fontSize: '15px' }}>
-                            +91 - 9876123456
+                            +91 - {props?.treeDetail?.mobile}
                           </Typography>
                         </Typography>
                       </Stack>
@@ -180,7 +186,7 @@ const LastTreeNumbers = (props) => {
                           Added Tree At
                           <Typography variant="h6" style={{ fontWeight: 400 }}>
                             <Button variant="contained" className={classes.pending}>
-                              0:30 AM, 22 Jan 2022
+                            {props?.treeDetail?.added_on}
                             </Button>
                           </Typography>
                         </Typography>
@@ -192,7 +198,7 @@ const LastTreeNumbers = (props) => {
                           Sync Tree At
                           <Typography variant="h6" style={{ fontWeight: 400 }}>
                             <Button variant="contained" className={classes.success}>
-                              0:30 AM, 22 Jan 2022
+                            {props?.treeDetail?.synced_at}
                             </Button>
                           </Typography>
                         </Typography>

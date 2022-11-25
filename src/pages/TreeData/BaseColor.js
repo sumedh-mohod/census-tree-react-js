@@ -199,7 +199,7 @@ export default function BaseColor() {
       firstRun.current = false;
       return;
     }
-    console.log("First Run Function");
+    // console.log("First Run Function");
     dispatch(ShowLoader(false));
     dispatch(
       GetBaseColorTrees(
@@ -442,7 +442,7 @@ export default function BaseColor() {
     },
    
 })
-console.log("baseColorTrees",baseColorTrees)
+// console.log("baseColorTrees",baseColorTrees)
 const classes = useStyles()
 const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   return (

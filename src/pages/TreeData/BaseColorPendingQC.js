@@ -118,7 +118,7 @@ export default function BaseColorPendingQC() {
       firstRun.current = false;
       return;
     }
-    console.log("First Run Function");
+    // console.log("First Run Function");
 
     dispatch(
       GetBaseColorPendingQCStatus(
@@ -156,7 +156,7 @@ export default function BaseColorPendingQC() {
       setSelectedIndex(0);
       setTotalTrees(totalTrees - 1);
       setUpdateClick(false);
-      console.log("Second Run Function");
+      // console.log("Second Run Function");
       // dispatch(GetBaseColorPendingQCStatus(councilID, zoneID, wardID));
     } else {
       setSelectedIndex(selectedIndex + 1);
