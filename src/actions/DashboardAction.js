@@ -1,10 +1,9 @@
 import JWTServer from '../api/withJWTServer';
 import { HandleExceptionWithSecureCatch } from './CombineCatch';
-import { GET_DASHBORAD_BY_COUNCIL_ID, GET_UNSYNCHEDUSERS_BY_COUNCIL_ID} from './Types';
+import { GET_DASHBORAD_BY_COUNCIL_ID} from './Types';
 import { ShowLoader } from './CommonAction';
 
 const GetDashboardByCouncilId = (councilId)=>async(dispatch)=>{
-    console.log('dashcouncilaction');
     try{
         const response = await JWTServer.get(`/api/dashboard-data?council_id=${councilId}`);
         console.log("dashboard_response_action", response.data);
