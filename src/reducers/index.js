@@ -28,6 +28,7 @@ import ReportsReducer from './ReportsReducer';
 import TreeFamilyReducer from "./TreeFamilyReducer";
 import WorkRepotReducer from "./WorkReportReducer";
 import DashboardReducer from "./DashboardReducer";
+import UnsynchedUserReducer from "./UnsynchedUserReducer"
 
 
 export default combineReducers({
@@ -59,5 +60,6 @@ export default combineReducers({
   treeLocation:TreeOnMapReducer,
   reports: ReportsReducer,
   treeFamily: TreeFamilyReducer,
-  workReports: WorkRepotReducer
+  workReports: WorkRepotReducer,
+  unsynchedUser: UnsynchedUserReducer,
 });

@@ -1,6 +1,6 @@
 import JWTServer from '../api/withJWTServer';
 import { HandleExceptionWithSecureCatch } from './CombineCatch';
-import { GET_DASHBORAD_BY_COUNCIL_ID } from './Types';
+import { GET_DASHBORAD_BY_COUNCIL_ID, GET_UNSYNCHEDUSERS_BY_COUNCIL_ID} from './Types';
 import { ShowLoader } from './CommonAction';
 
 const GetDashboardByCouncilId = (councilId)=>async(dispatch)=>{
@@ -25,4 +25,6 @@ const GetDashboardByCouncilId = (councilId)=>async(dispatch)=>{
     }
 }
 
-export { GetDashboardByCouncilId }
+
+
+export { GetDashboardByCouncilId}

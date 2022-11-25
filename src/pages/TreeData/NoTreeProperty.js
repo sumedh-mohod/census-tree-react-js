@@ -86,6 +86,8 @@ export default function NoTreeProperty() {
   //   dispatch(GetDeniedEntry(page+1,rowsPerPage,coucilId,zoneId,wardId));
   // },[])
 
+  console.log("noTreeProperty", noTreeProperty)
+
   const secondRun = useRef(true);
   useEffect(() => {
     if (secondRun.current) {
@@ -162,7 +164,7 @@ export default function NoTreeProperty() {
       }
     }, 1000);
   };
-
+  
   const handleCoucilChange = (e) => {
     setCouncilId(e.target.value);
     setZoneId('');

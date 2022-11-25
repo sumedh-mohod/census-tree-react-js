@@ -55,7 +55,7 @@ import StatusApprovedButton from '../../components/statusbutton/StatusApprovedBu
 import StatusUnapprovedButton from '../../components/statusbutton/StatusUnapprovedButton';
 import { ShowLoader } from '../../actions/CommonAction';
 // import JWTServer  from '../../api/withJWTServer'
-// import { SetNewAlert } from "../../actions/AlertActions";
+import { SetNewAlert } from "../../actions/AlertActions";
 // import { HandleExceptionWithSecureCatch } from "../../actions/CombineCatch";
 
 // ----------------------------------------------------------------------
@@ -114,6 +114,7 @@ export default function Census() {
    const [girthToId, setGirthToId]  = React.useState();
    const [reportForRequest, setReportForRequest] = React.useState();
    const [councilName,setCouncilName] =  React.useState();
+   const [buttonClick, setButtonClick] = React.useState(true); 
    const todayDate = moment(new Date()).format('YYYY-MM-DD');
    const userPermissions = [];
 
@@ -367,6 +368,13 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     }, 1000);
 
   }
+  const requestForWithoutFilter = () =>{
+      dispatch(SetNewAlert({
+      msg: "Please Select the Filter",
+      alertType: "danger",
+    }))
+  
+  }
 
   const requestForReport=() => {
 const requestObj=  {
@@ -449,6 +457,10 @@ const FilterSchema = Yup.object().shape({
   councilForm: Yup.string().required('Please select council'),
   toDateForm:  Yup.string().required('Please select End Date'),
   fromDateForm: Yup.string().required('Please select Start Date'),
+  heightFrom:  Yup.string().matches(/^[0-9\b]+$/,"Only Numbers are allowed  "),
+  heightTo: Yup.string().matches(/^[0-9\b]+$/,"Only Numbers are allowed  "),
+  girthFrom: Yup.string().matches(/^[0-9\b]+$/,"Only Numbers are allowed  "),
+  girthTo: Yup.string().matches(/^[0-9\b]+$/,"Only Numbers are allowed  ")
 });
 // console.log('properties', properties);
 const formik = useFormik({
@@ -485,6 +497,7 @@ const formik = useFormik({
       GetTreeCensus(1,rowsPerPage,councilID, zoneID, wardID, value.addedByForm,value.treeNameFrom,value.heightFrom,value.heightTo,value.girthFrom,value.girthTo,  value.fromDateForm, value.toDateForm),
 
     )
+    setButtonClick(false)
    
   },
 });
@@ -532,7 +545,7 @@ console.log("treeNamestate", treeName)
           </div>
           <Button
             to="#"
-            onClick={requestForReport}
+            onClick={()=> (buttonClick ? requestForWithoutFilter() : requestForReport())}
             style={{width: '20%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
             
             // startIcon={<Iconify icon="eva:plus-fill" />}
@@ -834,6 +847,8 @@ console.log("treeNamestate", treeName)
                     value={values.heightFrom}
                     style={{ width: '100%', marginTop: 10, marginLeft:10 }}
                     size="small"
+                    error={Boolean(touched.heightFrom && errors.heightFrom)}
+                    helperText={touched.heightFrom && errors.heightFrom}
                     {...getFieldProps('heightFrom')}
                   />
                  </Grid>
@@ -847,6 +862,8 @@ console.log("treeNamestate", treeName)
                     style={{ width: '100%', marginTop: 10 }}
                     size="small"
                     value={values.heightTo}
+                    error={Boolean(touched.heightTo && errors.heightTo)}
+                    helperText={touched.heightTo && errors.heightTo}
                     {...getFieldProps('heightTo')}
                   />
                    </Grid>
@@ -864,6 +881,8 @@ console.log("treeNamestate", treeName)
                     style={{ width: '100%', marginTop: 10, marginLeft:10 }}
                     size="small"
                     value={values.girthFrom}
+                    error={Boolean(touched.girthFrom && errors.girthFrom)}
+                    helperText={touched.girthFrom && errors.girthFrom}
                     {...getFieldProps('girthFrom')}
 
                   />
@@ -877,6 +896,8 @@ console.log("treeNamestate", treeName)
                     style={{ width: '100%', marginTop: 10, }}
                     size="small"
                     value={values.girthTo}
+                    error={Boolean(touched.girthTo && errors.girthTo)}
+                    helperText={touched.girthTo && errors.girthTo}
                     {...getFieldProps('girthTo')}
                   />
                    </Grid>

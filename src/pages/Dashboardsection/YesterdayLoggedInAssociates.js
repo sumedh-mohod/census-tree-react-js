@@ -318,6 +318,37 @@ export default function YesterdayLoggedInAssociates() {
             It is showing last top 10 logged associates
             </Typography>
           </Typography>
+          <Typography variant="h6" style={{ fontWeight: 400 }}>
+                  <Select
+                    id="council"
+                    displayEmpty
+                    style={{ height: 45, width: '250px', background: '#fff' }}
+                    // label="Select Council"
+                    placeholder='Select Council'
+                    Name="Council"
+                    // onChange={(e) => handleCouncil(e)}
+                    // renderValue={
+                    //   dashboardCouncil?.council_records?.council_details?.name === ''
+                    //     ? ''
+                    //     : () => `${dashboardCouncil?.council_records?.council_details?.name}`
+                    // }
+                    // renderValue={() => `${dashboardCouncil?.council_records?.council_details?.name}`}
+                    inputProps={{
+                      classes: {
+                        icon: classes.icon,
+                      },
+                    }}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Council Name</em>
+                    </MenuItem>
+                    {/* {council?.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))} */}
+                  </Select>
+                </Typography>
         </Stack>
 
         <Card>
