@@ -13,8 +13,8 @@ import FormLabel from '@mui/material/FormLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-import Select from '@mui/material/Select';
-
+// import Select from '@mui/material/Select';
+import Select from "react-select";
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -82,6 +82,7 @@ export default function NameOfTreeDialog(props) {
   const [maxAgeError, setMaxAgeError] = React.useState('');
   const [minGrthError, setMinGrthError] = React.useState('');
   const [maxGrthError, setMaxGrthError] = React.useState('');
+  const [treeFamilyChange, setTreeFamilyChange]= React.useState('');
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const submitErrors = [];
   let age;
@@ -308,7 +309,7 @@ const handleOriginChange = (event) => {
 }
 
 const handleFamilyChange = (event) => {
-  setTreeOfFamily(event.target.value);
+  setTreeFamilyChange(event.target.value);
   };
 
   const handleClose = () => {
@@ -578,9 +579,7 @@ const classes = useStyles();
                 helperText={touched.treeType && errors.treeType}
                 {...getFieldProps("treeType")}
             >
-               {/* <MenuItem disabled value=""> */}
-            {/* <em>Type Of Tree*</em> */}
-          {/* </MenuItem> */}
+             
               {treeType?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.tree_type}
@@ -612,9 +611,9 @@ const classes = useStyles();
                 helperText={touched.treeFamily && errors.treeFamily}
                 {...getFieldProps("treeFamily")}
             >
-               {/* <MenuItem disabled value="">
+               <MenuItem disabled value="">
             <em>Tree Family*</em>
-          </MenuItem> */}
+          </MenuItem>
               {treeFamily?.map((option) => (
                 <MenuItem  key ={option.id}value={option.id}>
                   {option.tree_family}

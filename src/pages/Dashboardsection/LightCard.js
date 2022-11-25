@@ -6,7 +6,8 @@ import { AppWidgetSummary } from '../../sections/@dashboard/app';
 import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
-const LightCard = () => {
+const LightCard = (props) => {
+  const { count, title, subtitle } = props.projects;
   const useStyles = makeStyles({
     wrapper: {
       display: 'grid',
@@ -19,29 +20,34 @@ const LightCard = () => {
     },
     cardCount: {
       padding: '5px 5px 5px 5px',
-      borderBottom: '1px solid #EEEEEE'
+      // borderBottom: '1px solid #EEEEEE'
     },
+    border: {
+      borderBottom: '1px solid #EEEEEE',
+      width: '60%'
+    }
   });
   const classes = useStyles();
   return (
     <Grid container spacing={1}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={12}>
-          <Card>
+          <Card style={{ height: '160px'}}>
             <div className={classes.wrapper}>
               <div>
                 <h2 className={classes.cardCount}>
-                  136
+                  {count}
                 </h2>
+                <div className={classes.border} />
                 <Typography className={classes.cardleftSection}>
-                  Ongoing Projects
-                  <Typography variant="h6" sx={{ opacity: 0.72 }}>
-                    It is showing count of all ongoing projects
+                  {title}
+                  <Typography variant="h6" sx={{  fontWeight: 500 }}>
+                    {subtitle}
                   </Typography>
                 </Typography>
               </div>
               <div>
-                <img src={ProjectImg} alt="project" style={{marginTop: '10px'}}/>
+                <img src={ProjectImg} alt="project" height= '100' width='100' style={{marginTop: '10px'}}/>
               </div>
             </div>
           </Card>

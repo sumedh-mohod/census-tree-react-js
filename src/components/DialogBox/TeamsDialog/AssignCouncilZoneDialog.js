@@ -142,6 +142,8 @@ export default function AssignCouncilZoneDialog(props) {
     showLoadingButton: state.common.showLoadingButton,
     
   }));
+console.log("assignczw_showLoadingButton",showLoadingButton);
+  console.log("showLoadingButton", showLoadingButton)
 
   useEffect(()=>{
     dispatch(GetActiveCouncil(1));
@@ -234,20 +236,7 @@ export default function AssignCouncilZoneDialog(props) {
       }
       
 
-      // if(data){
-      //   dispatch(AddCZWToTeam({
-      //     "name":value.districts,
-      //     "state_id":value.state
-      //   },data.id))
-      // }
-      // else {
-      //   dispatch(AddCZWToTeam({
-      //     "team_id": teamId,
-      //     "council_id": value.council,
-      //     "zone_id": value.zones,
-      //     "ward_id": value.wards
-      //   }))
-      // }
+     
     },
   });
 

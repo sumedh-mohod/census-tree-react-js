@@ -7,7 +7,7 @@ const persistStateToLocalStorage = function(prevState) {
         const serializedState = JSON.stringify(prevState);
         localStorage.setItem("tree_census_state", serializedState);
     } catch(e){
-        console.log(e);
+        // console.log(e);
         
     }
 }
@@ -20,7 +20,7 @@ const fetchPersistedStateFromLocalStorage = function() {
         } 
         return JSON.parse(serializedState);
     } catch(e){
-        console.log(e);
+        // console.log(e);
     }
 }
 

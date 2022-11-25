@@ -189,7 +189,7 @@ export default function District() {
   }
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+    // console.info('You clicked a breadcrumb.');
   }
 
   return (
@@ -261,15 +261,7 @@ export default function District() {
               sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
             />
           ) : null}
-          {/* <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          /> */}
+          
         </Card>
       </Container>
     </Page>

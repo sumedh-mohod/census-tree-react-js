@@ -175,8 +175,8 @@ export default function WorkingReports(props) {
   const FilterSchema = Yup.object().shape({
     reportType: Yup.string().required('Please select report type'),
 
-    toDateForm: Yup.string().required('Please select from date'),
-    fromDateForm: Yup.string().required('Please select to date'),
+    toDateForm: Yup.string().required('Please select End date'),
+    fromDateForm: Yup.string().required('Please select Start date'),
   });
 
   const formik = useFormik({
@@ -355,26 +355,7 @@ const classes = useStyles()
           >
             Filters
           </Button>
-          {/* <Button
-            variant="outlined"
-            sx={{
-              justifyContent: 'end',
-              display: 'flex',
-              position: 'fixed',
-              right: 0,
-              top: '100px',
-              border: '2px solid black',
-              backgroundColor: 'black',
-              zIndex: '999',
-              '&.MuiButtonBase-root:hover': {
-                bgcolor: 'black',
-                border: '2px solid black',
-              },
-            }}
-            onClick={toggleDrawer('right', true)}
-          >
-            <FilterAltRoundedIcon sx={{ color: 'white' }} />
-          </Button> */}
+          
           <Drawer
             sx={{
               '& .MuiDrawer-paper': {
@@ -423,39 +404,7 @@ const classes = useStyles()
                       </MenuItem>
                     ))}
                   </TextField>
-                  {/* {reportType.team_allocation ? (
-                    <Grid item xs={12}>
-                      <TextField
-                        select
-                        id="userBy"
-                        label="User"
-                        displayEmpty
-                        value={userBy}
-                        style={{ width: '100%', marginTop: 5 }}
-                        size="small"
-                        // placeholder='*Status'
-                        onChange={(e) => {
-                          handleUserByChange(e);
-                          formik.handleChange(e);
-                        }}
-                        // onChange={handleAddedByChange}
-                        // error={Boolean(touched.addedByForm && errors.councilForm)}
-                        //   helperText={touched.councilForm && errors.councilForm}
-                        // {...getFieldProps("addedByForm")}
-                      >
-                        <MenuItem disabled value="">
-                          <em>Select User </em>
-                        </MenuItem>
-                        {activeUsers?.map((option) => (
-                          <MenuItem key={option.id} value={option.id}>
-                            {option.first_name} {option.last_name}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </Grid>
-                  ) : (
-                    <></>
-                  )} */}
+                 
                 </Grid>
 
                 <Grid item xs={12}>

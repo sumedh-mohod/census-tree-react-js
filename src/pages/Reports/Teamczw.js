@@ -222,9 +222,7 @@ const handleDownloadButtonPressed = () => {
                         <TableCell style={{flexWrap: "wrap"}}>
                           <AllocateButton status={option?.current_status}/>
                           </TableCell>
-                        {/* <TableCell align="right">
-                          <UserMoreMenu status={option.status} permissions={userPermissions} handleEdit={()=>handleEdit(option)} handleDelete={()=>handleDelete(option)}/>
-                        </TableCell>  */}
+                       
                          </TableRow>
                          )
                 })

@@ -63,7 +63,7 @@ export default function TalukasDialog(props) {
   const[district, setDistrict]=  React.useState('District');
   const [showDistrict, setShowDistrict] = React.useState(false);
   const { isOpen, data } = props;
-console.log('showDistrict', showDistrict);
+// console.log('showDistrict', showDistrict);
   const {
     addTalukasLog,
     editTalukasLog,
@@ -196,15 +196,11 @@ console.log('showDistrict', showDistrict);
 
   return (
     <div>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open max-width dialog
-      </Button> */}
+      
       <Dialog
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-      
-        // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Taluka":"Add Taluka"}</BootstrapDialogTitle>
         <Divider/>
@@ -268,11 +264,7 @@ console.log('showDistrict', showDistrict);
                <MenuItem disabled value="">
             <em>Select District*</em>
           </MenuItem>
-              {/* {!showDistrict?districts?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.name}
-                </MenuItem>
-              )):null} */}
+             
                {districts?.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
                   {option.name}
@@ -283,7 +275,7 @@ console.log('showDistrict', showDistrict);
            
             <Grid item xs={6} md={6} sm={6} >
               <DefaultInput
-                fullWidth
+                
                 id="name"
                 name='name'
                 label="Taluka Name*"
@@ -292,6 +284,7 @@ console.log('showDistrict', showDistrict);
                 error={Boolean(touched.talukas && errors.talukas)}
                 helperText={touched.talukas && errors.talukas}
                 {...getFieldProps("talukas")}
+                
               />
             </Grid>
           </Grid>

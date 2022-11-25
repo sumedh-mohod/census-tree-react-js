@@ -164,6 +164,7 @@ export default function District() {
   let timer = null;
   const filterByName = (event) => {
     const value = event.currentTarget.value;
+    console.log("value", value)
     clearTimeout(timer);
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
@@ -185,7 +186,7 @@ export default function District() {
   }
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+    // console.info('You clicked a breadcrumb.');
   }
 
 
@@ -223,7 +224,7 @@ export default function District() {
                 <TableBody>
                   {qcremarks?.map((option, index) => {
                     return (
-                      <TableRow hover>
+                      <TableRow hover key={index}>
                         <TableCell align="left">
                           <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
                         </TableCell>
@@ -256,15 +257,7 @@ export default function District() {
               sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
             />
           ) : null}
-          {/* <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          /> */}
+          
         </Card>
       </Container>
     </Page>

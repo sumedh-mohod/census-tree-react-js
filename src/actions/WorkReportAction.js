@@ -168,9 +168,28 @@ const GetWorkReports = (reportType,userId,teamId,status,formDate,toDate, page,li
     }
   };
 
+  const GetReportRequest = (requestObj) => async (dispatch) => {
+    console.log("requestobj", requestObj)
+    try {
+      const response = await JWTServer.post(`/api/reports/work-report-request`,requestObj);
+      console.log(response.data)
+      dispatch(SetNewAlert({
+        msg: response.data.message,
+        alertType: "success",
+      }));
+      // dispatch({
+      //   type: GET_WORK_REPORTS,
+      //   payload: response.data,
+      // });
+    } catch (e) {
+      dispatch(HandleExceptionWithSecureCatch(e));
+    }
+  };
+
   export {
     GetWorkReports,
     GetWorkTypeWorkReports,
     SearchWorkReports,
     GetAllWorkReports,
+    GetReportRequest,
 }

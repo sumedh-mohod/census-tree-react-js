@@ -138,15 +138,11 @@ export default function TreeFamiliesDialog(props) {
 
   return (
     <div>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open max-width dialog
-      </Button> */}
+     
       <Dialog
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isOpen}
-      
-        // onClose={handleClose}
       >
         <BootstrapDialogTitle onClose={handleClose}>{data?"Edit Tree Family":"Add Tree Family"}</BootstrapDialogTitle>
         <Divider/>

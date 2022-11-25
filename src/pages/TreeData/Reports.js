@@ -166,7 +166,7 @@ export default function Reports() {
 
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+    // console.info('You clicked a breadcrumb.');
   }
 
   // let timer = null;
@@ -300,26 +300,7 @@ const classes = useStyles()
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
         <div role="presentation" onClick={handleClick} >
       <Breadcrumbs aria-label="breadcrumb" style={{ color: "#000000",  fontWeight: 900, fontSize: '20px'}}separator=':'>
-        {/* <Link
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <div role="presentation" onClick={handleClick}>
-            <Breadcrumbs aria-label="breadcrumb" style={{ color: '#000000' }} separator=">">
-              {/* <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Tree Data
-        </Link>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
-    Reports
-        </Link> */}
+       
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
                 Census
               </Typography>
@@ -343,11 +324,7 @@ const classes = useStyles()
             conditionImage={conditionImage}
             handleViewReport = {(e)=>handleViewReport(e)}
             hideReport = {(e)=>hideReport(e)}
-            // coucilId={coucilId}
-            // fromDate={""}
-            // toDate={""}
-            // handleGetData={handleSubmit}
-            // callType="BaseColor"
+           
           />
         
             <TableContainer sx={{ minWidth: 800 }}>
@@ -449,9 +426,7 @@ const classes = useStyles()
                           </Grid>
                           <Grid item xs={3} />
                         </Grid>
-                        {/* <div ref={inputReftree} style={{position: 'absolute', clipPath: 'inset(100%)'}}>
-                          <ByTreeNameGraph data={reports?.by_tree_names ? reports?.by_tree_names : []} />
-                        </div> */}
+                       
                         <Grid container spacing={0}>
                           <Grid item xs={3} />
 
