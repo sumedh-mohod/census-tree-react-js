@@ -7,7 +7,6 @@ import TreedetailStatusButton from '../../components/statusbutton/TreedetailStat
 // import UserListToolbar from '../../sections/@dashboard/user';
 
 const LastTreeNumbers = (props) => {
-  // console.log("councilName", props);
   const filterByName = () => {};
   const useStyles = makeStyles({
     success: {

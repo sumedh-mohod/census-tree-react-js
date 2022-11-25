@@ -2,15 +2,16 @@ import React from 'react';
 import { alpha, styled } from '@mui/material/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Card } from '@mui/material';
-import MovingIcon from '@mui/icons-material/Moving';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { AppWidgetSummary } from '../../sections/@dashboard/app';
 import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
 const WorktypeCard = (props) => {
-  // console.log("worktypereport", props);
-  //   const { count, title, subtitle } = props.value;
+  const difference = props?.value[2]?.count - props?.value[1]?.count;
   const useStyles = makeStyles({
     common: {
       padding: '5px 5px 5px 5px',
@@ -28,7 +29,6 @@ const WorktypeCard = (props) => {
     cardCount: {
       padding: '5px 5px 5px 15px',
       // borderBottom: '1px solid #EEEEEE',
-      
     },
     cardCountComplete: {
       padding: '5px 5px 5px 5px',
@@ -41,19 +41,46 @@ const WorktypeCard = (props) => {
       borderRight: '2px solid #EEEEEE',
     },
     redButton: {
-        fontSize: '12px',
-        border: '2px solid #AB515D',
-        borderRadius: '5px',
-        padding: '5px 10px',
-        background: '#F6D2D8'
+      fontSize: '12px',
+      border: '2px solid #AB515D',
+      borderRadius: '5px',
+      padding: '5px 10px',
+      background: '#F6D2D8',
     },
-    greenButton:{
-        fontSize: '12px',
-    border: '2px solid #3F7D7A',
-    borderRadius: '5px',
-    padding: '5px 10px',
-    background: '#C8FADE'
-    }
+    greenButton: {
+      fontSize: '12px',
+      border: '2px solid #3F7D7A',
+      borderRadius: '5px',
+      padding: '5px 10px',
+      background: '#C8FADE',
+    },
+    more: {
+      color: '#214C50',
+    },
+    less: {
+      color: '#AB515D',
+    },
+    equal: {
+      color: '#bf9303',
+    },
+    movingIconmore: {
+      color: '#334C50',
+      background: '#C8FADE',
+      padding: '5px',
+      borderRadius: '20px',
+    },
+    movingIconless: {
+      color: '#AB515D',
+      background: '#F6D2D8',
+      padding: '5px',
+      borderRadius: '20px',
+    },
+    movingIconequal: {
+      color: '#bf9303',
+      background: '#FFE899',
+      padding: '5px',
+      borderRadius: '20px',
+    },
   });
   const classes = useStyles();
   return (
@@ -62,8 +89,14 @@ const WorktypeCard = (props) => {
         <Grid item xs={12}>
           <Card className={classes.common}>
             <Typography variant="h4" className={classes.cardCount} ml={1}>
-              {props?.index === 0? 'Base Color': props?.index === 1? 'Base Color Onsite QC': props?.index === 2? 'Base Color Offsite QC' : ''}
-              
+              {props?.index === 0
+                ? 'Base Color'
+                : props?.index === 1
+                ? 'Base Color Onsite QC'
+                : props?.index === 2
+                ? 'Base Color Offsite QC'
+                : ''}
+
               <Typography variant="h6" style={{ fontWeight: 400 }}>
                 Below It will show count details
               </Typography>
@@ -71,15 +104,15 @@ const WorktypeCard = (props) => {
 
             <div className={classes.border} />
             <Grid container spacing={1}>
-              <Grid container item xs={5} >
+              <Grid container item xs={5}>
                 <Typography variant="h5" style={{ color: '#2D653F', paddingLeft: '10px' }} ml={2} mt={1}>
-                  <b>{props?.value?.count}</b>
+                  <b>{props?.value[0]?.count}</b>
                 </Typography>
               </Grid>
               <Grid container item xs={7}>
                 <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={0.7} mb={0.7}>
-                {props?.value?.day}
-                  <Typography variant="h6">{props?.value?.date}</Typography>
+                  {props?.value[0]?.day}
+                  <Typography variant="h6">{props?.value[0]?.date}</Typography>
                 </Typography>
               </Grid>
             </Grid>
@@ -92,22 +125,22 @@ const WorktypeCard = (props) => {
                   style={{ color: '#AB515D', padding: '7px 25px' }}
                   className={classes.borderRight}
                 >
-                  <b className={classes.redButton}>10,200</b>
+                  <b className={classes.redButton}>{props?.value[1]?.count}</b>
                   <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={1}>
-                    Yesterday
+                    {props?.value[1]?.day}
                     <Typography variant="h5" style={{ color: '#000', fontSize: '15px' }}>
-                      21 Jan 2020
+                      {props?.value[1]?.date}
                     </Typography>
                   </Typography>
                 </Typography>
               </Grid>
               <Grid container item xs={6}>
                 <Typography variant="h5" style={{ color: '#3F7D7A', padding: '7px 25px' }}>
-                  <b className={classes.greenButton}>10,200</b>
+                  <b className={classes.greenButton}>{props?.value[2]?.count}</b>
                   <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={1}>
-                    Ereyesterday
+                    {props?.value[2]?.day}
                     <Typography variant="h5" style={{ color: '#000', fontSize: '15px' }}>
-                      20 Jan 2020
+                      {props?.value[2]?.date}
                     </Typography>
                   </Typography>
                 </Typography>
@@ -116,14 +149,24 @@ const WorktypeCard = (props) => {
             <div className={classes.border} />
             <Grid container spacing={1} mt={0.7} mb={0.5}>
               <Grid container item xs={10}>
-                <Typography variant="h6" style={{ fontWeight: 400, paddingLeft: '10px' }} ml={2} >
-                  Yesterday count is <b style={{color: '#334C50'}}>2,200 more</b> than ereyesterday count
+                <Typography variant="h6" style={{ fontWeight: 400, paddingLeft: '10px' }} ml={2}>
+                  Yesterday count is{' '}
+                  <b className={difference === 0 ? classes.equal : difference > 0 ? classes.less : classes.more}>
+                    {difference === 0 ? '' : difference > 0 ? Math.abs(difference) : Math.abs(difference)}{' '}
+                    {difference === 0 ? 'equal' : difference > 0 ? 'Less' : 'More'}
+                  </b>{' '}
+                  {difference === 0 ? 'to' : difference > 0 ? 'than' : 'than'} ereyesterday count{' '}
                 </Typography>
               </Grid>
               <Grid container item xs={2}>
                 <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }}>
-                
-                  <MovingIcon style={{color: '#334C50', background: '#C8FADE', padding: '5px', borderRadius: '20px'}}/>
+                  {difference === 0 ? (
+                    <HorizontalRuleIcon className={classes.movingIconequal} />
+                  ) : difference > 0 ? (
+                    <TrendingDownIcon className={classes.movingIconless} />
+                  ) : (
+                    <TrendingUpIcon className={classes.movingIconmore} />
+                  )}
                 </Typography>
               </Grid>
             </Grid>

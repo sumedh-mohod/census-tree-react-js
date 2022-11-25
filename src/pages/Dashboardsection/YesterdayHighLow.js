@@ -7,19 +7,12 @@ import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 
 const YesterdayBaseColor = (props) => {
   const { slug } = props;
-  // console.log('YesterdayBaseColor', props.index);
-  console.log('props?.value', props?.value);
   const baseColor = props?.value?.active_team?.map((val)=> val);
   const difference = props?.value?.ereyesterday_count - props?.value?.base_color_trees_count;
-  console.log("ereyesterday_count",props?.value?.ereyesterday_count,"base_color_trees_count", props?.value?.base_color_trees_count);
-  console.log("differnece", Math.abs(difference));
-  // const council = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_council[index]).map((val)=>val?.name);
   const teamName = props?.value?.active_team?.map((val)=> val.name);
   const ward = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_ward[index]).map((val)=>val?.name);
   const zone = props?.value?.active_team?.map((val)=> val).map((value,index)=>value?.active_zone[index]).map((val)=>val?.name);
   
-  console.log("baseColor", baseColor);
-  console.log("teamName", teamName);
   const useStyles = makeStyles({
     common: {
       padding: '5px 5px 5px 5px',
