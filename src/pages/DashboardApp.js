@@ -58,7 +58,7 @@ export default function DashboardApp() {
     council: state.council.activeCouncil,
     showLoader: state.common.showLoader,
   }));
-  // console.log('dashboardCouncilTeams........', dashboardCouncilTeams);
+  console.log('councilId........', councilId);
   // console.log("dashboardCouncil?.council_records?.Unsynced_users", dashboardCouncil?.council_records?.Unsynced_users.length);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -66,7 +66,9 @@ export default function DashboardApp() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  // dispatch(GetActiveCouncil(1));
   useEffect(()=>{
+    console.log("councilcalled..................");
     dispatch(GetActiveCouncil(1));
   },[])
   useEffect(()=>{
@@ -82,6 +84,7 @@ export default function DashboardApp() {
       return;
     }
     if(councilId){
+      console.log("called");
       dispatch(ShowLoader(true))
       dispatch(GetDashboardByCouncilId(councilId));
       dispatch(getTeamsByCouncilId(councilId));
@@ -163,12 +166,12 @@ export default function DashboardApp() {
     },
   ];
 
-  const useStyles = makeStyles({
-    icon: {
-      fill: '#214C50',
-    },
-  });
-  const classes = useStyles();
+  // const useStyles = makeStyles({
+  //   icon: {
+  //     fill: '#214C50',
+  //   },
+  // });
+  // const classes = useStyles();
 
   const handleCouncilTeam = (e) => {
     setcouncilTeamChange(e);
@@ -256,7 +259,7 @@ export default function DashboardApp() {
                     // renderValue={() => `${dashboardCouncil?.council_records?.council_details?.name}`}
                     inputProps={{
                       classes: {
-                        icon: classes.icon,
+                        icon: '#214C50',
                       },
                     }}
                   >
@@ -377,7 +380,7 @@ export default function DashboardApp() {
                           </Typography>
                         </Typography>
                       </Stack>
-                      <BaseColorGraph value={dashboardCouncil?.council_records?.tree_counts?.base_color} />
+                      {/* <BaseColorGraph value={dashboardCouncil?.council_records?.tree_counts?.base_color} /> */}
                     </Grid>
                     <Grid item xs={12} md={4} sm={4} mb={2}>
                       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
@@ -388,7 +391,7 @@ export default function DashboardApp() {
                           </Typography>
                         </Typography>
                       </Stack>
-                      <CensusTreeGraph value={dashboardCouncil?.council_records?.tree_counts?.census} />
+                      {/* <CensusTreeGraph value={dashboardCouncil?.council_records?.tree_counts?.census} /> */}
                     </Grid>
                     <Grid item xs={12} md={4} sm={4} mb={2}>
                       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
@@ -399,7 +402,7 @@ export default function DashboardApp() {
                           </Typography>
                         </Typography>
                       </Stack>
-                      <AllTreesGraph value={dashboardCouncil?.council_records?.tree_counts?.deviation} />
+                      {/* <AllTreesGraph value={dashboardCouncil?.council_records?.tree_counts?.deviation} /> */}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -618,7 +621,7 @@ export default function DashboardApp() {
             <>
             <br />
             <Container id="associateZero">
-              <AssociateZeroTree value={dashboardCouncil?.council_records?.Unsynced_users} />
+              <AssociateZeroTree value={dashboardCouncil?.council_records?.Unsynced_users} council={councilId}/>
             </Container>
             </>: null
             }

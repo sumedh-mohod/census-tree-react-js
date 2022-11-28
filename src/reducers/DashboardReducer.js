@@ -7,7 +7,7 @@ const INIT_STATE = {
 
 export default function DashboardReducer(state = INIT_STATE, action) {
   const { type, payload } = action;
-    // console.log("DashboardReducer", payload);
+    console.log("DashboardReducer", payload);
   switch (type) {
     case GET_DASHBORAD_BY_COUNCIL_ID:
       return {
