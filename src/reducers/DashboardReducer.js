@@ -14,8 +14,8 @@ export default function DashboardReducer(state = INIT_STATE, action) {
         ...state,
         dashboardCouncil: payload?.data,
       };
-    case GET_TEAMS_BY_COUNCIL_ID:
-      return { dashboardCouncilTeams: payload?.data };
+    // case GET_TEAMS_BY_COUNCIL_ID:
+    //   return { dashboardCouncilTeams: payload?.data };
 
     default:
       return state;

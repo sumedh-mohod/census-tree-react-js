@@ -11,7 +11,9 @@ import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
 const WorktypeCensusCard = (props) => {
+  // console.log("propscensus", props);
   const difference = props?.value[2]?.count - props?.value[1]?.count;
+  const ereDifference = props?.value[1]?.count - props?.value[2]?.count;
   //   const { count, title, subtitle } = props.value;
   const useStyles = makeStyles({
     common: {
@@ -47,6 +49,7 @@ const WorktypeCensusCard = (props) => {
       borderRadius: '5px',
       padding: '5px 10px',
       background: '#F6D2D8',
+      color: '#AB515D',
     },
     greenButton: {
       fontSize: '12px',
@@ -54,6 +57,15 @@ const WorktypeCensusCard = (props) => {
       borderRadius: '5px',
       padding: '5px 10px',
       background: '#C8FADE',
+      color: '#3F7D7A',
+    },
+    equalButton: {
+      fontSize: '12px',
+      border: '2px solid #bf9303',
+      borderRadius: '5px',
+      padding: '5px 10px',
+      background: '#FFE899',
+      color: '#bf9303',
     },
     more: {
       color: '#214C50',
@@ -119,7 +131,7 @@ const WorktypeCensusCard = (props) => {
                   style={{ color: '#AB515D', padding: '7px 25px' }}
                   className={classes.borderRight}
                 >
-                  <b className={classes.redButton}>{props?.value[1]?.count}</b>
+                  <b className={difference === 0 ? classes.equalButton : difference > 0 ? classes.redButton: classes.greenButton}>{props?.value[1]?.count}</b>
                   <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={1}>
                     {props?.value[1]?.day}
                     <Typography variant="h5" style={{ color: '#000', fontSize: '15px' }}>
@@ -130,7 +142,7 @@ const WorktypeCensusCard = (props) => {
               </Grid>
               <Grid container item xs={6}>
                 <Typography variant="h5" style={{ color: '#3F7D7A', padding: '7px 25px' }}>
-                  <b className={classes.greenButton}>{props?.value[2]?.count}</b>
+                  <b className={ereDifference === 0 ? classes.equalButton : ereDifference > 0 ? classes.redButton: classes.greenButton}>{props?.value[2]?.count}</b>
                   <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={1}>
                     {props?.value[2]?.day}
                     <Typography variant="h5" style={{ color: '#000', fontSize: '15px' }}>

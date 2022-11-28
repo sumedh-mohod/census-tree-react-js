@@ -22,32 +22,41 @@ const GetDashboardByCouncilId = (councilId)=>async(dispatch)=>{
 }
 
 const getTeamsByCouncilId = (councilId)=>async(dispatch)=>{
-    console.log("councilId", councilId, "call2");
+    // console.log("councilId", councilId, "call2");
     
     try{
         const response = await JWTServer.get(`/api/get-for-web-dashboard/teams?council_id=${councilId}`);
-        console.log("getTeamsByCouncilId", response);
         dispatch({
             type: GET_TEAMS_BY_COUNCIL_ID,
             payload: response.data,
-        })
+        });
+        dispatch(ShowLoader(false));
     }catch(e){
-        console.log("teamsbycouncilerror");
+        // dispatch({
+        //     type: GET_TEAMS_BY_COUNCIL_ID,
+        //     payload: [],
+        // });
+        dispatch(ShowLoader(false));
         dispatch(HandleExceptionWithSecureCatch(e));
     }
 }
 
 const getTeamDetailByCouncilTeam = (councilId, councilTeamChange) =>async(dispatch)=>{
-    console.log("getTeamDetailByCouncilTeam", councilId, councilTeamChange);
+    // console.log(".....getTeamDetailByCouncilTeam",  councilId,  councilTeamChange);
     try{
         const response = await JWTServer.get(`/api/last-tree-details/teams?council_id=${councilId}&id=${councilTeamChange}`);
-        console.log("getTeamDetailByCouncilTeamresponse", response);
+        // console.log("calledresponse", response);
         dispatch({
             type: GET_TEAM_DETAIL_BY_COUNCIL_TEAM_ID,
             payload: response.data,
         })
+        dispatch(ShowLoader(false));
     }catch(e){
-        console.log("getTeamDetailByCouncilTeamerror");
+        // dispatch({
+        //     type: GET_TEAM_DETAIL_BY_COUNCIL_TEAM_ID,
+        //     payload: [],
+        // })
+        dispatch(ShowLoader(false));
         dispatch(HandleExceptionWithSecureCatch(e));
     }
 }

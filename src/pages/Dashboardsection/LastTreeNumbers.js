@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Grid, Typography, Container, Stack, Button, Select, MenuItem } from '@mui/material';
-
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import ProjectImg from '../../Assets/plant_team_tree.png';
+import FullLoader from '../../components/Loader/FullLoader';
 import TreedetailStatusButton from '../../components/statusbutton/TreedetailStatusButton';
 // import UserListToolbar from '../../sections/@dashboard/user';
 
 const LastTreeNumbers = (props) => {
-  // console.log("treeDetail name", props?.treeDetail);
-  // const filterName = props?.teams.filter((value)=>value.name);
-  // console.log("filterName", filterName);
+  const [ teamId, setTeamId ] = useState();
+  const [teamName, setTeamName] = useState(props?.teams[0]?.name);
+  const {
+    showLoader,
+  } = useSelector((state) => ({
+    showLoader: state.common.showLoader,
+  }));
+  useEffect(()=>{
+    const filterTeamName = props?.teams.filter((val)=> val.id === teamId);
+    if(filterTeamName){
+      setTeamName(filterTeamName[0]?.name);
+    }
+  },[teamId])
+ 
   const filterByName = () => {};
   const useStyles = makeStyles({
     success: {
@@ -39,11 +51,13 @@ const LastTreeNumbers = (props) => {
   const classes = useStyles();
 
   const handleCouncilTeam = (e)=>{
-    // console.log("councilchange", e);
+    setTeamId(e);
+    console.log("councilchange", e);
     props.handleCouncilTeamChange(e);
   }
   return (
     <>
+    
       <Grid container item xs={12} md={12} sm={12} spacing={3} mb={4}>
         <Grid item xs={12} sm={6} md={12}>
           <Stack direction="row" justifyContent="space-between" sx={{marginLeft: '-24px'}}>
@@ -59,12 +73,9 @@ const LastTreeNumbers = (props) => {
                     displayEmpty
                     style={{ height: 45, width: '250px', background: '#fff' }}
                     onChange={(e) => handleCouncilTeam(e.target.value)}
+                    renderValue={teamName? () => `${teamName}` : () => `${props?.teams[0]?.name}`}
                     // renderValue={
-                    //   dashboardCouncil?.council_records?.council_details?.name === ''
-                    //     ? ''
-                    //     : () => `${dashboardCouncil?.council_records?.council_details?.name}`
-                    // }
-                    renderValue={props?.team_name !== '' ? props?.team_name:  () => `Search Team`}
+                    //   props?.team_name !== '' ? props?.team_name:  "Search Team"}
                     inputProps={{
                       classes: {
                         icon: classes.icon,
@@ -84,9 +95,10 @@ const LastTreeNumbers = (props) => {
           </Stack>
         </Grid>
       </Grid>
-        <Grid container spacing={3}>
+      {!showLoader?  <Grid container spacing={3}>
           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             <Grid item xs={12}>
+              
               <Card style={{ padding: '50px 50px 25px 50px', background: '#214C50' }}>
                 <Grid container spacing={1}>
                   <Grid container item xs={12} md={3} sm={3} spacing={3} mb={1}>
@@ -212,7 +224,8 @@ const LastTreeNumbers = (props) => {
               </Card>
             </Grid>
           </Grid>
-        </Grid>
+        </Grid>: <FullLoader showLoader={showLoader}/>}
+       
      
     </>
   );
