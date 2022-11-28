@@ -21,7 +21,8 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-export default function AssociateZeroTree() {
+export default function AssociateZeroTree(props) {
+  // console.log("AssociateZeroTree", props);
   const useStyles = makeStyles({
     success: {
       backgroundColor: '#d0fae2',
@@ -59,7 +60,7 @@ export default function AssociateZeroTree() {
 
   const handleClick = ()  => {
     navigate("/dashboard/home/associateWithZeroTreeYesterday" );
-    console.log("Routing")
+    // console.log("Routing")
   }
  
  
@@ -82,44 +83,28 @@ export default function AssociateZeroTree() {
                 <TableContainer sx={{ minWidth: 800 }} style={{ padding: '10px 0px' }}>
                   <Table size="small" aria-label="a dense table">
                     <UserListHead headLabel={TABLE_HEAD} />
-                    <TableBody>
+                    {props?.value?.map((val,index)=>(
+                      <TableBody>
                       <TableCell align="left">
-                        <b>1</b>
+                        <b>{index+1}</b>
                       </TableCell>
-                      <TableCell align="left">Akash</TableCell>
-                      <TableCell align="left">Base Color</TableCell>
+                      <TableCell align="left">{val?.name}</TableCell>
+                      <TableCell align="left">{val?.current_role}</TableCell>
                       <TableCell align="left">
                         <button className={classes.success}>
-                          <b>TEAM-10</b>
+                          <b>{val?.team}</b>
                         </button>
                       </TableCell>
-                      <TableCell align="left">9999999999</TableCell>
-                      <TableCell align="left">13</TableCell>
-                      <TableCell align="left">W:02</TableCell>
+                      <TableCell align="left">{val?.mobile}</TableCell>
+                      <TableCell align="left">{val?.zone}</TableCell>
+                      <TableCell align="left">{val?.ward}</TableCell>
                       <TableCell align="left">
-                        <button className={classes.successDark}>10:30 AM,22 Jan 2022</button>
+                        {val?.last_tree_synced_on.length === "NA" ? null:  <button className={classes.successDark}>{val?.last_tree_synced_on.length}</button>}
                       </TableCell>
                     </TableBody>
-                    <TableBody>
-                      <TableCell align="left">
-                        <b>1</b>
-                      </TableCell>
-                      <TableCell align="left">Akash</TableCell>
-                      <TableCell align="left">Base Color</TableCell>
-                      <TableCell align="left">
-                        <button className={classes.success}>
-                          <b>TEAM-10</b>
-                        </button>
-                      </TableCell>
-                      <TableCell align="left">9999999999</TableCell>
-                      <TableCell align="left">13</TableCell>
-                      <TableCell align="left">W:02</TableCell>
-                      <TableCell align="left">
-                        <button className={classes.successDark}>
-                          <b>10:30 AM,22 Jan 2022</b>
-                        </button>
-                      </TableCell>
-                    </TableBody> 
+                    ))}
+                    
+               
                   </Table>
                  
                 </TableContainer>

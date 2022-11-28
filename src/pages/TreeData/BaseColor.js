@@ -58,6 +58,7 @@ import ImageCarousel from '../../components/ImageCarousel';
 import FullLoader from '../../components/Loader/FullLoader';
 import { ShowLoader } from '../../actions/CommonAction';
 import {GetReportRequest} from "../../actions/WorkReportAction";
+import {SetNewAlert } from "../../actions/AlertActions"
 
 
 // ----------------------------------------------------------------------
@@ -116,6 +117,7 @@ export default function BaseColor() {
    const handleOpenImageList = (e) => setOpenImageList(true);
    const handleCloseImageList = () => setOpenImageList(false);
    const [councilName,setCouncilName] =  React.useState();
+   const [buttonClick, setButtonClick] = React.useState(true); 
 // console.log("coucilId", coucilId);
    const [newState, setNewState] = React.useState({
     top: false,
@@ -199,7 +201,7 @@ export default function BaseColor() {
       firstRun.current = false;
       return;
     }
-    console.log("First Run Function");
+    // console.log("First Run Function");
     dispatch(ShowLoader(false));
     dispatch(
       GetBaseColorTrees(
@@ -353,7 +355,15 @@ export default function BaseColor() {
 
   }
 
+const requestForWithoutFilter = () =>{
+  // buttonClick(false)
+  console.log("ClickButton true")
+    dispatch(SetNewAlert({
+    msg: "Please Select the Filter",
+    alertType: "danger",
+  }))
 
+}
   const requestForReport=() => {
     const requestObj=  {
       "type":"base_color",
@@ -372,6 +382,7 @@ export default function BaseColor() {
     }
     
     dispatch(
+     
       GetReportRequest(requestObj)
     )
 
@@ -432,6 +443,7 @@ export default function BaseColor() {
       dispatch(
         GetBaseColorTrees(1,rowsPerPage,councilID, zoneID, wardID, value.addedByForm,  value.fromDateForm, value.toDateForm),
       );
+      setButtonClick(false)
     },
   });
 
@@ -442,7 +454,7 @@ export default function BaseColor() {
     },
    
 })
-console.log("baseColorTrees",baseColorTrees)
+// console.log("baseColorTrees",baseColorTrees)
 const classes = useStyles()
 const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
   return (
@@ -479,7 +491,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
           </div>
           <Button
             to="#"
-            onClick={requestForReport}
+            onClick={()=> (buttonClick ? requestForWithoutFilter() : requestForReport())}
             style={{width: '20%',fontWeight: 500,fontSize: '15px', backgroundColor: '#E8762F',color: '#fff'}}
             
             // startIcon={<Iconify icon="eva:plus-fill" />}

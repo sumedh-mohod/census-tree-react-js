@@ -27,7 +27,7 @@ const GetBaseColorTrees = (page,limit,council,zone,ward,addedByForm,fromDateForm
 
     try {
       const response = await JWTServer.get(`${url}`);
-      console.log("res", response);
+      // console.log("res", response);
       dispatch({
         type: GET_BASE_COLOR_TREES,
         payload: response.data,

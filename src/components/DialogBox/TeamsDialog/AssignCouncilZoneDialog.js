@@ -142,8 +142,8 @@ export default function AssignCouncilZoneDialog(props) {
     showLoadingButton: state.common.showLoadingButton,
     
   }));
-console.log("assignczw_showLoadingButton",showLoadingButton);
-  console.log("showLoadingButton", showLoadingButton)
+// console.log("assignczw_showLoadingButton",showLoadingButton);
+//   console.log("showLoadingButton", showLoadingButton)
 
   useEffect(()=>{
     dispatch(GetActiveCouncil(1));

@@ -6,7 +6,8 @@ import ProjectImg from '../../Assets/plant_master_data.png';
 import TreedetailStatusButton from '../../components/statusbutton/TreedetailStatusButton';
 // import UserListToolbar from '../../sections/@dashboard/user';
 
-const MasterData = () => {
+const MasterData = (props) => {
+  // console.log("masterdata", props);
   const filterByName = () => {};
   const useStyles = makeStyles({
     success: {
@@ -74,6 +75,138 @@ const MasterData = () => {
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
+                        Councils
+                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
+                          It is showing roles counts
+                        </Typography>
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={2}>
+                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
+                      {props?.value?.councils}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1}>
+                    <Typography
+                      variant="h4"
+                      style={{ color: '#fff', fontWeight: 600 }}
+                      mt={2}
+                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
+                    >
+                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
+                        Designation
+                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
+                          It is showing roles counts
+                        </Typography>
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={2}>
+                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
+                    {props?.value?.designations}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1}>
+                    <Typography
+                      variant="h4"
+                      style={{ color: '#fff', fontWeight: 600 }}
+                      mt={2}
+                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
+                    >
+                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
+                        Districts
+                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
+                          It is showing roles counts
+                        </Typography>
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={2}>
+                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
+                    {props?.value?.districts}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
+                    <Typography
+                      variant="h4"
+                      style={{ color: '#fff', fontWeight: 600 }}
+                      mt={2}
+                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
+                    >
+                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
+                        Location Types
+                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
+                          It is showing roles counts
+                        </Typography>
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
+                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
+                    {props?.value?.location_types}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
+                    <Typography
+                      variant="h4"
+                      style={{ color: '#fff', fontWeight: 600 }}
+                      mt={2}
+                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
+                    >
+                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
+                        Property Types
+                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
+                          It is showing roles counts
+                        </Typography>
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
+                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
+                    {props?.value?.property_types}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
+                    <Typography
+                      variant="h4"
+                      style={{ color: '#fff', fontWeight: 600 }}
+                      mt={2}
+                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
+                    >
+                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
+                        QC Remark
+                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
+                          It is showing roles counts
+                        </Typography>
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
+                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
+                    {props?.value?.qc_remarks}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
+                    <Typography
+                      variant="h4"
+                      style={{ color: '#fff', fontWeight: 600 }}
+                      mt={2}
+                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
+                    >
+                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Roles
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
                           It is showing roles counts
@@ -81,56 +214,13 @@ const MasterData = () => {
                       </Typography>
                     </Typography>
                   </Grid>
-                  <Grid xs={3} md={4} sm={4} spacing={1} mt={2}>
+                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      67
+                    {props?.value?.roles}
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
-                  <Grid xs={9} md={8} sm={8} spacing={1}>
-                    <Typography
-                      variant="h4"
-                      style={{ color: '#fff', fontWeight: 600 }}
-                      mt={2}
-                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
-                    >
-                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        Council
-                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
-                        </Typography>
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3} md={4} sm={4} spacing={1} mt={2}>
-                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      67
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
-                  <Grid xs={9} md={8} sm={8} spacing={1}>
-                    <Typography
-                      variant="h4"
-                      style={{ color: '#fff', fontWeight: 600 }}
-                      mt={2}
-                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
-                    >
-                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        LocationType
-                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
-                        </Typography>
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3} md={4} sm={4} spacing={1} mt={2}>
-                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      18
-                    </Typography>
-                  </Grid>
-                </Grid>
+
                 <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
                   <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
                     <Typography
@@ -140,7 +230,7 @@ const MasterData = () => {
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        Designations
+                        States
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
                           It is showing roles counts
                         </Typography>
@@ -149,20 +239,20 @@ const MasterData = () => {
                   </Grid>
                   <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      20
+                    {props?.value?.states}
                     </Typography>
                   </Grid>
                 </Grid>
                 <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
-                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
+                  <Grid xs={9} md={8} sm={8} spacing={1} mb={1}>
                     <Typography
                       variant="h4"
                       style={{ color: '#fff', fontWeight: 600 }}
                       mt={2}
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
-                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        Tree Types
+                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={3}>
+                        Talukas
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
                           It is showing roles counts
                         </Typography>
@@ -171,51 +261,7 @@ const MasterData = () => {
                   </Grid>
                   <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      30
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
-                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
-                    <Typography
-                      variant="h4"
-                      style={{ color: '#fff', fontWeight: 600 }}
-                      mt={2}
-                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
-                    >
-                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        Ward
-                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
-                        </Typography>
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
-                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      980
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
-                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
-                    <Typography
-                      variant="h4"
-                      style={{ color: '#fff', fontWeight: 600 }}
-                      mt={2}
-                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
-                    >
-                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        Tree Families
-                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
-                        </Typography>
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
-                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      67
+                    {props?.value?.talukas}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -238,29 +284,7 @@ const MasterData = () => {
                   </Grid>
                   <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      34
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
-                  <Grid xs={9} md={8} sm={8} spacing={1} mb={1}>
-                    <Typography
-                      variant="h4"
-                      style={{ color: '#fff', fontWeight: 600 }}
-                      mt={2}
-                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
-                    >
-                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={3}>
-                        Location Type
-                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
-                        </Typography>
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
-                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      18
+                    {props?.value?.tree_conditions}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -274,7 +298,7 @@ const MasterData = () => {
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        Ward
+                        Tree Diseases
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
                           It is showing roles counts
                         </Typography>
@@ -283,7 +307,7 @@ const MasterData = () => {
                   </Grid>
                   <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      980
+                    {props?.value?.tree_diseases}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -297,7 +321,7 @@ const MasterData = () => {
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        Property Types
+                        Tree Families
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
                           It is showing roles counts
                         </Typography>
@@ -306,30 +330,7 @@ const MasterData = () => {
                   </Grid>
                   <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      40
-                    </Typography>
-                  </Grid>
-                </Grid>
-
-                <Grid container item xs={12} md={4} sm={4} spacing={3} className={classes.border}>
-                  <Grid xs={9} md={8} sm={8} spacing={1} mt={1}>
-                    <Typography
-                      variant="h4"
-                      style={{ color: '#fff', fontWeight: 600 }}
-                      mt={2}
-                      sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
-                    >
-                      <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        QC Remark
-                        <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
-                        </Typography>
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
-                    <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      06
+                    {props?.value?.tree_families}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -342,7 +343,7 @@ const MasterData = () => {
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        QC Remark
+                        Tree Name
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
                           It is showing roles counts
                         </Typography>
@@ -351,7 +352,7 @@ const MasterData = () => {
                   </Grid>
                   <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      06
+                    {props?.value?.tree_names}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -364,7 +365,7 @@ const MasterData = () => {
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        QC Remark
+                        Tree Types
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
                           It is showing roles counts
                         </Typography>
@@ -373,7 +374,7 @@ const MasterData = () => {
                   </Grid>
                   <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      06
+                    {props?.value?.tree_types}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -386,7 +387,7 @@ const MasterData = () => {
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        QC Remark
+                        Wards
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
                           It is showing roles counts
                         </Typography>
@@ -395,7 +396,7 @@ const MasterData = () => {
                   </Grid>
                   <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      06
+                    {props?.value?.wards}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -408,7 +409,7 @@ const MasterData = () => {
                       sx={{ paddingLeft: '10px', paddingBottom: '10px' }}
                     >
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
-                        QC Remark
+                        Zones
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
                           It is showing roles counts
                         </Typography>
@@ -417,7 +418,7 @@ const MasterData = () => {
                   </Grid>
                   <Grid xs={3} md={4} sm={4} spacing={1} mt={3}>
                     <Typography variant="h4" style={{ color: '#D4E489', fontWeight: 600, fontSize: '35px' }} mt={1}>
-                      06
+                    {props?.value?.zones}
                     </Typography>
                   </Grid>
                 </Grid>
