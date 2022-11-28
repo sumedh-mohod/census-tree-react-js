@@ -146,7 +146,7 @@
 //     else {
 //       dispatch(GetTeam(page,rowsPerPage));
 //     }
-    
+
 //   },[])
 
 //   const changeTeamRun = useRef(true);
@@ -285,7 +285,7 @@
 //       color: '#18a553',
 //       border: '1.5px solid #18a553',
 //       fontFamily: 'Poppins',
-      
+
 //     },
 //   });
 //   const classes = useStyles();
@@ -364,7 +364,7 @@
 //               </Table>
 //             </TableContainer>
 //           </Scrollbar>
-         
+
 //         </Card>
 //       </Container>
 //     </Page>
