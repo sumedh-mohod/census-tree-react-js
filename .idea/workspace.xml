@@ -2,44 +2,142 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af567147-a6a4-4a0e-b0f2-0da9335129df" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/AllTreesGraph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/BaseColorGraph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/CensusTreeGraph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/reducers/DashboardTeamCouncilReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/reducers/DashboardTeamDetailByIdReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/asset-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.49e35c54.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.39ad9111.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.49e35c54.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.39ad9111.js.LICENSE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.49e35c54.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/js/main.39ad9111.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/BaseColorAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/BaseColorAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/DashboardAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/DashboardAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/TreeFamilyAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/TreeFamilyAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/Types.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/Types.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/WorkReportAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/WorkReportAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/ZonesAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/ZonesAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/AssignCouncilZoneDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DialogBox/TeamsDialog/AssignCouncilZoneDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/DashboardApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/DashboardApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/AssociateWithZeroTreeYesterday.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/AssociateWithZeroTreeYesterday.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/AssociateZeroTree.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/AssociateZeroTree.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/CommanCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/CommanCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/Deviation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/Deviation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/LastTreeNumbers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/LastTreeNumbers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/MasterData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/MasterData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/WorktypeCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/WorktypeCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/WorktypeCensusCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/WorktypeCensusCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/YesterdayHighLowCensus.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/YesterdayHighLowCensus.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/YesterdayLoggedIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/YesterdayLoggedIn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboardsection/YesterdayLoggedInAssociates.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Dashboardsection/YesterdayLoggedInAssociates.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Master/QcRemarks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Master/QcRemarks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/BaseColor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/BaseColor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/BaseColorPendingQC.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/BaseColorPendingQC.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TreeData/Census.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TreeData/Census.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/DashboardReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/DashboardReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/teams/TeamListToolbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/teams/TeamListToolbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sections/@dashboard/tree/DeniedListToolBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/sections/@dashboard/tree/DeniedListToolBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/_redirects" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/favicon/android-chrome-192x192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/favicon/android-chrome-512x512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/favicon/apple-touch-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/favicon/favicon-16x16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/favicon/favicon-32x32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/favicon/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/favicon/favicon_ (2).ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/favicon/site.webmanifest" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/main.fc455654.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/css/main.fc455654.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/icons/ic_flag_de.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/icons/ic_flag_en.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/icons/ic_flag_fr.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/icons/ic_notification_chat.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/icons/ic_notification_mail.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/icons/ic_notification_package.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/icons/ic_notification_shipping.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/icons/shape-avatar.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/404 Image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/Background.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/LogoWhite.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/Quote.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/TopPlant.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/TopPlant_.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/illustration_404.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/illustration_avatar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/illustration_login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/illustration_register.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/illustrations/login_green.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/513.9b6b5201.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/513.9b6b5201.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/703.711d6834.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/703.711d6834.chunk.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/703.711d6834.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/787.1199a6d1.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/787.1199a6d1.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/main.39ad9111.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/main.39ad9111.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/js/main.39ad9111.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/LogoGreen.643bfa32e9583e2e78f7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/Search_Image.e5e044ca3c4c3ca774fa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/abell.643bfa32e9583e2e78f7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/associates.d1271b8ec9fa92b32e9f.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/deviation_leaf.3f04c58986d9b52f321a.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/fail.5d4f11fe89a5de737148.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/fail.5d4f11fe89a5de737148a25e18846afb.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/info.5bd18e750e7f4601286e.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/notify.6298afe13c4ffe3095eb.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/plant_master_data.97cc2317436bfb57efa1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/plant_team_tree.844d2bde9c2c87c3d080.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/plant_tree_details.29bb049adacde7acded8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/project_ongoing.f4b083c90c397542405b.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/success.c942aa220b72cb6da9b4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/toplant_dashboard.ece11a6a2d49ef7e410d.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/media/tree_on_map.b8209e4ea916e513508f.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_11.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_14.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_15.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_16.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_18.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_19.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_20.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_21.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_24.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_default.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/avatar_default_.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/avatars/plant_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_11.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_14.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_15.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_16.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_18.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_19.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_20.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_21.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_24.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/covers/cover_9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_11.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_14.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_15.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_16.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_18.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_19.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_20.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_21.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_24.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/mock-images/products/product_9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/static/preview.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +184,7 @@
       <workItem from="1659622506611" duration="1149000" />
       <workItem from="1663556431752" duration="1064000" />
       <workItem from="1665643495704" duration="619000" />
-      <workItem from="1669623631428" duration="626000" />
+      <workItem from="1669623631428" duration="1630000" />
     </task>
     <servers />
   </component>

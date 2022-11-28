@@ -15,7 +15,7 @@ export const EDIT_STATE = "edit-state";
 export const ADD_STATE = "add-state";
 export const DELETE_STATE = "delete-state";
 
-
+export const GET_DASHBORAD_BY_COUNCIL_ID = "get-dashboard-by-council-id";
 export const GET_UNSYNCHEDUSERS_BY_COUNCIL_ID = "get-unsynchedusers-by-council-id"
 export const GET_TEAMS_BY_COUNCIL_ID = "get-teams-by-council-id";
 export const GET_TEAM_DETAIL_BY_COUNCIL_TEAM_ID = "get-teamdetail-by-council-team-id";
@@ -194,5 +194,7 @@ export const GET_ACTIVE_TREE_FAMILY = "get-active-tree-family";
 export const EDIT_TREE_FAMILY = "edit-tree-family";
 export const ADD_TREE_FAMILY = "add-tree-family";
 export const DELETE_TREE_FAMILY = "delete-tree-family";
+
+export const GetDashboardByCouncilId = "delete-tree-family";
 
 
