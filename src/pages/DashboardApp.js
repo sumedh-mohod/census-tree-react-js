@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // @mui
 import { Grid, Container, Typography, Stack, Select, CircularProgress } from '@mui/material';
@@ -12,7 +12,7 @@ import Fade from '@mui/material/Fade';
 // components
 import { Link, animateScroll as scroll } from 'react-scroll';
 import Page from '../components/Page';
-import { GetDashboardByCouncilId } from '../actions/DashboardAction';
+import { GetDashboardByCouncilId, getTeamsByCouncilId, getTeamDetailByCouncilTeam } from '../actions/DashboardAction';
 import { ShowLoader } from '../actions/CommonAction';
 import AssociateZeroTree from './Dashboardsection/AssociateZeroTree';
 import YesterdayLoggedIn from './Dashboardsection/YesterdayLoggedIn';
@@ -23,6 +23,9 @@ import DashboardFooter from './Dashboardsection/DashboardFooter';
 import AssociateCard from './Dashboardsection/AssociateCard';
 import UsersCard from './Dashboardsection/UsersCard';
 import WorktypeCard from './Dashboardsection/WorktypeCard';
+import BaseColorGraph from './Dashboardsection/BaseColorGraph';
+import { AllTreesGraph } from './Dashboardsection/AllTreesGraph';
+import CensusTreeGraph from './Dashboardsection/CensusTreeGraph';
 import WorktypeCensusCard from './Dashboardsection/WorktypeCensusCard';
 import YesterdayHighLow from './Dashboardsection/YesterdayHighLow';
 import YesterdayHighLowCensus from './Dashboardsection/YesterdayHighLowCensus';
@@ -36,37 +39,79 @@ import FullLoader from '../components/Loader/FullLoader';
 
 export default function DashboardApp() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [councilId, setCouncilId] = useState(null);
-  const [data, setData] = useState(null);
+  const [councilId, setCouncilId] = useState();
+  const [councilTeamChange, setcouncilTeamChange] = useState(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
+  const {
+    loggedUser,
+    dashboardCouncil,
+    council,
+    showLoader,
+    dashboardCouncilTeams,
+    dashboardTeamDetailbyCouncilTeamId,
+  } = useSelector((state) => ({
+    loggedUser: state.auth.loggedUser,
+    dashboardCouncil: state.dashboardCouncil.dashboardCouncil,
+    dashboardCouncilTeams: state.dashboardCouncilTeams.dashboardCouncilTeams,
+    dashboardTeamDetailbyCouncilTeamId: state.dashboardTeamDetailbyCouncilTeamId.dashboardTeamDetailbyCouncilTeamId,
+    council: state.council.activeCouncil,
+    showLoader: state.common.showLoader,
+  }));
+  // console.log('dashboardCouncilTeams........', dashboardCouncilTeams);
+  // console.log("dashboardCouncil?.council_records?.Unsynced_users", dashboardCouncil?.council_records?.Unsynced_users.length);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  useEffect(() => {
-    dispatch(GetDashboardByCouncilId(23));
+  useEffect(()=>{
     dispatch(GetActiveCouncil(1));
-  }, []);
+  },[])
+  useEffect(()=>{
+    if(council){
+      setCouncilId(council[0].id);
+    }
+  },[council])
+  const firstRun = useRef(true);
+  const secondRun = useRef(true);
   useEffect(() => {
-    if (councilId) {
-      dispatch(ShowLoader(true));
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    if(councilId){
+      dispatch(ShowLoader(true))
       dispatch(GetDashboardByCouncilId(councilId));
+      dispatch(getTeamsByCouncilId(councilId));
     }
   }, [councilId]);
+  
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+      return;
+    }
+    if(dashboardCouncilTeams[0]?.id){
+      // console.log("called");
+      dispatch(getTeamDetailByCouncilTeam(councilId, dashboardCouncilTeams[0]?.id));
+    }
+  }, [dashboardCouncilTeams[0]?.id]);
+
+  useEffect(() => {
+    if (councilTeamChange && dashboardCouncilTeams[0]?.id !== undefined) {
+      dispatch(ShowLoader(true))
+      dispatch(getTeamDetailByCouncilTeam(councilId, councilTeamChange));
+    }
+  }, [councilTeamChange]);
+
   const handleCouncil = (e) => {
     if (e.target.value) {
       setCouncilId(e.target.value);
     }
   };
-  const { loggedUser, dashboardCouncil, council, showLoader } = useSelector((state) => ({
-    loggedUser: state.auth.loggedUser,
-    dashboardCouncil: state.dashboardCouncil.dashboardCouncil,
-    council: state.council.activeCouncil,
-    showLoader: state.common.showLoader
-  }));
 
   const ongoingProject = {
     count: `${dashboardCouncil?.overall_records?.total_ongoing_projects}`,
@@ -118,26 +163,20 @@ export default function DashboardApp() {
     },
   ];
 
-  const censusData = [
-    { day: 'Today', date: '01 Nov 2022', count: 0 },
-    { day: 'Yesterday', date: '31 Oct 2022', count: 2 },
-    { day: 'Ereyesterday', date: '30 Oct 2022', count: 0 },
-  ];
   const useStyles = makeStyles({
     icon: {
       fill: '#214C50',
     },
   });
   const classes = useStyles();
+
+  const handleCouncilTeam = (e) => {
+    setcouncilTeamChange(e);
+  };
   return (
     <>
-    <FullLoader showLoader={showLoader} />
-      {!dashboardCouncil ? (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <CircularProgress style={{ color: '#214c50' }} />
-        </div>
-      ) : (
-        <Page title="Dashboard">
+      <FullLoader showLoader={showLoader} />
+      <Page title="Dashboard">
           <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }} id="projectSection">
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
               <Typography variant="h4" gutterBottom>
@@ -165,6 +204,7 @@ export default function DashboardApp() {
                 </Grid>
               </Grid>
             </Container>
+            <br />
             <br />
 
             <Container id="councilSection">
@@ -267,22 +307,22 @@ export default function DashboardApp() {
               <Grid container spacing={3}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                   <Grid item xs={12} md={4} sm={4} mb={2}>
-                    <CommanCard value={commanCardValue[0]} />
+                    <CommanCard value={commanCardValue[0]} title={'trees'} />
                   </Grid>
                   <Grid item xs={12} md={4} sm={4}>
-                    <CommanCard value={commanCardValue[1]} />
+                    <CommanCard value={commanCardValue[1]} title={'denied-entry'} />
                   </Grid>
                   <Grid item xs={12} md={4} sm={4}>
-                    <CommanCard value={commanCardValue[2]} />
+                    <CommanCard value={commanCardValue[2]} title={'no-tree-properties'} />
                   </Grid>
                   <Grid item xs={12} md={4} sm={4}>
-                    <CommanCard value={commanCardValue[3]} />
+                    <CommanCard value={commanCardValue[3]} title={'teams'} />
                   </Grid>
                   <Grid item xs={12} md={4} sm={4}>
-                    <CommanCard value={commanCardValue[4]} />
+                    <CommanCard value={commanCardValue[4]} title={'wards'} />
                   </Grid>
                   <Grid item xs={12} md={4} sm={4}>
-                    <CommanCard value={commanCardValue[5]} />
+                    <CommanCard value={commanCardValue[5]} title={'zones'} />
                   </Grid>
                 </Grid>
               </Grid>
@@ -313,6 +353,61 @@ export default function DashboardApp() {
                 </Grid>
               </Grid>
             </Container>
+           
+            {dashboardCouncil?.council_records?.tree_counts?.base_color?.total === 0 &&
+            dashboardCouncil?.council_records?.tree_counts?.base_color?.pending === 0 &&
+            dashboardCouncil?.council_records?.tree_counts?.base_color?.approved === 0 &&
+            dashboardCouncil?.council_records?.tree_counts?.census?.total === 0 &&
+            dashboardCouncil?.council_records?.tree_counts?.census?.pending === 0 &&
+            dashboardCouncil?.council_records?.tree_counts?.census?.approved === 0 &&
+            dashboardCouncil?.council_records?.tree_counts?.deviation?.total_base_color === 0 &&
+            dashboardCouncil?.council_records?.tree_counts?.deviation?.total_census === 0 ? null : (
+              <>
+               <br />
+              <br />
+              <Container>
+                <Grid container spacing={3}>
+                  <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid item xs={12} md={4} sm={4} mb={2}>
+                      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                        <Typography variant="h4" gutterBottom>
+                          Base Color Trees
+                          <Typography variant="h6" style={{ fontWeight: 400 }}>
+                            It is showing tree details
+                          </Typography>
+                        </Typography>
+                      </Stack>
+                      <BaseColorGraph value={dashboardCouncil?.council_records?.tree_counts?.base_color} />
+                    </Grid>
+                    <Grid item xs={12} md={4} sm={4} mb={2}>
+                      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                        <Typography variant="h4" gutterBottom>
+                          Census Trees
+                          <Typography variant="h6" style={{ fontWeight: 400 }}>
+                            It is showing tree details
+                          </Typography>
+                        </Typography>
+                      </Stack>
+                      <CensusTreeGraph value={dashboardCouncil?.council_records?.tree_counts?.census} />
+                    </Grid>
+                    <Grid item xs={12} md={4} sm={4} mb={2}>
+                      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                        <Typography variant="h4" gutterBottom>
+                          All Trees
+                          <Typography variant="h6" style={{ fontWeight: 400 }}>
+                            It is showing tree details
+                          </Typography>
+                        </Typography>
+                      </Stack>
+                      <AllTreesGraph value={dashboardCouncil?.council_records?.tree_counts?.deviation} />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Container>
+              </>
+            )}
+
+            <br />
             <br />
             <Deviation
               id="deviation"
@@ -355,13 +450,25 @@ export default function DashboardApp() {
                   </Grid>
 
                   <Grid item xs={12} md={4} sm={4} mb={2}>
-                    <WorktypeCensusCard value={dashboardCouncil?.council_records?.work_type_counts?.census} census={'Census'} index={0}/>
+                    <WorktypeCensusCard
+                      value={dashboardCouncil?.council_records?.work_type_counts?.census}
+                      census={'Census'}
+                      index={0}
+                    />
                   </Grid>
                   <Grid item xs={12} md={4} sm={4} mb={2}>
-                    <WorktypeCensusCard value={dashboardCouncil?.council_records?.work_type_counts?.census_on_site_qc} census={'Census Onsite QC'} index={1}/>
+                    <WorktypeCensusCard
+                      value={dashboardCouncil?.council_records?.work_type_counts?.census_on_site_qc}
+                      census={'Census Onsite QC'}
+                      index={1}
+                    />
                   </Grid>
                   <Grid item xs={12} md={4} sm={4} mb={2}>
-                    <WorktypeCensusCard value={dashboardCouncil?.council_records?.work_type_counts?.census_off_site_qc} census={'Census Offsite QC'} index={2}/>
+                    <WorktypeCensusCard
+                      value={dashboardCouncil?.council_records?.work_type_counts?.census_off_site_qc}
+                      census={'Census Offsite QC'}
+                      index={2}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
@@ -431,24 +538,25 @@ export default function DashboardApp() {
             </Container>
             <br />
             <Container id="highestCensus">
-            {dashboardCouncil?.council_records?.highest_census_users.length === 0?
-             null : <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              mb={5}
-              sx={{ marginLeft: '-24px' }}
-            >
-              <Typography variant="h4" gutterBottom>
-                Yesterdays Highest Census ({`${dashboardCouncil?.council_records?.council_details?.name}`})
-                <Typography variant="h6" style={{ fontWeight: 400 }}>
-                  It is showing Yesterdays Highest Census counts.{' '}
-                  <span style={{ color: '#ff0000' }}>
-                    (The Team , Council, Zone and ward is currently assigned entity to the user.)
-                  </span>
-                </Typography>
-              </Typography>
-            </Stack>}
+              {dashboardCouncil?.council_records?.highest_census_users.length === 0 ? null : (
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  mb={5}
+                  sx={{ marginLeft: '-24px' }}
+                >
+                  <Typography variant="h4" gutterBottom>
+                    Yesterdays Highest Census ({`${dashboardCouncil?.council_records?.council_details?.name}`})
+                    <Typography variant="h6" style={{ fontWeight: 400 }}>
+                      It is showing Yesterdays Highest Census counts.{' '}
+                      <span style={{ color: '#ff0000' }}>
+                        (The Team , Council, Zone and ward is currently assigned entity to the user.)
+                      </span>
+                    </Typography>
+                  </Typography>
+                </Stack>
+              )}
               <Grid container spacing={3}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                   {dashboardCouncil?.council_records?.highest_census_users?.map((val, i) => (
@@ -461,47 +569,67 @@ export default function DashboardApp() {
             </Container>
             <br />
             <Container id="lowestCensus">
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                mb={5}
-                sx={{ marginLeft: '-24px' }}
-              >
-                <Typography variant="h4" gutterBottom>
-                  Yesterdays Lowest Census({`${dashboardCouncil?.council_records?.council_details?.name}`})
-                  <Typography variant="h6" style={{ fontWeight: 400 }}>
-                    It is showing Yesterdays Highest Census counts. <span style={{color: "#ff0000"}}>(The Team , Council, Zone and ward is currently assigned entity to the user.)</span>
+              {dashboardCouncil?.council_records?.lowest_census_users.length === 0 ? null : (
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  mb={5}
+                  sx={{ marginLeft: '-24px' }}
+                >
+                  <Typography variant="h4" gutterBottom>
+                    Yesterdays Lowest Census({`${dashboardCouncil?.council_records?.council_details?.name}`})
+                    <Typography variant="h6" style={{ fontWeight: 400 }}>
+                      It is showing Yesterdays Highest Census counts.{' '}
+                      <span style={{ color: '#ff0000' }}>
+                        (The Team , Council, Zone and ward is currently assigned entity to the user.)
+                      </span>
+                    </Typography>
                   </Typography>
-                 
-                </Typography>
-              </Stack>
+                </Stack>
+              )}
               <Grid container spacing={3}>
-
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                {dashboardCouncil?.council_records?.lowest_census_users?.map((val, i) => (
-                 <Grid item xs={12} md={3} sm={3} mb={2}>
-                    <YesterdayHighLowCensus slug={'low'} value={val} index={i}/>
-                  </Grid>
-              ))}
+                  {dashboardCouncil?.council_records?.lowest_census_users?.map((val, i) => (
+                    <Grid item xs={12} md={3} sm={3} mb={2}>
+                      <YesterdayHighLowCensus slug={'low'} value={val} index={i} />
+                    </Grid>
+                  ))}
                 </Grid>
               </Grid>
             </Container>
-            <br />
-            <Container id="lasttreeNumber">
-              <LastTreeNumbers councilName={`${dashboardCouncil?.council_records?.council_details?.name}`} />
-            </Container>
+
+            {dashboardCouncilTeams.length !== 0 ? (
+              <>
+                <br />
+                <Container id="lasttreeNumber">
+                  <LastTreeNumbers
+                    councilName={`${dashboardCouncil?.council_records?.council_details?.name}`}
+                    treeDetail={
+                      dashboardTeamDetailbyCouncilTeamId
+                    }
+                    teams={dashboardCouncilTeams}
+                    handleCouncilTeamChange={handleCouncilTeam}
+                  />
+                </Container>
+              </>
+            ) : null}
+            {dashboardCouncil?.council_records?.Unsynced_users.length !== 0 ? 
+            <>
             <br />
             <Container id="associateZero">
-              <AssociateZeroTree />
+              <AssociateZeroTree value={dashboardCouncil?.council_records?.Unsynced_users} />
             </Container>
+            </>: null
+            }
+            
             <br />
             <Container id="yesterdayLogged">
               <YesterdayLoggedIn />
             </Container>
             <br />
             <Container id="masterData">
-              <MasterData />
+              <MasterData value={dashboardCouncil?.overall_records?.master} />
             </Container>
             <br />
             <br />
@@ -587,7 +715,14 @@ export default function DashboardApp() {
             </Menu>
           </div>
         </Page>
-      )}
+      {/* {!dashboardCouncil ? (
+        // <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        //   <CircularProgress style={{ color: '#214c50' }} />
+        // </div>
+        <FullLoader showLoader={'true'} />
+      ) : (
+      
+      )} */}
     </>
   );
 }

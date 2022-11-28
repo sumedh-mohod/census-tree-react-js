@@ -81,7 +81,7 @@ export default function YesterdayLoggedIn() {
 
   const handleChange =() => {
     navigate("/dashboard/home/yesterdayLoggedInAssociates")
-    console.log("Routing 2")
+    // console.log("Routing 2")
   }
   return (
   
@@ -91,9 +91,9 @@ export default function YesterdayLoggedIn() {
             <Grid item xs={12}>
               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5} mt={5}>
                 <Typography variant="h4" gutterBottom>
-                  Yesterday Logged In Associates
+                Associates Work Logs
                   <Typography variant="h6" style={{ fontWeight: 400 }}>
-                    It is showing last top 10 logged associates
+                  It's showing work logs of Associates
                   </Typography>
                 </Typography>
                 <Button className={classes.darkSection} onClick={()=>{handleChange()}}>View All</Button>

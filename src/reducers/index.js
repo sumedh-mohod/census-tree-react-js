@@ -29,7 +29,8 @@ import TreeFamilyReducer from "./TreeFamilyReducer";
 import WorkRepotReducer from "./WorkReportReducer";
 import DashboardReducer from "./DashboardReducer";
 import UnsynchedUserReducer from "./UnsynchedUserReducer"
-
+import DashboardCouncilTeamReducer from "./DashboardTeamCouncilReducer";
+import DashboardTeamDetailByIdReducer from './DashboardTeamDetailByIdReducer';
 
 export default combineReducers({
   auth: AuthReducer,
@@ -46,6 +47,8 @@ export default combineReducers({
   zones:ZoneReducer,
   council:CouncilReducer,
   dashboardCouncil: DashboardReducer,
+  dashboardCouncilTeams: DashboardCouncilTeamReducer,
+  dashboardTeamDetailbyCouncilTeamId: DashboardTeamDetailByIdReducer,
   teams:TeamReducer,
   roles:RoleReducer,
   users:UserReducer,

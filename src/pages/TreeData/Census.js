@@ -153,8 +153,8 @@ export default function Census() {
     pageInfo:state.treeCensus.pageInfo,
     loggedUser:state.auth.loggedUser
   }));
-console.log("treeCensus", treeCensus)
-  console.log("treeName", treeName);
+// console.log("treeCensus", treeCensus)
+  // console.log("treeName", treeName);
 loggedUser.roles[0].permissions.map((item, index)=>(
   userPermissions.push(item.name)
 ))
@@ -480,7 +480,7 @@ const formik = useFormik({
   },
   validationSchema: FilterSchema,
   onSubmit: (value) => {
-    console.log("in submit", value);
+    // console.log("in submit", value);
     setAddedByForm(value.addedByForm);
     setTreeNameFrom(value.treeNameFrom)
     setHeightFrom(value.heightFrom)
@@ -503,7 +503,7 @@ const formik = useFormik({
 });
 const classes = useStyles()
 const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-console.log("treeNamestate", treeName)
+// console.log("treeNamestate", treeName)
   return (
     <Page title="Base Color">
       <Container>
