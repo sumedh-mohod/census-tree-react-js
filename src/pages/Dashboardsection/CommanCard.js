@@ -9,6 +9,7 @@ import ProjectImg from '../../Assets/project_ongoing.png';
 
 const CommanCard = (props) => {
   const {count, subtitle, title, color} = props.value;
+  // console.log("propsvalue", props);
   const useStyles = makeStyles({
     wrapper: {
       display: 'grid',
@@ -58,6 +59,7 @@ const CommanCard = (props) => {
                         {count}
                       </Typography>
                       <ArrowCircleRightIcon style={{position: 'absolute', top: '15', right: '15',height: '30px',width:'30px',color: '#214c50'}}/>
+                    
                       <div className={classes.border} />
                       <Typography className={classes.cardleftSection}>
                       {title}
