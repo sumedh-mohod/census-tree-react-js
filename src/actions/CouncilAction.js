@@ -18,10 +18,10 @@ const GetCouncil = (page,limit) => async (dispatch) => {
   };
 
   const GetActiveCouncil = (status) => async (dispatch) => {
-    // console.log('clicked me council');
+    console.log('clicked me council');
     try {
       const response = await JWTServer.get(`/api/councils?status=${status}`);
-      // console.log("Active Councils RESPONSE",response.data);
+      console.log("Active Councils RESPONSE",response.data);
       dispatch({
         type: GET_ACTIVE_COUNCIL,
         payload: response.data,

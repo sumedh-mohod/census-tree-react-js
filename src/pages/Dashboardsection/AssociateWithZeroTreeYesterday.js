@@ -1,374 +1,325 @@
-// import { filter } from 'lodash';
-// import { useEffect, useRef, useState } from 'react';
-// import { Link as RouterLink, useLocation } from 'react-router-dom';
-// import {
-//   Card,
-//   Table,
-//   Stack,
-//   Grid,
-//   Avatar,
-//   Button,
-//   Checkbox,
-//   TableRow,
-//   TableBody,
-//   TableCell,
-//   Container,
-//   Typography,
-//   TableContainer,
-//   Pagination,
-// } from '@mui/material';
+import { filter } from 'lodash';
 
-// import { makeStyles } from '@material-ui/core/styles';
-// import Select from '@mui/material/Select';
-// import MenuItem from '@mui/material/MenuItem';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { DeleteTeam, GetTeam, SearchTeam, GetTeamByFilter } from '../../actions/TeamsAction';
-// import { GetActiveCouncil } from '../../actions/CouncilAction';
-// import { GetActiveZones, GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
-// import { GetActiveWards, GetActiveWardsByCouncilId } from '../../actions/WardsActions';
-// import Page from '../../components/Page';
-// import Label from '../../components/Label';
-// import Scrollbar from '../../components/Scrollbar';
-// import Iconify from '../../components/Iconify';
-// import { UserListHead, UserListToolbar, TeamsMenu } from '../../sections/@dashboard/user';
-// import USERLIST from '../../_mock/user';
-// // import NewUserDialog from '../components/DialogBox/NewUserDialog';
-// import TeamsData from '../../components/JsonFiles/TeamsData.json';
-// import TeamsTableDialog from '../../components/DialogBox/TeamsDialog/TeamsTableDialog';
-// import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
-// import StatusButton from '../../components/statusbutton/StatusButton';
+import { useEffect, useRef, useState } from 'react';
 
-// // ----------------------------------------------------------------------
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 
-// const TABLE_HEAD = [
-//   { id: 'srno', label: '#', alignRight: false },
-//   { id: 'name', label: 'Name', alignRight: false },
-//   { id: 'roll', label: 'Role', alignRight: false },
-//   { id: 'TeamCode', label: 'Team Code', alignRight: false },
-//   { id: 'MobileNumber', label: 'MobileNumber', alignRight: false },
-//   { id: 'zone', label: 'Zone', alignRight: false },
-//   { id: 'ward', label: 'Ward', alignRight: false },
-//   { id: 'lastTreeSyncOn', label: 'Last Tree Sync On', alignRight: false },
-// ];
+import {
+  Card,
+  Table,
+  Stack,
+  Grid,
+  Avatar,
+  Button,
+  Checkbox,
+  TableRow,
+  TableBody,
+  TableCell,
+  Container,
+  Typography,
+  TableContainer,
+  Pagination,
+} from '@mui/material';
 
-// // ----------------------------------------------------------------------
+import { makeStyles } from '@material-ui/core/styles';
 
-// function descendingComparator(a, b, orderBy) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1;
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1;
-//   }
-//   return 0;
-// }
+import Select from '@mui/material/Select';
 
-// function getComparator(order, orderBy) {
-//   return order === 'desc'
-//     ? (a, b) => descendingComparator(a, b, orderBy)
-//     : (a, b) => -descendingComparator(a, b, orderBy);
-// }
+import MenuItem from '@mui/material/MenuItem';
 
-// function applySortFilter(array, comparator, query) {
-//   const stabilizedThis = array.map((el, index) => [el, index]);
-//   stabilizedThis.sort((a, b) => {
-//     const order = comparator(a[0], b[0]);
-//     if (order !== 0) return order;
-//     return a[1] - b[1];
-//   });
-//   if (query) {
-//     return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-//   }
-//   return stabilizedThis.map((el) => el[0]);
-// }
+import { useDispatch, useSelector } from 'react-redux';
 
-// export default function AssociateWithZeroTreeYesterday() {
-//   const dispatch = useDispatch();
-//   const [page, setPage] = useState(1);
-//   const [rowsPerPage, setRowsPerPage] = useState(10);
-//   const [count, setCount] = useState(10);
-//   const [open, setOpen] = useState(false);
-//   const [dialogData, setDialogData] = useState(null);
-//   const [search, setSearch] = useState(false);
-//   const [searchValue, setSearchValue] = useState('');
-//   const [stateName, setStateName] = useState('');
-//   const [zoneId, setZoneId] = useState('');
-//   const [wardId, setWardId] = useState('');
-//   const [coucilId, setCouncilId] = useState('');
-//   const [showList, setShowList] = useState(false);
+import { DeleteTeam, GetTeam, SearchTeam, GetTeamByFilter } from '../../actions/TeamsAction';
 
-//   const {
-//     teams,
-//     addTeamsLog,
-//     editTeamsLog,
-//     deleteTeamsLog,
-//     pageInfo,
-//     council,
-//     zones,
-//     wards,
-//     activeZonesByCID,
-//     activeWardsByCID,
-//   } = useSelector((state) => ({
-//     teams: state.teams.teams,
-//     addTeamsLog: state.teams.addTeamsLog,
-//     editTeamsLog: state.teams.editTeamsLog,
-//     deleteTeamsLog: state.teams.deleteTeamsLog,
-//     pageInfo: state.teams.pageInfo,
-//     council: state.council.activeCouncil,
-//     zones: state.zones.zones,
-//     wards: state.wards.wards,
-//     activeZonesByCID: state.zones.activeZonesByCID,
-//     activeWardsByCID: state.wards.activeWardsByCID,
-//   }));
+import { GetActiveCouncil } from '../../actions/CouncilAction';
 
-//   const { state} = useLocation();
+import { GetActiveZones, GetActiveZonesByCouncilId } from '../../actions/ZonesAction';
 
-//   useEffect(()=>{
-//     let cId = null;
-//     let wId = null;
-//     let zId = null;
-//     if(state?.councilId){
-//       setCouncilId(state.councilId)
-//       cId = state.councilId;
-//     }
-//     if(state?.wardId){
-//       setWardId(state.wardId);
-//       wId = state.wardId;
-//     }
-//     if(state?.zoneId){
-//       setZoneId(state.zoneId)
-//       zId = state.zoneId;
-//     }
-//     if(state?.pageNumber){
-//       setPage(state.pageNumber)
-//     }
-//     if(state){
-//       dispatch(GetTeamByFilter(state.pageNumber,rowsPerPage,cId,zId,wId))
-//     }
-//     else {
-//       dispatch(GetTeam(page,rowsPerPage));
-//     }
+import { GetActiveWards, GetActiveWardsByCouncilId } from '../../actions/WardsActions';
 
-//   },[])
+import { GetUnsynchedUser } from '../../actions/UnsynchedAction';
 
-//   const changeTeamRun = useRef(true);
+import Page from '../../components/Page';
 
-//   useEffect(()=>{
-//     if (changeTeamRun.current) {
-//       changeTeamRun.current = false;
-//       return;
-//     }
-//     dispatch(GetTeamByFilter(page,rowsPerPage,coucilId,zoneId,wardId));
-//   },[addTeamsLog,editTeamsLog,deleteTeamsLog])
+import Label from '../../components/Label';
 
-//   const fetchRun = useRef(true);
-//   useEffect(() => {
-//     if (fetchRun.current) {
-//       fetchRun.current = false;
-//       return;
-//     }
-//     setShowList(true);
-//   }, [teams]);
+import Scrollbar from '../../components/Scrollbar';
 
-//   useEffect(() => {
-//     dispatch(GetActiveCouncil(1));
-//     dispatch(GetActiveWards(1));
-//     dispatch(GetActiveZones(1));
-//   }, []);
+import Iconify from '../../components/Iconify';
 
-//   useEffect(() => {
-//     if (pageInfo) {
-//       setCount(pageInfo?.total);
-//     }
-//   }, [pageInfo]);
+import { UserListHead, UserListToolbar, TeamsMenu } from '../../sections/@dashboard/user';
 
-//   const StateValue = [
-//     {
-//       id: 'Maharastra',
-//       name: 'Maharastra',
-//     },
-//     {
-//       id: 'Patana',
-//       name: 'Patana',
-//     },
-//   ];
+import USERLIST from '../../_mock/user';
 
-//   const handleNewUserClick = () => {
-//     setDialogData(null);
-//     setOpen(!open);
-//   };
+// import NewUserDialog from '../components/DialogBox/NewUserDialog';
 
-//   const handleStateChange = (event) => {
-//     setStateName(event.target.value);
-//   };
+import TeamsData from '../../components/JsonFiles/TeamsData.json';
 
-//   const handleEdit = (data) => {
-//     setDialogData(data);
-//     setOpen(!open);
-//   };
+import TeamsTableDialog from '../../components/DialogBox/TeamsDialog/TeamsTableDialog';
 
-//   const handleDelete = (data) => {
-//     dispatch(DeleteTeam(data.id, data.status ? 0 : 1));
-//   };
+import TeamListToolbar from '../../sections/@dashboard/teams/TeamListToolbar';
 
-//   const handleChangePage = (event, newPage) => {
-//     setPage(newPage);
-//     setShowList(false);
-//     if (search) {
-//       dispatch(SearchTeam(newPage, rowsPerPage, searchValue));
-//     } else {
-//       dispatch(GetTeam(newPage, rowsPerPage));
-//     }
-//   };
+import StatusButton from '../../components/statusbutton/StatusButton';
 
-//   const handleChangeRowsPerPage = (event) => {
-//     setRowsPerPage(parseInt(event.target.value, 10));
-//     setPage(1);
-//     setShowList(false);
-//     if (search) {
-//       dispatch(SearchTeam(1, parseInt(event.target.value, 10), searchValue));
-//     } else {
-//       dispatch(GetTeam(1, parseInt(event.target.value, 10)));
-//     }
-//   };
+// ----------------------------------------------------------------------
 
-//   let timer = null;
-//   const filterByName = (event) => {
-//     const { value } = event.currentTarget;
-//     clearTimeout(timer);
-//     // Wait for X ms and then process the request
-//     timer = setTimeout(() => {
-//       if (value) {
-//         setShowList(false);
-//         dispatch(SearchTeam(1, rowsPerPage, value));
-//         setSearch(true);
-//         setPage(1);
-//         setSearchValue(value);
-//       } else {
-//         setShowList(false);
-//         dispatch(GetTeam(1, rowsPerPage));
-//         setSearch(false);
-//         setPage(1);
-//         setSearchValue('');
-//       }
-//     }, 1000);
-//   };
+const TABLE_HEAD = [
+  { id: 'srno', label: '#', alignRight: false },
 
-//   const handleCoucilChange = (e) => {
-//     setCouncilId(e.target.value);
-//     setZoneId('');
-//     setWardId('');
-//     setPage(1);
-//     setShowList(false);
-//     dispatch(GetTeamByFilter(1, rowsPerPage, e.target.value, null, null));
-//     dispatch(GetActiveZonesByCouncilId(1, e.target.value));
-//     dispatch(GetActiveWardsByCouncilId(1, e.target.value));
-//   };
+  { id: 'name', label: 'Name', alignRight: false },
 
-//   const handleWardChange = (e) => {
-//     setWardId(e.target.value);
-//     setPage(1);
-//     setShowList(false);
-//     dispatch(GetTeamByFilter(1, rowsPerPage, coucilId, zoneId, e.target.value));
-//   };
+  { id: 'roll', label: 'Role', alignRight: false },
 
-//   const handleZoneChange = (e) => {
-//     setZoneId(e.target.value);
-//     setPage(1);
-//     setShowList(false);
-//     dispatch(GetTeamByFilter(1, rowsPerPage, coucilId, e.target.value, wardId));
-//   };
+  { id: 'TeamCode', label: 'Team Code', alignRight: false },
 
-//   const useStyles = makeStyles({
-//     button: {
-//       backgroundColor: '#d0fae2',
-//       borderRadius: '5px',
-//       padding: '2px 10px',
-//       color: '#18a553',
-//       border: '1.5px solid #18a553',
-//       fontFamily: 'Poppins',
+  { id: 'MobileNumber', label: 'MobileNumber', alignRight: false },
 
-//     },
-//   });
-//   const classes = useStyles();
-//   const getValidTeamType = (teamType) => {
-//     let updatedTeamType = teamType;
+  { id: 'zone', label: 'Zone', alignRight: false },
 
-//     if(teamType==="base_color"){
-//       updatedTeamType = "Base Color";
-//     }
-//     else if(teamType==="census"){
-//       updatedTeamType = "Census";
-//     }
-//     else if(teamType==="offsite_qc"){
-//       updatedTeamType = "Offsite QC";
-//     }
-//     else if(teamType==="onsite_qc"){
-//       updatedTeamType = "Onsite QC";
-//     }
-//     return updatedTeamType;
-//   }
+  { id: 'ward', label: 'Ward', alignRight: false },
 
-//   return (
-//     <Page title="TeamList">
-//       <Container>
-//         {open ? <TeamsTableDialog isOpen={open} handleClose={handleNewUserClick} data={dialogData} /> : null}
-//         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
-//           <Typography variant="h4" gutterBottom>
-//           Associates with 0 (Zero) Trees sync yesterday
-//             <Typography variant="h6" style={{ fontWeight: 400 }}>
-//             It is showing last top 10 logged associates
-//             </Typography>
-//           </Typography>
-//         </Stack>
+  { id: 'lastTreeSyncOn', label: 'Last Tree Sync On', alignRight: false },
+];
 
-//         <Card>
-//           {/* <TeamListToolbar
-//             numSelected={0}
-//             placeHolder={'Search teams...'}
-//             onFilterName={filterByName}
-//             handleCoucilChange={(e) => handleCoucilChange(e)}
-//             handleWardChange={(e) => handleWardChange(e)}
-//             handleZoneChange={(e) => handleZoneChange(e)}
-//             coucilId={coucilId}
-//             zoneId={zoneId}
-//             wardId={wardId}
-//             callType="Teams"
-//           /> */}
-//           <Scrollbar>
-//             <TableContainer sx={{ minWidth: 800 }}>
-//               <Table  size="small" aria-label="a dense table">
-//                 <UserListHead headLabel={TABLE_HEAD} />
-//                 <TableBody>
-//                      {/* { teams?.map((option,index) => (
-//                         <TableRow
-//                         hover
-//                       >
-//                           <TableCell align="left">
-//                         <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
-//                       </TableCell>
-//                         <TableCell align="left">{option.name}</TableCell>
-//                         <TableCell align="left">
-//                         {option.team_code !== '' ? <button className={classes.button}><b>{option.team_code}</b></button> : ''}
-//                       </TableCell>
-//                         <TableCell align="left">{getValidTeamType(option.team_type)}</TableCell>
-//                         <TableCell align="left">{option?.council}</TableCell>
-//                         <TableCell >{option?.zone}</TableCell>
-//                         <TableCell align="left">{option?.ward}</TableCell>
-//                         <TableCell align="left">
-//                         <StatusButton status={option.status} />
-//                       </TableCell>
-//                         </TableRow>
-//                         ))
-//                 } */}
+// ----------------------------------------------------------------------
 
-//                 </TableBody>
-//               </Table>
-//             </TableContainer>
-//           </Scrollbar>
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
 
-//         </Card>
-//       </Container>
-//     </Page>
-//   );
-// }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function applySortFilter(array, comparator, query) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+
+    if (order !== 0) return order;
+
+    return a[1] - b[1];
+  });
+
+  if (query) {
+    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  }
+
+  return stabilizedThis.map((el) => el[0]);
+}
+
+export default function AssociateWithZeroTreeYesterday() {
+  const dispatch = useDispatch();
+
+  const [page, setPage] = useState(1);
+
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [count, setCount] = useState(10);
+
+  const [open, setOpen] = useState(false);
+
+  const [dialogData, setDialogData] = useState(null);
+
+  const [search, setSearch] = useState(false);
+
+  const [searchValue, setSearchValue] = useState('');
+
+  const [stateName, setStateName] = useState('');
+
+  const [zoneId, setZoneId] = useState('');
+
+  const [wardId, setWardId] = useState('');
+
+  const [coucilId, setCouncilId] = useState('');
+  const [showList, setShowList] = useState(false);
+
+  const { council, unsynchedUser, pageInfo } = useSelector((state) => ({
+    council: state.council.activeCouncil,
+
+    unsynchedUser: state.unsynchedUser.unsynchedUser,
+
+    pageInfo: state.unsynchedUser.pageInfo,
+  }));
+
+ 
+ 
+const { Id } = useParams();
+console.log("idcall", Id);
+const filterCouncil = council.filter((val)=>val.id === +Id);
+const coun = filterCouncil[0]?.name;
+console.log("filterCouncil", filterCouncil);
+  const secondRun = useRef(true);
+
+  useEffect(() => {
+    if (secondRun.current) {
+      secondRun.current = false;
+
+      return;
+    }
+
+    setShowList(true);
+  }, [unsynchedUser]);
+
+  useEffect(() => {
+    dispatch(GetActiveCouncil(1));
+    dispatch(GetUnsynchedUser(Id, 1, rowsPerPage));
+    // dispatch(GetBaseColorTreeById(1));
+  }, []);
+
+  useEffect(() => {
+    if (pageInfo) {
+      setCount(pageInfo?.total);
+    }
+  }, [pageInfo]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+
+    setShowList(false);
+
+    dispatch(GetUnsynchedUser(coucilId, newPage, rowsPerPage));
+  };
+
+  const handleCoucilChange = (e) => {
+    setCouncilId(e.target.value);
+
+    setPage(1);
+
+    // setShowList(false);
+
+    dispatch(GetUnsynchedUser(coucilId, page, rowsPerPage));
+  };
+
+  const useStyles = makeStyles({
+    button: {
+      backgroundColor: '#d0fae2',
+
+      borderRadius: '5px',
+
+      padding: '2px 10px',
+
+      color: '#18a553',
+
+      border: '1.5px solid #18a553',
+
+      fontFamily: 'Poppins',
+    },
+  });
+
+  const classes = useStyles();
+
+  return (
+    <Page title="TeamList">
+      <Container>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
+          <Typography variant="h4" gutterBottom>
+            Associates with 0 (Zero) Trees sync yesterday
+            <Typography variant="h6" style={{ fontWeight: 400 }}>
+              It is showing last top 10 logged associates
+            </Typography>
+          </Typography>
+
+          <Typography variant="h6" style={{ fontWeight: 400 }}>
+            <Select
+              id="state"
+              displayEmpty
+              // name="gender"
+              value={coucilId}
+              style={{ width: '95%', height: 45 }}
+              onChange={handleCoucilChange}
+              // error={Boolean(touched.state && errors.state)}
+
+              // helperText={touched.state && errors.state}
+
+              // {...getFieldProps("state")}
+
+              inputProps={{
+                classes: {
+                  icon: classes.icon,
+                },
+              }}
+            >
+              <MenuItem disabled value="">
+                <em>{filterCouncil[0]?.name}</em>
+              </MenuItem>
+
+              {council?.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Typography>
+        </Stack>
+
+        <Card>
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800 }}>
+              <Table size="small" aria-label="a dense table">
+                <UserListHead headLabel={TABLE_HEAD} />
+
+                <TableBody>
+                  {showList
+                    ? unsynchedUser?.map((option, index) => (
+                        <TableRow hover>
+                          <TableCell align="left">
+                            <b>{(page - 1) * rowsPerPage + (index + 1)}</b>
+                          </TableCell>
+
+                          <TableCell align="left">{option.name}</TableCell>
+
+                          <TableCell align="left">{option.current_role}</TableCell>
+
+                          {/* <TableCell align="left">{option.team}</TableCell> */}
+
+                          <TableCell align="left">
+                            {option.team_code !== '' ? (
+                              <button className={classes.button}>
+                                <b>{option.team}</b>
+                              </button>
+                            ) : (
+                              ''
+                            )}
+                          </TableCell>
+
+                          <TableCell align="left">{option?.mobile}</TableCell>
+
+                          <TableCell>{option?.zone}</TableCell>
+
+                          <TableCell align="left">{option?.ward}</TableCell>
+
+                          <TableCell align="left">{option?.last_tree_synced_on}</TableCell>
+                        </TableRow>
+                      ))
+                    : null}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+
+          {unsynchedUser ? (
+            <Pagination
+              count={showList ? pageInfo.last_page : 0}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleChangePage}
+              sx={{ justifyContent: 'right', display: 'flex', mt: 3, mb: 3 }}
+            />
+          ) : null}
+        </Card>
+      </Container>
+    </Page>
+  );
+}

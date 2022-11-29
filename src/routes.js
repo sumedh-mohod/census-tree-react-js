@@ -1,6 +1,6 @@
 
 
-import { Navigate, useRoutes } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
@@ -69,7 +69,7 @@ const routes = (isLogged) => [
     element: isLogged? <DashboardLayout />: <Navigate to="/" />,
     children: [
       { path: 'home', element: <DashboardApp /> },
-      { path: 'home/associateWithZeroTreeYesterday', element: < AssociateWithZeroTreeYesterday /> },
+      { path: 'home/associateWithZeroTreeYesterday/:Id', element: < AssociateWithZeroTreeYesterday /> },
       { path: 'home/yesterdayLoggedInAssociates', element: < YesterdayLoggedInAssociates /> },
       { path: 'user', element: <User /> },
       { path: 'user/edit-user/:userId', element: <NewUserForm /> },

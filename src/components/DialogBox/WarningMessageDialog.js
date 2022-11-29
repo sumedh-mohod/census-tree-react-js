@@ -5,6 +5,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import caution from '../../Assets/caution.png';
 
 export default function WarningMessageDialog(props) {
   const [open, setOpen] = React.useState(false);
@@ -36,6 +39,15 @@ export default function WarningMessageDialog(props) {
         <DialogTitle id="alert-dialog-title">
           {""}
         </DialogTitle>
+        <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={3} />
+        <Grid item xs={6}>
+        <img src={caution} alt="img" />
+        </Grid>
+        <Grid item xs={3} />
+      </Grid>
+    </Box>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
           {message} 

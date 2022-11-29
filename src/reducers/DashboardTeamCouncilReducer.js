@@ -1,4 +1,4 @@
-import { GET_DASHBORAD_BY_COUNCIL_ID, GET_TEAMS_BY_COUNCIL_ID } from '../actions/Types';
+import {  GET_TEAMS_BY_COUNCIL_ID } from '../actions/Types';
 
 const INIT_STATE = {
   dashboardCouncilTeams: []
