@@ -77,7 +77,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Councils
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Councils counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -99,7 +99,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Designation
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Designation counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -121,7 +121,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Districts
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Districts counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -143,7 +143,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Location Types
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Location Types counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -165,7 +165,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Property Types
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Property Types counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -187,7 +187,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         QC Remark
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing QC Remark counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -232,7 +232,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         States
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing States counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -254,7 +254,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={3}>
                         Talukas
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Talukas counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -277,7 +277,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Tree Conditions
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Tree Conditions counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -300,7 +300,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Tree Diseases
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Tree Diseases counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -323,7 +323,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Tree Families
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Tree Families counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -345,7 +345,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Tree Name
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Tree Name counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -367,7 +367,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Tree Types
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Tree Types counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -389,7 +389,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Wards
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Wards counts
                         </Typography>
                       </Typography>
                     </Typography>
@@ -411,7 +411,7 @@ const MasterData = (props) => {
                       <Typography variant="h5" style={{ fontSize: '16px' }} mt={1}>
                         Zones
                         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                          It is showing roles counts
+                          It is showing Zones counts
                         </Typography>
                       </Typography>
                     </Typography>

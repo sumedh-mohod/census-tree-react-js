@@ -102,7 +102,7 @@ export default function AssociateZeroTree(props) {
                       <TableCell align="left">{val?.zone}</TableCell>
                       <TableCell align="left">{val?.ward}</TableCell>
                       <TableCell align="left">
-                        {val?.last_tree_synced_on.length === "NA" ? null:  <button className={classes.successDark}>{val?.last_tree_synced_on.length}</button>}
+                        {val?.last_tree_synced_on.length === "NA" ? null:  <button className={classes.successDark}>{val?.last_tree_synced_on}</button>}
                       </TableCell>
                     </TableBody>
                     ))}

@@ -33,7 +33,7 @@ const BaseColorGraph = (props) => {
         responsive: true,
         plugins: {
           legend: {
-            position: 'top',
+            position: 'absolute',
           },
           title: {
             display: true,
@@ -46,7 +46,7 @@ const BaseColorGraph = (props) => {
         labels: x,
         datasets: [
           {
-            label: 'Base Color Trees',
+            label: '',
             data: y,
             backgroundColor: "#214c50",
             borderRadius: 15  
