@@ -1,6 +1,6 @@
 import react,{useEffect} from "react"
 import { Card, Table, Stack, TableBody, TableCell, Container, Typography, TableContainer, Grid, Button } from '@mui/material';
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
@@ -22,7 +22,10 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 export default function AssociateZeroTree(props) {
-  // console.log("AssociateZeroTree", props);
+  console.log("AssociateZeroTree", props?.council);
+  
+  const params = useParams();
+  console.log("............", );
   const useStyles = makeStyles({
     success: {
       backgroundColor: '#d0fae2',
@@ -59,7 +62,7 @@ export default function AssociateZeroTree(props) {
   const navigate = useNavigate();
 
   const handleClick = ()  => {
-    navigate("/dashboard/home/associateWithZeroTreeYesterday" );
+    navigate(`/dashboard/home/associateWithZeroTreeYesterday/${props?.council}` );
     // console.log("Routing")
   }
  
@@ -76,7 +79,7 @@ export default function AssociateZeroTree(props) {
                   It is showing last top 10 logged associates
                 </Typography>
               </Typography>
-              <Button className={classes.darkSection}onClick={()=>handleClick()}>View All</Button>
+              <Button className={classes.darkSection} onClick={()=>handleClick()}>View All</Button>
             </Stack>
             <Card>
               <Scrollbar>

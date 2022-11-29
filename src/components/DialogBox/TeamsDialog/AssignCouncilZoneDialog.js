@@ -28,7 +28,7 @@ import AssignNewZoneWardConfirmationDialog from './AssignNewZoneWardConfirmation
 import { GetActiveCouncil } from '../../../actions/CouncilAction';
 import { GetZones, GetActiveZones, GetActiveZonesByCouncilId } from '../../../actions/ZonesAction';
 import { GetWards, GetActiveWards, GetActiveWardsByCouncilId } from '../../../actions/WardsActions';
-
+import warningSound from '../../../Assets/warning_sound.mp3';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -158,6 +158,7 @@ export default function AssignCouncilZoneDialog(props) {
     }
   },[data])
 
+  const audio = new Audio(warningSound);
 
   const firstRun = React.useRef(true);
   useEffect(()=>{
@@ -183,6 +184,7 @@ export default function AssignCouncilZoneDialog(props) {
     setOpen(open)
   }
   const handleClose = () => {
+    audio.loop = false;
     setShowInitial(false);
     props.handleClose();
   };
@@ -253,19 +255,26 @@ const classes = useStyles()
   }
 
   const handleTopModalAnswer = (answer) => {
+    console.log("answerassigncouncil", answer);
     if(answer){
       if(data){
+        console.log("assign council1");
         dispatch(ShowLoadingButton(true));
-           dispatch(AddCZWToTeam(reqObj,id))
+           dispatch(AddCZWToTeam(reqObj,id));
       }
       else {
-        dispatch(AddCZWToTeam(reqObj))
+        dispatch(AddCZWToTeam(reqObj));
         dispatch(ShowLoadingButton(true));
       }
     }
+    // audio.loop = false;
     setTopModalOpen(!topModalOpen)  
   }
 
+  // if(topModalOpen){
+  //   audio.loop = true;
+  //   audio.play();
+  // }
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>

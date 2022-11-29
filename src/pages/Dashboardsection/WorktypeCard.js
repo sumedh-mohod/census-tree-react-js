@@ -11,7 +11,7 @@ import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
 const WorktypeCard = (props) => {
-  // console.log("props........", props);
+  console.log("props........", props);
   const difference = props?.value[2]?.count - props?.value[1]?.count;
   const ereDifference = props?.value[1]?.count - props?.value[2]?.count;
   const useStyles = makeStyles({
