@@ -58,7 +58,7 @@ export default function DashboardApp() {
     council: state.council.activeCouncil,
     showLoader: state.common.showLoader,
   }));
-  console.log('councilId........', councilId);
+  // console.log('councilId........', councilId);
   // console.log("dashboardCouncil?.council_records?.Unsynced_users", dashboardCouncil?.council_records?.Unsynced_users.length);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -68,7 +68,7 @@ export default function DashboardApp() {
   };
   // dispatch(GetActiveCouncil(1));
   useEffect(()=>{
-    console.log("councilcalled..................");
+    // console.log("councilcalled..................");
     dispatch(GetActiveCouncil(1));
   },[])
   useEffect(()=>{
@@ -84,7 +84,7 @@ export default function DashboardApp() {
       return;
     }
     if(councilId){
-      console.log("called");
+      // console.log("called");
       dispatch(ShowLoader(true))
       dispatch(GetDashboardByCouncilId(councilId));
       dispatch(getTeamsByCouncilId(councilId));
@@ -380,7 +380,7 @@ export default function DashboardApp() {
                           </Typography>
                         </Typography>
                       </Stack>
-                      {/* <BaseColorGraph value={dashboardCouncil?.council_records?.tree_counts?.base_color} /> */}
+                      <BaseColorGraph value={dashboardCouncil?.council_records?.tree_counts?.base_color} />
                     </Grid>
                     <Grid item xs={12} md={4} sm={4} mb={2}>
                       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
@@ -391,7 +391,7 @@ export default function DashboardApp() {
                           </Typography>
                         </Typography>
                       </Stack>
-                      {/* <CensusTreeGraph value={dashboardCouncil?.council_records?.tree_counts?.census} /> */}
+                      <CensusTreeGraph value={dashboardCouncil?.council_records?.tree_counts?.census} />
                     </Grid>
                     <Grid item xs={12} md={4} sm={4} mb={2}>
                       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
@@ -402,7 +402,7 @@ export default function DashboardApp() {
                           </Typography>
                         </Typography>
                       </Stack>
-                      {/* <AllTreesGraph value={dashboardCouncil?.council_records?.tree_counts?.deviation} /> */}
+                      <AllTreesGraph value={dashboardCouncil?.council_records?.tree_counts?.deviation} />
                     </Grid>
                   </Grid>
                 </Grid>

@@ -48,7 +48,7 @@ const BaseColorGraph = (props) => {
           {
             label: 'Base Color Trees',
             data: y,
-            backgroundColor: "#b0c458",
+            backgroundColor: "#214c50",
             borderRadius: 15  
           },
         ],

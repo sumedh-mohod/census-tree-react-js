@@ -216,6 +216,9 @@ console.log("filterCouncil", filterCouncil);
 
       fontFamily: 'Poppins',
     },
+    icon: {
+            fill: '#214C50',
+          },
   });
 
   const classes = useStyles();
