@@ -131,7 +131,6 @@ const LastTreeNumbers = (props) => {
                     >
                       <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Typography variant="h6" sx={{ color: '#fff', fontWeight: 400 }}>
-                          Base Color
                           <Typography variant="h5" style={{ fontWeight: 600, fontSize: '15px' }}>
                             By {props?.treeDetail?.added_by}
                           </Typography>

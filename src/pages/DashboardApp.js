@@ -124,7 +124,7 @@ export default function DashboardApp() {
   const completedProject = {
     count: `${dashboardCouncil?.overall_records?.total_completed_projects}`,
     title: 'Completed Projects',
-    subtitle: 'It is showing count of all ongoing projects',
+    subtitle: 'It is showing count of all completed projects',
   };
 
   const commanCardValue = [
@@ -150,7 +150,7 @@ export default function DashboardApp() {
       count: `${dashboardCouncil?.council_records?.count_statistics?.total_teams}`,
       title: 'Teams',
       color: 'green',
-      subtitle: 'It is showing all teams counts and details of its inselected council.',
+      subtitle: 'It is showing all teams counts and details of its in selected council.',
     },
     {
       count: `${dashboardCouncil?.council_records?.count_statistics?.total_wards}`,
@@ -166,12 +166,12 @@ export default function DashboardApp() {
     },
   ];
 
-  // const useStyles = makeStyles({
-  //   icon: {
-  //     fill: '#214C50',
-  //   },
-  // });
-  // const classes = useStyles();
+  const useStyles = makeStyles({
+    icon: {
+      fill: '#214C50',
+    },
+  });
+  const classes = useStyles();
 
   const handleCouncilTeam = (e) => {
     setcouncilTeamChange(e);
@@ -260,7 +260,7 @@ export default function DashboardApp() {
                     // renderValue={() => `${dashboardCouncil?.council_records?.council_details?.name}`}
                     inputProps={{
                       classes: {
-                        icon: '#214C50',
+                        icon: classes.icon,
                       },
                     }}
                   >
@@ -377,7 +377,7 @@ export default function DashboardApp() {
                         <Typography variant="h4" gutterBottom>
                           Base Color Trees
                           <Typography variant="h6" style={{ fontWeight: 400 }}>
-                            It is showing tree details
+                            It is showing Base Color Trees details
                           </Typography>
                         </Typography>
                       </Stack>
@@ -388,7 +388,7 @@ export default function DashboardApp() {
                         <Typography variant="h4" gutterBottom>
                           Census Trees
                           <Typography variant="h6" style={{ fontWeight: 400 }}>
-                            It is showing tree details
+                            It is showing Census Trees details
                           </Typography>
                         </Typography>
                       </Stack>
@@ -399,7 +399,7 @@ export default function DashboardApp() {
                         <Typography variant="h4" gutterBottom>
                           All Trees
                           <Typography variant="h6" style={{ fontWeight: 400 }}>
-                            It is showing tree details
+                            It is showing All Trees details
                           </Typography>
                         </Typography>
                       </Stack>

@@ -29,7 +29,7 @@ const CensusTreeGraph = (props) => {
         responsive: true,
         plugins: {
           legend: {
-            position: 'top',
+            position: 'absolute',
           },
           title: {
             display: true,
@@ -42,7 +42,7 @@ const CensusTreeGraph = (props) => {
         labels: x,
         datasets: [
           {
-            label: 'Census Trees',
+            label: '',
             data: y,
             backgroundColor: "#214c50",
             borderRadius: 15
