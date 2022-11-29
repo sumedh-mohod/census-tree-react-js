@@ -11,9 +11,9 @@ import ProjectImg from '../../Assets/project_ongoing.png';
 //   import Iconify from '../../../components/Iconify';
 
 const WorktypeCard = (props) => {
-  console.log("props........", props);
-  const difference = props?.value[2]?.count - props?.value[1]?.count;
-  const ereDifference = props?.value[1]?.count - props?.value[2]?.count;
+  // console.log("props........", props);
+  const difference = props?.value?.[2]?.count - props?.value?.[1]?.count;
+  const ereDifference = props?.value?.[1]?.count - props?.value?.[2]?.count;
   const useStyles = makeStyles({
     common: {
       padding: '5px 5px 5px 5px',
@@ -118,13 +118,13 @@ const WorktypeCard = (props) => {
             <Grid container spacing={1}>
               <Grid container item xs={5}>
                 <Typography variant="h5" style={{ color: '#2D653F', paddingLeft: '10px' }} ml={2} mt={1}>
-                  <b>{props?.value[0]?.count}</b>
+                  <b>{props?.value?.[0]?.count}</b>
                 </Typography>
               </Grid>
               <Grid container item xs={7}>
                 <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={0.7} mb={0.7}>
-                  {props?.value[0]?.day}
-                  <Typography variant="h6">{props?.value[0]?.date}</Typography>
+                  {props?.value?.[0]?.day}
+                  <Typography variant="h6">{props?.value?.[0]?.date}</Typography>
                 </Typography>
               </Grid>
             </Grid>
@@ -137,22 +137,22 @@ const WorktypeCard = (props) => {
                   style={{ color: '#AB515D', padding: '7px 25px' }}
                   className={classes.borderRight}
                 >
-                  <b className={difference === 0 ? classes.equalButton : difference > 0 ? classes.redButton: classes.greenButton}>{props?.value[1]?.count}</b>
+                  <b className={difference === 0 ? classes.equalButton : difference > 0 ? classes.redButton: classes.greenButton}>{props?.value?.[1]?.count}</b>
                   <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={1}>
-                    {props?.value[1]?.day}
+                    {props?.value?.[1]?.day}
                     <Typography variant="h5" style={{ color: '#000', fontSize: '15px' }}>
-                      {props?.value[1]?.date}
+                      {props?.value?.[1]?.date}
                     </Typography>
                   </Typography>
                 </Typography>
               </Grid>
               <Grid container item xs={6}>
                 <Typography variant="h5" style={{ color: '#3F7D7A', padding: '7px 25px' }}>
-                  <b className={ereDifference === 0 ? classes.equalButton : ereDifference > 0 ? classes.redButton: classes.greenButton}>{props?.value[2]?.count}</b>
+                  <b className={ereDifference === 0 ? classes.equalButton : ereDifference > 0 ? classes.redButton: classes.greenButton}>{props?.value?.[2]?.count}</b>
                   <Typography variant="h6" style={{ color: '#000', fontWeight: 400 }} mt={1}>
-                    {props?.value[2]?.day}
+                    {props?.value?.[2]?.day}
                     <Typography variant="h5" style={{ color: '#000', fontSize: '15px' }}>
-                      {props?.value[2]?.date}
+                      {props?.value?.[2]?.date}
                     </Typography>
                   </Typography>
                 </Typography>
