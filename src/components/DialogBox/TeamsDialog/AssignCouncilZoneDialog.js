@@ -255,10 +255,10 @@ const classes = useStyles()
   }
 
   const handleTopModalAnswer = (answer) => {
-    console.log("answerassigncouncil", answer);
+    // console.log("answerassigncouncil", answer);
     if(answer){
       if(data){
-        console.log("assign council1");
+        // console.log("assign council1");
         dispatch(ShowLoadingButton(true));
            dispatch(AddCZWToTeam(reqObj,id));
       }

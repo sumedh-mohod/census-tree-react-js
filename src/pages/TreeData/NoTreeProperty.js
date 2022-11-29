@@ -86,7 +86,7 @@ export default function NoTreeProperty() {
   //   dispatch(GetDeniedEntry(page+1,rowsPerPage,coucilId,zoneId,wardId));
   // },[])
 
-  console.log("noTreeProperty", noTreeProperty)
+  // console.log("noTreeProperty", noTreeProperty)
 
   const secondRun = useRef(true);
   useEffect(() => {

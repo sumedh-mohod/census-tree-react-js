@@ -357,7 +357,7 @@ export default function BaseColor() {
 
 const requestForWithoutFilter = () =>{
   // buttonClick(false)
-  console.log("ClickButton true")
+  // console.log("ClickButton true")
     dispatch(SetNewAlert({
     msg: "Please Select the Filter",
     alertType: "danger",

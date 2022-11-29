@@ -7,7 +7,7 @@ import { HandleExceptionWithSecureCatch } from './CombineCatch';
 import { GET_UNSYNCHEDUSERS_BY_COUNCIL_ID } from './Types';
 
 const GetUnsynchedUser = (council, page, limit) => async (dispatch) => {
-  console.log('page,limit,council', council, page, limit);
+  // console.log('page,limit,council', council, page, limit);
 
   // /unsynchedUsers?council_id=1&page=1&limit=10
 
@@ -22,7 +22,7 @@ const GetUnsynchedUser = (council, page, limit) => async (dispatch) => {
   try {
     const response = await JWTServer.get(`${url}`);
 
-    console.log('response ', response.data);
+    // console.log('response ', response.data);
 
     dispatch({
       type: GET_UNSYNCHEDUSERS_BY_COUNCIL_ID,

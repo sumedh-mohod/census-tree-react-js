@@ -22,10 +22,10 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 export default function AssociateZeroTree(props) {
-  console.log("AssociateZeroTree", props?.council);
+  // console.log("AssociateZeroTree", props?.council);
   
   const params = useParams();
-  console.log("............", );
+  // console.log("............", );
   const useStyles = makeStyles({
     success: {
       backgroundColor: '#d0fae2',

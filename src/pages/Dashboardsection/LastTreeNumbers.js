@@ -52,7 +52,7 @@ const LastTreeNumbers = (props) => {
 
   const handleCouncilTeam = (e)=>{
     setTeamId(e);
-    console.log("councilchange", e);
+    // console.log("councilchange", e);
     props.handleCouncilTeamChange(e);
   }
   return (

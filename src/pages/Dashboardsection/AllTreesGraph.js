@@ -26,8 +26,8 @@ export function AllTreesGraph(props) {
           {
             label: '# of Votes',
             data: [props?.value?.total_base_color, props?.value?.total_census],
-            backgroundColor: ['#b0c458', '#658407'],
-            borderColor: ['#b0c458', '#658407'],
+            backgroundColor: ['#c8fade', '#214c50'],
+            borderColor: ['#c8fade', '#214c50'],
             borderWidth: 1,
           },
         ],

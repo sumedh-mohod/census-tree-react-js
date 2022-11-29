@@ -9,7 +9,7 @@ const INIT_STATE = {
 export default function UnsynchedUserReducer(state = INIT_STATE, action) {
   const { type, payload } = action;
 
-  console.log('unsynchedUser.........', payload);
+  // console.log('unsynchedUser.........', payload);
 
   switch (type) {
     case GET_UNSYNCHEDUSERS_BY_COUNCIL_ID:

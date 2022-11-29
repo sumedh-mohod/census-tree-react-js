@@ -156,10 +156,10 @@ export default function AssociateWithZeroTreeYesterday() {
  
  
 const { Id } = useParams();
-console.log("idcall", Id);
+// console.log("idcall", Id);
 const filterCouncil = council.filter((val)=>val.id === +Id);
 const coun = filterCouncil[0]?.name;
-console.log("filterCouncil", filterCouncil);
+// console.log("filterCouncil", filterCouncil);
   const secondRun = useRef(true);
 
   useEffect(() => {
@@ -216,6 +216,9 @@ console.log("filterCouncil", filterCouncil);
 
       fontFamily: 'Poppins',
     },
+    icon: {
+      fill: "#214C50"
+    }
   });
 
   const classes = useStyles();

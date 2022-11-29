@@ -58,17 +58,17 @@ export default function DashboardApp() {
     council: state.council.activeCouncil,
     showLoader: state.common.showLoader,
   }));
-  console.log('councilId........', councilId);
-  // console.log("dashboardCouncil?.council_records?.Unsynced_users", dashboardCouncil?.council_records?.Unsynced_users.length);
+  // console.log('dashboardCouncil........', dashboardCouncil);
+  // console.log("dashboardCouncil?.council_records?.work_type_counts?.base_color", dashboardCouncil);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // dispatch(GetActiveCouncil(1));
+  
   useEffect(()=>{
-    console.log("councilcalled..................");
+    // console.log("councilcalled..................");
     dispatch(GetActiveCouncil(1));
   },[])
   useEffect(()=>{
@@ -84,27 +84,27 @@ export default function DashboardApp() {
       return;
     }
     if(councilId){
-      console.log("called");
+      // console.log("called");
       dispatch(ShowLoader(true))
       dispatch(GetDashboardByCouncilId(councilId));
       dispatch(getTeamsByCouncilId(councilId));
     }
   }, [councilId]);
   
-
+// console.log("dashboardCouncilTeams.length", dashboardCouncilTeams);
   useEffect(() => {
     if (secondRun.current) {
       secondRun.current = false;
       return;
     }
-    if(dashboardCouncilTeams[0]?.id){
+    if(dashboardCouncilTeams?.[0]?.id){
       // console.log("called");
-      dispatch(getTeamDetailByCouncilTeam(councilId, dashboardCouncilTeams[0]?.id));
+      dispatch(getTeamDetailByCouncilTeam(councilId, dashboardCouncilTeams?.[0]?.id));
     }
-  }, [dashboardCouncilTeams[0]?.id]);
+  }, [dashboardCouncilTeams?.[0]?.id]);
 
   useEffect(() => {
-    if (councilTeamChange && dashboardCouncilTeams[0]?.id !== undefined) {
+    if (councilTeamChange && dashboardCouncilTeams?.[0]?.id !== undefined) {
       dispatch(ShowLoader(true))
       dispatch(getTeamDetailByCouncilTeam(councilId, councilTeamChange));
     }
@@ -178,7 +178,8 @@ export default function DashboardApp() {
   };
   return (
     <>
-      <FullLoader showLoader={showLoader} />
+      {dashboardCouncil === null ? <FullLoader showLoader={1} />: <>
+        <FullLoader showLoader={showLoader} />
       <Page title="Dashboard">
           <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }} id="projectSection">
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
@@ -380,7 +381,7 @@ export default function DashboardApp() {
                           </Typography>
                         </Typography>
                       </Stack>
-                      {/* <BaseColorGraph value={dashboardCouncil?.council_records?.tree_counts?.base_color} /> */}
+                      <BaseColorGraph value={dashboardCouncil?.council_records?.tree_counts?.base_color} />
                     </Grid>
                     <Grid item xs={12} md={4} sm={4} mb={2}>
                       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
@@ -391,7 +392,7 @@ export default function DashboardApp() {
                           </Typography>
                         </Typography>
                       </Stack>
-                      {/* <CensusTreeGraph value={dashboardCouncil?.council_records?.tree_counts?.census} /> */}
+                      <CensusTreeGraph value={dashboardCouncil?.council_records?.tree_counts?.census} />
                     </Grid>
                     <Grid item xs={12} md={4} sm={4} mb={2}>
                       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
@@ -402,7 +403,7 @@ export default function DashboardApp() {
                           </Typography>
                         </Typography>
                       </Stack>
-                      {/* <AllTreesGraph value={dashboardCouncil?.council_records?.tree_counts?.deviation} /> */}
+                      <AllTreesGraph value={dashboardCouncil?.council_records?.tree_counts?.deviation} />
                     </Grid>
                   </Grid>
                 </Grid>
@@ -718,6 +719,8 @@ export default function DashboardApp() {
             </Menu>
           </div>
         </Page>
+      </>}
+     
       {/* {!dashboardCouncil ? (
         // <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
         //   <CircularProgress style={{ color: '#214c50' }} />
