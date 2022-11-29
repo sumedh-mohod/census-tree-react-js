@@ -19,7 +19,7 @@ const ResetState = () => ({
 const LoginUser = (params) => async (dispatch) => {
     try {
       const response = await Server.post("/api/login", params);
-      // console.log("RESPONSE LOGIN",response.data);
+      console.log("RESPONSE LOGIN",response.data);
       localStorage.setItem("token",response.data.access_token)
       dispatch({
         type: LOGIN,
