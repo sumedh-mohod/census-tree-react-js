@@ -300,7 +300,7 @@ export default function CreateCouncilDialog(props) {
       total_area: Yup.string().matches(/^(0|[1-9]\d*)(\.\d+)?$/, "Only Numbers & Decimals are allowed").required('Total area is required'),
       zones: Yup.array().min(1,'Zone is required'),
       wards: Yup.array().min(1,'Ward is required'),
-      locationAccuracyNeeded: Yup.number().typeError('Accuracy must be number').required('Accuracy Needed is required'),
+      locationAccuracyNeeded: Yup.string().required('Accuracy Needed is required'),
       project_start_date: Yup.string().required('Start Date is required'),
     }
     :{
@@ -458,7 +458,7 @@ export default function CreateCouncilDialog(props) {
   });
   const classes = useStyles();
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps,handleChange } = formik;
-  console.log("errors",errors)
+  // console.log("errors",errors)
   return (
     <div>
       <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>

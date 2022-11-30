@@ -46,6 +46,7 @@ import { GetActiveDesignations } from '../actions/DesignationAction';
 import { ShowLoader } from '../actions/CommonAction';
 import { SetNewAlert } from '../actions/AlertActions';
 import WarningMessageDialog from '../components/DialogBox/WarningMessageDialog';
+import warningSound from '../Assets/warning_sound.mp3';
 
 export default function NewUserForm(props) {
   const dispatch = useDispatch();
@@ -170,7 +171,6 @@ export default function NewUserForm(props) {
 
   // console.log(loggedUser.roles.role);
   // console.log("roles", roles)
-
   useEffect(() => {
     dispatch(GetDeductionType());
     dispatch(GetUserDocumentType());
@@ -548,6 +548,7 @@ export default function NewUserForm(props) {
 };
 
   const handleClose = () => {
+    
     props.handleClose();
   };
 
@@ -1307,11 +1308,17 @@ export default function NewUserForm(props) {
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps, resetForm } = formik;
 
+  const audio = new Audio(warningSound);
+  // audio.loop = true;
   const handleTopModalClose = () => {
+    // console.log("true");
     setTopModalOpen(!topModalOpen);
   };
 
   const handleTopModalAnswer = (answer) => {
+    // audio.loop = false;
+    // 'console.log("1320",audio.loop);'
+    // console.log("false");
     if (answer) {
       // dispatch(UnlinkDevice(reqObj))
       if (tempRole === 9) {
@@ -1319,11 +1326,25 @@ export default function NewUserForm(props) {
       } else {
         setShowCouncil(false);
       }
-
       setRole(tempRole);
     }
     setTopModalOpen(!topModalOpen);
   };
+  
+  // useEffect(()=>{
+  //   if(topModalOpen){
+  //     audio.loop = true;
+  //       audio.play(true);
+  //       console.log("true");
+  //   }else{
+  //     audio.loop = false;
+  //     console.log("audio.loop", audio.loop);
+  //     console.log("false");
+  //   }
+  // }, [topModalOpen])
+  
+  
+  
   const useStyles = makeStyles({
     icon: {
       fill: '#214c50',
@@ -2152,7 +2173,7 @@ export default function NewUserForm(props) {
                     />
                   </Grid>
 
-                  <Grid item xs={6}>
+                
                     {lastDayOfWork || values.lastDayOfWork ? (
                       <>
                           <TextField
@@ -2162,6 +2183,7 @@ export default function NewUserForm(props) {
                             label="Is Notice Period Served?"
                             name="noticedPeriods"
                             value={noticePeriod}
+                            style={{marginTop: '7px'}}
                             displayEmpty
                             // style={{width:'93.8%', marginLeft: 40,marginTop:5}}
                             defaultValue={data ? data.noticedPeriods : ''}
@@ -2192,7 +2214,6 @@ export default function NewUserForm(props) {
                           </TextField>
                       </>
                     ) : null}
-                  </Grid>
                 </>
               ) : null}
             </Grid>
@@ -2461,7 +2482,7 @@ export default function NewUserForm(props) {
             <Typography variant="h5" style={{ marginTop: 20, marginBottom: 20 }} gutterBottom>
               Upload Document
               <Typography variant="h6" style={{ fontWeight: '400' }}>
-                Please upload document.
+              Please provide upload document.
               </Typography>
             </Typography>
 

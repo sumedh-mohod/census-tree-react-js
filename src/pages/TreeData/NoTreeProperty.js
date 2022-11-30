@@ -86,6 +86,8 @@ export default function NoTreeProperty() {
   //   dispatch(GetDeniedEntry(page+1,rowsPerPage,coucilId,zoneId,wardId));
   // },[])
 
+  // console.log("noTreeProperty", noTreeProperty)
+
   const secondRun = useRef(true);
   useEffect(() => {
     if (secondRun.current) {
@@ -138,7 +140,7 @@ export default function NoTreeProperty() {
   // };
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+    // console.info('You clicked a breadcrumb.');
   }
 
   let timer = null;
@@ -162,7 +164,7 @@ export default function NoTreeProperty() {
       }
     }, 1000);
   };
-
+  
   const handleCoucilChange = (e) => {
     setCouncilId(e.target.value);
     setZoneId('');
@@ -191,11 +193,7 @@ export default function NoTreeProperty() {
   // console.log("No tree property",noTreeProperty);
 
   noTreeProperty?.map((option, index) => {
-    // console.log("PROPRTY TYPE",option.property_type);
-    // console.log("PROPERTY NUMBER",option.property?.property_number);
-    // console.log("OWNER NAME",option.property?.owner_name);
-    // console.log("REASON",option.reason);
-    // console.log("DENIED FOR",option.denied_for);
+
     return null;
   });
 
@@ -211,22 +209,7 @@ export default function NoTreeProperty() {
               style={{ color: '#000000', fontWeight: 900, fontSize: '20px' }}
               separator=":"
             >
-              {/* <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 30, fontSize: 20, color: "#000000", fontStyle: 'bold'}}
-          color="inherit"
-          href="#"
-        >
-          Tree Data
-        </Link>
-        <Link
-          underline="hover"
-          sx={{ display: 'flex', alignItems: 'center', fontFamily: "sans-serif", fontWeight: 25, fontSize: 24, color: "#000000", fontStyle: 'bold' }}
-          color="inherit"
-          href="#"
-        >
-          No Tree Properties
-        </Link> */}
+             
               <Typography variant="h4" gutterBottom style={{ color: '#000000' }}>
                 Tree Data
               </Typography>

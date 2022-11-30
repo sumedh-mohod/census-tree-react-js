@@ -31,6 +31,7 @@ const GetTreeFamily = (page,limit) => async (dispatch) => {
   };
 
   const SearchTreeFamily = (page,limit,searchValue) => async (dispatch) => {
+    // console.log(page,limit,searchValue)
     try {
       const response = await JWTServer.get(`/api/tree-families?page=${page}&limit=${limit}&search=${searchValue}`);
       dispatch({

@@ -5,9 +5,10 @@ import { ShowLoader } from './CommonAction';
 import { DELETE_BASE_COLOR_TREES, GET_BASE_COLOR_TREES, GET_BASE_COLOR_TREES_HISTORY, GET_QC_REMARKS_FOR_BASE_COLOR, UPDATE_QC_STATUS_BASE_COLOR_TREES,
 GET_BASE_COLOR_PENDING_QC_STATUS, UPDATE_BASE_COLOR_TREE } from "./Types";
 
-const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => {
+const GetBaseColorTrees = (page,limit,council,zone,ward,addedByForm,fromDateForm, toDateForm) => async (dispatch) => {
+  // console.log("page....", page,limit,council,zone,ward,addedByForm,fromDateForm, toDateForm);
 
-    let url = `/api/base-color-trees?page=${page}&limit=${limit}`
+  let url = `/api/base-color-trees?page=${page}&limit=${limit}`
     if(council){
       url = `${url}&where[council_id]=${council}`;
     }
@@ -17,15 +18,26 @@ const GetBaseColorTrees = (page,limit,council,zone,ward) => async (dispatch) => 
     if(ward){
       url = `${url}&where[ward_id]=${ward}`
     }
+    if(addedByForm){
+      url = `${url}&where[added_by_id]=${addedByForm}`
+    }
+    if(fromDateForm && toDateForm){
+      url = `${url}&from_date=${fromDateForm.split('-').reverse().join('-')}&to_date=${toDateForm.split('-').reverse().join('-')}`
+    }
 
     try {
       const response = await JWTServer.get(`${url}`);
+      // console.log("res", response);
       dispatch({
         type: GET_BASE_COLOR_TREES,
         payload: response.data,
       });
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
+      dispatch({
+        type:GET_BASE_COLOR_TREES,
+        payload: {data:{data:[], last_page:0}},
+      });
     }
   };
 

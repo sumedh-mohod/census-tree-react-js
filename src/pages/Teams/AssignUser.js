@@ -31,7 +31,7 @@ import TeamsData from  '../../components/JsonFiles/TeamsData.json';
 import AssignUserDialog from "../../components/DialogBox/TeamsDialog/AssignUserDialog";
 import AssignedUserMenu from '../../sections/@dashboard/user/AssignedUserMenu';
 import WarningMessageDialog from '../../components/DialogBox/WarningMessageDialog';
-
+import warningSound from '../../Assets/warning_sound.mp3';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -189,12 +189,12 @@ export default function AssignUser() {
   }
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+    // console.info('You clicked a breadcrumb.');
   }
 
   // console.log("USERS OF TEAM",userOfTeam);
 
-
+  const audio = new Audio(warningSound);
   const handleTopModalClose = () => {
     setTopModalOpen(!topModalOpen)
   }
@@ -205,7 +205,19 @@ export default function AssignUser() {
     }
     setTopModalOpen(!topModalOpen)
   }
-
+ 
+  // useEffect(()=>{
+  //   if(topModalOpen){
+  //     audio.loop = true;
+  //       audio.play(true);
+  //       console.log("true");
+  //   }else{
+  //     audio.loop = false;
+  //     console.log("audio.loop", audio.loop);
+  //     console.log("false");
+  //   }
+  // }, [topModalOpen])
+  
   return (
     <Page title="User">
     <Container>

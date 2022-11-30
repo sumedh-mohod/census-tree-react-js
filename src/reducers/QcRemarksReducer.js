@@ -17,7 +17,6 @@ import {
   
   export default function MasterReducer (state = INIT_STATE, action)  {
     const { type, payload } = action;
-  
     switch (type) {
 
         case  GET_QCREMARKS:
