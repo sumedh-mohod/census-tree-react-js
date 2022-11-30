@@ -7,7 +7,6 @@ import { ADD_TEAM, ASSIGN_CZW_TO_TEAM, ASSIGN_USERS_TO_TEAM, DELETE_ASSIGNED_CZW
 const GetTeam = (page,limit) => async (dispatch) => {
     try {
       const response = await JWTServer.get(`/api/teams?page=${page}&limit=${limit}`);
-      // console.log("DESIGNATIONS RESPONSE",response.data);
       dispatch({
         type: GET_TEAM,
         payload: response.data,
