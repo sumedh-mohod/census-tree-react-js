@@ -4,7 +4,6 @@ import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import {  GET_DENIED_ENTRY } from "./Types";
 
 const GetDeniedEntry = (page,limit,council,zone,ward, fromDate, toDate) => async (dispatch) => {
-  // console.log(page,limit,council,zone,ward, fromDate, toDate)
 
     let url = `/api/denied-properties?page=${page}&limit=${limit}`
     if(council){

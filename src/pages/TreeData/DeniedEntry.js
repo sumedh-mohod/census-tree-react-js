@@ -17,6 +17,7 @@ import {
   IconButton,
   Modal,
 } from '@mui/material';
+import moment from 'moment';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import { Visibility } from '@mui/icons-material';
@@ -77,6 +78,10 @@ export default function DeniedEntry() {
     pageInfo: state.deniedEntry.pageInfo,
   }));
 
+
+
+  const todayDate = moment(new Date()).format('YYYY-MM-DD');
+// console.log("councilArr", councilArr)
   // const firstRun = useRef(true);
   // useEffect(()=>{
   //   if (firstRun.current) {
@@ -117,13 +122,13 @@ export default function DeniedEntry() {
     setImageList(images || []);
   };
 
-  const handleChangePage = (event, newPage, value) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
     setShowList(false);
     if (search) {
       dispatch(SearchDeniedEntry(newPage, rowsPerPage, coucilId, zoneId, wardId, searchValue));
     } else {
-      dispatch(GetDeniedEntry(newPage, rowsPerPage, coucilId, zoneId, wardId, value.fromDate, value.toDate));
+      dispatch(GetDeniedEntry(newPage, rowsPerPage, coucilId, zoneId, wardId, fromDate, toDate ));
     }
   };
 
@@ -134,7 +139,7 @@ export default function DeniedEntry() {
     if (search) {
       dispatch(SearchDeniedEntry(1, parseInt(event.target.value, 10), coucilId, zoneId, wardId, searchValue));
     } else {
-      dispatch(GetDeniedEntry(1, parseInt(event.target.value, 10), coucilId, zoneId, value.fromDate, value.toDate));
+      dispatch(GetDeniedEntry(1, parseInt(event.target.value, 10), coucilId, zoneId, fromDate, toDate));
     }
   };
   function handleClick(event) {
@@ -177,12 +182,18 @@ export default function DeniedEntry() {
     dispatch(GetDeniedEntry(1, rowsPerPage,coucilId, zoneId,wardId, e.target.value, toDate));
   }
   const handleCoucilChange = (e) => {
+    const councilArr = council?.find((val) => val.id === e.target.value);
+    const fromDateFrom = councilArr?.project_start_date===null? todayDate:councilArr?.project_start_date
+    const toDateFrom  = councilArr?.project_end_date===null? todayDate:councilArr?.project_end_date
+
     setCouncilId(e.target.value);
     setZoneId('');
     setWardId('');
+    setFromDate(fromDate || fromDateFrom);
+    setToDate(toDate || toDateFrom)
     setPage(1);
     setShowList(false);
-    dispatch(GetDeniedEntry(1, rowsPerPage, e.target.value));
+    dispatch(GetDeniedEntry(1, rowsPerPage, e.target.value, null, null ,fromDate || fromDateFrom, toDate || toDateFrom ));
     dispatch(GetActiveZonesByCouncilId(1, e.target.value));
     dispatch(GetActiveWardsByCouncilId(1, e.target.value));
   };
