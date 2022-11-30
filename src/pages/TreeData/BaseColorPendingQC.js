@@ -157,7 +157,7 @@ export default function BaseColorPendingQC() {
       setTotalTrees(totalTrees - 1);
       setUpdateClick(false);
       // console.log("Second Run Function");
-      // dispatch(GetBaseColorPendingQCStatus(councilID, zoneID, wardID));
+      dispatch(GetBaseColorPendingQCStatus(councilID, zoneID, wardID,fromDate,toDate,addedBy));
     } else {
       setSelectedIndex(selectedIndex + 1);
       setTotalTrees(totalTrees - 1);
@@ -318,6 +318,9 @@ export default function BaseColorPendingQC() {
     onSubmit: (value) => {
       // console.log("VALUE",value);
       setState({ ...state, right: false });
+      setFromDate(value.fromDateForm);
+      setToDate(value.toDateForm);
+      setAddedBy(value.addedByForm);
       dispatch(ShowLoader(true));
       dispatch(
         GetBaseColorPendingQCStatus(councilID, zoneID, wardID, value.fromDateForm, value.toDateForm, value.addedByForm)
