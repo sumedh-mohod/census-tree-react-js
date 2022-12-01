@@ -22,10 +22,10 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 export default function AssociateZeroTree(props) {
-  console.log("AssociateZeroTree", props?.council);
+  // console.log("AssociateZeroTree", props?.council);
   
   const params = useParams();
-  console.log("............", );
+  // console.log("............", );
   const useStyles = makeStyles({
     success: {
       backgroundColor: '#d0fae2',
@@ -102,7 +102,7 @@ export default function AssociateZeroTree(props) {
                       <TableCell align="left">{val?.zone}</TableCell>
                       <TableCell align="left">{val?.ward}</TableCell>
                       <TableCell align="left">
-                        {val?.last_tree_synced_on.length === "NA" ? null:  <button className={classes.successDark}>{val?.last_tree_synced_on.length}</button>}
+                        {val?.last_tree_synced_on.length === "NA" ? null:  <button className={classes.successDark}>{val?.last_tree_synced_on}</button>}
                       </TableCell>
                     </TableBody>
                     ))}

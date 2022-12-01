@@ -58,18 +58,22 @@ export default function DashboardApp() {
     council: state.council.activeCouncil,
     showLoader: state.common.showLoader,
   }));
-  // console.log('councilId........', councilId);
-  // console.log("dashboardCouncil?.council_records?.Unsynced_users", dashboardCouncil?.council_records?.Unsynced_users.length);
+ 
+  console.log("loggedUser", loggedUser.roles[0].slug)
+  // console.log('dashboardCouncil........', dashboardCouncil);
+  // console.log("dashboardCouncil?.council_records?.work_type_counts?.base_color", dashboardCouncil);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // dispatch(GetActiveCouncil(1));
+  
   useEffect(()=>{
     // console.log("councilcalled..................");
-    dispatch(GetActiveCouncil(1));
+    if(loggedUser.roles[0].slug === 'superadmin' || loggedUser.roles[0].slug === 'admin'){
+      dispatch(GetActiveCouncil(1));
+    }
   },[])
   useEffect(()=>{
     if(council){
@@ -83,7 +87,7 @@ export default function DashboardApp() {
       firstRun.current = false;
       return;
     }
-    if(councilId){
+    if(councilId && (loggedUser.roles[0].slug === 'superadmin' || loggedUser.roles[0].slug === 'admin')){
       // console.log("called");
       dispatch(ShowLoader(true))
       dispatch(GetDashboardByCouncilId(councilId));
@@ -91,20 +95,20 @@ export default function DashboardApp() {
     }
   }, [councilId]);
   
-
+// console.log("dashboardCouncilTeams.length", dashboardCouncilTeams);
   useEffect(() => {
     if (secondRun.current) {
       secondRun.current = false;
       return;
     }
-    if(dashboardCouncilTeams[0]?.id){
+    if(dashboardCouncilTeams?.[0]?.id){
       // console.log("called");
-      dispatch(getTeamDetailByCouncilTeam(councilId, dashboardCouncilTeams[0]?.id));
+      dispatch(getTeamDetailByCouncilTeam(councilId, dashboardCouncilTeams?.[0]?.id));
     }
-  }, [dashboardCouncilTeams[0]?.id]);
+  }, [dashboardCouncilTeams?.[0]?.id]);
 
   useEffect(() => {
-    if (councilTeamChange && dashboardCouncilTeams[0]?.id !== undefined) {
+    if (councilTeamChange && dashboardCouncilTeams?.[0]?.id !== undefined) {
       dispatch(ShowLoader(true))
       dispatch(getTeamDetailByCouncilTeam(councilId, councilTeamChange));
     }
@@ -124,7 +128,7 @@ export default function DashboardApp() {
   const completedProject = {
     count: `${dashboardCouncil?.overall_records?.total_completed_projects}`,
     title: 'Completed Projects',
-    subtitle: 'It is showing count of all ongoing projects',
+    subtitle: 'It is showing count of all completed projects',
   };
 
   const commanCardValue = [
@@ -150,7 +154,7 @@ export default function DashboardApp() {
       count: `${dashboardCouncil?.council_records?.count_statistics?.total_teams}`,
       title: 'Teams',
       color: 'green',
-      subtitle: 'It is showing all teams counts and details of its inselected council.',
+      subtitle: 'It is showing all teams counts and details of its in selected council.',
     },
     {
       count: `${dashboardCouncil?.council_records?.count_statistics?.total_wards}`,
@@ -166,19 +170,21 @@ export default function DashboardApp() {
     },
   ];
 
-  // const useStyles = makeStyles({
-  //   icon: {
-  //     fill: '#214C50',
-  //   },
-  // });
-  // const classes = useStyles();
+  const useStyles = makeStyles({
+    icon: {
+      fill: '#214C50',
+    },
+  });
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const classes = useStyles();
 
   const handleCouncilTeam = (e) => {
     setcouncilTeamChange(e);
   };
   return (
-    <>
-      <FullLoader showLoader={showLoader} />
+    <>{loggedUser.roles[0].slug === 'superadmin' || loggedUser.roles[0].slug === 'admin' ? <>
+     {dashboardCouncil === null ? <FullLoader showLoader={1} />: <>
+        <FullLoader showLoader={showLoader} />
       <Page title="Dashboard">
           <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }} id="projectSection">
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
@@ -189,7 +195,9 @@ export default function DashboardApp() {
                 </Typography>
               </Typography>
             </Stack>
-            <br />
+            {loggedUser.roles[0].slug === 'superadmin' || loggedUser.roles[0].slug === 'admin' ? 
+          <>
+             <br />
             <br />
 
             <Container>
@@ -259,7 +267,7 @@ export default function DashboardApp() {
                     // renderValue={() => `${dashboardCouncil?.council_records?.council_details?.name}`}
                     inputProps={{
                       classes: {
-                        icon: '#214C50',
+                        icon: classes.icon,
                       },
                     }}
                   >
@@ -376,7 +384,7 @@ export default function DashboardApp() {
                         <Typography variant="h4" gutterBottom>
                           Base Color Trees
                           <Typography variant="h6" style={{ fontWeight: 400 }}>
-                            It is showing tree details
+                            It is showing Base Color Trees details
                           </Typography>
                         </Typography>
                       </Stack>
@@ -387,7 +395,7 @@ export default function DashboardApp() {
                         <Typography variant="h4" gutterBottom>
                           Census Trees
                           <Typography variant="h6" style={{ fontWeight: 400 }}>
-                            It is showing tree details
+                            It is showing Census Trees details
                           </Typography>
                         </Typography>
                       </Stack>
@@ -398,7 +406,7 @@ export default function DashboardApp() {
                         <Typography variant="h4" gutterBottom>
                           All Trees
                           <Typography variant="h6" style={{ fontWeight: 400 }}>
-                            It is showing tree details
+                            It is showing All Trees details
                           </Typography>
                         </Typography>
                       </Stack>
@@ -637,87 +645,108 @@ export default function DashboardApp() {
             <br />
             <br />
             <DashboardFooter />
+          </>  : null
+          }
+         
           </Container>
-          <div style={{ position: 'fixed', top: '40%', right: 4, zIndex: '9999999' }}>
-            <FlipCameraAndroidIcon
-              id="fade-button"
-              aria-controls={open ? 'fade-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-              style={{
-                color: '#fff',
-                background: '#000',
-                borderRadius: '30px',
-                padding: '15px',
-                fontSize: '60px',
-                marginBottom: '-5px',
-                cursor: 'pointer',
-              }}
-            />
+          {loggedUser.roles[0].slug === 'superadmin' || loggedUser.roles[0].slug === 'admin' ? 
+         <div style={{ position: 'fixed', top: '40%', right: 4, zIndex: '9999999' }}>
+         <FlipCameraAndroidIcon
+           id="fade-button"
+           aria-controls={open ? 'fade-menu' : undefined}
+           aria-haspopup="true"
+           aria-expanded={open ? 'true' : undefined}
+           onClick={handleClick}
+           style={{
+             color: '#fff',
+             background: '#000',
+             borderRadius: '30px',
+             padding: '15px',
+             fontSize: '60px',
+             marginBottom: '-5px',
+             cursor: 'pointer',
+           }}
+         />
 
-            <Menu
-              id="fade-menu"
-              MenuListProps={{
-                'aria-labelledby': 'fade-button',
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              TransitionComponent={Fade}
-              style={{ zIndex: 9999999 }}
-            >
-              <Link activeClass="active" to="projectSection" spy smooth offset={-70} duration={1000}>
-                <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
-                  Project
-                </MenuItem>
-              </Link>
+         <Menu
+           id="fade-menu"
+           MenuListProps={{
+             'aria-labelledby': 'fade-button',
+           }}
+           anchorEl={anchorEl}
+           open={open}
+           onClose={handleClose}
+           TransitionComponent={Fade}
+           style={{ zIndex: 9999999 }}
+         >
+           <Link activeClass="active" to="projectSection" spy smooth offset={-70} duration={1000}>
+             <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+               Project
+             </MenuItem>
+           </Link>
 
-              <Divider style={{ marginTop: 0, marginBottom: 0 }} />
-              <Link activeClass="active" to="treeDetail" spy smooth offset={-70} duration={1000}>
-                <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
-                  Tree Details
-                </MenuItem>
-              </Link>
-              <Divider style={{ marginTop: 0, marginBottom: 0 }} />
-              <Link activeClass="active" to="workType" spy smooth offset={-70} duration={1000}>
-                <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
-                  Work Reports
-                </MenuItem>
-              </Link>
-              <Divider style={{ marginTop: 0, marginBottom: 0 }} />
-              <Link activeClass="active" to="highestBaseColor" spy smooth offset={-70} duration={1000}>
-                <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
-                  Hi/Lo Base Color
-                </MenuItem>
-              </Link>
-              <Divider style={{ marginTop: 0, marginBottom: 0 }} />
-              <Link activeClass="active" to="lasttreeNumber" spy smooth offset={-70} duration={1000}>
-                <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
-                  Last Tree Numbers
-                </MenuItem>
-              </Link>
-              <Divider style={{ marginTop: 0, marginBottom: 0 }} />
-              <Link activeClass="active" to="associateZero" spy smooth offset={-70} duration={1000}>
-                <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
-                  0 Tree Sync Associates
-                </MenuItem>
-              </Link>
-              <Divider style={{ marginTop: 0, marginBottom: 0 }} />
-              <Link activeClass="active" to="yesterdayLogged" spy smooth offset={-70} duration={1000}>
-                <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
-                  Yesterday LoggedIn Associates
-                </MenuItem>
-              </Link>
-              <Divider style={{ marginTop: 0, marginBottom: 0 }} />
-              <Link activeClass="active" to="masterData" spy smooth offset={-70} duration={1000}>
-                <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
-                  Master Data
-                </MenuItem>
-              </Link>
-            </Menu>
-          </div>
+           <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+           <Link activeClass="active" to="treeDetail" spy smooth offset={-70} duration={1000}>
+             <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+               Tree Details
+             </MenuItem>
+           </Link>
+           <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+           <Link activeClass="active" to="workType" spy smooth offset={-70} duration={1000}>
+             <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+               Work Reports
+             </MenuItem>
+           </Link>
+           <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+           <Link activeClass="active" to="highestBaseColor" spy smooth offset={-70} duration={1000}>
+             <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+               Hi/Lo Base Color
+             </MenuItem>
+           </Link>
+           <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+           <Link activeClass="active" to="lasttreeNumber" spy smooth offset={-70} duration={1000}>
+             <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+               Last Tree Numbers
+             </MenuItem>
+           </Link>
+           <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+           <Link activeClass="active" to="associateZero" spy smooth offset={-70} duration={1000}>
+             <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+               0 Tree Sync Associates
+             </MenuItem>
+           </Link>
+           <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+           <Link activeClass="active" to="yesterdayLogged" spy smooth offset={-70} duration={1000}>
+             <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+               Yesterday LoggedIn Associates
+             </MenuItem>
+           </Link>
+           <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+           <Link activeClass="active" to="masterData" spy smooth offset={-70} duration={1000}>
+             <MenuItem onClick={handleClose} sx={{ color: '#808484' }}>
+               Master Data
+             </MenuItem>
+           </Link>
+         </Menu>
+       </div>: null  
+        }
+         
         </Page>
+      </>}
+    </>:  <Page title="Dashboard">
+          <Container maxWidth="xl" style={{ borderBottom: '1px solid #dbd9d9' }} id="projectSection">
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
+              <Typography variant="h4" gutterBottom>
+                Welcome to {loggedUser?.name},
+                <Typography variant="h6" style={{ fontWeight: 400 }}>
+                  {loggedUser?.designation}
+                </Typography>
+              </Typography>
+            </Stack>
+            </Container>
+            </Page>}
+     
+     
       {/* {!dashboardCouncil ? (
         // <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
         //   <CircularProgress style={{ color: '#214c50' }} />

@@ -17,8 +17,8 @@ import {
   
     switch (type) {
       case LOGIN:
-        // console.log("LOGIN CALLED");
-        // console.log("PAYLOAD DATA",payload.data);
+        console.log("LOGIN CALLED");
+        console.log("PAYLOAD DATA",payload.data);
         return {
           ...state,
           loggedUser: payload,

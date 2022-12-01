@@ -110,7 +110,7 @@ export default function User() {
     'Unlinking device will expired the current session of the user and might lose the offline data. Please synch all the Offline data before proceeding.';
 
   const { state } = useLocation();
-  console.log("topModalOpen", topModalOpen);
+  // console.log("topModalOpen", topModalOpen);
   // console.log("STATE PAGE ",state);
   // console.log("Current Page", page)
 

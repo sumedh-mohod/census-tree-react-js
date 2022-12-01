@@ -322,7 +322,7 @@ export default function BaseColor() {
       dispatch(SearchBaseColorTrees(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetBaseColorTrees(newPage,rowsPerPage,councilID,zoneId,wardId,addedByForm,formDate,toDate));
+      dispatch(GetBaseColorTrees(newPage,rowsPerPage,councilID,zoneID,wardID,addedByForm,formDate,toDate));
     }
   };
 
@@ -357,7 +357,7 @@ export default function BaseColor() {
 
 const requestForWithoutFilter = () =>{
   // buttonClick(false)
-  console.log("ClickButton true")
+  // console.log("ClickButton true")
     dispatch(SetNewAlert({
     msg: "Please Select the Filter",
     alertType: "danger",

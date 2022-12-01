@@ -23,7 +23,7 @@ export default function UserMoreMenu(props) {
   };
 
   const handleUnlink = () => {
-    console.log("unlink");
+    // console.log("unlink");
     setIsOpen(false);
     props.handleUnlink();
   };
