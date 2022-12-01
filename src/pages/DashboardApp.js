@@ -633,11 +633,13 @@ export default function DashboardApp() {
             </Container>
             </>: null
             }
-            
+              {dashboardCouncil?.council_records?.work_logs.length !== 0 ? 
+            <>
             <br />
             <Container id="yesterdayLogged">
               <YesterdayLoggedIn value = {dashboardCouncil?.council_records?.work_logs} />
             </Container>
+            </> : null}
             <br />
             <Container id="masterData">
               <MasterData value={dashboardCouncil?.overall_records?.master} />
