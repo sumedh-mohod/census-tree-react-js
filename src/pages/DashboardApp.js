@@ -170,12 +170,13 @@ export default function DashboardApp() {
     },
   ];
 
-  // const useStyles = makeStyles({
-  //   icon: {
-  //     fill: '#214C50',
-  //   },
-  // });
-  // const classes = useStyles();
+  const useStyles = makeStyles({
+    icon: {
+      fill: '#214C50',
+    },
+  });
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const classes = useStyles();
 
   const handleCouncilTeam = (e) => {
     setcouncilTeamChange(e);
@@ -266,7 +267,7 @@ export default function DashboardApp() {
                     // renderValue={() => `${dashboardCouncil?.council_records?.council_details?.name}`}
                     inputProps={{
                       classes: {
-                        icon: "#214C50",
+                        icon: classes.icon,
                       },
                     }}
                   >

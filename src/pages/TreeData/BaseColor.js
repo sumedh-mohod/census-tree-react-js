@@ -322,7 +322,7 @@ export default function BaseColor() {
       dispatch(SearchBaseColorTrees(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetBaseColorTrees(newPage,rowsPerPage,councilID,zoneId,wardId,addedByForm,formDate,toDate));
+      dispatch(GetBaseColorTrees(newPage,rowsPerPage,councilID,zoneID,wardID,addedByForm,formDate,toDate));
     }
   };
 

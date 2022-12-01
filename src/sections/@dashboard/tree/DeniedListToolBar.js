@@ -55,6 +55,8 @@ DeniedListToolbar.propTypes = {
   handleCoucilChange: PropTypes.func,
   handleWardChange: PropTypes.func,
   handleZoneChange: PropTypes.func,
+  handleFromDate: PropTypes.func,
+  handleToDate: PropTypes.func,
   coucilId: PropTypes.any,
   zoneId: PropTypes.any,
   wardId: PropTypes.any,
@@ -74,8 +76,8 @@ export default function DeniedListToolbar({
   coucilId,
   zoneId,
   wardId,
-  fromDate,
-  toDate
+  handleFromDate,
+ handleToDate
 }) {
   const useStyles = makeStyles({
     icon: {
@@ -238,6 +240,7 @@ export default function DeniedListToolbar({
                 placeholder="project start date*"
                 defaultValue={councilArr?.project_start_date===null? todayDate:councilArr?.project_start_date}
                 style={{ width: '100%'}}
+                onChange={handleFromDate}
                 // className={classes.textField}
                 // error={Boolean(touched.fromDate && errors.fromDate)}
                 // helperText={touched.fromDate && errors.fromDate}
@@ -259,6 +262,7 @@ export default function DeniedListToolbar({
                 placeholder="project end date*"
                 defaultValue={councilArr?.project_end_date===null? todayDate:councilArr?.project_end_date}
                 style={{ width: '90.5%',marginLeft: "5px",}}
+                onChange={handleToDate}
                 // sx={{ padding : "-5px -5px -2px -5px !important" }}
                 // className={classes.textField}
                 // error={Boolean(touched.toDate && errors.toDate)}
