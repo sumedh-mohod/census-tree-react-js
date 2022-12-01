@@ -161,7 +161,7 @@ export default function NoTreeProperty() {
         setPage(1);
         setSearchValue(value);
       } else {
-        dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, zoneId, wardId));
+        dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, zoneId, wardId, fromDate, toDate));
         setShowList(false);
         setSearch(false);
         setPage(1);
@@ -195,9 +195,9 @@ export default function NoTreeProperty() {
     setWardId('');
     setPage(1);
     setShowList(false);
-    setFromDate(fromDate || fromDateFrom);
-    setToDate(toDate || toDateFrom)
-    dispatch(GetNoTreeProperty(1, rowsPerPage, e.target.value, null, null, fromDate || fromDateFrom, toDate || toDateFrom));
+    setFromDate( fromDateFrom);
+    setToDate( toDateFrom)
+    dispatch(GetNoTreeProperty(1, rowsPerPage, e.target.value, null, null, fromDateFrom, toDateFrom));
     dispatch(GetActiveZonesByCouncilId(1, e.target.value));
     dispatch(GetActiveWardsByCouncilId(1, e.target.value));
   };
@@ -206,14 +206,14 @@ export default function NoTreeProperty() {
     setWardId(e.target.value);
     setPage(1);
     setShowList(false);
-    dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, zoneId, e.target.value));
+    dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, zoneId, e.target.value, fromDate, toDate));
   };
 
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
     setPage(1);
-    dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, e.target.value, wardId));
+    dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, e.target.value, wardId, fromDate, toDate));
   };
 
   // console.log("No tree property",noTreeProperty);
@@ -260,6 +260,8 @@ export default function NoTreeProperty() {
             coucilId={coucilId}
             zoneId={zoneId}
             wardId={wardId}
+            fromDate={fromDate}
+            toDate={toDate}
             handleFromDate={(e) => handleFromDate(e)}
             handleToDate={(e) => handleToDate(e)}
           />
