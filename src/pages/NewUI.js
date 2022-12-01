@@ -159,7 +159,7 @@ export default function NewUI() {
       setSelectedIndex(0);
       setTotalTrees(totalTrees - 1);
       setUpdateClick(false);
-      dispatch(GetTreeCensusPendingQCStatus(councilID, zoneID, wardID));
+      dispatch(GetTreeCensusPendingQCStatus(councilID, zoneID, wardID,fromDate,toDate,addedBy,checked));
     } else {
       setSelectedIndex(selectedIndex + 1);
       setTotalTrees(totalTrees - 1);
@@ -320,6 +320,9 @@ export default function NewUI() {
       // console.log("in submit");
       // console.log("VALUE",value);
       dispatch(ShowLoader(true));
+      setFromDate(value.fromDateForm);
+      setToDate(value.toDateForm);
+      setAddedBy(value.addedByForm);
       dispatch(
         GetTreeCensusPendingQCStatus(
           councilID,
