@@ -218,7 +218,7 @@ export default function TeamsList() {
     if (search) {
       dispatch(SearchTeam(newPage, rowsPerPage, searchValue));
     } else {
-      dispatch(GetTeam(newPage, rowsPerPage));
+      dispatch(GetTeamByFilter(newPage, rowsPerPage,  coucilId, zoneId,wardId));
     }
   };
 
@@ -259,7 +259,7 @@ export default function TeamsList() {
     setCouncilId(e.target.value);
     setZoneId('');
     setWardId('');
-    setPage(1);
+    // setPage(1);
     setShowList(false);
     dispatch(GetTeamByFilter(1, rowsPerPage, e.target.value, null, null));
     dispatch(GetActiveZonesByCouncilId(1, e.target.value));
@@ -383,6 +383,7 @@ export default function TeamsList() {
           {teams ? (
             <Pagination
               count={pageInfo.last_page}
+              page={page}
               variant="outlined"
               shape="rounded"
               onChange={handleChangePage}
