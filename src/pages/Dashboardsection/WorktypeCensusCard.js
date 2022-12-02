@@ -104,7 +104,7 @@ const WorktypeCensusCard = (props) => {
             <Typography variant="h4" className={classes.cardCount} ml={1}>
               {props?.census}
               <Typography variant="h6" style={{ fontWeight: 400 }}>
-                Below It will show count details
+                Below It is showing count details
               </Typography>
             </Typography>
 

@@ -110,7 +110,7 @@ const WorktypeCard = (props) => {
                 : ''}
 
               <Typography variant="h6" style={{ fontWeight: 400 }}>
-                Below It will show count details
+                Below It is showing count details
               </Typography>
             </Typography>
 

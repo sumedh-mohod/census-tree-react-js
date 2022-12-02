@@ -44,7 +44,7 @@ const CensusTreeGraph = (props) => {
           {
             label: '',
             data: y,
-            backgroundColor: "#214c50",
+            backgroundColor: "#c8fade",
             borderRadius: 15
           },
         ],
