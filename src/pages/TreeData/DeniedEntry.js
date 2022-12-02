@@ -79,8 +79,10 @@ export default function DeniedEntry() {
   }));
 
 
-
+  const councilArr = council?.find((val) => val.id === coucilId);
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
+  
+
 // console.log("councilArr", councilArr)
   // const firstRun = useRef(true);
   // useEffect(()=>{
@@ -185,15 +187,15 @@ export default function DeniedEntry() {
     const councilArr = council?.find((val) => val.id === e.target.value);
     const fromDateFrom = councilArr?.project_start_date===null? todayDate:councilArr?.project_start_date
     const toDateFrom  = councilArr?.project_end_date===null? todayDate:councilArr?.project_end_date
-
+    
     setCouncilId(e.target.value);
     setZoneId('');
     setWardId('');
-    setFromDate(fromDate || fromDateFrom);
-    setToDate(toDate || toDateFrom)
+    setFromDate(fromDateFrom);
+    setToDate(toDateFrom)
     setPage(1);
     setShowList(false);
-    dispatch(GetDeniedEntry(1, rowsPerPage, e.target.value, null, null ,fromDate || fromDateFrom, toDate || toDateFrom ));
+    dispatch(GetDeniedEntry(1, rowsPerPage, e.target.value, null, null , fromDateFrom, toDateFrom ));
     dispatch(GetActiveZonesByCouncilId(1, e.target.value));
     dispatch(GetActiveWardsByCouncilId(1, e.target.value));
   };
@@ -202,14 +204,14 @@ export default function DeniedEntry() {
     setWardId(e.target.value);
     setPage(1);
     setShowList(false);
-    dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, zoneId, e.target.value));
+    dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, zoneId, e.target.value, fromDate, toDate));
   };
 
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
     setPage(1);
-    dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, e.target.value, wardId));
+    dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, e.target.value, wardId, fromDate, toDate));
   };
 
   // console.log("DENIED ENTRY",deniedEntry);
@@ -260,6 +262,8 @@ export default function DeniedEntry() {
             coucilId={coucilId}
             zoneId={zoneId}
             wardId={wardId}
+            fromDate={fromDate}
+            toDate={toDate}
             handleFromDate={(e) => handleFromDate(e)}
             handleToDate={(e) => handleToDate(e)}
             callType="DeniedEntries"

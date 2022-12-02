@@ -1,3 +1,4 @@
+import react,{useState} from "react";
 import PropTypes from 'prop-types';
 // material
 import { styled } from '@mui/material/styles';
@@ -76,6 +77,8 @@ export default function DeniedListToolbar({
   coucilId,
   zoneId,
   wardId,
+  fromDate,
+  toDate,
   handleFromDate,
  handleToDate
 }) {
@@ -91,7 +94,6 @@ export default function DeniedListToolbar({
     wards: state.wards.activeWardsByCID,
   }));
 
-  // console.log("council", council)
   const councilArr = council?.find((val) => val.id === coucilId);
   const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
@@ -235,7 +237,7 @@ export default function DeniedListToolbar({
                 id="date"
                 // label="Date Of Birth"
                 type="date"
-                // value={fromDate}
+                value={fromDate }
                 label="project start date*"
                 placeholder="project start date*"
                 defaultValue={councilArr?.project_start_date===null? todayDate:councilArr?.project_start_date}
@@ -258,7 +260,7 @@ export default function DeniedListToolbar({
                 
                 type="date"
                 label="project end date*"
-                // value={toDate}
+                value={toDate}
                 placeholder="project end date*"
                 defaultValue={councilArr?.project_end_date===null? todayDate:councilArr?.project_end_date}
                 style={{ width: '90.5%',marginLeft: "5px",}}
