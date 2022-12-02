@@ -13,7 +13,7 @@ import Iconify from '../../components/Iconify';
 const TABLE_HEAD = [
   { id: 'srno', label: '#', alignRight: false },
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'team', label: 'Team Code', alignRight: false },
+  { id: 'team', label: 'Team ', alignRight: false },
   { id: 'mobileNumber', label: 'Mobile Number', alignRight: false },
   { id: 'treeAdded', label: '1 st Tree Added', alignRight: false },
   { id: 'lastTreeAdded', label: 'Last Tree Added', alignRight: false },
@@ -102,8 +102,10 @@ export default function YesterdayLoggedIn(props) {
                 <Scrollbar>
                   <TableContainer sx={{ minWidth: 800 }} style={{ padding: '10px 5px' }}>
                     <Table size="small" aria-label="a dense table">
-                    {props?.value?.map((val,index) =>(
-                      <><UserListHead headLabel={TABLE_HEAD} /><TableBody>
+                 
+                      <><UserListHead headLabel={TABLE_HEAD} />
+                      {props?.value?.map((val,index) =>(
+                      <TableBody>
                         <TableCell align="left">
                           <b>{index + 1}</b>
                         </TableCell>
@@ -143,8 +145,11 @@ export default function YesterdayLoggedIn(props) {
                             <b>{val?.max_interval}</b>
                           </button>
                         </TableCell>
-                      </TableBody></>
-                        ))}
+                       
+                      </TableBody>
+                       ))}
+                      </>
+                       
                     </Table>
                   </TableContainer>
                 </Scrollbar>
