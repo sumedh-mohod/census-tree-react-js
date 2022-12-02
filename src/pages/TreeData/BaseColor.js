@@ -919,6 +919,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
           {baseColorTrees ? (
             <Pagination
               count={showList ? pageInfo.last_page : 0}
+              page={page}
               variant="outlined"
               shape="rounded"
               onChange={handleChangePage}

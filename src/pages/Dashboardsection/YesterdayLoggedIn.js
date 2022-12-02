@@ -22,7 +22,7 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-export default function YesterdayLoggedIn() {
+export default function YesterdayLoggedIn(props) {
   const useStyles = makeStyles({
     success: {
       backgroundColor: '#d0fae2',
@@ -102,19 +102,19 @@ export default function YesterdayLoggedIn() {
                 <Scrollbar>
                   <TableContainer sx={{ minWidth: 800 }} style={{ padding: '10px 5px' }}>
                     <Table size="small" aria-label="a dense table">
-                      <UserListHead headLabel={TABLE_HEAD} />
-                      <TableBody>
+                    {props?.value?.map((val,index) =>(
+                      <><UserListHead headLabel={TABLE_HEAD} /><TableBody>
                         <TableCell align="left">
-                          <b>1</b>
+                          <b>{index + 1}</b>
                         </TableCell>
                         <TableCell align="left">
-                          Akash
+                          {val?.name}
                           <br />
-                          <b>Base Color</b>
+                          <b>{val?.current_role}</b>
                         </TableCell>
                         <TableCell align="left">
                           <button className={classes.success}>
-                            <b>abc</b>
+                            <b>{val?.team}</b>
                           </button>
                         </TableCell>
                         <TableCell align="left" style={{ width: '150px' }}>
@@ -125,69 +125,26 @@ export default function YesterdayLoggedIn() {
                               borderRadius: '15px',
                               padding: '3px',
                               marginBottom: '-5px',
-                            }}
-                          />
-                          <span style={{ marginLeft: '5px' }}>9999999999</span>
+                            }} />
+                          <span style={{ marginLeft: '5px' }}>{val?.mobile}</span>
                         </TableCell>
                         <TableCell align="left">
                           <button className={classes.warning}>
-                            <b>10:30 AM, 22 Jan 2022</b>
+                            <b>{val?.first_tree_added}</b>
                           </button>
                         </TableCell>
                         <TableCell align="left">
                           <button className={classes.successDark}>
-                            <b>10:30 AM, 22 Jan 2022</b>
+                            <b>{val?.last_tree_added}</b>
                           </button>
                         </TableCell>
                         <TableCell align="left">
                           <button className={classes.danger}>
-                            <b>10:30 AM, 22 Jan 2022</b>
+                            <b>{val?.max_interval}</b>
                           </button>
                         </TableCell>
-                      </TableBody>
-                      <TableBody>
-                        <TableCell align="left">
-                          <b>1</b>
-                        </TableCell>
-                        <TableCell align="left">
-                          Akash
-                          <br />
-                          <b> Base Color</b>
-                        </TableCell>
-                        <TableCell align="left">
-                          <button className={classes.success}>
-                            <b>abc</b>
-                          </button>
-                        </TableCell>
-                        <TableCell align="left" style={{ width: '150px' }}>
-                          <PhoneInTalkIcon
-                            style={{
-                              color: '#fff',
-                              background: '#CE5623',
-                              borderRadius: '15px',
-                              padding: '3px',
-                              marginBottom: '-5px',
-                            }}
-                          />
-                          <span style={{ marginLeft: '5px' }}>9999999999</span>
-                        </TableCell>
-                        <TableCell align="left">
-                          <button className={classes.warning}>
-                            <b>10:30 AM, 22 Jan 2022</b>
-                          </button>
-                        </TableCell>
-                        <TableCell align="left">
-                          <button className={classes.successDark}>
-                            <b>10:30 AM, 22 Jan 2022</b>
-                          </button>
-                        </TableCell>
-                        <TableCell align="left">
-                          <button className={classes.danger}>
-                            <b>10:30 AM, 22 Jan 2022</b>
-                          </button>
-                        </TableCell>
-                      </TableBody>
-                      
+                      </TableBody></>
+                        ))}
                     </Table>
                   </TableContainer>
                 </Scrollbar>
