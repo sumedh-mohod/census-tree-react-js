@@ -153,7 +153,6 @@ export default function BaseColor() {
     loggedUser:state.auth.loggedUser,
     showLoader: state.common.showLoader,
   }));
-// console.log("wards", wards);
   loggedUser.roles[0].permissions.map((item, index)=>(
     userPermissions.push(item.name)
   ))
@@ -322,37 +321,12 @@ export default function BaseColor() {
       dispatch(SearchBaseColorTrees(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
     }
     else {
-      dispatch(GetBaseColorTrees(newPage,rowsPerPage,councilID,zoneId,wardId,addedByForm,formDate,toDate));
+      dispatch(GetBaseColorTrees(newPage,rowsPerPage,councilID,zoneID,wardID,addedByForm,formDate,toDate));
     }
   };
 
   function handleClick(event) {
     event.preventDefault();
-  }
-
-  let timer = null;
-  const filterByName = (event) => {
-    const {value} = event.currentTarget;
-    clearTimeout(timer);
-    // Wait for X ms and then process the request
-    timer = setTimeout(() => {
-        if(value){
-          dispatch(SearchBaseColorTrees(1,rowsPerPage,coucilId,zoneId,wardId,value))
-          setSearch(true)
-          setShowList(false)
-          setPage(1)
-          setSearchValue(value);
-
-        }
-        else{
-          dispatch(GetBaseColorTrees(1,rowsPerPage,coucilId,zoneId,wardId));
-          setShowList(false)
-          setSearch(false);
-          setPage(1);
-          setSearchValue("")
-        }
-    }, 1000);
-
   }
 
 const requestForWithoutFilter = () =>{
@@ -440,6 +414,7 @@ const requestForWithoutFilter = () =>{
       setToDate(value.toDateForm);
       setNewState({ ...newState, right: false });
       dispatch(ShowLoader(true));
+      setPage(1)
       dispatch(
         GetBaseColorTrees(1,rowsPerPage,councilID, zoneID, wardID, value.addedByForm,  value.fromDateForm, value.toDateForm),
       );
@@ -919,6 +894,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
           {baseColorTrees ? (
             <Pagination
               count={showList ? pageInfo.last_page : 0}
+              page={page}
               variant="outlined"
               shape="rounded"
               onChange={handleChangePage}

@@ -462,15 +462,15 @@ export default function CreateCouncilDialog(props) {
   return (
     <div>
       <BootstrapDialog aria-labelledby="customized-dialog-title" open={isOpen}>
-      <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {data?"Edit Council":"New Council"}
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+          {data ? 'Edit Council' : 'New Council'}
         </BootstrapDialogTitle>
         <DialogContent dividers>
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-        Council Details
-        </BootstrapDialogTitle>
+          <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+            Council Details
+          </BootstrapDialogTitle>
           <Grid container spacing={1}>
-          <Grid item md={6} sm={6} xs={6}>
+            <Grid item md={6} sm={6} xs={6}>
               <DefaultInput
                 fullWidth
                 id="name"
@@ -480,12 +480,12 @@ export default function CreateCouncilDialog(props) {
                 style={{ width: '100%' }}
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
-                {...getFieldProps("name")}
+                {...getFieldProps('name')}
               />
             </Grid>
             <Grid item md={6} sm={6} xs={6} />
-               {/* <UploadButtons/> */}
-               <Grid item md={12} sm={12} xs={12}>
+            {/* <UploadButtons/> */}
+            <Grid item md={12} sm={12} xs={12}>
               <TextField
                 select
                 id="state"
@@ -496,10 +496,10 @@ export default function CreateCouncilDialog(props) {
                 style={{ width: '80%', marginLeft: '40px' }}
                 inputProps={{
                   classes: {
-                      icon: classes.icon,
+                    icon: classes.icon,
                   },
-              }}
-                onChange={(e)=> {
+                }}
+                onChange={(e) => {
                   handleStateChange(e);
                   formik.handleChange(e);
                 }}
@@ -507,9 +507,9 @@ export default function CreateCouncilDialog(props) {
                 helperText={touched.state && errors.state}
                 // {...getFieldProps("state")}
               >
-                 <MenuItem disabled value="">
-              <em>State*</em>
-            </MenuItem>
+                <MenuItem disabled value="">
+                  <em>State*</em>
+                </MenuItem>
                 {states?.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
@@ -518,37 +518,39 @@ export default function CreateCouncilDialog(props) {
               </TextField>
             </Grid>
             <Grid item md={12} sm={12} xs={12}>
-            <TextField
-              select
-              id="district"
-              name='district'
-              label="District*"
-              displayEmpty
-              value={values.district}
-              style={{ width: '80%', marginLeft: '40px' }}
-              placeholder='*Select District'
-              inputProps={{
-                classes: {
+              <TextField
+                select
+                id="district"
+                name="district"
+                label="District*"
+                displayEmpty
+                value={values.district}
+                style={{ width: '80%', marginLeft: '40px' }}
+                placeholder="*Select District"
+                inputProps={{
+                  classes: {
                     icon: classes.icon,
-                },
-            }}
-              onChange={(e) => {
-                handleDistrictChange(e)
-                formik.handleChange(e);
-              }}
-              error={Boolean(touched.district && errors.district)}
+                  },
+                }}
+                onChange={(e) => {
+                  handleDistrictChange(e);
+                  formik.handleChange(e);
+                }}
+                error={Boolean(touched.district && errors.district)}
                 helperText={touched.district && errors.district}
                 // {...getFieldProps("district")}
-            >
-               <MenuItem disabled value="">
-            <em>Select District*</em>
-          </MenuItem>
-              {showDistrict?districts?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.name}
+              >
+                <MenuItem disabled value="">
+                  <em>Select District*</em>
                 </MenuItem>
-              )):null}
-            </TextField>
+                {showDistrict
+                  ? districts?.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))
+                  : null}
+              </TextField>
             </Grid>
             <Grid item md={12} sm={12} xs={12}>
               <TextField
@@ -564,21 +566,23 @@ export default function CreateCouncilDialog(props) {
                 onChange={handleTalukaChange}
                 inputProps={{
                   classes: {
-                      icon: classes.icon,
+                    icon: classes.icon,
                   },
-              }}
+                }}
                 error={Boolean(touched.taluka && errors.taluka)}
                 helperText={touched.taluka && errors.taluka}
-                {...getFieldProps("taluka")}
+                {...getFieldProps('taluka')}
               >
-                 <MenuItem disabled value="">
-              <em>Select Taluka</em>
-            </MenuItem>
-                {showTaluka?talukas?.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                )):null}
+                <MenuItem disabled value="">
+                  <em>Select Taluka</em>
+                </MenuItem>
+                {showTaluka
+                  ? talukas?.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))
+                  : null}
               </TextField>
             </Grid>
             <Grid item md={6} sm={6} xs={6}>
@@ -590,7 +594,7 @@ export default function CreateCouncilDialog(props) {
                 placeholder="Enter Base Color Target*"
                 error={Boolean(touched.baseColorTarget && errors.baseColorTarget)}
                 helperText={touched.baseColorTarget && errors.baseColorTarget}
-                {...getFieldProps("baseColorTarget")}
+                {...getFieldProps('baseColorTarget')}
               />
             </Grid>
             <Grid item md={6} sm={6} xs={6} />
@@ -603,7 +607,7 @@ export default function CreateCouncilDialog(props) {
                 placeholder="Enter Census Target*"
                 error={Boolean(touched.censusTarget && errors.censusTarget)}
                 helperText={touched.censusTarget && errors.censusTarget}
-                {...getFieldProps("censusTarget")}
+                {...getFieldProps('censusTarget')}
               />
             </Grid>
             <Grid item md={6} sm={6} xs={6} />
@@ -617,107 +621,106 @@ export default function CreateCouncilDialog(props) {
                 style={{ width: '80%', marginLeft: '40px' }}
                 error={Boolean(touched.total_area && errors.total_area)}
                 helperText={touched.total_area && errors.total_area}
-                {...getFieldProps("total_area")}
+                {...getFieldProps('total_area')}
               />
             </Grid>
             <Grid item md={12} sm={12} xs={12}>
-            <TextField
-              select
-              SelectProps={{
-                multiple:true
-              }}
-              label="Zone*"
-              displayEmpty
-              value={zoneName}
-              // onChange={handleChange}
-              style={{ width: '81%', marginLeft: 40 , marginTop:5}}
-              inputProps={{
-                classes: {
+              <TextField
+                select
+                SelectProps={{
+                  multiple: true,
+                }}
+                label="Zone*"
+                displayEmpty
+                value={zoneName}
+                // onChange={handleChange}
+                style={{ width: '81%', marginLeft: 40, marginTop: 5 }}
+                inputProps={{
+                  classes: {
                     icon: classes.icon,
-                },
-            }}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>Zone*</em>;
-                }
-                const result = [];
-                selected.map((value)=>{
-                  const found = findValue(zones,value);
-                  result.push(found);
-                  return null;
-                })
-                
+                  },
+                }}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>Zone*</em>;
+                  }
+                  const result = [];
+                  selected.map((value) => {
+                    const found = findValue(zones, value);
+                    result.push(found);
+                    return null;
+                  });
 
-                return result.join(",");
-              }}
-              error={Boolean(touched.zones && errors.zones)}
+                  return result.join(',');
+                }}
+                error={Boolean(touched.zones && errors.zones)}
                 helperText={touched.zones && errors.zones}
-              // MenuProps={MenuProps}
-              {...getFieldProps("zones")}
-              // inputProps={{ 'aria-label': 'Without label' }}
-            >
-          <MenuItem disabled value="">
-            <em>Zone*</em>
-          </MenuItem>
-          {zones?.map((option) => (
-            <MenuItem
-              key={option.id}
-              value={option.id}
-              // style={getStyles(name, personName, theme)}
-            >
-              {option.name}
-            </MenuItem>
-          ))}
-        </TextField>
+                // MenuProps={MenuProps}
+                {...getFieldProps('zones')}
+                // inputProps={{ 'aria-label': 'Without label' }}
+              >
+                <MenuItem disabled value="">
+                  <em>Zone*</em>
+                </MenuItem>
+                {zones?.map((option) => (
+                  <MenuItem
+                    key={option.id}
+                    value={option.id}
+                    // style={getStyles(name, personName, theme)}
+                  >
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item md={12} sm={12} xs={12}>
-            <TextField
-              select
-              SelectProps={{
-                multiple:true
-              }}
-              label="Ward*"
-              displayEmpty
-              value={wardName}
-              onChange={handleWardChange}
-              style={{ width: '80%', marginLeft: '40px' }}
-              inputProps={{
-                classes: {
+              <TextField
+                select
+                SelectProps={{
+                  multiple: true,
+                }}
+                label="Ward*"
+                displayEmpty
+                value={wardName}
+                onChange={handleWardChange}
+                style={{ width: '80%', marginLeft: '40px' }}
+                inputProps={{
+                  classes: {
                     icon: classes.icon,
-                },
-            }}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>Ward*</em>;
-                }
-                const result = [];
-                selected.map((value)=>{
-                  const found = findValue(wards,value);
-                  result.push(found);
-                  return null;
-                })
+                  },
+                }}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>Ward*</em>;
+                  }
+                  const result = [];
+                  selected.map((value) => {
+                    const found = findValue(wards, value);
+                    result.push(found);
+                    return null;
+                  });
 
-                return result.join(",");
-              }}
-              error={Boolean(touched.wards && errors.wards)}
+                  return result.join(',');
+                }}
+                error={Boolean(touched.wards && errors.wards)}
                 helperText={touched.wards && errors.wards}
-              // MenuProps={MenuProps}
-              {...getFieldProps("wards")}
-              // inputProps={{ 'aria-label': 'Without label' }}
-            >
-          <MenuItem disabled value="">
-            <em>Ward</em>
-          </MenuItem>
-          {wards?.map((option) => (
-            <MenuItem
-              key={option.id}
-              value={option.id}
-              // style={getStyles(name, personName, theme)}
-            >
-              {option.name}
-            </MenuItem>
-          ))}
-        </TextField>
+                // MenuProps={MenuProps}
+                {...getFieldProps('wards')}
+                // inputProps={{ 'aria-label': 'Without label' }}
+              >
+                <MenuItem disabled value="">
+                  <em>Ward</em>
+                </MenuItem>
+                {wards?.map((option) => (
+                  <MenuItem
+                    key={option.id}
+                    value={option.id}
+                    // style={getStyles(name, personName, theme)}
+                  >
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item md={6} sm={6} xs={6}>
               <DefaultInput
@@ -729,43 +732,43 @@ export default function CreateCouncilDialog(props) {
                 style={{ width: '80%', marginLeft: '40px' }}
                 error={Boolean(touched.locationAccuracyNeeded && errors.locationAccuracyNeeded)}
                 helperText={touched.locationAccuracyNeeded && errors.locationAccuracyNeeded}
-                {...getFieldProps("locationAccuracyNeeded")}
+                {...getFieldProps('locationAccuracyNeeded')}
               />
             </Grid>
-           
+
             <Grid item md={6} sm={6} xs={6} />
             <Grid item md={6} sm={6} xs={6}>
-                 <TextField
+              <TextField
                 id="date"
                 // label="Date Of Birth"
                 type="date"
                 label="Project Start Date*"
-                placeholder='Project Start Date*'
+                placeholder="Project Start Date*"
                 // defaultValue="2017-05-24"
                 style={{ width: '80%', marginLeft: '40px' }}
                 // className={classes.textField}
                 error={Boolean(touched.project_start_date && errors.project_start_date)}
                 helperText={touched.project_start_date && errors.project_start_date}
-                {...getFieldProps("project_start_date")}
+                {...getFieldProps('project_start_date')}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 // inputProps={{ min: todayDate }}
               />
-              </Grid>
-              <Grid item md={6} sm={6} xs={6}>
+            </Grid>
+            <Grid item md={6} sm={6} xs={6}>
               <TextField
                 id="date"
                 // value={toDate}
                 type="date"
                 label="Project End Date"
-                placeholder= 'Project End Date'
+                placeholder="Project End Date"
                 // defaultValue="2017-05-24"
                 style={{ width: '80%' }}
                 // className={classes.textField}
                 error={Boolean(touched.project_end_date && errors.project_end_date)}
                 helperText={touched.project_end_date && errors.project_end_date}
-                {...getFieldProps("project_end_date")}
+                {...getFieldProps('project_end_date')}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -774,181 +777,185 @@ export default function CreateCouncilDialog(props) {
             </Grid>
 
             <Divider />
-            <BootstrapDialogTitle id="customized-dialog-title" style={{ marginLeft: 10 }}>
-            Contact Person
-        </BootstrapDialogTitle>
-        
-        <Grid container spacing={1}>
-            {!data?
-            <>
-         
-         
-         <Grid item md={6} sm={6} xs={6}>
-              <DefaultInput
-               fullWidth
-                id="firstName"
-                 autoComplete="firstName"
-                 label="First Name*"
-                  placeholder="Enter First Name*"
-                  error={Boolean(touched.firstName && errors.firstName)}
-                helperText={touched.firstName && errors.firstName}
-                {...getFieldProps("firstName")}
+            {!data ? (
+              <>
+                <BootstrapDialogTitle id="customized-dialog-title" style={{ marginLeft: 10 }}>
+                  Contact Person
+                </BootstrapDialogTitle>
+              </>
+            ) : null}
+
+            <Grid container spacing={1}>
+              {!data ? (
+                <>
+                  <Grid item md={6} sm={6} xs={6}>
+                    <DefaultInput
+                      fullWidth
+                      id="firstName"
+                      autoComplete="firstName"
+                      label="First Name*"
+                      placeholder="Enter First Name*"
+                      error={Boolean(touched.firstName && errors.firstName)}
+                      helperText={touched.firstName && errors.firstName}
+                      {...getFieldProps('firstName')}
                     />
-            </Grid>
-            <Grid item md={6} sm={6} xs={6} />
-                <Grid item md={6} sm={6} xs={6}>
-              <DefaultInput
-               fullWidth
-                id="middleName"
-                 autoComplete="middleName"
-                 label="Middle Name"
-                  placeholder="Enter Middle Name"
-                  error={Boolean(touched.middleName && errors.middleName)}
-                helperText={touched.middleName && errors.middleName}
-                {...getFieldProps("middleName")}
+                  </Grid>
+                  <Grid item md={6} sm={6} xs={6} />
+                  <Grid item md={6} sm={6} xs={6}>
+                    <DefaultInput
+                      fullWidth
+                      id="middleName"
+                      autoComplete="middleName"
+                      label="Middle Name"
+                      placeholder="Enter Middle Name"
+                      error={Boolean(touched.middleName && errors.middleName)}
+                      helperText={touched.middleName && errors.middleName}
+                      {...getFieldProps('middleName')}
                     />
-            </Grid>
-            <Grid item md={6} sm={6} xs={6} />
-                <Grid item md={6} sm={6} xs={6}>
-              <DefaultInput
-               fullWidth
-                id="lName"
-                 autoComplete="lName"
-                 label="Last Name*"
-                  placeholder="Enter Last Name*"
-                  error={Boolean(touched.lastName && errors.lastName)}
-                helperText={touched.lastName && errors.lastName}
-                {...getFieldProps("lastName")} 
+                  </Grid>
+                  <Grid item md={6} sm={6} xs={6} />
+                  <Grid item md={6} sm={6} xs={6}>
+                    <DefaultInput
+                      fullWidth
+                      id="lName"
+                      autoComplete="lName"
+                      label="Last Name*"
+                      placeholder="Enter Last Name*"
+                      error={Boolean(touched.lastName && errors.lastName)}
+                      helperText={touched.lastName && errors.lastName}
+                      {...getFieldProps('lastName')}
                     />
-            </Grid>
-            <Grid item md={6} sm={6} xs={6} />
-                <Grid item md={6} sm={6} xs={6}>
-              <DefaultInput
-               fullWidth
-                id="email"
-                 autoComplete="email"
-                 label="Email*"
-                  placeholder="Enter Email*"
-                  error={Boolean(touched.email && errors.email)}
-                helperText={touched.email && errors.email}
-                {...getFieldProps("email")}
+                  </Grid>
+                  <Grid item md={6} sm={6} xs={6} />
+                  <Grid item md={6} sm={6} xs={6}>
+                    <DefaultInput
+                      fullWidth
+                      id="email"
+                      autoComplete="email"
+                      label="Email*"
+                      placeholder="Enter Email*"
+                      error={Boolean(touched.email && errors.email)}
+                      helperText={touched.email && errors.email}
+                      {...getFieldProps('email')}
                     />
-            </Grid>
-            <Grid item md={6} sm={6} xs={6} />
-                <Grid item md={6} sm={6} xs={6}>
-              <DefaultInput
-                fullWidth
-                id="contact"
-                type="number"
-                autoComplete="contact"
-                label="Mobile Number*"
-                placeholder="Enter Mobile No*"
-                error={Boolean(touched.mobile && errors.mobile)}
-                helperText={touched.mobile && errors.mobile}
-                {...getFieldProps("mobile")}
-              />
-            </Grid>
-            <Grid item md={6} sm={6} xs={6} />
-                <Grid item md={6} sm={6} xs={6}>
-              <DefaultInput
-                fullWidth
-                id="username"
-                autoComplete="username"
-                placeholder="Enter UserName*"
-                label="Username*"
-                error={Boolean(touched.username && errors.username)}
-                helperText={touched.username && errors.username}
-                {...getFieldProps("username")}
-              />
-            </Grid>
-            <Grid item md={6} sm={6} xs={6} />
-                <Grid item md={12} sm={12} xs={12}>
-              <TextField
-              fullWidth
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              autoComplete="password"
-              label="Password*"
-              placeholder="Password*"
-              style={{ width: '80%', marginLeft: '40px' }}
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
-             
-              InputProps={{
-                classes: {
-                  icon: classes.icon,
-              },
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleShowPassword} edge="end">
-                      <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} style={{color: '#214c50'}}/>
+                  </Grid>
+                  <Grid item md={6} sm={6} xs={6} />
+                  <Grid item md={6} sm={6} xs={6}>
+                    <DefaultInput
+                      fullWidth
+                      id="contact"
+                      type="number"
+                      autoComplete="contact"
+                      label="Mobile Number*"
+                      placeholder="Enter Mobile No*"
+                      error={Boolean(touched.mobile && errors.mobile)}
+                      helperText={touched.mobile && errors.mobile}
+                      {...getFieldProps('mobile')}
+                    />
+                  </Grid>
+                  <Grid item md={6} sm={6} xs={6} />
+                  <Grid item md={6} sm={6} xs={6}>
+                    <DefaultInput
+                      fullWidth
+                      id="username"
+                      autoComplete="username"
+                      placeholder="Enter UserName*"
+                      label="Username*"
+                      error={Boolean(touched.username && errors.username)}
+                      helperText={touched.username && errors.username}
+                      {...getFieldProps('username')}
+                    />
+                  </Grid>
+                  <Grid item md={6} sm={6} xs={6} />
+                  <Grid item md={12} sm={12} xs={12}>
+                    <TextField
+                      fullWidth
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete="password"
+                      label="Password*"
+                      placeholder="Password*"
+                      style={{ width: '80%', marginLeft: '40px' }}
+                      error={Boolean(touched.password && errors.password)}
+                      helperText={touched.password && errors.password}
+                      InputProps={{
+                        classes: {
+                          icon: classes.icon,
+                        },
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={handleShowPassword} edge="end">
+                              <Iconify
+                                icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'}
+                                style={{ color: '#214c50' }}
+                              />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      {...getFieldProps('password')}
+                    />
+                  </Grid>
+                </>
+              ) : null}
+
+              <BootstrapDialogTitle id="customized-dialog-title">
+                {logoValue ? 'Uploaded Logo' : 'Upload Logo*'}
+              </BootstrapDialogTitle>
+              {isEditable && logoValue ? (
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <Link
+                      fullWidth
+                      style={{ width: '88%', marginLeft: 55 }}
+                      target="_blank"
+                      rel="noopener"
+                      href={`${logoValue}`}
+                    >
+                      View Uploaded Image
+                    </Link>
+
+                    <IconButton
+                      color={'error'}
+                      aria-label={'delete'}
+                      size="large"
+                      onClick={() => handleImageRemove(logoValue)}
+                    >
+                      <CancelIcon fontSize="inherit" />
                     </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              {...getFieldProps("password")}
-          
-               
-              />
-            </Grid>
-       
-           
-            </>
-            :null
-            }
-            
-            <BootstrapDialogTitle id="customized-dialog-title">
-          {logoValue?"Uploaded Logo":"Upload Logo*"}
-        </BootstrapDialogTitle>
-            {(isEditable && logoValue)?
-
-              <Grid container spacing={1}>
-                <Grid item xs={12}>
-                  <Link fullWidth
-                  style={{width: '88%', marginLeft: 55}}  target="_blank" rel="noopener" href={`${logoValue}`}>
-                    View Uploaded Image
-                  </Link>
-
-                  <IconButton color={'error'} aria-label={'delete'} size="large" onClick={()=>handleImageRemove(logoValue)}>
-                <CancelIcon fontSize="inherit" />
-              </IconButton>
-
+                  </Grid>
                 </Grid>
-               
-            
-            
-              </Grid>:
-              <Grid item xs={12}>
-              
-              <TextField
-                  fullWidth
-                  style={{ width: '80%', marginLeft: '40px' }}
-                  id="logo"
-                  type={"file"}
-                  autoComplete="amount"
-                  // placeholder="Upload Logo"
-                  value={logoValue}
-                  error={Boolean(logoError)}
-                  helperText={logoError}
-                  onChange={(e)=>handleLogoChange(e)}
-                />
-                {/* <label htmlFor="logo">Click me to upload image</label> */}
-              </Grid>
-
-            }
-              </Grid>
+              ) : (
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    style={{ width: '80%', marginLeft: '40px' }}
+                    id="logo"
+                    type={'file'}
+                    autoComplete="amount"
+                    // placeholder="Upload Logo"
+                    value={logoValue}
+                    error={Boolean(logoError)}
+                    helperText={logoError}
+                    onChange={(e) => handleLogoChange(e)}
+                  />
+                  {/* <label htmlFor="logo">Click me to upload image</label> */}
+                </Grid>
+              )}
             </Grid>
+          </Grid>
         </DialogContent>
 
         <DialogActions>
-          <Button autoFocus 
-          onClick={(e)=>{
-            validateLogo();
-            formik.handleSubmit(e)
-          }}
-          variant='contained'
-            >
-           Add
+          <Button
+            autoFocus
+            onClick={(e) => {
+              validateLogo();
+              formik.handleSubmit(e);
+            }}
+            variant="contained"
+          >
+            Add
           </Button>
         </DialogActions>
       </BootstrapDialog>

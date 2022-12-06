@@ -697,7 +697,7 @@ export default function NewUserForm(props) {
 
   const handleMiddleName = (e) => {
     const regex = /^[a-zA-Z ]{2,30}$/;
-    if (regex.test(e.target.value)) {
+    if (regex.test(e.target.value) || !e.target.value) {
       setMiddleNameError('');
     } else {
       setMiddleNameError('Please Enter Middle Name Containing Alphabets Only');
@@ -1027,9 +1027,6 @@ export default function NewUserForm(props) {
           firstName: Yup.string()
             .matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid first name')
             .required('First Name is required'),
-          middleName: Yup.string()
-            .matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid middle name')
-            .required('Middle Name is required'),
           lastName: Yup.string()
             .matches(/^[a-zA-Z ]{2,30}$/, 'Please enter valid last name')
             .required('Last Name is required'),

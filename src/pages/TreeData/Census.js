@@ -185,7 +185,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     if(state){
       dispatch(GetTreeCensus(state.pageNumber,rowsPerPage,cId,zId,wId))
     }
-    dispatch(GetUsersByRoleID(1, 3, 5));
+    dispatch(GetUsersByRoleID(1, 6, 8));
     dispatch(GetActiveTreeName(1))
   },[])
 
@@ -253,7 +253,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     dispatch(GetUsersByRoleID(1, 6, 8));
     // dispatch(GetTreeName())
   } else {
-    dispatch(GetUsersByRoleID(1, 6, 8));
+    // dispatch(GetUsersByRoleID(1, 6, 8));
     // dispatch(GetTreeName())
     dispatch(GetActiveCouncil(1));
     dispatch(GetActiveWards(1));
@@ -317,16 +317,11 @@ loggedUser.roles[0].permissions.map((item, index)=>(
 
   };
 
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     setShowList(false);
-    if(search){
-      dispatch(SearchTreeCensus(newPage,rowsPerPage,coucilId,zoneId,wardId,searchValue));
-    }
-    else {
-      dispatch(GetTreeCensus(newPage,rowsPerPage,councilID,zoneId,wardId,addedByForm,treeNameFrom,heightFrom, heightTo, girthFrom, girthTo,formDate,toDate));
-    }
+      dispatch(GetTreeCensus(newPage,rowsPerPage,councilID,zoneID,wardID,addedByForm,treeNameFrom,heightFrom, heightTo, girthFrom, girthTo,formDate,toDate));
+   
   };
 
   const handleChangeRowsPerPage = (event) => {

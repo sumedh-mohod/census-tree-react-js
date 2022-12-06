@@ -18,6 +18,7 @@ import {
   Modal
 } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
+import moment from 'moment';
 import Link from '@mui/material/Link';
 import { Visibility } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -67,6 +68,8 @@ export default function NoTreeProperty() {
   const [openImageList, setOpenImageList] = useState(false);
   const handleOpenImageList = (e) => setOpenImageList(true);
   const handleCloseImageList = () => setOpenImageList(false);
+  const [fromDate,setFromDate] = useState('');
+  const [toDate, setToDate] =useState('');
 
   const { council, zones, wards, noTreeProperty, pageInfo } = useSelector((state) => ({
     council: state.council.activeCouncil,
@@ -75,6 +78,8 @@ export default function NoTreeProperty() {
     noTreeProperty: state.noTreeProperty.noTreeProperty,
     pageInfo: state.noTreeProperty.pageInfo,
   }));
+
+  const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
   // const firstRun = useRef(true);
   // useEffect(()=>{
@@ -123,7 +128,7 @@ export default function NoTreeProperty() {
     if (search) {
       dispatch(SearchNoTreeProperty(newPage, rowsPerPage, coucilId, zoneId, wardId, searchValue));
     } else {
-      dispatch(GetNoTreeProperty(newPage, rowsPerPage, coucilId, zoneId, wardId));
+      dispatch(GetNoTreeProperty(newPage, rowsPerPage, coucilId, zoneId, wardId, fromDate, toDate));
     }
   };
 
@@ -156,7 +161,7 @@ export default function NoTreeProperty() {
         setPage(1);
         setSearchValue(value);
       } else {
-        dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, zoneId, wardId));
+        dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, zoneId, wardId, fromDate, toDate));
         setShowList(false);
         setSearch(false);
         setPage(1);
@@ -164,14 +169,35 @@ export default function NoTreeProperty() {
       }
     }, 1000);
   };
-  
+
+    const handleToDate =(e) => {
+    setPage(1);
+    setShowList(false);
+    setToDate(e.target.value)
+    dispatch(GetNoTreeProperty(1, rowsPerPage,coucilId, zoneId,wardId, fromDate, e.target.value));
+  }
+  const handleFromDate =(e) => {
+    setPage(1);
+    setShowList(false);
+    setFromDate(e.target.value)
+    dispatch(GetNoTreeProperty(1, rowsPerPage,coucilId, zoneId,wardId, e.target.value, toDate));
+  } 
+
   const handleCoucilChange = (e) => {
+    const councilArr = council?.find((val) => val.id === e.target.value);
+    const fromDateFrom = councilArr?.project_start_date===null? todayDate:councilArr?.project_start_date
+    const toDateFrom  = councilArr?.project_end_date===null? todayDate:councilArr?.project_end_date
+
+    console.log("fromDateFrom", fromDateFrom)
+
     setCouncilId(e.target.value);
     setZoneId('');
     setWardId('');
     setPage(1);
     setShowList(false);
-    dispatch(GetNoTreeProperty(1, rowsPerPage, e.target.value, null, null));
+    setFromDate( fromDateFrom);
+    setToDate( toDateFrom)
+    dispatch(GetNoTreeProperty(1, rowsPerPage, e.target.value, null, null, fromDateFrom, toDateFrom));
     dispatch(GetActiveZonesByCouncilId(1, e.target.value));
     dispatch(GetActiveWardsByCouncilId(1, e.target.value));
   };
@@ -180,14 +206,14 @@ export default function NoTreeProperty() {
     setWardId(e.target.value);
     setPage(1);
     setShowList(false);
-    dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, zoneId, e.target.value));
+    dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, zoneId, e.target.value, fromDate, toDate));
   };
 
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
     setPage(1);
-    dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, e.target.value, wardId));
+    dispatch(GetNoTreeProperty(1, rowsPerPage, coucilId, e.target.value, wardId, fromDate, toDate));
   };
 
   // console.log("No tree property",noTreeProperty);
@@ -234,6 +260,10 @@ export default function NoTreeProperty() {
             coucilId={coucilId}
             zoneId={zoneId}
             wardId={wardId}
+            fromDate={fromDate}
+            toDate={toDate}
+            handleFromDate={(e) => handleFromDate(e)}
+            handleToDate={(e) => handleToDate(e)}
           />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>

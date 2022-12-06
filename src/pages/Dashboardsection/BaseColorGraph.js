@@ -48,8 +48,9 @@ const BaseColorGraph = (props) => {
           {
             label: '',
             data: y,
-            backgroundColor: "#214c50",
-            borderRadius: 15  
+            backgroundColor: "#c8fade",
+            borderRadius: 15,
+            height: "50%"
           },
         ],
       };
@@ -141,7 +142,7 @@ const BaseColorGraph = (props) => {
         <Grid item xs={12}>
           <Card className={classes.common} style={{height: "270px"}}>
           <Container>
-          <Bar options={options} data={data} />
+          <Bar options={options} height={290} data={data} />
           </Container>
           </Card>
         </Grid>

@@ -34,7 +34,7 @@ const TreeDetail = (props) => {
             <Typography variant="h5" style={{ color: '#fff',fontSize: '16px' }}>
             Base Color Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
-              The trees generated in this council till now.
+              It is an sum of approved , unapproved and pending <br/>trees
               </Typography>
             </Typography>
           </Typography>
@@ -83,8 +83,7 @@ const TreeDetail = (props) => {
             <Typography variant="h5" style={{ color: '#fff', fontSize: '16px'}}>
               Census Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
-                The trees generated in <br />
-                this council till now.
+             It is sum of approved, and pending trees
               </Typography>
             </Typography>
           </Typography>
@@ -93,9 +92,11 @@ const TreeDetail = (props) => {
           <Typography variant="h4" style={{ color: '#fff', fontWeight: 600 }} mt={3} sx={{paddingLeft: '10px'}}>
           <TreedetailStatusButton slug={'danger'} count={census?.unapproved} />
             <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
+
               Unapproved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
-              It is showing unapproved <br/> trees count
+              it is the count of unapproved <br/>and updated trees by QC
+              {/* It is showing unapproved <br/> trees count */}
               </Typography>
             </Typography>
           </Typography>
@@ -106,6 +107,7 @@ const TreeDetail = (props) => {
             <Typography variant="h5" style={{fontSize: '16px'}} mt={1}>
             Approved Trees
               <Typography variant="h6" sx={{ fontWeight: 400 }}>
+             
               It is showing approved<br/> trees count
               </Typography>
             </Typography>

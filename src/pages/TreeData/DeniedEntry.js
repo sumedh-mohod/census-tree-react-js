@@ -17,6 +17,7 @@ import {
   IconButton,
   Modal,
 } from '@mui/material';
+import moment from 'moment';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import { Visibility } from '@mui/icons-material';
@@ -64,6 +65,8 @@ export default function DeniedEntry() {
   const [coucilId, setCouncilId] = useState('');
   const [imageList, setImageList] = useState([]);
   const [showList, setShowList] = useState(false);
+  const [fromDate,setFromDate] = useState('');
+  const [toDate, setToDate] =useState('');
   const [openImageList, setOpenImageList] = useState(false);
   const handleOpenImageList = (e) => setOpenImageList(true);
   const handleCloseImageList = () => setOpenImageList(false);
@@ -75,6 +78,12 @@ export default function DeniedEntry() {
     pageInfo: state.deniedEntry.pageInfo,
   }));
 
+
+  const councilArr = council?.find((val) => val.id === coucilId);
+  const todayDate = moment(new Date()).format('YYYY-MM-DD');
+  
+
+// console.log("councilArr", councilArr)
   // const firstRun = useRef(true);
   // useEffect(()=>{
   //   if (firstRun.current) {
@@ -121,18 +130,18 @@ export default function DeniedEntry() {
     if (search) {
       dispatch(SearchDeniedEntry(newPage, rowsPerPage, coucilId, zoneId, wardId, searchValue));
     } else {
-      dispatch(GetDeniedEntry(newPage, rowsPerPage, coucilId, zoneId, wardId));
+      dispatch(GetDeniedEntry(newPage, rowsPerPage, coucilId, zoneId, wardId, fromDate, toDate ));
     }
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event, value) => {
     setShowList(false);
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
     if (search) {
       dispatch(SearchDeniedEntry(1, parseInt(event.target.value, 10), coucilId, zoneId, wardId, searchValue));
     } else {
-      dispatch(GetDeniedEntry(1, parseInt(event.target.value, 10), coucilId, zoneId, wardId));
+      dispatch(GetDeniedEntry(1, parseInt(event.target.value, 10), coucilId, zoneId, fromDate, toDate));
     }
   };
   function handleClick(event) {
@@ -147,13 +156,13 @@ export default function DeniedEntry() {
     // Wait for X ms and then process the request
     timer = setTimeout(() => {
       if (value) {
-        dispatch(SearchDeniedEntry(1, rowsPerPage, coucilId, zoneId, wardId, value));
+        dispatch(SearchDeniedEntry(1, rowsPerPage, coucilId, zoneId, wardId));
         setSearch(true);
         setShowList(false);
         setPage(1);
         setSearchValue(value);
       } else {
-        dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, zoneId, wardId));
+        dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, zoneId, wardId, fromDate,toDate));
         setShowList(false);
         setSearch(false);
         setPage(1);
@@ -162,13 +171,31 @@ export default function DeniedEntry() {
     }, 1000);
   };
 
+  const handleToDate =(e) => {
+    setPage(1);
+    setShowList(false);
+    setToDate(e.target.value)
+    dispatch(GetDeniedEntry(1, rowsPerPage,coucilId, zoneId,wardId, fromDate, e.target.value));
+  }
+  const handleFromDate =(e) => {
+    setPage(1);
+    setShowList(false);
+    setFromDate(e.target.value)
+    dispatch(GetDeniedEntry(1, rowsPerPage,coucilId, zoneId,wardId, e.target.value, toDate));
+  }
   const handleCoucilChange = (e) => {
+    const councilArr = council?.find((val) => val.id === e.target.value);
+    const fromDateFrom = councilArr?.project_start_date===null? todayDate:councilArr?.project_start_date
+    const toDateFrom  = councilArr?.project_end_date===null? todayDate:councilArr?.project_end_date
+    
     setCouncilId(e.target.value);
     setZoneId('');
     setWardId('');
+    setFromDate(fromDateFrom);
+    setToDate(toDateFrom)
     setPage(1);
     setShowList(false);
-    dispatch(GetDeniedEntry(1, rowsPerPage, e.target.value, null, null));
+    dispatch(GetDeniedEntry(1, rowsPerPage, e.target.value, null, null , fromDateFrom, toDateFrom ));
     dispatch(GetActiveZonesByCouncilId(1, e.target.value));
     dispatch(GetActiveWardsByCouncilId(1, e.target.value));
   };
@@ -177,14 +204,14 @@ export default function DeniedEntry() {
     setWardId(e.target.value);
     setPage(1);
     setShowList(false);
-    dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, zoneId, e.target.value));
+    dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, zoneId, e.target.value, fromDate, toDate));
   };
 
   const handleZoneChange = (e) => {
     setShowList(false);
     setZoneId(e.target.value);
     setPage(1);
-    dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, e.target.value, wardId));
+    dispatch(GetDeniedEntry(1, rowsPerPage, coucilId, e.target.value, wardId, fromDate, toDate));
   };
 
   // console.log("DENIED ENTRY",deniedEntry);
@@ -235,6 +262,10 @@ export default function DeniedEntry() {
             coucilId={coucilId}
             zoneId={zoneId}
             wardId={wardId}
+            fromDate={fromDate}
+            toDate={toDate}
+            handleFromDate={(e) => handleFromDate(e)}
+            handleToDate={(e) => handleToDate(e)}
             callType="DeniedEntries"
           />
           <Scrollbar>

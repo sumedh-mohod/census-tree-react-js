@@ -3,7 +3,7 @@ import { SetNewAlert } from "./AlertActions";
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
 import {  GET_DENIED_ENTRY } from "./Types";
 
-const GetDeniedEntry = (page,limit,council,zone,ward) => async (dispatch) => {
+const GetDeniedEntry = (page,limit,council,zone,ward, fromDate, toDate) => async (dispatch) => {
 
     let url = `/api/denied-properties?page=${page}&limit=${limit}`
     if(council){
@@ -14,6 +14,9 @@ const GetDeniedEntry = (page,limit,council,zone,ward) => async (dispatch) => {
     }
     if(ward){
       url = `${url}&where[ward_id]=${ward}`
+    }
+    if(fromDate && toDate){
+      url = `${url}&from_date=${fromDate}&to_date=${toDate}`
     }
 
     try {

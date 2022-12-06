@@ -136,7 +136,7 @@ export default function DashboardApp() {
       count: `${dashboardCouncil?.council_records?.count_statistics?.total_trees}`,
       title: 'Trees',
       color: 'red',
-      subtitle: 'It is showing all trees counts and its Details in selected council.',
+      subtitle: 'It is showing counts of all Approved trees in the council.',
     },
     {
       count: `${dashboardCouncil?.council_records?.count_statistics?.total_denied_properties}`,
@@ -160,22 +160,23 @@ export default function DashboardApp() {
       count: `${dashboardCouncil?.council_records?.count_statistics?.total_wards}`,
       title: 'Wards',
       color: 'orange',
-      subtitle: 'It is showing all wards counts and details of it inselected council.',
+      subtitle: 'It is showing all wards counts and details of it in selected council.',
     },
     {
       count: `${dashboardCouncil?.council_records?.count_statistics?.total_zones}`,
       title: 'Zones',
       color: 'green',
-      subtitle: 'It is showing all zones counts and details of it inselected council.',
+      subtitle: 'It is showing all zones counts and details of it in selected council.',
     },
   ];
 
-  // const useStyles = makeStyles({
-  //   icon: {
-  //     fill: '#214C50',
-  //   },
-  // });
-  // const classes = useStyles();
+  const useStyles = makeStyles({
+    icon: {
+      fill: '#214C50',
+    },
+  });
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const classes = useStyles();
 
   const handleCouncilTeam = (e) => {
     setcouncilTeamChange(e);
@@ -266,7 +267,7 @@ export default function DashboardApp() {
                     // renderValue={() => `${dashboardCouncil?.council_records?.council_details?.name}`}
                     inputProps={{
                       classes: {
-                        icon: "#214C50",
+                        icon: classes.icon,
                       },
                     }}
                   >
@@ -302,7 +303,7 @@ export default function DashboardApp() {
                     <UsersCard
                       totalUser={dashboardCouncil?.council_records?.count_statistics?.total_census_user}
                       title={'Census Users'}
-                      totalOnsiteQc={dashboardCouncil?.council_records?.count_statistics?.total_census_user}
+                      totalOnsiteQc={dashboardCouncil?.council_records?.count_statistics?.total_census_onsite_qc}
                       totalOffsiteQc={dashboardCouncil?.council_records?.count_statistics?.total_census_offsite_qc}
                       onsiteSubtitle={'Census Onsite QC'}
                       offsiteSubtitle={'Census Offsite QC'}
@@ -590,7 +591,7 @@ export default function DashboardApp() {
                   <Typography variant="h4" gutterBottom>
                     Yesterdays Lowest Census({`${dashboardCouncil?.council_records?.council_details?.name}`})
                     <Typography variant="h6" style={{ fontWeight: 400 }}>
-                      It is showing Yesterdays Highest Census counts.{' '}
+                      It is showing Yesterdays Lowest Census counts.{' '}
                       <span style={{ color: '#ff0000' }}>
                         (The Team , Council, Zone and ward is currently assigned entity to the user.)
                       </span>
@@ -632,11 +633,13 @@ export default function DashboardApp() {
             </Container>
             </>: null
             }
-            
+              {dashboardCouncil?.council_records?.work_logs.length !== 0 ? 
+            <>
             <br />
             <Container id="yesterdayLogged">
-              <YesterdayLoggedIn />
+              <YesterdayLoggedIn value = {dashboardCouncil?.council_records?.work_logs} />
             </Container>
+            </> : null}
             <br />
             <Container id="masterData">
               <MasterData value={dashboardCouncil?.overall_records?.master} />
