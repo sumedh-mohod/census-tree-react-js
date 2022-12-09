@@ -17,6 +17,7 @@ export const DELETE_STATE = "delete-state";
 
 export const GET_DASHBORAD_BY_COUNCIL_ID = "get-dashboard-by-council-id";
 export const GET_UNSYNCHEDUSERS_BY_COUNCIL_ID = "get-unsynchedusers-by-council-id"
+export const GET_WORK_LOGGED_BY_COUNCIL_ID = "get-work-logged-by-council-id"
 export const GET_TEAMS_BY_COUNCIL_ID = "get-teams-by-council-id";
 export const GET_TEAM_DETAIL_BY_COUNCIL_TEAM_ID = "get-teamdetail-by-council-team-id";
 

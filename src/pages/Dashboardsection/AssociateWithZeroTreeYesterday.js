@@ -199,7 +199,7 @@ const coun = filterCouncil[0]?.name;
 
     // setShowList(false);
 
-    dispatch(GetUnsynchedUser(coucilId, page, rowsPerPage));
+    dispatch(GetUnsynchedUser( coucilId,page, rowsPerPage));
   };
 
   const useStyles = makeStyles({

@@ -637,7 +637,7 @@ export default function DashboardApp() {
             <>
             <br />
             <Container id="yesterdayLogged">
-              <YesterdayLoggedIn value = {dashboardCouncil?.council_records?.work_logs} />
+              <YesterdayLoggedIn value = {dashboardCouncil?.council_records?.work_logs} council={councilId} />
             </Container>
             </> : null}
             <br />
