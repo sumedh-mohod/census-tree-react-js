@@ -80,8 +80,8 @@ export default function YesterdayLoggedIn(props) {
   const navigate = useNavigate()
 
   const handleChange =() => {
-    navigate("/dashboard/home/yesterdayLoggedInAssociates")
-    // console.log("Routing 2")
+    navigate(`/dashboard/home/yesterdayLoggedInAssociates/${props?.council}`)
+    // console.log("props?.council", props?.council)
   }
   return (
   

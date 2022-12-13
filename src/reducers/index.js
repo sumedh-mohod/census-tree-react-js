@@ -31,6 +31,7 @@ import DashboardReducer from "./DashboardReducer";
 import UnsynchedUserReducer from "./UnsynchedUserReducer"
 import DashboardCouncilTeamReducer from "./DashboardTeamCouncilReducer";
 import DashboardTeamDetailByIdReducer from './DashboardTeamDetailByIdReducer';
+import WorkLoggedReducer from "./WorkLoggedReducer";
 
 export default combineReducers({
   auth: AuthReducer,
@@ -65,4 +66,5 @@ export default combineReducers({
   treeFamily: TreeFamilyReducer,
   workReports: WorkRepotReducer,
   unsynchedUser: UnsynchedUserReducer,
+  workLogged: WorkLoggedReducer,
 });

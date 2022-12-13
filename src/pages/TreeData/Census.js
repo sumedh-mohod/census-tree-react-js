@@ -26,6 +26,7 @@ import {
 } from '@mui/material';
 import moment from 'moment';
 import { useFormik } from 'formik';
+import Select from "react-select";
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Visibility } from '@mui/icons-material';
@@ -115,6 +116,7 @@ export default function Census() {
    const [reportForRequest, setReportForRequest] = React.useState();
    const [councilName,setCouncilName] =  React.useState();
    const [buttonClick, setButtonClick] = React.useState(true); 
+   const [treeNameInput, setTreeNameInput ] = React.useState(); 
    const todayDate = moment(new Date()).format('YYYY-MM-DD');
    const userPermissions = [];
 
@@ -440,6 +442,11 @@ if(treeNameFrom){
     setTreeNameId(event.target.value)
   }
 
+  const handleSelect = (e) => {
+    setTreeNameInput(e);
+    console.log("data", e)
+  }
+
   const useStyles = makeStyles({
     
     icon: {
@@ -465,7 +472,7 @@ const formik = useFormik({
     wardForm: wardID || '',
     zoneForm: zoneID || '',
     addedByForm: addedBy || '',
-    treeNameFrom: treeNameId || '',
+    treeNameFrom: treeNameInput?.value || '',
     heightFrom: heightFromId||"",
     heightTo:heightToId||  "",
     girthFrom: girthFromId|| "",
@@ -475,7 +482,7 @@ const formik = useFormik({
   },
   validationSchema: FilterSchema,
   onSubmit: (value) => {
-    // console.log("in submit", value);
+    console.log("in submit", value);
     setAddedByForm(value.addedByForm);
     setTreeNameFrom(value.treeNameFrom)
     setHeightFrom(value.heightFrom)
@@ -801,36 +808,25 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                   </TextField>
                 </Grid>
                 <Grid item xs={12}>
-                <TextField
-                    select
-                    id="treeNameFrom"
-                    label="Tree Name"
-                    displayEmpty
-                    value={treeNameId}
-                    style={{ width: '100%', marginTop: 5 }}
-                    size="small"
-                    onChange={(e) => {
-                      handleTreeNameChange(e);
-                      formik.handleChange(e);
-                    }}
-                    inputProps={{
-                      classes: {
-                        icon: classes.icon,
-                      },
-                    }}
-                  >
-                    <MenuItem disabled value="">
-                      <em>Select Tree Name</em>
-                    </MenuItem>
-                    <MenuItem value="">
-                      <em>----Null----</em>
-                    </MenuItem>
-                    {treeName?.map((option) => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+
+                <Select
+                style={{border: "1px solid black"}}
+                id="treeNameFrom"
+                placeholder= "Select Tree Name"
+                label= "Tree Name"
+                value={treeNameInput}
+
+        options={treeName?.map((item) => {
+
+          return { value: item.name, label: item.name };
+
+        })}
+        // eslint-disable-next-line react/jsx-no-bind
+        onChange={handleSelect}
+        // onChange={opt => console.log({value: opt.name, label: opt.name })}
+
+      />
+
                 </Grid>
                 <Grid container spacing={2}>
                   <Grid item xs={6}> 

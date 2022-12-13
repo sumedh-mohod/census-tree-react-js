@@ -70,7 +70,7 @@ const routes = (isLogged) => [
     children: [
       { path: 'home', element: <DashboardApp /> },
       { path: 'home/associateWithZeroTreeYesterday/:Id', element: < AssociateWithZeroTreeYesterday /> },
-      { path: 'home/yesterdayLoggedInAssociates', element: < YesterdayLoggedInAssociates /> },
+      { path: 'home/yesterdayLoggedInAssociates/:Id', element: < YesterdayLoggedInAssociates /> },
       { path: 'user', element: <User /> },
       { path: 'user/edit-user/:userId', element: <NewUserForm /> },
       { path: 'user/view-user/:userId', element: <ViewUser /> },
