@@ -268,6 +268,9 @@ const growthFactorValue = [
     props.handleClose();
   },[addTreeNameLog,editTreeNameLog])
 
+
+  // console.log("treeFamily", treeFamily)
+
 // if(data){
 //   if(data?.max_age){
 //     const maxAgeData= data.max_age.split('-')
@@ -308,8 +311,12 @@ const handleOriginChange = (event) => {
   setOrigin(event.target.value)
 }
 
-const handleFamilyChange = (event) => {
-  setTreeFamilyChange(event.target.value);
+const handleFamilyChange = (e) => {
+  setTreeFamilyChange(e);
+  // console.log("e___", e)
+  // console.log("+++++", e.name)
+  // eslint-disable-next-line no-unused-expressions
+  
   };
 
   const handleClose = () => {
@@ -400,7 +407,7 @@ const handleFamilyChange = (event) => {
     name: Yup.string().matches(/^[a-zA-Z- _]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Name is required'),
     botanicalName: Yup.string().matches(/^[a-zA-Z- _]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Botanical Name is required'),
     treeType: Yup.string().required('Tree Type is required'),
-    treeFamily: Yup.string().required('Tree Family is required'),
+    // treeFamily: Yup.string().required('Tree Family is required'),
     origin: Yup.string().required('Origin is required'),
     growthRatio: Yup.string().matches(/^[1-9]\d*(\.\d+)?$/, "Only decimal value are allowed ").required('Growth ratio is required'),
     growthFactor: Yup.string().matches(/^[0-9]+$/, "Only numbers are allowed").required('Growth Factor is required'),
@@ -421,9 +428,9 @@ const handleFamilyChange = (event) => {
     enableReinitialize: true,
     initialValues: {
       name:data? data.name : "",
-      botanicalName: data? data.botanical_name:"",
+      botanicalName: data? data.botanical_name: "",
       treeType: data? data.tree_type_id:"",
-      treeFamily: data? data.tree_family_id: "",
+      treeFamilyId: data? data.tree_family_id: treeFamilyChange?.value || "",
       uses:data? data.uses: "",
       origin: data? data.origin: "",
       oxygenEmittrate: data? data.oxygen_emit_rate: "",
@@ -446,7 +453,7 @@ const handleFamilyChange = (event) => {
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
-      // console.log("Submit",value )
+      console.log("Submit",value )
       setButtonDisabled(true);
       //  if (value.minHeight || value.maxHeightx){ height = `${value.minHeight} - ${value.maxHeightx}`}
       //  console.log("maxHeight", maxHeight)
@@ -468,7 +475,7 @@ const handleFamilyChange = (event) => {
           "name":value.name,
           "botanical_name":value.botanicalName,
           "tree_type_id":value.treeType,
-          "tree_family_id":value.treeFamily,
+          "tree_family_id":value.treeFamilyId,
           "uses":value.uses,
           "origin": value.origin,
           "oxygen_emit_rate": value.oxygenEmittrate,
@@ -487,7 +494,7 @@ const handleFamilyChange = (event) => {
           "name":value.name,
           "botanical_name":value.botanicalName,
           "tree_type_id":value.treeType,
-          "tree_family_id":value.treeFamily,
+          "tree_family_id":value.treeFamilyId,
           "uses":value.uses,
           "origin": value.origin,
           "oxygen_emit_rate": value.oxygenEmittrate,
@@ -534,6 +541,7 @@ const classes = useStyles();
                 required
                 id="name"
                 style={{ width: '86%' }}
+                value={values.name}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.name && errors.name)}
@@ -548,6 +556,7 @@ const classes = useStyles();
                 fullWidth
                 id="botanicalName"
                 autoComplete="botanicalName"
+                value={values.botanicalName}
                 // label="Botanical Name*"
                 // placeholder="Enter Botanical Name*"
                 error={Boolean(touched.botanicalName && errors.botanicalName)}
@@ -589,7 +598,83 @@ const classes = useStyles();
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Family*</FormLabel>
-            <TextField
+            
+            <Select
+              
+              id="treeFamilyId"
+              placeholder= "Select Tree Family"
+              label= "Tree Name"
+              value={treeFamilyChange}
+              className="react-select-container"
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  border: `1px solid gray`,
+                  width: '83%',
+                  marginLeft: '40px',
+                  height: '55px',
+                  borderRadius: '7px',
+                }),
+                menuPortal: (base) => ({
+                  ...base,
+                  border: `1px solid gray`,
+                  width: '83%',
+                  marginLeft: '40px',
+                  height: '50px',
+                  borderRadius: '7px',
+                  backgroundColor: 'gray',
+                }),
+              }}
+              // className="abc"
+
+      options={treeFamily?.map((item) => {
+        return { value: item.id, label: item.tree_family };
+
+      })}
+      // eslint-disable-next-line react/jsx-no-bind
+      onChange={handleFamilyChange}
+      // onChange={opt => console.log({value: opt.name, label: opt.name })}
+
+    />
+
+{/* <Select
+ id="treeOfFamily"
+ placeholder= "Select Tree Family"
+ label= "Tree Family"
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    border: `1px solid gray`,
+                    width: '83%',
+                    marginLeft: '40px',
+                    height: '55px',
+                    borderRadius: '7px',
+                  }),
+                  menuPortal: (base) => ({
+                    ...base,
+                    border: `1px solid gray`,
+                    width: '83%',
+                    marginLeft: '40px',
+                    height: '50px',
+                    borderRadius: '7px',
+                    backgroundColor: 'gray',
+                  }),
+                }}
+                className="abc"
+                //  classes={classes.dropdown}
+                // cx={{height:"500px !important"}}
+                // style={{height: "100px", border: "1px solid red"}}
+                value={treeOfFamily}
+                options={treeFamily?.map((item) => {
+                  return { value: item.tree_family, label: item.tree_family };
+                })}
+                onChange={handleFamilyChange}
+                // error={Boolean(touched.treeFamily && errors.treeFamily)}
+                // helperText={touched.treeFamily && errors.treeFamily}
+                // {...getFieldProps('treeFamily')}
+              />  */}
+            
+            {/* <TextField
               select
               // SelectProps={{
               //   multiple:true
@@ -619,7 +704,7 @@ const classes = useStyles();
                   {option.tree_family}
                 </MenuItem>
               ))}
-            </TextField>
+            </TextField> */}
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Uses*</FormLabel>
