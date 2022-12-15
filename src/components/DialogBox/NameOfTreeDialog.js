@@ -65,7 +65,7 @@ export default function NameOfTreeDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
-  const [typeOfTree, SetTypeOfTree] = React.useState('');
+  const [typeOfTree, setTypeOfTree] = React.useState({label:"", value: ""});
   const [treeOfFamily, setTreeOfFamily] = React.useState('');
   const [origin, setOrigin] = React.useState('');
   const [floweringStart, setFloweringStart] = React.useState('');
@@ -82,7 +82,7 @@ export default function NameOfTreeDialog(props) {
   const [maxAgeError, setMaxAgeError] = React.useState('');
   const [minGrthError, setMinGrthError] = React.useState('');
   const [maxGrthError, setMaxGrthError] = React.useState('');
-  const [treeFamilyChange, setTreeFamilyChange]= React.useState('');
+  const [treeFamilyChange, setTreeFamilyChange]= React.useState({label:"", value: ""});
   const [name, setName] = React.useState('');
   const[botanicalNameValue, setBotanicalNameValue]  = React.useState('');
   const [treeTypeId, setTreeTypeId]  = React.useState('');
@@ -223,8 +223,8 @@ setVal(item)
     if(data){
       setName(data.name)
       setBotanicalNameValue(data?.botanical_name)
-      SetTypeOfTree(data.tree_type_id);
-      setTreeOfFamily(data.tree_family_id);
+      setTypeOfTree({label:data.tree_type.tree_type, value:data.tree_type_id });
+      setTreeFamilyChange({label:data.tree_family.tree_family, value: data.tree_family_id});
       setUsesValue(data.uses);
       setOrigin(data.origin);
       setOxygenEmittrateValue(data.oxygen_emit_rate);
@@ -283,30 +283,54 @@ setVal(item)
 //   }
 // }
 
-const handleStatusChange = (event) => {
-SetTypeOfTree(event.target.value);
-};
+// const handleStatusChange = (event) => {
+// setTypeOfTree(event.target.value);
+// };
 const handleOriginChange = (event) => {
   setOrigin(event.target.value)
 }
 
 const handleNameChange= (e) =>{
-  setName(e.value);
-  console.log(e.value)
+  setName(e.target.value);
+  // console.log(e.value)
 }
 
 const handleFamilyChange = (e) => {
   setTreeFamilyChange(e);
   console.log("___________", e)
-  setName(e.target.value)
- 
- 
-  // setBotanicalNameValue(botanicalNameValue)
-  // console.log("e___", e)
-  // console.log("+++++", e.name)
-  // eslint-disable-next-line no-unused-expressions
   
   };
+
+  const handleTreeTypeChange =(e) => {
+    setTypeOfTree(e);
+  }
+
+ const handleOxygenEmittrateChange =(event) => {
+  setOxygenEmittrateValue(event.target.value)
+ }
+
+  const handleUsesChange =(event) => {
+    setUsesValue(event.target.value)
+  }
+  
+  const handleFruitingSeasonChange =(event) => {
+    setFruitingSeasonValue(event.target.value)
+  }
+  const handleFloweringSeasonChange =(event) => {
+    setFloweringSeasonValue(event.target.value)
+  }
+  const handleGrowthFactorChange =(event) => {
+    setGrowthFactorValue(event.target.value)
+  }
+  const handleGrowthRatioChange =(event) => {
+    setGrowthRatioValue(event.target.value)
+  }
+  const handleHeightChange =(event) => {
+    setHeightValue(event.target.value)
+  }
+  const handleAgeChange =(event) => {
+    setAgeValue(event.target.value)
+  }
 
   const handleClose = () => {
     props.handleClose();
@@ -338,6 +362,9 @@ const handleFamilyChange = (e) => {
   const handleSeasonEndChange = (event) => {
     // console.log("iiii");
     setFloweringEnd(event.target.value)
+  }
+  const handleBotanicalName =(event) => {
+    setBotanicalNameValue(event.target.value)
   }
 
   const handleMinHeightChange =(e) => {
@@ -418,7 +445,7 @@ const handleFamilyChange = (e) => {
     initialValues: {
       name: name || "",
       botanicalName: botanicalNameValue || "",
-      treeType: typeOfTree || "",
+      treeType: typeOfTree.value || "",
       treeFamilyId: treeFamilyChange.value || "",
       uses: usesValue|| "",
       origin: origin || "",
@@ -532,12 +559,15 @@ const classes = useStyles();
                 id="name"
                 style={{ width: '86%' }}
                 value={name}
-                onChange={handleNameChange}
+                onChange={(e) => {
+                  handleNameChange(e);
+                  formik.handleChange(e);
+                }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.name && errors.name)}
                 helperText={touched.name && errors.name}
-                {...getFieldProps("name")}
+                // {...getFieldProps("name")}
               />
             </Grid>
             <Grid item xs={6} md={6} sm={6} />
@@ -549,17 +579,60 @@ const classes = useStyles();
                 // name="botanicalName"
                 autoComplete="botanicalName"
                 value={botanicalNameValue}
-                // onChange={}
+                onChange={(e) => {
+                  handleBotanicalName(e);
+                  formik.handleChange(e);
+                }}
                 // label="Botanical Name*"
                 // placeholder="Enter Botanical Name*"
                 error={Boolean(touched.botanicalName && errors.botanicalName)}
                 helperText={touched.botanicalName && errors.botanicalName}
-                {...getFieldProps("botanicalName")}
+                // {...getFieldProps("botanicalName")}
               />
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Type*</FormLabel>
-            <TextField
+            <Select
+              
+              id="treeType"
+              placeholder= "Select Tree Type"
+              label= "Tree Name"
+              value={typeOfTree}
+              className="react-select-container"
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  border: `1px solid gray`,
+                  width: '83%',
+                  marginLeft: '40px',
+                  height: '55px',
+                  borderRadius: '7px',
+                }),
+                menuPortal: (base) => ({
+                  ...base,
+                  border: `1px solid gray`,
+                  width: '83%',
+                  marginLeft: '40px',
+                  height: '50px',
+                  borderRadius: '7px',
+                  backgroundColor: 'gray',
+                }),
+              }}
+              isClearable={false}
+              // className="abc"
+
+      options={treeType?.map((item) => {
+        return { value: item.id, label: item.tree_type };
+
+      })}
+      // eslint-disable-next-line react/jsx-no-bind
+      onChange={handleTreeTypeChange}
+      // onChange={opt => console.log({value: opt.name, label: opt.name })}
+      // error={Boolean(touched.treeFamilyId && errors.treeFamilyId)}
+      // helperText={touched.treeFamilyId && errors.treeFamilyId}
+      // {...getFieldProps("treeFamilyId")}
+    />
+            {/* <TextField
               select
               // SelectProps={{
               //   multiple:true
@@ -579,7 +652,7 @@ const classes = useStyles();
             }}
               error={Boolean(touched.treeType && errors.treeType)}
                 helperText={touched.treeType && errors.treeType}
-                {...getFieldProps("treeType")}
+                // {...getFieldProps("treeType")}
             >
              
               {treeType?.map((option) => (
@@ -587,7 +660,7 @@ const classes = useStyles();
                   {option.tree_type}
                 </MenuItem>
               ))}
-            </TextField>
+            </TextField> */}
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Family*</FormLabel>
@@ -627,80 +700,8 @@ const classes = useStyles();
       })}
       // eslint-disable-next-line react/jsx-no-bind
       onChange={handleFamilyChange}
-      // onChange={opt => console.log({value: opt.name, label: opt.name })}
-      // error={Boolean(touched.treeFamilyId && errors.treeFamilyId)}
-      // helperText={touched.treeFamilyId && errors.treeFamilyId}
-      // {...getFieldProps("treeFamilyId")}
     />
 
-{/* <Select
- id="treeOfFamily"
- placeholder= "Select Tree Family"
- label= "Tree Family"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    border: `1px solid gray`,
-                    width: '83%',
-                    marginLeft: '40px',
-                    height: '55px',
-                    borderRadius: '7px',
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    border: `1px solid gray`,
-                    width: '83%',
-                    marginLeft: '40px',
-                    height: '50px',
-                    borderRadius: '7px',
-                    backgroundColor: 'gray',
-                  }),
-                }}
-                className="abc"
-                //  classes={classes.dropdown}
-                // cx={{height:"500px !important"}}
-                // style={{height: "100px", border: "1px solid red"}}
-                value={treeOfFamily}
-                options={treeFamily?.map((item) => {
-                  return { value: item.tree_family, label: item.tree_family };
-                })}
-                onChange={handleFamilyChange}
-                // error={Boolean(touched.treeFamily && errors.treeFamily)}
-                // helperText={touched.treeFamily && errors.treeFamily}
-                // {...getFieldProps('treeFamily')}
-              />  */}
-            
-            {/* <TextField
-              select
-              // SelectProps={{
-              //   multiple:true
-              // }}
-              id="treeOfFamily"
-              // label="Tree Family"
-              // name='treeFamily'
-            displayEmpty
-              value={treeOfFamily}
-              style={{width:'83%', marginLeft: 40}}
-              placeholder='Tree family'
-              onChange={handleFamilyChange}
-              inputProps={{
-                classes: {
-                    icon: classes.icon,
-                },
-            }}
-              error={Boolean(touched.treeFamily && errors.treeFamily)}
-                helperText={touched.treeFamily && errors.treeFamily}
-                {...getFieldProps("treeFamily")}
-            >
-               <MenuItem disabled value="">
-            <em>Tree Family*</em>
-          </MenuItem>
-              {treeFamily?.map((option) => (
-                <MenuItem  key ={option.id}value={option.id}>
-                  {option.tree_family}
-                </MenuItem>
-              ))}
-            </TextField> */}
             </Grid>
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Uses*</FormLabel>
@@ -709,11 +710,16 @@ const classes = useStyles();
   fullWidth
   id="uses"
   value={usesValue}
+  onChange={(e) => {
+    handleUsesChange(e);
+    formik.handleChange(e);
+  }}
+
   // placeholder="Uses"
   // label="Uses"
   error={Boolean(touched.uses && errors.uses)}
   helperText={touched.uses && errors.uses}
-  {...getFieldProps("uses")}
+  // {...getFieldProps("uses")}
   style={{ width: "83%", marginLeft:40, borderRadius: 7, height: 80, paddingTop: 8, paddingLeft: 8, fontFamily: "Public Sans,sans-serif",
   fontWeight: 400, outline: "darkgrey"}}
 />
@@ -727,12 +733,17 @@ const classes = useStyles();
               // }}
               id="origin"
               value={origin}
+
               // label="Origin"
               // name='origin'
             displayEmpty
               style={{width:'83%', marginLeft: 40}}
               // placeholder='Select Origin'
-              onChange={handleOriginChange}
+              handleOriginChange
+              onChange={(e) => {
+                handleOriginChange(e);
+                formik.handleChange(e);
+              }}
               inputProps={{
                 classes: {
                     icon: classes.icon,
@@ -740,7 +751,7 @@ const classes = useStyles();
             }}
               error={Boolean(touched.origin && errors.origin)}
                 helperText={touched.origin && errors.origin}
-                {...getFieldProps("origin")}
+                // {...getFieldProps("origin")}
             >
                {/* <MenuItem disabled value="">
             <em>Origin</em>
@@ -759,11 +770,15 @@ const classes = useStyles();
                 required
                 id="oxygenEmittrate"
                 value={oxygenEmittrateValue}
+                onChange={(e) => {
+                  handleOxygenEmittrateChange(e);
+                  formik.handleChange(e);
+                }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.oxygenEmittrate && errors.oxygenEmittrate)}
                 helperText={touched.oxygenEmittrate && errors.oxygenEmittrate}
-                {...getFieldProps("oxygenEmittrate")}
+                // {...getFieldProps("oxygenEmittrate")}
               />
             </Grid>
             <Grid item xs={6} md={6} sm={6} />
@@ -774,11 +789,15 @@ const classes = useStyles();
                 required
                 id="floweringSeason"
                 value={floweringSeasonValue}
+                onChange={(e) => {
+                  handleFloweringSeasonChange(e);
+                  formik.handleChange(e);
+                }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.floweringSeason && errors.floweringSeason)}
                 helperText={touched.floweringSeason && errors.floweringSeason}
-                {...getFieldProps("floweringSeason")}
+                // {...getFieldProps("floweringSeason")}
               />
             </Grid>
             <Grid item xs={6} md={6} sm={6} />
@@ -789,11 +808,15 @@ const classes = useStyles();
                 required
                 id="fruitingSeason"
                 value={fruitingSeasonValue}
+                onChange={(e) => {
+                  handleFruitingSeasonChange(e);
+                  formik.handleChange(e);
+                }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.fruitingSeason && errors.fruitingSeason)}
                 helperText={touched.fruitingSeason && errors.fruitingSeason}
-                {...getFieldProps("fruitingSeason")}
+                // {...getFieldProps("fruitingSeason")}
               />
             </Grid>
             <Grid item xs={6} md={6} sm={6} />
@@ -804,11 +827,15 @@ const classes = useStyles();
                 required
                 id="growthFactor"
                 value={growthFactorValue}
+                onChange={(e) => {
+                  handleGrowthFactorChange(e);
+                  formik.handleChange(e);
+                }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.growthFactor && errors.growthFactor)}
                 helperText={touched.growthFactor && errors.growthFactor}
-                {...getFieldProps("growthFactor")}
+                // {...getFieldProps("growthFactor")}
               />
             </Grid>
             <Grid item xs={6} md={6} sm={6} />
@@ -819,11 +846,15 @@ const classes = useStyles();
                 required
                 id="growthRatio"
                 value={growthRatioValue}
+                onChange={(e) => {
+                  handleGrowthRatioChange(e);
+                  formik.handleChange(e);
+                }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.growthRatio && errors.growthRatio)}
                 helperText={touched.growthRatio && errors.growthRatio}
-                {...getFieldProps("growthRatio")}
+                // {...getFieldProps("growthRatio")}
               />
             </Grid>
             <Grid item xs={6} md={6} sm={6} />
@@ -834,11 +865,15 @@ const classes = useStyles();
                 required
                 id="height"
                 value={heightValue}
+                onChange={(e) => {
+                  handleHeightChange(e);
+                  formik.handleChange(e);
+                }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.height && errors.height)}
                 helperText={touched.height && errors.height}
-                {...getFieldProps("height")}
+                // {...getFieldProps("height")}
               />
             </Grid>
             <Grid item xs={6} md={6} sm={6} />
@@ -849,11 +884,15 @@ const classes = useStyles();
                 required
                 id="age"
                 value={ageValue}
+                onChange={(e) => {
+                  handleAgeChange(e);
+                  formik.handleChange(e);
+                }}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.age && errors.age)}
                 helperText={touched.age && errors.age}
-                {...getFieldProps("age")}
+                // {...getFieldProps("age")}
               />
             </Grid>
           </Grid>
