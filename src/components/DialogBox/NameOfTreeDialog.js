@@ -83,6 +83,17 @@ export default function NameOfTreeDialog(props) {
   const [minGrthError, setMinGrthError] = React.useState('');
   const [maxGrthError, setMaxGrthError] = React.useState('');
   const [treeFamilyChange, setTreeFamilyChange]= React.useState('');
+  const [name, setName] = React.useState('');
+  const[botanicalNameValue, setBotanicalNameValue]  = React.useState('');
+  const [treeTypeId, setTreeTypeId]  = React.useState('');
+  const [usesValue, setUsesValue] = React.useState('');
+  const [oxygenEmittrateValue, setOxygenEmittrateValue]= React.useState('');
+  const [floweringSeasonValue, setFloweringSeasonValue]= React.useState('');
+  const [fruitingSeasonValue, setFruitingSeasonValue] = React.useState(''); 
+  const [growthFactorValue, setGrowthFactorValue]= React.useState('');
+  const [growthRatioValue, setGrowthRatioValue]= React.useState('');
+  const [heightValue, setHeightValue]= React.useState('');
+  const [ageValue,setAgeValue]= React.useState('');
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const submitErrors = [];
   let age;
@@ -199,49 +210,6 @@ setVal(item)
     },
   ];
 
-const growthFactorValue = [
-    {
-      value: 1,
-      label: 1
-    },
-    {
-      value: 1.5,
-      label: 1.5
-    },
-    {
-      value: 2,
-      label: 2,
-    },
-    {
-      value: 2.5,
-      label: 2.5
-    },
-    {
-      value: 3,
-      label: 3
-    },
-    {
-      value: 3.5,
-      label: 3.5,
-    },
-    {
-      value: 4,
-      label: 4
-    },
-    {
-      value: 4.5,
-      label: 4.5
-    },
-    {
-      value: 5,
-      label: 5
-    },
-    {
-      value: 5.5,
-      label: 5.5
-    },
-  ]
-
   React.useEffect(() => {
     setButtonDisabled(false)
   }, [showLoadingButton ]);
@@ -253,8 +221,19 @@ const growthFactorValue = [
 
   useEffect(()=>{
     if(data){
+      setName(data.name)
+      setBotanicalNameValue(data?.botanical_name)
       SetTypeOfTree(data.tree_type_id);
       setTreeOfFamily(data.tree_family_id);
+      setUsesValue(data.uses);
+      setOrigin(data.origin);
+      setOxygenEmittrateValue(data.oxygen_emit_rate);
+      setFloweringSeasonValue(data.flowering_season);
+      setFruitingSeasonValue(data.fruiting_season)
+      setGrowthFactorValue(data.growthFactor)
+      setGrowthRatioValue(data.growthRatio)
+      setHeightValue(data.height)
+      setAgeValue(data.age)
     }
     
   },[data])
@@ -311,8 +290,18 @@ const handleOriginChange = (event) => {
   setOrigin(event.target.value)
 }
 
+const handleNameChange= (e) =>{
+  setName(e.value);
+  console.log(e.value)
+}
+
 const handleFamilyChange = (e) => {
   setTreeFamilyChange(e);
+  console.log("___________", e)
+  setName(e.target.value)
+ 
+ 
+  // setBotanicalNameValue(botanicalNameValue)
   // console.log("e___", e)
   // console.log("+++++", e.name)
   // eslint-disable-next-line no-unused-expressions
@@ -407,7 +396,7 @@ const handleFamilyChange = (e) => {
     name: Yup.string().matches(/^[a-zA-Z- _]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Name is required'),
     botanicalName: Yup.string().matches(/^[a-zA-Z- _]+$/, "Only alphabets are allowed for this field ").max(30,"Maximum length 30 character only").required('Botanical Name is required'),
     treeType: Yup.string().required('Tree Type is required'),
-    // treeFamily: Yup.string().required('Tree Family is required'),
+    treeFamilyId: Yup.string().required('Tree Family is required'),
     origin: Yup.string().required('Origin is required'),
     growthRatio: Yup.string().matches(/^[1-9]\d*(\.\d+)?$/, "Only decimal value are allowed ").required('Growth ratio is required'),
     growthFactor: Yup.string().matches(/^[0-9]+$/, "Only numbers are allowed").required('Growth Factor is required'),
@@ -427,29 +416,30 @@ const handleFamilyChange = (e) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name:data? data.name : "",
-      botanicalName: data? data.botanical_name: "",
-      treeType: data? data.tree_type_id:"",
-      treeFamilyId: data? data.tree_family_id: treeFamilyChange?.value || "",
-      uses:data? data.uses: "",
-      origin: data? data.origin: "",
-      oxygenEmittrate: data? data.oxygen_emit_rate: "",
-     floweringSeason: data? data.flowering_season: "",
-     fruitingSeason: data? data.fruiting_season: "",
-     growthFactor: data? data.growth_factor: "",
-     height: data ? data.max_height: "",
-     age: data? data.max_age: "",
-      minHeight: data? minHt: "",
-      maxHeightx: data? maxHt: "",
-      minAge:data? minAg: "",
-      maxAge: data? maxAg: "",
-      minGrowth: data? minGro: "",
-      maxGrowth: data? maxGro: "",
-      growthRatio: data? data.growth_ratio : "",
-      floweringStart:data? flwSt?.trim(): "",
-      floweringEnd: data? flwEnd?.trim(): "",
-      fruitingStart: data? frtSt?.trim(): "",
-      fruitingEnd: data? frtEnd?.trim(): "",
+      name: name || "",
+      botanicalName: botanicalNameValue || "",
+      treeType: typeOfTree || "",
+      treeFamilyId: treeFamilyChange.value || "",
+      uses: usesValue|| "",
+      origin: origin || "",
+      oxygenEmittrate: oxygenEmittrateValue|| "",
+     floweringSeason: floweringSeasonValue|| "",
+     fruitingSeason: growthFactorValue || "",
+     growthFactor: growthFactorValue || "",
+     height: heightValue|| "",
+     age: ageValue|| "",
+     growthRatio: growthRatioValue || "",
+      // minHeight: data? minHt: "",
+      // maxHeightx: data? maxHt: "",
+      // minAge:data? minAg: "",
+      // maxAge: data? maxAg: "",
+      // minGrowth: data? minGro: "",
+      // maxGrowth: data? maxGro: "",
+    
+      // floweringStart:data? flwSt?.trim(): "",
+      // floweringEnd: data? flwEnd?.trim(): "",
+      // fruitingStart: data? frtSt?.trim(): "",
+      // fruitingEnd: data? frtEnd?.trim(): "",
     },
     validationSchema: DesignationsSchema,
     onSubmit: (value) => {
@@ -541,7 +531,8 @@ const classes = useStyles();
                 required
                 id="name"
                 style={{ width: '86%' }}
-                value={values.name}
+                value={name}
+                onChange={handleNameChange}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.name && errors.name)}
@@ -555,8 +546,10 @@ const classes = useStyles();
             <DefaultInput
                 fullWidth
                 id="botanicalName"
+                // name="botanicalName"
                 autoComplete="botanicalName"
-                value={values.botanicalName}
+                value={botanicalNameValue}
+                // onChange={}
                 // label="Botanical Name*"
                 // placeholder="Enter Botanical Name*"
                 error={Boolean(touched.botanicalName && errors.botanicalName)}
@@ -599,7 +592,7 @@ const classes = useStyles();
             <Grid item xs={12}>
             <FormLabel style={{marginLeft: 45, marginTop: 20}}>Tree Family*</FormLabel>
             
-            <Select
+          <Select
               
               id="treeFamilyId"
               placeholder= "Select Tree Family"
@@ -625,6 +618,7 @@ const classes = useStyles();
                   backgroundColor: 'gray',
                 }),
               }}
+              isClearable={false}
               // className="abc"
 
       options={treeFamily?.map((item) => {
@@ -634,7 +628,9 @@ const classes = useStyles();
       // eslint-disable-next-line react/jsx-no-bind
       onChange={handleFamilyChange}
       // onChange={opt => console.log({value: opt.name, label: opt.name })}
-
+      // error={Boolean(touched.treeFamilyId && errors.treeFamilyId)}
+      // helperText={touched.treeFamilyId && errors.treeFamilyId}
+      // {...getFieldProps("treeFamilyId")}
     />
 
 {/* <Select
@@ -712,6 +708,7 @@ const classes = useStyles();
   aria-label="empty textarea"
   fullWidth
   id="uses"
+  value={usesValue}
   // placeholder="Uses"
   // label="Uses"
   error={Boolean(touched.uses && errors.uses)}
@@ -729,10 +726,10 @@ const classes = useStyles();
               //   multiple:true
               // }}
               id="origin"
+              value={origin}
               // label="Origin"
               // name='origin'
             displayEmpty
-              value={origin}
               style={{width:'83%', marginLeft: 40}}
               // placeholder='Select Origin'
               onChange={handleOriginChange}
@@ -761,6 +758,7 @@ const classes = useStyles();
                 fullWidth
                 required
                 id="oxygenEmittrate"
+                value={oxygenEmittrateValue}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.oxygenEmittrate && errors.oxygenEmittrate)}
@@ -775,6 +773,7 @@ const classes = useStyles();
                 fullWidth
                 required
                 id="floweringSeason"
+                value={floweringSeasonValue}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.floweringSeason && errors.floweringSeason)}
@@ -788,7 +787,8 @@ const classes = useStyles();
               <DefaultInput
                 fullWidth
                 required
-                id="floweringSeason"
+                id="fruitingSeason"
+                value={fruitingSeasonValue}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.fruitingSeason && errors.fruitingSeason)}
@@ -802,7 +802,8 @@ const classes = useStyles();
               <DefaultInput
                 fullWidth
                 required
-                id="GrowthFactor"
+                id="growthFactor"
+                value={growthFactorValue}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.growthFactor && errors.growthFactor)}
@@ -816,7 +817,8 @@ const classes = useStyles();
               <DefaultInput
                 fullWidth
                 required
-                id="GrowthFactor"
+                id="growthRatio"
+                value={growthRatioValue}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.growthRatio && errors.growthRatio)}
@@ -830,7 +832,8 @@ const classes = useStyles();
               <DefaultInput
                 fullWidth
                 required
-                id="GrowthFactor"
+                id="height"
+                value={heightValue}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.height && errors.height)}
@@ -844,7 +847,8 @@ const classes = useStyles();
               <DefaultInput
                 fullWidth
                 required
-                id="GrowthFactor"
+                id="age"
+                value={ageValue}
                 // placeholder="Enter Tree Name*"
                 // label="Tree Name*"
                 error={Boolean(touched.age && errors.age)}

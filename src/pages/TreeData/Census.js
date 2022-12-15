@@ -846,7 +846,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
 
                 </Grid>
                 <Grid container spacing={2} style={{zIndex: 0}} >
-                  <Grid item xs={6}> 
+                  <Grid item xs={6} > 
                   <TextField
                     id="heightFrom"
                     type="text"
@@ -913,7 +913,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 </Grid>
                 {councilID ? 
                 <>
-                <Grid item xs={12}   >
+                <Grid item xs={12}    >
                 <TextField
                     fullWidth
                     id="fromDate"
@@ -921,7 +921,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     label="Start Date*"
                     margin="normal"
                     name="fromDateForm"
-                    style={{ width: '100%', marginTop: 5, }}
+                    style={{ width: '100%', marginTop: 5,zIndex: 0 }}
                     size="small"
                     // label="Plantation Date"
                     // value={values.fromDateForm || ''}
@@ -935,7 +935,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     {...getFieldProps('fromDateForm')}
                   />
                 </Grid>
-                <Grid item xs={12}  >
+                <Grid item xs={12}  style={{zIndex: 0}} >
                 <TextField
                     fullWidth
                     id="toDate"
