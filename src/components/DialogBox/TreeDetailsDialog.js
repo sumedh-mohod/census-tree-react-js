@@ -132,7 +132,7 @@ const BootstrapDialogTitle = (props) => {
         initialValues: {
             treeType:	data?data.tree_type_id:"",
             localtreeName: data?data.tree_name_id:"",
-            botTreeName:	data?data.tree_name_id:"",
+            botTreeName:data?data.tree_name_id:"",
             girth:	data?data.girth:"",
             height:	data?data.height:"",
             canopy:	data?data.canopy:"",

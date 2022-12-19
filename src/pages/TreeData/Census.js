@@ -372,7 +372,14 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     }))
   
   }
-
+  const controlStyle = base => ({
+    ...base, 
+    boxShadow: "none", 
+    borderColor: "#cccccc",
+    "&:hover": {
+        borderColor: "#cccccc"
+    }
+})
   const requestForReport=() => {
 const requestObj=  {
   "type":"census",
@@ -455,6 +462,8 @@ if(treeNameFrom){
    
 })
 
+console.log("treeName", treeName)
+
 const FilterSchema = Yup.object().shape({
   councilForm: Yup.string().required('Please select council'),
   toDateForm:  Yup.string().required('Please select End Date'),
@@ -482,9 +491,9 @@ const formik = useFormik({
   },
   validationSchema: FilterSchema,
   onSubmit: (value) => {
-    console.log("in submit", value);
+    console.log("in submit", value.treeNameFrom);
     setAddedByForm(value.addedByForm);
-    setTreeNameFrom(value.treeNameFrom)
+    setTreeNameFrom(value.treeNameFrom);
     setHeightFrom(value.heightFrom)
     setHeightTo(value.heightTo)
     setGirthFrom(value.girthFrom)
@@ -810,15 +819,23 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 <Grid item xs={12}>
 
                 <Select
-                style={{border: "1px solid black"}}
+              
                 id="treeNameFrom"
                 placeholder= "Select Tree Name"
                 label= "Tree Name"
                 value={treeNameInput}
+                className="react-select-container"
+                componentsProps={{
+                  listbox: {
+                    sx: {backgroundColor: '#000'}
+                  }
+                }}
+                
+                style={{borderColor:"red"}}
+                        clearable={false}
 
         options={treeName?.map((item) => {
-
-          return { value: item.name, label: item.name };
+          return { value: item.id, label: item.name };
 
         })}
         // eslint-disable-next-line react/jsx-no-bind
@@ -828,8 +845,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
       />
 
                 </Grid>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}> 
+                <Grid container spacing={2} style={{zIndex: 0}} >
+                  <Grid item xs={6} > 
                   <TextField
                     id="heightFrom"
                     type="text"
@@ -861,7 +878,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                
                 </Grid>
 
-                <Grid container spacing={2}>
+                <Grid container spacing={2} style={{zIndex: 0}}>
                   <Grid item xs={6}> 
                   <TextField
                     id="girthFrom"
@@ -878,7 +895,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
 
                   />
                  </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={6} >
                   <TextField
                     id="girthTo"
                     type="text"
@@ -896,7 +913,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 </Grid>
                 {councilID ? 
                 <>
-                <Grid item xs={12}>
+                <Grid item xs={12}    >
                 <TextField
                     fullWidth
                     id="fromDate"
@@ -904,7 +921,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     label="Start Date*"
                     margin="normal"
                     name="fromDateForm"
-                    style={{ width: '100%', marginTop: 5 }}
+                    style={{ width: '100%', marginTop: 5,zIndex: 0 }}
                     size="small"
                     // label="Plantation Date"
                     // value={values.fromDateForm || ''}
@@ -918,7 +935,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     {...getFieldProps('fromDateForm')}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12}  style={{zIndex: 0}} >
                 <TextField
                     fullWidth
                     id="toDate"
@@ -926,7 +943,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     type="date"
                     margin="normal"
                     name="toDateForm"
-                    style={{ width: '100%', marginTop: 5 }}
+                    
+                    style={{ width: '100%', marginTop: 5,}}
                     size="small"
                     // label="Plantation Date"
                     // value={values.toDateForm || ''}

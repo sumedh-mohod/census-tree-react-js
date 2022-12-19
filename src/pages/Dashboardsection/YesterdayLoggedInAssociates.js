@@ -140,7 +140,7 @@ console.log("workLogged1", workLogged )
 
 useEffect(() => {
   dispatch(GetActiveCouncil(1));
-  dispatch(GetWorkLogged(Id, yesterdayNew|| dateFrom, 1, rowsPerPage));
+  dispatch(GetWorkLogged(Id, yesterdayNew|| dateFrom, page, rowsPerPage));
   // dispatch(GetBaseColorTreeById(1));
 }, []);
 
@@ -167,10 +167,14 @@ useEffect(() => {
   };
 
   const handleChangePage = (event, newPage) => {
+    console.log("newPage", newPage)
     setPage(newPage);
-    setShowList(false);
-      dispatch(GetWorkLogged( coucilId,dateFrom, newPage, rowsPerPage));
+    setPage(1)
+    // setShowList(true)
+    // setShowList(false);
+      dispatch(GetWorkLogged( coucilId,yesterdayNew, newPage, rowsPerPage));
   };
+
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -188,7 +192,7 @@ useEffect(() => {
     setPage(1);
     setShowList(false);
     setDateFrom(e.target.value)
-    dispatch(GetWorkLogged(Id, e.target.value, 1, rowsPerPage));
+    dispatch(GetWorkLogged(coucilId, e.target.value, 1, rowsPerPage));
   }
 
   let timer = null;
@@ -218,9 +222,10 @@ useEffect(() => {
 
     setPage(1);
 
-    // setShowList(false);
+    setShowList(false);
 
-    dispatch(GetWorkLogged(Id,yesterdayNew||dateFrom, page, rowsPerPage));
+    dispatch(GetWorkLogged(e.target.value,yesterdayNew, page, rowsPerPage));
+    console.log("Page",page)
   };
 
   const useStyles = makeStyles({
@@ -411,10 +416,10 @@ useEffect(() => {
                        
                     </Table>
                   </TableContainer>
-                  {!showList?.workLogged ? (
+                  {workLogged ? (
             <Pagination
-              count={workLogged ? pageInfo.last_page : 0}
-              page={page}
+              count={showList ?  pageInfo.last_page :0}
+              // page={page}
               variant="outlined"
               shape="rounded"
               onChange={handleChangePage}
