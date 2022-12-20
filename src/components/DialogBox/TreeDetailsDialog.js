@@ -17,9 +17,10 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    Select, 
+    // Select, 
     MenuItem,
   } from '@mui/material';
+  import Select from "react-select";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
@@ -35,6 +36,7 @@ import { UpdateCensusTree } from '../../actions/TreeCensusAction';
 
 const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
+
   
     return (
       <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
@@ -69,7 +71,7 @@ const BootstrapDialogTitle = (props) => {
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
-    const [localTreeName, setLocalTreeName] = React.useState(data?data.tree_name_id:"");
+    const [localTreeName, setLocalTreeName] = React.useState({label: data.tree_name.name, value: data.tree_name.id});
     const [botanicalTreeName, setBotanicalTreeName] = React.useState(data?data.tree_name_id:"");
     const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
@@ -87,6 +89,9 @@ const BootstrapDialogTitle = (props) => {
         updateCensusTreeLog: state.treeCensus.updateCensusTreeLog,
       }));
 
+      console.log("data", props.data)
+      console.log("localTreeName_________",localTreeName)
+
       useEffect(()=>{
         dispatch(GetActiveTreeName(1));
         dispatch(GetActiveTreeType(1));
@@ -101,10 +106,24 @@ const BootstrapDialogTitle = (props) => {
 
       }
 
+      const handleTreeNameChange =(e) => {
+        setLocalTreeName(e)
+        setBotanicalTreeName(e.value)
+      }
+
       const handleBotanicalTreeName = (e) => {
         setBotanicalTreeName(e.target.value)
-        setLocalTreeName(e.target.value)
+        setLocalTreeName({label:findLocalTreeName(treeName,e.target.value) ,value: e.target.value})
+        // console.log("e", e)
       }
+
+      const findLocalTreeName= (listOfObj, id) => {
+        const found = listOfObj.find((e) => e.id === id);
+        // console.log("FOUND",found);
+        if (found) {
+          return found.name;
+        }
+      };
 
     const handleClose = () => {
         props.handleClose();
@@ -131,7 +150,7 @@ const BootstrapDialogTitle = (props) => {
         enableReinitialize: true,
         initialValues: {
             treeType:	data?data.tree_type_id:"",
-            localtreeName: data?data.tree_name_id:"",
+            localtreeName: localTreeName || "",
             botTreeName:data?data.tree_name_id:"",
             girth:	data?data.girth:"",
             height:	data?data.height:"",
@@ -142,10 +161,11 @@ const BootstrapDialogTitle = (props) => {
         },
         validationSchema: TreeDetailsSchema,
         onSubmit: (value) => {
+          // console.log("localtreeName", value)
           const plantationDate = value.plantationDate.replaceAll("-","/")
           dispatch(UpdateCensusTree({
             "tree_type_id": value.treeType,
-            "tree_name_id": value.localtreeName,
+            "tree_name_id": value.localtreeName.value,
             "tree_disease_id": value.disease,
             // "plantation_date": value.plantationDate,
             "plantation_date": plantationDate,
@@ -200,39 +220,60 @@ const BootstrapDialogTitle = (props) => {
               </TextField>
               </Grid>
             <Grid item xs={12}>
-            <TextField
-              select
-              fullWidth
-              id="nameOfTreeLocal"
+
+            <Select
+              
+              id="localTreeName"
+              placeholder= "Select Tree Name"
+              // label= "Tree Name"
               label="Tree Name(Local)*"
               name="localtreeName"
-              style={{marginTop:5}}
-              displayEmpty
+              value={localTreeName}
               defaultValue = ""
-              onChange={(e) => {
-                handleLocalTreeName(e)
-                formik.handleChange(e);
+              className="react-select-container"
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  border: `1px solid gray`,
+                  width: '100%',
+                  // marginLeft: '40px',
+                  height: '55px',
+                  borderRadius: '7px',
+                }),
+                menuPortal: (base) => ({
+                  ...base,
+                  border: `1px solid gray`,
+                  width: '83%',
+                  marginLeft: '40px',
+                  height: '50px',
+                  borderRadius: '7px',
+                  backgroundColor: 'gray',
+                }),
               }}
-              // placeholder="Tree Name(Local)"
-               value={localTreeName}
-              error={Boolean(touched.localtreeName && errors.localtreeName)}
-                helperText={touched.localtreeName && errors.localtreeName}
-            >
-               <MenuItem disabled value="">
-            {/* <em>Tree Name(Local)</em> */}
-          </MenuItem>
-              {treeName?.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-              </TextField>
+              // isClearable={false}
+              // className="abc"
+
+      options={treeName?.map((item) => {
+        return { value: item.id, label: item.name };
+
+      })}
+      // eslint-disable-next-line react/jsx-no-bind
+      onChange={(e) => {
+        handleTreeNameChange(e)
+        // formik.handleChange(e);
+      }}
+      // onChange={handleTreeNameChange}
+      // onChange={opt => console.log({value: opt.name, label: opt.name })}
+      error={Boolean(touched.localTreeName && errors.localTreeName)}
+      helperText={touched.localTreeName && errors.localTreeName}
+      // {...getFieldProps("treeFamilyId")}
+    />
               </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{zIndex:0}}>
               <TextField
               select
               fullWidth
-              id="nameOfTreeBot"
+              id="botTreeName"
               label="Tree Name(Botanical)*"
               name="botTreeName"
               displayEmpty
@@ -258,7 +299,7 @@ const BootstrapDialogTitle = (props) => {
               ))}
               </TextField>
               </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{zIndex:0}}>
               <TextField
                 fullWidth
                 displayEmpty
@@ -275,7 +316,7 @@ const BootstrapDialogTitle = (props) => {
                 {...getFieldProps("girth")}
               />
                </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{zIndex:0}}>
               <TextField
                 fullWidth
                 name="height"
@@ -290,7 +331,7 @@ const BootstrapDialogTitle = (props) => {
                 {...getFieldProps("height")}
               />
                </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{zIndex:0}}>
               <TextField
                 fullWidth
                 name="canopy"
@@ -305,7 +346,7 @@ const BootstrapDialogTitle = (props) => {
                 {...getFieldProps("canopy")}
               />
                </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{zIndex:0}}>
            
                 <TextField
                 select
