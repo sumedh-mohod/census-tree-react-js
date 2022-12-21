@@ -17,6 +17,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormLabel,
     // Select, 
     MenuItem,
   } from '@mui/material';
@@ -133,7 +134,7 @@ const BootstrapDialogTitle = (props) => {
         {
        
           treeType: Yup.string().required('Tree Type is required'),
-          localtreeName: Yup.string().required('Tree Name(Local) is required'),
+          // localtreeName: Yup.string().required('Tree Name(Local) is required'),
           botTreeName: Yup.string().required('Tree Name(Botanical) is required'),
           girth: Yup.string().required('Girth is required'),
           height: Yup.string().required('Height is required'),
@@ -195,12 +196,13 @@ const BootstrapDialogTitle = (props) => {
             <DialogContent>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
+                <FormLabel style={{ marginTop: 10}}>Tree Type*</FormLabel>
               <TextField
 
               select
               fullWidth
               id="typeOfTree"
-              label="Tree Type*"
+              // label="Tree Type*"
               name="treeType"
               displayEmpty
               defaultValue = ""
@@ -220,13 +222,14 @@ const BootstrapDialogTitle = (props) => {
               </TextField>
               </Grid>
             <Grid item xs={12}>
+            <FormLabel style={{ marginTop: 10}}>Tree Name(Local)*</FormLabel>
 
             <Select
               
               id="localTreeName"
               placeholder= "Select Tree Name"
               // label= "Tree Name"
-              label="Tree Name(Local)*"
+              // label="Tree Name(Local)*"
               name="localtreeName"
               value={localTreeName}
               defaultValue = ""
@@ -270,11 +273,12 @@ const BootstrapDialogTitle = (props) => {
     />
               </Grid>
             <Grid item xs={12} style={{zIndex:0}}>
+            <FormLabel style={{ marginTop: 10}}>Tree Name(Botanical)*</FormLabel>
               <TextField
               select
               fullWidth
               id="botTreeName"
-              label="Tree Name(Botanical)*"
+              // label="Tree Name(Botanical)*"
               name="botTreeName"
               displayEmpty
               defaultValue = ""
@@ -300,6 +304,7 @@ const BootstrapDialogTitle = (props) => {
               </TextField>
               </Grid>
             <Grid item xs={12} style={{zIndex:0}}>
+            <FormLabel style={{ marginTop: 10}}>Girth*</FormLabel>
               <TextField
                 fullWidth
                 displayEmpty
@@ -307,7 +312,7 @@ const BootstrapDialogTitle = (props) => {
                 name="girth"
                 placeholder="Girth"
                 style={{marginTop:5}}
-                label="Girth*"
+                // label="Girth*"
                  value={values.girth || ""}
                 helperText={
                     errors.girth && touched.girth
@@ -317,11 +322,12 @@ const BootstrapDialogTitle = (props) => {
               />
                </Grid>
             <Grid item xs={12} style={{zIndex:0}}>
+            <FormLabel style={{ marginTop: 10}}>Height*</FormLabel>
               <TextField
                 fullWidth
                 name="height"
                 placeholder="Height"
-                label="Height*"
+                // label="Height*"
                  value={values.height || ""}
                  style={{marginTop:5}}
                 helperText={
@@ -332,11 +338,12 @@ const BootstrapDialogTitle = (props) => {
               />
                </Grid>
             <Grid item xs={12} style={{zIndex:0}}>
+            <FormLabel style={{ marginTop: 10}}>Canopy*</FormLabel>
               <TextField
                 fullWidth
                 name="canopy"
                 placeholder="Canopy"
-                label="Canopy*"
+                // label="Canopy*"
                  value={values.canopy || ""}
                  style={{marginTop:5}}
                 helperText={
@@ -347,12 +354,13 @@ const BootstrapDialogTitle = (props) => {
               />
                </Grid>
             <Grid item xs={12} style={{zIndex:0}}>
+            <FormLabel style={{ marginTop: 10}}>Tree Condition*</FormLabel>
            
                 <TextField
                 select
               fullWidth
               id="treeCondition"
-              label="Tree Condition*"
+              // label="Tree Condition*"
               name="treeCondition"
               displayEmpty
               defaultValue = ""
@@ -374,12 +382,13 @@ const BootstrapDialogTitle = (props) => {
               </TextField>
               </Grid>
             <Grid item xs={12}>
+            <FormLabel style={{ marginTop: 10}}>Tree Disease(If any)</FormLabel>
             
                 <TextField
                 select
               fullWidth
               id="disease"
-              label="Tree Disease(If any)"
+              // label="Tree Disease(If any)"
               name="disease"
               displayEmpty
               defaultValue = ""
@@ -401,12 +410,13 @@ const BootstrapDialogTitle = (props) => {
               </TextField>
               </Grid>
             <Grid item xs={12}>
+            <FormLabel style={{ marginTop: 10}}>Plantation Date</FormLabel>
            
               <TextField
                 fullWidth
                 id="plantationDate"
                 name="plantationDate"
-                label="Plantation Date"
+                // label="Plantation Date"
                 type="date"
                 value={values.plantationDate}
                 style={{marginTop:5}}
