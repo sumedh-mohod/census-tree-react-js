@@ -26,6 +26,7 @@ import {
 } from '@mui/material';
 import moment from 'moment';
 import { useFormik } from 'formik';
+import Select from "react-select";
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Visibility } from '@mui/icons-material';
@@ -115,6 +116,7 @@ export default function Census() {
    const [reportForRequest, setReportForRequest] = React.useState();
    const [councilName,setCouncilName] =  React.useState();
    const [buttonClick, setButtonClick] = React.useState(true); 
+   const [treeNameInput, setTreeNameInput ] = React.useState(); 
    const todayDate = moment(new Date()).format('YYYY-MM-DD');
    const userPermissions = [];
 
@@ -370,7 +372,14 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     }))
   
   }
-
+  const controlStyle = base => ({
+    ...base, 
+    boxShadow: "none", 
+    borderColor: "#cccccc",
+    "&:hover": {
+        borderColor: "#cccccc"
+    }
+})
   const requestForReport=() => {
 const requestObj=  {
   "type":"census",
@@ -440,6 +449,11 @@ if(treeNameFrom){
     setTreeNameId(event.target.value)
   }
 
+  const handleSelect = (e) => {
+    setTreeNameInput(e);
+    console.log("data", e)
+  }
+
   const useStyles = makeStyles({
     
     icon: {
@@ -447,6 +461,8 @@ if(treeNameFrom){
     },
    
 })
+
+console.log("treeName", treeName)
 
 const FilterSchema = Yup.object().shape({
   councilForm: Yup.string().required('Please select council'),
@@ -465,7 +481,7 @@ const formik = useFormik({
     wardForm: wardID || '',
     zoneForm: zoneID || '',
     addedByForm: addedBy || '',
-    treeNameFrom: treeNameId || '',
+    treeNameFrom: treeNameInput?.value || '',
     heightFrom: heightFromId||"",
     heightTo:heightToId||  "",
     girthFrom: girthFromId|| "",
@@ -475,9 +491,9 @@ const formik = useFormik({
   },
   validationSchema: FilterSchema,
   onSubmit: (value) => {
-    // console.log("in submit", value);
+    console.log("in submit", value.treeNameFrom);
     setAddedByForm(value.addedByForm);
-    setTreeNameFrom(value.treeNameFrom)
+    setTreeNameFrom(value.treeNameFrom);
     setHeightFrom(value.heightFrom)
     setHeightTo(value.heightTo)
     setGirthFrom(value.girthFrom)
@@ -801,39 +817,36 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                   </TextField>
                 </Grid>
                 <Grid item xs={12}>
-                <TextField
-                    select
-                    id="treeNameFrom"
-                    label="Tree Name"
-                    displayEmpty
-                    value={treeNameId}
-                    style={{ width: '100%', marginTop: 5 }}
-                    size="small"
-                    onChange={(e) => {
-                      handleTreeNameChange(e);
-                      formik.handleChange(e);
-                    }}
-                    inputProps={{
-                      classes: {
-                        icon: classes.icon,
-                      },
-                    }}
-                  >
-                    <MenuItem disabled value="">
-                      <em>Select Tree Name</em>
-                    </MenuItem>
-                    <MenuItem value="">
-                      <em>----Null----</em>
-                    </MenuItem>
-                    {treeName?.map((option) => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+
+                <Select
+              
+                id="treeNameFrom"
+                placeholder= "Select Tree Name"
+                label= "Tree Name"
+                value={treeNameInput}
+                className="react-select-container"
+                componentsProps={{
+                  listbox: {
+                    sx: {backgroundColor: '#000'}
+                  }
+                }}
+                
+                style={{borderColor:"red"}}
+                        clearable={false}
+
+        options={treeName?.map((item) => {
+          return { value: item.id, label: item.name };
+
+        })}
+        // eslint-disable-next-line react/jsx-no-bind
+        onChange={handleSelect}
+        // onChange={opt => console.log({value: opt.name, label: opt.name })}
+
+      />
+
                 </Grid>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}> 
+                <Grid container spacing={2} style={{zIndex: 0}} >
+                  <Grid item xs={6} > 
                   <TextField
                     id="heightFrom"
                     type="text"
@@ -865,7 +878,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                
                 </Grid>
 
-                <Grid container spacing={2}>
+                <Grid container spacing={2} style={{zIndex: 0}}>
                   <Grid item xs={6}> 
                   <TextField
                     id="girthFrom"
@@ -882,7 +895,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
 
                   />
                  </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={6} >
                   <TextField
                     id="girthTo"
                     type="text"
@@ -900,7 +913,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                 </Grid>
                 {councilID ? 
                 <>
-                <Grid item xs={12}>
+                <Grid item xs={12}    >
                 <TextField
                     fullWidth
                     id="fromDate"
@@ -908,7 +921,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     label="Start Date*"
                     margin="normal"
                     name="fromDateForm"
-                    style={{ width: '100%', marginTop: 5 }}
+                    style={{ width: '100%', marginTop: 5,zIndex: 0 }}
                     size="small"
                     // label="Plantation Date"
                     // value={values.fromDateForm || ''}
@@ -922,7 +935,7 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     {...getFieldProps('fromDateForm')}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12}  style={{zIndex: 0}} >
                 <TextField
                     fullWidth
                     id="toDate"
@@ -930,7 +943,8 @@ const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = f
                     type="date"
                     margin="normal"
                     name="toDateForm"
-                    style={{ width: '100%', marginTop: 5 }}
+                    
+                    style={{ width: '100%', marginTop: 5,}}
                     size="small"
                     // label="Plantation Date"
                     // value={values.toDateForm || ''}

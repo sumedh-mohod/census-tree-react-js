@@ -259,7 +259,7 @@ export default function TeamsList() {
     setCouncilId(e.target.value);
     setZoneId('');
     setWardId('');
-    // setPage(1);
+    setPage(1);
     setShowList(false);
     dispatch(GetTeamByFilter(1, rowsPerPage, e.target.value, null, null));
     dispatch(GetActiveZonesByCouncilId(1, e.target.value));

@@ -187,7 +187,7 @@ const coun = filterCouncil[0]?.name;
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
 
-    setShowList(false);
+    setShowList(true);
 
     dispatch(GetUnsynchedUser(coucilId, newPage, rowsPerPage));
   };
@@ -196,10 +196,11 @@ const coun = filterCouncil[0]?.name;
     setCouncilId(e.target.value);
 
     setPage(1);
+    // setShowList(true);
 
     // setShowList(false);
 
-    dispatch(GetUnsynchedUser(coucilId, page, rowsPerPage));
+    dispatch(GetUnsynchedUser( e.target.value,1, rowsPerPage));
   };
 
   const useStyles = makeStyles({
@@ -315,6 +316,7 @@ const coun = filterCouncil[0]?.name;
           {unsynchedUser ? (
             <Pagination
               count={showList ? pageInfo.last_page : 0}
+              page={page}
               variant="outlined"
               shape="rounded"
               onChange={handleChangePage}
