@@ -2,7 +2,7 @@ import JWTServer from "../api/withJWTServer";
 import { SetNewAlert } from "./AlertActions";
 import { ShowLoader } from './CommonAction';
 import { HandleExceptionWithSecureCatch } from "./CombineCatch";
-import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS,  GET_TREE_CENSUS_HISTORY, GET_TREE_CENSUS_PENDING_QC_STATUS, UPDATE_CENSUS_TREE, REFER_TO_EXPERT} from "./Types";
+import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS,  GET_TREE_CENSUS_HISTORY, GET_TREE_CENSUS_PENDING_QC_STATUS, UPDATE_CENSUS_TREE, REFER_TO_EXPERT, DELETE_TREE_CENSUS} from "./Types";
 
 const GetTreeCensus = (page,limit,council,zone,ward,addedByForm,treeNameFrom,heightFrom,heightTo, girthFrom,girthTo,fromDateForm, toDateForm) => async (dispatch) => {
   let url = `/api/census-trees?page=${page}&limit=${limit}`
@@ -190,6 +190,23 @@ const GetTreeCensusPendingQCStatus = (councilId, zoneId, wardId, fromDate, toDat
   }
 };
 
+const DeleteCensusTrees = (params,status) => async (dispatch) => {
+  try {
+    const response = await JWTServer.delete(`/api/census-trees/${params}?status=${status}`);
+    // console.log("DELETE STATE RESPONSE",response.data);
+    dispatch({
+      type: DELETE_TREE_CENSUS,
+      payload: response.data,
+    });
+    dispatch(SetNewAlert({
+      msg: "Census tree deleted successfully!",
+      alertType: "success",
+    }));
+  } catch (e) {
+    dispatch(HandleExceptionWithSecureCatch(e));
+  }
+};
+
 export {
   GetTreeCensus,
   SearchTreeCensus,
@@ -199,4 +216,5 @@ export {
   GetTreeCensusPendingQCStatus,
   UpdateCensusTree,
   ReferToExpert,
+  DeleteCensusTrees
 }
