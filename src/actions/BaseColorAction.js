@@ -108,6 +108,10 @@ const GetBaseColorTrees = (page,limit,council,zone,ward,addedByForm,fromDateForm
         type: DELETE_BASE_COLOR_TREES,
         payload: response.data,
       });
+      dispatch(SetNewAlert({
+        msg: "Base color tree deleted successfully!",
+        alertType: "success",
+      }));
     } catch (e) {
       dispatch(HandleExceptionWithSecureCatch(e));
     }

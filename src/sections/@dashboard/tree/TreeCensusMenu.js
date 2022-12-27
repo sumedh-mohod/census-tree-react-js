@@ -70,13 +70,6 @@ export default function TreeCensusMenu(props) {
         <ListItemText primary="Unapprove" primaryTypographyProps={{ variant: 'body2' }} />
       </MenuItem>
         } */}
-        
-        {/* <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
-          <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem> */}
 
         {/* <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }} onClick={handleClose}>
           <ListItemIcon>
@@ -100,6 +93,12 @@ export default function TreeCensusMenu(props) {
           <ListItemText primary="View Details" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
         :null}
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDeletes}>
+        <ListItemIcon style={{color: '#214c50'}}>
+          <Iconify icon="eva:trash-2-fill" width={24} height={24} />
+        </ListItemIcon>
+        <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
+      </MenuItem>
       </Menu>
     </>
   );

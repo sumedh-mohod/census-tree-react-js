@@ -42,7 +42,7 @@ import TreeCensusMenu from '../../sections/@dashboard/tree/TreeCensusMenu';
 import ViewImageDialog from '../../components/DialogBox/tree-data/ViewImageDialog';
 import {GetReportRequest} from "../../actions/WorkReportAction";
 import { GetMyActiveTeam } from '../../actions/TeamsAction';
-import { GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
+import { DeleteCensusTrees, GetTreeCensus, SearchTreeCensus, UpdateQCStatusOfTreeCensus} from '../../actions/TreeCensusAction';
 import { GetActiveCouncil, SetActiveCouncil } from '../../actions/CouncilAction';
 import { GetUsersByRoleID } from '../../actions/UserAction';
 import { GetActiveZonesByCouncilId ,GetActiveZones, SetActiveZones} from '../../actions/ZonesAction';
@@ -137,7 +137,7 @@ export default function Census() {
     userByRoleID,
     activeTeams,
     editBaseColorTreesLog,
-    deleteBaseColorTreesLog,
+    deleteTreeCensusLog,
     updateQCStatusLog,
     pageInfo,
     loggedUser
@@ -150,7 +150,7 @@ export default function Census() {
     userByRoleID: state.users.userByRoleID,
     treeName:state.treeName.activeTreeName,
     // editBaseColorTreesLog:state.baseColor.editBaseColorTreesLog,
-    // deleteBaseColorTreesLog:state.baseColor.deleteBaseColorTreesLog,
+    deleteTreeCensusLog:state.treeCensus.deleteTreeCensusLog,
     updateQCStatusLog:state.treeCensus.updateQCStatusLog,
     pageInfo:state.treeCensus.pageInfo,
     loggedUser:state.auth.loggedUser
@@ -243,6 +243,16 @@ loggedUser.roles[0].permissions.map((item, index)=>(
     // dispatch(GetTreeName())
   },[treeCensus])
 
+  const forthRun = React.useRef(true);
+  useEffect(()=>{
+    if (forthRun.current) {
+      forthRun.current = false;
+      return;
+    }
+    setShowList(true);
+    dispatch(GetTreeCensus(page,rowsPerPage,councilID,zoneID,wardID,addedByForm,treeNameFrom,heightFrom, heightTo, girthFrom, girthTo,formDate,toDate));
+  },[deleteTreeCensusLog])
+
   // useEffect(()=>{
   //   dispatch(GetActiveCouncil(1));
   //   // dispatch(GetBaseColorTreeById(1));
@@ -316,7 +326,7 @@ loggedUser.roles[0].permissions.map((item, index)=>(
   };
 
   const handleDelete = (data) => {
-
+    dispatch(DeleteCensusTrees(data.id,0));
   };
 
   const handleChangePage = (event, newPage) => {

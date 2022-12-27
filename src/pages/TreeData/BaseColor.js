@@ -227,15 +227,17 @@ export default function BaseColor() {
     // setSelectedIndex(0);
   }, [activeTeams]);
 
-  // const firstRun = React.useRef(true);
-  // useEffect(()=>{
-  //   if (firstRun.current) {
-  //     firstRun.current = false;
-  //     return;
-  //   }
-  //   setShowList(true);
-  //   dispatch(GetBaseColorTrees(page,rowsPerPage,coucilId,zoneId,wardId));
-  // },[editBaseColorTreesLog,deleteBaseColorTreesLog,updateQCStatusLog])
+  const forthRun = React.useRef(true);
+  useEffect(()=>{
+    if (forthRun.current) {
+      forthRun.current = false;
+      return;
+    }
+    setShowList(true);
+    dispatch(
+      GetBaseColorTrees(page,rowsPerPage,councilID, zoneID, wardID, addedByForm, formDate, toDate),
+    );
+  },[deleteBaseColorTreesLog])
 
 
   const thirdRun = React.useRef(true);
@@ -305,7 +307,7 @@ export default function BaseColor() {
   };
 
   const handleDelete = (data) => {
-    dispatch(DeleteBaseColorTrees(data.id,data.status?0:1));
+    dispatch(DeleteBaseColorTrees(data.id,0));
   };
 
   const handleAddedByChange = (event) => {

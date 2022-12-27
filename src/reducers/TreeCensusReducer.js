@@ -1,4 +1,4 @@
-import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS, GET_TREE_CENSUS_HISTORY ,GET_TREE_CENSUS_PENDING_QC_STATUS,UPDATE_CENSUS_TREE, REFER_TO_EXPERT, RESET_STATE } from "../actions/Types";
+import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS, GET_TREE_CENSUS_HISTORY ,GET_TREE_CENSUS_PENDING_QC_STATUS,UPDATE_CENSUS_TREE, REFER_TO_EXPERT, RESET_STATE, DELETE_TREE_CENSUS } from "../actions/Types";
   
   const INIT_STATE = {
     treeCensus:null,
@@ -55,6 +55,12 @@ import { GET_TREE_CENSUS, UPDATE_QC_STATUS_TREE_CENSUS, GET_TREE_CENSUS_HISTORY 
           return{
             ...state,
             referToExpertLog: !state.referToExpertLog,
+        };
+
+        case DELETE_TREE_CENSUS:
+          return{
+              ...state,
+              deleteTreeCensusLog: !state.deleteTreeCensusLog
         };
 
         case RESET_STATE:
